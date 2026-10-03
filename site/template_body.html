@@ -1,0 +1,366 @@
+<header class="topbar">
+  <button class="menu-btn" type="button" id="menuBtn" aria-label="Open the list of modules">☰</button>
+  <a class="brand" href="#m-00"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><b>Career Tracks</b><span>Handbook</span></a>
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+    <input id="q" type="search" placeholder="Search everything — e.g. closures, DAX, subnetting, attention" autocomplete="off" aria-label="Search the course">
+    <div class="results" id="results" hidden></div>
+  </div>
+  <div class="levelsel" role="group" aria-label="Show sections up to this level">
+    <button type="button" data-lv="E" aria-pressed="false"><span class="lv lv-E" style="padding:0;background:none"><span class="bars"><i></i><i></i><i></i></span></span>Entry<span class="lbl-long">&nbsp;only</span></button>
+    <button type="button" data-lv="M" aria-pressed="false"><span class="lv lv-M" style="padding:0;background:none"><span class="bars"><i></i><i></i><i></i></span></span><span class="lbl-long">Entry +&nbsp;</span>Mid</button>
+    <button type="button" data-lv="S" aria-pressed="true"><span class="lv lv-S" style="padding:0;background:none"><span class="bars"><i></i><i></i><i></i></span></span>All</button>
+  </div>
+  <button class="theme-btn" type="button" id="themeBtn" aria-label="Switch light or dark theme">◐</button>
+</header>
+
+<div class="app">
+  <nav class="sidebar" id="sidebar" aria-label="Modules">
+    <div class="trackpick"><label for="trackSel">Your track</label><select id="trackSel"></select></div>
+    <div class="progress"><span id="progTxt"></span><div class="bar"><i id="progBar"></i></div></div>
+    <div id="nav"></div>
+    <div class="track"><div class="track-name">Reference</div><ul>
+      <li><a href="#m-00" data-page="m-00"><span class="pn">·</span><span class="pt">Start here &amp; track picker</span><span></span><span></span></a></li>
+      <li><a href="#quiz" id="quizLink" data-page="quiz"><span class="pn">?</span><span class="pt">Self-test for this track</span><span></span><span></span></a></li>
+      <li><a href="#glossary" data-page="glossary"><span class="pn">A–Z</span><span class="pt">Glossary</span><span></span><span></span></a></li>
+    </ul></div>
+  </nav>
+  <main id="main">
+    {{ARTICLES}}
+  </main>
+  <aside class="toc" id="toc" aria-label="On this page"><h4>On this page</h4><div id="tocBody"></div></aside>
+</div>
+
+<script id="search-data" type="application/json">{{SEARCH}}</script>
+<script id="course-data" type="application/json">{{DATA}}</script>
+<script>
+(function () {
+  "use strict";
+  const LV_RANK = { "": 0, E: 1, M: 2, S: 3 };
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem("ct:" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem("ct:" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const DATA = JSON.parse($("#course-data").textContent);
+  const SEARCH = JSON.parse($("#search-data").textContent);
+  const TRACKS = DATA.tracks, TITLES = DATA.titles;
+  const pathOf = t => t.stages.flatMap(s => s[1]);
+  const trackById = id => TRACKS.find(t => t.id === id) || TRACKS[0];
+  let track = trackById(store.get("track", "fe"));
+  let current = null;
+  let done = store.get("done", {});
+  // one-time import of progress ticked in the stand-alone AI Journey and Bootcamp pages
+  // (only visible when they were opened from the same place, e.g. both as local files)
+  if (!store.get("imported", false)) {
+    try {
+      const ai = JSON.parse(localStorage.getItem("aij:done") || "{}");
+      Object.keys(ai).forEach(k => { if (ai[k]) done["AI" + k.replace(/^0(?=\d)/, "")] = true; });
+      const net = JSON.parse(localStorage.getItem("cib-done") || "{}");
+      Object.keys(net).forEach(k => { if (net[k] && /^m\d+$/.test(k)) done["N" + k.slice(1)] = true; });
+    } catch (e) {}
+    Object.keys(done).forEach(k => { if (!TITLES[k]) delete done[k]; });
+    store.set("done", done); store.set("imported", true);
+  }
+
+  /* ---------- theme ---------- */
+  const root = document.documentElement;
+  const savedTheme = store.get("theme", null);
+  if (savedTheme) root.setAttribute("data-theme", savedTheme);
+  $("#themeBtn").addEventListener("click", () => {
+    const dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    const next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next); store.set("theme", next);
+  });
+
+  /* ---------- sidebar for the chosen track ---------- */
+  const sel = $("#trackSel");
+  sel.innerHTML = TRACKS.map(t => '<option value="' + t.id + '">' + esc(t.name) + "</option>").join("");
+  function renderNav() {
+    sel.value = track.id;
+    let step = 0;
+    $("#nav").innerHTML = track.stages.map((st, si) => {
+      const items = st[1].map(id => {
+        step++;
+        const lv = DATA.levels[id] || "";
+        return '<li><a href="#m-' + id + '" data-mod="' + id + '" title="Step ' + step + " · Module " + id + '">' +
+          '<span class="pn">' + id + '</span><span class="pt">' + esc(TITLES[id] || id) + "</span>" +
+          '<span class="sig sig-' + lv + '"><i></i><i></i><i></i></span><span class="done" aria-label="done">✓</span></a></li>';
+      }).join("");
+      return '<div class="track"><div class="track-name"><span class="stage-no">Stage ' + (si + 1) + "</span>" + esc(st[0]) + "</div><ul>" + items + "</ul></div>";
+    }).join("");
+    $("#quizLink").setAttribute("href", "#quiz-" + track.id);
+    paintProgress(); markCurrent();
+  }
+  sel.addEventListener("change", () => { setTrack(sel.value); });
+  function setTrack(id) {
+    track = trackById(id); store.set("track", track.id); renderNav(); decorate(current); paintHome();
+  }
+
+  /* ---------- progress ---------- */
+  function paintProgress() {
+    const p = pathOf(track), n = p.filter(id => done[id]).length;
+    $("#progTxt").textContent = n + " of " + p.length + " modules done · " + track.name;
+    $("#progBar").style.width = (100 * n / p.length) + "%";
+    $$(".track a[data-mod]").forEach(a => a.classList.toggle("is-done", !!done[a.dataset.mod]));
+    $$(".mark-done").forEach(b => {
+      const on = !!done[b.dataset.mod];
+      b.setAttribute("aria-pressed", on); b.textContent = on ? "✓ Done" : "Mark as done";
+    });
+    paintHome();
+  }
+  $$(".mark-done").forEach(b => b.addEventListener("click", () => {
+    done[b.dataset.mod] = !done[b.dataset.mod]; store.set("done", done); paintProgress();
+  }));
+
+  /* ---------- home: track cards ---------- */
+  function paintHome() {
+    const host = $("#trackCards"); if (!host) return;
+    host.innerHTML = TRACKS.map(t => {
+      const p = pathOf(t), n = p.filter(id => done[id]).length;
+      return '<button type="button" class="tcard' + (t.id === track.id ? " on" : "") + '" data-track="' + t.id + '"><b>' + esc(t.name) + "</b><span>" + esc(t.blurb) +
+        '</span><small>' + p.length + " modules · " + n + ' done</small><div class="tbar"><i style="width:' + (100 * n / p.length) + '%"></i></div></button>';
+    }).join("");
+  }
+  document.addEventListener("click", e => {
+    const c = e.target.closest(".tcard"); if (!c) return;
+    setTrack(c.dataset.track);
+    const p = pathOf(track), next = p.find(id => !done[id]) || p[0];
+    location.hash = "#m-" + next;
+  });
+
+  /* ---------- per-track decoration of a module page ---------- */
+  function decorate(art) {
+    if (!art || !art.dataset.mod) return;
+    const id = art.dataset.mod;
+    const pager = $(".pager", art), step = $(".step", art), lbl = $(".track-lbl", art), meter = $(".path-meter i", art), also = $(".also", art);
+    if (id === "00") { lbl.textContent = "Start"; meter.style.width = "0"; pager.innerHTML = ""; return; }
+    let t = track;
+    if (!pathOf(t).includes(id)) t = TRACKS.find(x => pathOf(x).includes(id)) || track;
+    const p = pathOf(t), i = p.indexOf(id);
+    const stage = t.stages.findIndex(s => s[1].includes(id));
+    step.textContent = "Step " + (i + 1) + " of " + p.length;
+    lbl.textContent = "Stage " + (stage + 1) + " · " + t.stages[stage][0] + " · " + t.name;
+    meter.style.width = (100 * (i + 1) / p.length).toFixed(1) + "%";
+    const others = TRACKS.filter(x => x !== t && pathOf(x).includes(id)).map(x => x.name);
+    also.textContent = (t !== track ? "Not on your " + track.name + " path. " : "") + (others.length ? "Also used by: " + others.join(", ") : "");
+    const prev = p[i - 1], next = p[i + 1];
+    pager.innerHTML = (prev ? '<a class="prev" href="#m-' + prev + '"><small>← Previous · step ' + i + "</small>" + prev + " · " + esc(TITLES[prev]) + "</a>" : "<span></span>") +
+      (next ? '<a class="next" href="#m-' + next + '"><small>Next · step ' + (i + 2) + " →</small>" + next + " · " + esc(TITLES[next]) + "</a>"
+            : '<a class="next" href="#quiz-' + t.id + '"><small>Finished the path →</small>Take the ' + esc(t.name) + " self-test</a>");
+  }
+
+  /* ---------- level filter ---------- */
+  let level = store.get("level", "S");
+  function applyLevel() {
+    $$(".levelsel button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lv === level));
+    const max = LV_RANK[level];
+    $$(".part[data-mod]").forEach(art => {
+      let hidden = 0;
+      $$("section.sec", art).forEach(s => {
+        const off = LV_RANK[s.dataset.level || ""] > max;
+        s.classList.toggle("filtered", off); if (off) hidden++;
+      });
+      const note = $(".hidden-note", art);
+      if (hidden) { note.hidden = false; note.textContent = hidden + " section" + (hidden > 1 ? "s" : "") + " hidden by the level filter"; }
+      else note.hidden = true;
+    });
+    buildToc();
+  }
+  $$(".levelsel button").forEach(b => b.addEventListener("click", () => { level = b.dataset.lv; store.set("level", level); applyLevel(); }));
+
+  /* ---------- routing ---------- */
+  function pageOf(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    return el.classList.contains("part") ? el : el.closest(".part");
+  }
+  function markCurrent() {
+    $$(".track a").forEach(a => a.classList.toggle("current", !!current && (
+      (a.dataset.mod && "m-" + a.dataset.mod === current.id) || a.getAttribute("href") === "#" + current.id)));
+  }
+  function show(hash, fromClick) {
+    let id = (hash || "").replace(/^#/, "");
+    if (id === "quiz") id = "quiz-" + track.id;
+    id = id || store.get("last", "m-00");
+    let art = pageOf(id);
+    if (!art) { id = "m-00"; art = document.getElementById("m-00"); }
+    if (current !== art) {
+      if (current) current.hidden = true;
+      art.hidden = false; current = art;
+      store.set("last", art.id);
+      const t = art.dataset.mod ? (art.dataset.mod === "00" ? "" : "Module " + art.dataset.mod + " · " + (TITLES[art.dataset.mod] || "") + " · ") : ($("h1", art).textContent + " · ");
+      document.title = t + "Career Tracks Handbook";
+      if (art.id.startsWith("quiz-") && art.id.slice(5) !== track.id) setTrack(art.id.slice(5));
+      decorate(art); markCurrent(); buildToc();
+    }
+    document.body.classList.remove("nav-open");
+    const target = document.getElementById(id);
+    if (target && target !== art) {
+      if (target.classList.contains("filtered")) { level = "S"; store.set("level", level); applyLevel(); }
+      requestAnimationFrame(() => {
+        const smooth = fromClick && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ block: "start", behavior: smooth ? "smooth" : "auto" });
+        if (target.classList.contains("sec")) { target.classList.remove("flash-target"); void target.offsetWidth; target.classList.add("flash-target"); }
+      });
+    } else window.scrollTo({ top: 0, behavior: "auto" });
+  }
+  window.addEventListener("hashchange", () => show(location.hash, true));
+
+  /* ---------- on-page TOC + scroll spy ---------- */
+  let spy = null;
+  function buildToc() {
+    const body = $("#tocBody");
+    body.innerHTML = "";
+    if (!current) return;
+    const tpl = $("template.toc-tpl", current);
+    $("#toc").style.visibility = tpl ? "visible" : "hidden";
+    if (!tpl) return;
+    body.appendChild(tpl.content.cloneNode(true));
+    $$("a", body).forEach(a => {
+      const sec = document.getElementById(a.getAttribute("href").slice(1));
+      if (sec && sec.classList.contains("filtered")) a.parentElement.classList.add("filtered");
+    });
+    if (spy) spy.disconnect();
+    const links = new Map($$("a", body).map(a => [a.getAttribute("href").slice(1), a]));
+    spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove("active"));
+          const l = links.get(e.target.id); if (l) l.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    $$("section.sec[id]", current).forEach(s => spy.observe(s));
+  }
+
+  /* ---------- search ---------- */
+  const q = $("#q"), res = $("#results");
+  let active = -1;
+  function runSearch() {
+    const terms = q.value.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+    if (!terms.length) { res.hidden = true; return; }
+    const onTrack = new Set(pathOf(track));
+    const hits = [];
+    for (const s of SEARCH) {
+      const t = s.t.toLowerCase(), x = s.x.toLowerCase();
+      let score = 0, ok = true;
+      for (const term of terms) {
+        const inT = t.includes(term), inX = x.includes(term);
+        if (!inT && !inX) { ok = false; break; }
+        score += inT ? 10 : 0; score += inX ? 1 : 0;
+      }
+      if (ok) hits.push({ s, score: score + (onTrack.has(s.m) ? 3 : 0) });
+    }
+    hits.sort((a, b) => b.score - a.score);
+    active = -1;
+    if (!hits.length) { res.innerHTML = '<div class="empty">No matches. Try a shorter word.</div>'; res.hidden = false; return; }
+    const re = new RegExp("(" + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
+    res.innerHTML = hits.slice(0, 40).map(({ s }) => {
+      const x = s.x, i = x.toLowerCase().indexOf(terms[0]);
+      const start = Math.max(0, i - 60), snip = (start ? "…" : "") + x.slice(start, start + 170) + "…";
+      return '<a href="#' + s.id + '"><div class="r-top"><small>' + esc(s.m) + (s.n ? " §" + esc(s.n) : "") + "</small>" +
+        esc(s.t).replace(re, "<mark>$1</mark>") + '</div><div class="r-snip">' + esc(TITLES[s.m] || "") + " · " +
+        esc(snip).replace(re, "<mark>$1</mark>") + "</div></a>";
+    }).join("");
+    res.hidden = false;
+  }
+  q.addEventListener("input", runSearch);
+  q.addEventListener("keydown", e => {
+    const items = $$("a", res);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault(); if (!items.length) return;
+      active = (active + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+      items.forEach((a, i) => a.classList.toggle("active", i === active)); items[active].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter" && items.length) {
+      (items[active >= 0 ? active : 0]).click();
+    } else if (e.key === "Escape") { res.hidden = true; q.blur(); }
+  });
+  res.addEventListener("click", e => { if (e.target.closest("a")) res.hidden = true; });
+  document.addEventListener("click", e => { if (!e.target.closest(".search")) res.hidden = true; });
+  document.addEventListener("keydown", e => {
+    if (e.key === "/" && document.activeElement !== q && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); }
+  });
+
+  /* ---------- glossary filter ---------- */
+  const glq = $("#glq");
+  if (glq) glq.addEventListener("input", () => {
+    const v = glq.value.toLowerCase().trim();
+    $$(".gl-item").forEach(it => { it.hidden = !!v && !it.textContent.toLowerCase().includes(v); });
+  });
+
+  /* ---------- quizzes ---------- */
+  $$(".quiz").forEach(box => {
+    const qs = JSON.parse($("script", box).textContent);
+    const tid = box.dataset.track;
+    box.innerHTML = qs.map((it, i) =>
+      '<div class="qz" id="qz-' + tid + "-" + i + '"><span class="qtag">' + esc(it.tag) + " · Q" + (i + 1) + '</span><p class="q">' + esc(it.q) + "</p>" +
+      it.c.map((c, j) => '<label><input type="radio" name="q-' + tid + "-" + i + '" value="' + j + '"><span>' + esc(c) + "</span></label>").join("") +
+      '<div class="exp"></div></div>').join("") +
+      '<div class="quiz-bar"><button type="button" class="grade">Grade my answers</button><button type="button" class="ghost reset">Start again</button><span class="quiz-score" role="status"></span></div>';
+    const best = store.get("best-" + tid, null);
+    if (best !== null) $(".quiz-score", box).textContent = "Your best so far: " + best + "%";
+    $(".grade", box).addEventListener("click", () => {
+      let score = 0;
+      qs.forEach((it, i) => {
+        const d = document.getElementById("qz-" + tid + "-" + i), selc = $("input:checked", d), exp = $(".exp", d);
+        d.classList.remove("right", "wrong");
+        const ref = it.ref ? ' <a class="xref" href="#' + (it.ref.includes(".") ? "s-" + it.ref : "m-" + it.ref) + '">Reread §' + esc(it.ref) + "</a>" : "";
+        if (selc && +selc.value === it.a) { score++; d.classList.add("right"); exp.innerHTML = "Correct. " + esc(it.e); }
+        else { d.classList.add("wrong"); exp.innerHTML = (selc ? "Not quite. " : "Not answered. ") + "Correct answer: <b>" + esc(it.c[it.a]) + "</b>. " + esc(it.e) + ref; }
+      });
+      const pct = Math.round(100 * score / qs.length);
+      const prevBest = store.get("best-" + tid, 0); if (pct > prevBest) store.set("best-" + tid, pct);
+      $(".quiz-score", box).innerHTML = "<b>" + score + " / " + qs.length + " (" + pct + "%)</b> — " +
+        (pct >= 80 ? "Interview-ready on these fundamentals. Reread the red ones and practise saying the answers aloud." :
+         pct >= 60 ? "A solid base. Reread the sections linked under your red answers, then try again tomorrow." :
+         "Keep going. Work through the path in order and retake this in a few days; the score climbs quickly.");
+      $(".quiz-score", box).scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    $(".reset", box).addEventListener("click", () => {
+      $$("input", box).forEach(x => x.checked = false);
+      $$(".qz", box).forEach(d => { d.classList.remove("right", "wrong"); $(".exp", d).textContent = ""; });
+      window.scrollTo({ top: box.offsetTop - 80, behavior: "smooth" });
+    });
+  });
+
+  /* ---------- enhancements ---------- */
+  $$("pre.code").forEach(pre => {
+    const b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "Copy";
+    b.addEventListener("click", () => {
+      const txt = pre.querySelector("code").innerText;
+      const ok = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1400); };
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, () => { b.textContent = "Select and press Ctrl+C"; });
+    });
+    pre.appendChild(b);
+  });
+  $$(".deck").forEach(deck => {
+    const tools = document.createElement("div"); tools.className = "deck-tools";
+    tools.innerHTML = '<button type="button" data-a="open">Reveal all answers</button><button type="button" data-a="close">Hide all</button>';
+    tools.addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      $$("details.flash", deck).forEach(d => d.open = b.dataset.a === "open");
+    });
+    deck.after(tools);
+  });
+  // bootcamp interview questions: "Show all answers" toggles the list below it
+  document.addEventListener("click", e => {
+    const b = e.target.closest("button[data-qa]"); if (!b) return;
+    const box = document.getElementById(b.dataset.qa); if (!box) return;
+    const ds = $$("details", box), open = ds.some(d => !d.open);
+    ds.forEach(d => d.open = open);
+    b.textContent = open ? "Hide all answers" : "Show all answers";
+  });
+
+  /* ---------- mobile nav ---------- */
+  $("#menuBtn").addEventListener("click", () => document.body.classList.toggle("nav-open"));
+  $("#sidebar").addEventListener("click", e => { if (e.target.closest("a")) document.body.classList.remove("nav-open"); });
+
+  renderNav();
+  applyLevel();
+  show(location.hash, false);
+})();
+</script>

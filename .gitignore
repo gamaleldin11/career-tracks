@@ -1,0 +1,45 @@
+# ---- build output (GitHub Actions rebuilds it on every push)
+dist/
+
+# ---- dependencies
+node_modules/
+.npm/
+
+# ---- logs and caches
+*.log
+npm-debug.log*
+.cache/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# ---- secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- reference material that must not be published
+# (copyrighted books, course archives, private backups)
+*.pdf
+*.zip
+*.7z
+*.rar
+_backup*/
+private/
+
+# ---- editors and tools
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*~
+.obsidian/
+.claude/settings.local.json
+
+# ---- operating systems
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/

@@ -1,0 +1,23 @@
+{
+  "name": "career-tracks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Eight interview-preparation courses in one website: frontend, backend, full-stack, data analyst, data scientist, data engineer, AI engineer and network & connectivity engineer.",
+  "author": "Gamaleldin Salem",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node site/build.js",
+    "serve": "node site/serve.js",
+    "dev": "node site/build.js && node site/serve.js",
+    "check-links": "node site/check-links.mjs"
+  },
+  "dependencies": {
+    "highlight.js": "^11.12.0",
+    "katex": "^0.16.47",
+    "markdown-it": "^14.3.2"
+  }
+}
