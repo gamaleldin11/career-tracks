@@ -25,7 +25,8 @@ site/                         the code that turns content/ into a website
   serve.js                    local preview server
   check-links.mjs             external-link checker
 dist/                         build output (generated, not committed)
-.github/workflows/deploy.yml  builds and publishes to GitHub Pages on every push to main
+vercel.json                   how Vercel builds and serves the site
+.github/workflows/build.yml   checks every push and pull request builds with no warnings
 ```
 
 ## Run it locally
@@ -68,9 +69,11 @@ The start page, sidebar, track picker, search, glossary and self-test page pick 
 
 The AI Journey and the Bootcamp keep their original formats and numbering; `site/sources.js` maps them (AI Journey §6.3 becomes §AI6.3; Bootcamp section 2.3 becomes §N2.3, its Level 2 deep dives count as Mid and Levels 3–4 as Senior). New material should be plain Markdown in `content/modules/`.
 
-## Publishing
+## Publishing (Vercel)
 
-Every push to `main` runs `.github/workflows/deploy.yml`, which builds with `--strict` (any warning fails the build, so a broken link never goes live) and deploys `dist/` to GitHub Pages. One-time setup on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+One-time setup: on vercel.com choose **Add New → Project**, import this GitHub repository and keep the defaults; `vercel.json` already sets the install command (`npm ci`), the build command (`npm run build -- --strict`) and the output folder (`dist`). After that, every push to `main` deploys to production and every other branch or pull request gets its own preview URL. Vercel's Hobby plan deploys from private repositories too.
+
+`--strict` turns any build warning into a failed build, so a broken cross-reference or quiz link never goes live; the same check runs on GitHub in `.github/workflows/build.yml`.
 
 ## What is deliberately not in this repository
 

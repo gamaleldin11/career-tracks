@@ -4,7 +4,7 @@
 //
 // content/ is the source of truth: edit it, re-run this.
 // Output: dist/index.html (one page) and dist/figures/. dist/ is generated and
-// not committed; GitHub Actions rebuilds and deploys it on every push.
+// not committed; Vercel rebuilds and deploys it on every push (see vercel.json).
 //
 // Markdown conventions the build understands
 //   # Title                         first line of every module
@@ -335,7 +335,6 @@ const body = bodyTpl
 const html = `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${head}\n</head>\n<body>\n${body}\n</body>\n</html>\n`;
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
-fs.writeFileSync(path.join(OUT, '.nojekyll'), ''); // serve files as they are on GitHub Pages
 const figs = SOURCES.copyAiFigures(path.join(OUT, 'figures'));
 const sizeMb = (Buffer.byteLength(html) / 1e6).toFixed(2);
 console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, dist/index.html ${sizeMb} MB`);

@@ -43,3 +43,6 @@ private/
 Thumbs.db
 desktop.ini
 $RECYCLE.BIN/
+
+# ---- Vercel CLI link data
+.vercel/
