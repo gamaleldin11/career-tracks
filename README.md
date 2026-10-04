@@ -2,6 +2,8 @@
 
 Eight interview-preparation courses in one website: **Frontend, Backend, Full-Stack, Data Analyst, Data Scientist, Data Engineer, AI Engineer and Network & Connectivity Engineer**.
 
+**Live:** https://career-tracks-amber.vercel.app/
+
 - **116 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
 - **System design on every track**: five shared modules (SD1–SD5) from fundamentals to scaling in production, choosing technologies, reliability patterns and role-specific design, placed in a *System design* stage on all eight paths.
 - **A self-test per track** (444 questions). Every wrong answer links to the section to reread.
