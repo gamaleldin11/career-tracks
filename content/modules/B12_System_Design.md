@@ -1,6 +1,6 @@
 # System Design — A Framework, the Building Blocks, and Worked Designs
 
-At entry level, "system design" usually means "explain how your project is put together". At mid level it becomes "design a URL shortener / a notification system / a rate limiter" on a whiteboard in 45 minutes. In both cases interviewers score **structured thinking and trade-offs**, not memorised diagrams. This module gives you a repeatable framework, the building blocks with their trade-offs, back-of-the-envelope maths, and four worked designs, including one built on FinSight.
+At entry level, "system design" usually means "explain how your project is put together". At mid level it becomes "design a URL shortener / a notification system / a rate limiter" on a whiteboard in 45 minutes. In both cases interviewers score **structured thinking and trade-offs**, not memorised diagrams. This module gives you a repeatable framework, the building blocks with their trade-offs, back-of-the-envelope maths, and four worked designs, including one built on FinSight. It is the backend workout for the shared system-design series: [[SD1]] explains the fundamentals, [[SD2]] scaling in production, [[SD3]] how to choose technologies, and [[SD4]] reliability patterns in more depth.
 
 > [!focus]
 > **Entry must:** describe your own system's architecture clearly; explain load balancers, caches, databases, queues and CDNs and why each exists; scale a simple web app from one server to several.
@@ -87,6 +87,8 @@ This is the most common entry-level design question, often phrased as "how would
 7. **Split the data** when one database can't keep up: partition big tables, then shard by tenant.
 8. **Multiple regions** for latency and disaster recovery, with failover.
 9. Throughout: **monitoring**, autoscaling, and load tests to find the next bottleneck.
+
+Each step, the signal that justifies it and what it costs, with real examples from Figma, Shopify and Stack Overflow, is in [[SD2]].
 
 ## B12.5 Worked design 1: URL shortener 🟡 ⭐
 

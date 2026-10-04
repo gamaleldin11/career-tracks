@@ -2,8 +2,9 @@
 
 Eight interview-preparation courses in one website: **Frontend, Backend, Full-Stack, Data Analyst, Data Scientist, Data Engineer, AI Engineer and Network & Connectivity Engineer**.
 
-- **111 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
-- **A self-test per track** (348 questions). Every wrong answer links to the section to reread.
+- **116 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
+- **System design on every track**: five shared modules (SD1–SD5) from fundamentals to scaling in production, choosing technologies, reliability patterns and role-specific design, placed in a *System design* stage on all eight paths.
+- **A self-test per track** (444 questions). Every wrong answer links to the section to reread.
 - **Level filter** (Entry / Mid / Senior), full-text search, a site-wide glossary, dark and light themes, and per-module progress saved in the browser.
 - Facts in the six software and data tracks were checked against primary sources in October 2026; each module ends with its sources.
 
@@ -13,7 +14,7 @@ Eight interview-preparation courses in one website: **Frontend, Backend, Full-St
 content/                      everything you read: edit here
   course.js                   modules, tracks and levels (the table of contents)
   quizzes.js                  self-test questions, one list per track
-  modules/                    Markdown modules: 00, S1–S10, F*, B*, FS*, DA*, DS*, DE*
+  modules/                    Markdown modules: 00, S1–S10, SD1–SD5, F*, B*, FS*, DA*, DS*, DE*
   ai-journey/parts/           The AI Journey Handbook, Obsidian Markdown (modules AI0–AI25)
   ai-journey/figures/         its figures, plus make_figures.py that draws them
   connectivity-bootcamp/      The Connectivity Interview Bootcamp, one HTML page (modules N0–N16)

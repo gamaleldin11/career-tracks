@@ -26,7 +26,7 @@ const BEHAVE = [
   q('Hiring', 'In a STAR answer, most of your time should go on…', ['Situation', 'Task', 'Action', 'Result'], 2, 'Interviewers hire you for what you did: spend most of the answer on your actions.', 'S8.3'),
 ];
 
-module.exports = {
+const QUIZ = {
   fe: [
     ...WEB, ...GIT.slice(0, 2),
     q('HTML', 'Why use <button> instead of <div onclick>?', ['It looks better', 'It is focusable, keyboard-operable and announced as a button', 'Divs cannot have click handlers', 'Buttons load faster'], 1, 'Native elements bring focus, Enter/Space activation and the right role for free.', 'F1.1'),
@@ -363,3 +363,44 @@ module.exports = {
     q('Networks', 'Why does NTP (UDP 123) matter so much in a Windows domain?', ['It speeds up file copies', 'Kerberos authentication and log correlation depend on synchronised clocks', 'It assigns IP addresses', 'It encrypts DNS'], 1, 'Clock skew breaks Kerberos logons and makes logs impossible to line up.', 'N3.2'),
   ],
 };
+
+// System design (SD1–SD5): fundamentals for every track, depth where the role needs it
+const SD_CORE = [
+  q('System design', 'About how many requests per second is 1 million requests per day?', ['1', '12', '120', '1,200'], 1, 'A day is about 86,400 seconds (round to 10⁵); plan for peaks several times the average.', 'SD1.10'),
+  q('System design', 'Why should app servers be stateless?', ['They use less memory', 'So any server can handle any request, enabling load balancing, autoscaling and rolling deploys', 'Databases require it', 'To avoid using a cache'], 1, 'Sessions go to tokens or a shared store, files to object storage.', 'SD1.4'),
+  q('System design', 'A request needs two services in series, each 99.9% available. The best overall availability is about…', ['99.99%', '99.9%', '99.8%', '99%'], 2, 'Hard dependencies multiply availability down: 0.999 × 0.999 ≈ 0.998.', 'SD1.9'),
+  q('System design', 'What does 99.9% availability allow per 30-day month?', ['About 4 minutes', 'About 43 minutes', 'About 7 hours', 'About 3 days'], 1, '0.1% of 720 hours ≈ 43 minutes.', 'SD1.9'),
+  q('System design', 'The main cost of adding a cache is…', ['It always slows reads', 'Stale data and invalidation complexity', 'It removes the need for a database', 'It makes writes faster'], 1, 'Decide per data type how stale it may be.', 'SD1.6'),
+  q('Scaling', 'The right way to scale a growing system is to…', ['Adopt microservices before launch', 'Measure, find the single bottleneck, fix it simply, and repeat', 'Shard the database on day one', 'Buy the largest server available'], 1, 'Each step adds operational cost, so each must be earned by a real limit.', 'SD2.1'),
+  q('Scaling', 'Autoscaling app servers from 4 to 40 instances suddenly crashes the database. The likely cause is…', ['Too much caching', 'Too many database connections from the new instances', 'DNS caching', 'The CDN'], 1, 'Size connection pools and put a pooler such as PgBouncer in front of the database.', 'SD2.3'),
+  q('Scaling', 'Is high traffic by itself a reason to move to microservices?', ['Yes, above a million users', 'No; a stateless monolith scales out, and microservices mainly solve independent deployment for many teams', 'Yes, always', 'Only for read-heavy apps'], 1, 'Shopify serves Black Friday on a modular monolith.', 'SD2.10'),
+];
+const SD_DEEP = [
+  q('System design', 'State the CAP theorem correctly.', ['Pick any two of consistency, availability and partition tolerance', 'During a network partition, a distributed store must choose between staying consistent and staying available', 'Consistency always costs availability', 'It applies only to SQL databases'], 1, "Outside partitions, PACELC's latency-versus-consistency trade-off applies.", 'SD3.2'),
+  q('System design', 'Distribute background jobs to workers, or let many independent consumers replay the same events?', ['A queue for both', 'A queue (e.g. RabbitMQ, SQS) for jobs; a log (e.g. Kafka) for replayable events', 'A log for jobs; a queue for events', 'A cache for both'], 1, 'Queues remove messages once acknowledged; logs retain them for each consumer group.', 'SD3.4'),
+  q('System design', 'How do you stop a customer being charged twice when a payment request is retried?', ['Disable the Pay button', 'An idempotency key stored with the result under a unique constraint', 'Use UDP', 'Retry faster'], 1, 'Repeats with the same key return the first result instead of charging again.', 'SD4.3'),
+  q('System design', 'What does a circuit breaker do?', ['Encrypts traffic', 'Stops calling a failing dependency for a while and fails fast, then tests it before resuming', 'Balances load across servers', 'Retries forever'], 1, 'It gives the dependency room to recover and keeps your threads free.', 'SD4.4'),
+  q('System design', 'How do you keep data consistent across two services without a distributed transaction?', ['Two-phase commit everywhere', 'Local transactions with an outbox, and a saga with compensating actions', 'A shared database table', 'Retry until it works'], 1, 'Every step is idempotent because messages can be delivered twice.', 'SD4.9'),
+  q('System design', 'RPO measures…', ['How long recovery takes', 'How much recent data you can afford to lose', 'Requests per operation', 'Replication speed'], 1, 'RTO is how long you may be down.', 'SD4.8'),
+];
+const SD_ROLE = {
+  fe: [q('System design', 'Old autocomplete results keep overwriting newer ones. The fix is…', ['A bigger cache', 'Debounce input and cancel in-flight requests when the query changes', 'Server-side rendering', 'Polling'], 1, 'AbortController cancels the stale request.', 'SD5.2')],
+  da: [q('System design', 'Power BI Import vs DirectQuery: the main trade-off is…', ['Colour themes', 'Speed with scheduled refresh vs always-fresh data with slower queries and source load', 'Licensing only', 'There is none'], 1, 'Composite models can mix the two.', 'SD5.4')],
+  ds: [q('System design', 'Weekly churn scores for a retention team should usually be served…', ['Online, per request in milliseconds', 'In batch: score everyone on a schedule and push the list', 'Through a CDN', 'By streaming'], 1, 'Online serving is for decisions made in real time, such as fraud.', 'SD5.6')],
+  de: [q('System design', 'What makes a daily load idempotent?', ['Running it twice a day', 'Re-running it gives the same result: merge or overwrite by partition and deduplicate on keys', 'Using streaming', 'Disabling retries'], 1, 'Blind INSERTs create duplicates on a rerun.', 'SD5.5')],
+  ai: [
+    q('System design', 'How do you stop a RAG assistant from leaking documents a user may not see?', ['Ask the model not to', "Filter retrieval by the user's permissions before anything reaches the prompt", 'Use a bigger model', 'Lower the temperature'], 1, 'Never rely on the model to withhold information.', 'SD5.7'),
+    q('System design', 'Which levers cut LLM cost most directly?', ['More replicas', 'Routing simple requests to small models or plain APIs, prompt caching and trimming context', 'A CDN', 'Bigger GPUs'], 1, 'Cost scales with tokens × volume, so estimate it first.', 'SD5.7'),
+  ],
+  net: [
+    q('System design', 'What removes the default gateway as a single point of failure?', ['Two DHCP servers', 'First-hop redundancy such as HSRP or VRRP with a shared virtual IP', 'A bigger router', 'Static routes on every PC'], 1, 'The standby router takes over the virtual IP.', 'SD5.8'),
+    q('System design', 'Two redundant servers, each 99% available, either able to serve: combined availability is about…', ['98%', '99%', '99.99%', '100%'], 2, 'Both are down 0.01 × 0.01 = 0.01% of the time, if failures are independent.', 'SD1.9'),
+  ],
+};
+// which system-design sets each track's self-test includes
+const SD_TRACKS = { fe: ['core'], be: ['core', 'deep'], fs: ['core', 'deep'], da: ['core'], ds: ['core'], de: ['core', 'deep'], ai: ['core', 'deep'], net: ['core'] };
+for (const [tid, sets] of Object.entries(SD_TRACKS)) {
+  QUIZ[tid].push(...SD_CORE, ...(sets.includes('deep') ? SD_DEEP : []), ...(SD_ROLE[tid] || []));
+}
+
+module.exports = QUIZ;
