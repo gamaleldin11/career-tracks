@@ -392,6 +392,49 @@ WHERE  s.spend > (SELECT AVG(spend) FROM customer_spend);   -- above-average spe
 > [!term] Recursive CTE
 > A CTE that refers to itself, for walking hierarchies (an org chart, a category tree) or generating a series of dates. It has an anchor part, then `UNION ALL`, then the recursive part.
 
+```sql
+WITH RECURSIVE chain AS (
+  SELECT id, name, 0 AS level FROM employees WHERE manager_id IS NULL      -- anchor
+  UNION ALL
+  SELECT e.id, e.name, c.level + 1 FROM employees e JOIN chain c ON e.manager_id = c.id
+) SELECT id, name, level FROM chain ORDER BY level, id;
+```
+
+<figure class="dia steps"><svg viewBox="0 0 720 248" role="img" aria-label="A recursive CTE walking an org chart in SQLite: the anchor returns Hoda at level 0; each iteration joins employees to the previous level, adding Karim and Laila at level 1, Omar, Sara and Youssef at level 2, and Nour at level 3; the next iteration finds no rows and the recursion stops">
+<g data-s="2"><line class="sLm" x1="250" y1="54" x2="160" y2="86"/></g>
+<g data-s="2"><line class="sLm" x1="250" y1="54" x2="330" y2="86"/></g>
+<g data-s="3"><line class="sLm" x1="160" y1="114" x2="112" y2="146"/></g>
+<g data-s="3"><line class="sLm" x1="160" y1="114" x2="210" y2="146"/></g>
+<g data-s="3"><line class="sLm" x1="330" y1="114" x2="330" y2="146"/></g>
+<g data-s="4"><line class="sLm" x1="330" y1="174" x2="330" y2="206"/></g>
+<g data-s="1"><rect class="sG" x="206" y="26" width="88" height="28" rx="6"/><text class="sT" x="250" y="45" text-anchor="middle">Hoda</text></g>
+<g data-s="2"><rect class="sB" x="116" y="86" width="88" height="28" rx="6"/><text class="sT" x="160" y="105" text-anchor="middle">Karim</text></g>
+<g data-s="2"><rect class="sB" x="286" y="86" width="88" height="28" rx="6"/><text class="sT" x="330" y="105" text-anchor="middle">Laila</text></g>
+<g data-s="3"><rect class="sB" x="68" y="146" width="88" height="28" rx="6"/><text class="sT" x="112" y="165" text-anchor="middle">Omar</text></g>
+<g data-s="3"><rect class="sB" x="166" y="146" width="88" height="28" rx="6"/><text class="sT" x="210" y="165" text-anchor="middle">Sara</text></g>
+<g data-s="3"><rect class="sB" x="286" y="146" width="88" height="28" rx="6"/><text class="sT" x="330" y="165" text-anchor="middle">Youssef</text></g>
+<g data-s="4"><rect class="sB" x="286" y="206" width="88" height="28" rx="6"/><text class="sT" x="330" y="225" text-anchor="middle">Nour</text></g>
+<g data-s="1"><text class="sS" x="14" y="44">level 0</text></g>
+<g data-s="2"><text class="sS" x="14" y="104">level 1</text></g>
+<g data-s="3"><text class="sS" x="14" y="164">level 2</text></g>
+<g data-s="4"><text class="sS" x="14" y="224">level 3</text></g>
+<rect class="sN" x="400" y="20" width="306" height="220" rx="8"/><text class="sT" x="553" y="40" text-anchor="middle">chain (rows produced so far)</text>
+<g data-s="1"><text class="sS" x="416" y="66" xml:space="preserve" style="white-space:pre">1  Hoda     level 0</text></g>
+<g data-s="2"><text class="sS" x="416" y="88" xml:space="preserve" style="white-space:pre">2  Karim    level 1</text></g>
+<g data-s="2"><text class="sS" x="416" y="110" xml:space="preserve" style="white-space:pre">3  Laila    level 1</text></g>
+<g data-s="3"><text class="sS" x="416" y="132" xml:space="preserve" style="white-space:pre">4  Omar     level 2</text></g>
+<g data-s="3"><text class="sS" x="416" y="154" xml:space="preserve" style="white-space:pre">5  Sara     level 2</text></g>
+<g data-s="3"><text class="sS" x="416" y="176" xml:space="preserve" style="white-space:pre">6  Youssef  level 2</text></g>
+<g data-s="4"><text class="sS" x="416" y="198" xml:space="preserve" style="white-space:pre">7  Nour     level 3</text></g>
+<g data-s="5"><text class="sGt" x="553" y="232" text-anchor="middle">iteration 4 finds no new rows: stop</text></g>
+</svg><ol class="dia-steps">
+<li>The anchor runs once: the employee with no manager (level 0).</li>
+<li>Iteration 1: join employees to the rows found in the previous iteration, adding level 1.</li>
+<li>Iteration 2: join employees to the rows found in the previous iteration, adding level 2.</li>
+<li>Iteration 3: join employees to the rows found in the previous iteration, adding level 3.</li>
+<li>The next iteration returns nothing, so the CTE ends with all 7 employees and their depth.</li>
+</ol><figcaption>WITH RECURSIVE, run in SQLite on a seven-person org chart: each iteration adds one level, until a level comes back empty.</figcaption></figure>
+
 ## S3.7 Window functions 🟢 🟡 ⭐
 
 A window function computes a value **across related rows without collapsing them**, unlike GROUP BY. That makes "rank within group", "previous value" and "running total" easy.
@@ -539,6 +582,24 @@ BEGIN TRANSACTION;
   UPDATE accounts SET balance = balance + 500 WHERE account_id = 2;
 COMMIT;      -- or ROLLBACK; if anything failed
 ```
+
+<figure class="dia steps"><svg viewBox="0 0 720 182" role="img" aria-label="A transfer of 500 from account 1 to account 2 in SQLite where the second update fails: without a transaction the debit has already been committed and the total drops from 1,200 to 700; inside a transaction the rollback restores account 1 and the total stays 1,200">
+<text class="sT" x="183" y="22" text-anchor="middle">each statement on its own (autocommit)</text>
+<g data-s="1-1"><rect class="sN" x="14" y="36" width="160" height="50" rx="8"/><text class="sS" x="94" y="56" text-anchor="middle">account 1</text><text class="sT" x="94" y="76" text-anchor="middle">1,000</text><rect class="sN" x="192" y="36" width="160" height="50" rx="8"/><text class="sS" x="272" y="56" text-anchor="middle">account 2</text><text class="sT" x="272" y="76" text-anchor="middle">200</text><text class="sGt" x="183" y="110" text-anchor="middle">total 1,200</text></g>
+<g data-s="2-2"><rect class="sW" x="14" y="36" width="160" height="50" rx="8"/><text class="sS" x="94" y="56" text-anchor="middle">account 1</text><text class="sT" x="94" y="76" text-anchor="middle">500</text><rect class="sN" x="192" y="36" width="160" height="50" rx="8"/><text class="sS" x="272" y="56" text-anchor="middle">account 2</text><text class="sT" x="272" y="76" text-anchor="middle">200</text><text class="sRt" x="183" y="110" text-anchor="middle">total 700</text><text class="sS" x="14" y="140" xml:space="preserve" style="white-space:pre">UPDATE … balance - 500  (account 1)</text></g>
+<g data-s="3-3"><rect class="sW" x="14" y="36" width="160" height="50" rx="8"/><text class="sS" x="94" y="56" text-anchor="middle">account 1</text><text class="sT" x="94" y="76" text-anchor="middle">500</text><rect class="sR" x="192" y="36" width="160" height="50" rx="8"/><text class="sS" x="272" y="56" text-anchor="middle">account 2</text><text class="sT" x="272" y="76" text-anchor="middle">200</text><text class="sRt" x="183" y="110" text-anchor="middle">total 700</text><text class="sS" x="14" y="140" xml:space="preserve" style="white-space:pre">UPDATE … balance + 500  (account 2)</text><text class="sRt" x="14" y="162">error: account 2 is frozen</text></g>
+<g data-s="4-4"><rect class="sR" x="14" y="36" width="160" height="50" rx="8"/><text class="sS" x="94" y="56" text-anchor="middle">account 1</text><text class="sT" x="94" y="76" text-anchor="middle">500</text><rect class="sN" x="192" y="36" width="160" height="50" rx="8"/><text class="sS" x="272" y="56" text-anchor="middle">account 2</text><text class="sT" x="272" y="76" text-anchor="middle">200</text><text class="sRt" x="183" y="110" text-anchor="middle">total 700</text><text class="sS" x="183" y="150" text-anchor="middle">the first UPDATE was already committed:</text><text class="sRt" x="183" y="168" text-anchor="middle">500 EGP has disappeared</text></g>
+<text class="sT" x="537" y="22" text-anchor="middle">BEGIN … COMMIT / ROLLBACK</text>
+<g data-s="1-1"><rect class="sN" x="368" y="36" width="160" height="50" rx="8"/><text class="sS" x="448" y="56" text-anchor="middle">account 1</text><text class="sT" x="448" y="76" text-anchor="middle">1,000</text><rect class="sN" x="546" y="36" width="160" height="50" rx="8"/><text class="sS" x="626" y="56" text-anchor="middle">account 2</text><text class="sT" x="626" y="76" text-anchor="middle">200</text><text class="sGt" x="537" y="110" text-anchor="middle">total 1,200</text></g>
+<g data-s="2-2"><rect class="sW" x="368" y="36" width="160" height="50" rx="8"/><text class="sS" x="448" y="56" text-anchor="middle">account 1</text><text class="sT" x="448" y="76" text-anchor="middle">500</text><rect class="sN" x="546" y="36" width="160" height="50" rx="8"/><text class="sS" x="626" y="56" text-anchor="middle">account 2</text><text class="sT" x="626" y="76" text-anchor="middle">200</text><text class="sRt" x="537" y="110" text-anchor="middle">total 700</text><text class="sS" x="368" y="140" xml:space="preserve" style="white-space:pre">UPDATE … balance - 500  (account 1)</text></g>
+<g data-s="3-3"><rect class="sW" x="368" y="36" width="160" height="50" rx="8"/><text class="sS" x="448" y="56" text-anchor="middle">account 1</text><text class="sT" x="448" y="76" text-anchor="middle">500</text><rect class="sR" x="546" y="36" width="160" height="50" rx="8"/><text class="sS" x="626" y="56" text-anchor="middle">account 2</text><text class="sT" x="626" y="76" text-anchor="middle">200</text><text class="sRt" x="537" y="110" text-anchor="middle">total 700</text><text class="sS" x="368" y="140" xml:space="preserve" style="white-space:pre">UPDATE … balance + 500  (account 2)</text><text class="sRt" x="368" y="162">error: account 2 is frozen</text></g>
+<g data-s="4-4"><rect class="sG" x="368" y="36" width="160" height="50" rx="8"/><text class="sS" x="448" y="56" text-anchor="middle">account 1</text><text class="sT" x="448" y="76" text-anchor="middle">1,000</text><rect class="sN" x="546" y="36" width="160" height="50" rx="8"/><text class="sS" x="626" y="56" text-anchor="middle">account 2</text><text class="sT" x="626" y="76" text-anchor="middle">200</text><text class="sGt" x="537" y="110" text-anchor="middle">total 1,200</text><text class="sS" x="537" y="150" text-anchor="middle">ROLLBACK undoes the first UPDATE too:</text><text class="sGt" x="537" y="168" text-anchor="middle">all or nothing (atomicity)</text></g>
+</svg><ol class="dia-steps">
+<li>Two accounts hold 1,000 and 200: 1,200 in total. We move 500 from account 1 to account 2.</li>
+<li>The debit succeeds.</li>
+<li>The credit fails (here a trigger blocks it: "account 2 is frozen").</li>
+<li>Without a transaction the debit stays and the money is gone; inside a transaction, ROLLBACK restores both rows.</li>
+</ol><figcaption>Atomicity, run in SQLite: the same failed transfer with and without a transaction.</figcaption></figure>
 
 ## S3.10 Indexes, in one section 🟢
 
