@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **727 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **802 self-test questions** across the eight tracks.
+- **729 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **802 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -14,7 +14,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 - **AI Journey:** NumPy reshape and strides; lazy map and filter; pandas internals, agg vs transform; a preprocessing pipeline; MSE as squares; test-set tuning bias; the train-dev diagnosis; residual plots; polynomial features; calibration; soft voting; stacking leakage; stemming and stopwords; BPE tokenisation; autograd; vanishing gradients; transfer learning; a CNN shape and parameter trace; scaling (tokens per parameter); a CartPole genetic algorithm and a policy-network forward pass; a case-framework loop; batch vs real-time serving; a study-plan calendar; Monty Hall and complement-rule curves.
 - **Handbook:**
   - **Web, frontend and accessibility:** DNS resolution; the CSS cascade; hoisting and the TDZ; a JS equality matrix; ARIA live regions; srcset; WCAG contrast; Intl formatting; React re-renders, JSX compilation, prop drilling and error boundaries; TypeScript generics; Angular routing; Playwright auto-waiting.
-  - **Fundamentals, SQL, statistics and data:** git three-way merges; Linux permissions and filesystem; Two Sum, backtracking, the bracket stack and list vs set timing; conditional aggregation; which test, and Simpson's paradox; resample and vectorisation timing; percentile_cont vs disc; churn denominators; threshold from costs; the LLM approach flow; a star schema with conformed dimensions.
+  - **Fundamentals, SQL, statistics and data:** git three-way merges; Linux permissions and filesystem; Two Sum, backtracking, the bracket stack and list vs set timing; conditional aggregation; which test, and Simpson's paradox; resample and vectorisation timing; percentile_cont vs disc; window functions (running totals, MoM vs YoY); CSV vs Parquet measured; churn denominators; threshold from costs; the LLM approach flow; a star schema with conformed dimensions.
   - **Backend:**
     - .NET: C# equality (class, record, struct); ProblemDetails; EF Core DDL; structured logging.
     - Security and auth: password-hashing cost (a decoded Identity hash); SignalR token flow.
@@ -35,7 +35,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ### Handbook sections still without a diagram (most valuable first)
 
-- **SQL and data:** S3.6 CTEs; S3.9 transactions (an isolation-anomaly step figure); DE1.2 OLTP vs OLAP (row vs column storage, measurable with Parquet); DE3.1 loading patterns; DE4.1 and DE4.8; DA3.2 running totals and moving averages; DA3.3; DA4.7; DA6.1 event tracking; DS6.7 forecast backtesting (rolling origin); DS5.1 counterfactuals.
+- **SQL and data:** S3.6 CTEs; S3.9 transactions (an isolation-anomaly step figure); DE3.1 loading patterns; DE4.1 and DE4.8; DA3.3; DA4.7; DA6.1 event tracking; DS6.7 forecast backtesting (rolling origin); DS5.1 counterfactuals.
 - **Backend:**
   - API and ASP.NET: B3.4 model binding and validation; B3.10 background work; B4.2, B4.6 versioning.
   - Persistence, tests and errors: B5.1, B5.4 migrations; B1.5 delegates; B1.9 exceptions; B10.3 test doubles.

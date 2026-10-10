@@ -110,6 +110,19 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 > [!term] Columnar storage
 > Storing each column's values together rather than each row's. Analytical queries read only the few columns they need, values of one type compress very well (often 5–10×), and engines process them in vectorised batches. That's why `SELECT region, SUM(amount)` over a billion rows is fast in a warehouse and painful in an OLTP database.
 
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="An aggregate over two of eight columns, measured on two million orders: the CSV is 137 megabytes and takes about 1.8 seconds to aggregate, 0.7 seconds with usecols, while Parquet is 49 megabytes, the two needed columns are under 10 megabytes, and the aggregate takes about 0.15 seconds">
+<text class="sT" x="18" y="24">SUM(amount) BY region over 2,000,000 orders (8 columns), measured</text>
+<text class="sS" x="18" y="50">bytes read</text>
+<text class="sS" x="210" y="72" text-anchor="end">CSV file (all of it is parsed)</text><rect class="sR" x="220" y="58" width="391.699" height="18" rx="3" opacity=".7"/><text class="sT" x="617.699" y="72">137.1 MB</text>
+<text class="sS" x="210" y="98" text-anchor="end">Parquet file</text><rect class="sB" x="220" y="84" width="138.894" height="18" rx="3" opacity=".7"/><text class="sT" x="364.894" y="98">48.6 MB</text>
+<text class="sS" x="210" y="124" text-anchor="end">Parquet: just region + amount</text><rect class="sG" x="220" y="110" width="27.9873" height="18" rx="3" opacity=".7"/><text class="sT" x="253.987" y="124">9.8 MB</text>
+<text class="sS" x="18" y="156">time to answer</text>
+<text class="sS" x="210" y="178" text-anchor="end">pd.read_csv (everything)</text><rect class="sR" x="220" y="164" width="296.296" height="18" rx="3" opacity=".7"/><text class="sT" x="522.296" y="178">1.76 s</text>
+<text class="sS" x="210" y="204" text-anchor="end">read_csv(usecols=2 columns)</text><rect class="sW" x="220" y="190" width="126.078" height="18" rx="3" opacity=".7"/><text class="sT" x="352.078" y="204">0.75 s</text>
+<text class="sS" x="210" y="230" text-anchor="end">read_parquet(columns=2)</text><rect class="sG" x="220" y="216" width="25.1485" height="18" rx="3" opacity=".7"/><text class="sT" x="251.148" y="230">0.15 s</text>
+<text class="sS" x="18" y="262">usecols still parses every CSV line; the region column compresses to 0.76 MB in Parquet</text>
+</svg><figcaption>Why analytical engines store columns: the same question over the same data, as a row-oriented CSV and a columnar Parquet file (pandas and pyarrow on this machine).</figcaption></figure>
+
 > [!say]
 > "OLTP systems run the application: many small, concurrent reads and writes on normalised, row-stored tables. OLAP systems answer analytical questions: large scans and aggregations over history, on denormalised star schemas in columnar storage. Data engineering mostly moves data from the first to the second without hurting the source."
 
