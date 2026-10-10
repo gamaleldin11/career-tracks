@@ -142,6 +142,51 @@ SELECT month, revenue,
 FROM monthly ORDER BY month;
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 278" role="img" aria-label="Two years of seasonal monthly revenue computed with the query above in SQLite: bars with a smoother three-month moving average on top, and below the year-to-date running total that restarts each January; in December the month-over-month change is strongly negative after the November peak while the year-over-year change is positive">
+<text class="sT" x="14" y="20">monthly revenue (k EGP) and 3-month moving average</text>
+<line class="sLm" x1="50" y1="130" x2="570" y2="130"/>
+<rect class="sV" x="52" y="86.3024" width="16" height="43.6976" rx="2" opacity=".8"/>
+<text class="sS" x="60" y="268" text-anchor="middle">25-01</text>
+<rect class="sV" x="73.5" y="80.3559" width="16" height="49.6441" rx="2" opacity=".8"/>
+<rect class="sV" x="95" y="68.6431" width="16" height="61.3569" rx="2" opacity=".8"/>
+<rect class="sV" x="116.5" y="78.2836" width="16" height="51.7164" rx="2" opacity=".8"/>
+<text class="sS" x="124.5" y="268" text-anchor="middle">25-04</text>
+<rect class="sV" x="138" y="85.3113" width="16" height="44.6887" rx="2" opacity=".8"/>
+<rect class="sV" x="159.5" y="82.4732" width="16" height="47.5268" rx="2" opacity=".8"/>
+<rect class="sV" x="181" y="76.797" width="16" height="53.203" rx="2" opacity=".8"/>
+<text class="sS" x="189" y="268" text-anchor="middle">25-07</text>
+<rect class="sV" x="202.5" y="77.2475" width="16" height="52.7525" rx="2" opacity=".8"/>
+<rect class="sV" x="224" y="76.8871" width="16" height="53.1129" rx="2" opacity=".8"/>
+<rect class="sV" x="245.5" y="81.7074" width="16" height="48.2926" rx="2" opacity=".8"/>
+<text class="sS" x="253.5" y="268" text-anchor="middle">25-10</text>
+<rect class="sV" x="267" y="54.3175" width="16" height="75.6825" rx="2" opacity=".8"/>
+<rect class="sV" x="288.5" y="79.8603" width="16" height="50.1397" rx="2" opacity=".8"/>
+<rect class="sV" x="310" y="79.0945" width="16" height="50.9055" rx="2" opacity=".8"/>
+<text class="sS" x="318" y="268" text-anchor="middle">26-01</text>
+<rect class="sV" x="331.5" y="71.4812" width="16" height="58.5188" rx="2" opacity=".8"/>
+<rect class="sV" x="353" y="60.6244" width="16" height="69.3756" rx="2" opacity=".8"/>
+<rect class="sV" x="374.5" y="59.318" width="16" height="70.682" rx="2" opacity=".8"/>
+<text class="sS" x="382.5" y="268" text-anchor="middle">26-04</text>
+<rect class="sV" x="396" y="69.0035" width="16" height="60.9965" rx="2" opacity=".8"/>
+<rect class="sV" x="417.5" y="69.9495" width="16" height="60.0505" rx="2" opacity=".8"/>
+<rect class="sV" x="439" y="69.3639" width="16" height="60.6361" rx="2" opacity=".8"/>
+<text class="sS" x="447" y="268" text-anchor="middle">26-07</text>
+<rect class="sV" x="460.5" y="75.6708" width="16" height="54.3292" rx="2" opacity=".8"/>
+<rect class="sV" x="482" y="73.6436" width="16" height="56.3564" rx="2" opacity=".8"/>
+<rect class="sV" x="503.5" y="69.2738" width="16" height="60.7262" rx="2" opacity=".8"/>
+<text class="sS" x="511.5" y="268" text-anchor="middle">26-10</text>
+<rect class="sV" x="525" y="39.0909" width="16" height="90.9091" rx="2" opacity=".8"/>
+<rect class="sV" x="546.5" y="65.1293" width="16" height="64.8707" rx="2" opacity=".8"/>
+<polyline class="sLw" points="60.0,86.3 81.5,83.3 103.0,78.4 124.5,75.8 146.0,77.4 167.5,82.0 189.0,81.5 210.5,78.8 232.0,77.0 253.5,78.6 275.0,71.0 296.5,72.0 318.0,71.1 339.5,76.8 361.0,70.4 382.5,63.8 404.0,63.0 425.5,66.1 447.0,69.4 468.5,71.7 490.0,72.9 511.5,72.9 533.0,60.7 554.5,57.8" style="fill:none;stroke-width:2.5"/>
+<text class="sT" x="14" y="156">year-to-date running total: resets each January (PARTITION BY year)</text>
+<line class="sLm" x1="50" y1="250" x2="570" y2="250"/>
+<polyline class="sLg" points="60.0,245.1 81.5,239.4 103.0,232.5 124.5,226.7 146.0,221.6 167.5,216.2 189.0,210.2 210.5,204.3 232.0,198.3 253.5,192.8 275.0,184.3 296.5,178.6" style="fill:none;stroke-width:2.5"/>
+<circle class="sPg" cx="296.5" cy="178.6" r="4"/><text class="sGt" x="290.5" y="170.588" text-anchor="end">2025: 1,402k</text>
+<polyline class="sLg" points="318.0,244.2 339.5,237.6 361.0,229.8 382.5,221.8 404.0,214.9 425.5,208.1 447.0,201.3 468.5,195.1 490.0,188.8 511.5,181.9 533.0,171.6 554.5,164.3" style="fill:none;stroke-width:2.5"/>
+<circle class="sPg" cx="554.5" cy="164.3" r="4"/><text class="sGt" x="548.5" y="156.286" text-anchor="end">2026: 1,683k</text>
+<rect class="sN" x="584" y="30" width="126" height="220" rx="8"/><text class="sT" x="647" y="52" text-anchor="middle">Dec 2026</text><text class="sRt" x="647" y="76" text-anchor="middle">MoM -28.6%</text><text class="sGt" x="647" y="96" text-anchor="middle">YoY +29.4%</text><text class="sS" x="647" y="128" text-anchor="middle">MoM mostly measures</text><text class="sS" x="647" y="144" text-anchor="middle">the season (after the</text><text class="sS" x="647" y="160" text-anchor="middle">November peak);</text><text class="sS" x="647" y="184" text-anchor="middle">YoY compares like</text><text class="sS" x="647" y="200" text-anchor="middle">with like</text>
+</svg><figcaption>The query above, run in SQLite on two years of seasonal data: the moving average smooths, the YTD total resets per year, and MoM growth mostly measures the season.</figcaption></figure>
+
 Notes: `NULLIF(x, 0)` avoids division by zero; `100.0 *` avoids integer division; `LAG(…, 12)` assumes no missing months (fill them first); a moving average over **days** should use a filled daily series.
 
 ## DA3.3 Percentages and conditional aggregation 🟢 ⭐
