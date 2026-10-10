@@ -98,6 +98,26 @@ class PositionalEmbedding(nn.Module):
 - **Masking:** set the disallowed scores to **−∞** before the softmax, so their weights become exactly 0 and the rest still sum to 1. A **causal mask** is True above the diagonal (`torch.triu(full, diagonal=1)`); a **key-padding mask** marks the pad tokens.
 - PyTorch: `F.scaled_dot_product_attention(q, k, v, attn_mask=…, is_causal=…)`. It is fused and uses FlashAttention kernels when available.
 
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 226" role="img" aria-label="Scaled dot-product attention for the token bank: dot products with every key, scaled and softmaxed into weights, a weighted sum of values dominated by river, and the causal mask used by decoders">
+<rect class="sB" x="110" y="20" width="80" height="28" rx="6"/><text class="sT" x="150" y="39" text-anchor="middle">the</text>
+<rect class="sA" x="220" y="20" width="80" height="28" rx="6"/><text class="sT" x="260" y="39" text-anchor="middle">bank</text>
+<rect class="sB" x="330" y="20" width="80" height="28" rx="6"/><text class="sT" x="370" y="39" text-anchor="middle">of</text>
+<rect class="sB" x="440" y="20" width="80" height="28" rx="6"/><text class="sT" x="480" y="39" text-anchor="middle">the</text>
+<rect class="sB" x="550" y="20" width="80" height="28" rx="6"/><text class="sT" x="590" y="39" text-anchor="middle">river</text>
+<text class="sC" x="80" y="39" text-anchor="end">tokens</text>
+<g data-s="1-1"><text class="sC" x="360" y="76" text-anchor="middle">each token makes a query q, a key k and a value v (learned projections)</text><text class="sM" x="150" y="112" text-anchor="middle">q · k · v</text><text class="sM" x="260" y="112" text-anchor="middle">q · k · v</text><text class="sM" x="370" y="112" text-anchor="middle">q · k · v</text><text class="sM" x="480" y="112" text-anchor="middle">q · k · v</text><text class="sM" x="590" y="112" text-anchor="middle">q · k · v</text><text class="sGt" x="260" y="134" text-anchor="middle">query: "bank"</text></g>
+<g data-s="2-2"><text class="sC" x="80" y="120" text-anchor="end">q(bank) · k</text><rect class="sV" x="128" y="145.385" width="44" height="4.61538" rx="3"/><text class="sC" x="150" y="139.385" text-anchor="middle">0.2</text><rect class="sV" x="238" y="103.846" width="44" height="46.1538" rx="3"/><text class="sC" x="260" y="97.8462" text-anchor="middle">2.0</text><rect class="sV" x="348" y="147.692" width="44" height="2.30769" rx="3"/><text class="sC" x="370" y="141.692" text-anchor="middle">0.1</text><rect class="sV" x="458" y="145.385" width="44" height="4.61538" rx="3"/><text class="sC" x="480" y="139.385" text-anchor="middle">0.2</text><rect class="sV" x="568" y="90" width="44" height="60" rx="3"/><text class="sC" x="590" y="84" text-anchor="middle">2.6</text><line class="sLm" x1="100" y1="150" x2="680" y2="150"/><text class="sC" x="360" y="176" text-anchor="middle">dot products: how relevant is each token to "bank"?</text></g>
+<g data-s="3-3"><text class="sC" x="80" y="120" text-anchor="end">softmax(÷√d)</text><rect class="sG" x="128" y="131.928" width="44" height="18.0717" rx="3"/><text class="sC" x="150" y="125.928" text-anchor="middle">0.11</text><rect class="sG" x="238" y="105.551" width="44" height="44.4491" rx="3"/><text class="sC" x="260" y="99.5509" text-anchor="middle">0.28</text><rect class="sG" x="348" y="132.81" width="44" height="17.1903" rx="3"/><text class="sC" x="370" y="126.81" text-anchor="middle">0.11</text><rect class="sG" x="458" y="131.928" width="44" height="18.0717" rx="3"/><text class="sC" x="480" y="125.928" text-anchor="middle">0.11</text><rect class="sG" x="568" y="90" width="44" height="60" rx="3"/><text class="sC" x="590" y="84" text-anchor="middle">0.38</text><line class="sLm" x1="100" y1="150" x2="680" y2="150"/><text class="sC" x="360" y="176" text-anchor="middle">divide by √4 = 2, softmax: weights sum to 1</text></g>
+<g data-s="4-4"><text class="sC" x="80" y="120" text-anchor="end">weights</text><rect class="sG" x="128" y="131.928" width="44" height="18.0717" rx="3"/><text class="sC" x="150" y="125.928" text-anchor="middle">0.11</text><rect class="sG" x="238" y="105.551" width="44" height="44.4491" rx="3"/><text class="sC" x="260" y="99.5509" text-anchor="middle">0.28</text><rect class="sG" x="348" y="132.81" width="44" height="17.1903" rx="3"/><text class="sC" x="370" y="126.81" text-anchor="middle">0.11</text><rect class="sG" x="458" y="131.928" width="44" height="18.0717" rx="3"/><text class="sC" x="480" y="125.928" text-anchor="middle">0.11</text><rect class="sG" x="568" y="90" width="44" height="60" rx="3"/><text class="sC" x="590" y="84" text-anchor="middle">0.38</text><line class="sLm" x1="100" y1="150" x2="680" y2="150"/><rect class="sA" x="200" y="186" width="320" height="30" rx="6"/><text class="sC" x="360" y="206" text-anchor="middle">output(bank) = 0.28·v(bank) + 0.38·v(river) + …</text></g>
+<g data-s="5-5"><text class="sC" x="360" y="76" text-anchor="middle">causal mask (decoders): token i may only look at tokens ≤ i</text><rect class="sG" x="260" y="90" width="24" height="20" rx="2"/><rect class="sR" x="286" y="90" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="312" y="90" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="338" y="90" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="364" y="90" width="24" height="20" rx="2" opacity=".35"/><rect class="sG" x="260" y="112" width="24" height="20" rx="2"/><rect class="sG" x="286" y="112" width="24" height="20" rx="2"/><rect class="sR" x="312" y="112" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="338" y="112" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="364" y="112" width="24" height="20" rx="2" opacity=".35"/><rect class="sG" x="260" y="134" width="24" height="20" rx="2"/><rect class="sG" x="286" y="134" width="24" height="20" rx="2"/><rect class="sG" x="312" y="134" width="24" height="20" rx="2"/><rect class="sR" x="338" y="134" width="24" height="20" rx="2" opacity=".35"/><rect class="sR" x="364" y="134" width="24" height="20" rx="2" opacity=".35"/><rect class="sG" x="260" y="156" width="24" height="20" rx="2"/><rect class="sG" x="286" y="156" width="24" height="20" rx="2"/><rect class="sG" x="312" y="156" width="24" height="20" rx="2"/><rect class="sG" x="338" y="156" width="24" height="20" rx="2"/><rect class="sR" x="364" y="156" width="24" height="20" rx="2" opacity=".35"/><rect class="sG" x="260" y="178" width="24" height="20" rx="2"/><rect class="sG" x="286" y="178" width="24" height="20" rx="2"/><rect class="sG" x="312" y="178" width="24" height="20" rx="2"/><rect class="sG" x="338" y="178" width="24" height="20" rx="2"/><rect class="sG" x="364" y="178" width="24" height="20" rx="2"/><text class="sC" x="250" y="104" text-anchor="end">query</text><text class="sC" x="395" y="214" text-anchor="middle">keys (red = −∞ before softmax → weight 0)</text></g>
+</svg><ol class="dia-steps">
+<li>Every token is projected into three vectors: a <b>query</b> (what am I looking for?), a <b>key</b> (what do I offer?) and a <b>value</b> (what I pass on). Follow the query of "bank".</li>
+<li>Its query is compared with every key by a dot product. "river" scores highest: this is the bank of a river, not a money bank.</li>
+<li>Scores are divided by √d<sub>k</sub> (here 2) to keep the softmax from saturating, then softmaxed into weights that sum to 1. Computed values: river 0.38, bank 0.28.</li>
+<li>The new representation of "bank" is the weighted sum of all values: mostly itself and "river". Context has been mixed in.</li>
+<li>In a decoder, a causal mask sets scores for future tokens to −∞, so after the softmax their weight is exactly 0. Each head does all of this in parallel, with its own projections.</li>
+</ol><figcaption>One attention head for one query, with real numbers. Attention(Q, K, V) = softmax(QKᵀ/√d<sub>k</sub>) V does this for every token at once.</figcaption></figure>
+
 ### Multi-head attention (MHA)
 
 A token's representation encodes many things at once (meaning, part of speech, tense, position). **Multiple heads** each project Q, K and V into a smaller subspace (d_head = d_model / h), so each head can "query" a different aspect. The heads' outputs are concatenated and mixed by an output projection.
@@ -172,7 +192,143 @@ Even a tiny version (d = 128, 4 heads, 2 layers, 20 epochs) translates Géron's 
 | **Decoder-only** | Causal | **Next-token prediction** | **Generation:** chat, code, reasoning, few-shot anything | GPT family, Llama, Mistral, Qwen, Gemma, DeepSeek, Claude (proprietary) |
 | **Encoder–decoder** | Bidirectional encoder + causal decoder with cross-attention | Span corruption / denoising | **Sequence transduction:** translation, summarisation | T5, mT5, FLAN-T5, BART, mBART, Whisper (speech) |
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Attention patterns of the three transformer families: encoder-only models attend in all directions, decoder-only models use a causal lower-triangular pattern, and encoder-decoders add cross-attention from the decoder to the encoder">
+<text class="sT" x="120" y="22" text-anchor="middle">encoder-only (BERT)</text><text class="sC" x="120" y="40" text-anchor="middle">every token sees every token</text>
+<rect class="sA" x="48" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="56" width="22" height="22" rx="2"/>
+<rect class="sA" x="48" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="80" width="22" height="22" rx="2"/>
+<rect class="sA" x="48" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="104" width="22" height="22" rx="2"/>
+<rect class="sA" x="48" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="128" width="22" height="22" rx="2"/>
+<rect class="sA" x="48" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="152" width="22" height="22" rx="2"/>
+<rect class="sA" x="48" y="176" width="22" height="22" rx="2"/>
+<rect class="sA" x="72" y="176" width="22" height="22" rx="2"/>
+<rect class="sA" x="96" y="176" width="22" height="22" rx="2"/>
+<rect class="sA" x="120" y="176" width="22" height="22" rx="2"/>
+<rect class="sA" x="144" y="176" width="22" height="22" rx="2"/>
+<rect class="sA" x="168" y="176" width="22" height="22" rx="2"/>
+<text class="sC" x="120" y="214" text-anchor="middle">understanding, embeddings</text>
+<text class="sT" x="356" y="22" text-anchor="middle">decoder-only (GPT)</text><text class="sC" x="356" y="40" text-anchor="middle">each token sees only the past</text>
+<rect class="sG" x="284" y="56" width="22" height="22" rx="2"/>
+<rect class="sN" x="308" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="332" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="356" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="380" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="404" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="284" y="80" width="22" height="22" rx="2"/>
+<rect class="sG" x="308" y="80" width="22" height="22" rx="2"/>
+<rect class="sN" x="332" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="356" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="380" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="404" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="284" y="104" width="22" height="22" rx="2"/>
+<rect class="sG" x="308" y="104" width="22" height="22" rx="2"/>
+<rect class="sG" x="332" y="104" width="22" height="22" rx="2"/>
+<rect class="sN" x="356" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="380" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="404" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="284" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="308" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="332" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="356" y="128" width="22" height="22" rx="2"/>
+<rect class="sN" x="380" y="128" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="404" y="128" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="284" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="308" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="332" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="356" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="380" y="152" width="22" height="22" rx="2"/>
+<rect class="sN" x="404" y="152" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="284" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="308" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="332" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="356" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="380" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="404" y="176" width="22" height="22" rx="2"/>
+<text class="sC" x="356" y="214" text-anchor="middle">generation, chat, code</text>
+<text class="sT" x="592" y="22" text-anchor="middle">encoder–decoder (T5)</text><text class="sC" x="592" y="40" text-anchor="middle">decoder: causal + cross-attention</text>
+<rect class="sG" x="520" y="56" width="22" height="22" rx="2"/>
+<rect class="sN" x="544" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="568" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="592" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="616" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="640" y="56" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="520" y="80" width="22" height="22" rx="2"/>
+<rect class="sG" x="544" y="80" width="22" height="22" rx="2"/>
+<rect class="sN" x="568" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="592" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="616" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="640" y="80" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="520" y="104" width="22" height="22" rx="2"/>
+<rect class="sG" x="544" y="104" width="22" height="22" rx="2"/>
+<rect class="sG" x="568" y="104" width="22" height="22" rx="2"/>
+<rect class="sN" x="592" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="616" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="640" y="104" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="520" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="544" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="568" y="128" width="22" height="22" rx="2"/>
+<rect class="sG" x="592" y="128" width="22" height="22" rx="2"/>
+<rect class="sN" x="616" y="128" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sN" x="640" y="128" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="520" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="544" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="568" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="592" y="152" width="22" height="22" rx="2"/>
+<rect class="sG" x="616" y="152" width="22" height="22" rx="2"/>
+<rect class="sN" x="640" y="152" width="22" height="22" rx="2" opacity=".4"/>
+<rect class="sG" x="520" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="544" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="568" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="592" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="616" y="176" width="22" height="22" rx="2"/>
+<rect class="sG" x="640" y="176" width="22" height="22" rx="2"/>
+<text class="sC" x="592" y="214" text-anchor="middle">+ cross-attention: every decoder</text><text class="sC" x="592" y="230" text-anchor="middle">token reads all encoder outputs</text>
+</svg><figcaption>The families differ mainly in who may attend to whom. Rows are queries, columns are keys.</figcaption></figure>
+
 **Why decoders generate faster than encoders:** causal attention means earlier tokens' keys and values never change, so they can be **cached** (the KV cache, §21.9) and only the new token is computed. Bidirectional encoders would have to recompute everything for each new token.
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 190" role="img" aria-label="Autoregressive decoding: after the prompt Cairo is the, the model generates capital, of, Egypt one token at a time, reusing cached keys and values of earlier tokens and computing only the newest">
+<rect class="sB" x="40" y="40" width="90" height="30" rx="6"/><text class="sT" x="85" y="60" text-anchor="middle">Cairo</text>
+<rect class="sB" x="140" y="40" width="90" height="30" rx="6"/><text class="sT" x="185" y="60" text-anchor="middle">is</text>
+<rect class="sB" x="240" y="40" width="90" height="30" rx="6"/><text class="sT" x="285" y="60" text-anchor="middle">the</text>
+<text class="sC" x="40" y="28">prompt</text>
+<g data-s="1"><rect class="sG" x="340" y="40" width="90" height="30" rx="6"/><text class="sT" x="385" y="60" text-anchor="middle">capital</text><line class="sLg" x1="285" y1="100" x2="385" y2="76" marker-end="url(#ahg)"/></g>
+<g data-s="1-1"><rect class="sV" x="40" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="85" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="140" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="185" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="240" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="285" y="125" text-anchor="middle">K,V cached</text><rect class="sW" x="340" y="110" width="90" height="22" rx="4"/><text class="sC" x="385" y="125" text-anchor="middle">compute new</text><text class="sC" x="360" y="170" text-anchor="middle">step 1: only the newest token is computed; 3 earlier tokens are reused from the cache</text></g>
+<g data-s="2"><rect class="sG" x="440" y="40" width="90" height="30" rx="6"/><text class="sT" x="485" y="60" text-anchor="middle">of</text><line class="sLg" x1="385" y1="100" x2="485" y2="76" marker-end="url(#ahg)"/></g>
+<g data-s="2-2"><rect class="sV" x="40" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="85" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="140" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="185" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="240" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="285" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="340" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="385" y="125" text-anchor="middle">K,V cached</text><rect class="sW" x="440" y="110" width="90" height="22" rx="4"/><text class="sC" x="485" y="125" text-anchor="middle">compute new</text><text class="sC" x="360" y="170" text-anchor="middle">step 2: only the newest token is computed; 4 earlier tokens are reused from the cache</text></g>
+<g data-s="3"><rect class="sG" x="540" y="40" width="90" height="30" rx="6"/><text class="sT" x="585" y="60" text-anchor="middle">Egypt</text><line class="sLg" x1="485" y1="100" x2="585" y2="76" marker-end="url(#ahg)"/></g>
+<g data-s="3-3"><rect class="sV" x="40" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="85" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="140" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="185" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="240" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="285" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="340" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="385" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="440" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="485" y="125" text-anchor="middle">K,V cached</text><rect class="sW" x="540" y="110" width="90" height="22" rx="4"/><text class="sC" x="585" y="125" text-anchor="middle">compute new</text><text class="sC" x="360" y="170" text-anchor="middle">step 3: only the newest token is computed; 5 earlier tokens are reused from the cache</text></g>
+<g data-s="4-4"><rect class="sV" x="40" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="85" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="140" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="185" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="240" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="285" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="340" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="385" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="440" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="485" y="125" text-anchor="middle">K,V cached</text><rect class="sV" x="540" y="110" width="90" height="22" rx="4" opacity=".7"/><text class="sC" x="585" y="125" text-anchor="middle">K,V cached</text><text class="sWt" x="360" y="170" text-anchor="middle">the cache grows with every token: long contexts cost memory, not just compute</text></g>
+</svg><ol class="dia-steps">
+<li>Generation is one token at a time. After the prompt, the model predicts "capital"; the keys and values of the prompt tokens are stored in the KV cache.</li>
+<li>"capital" is appended and becomes input. Only its keys and values are new; everything before is read from the cache.</li>
+<li>Again for "Egypt". Without the cache, each step would recompute attention over the whole sequence from scratch.</li>
+<li>The price: cache memory grows with sequence length × layers × heads. That's why serving long contexts is a memory problem (GQA, PagedAttention, quantised caches).</li>
+</ol><figcaption>Why decoder-only models serve efficiently, and why their cost is dominated by KV-cache memory.</figcaption></figure>
 
 ---
 
@@ -186,6 +342,34 @@ Even a tiny version (d = 128, 4 heads, 2 layers, 20 epochs) translates Géron's 
 - **Masked language modelling (MLM)**, a "cloze" task: 15% of tokens are selected. Of those, **80% become [MASK], 10% become a random token, and 10% stay unchanged**, so the model can't rely on [MASK] always being present (it never appears at fine-tuning time) and has to attend to the token at the predicted position. The loss is computed only on the selected tokens.
 - **Next-sentence prediction (NSP)** on the **[CLS]** token. It was later found to help little and was dropped by most successors. Mean-pooling the token embeddings gives better sentence embeddings than [CLS].
 - Trained for ~4 days on 16 TPUs over Wikipedia + BooksCorpus. **Géron's lesson: don't pretrain from scratch unless you must.** Start from a checkpoint close to your domain and continue MLM pretraining on your corpus ("domain-adaptive pretraining") if needed.
+
+<figure class="dia steps"><svg viewBox="0 0 720 256" role="img" aria-label="Masked language modelling: of the selected tokens, internet becomes [MASK], slow becomes a random word and cairo stays unchanged; the encoder reads the whole sentence in both directions and is trained to predict the original word only at the selected positions">
+<rect class="sN" x="18" y="30" width="58" height="26" rx="4"/><text class="sC" x="47" y="47" text-anchor="middle">[CLS]</text>
+<rect class="sN" x="81" y="30" width="58" height="26" rx="4"/><text class="sC" x="110" y="47" text-anchor="middle">my</text>
+<rect class="sN" x="144" y="30" width="58" height="26" rx="4"/><text class="sC" x="173" y="47" text-anchor="middle">internet</text>
+<rect class="sN" x="207" y="30" width="58" height="26" rx="4"/><text class="sC" x="236" y="47" text-anchor="middle">is</text>
+<rect class="sN" x="270" y="30" width="58" height="26" rx="4"/><text class="sC" x="299" y="47" text-anchor="middle">very</text>
+<rect class="sN" x="333" y="30" width="58" height="26" rx="4"/><text class="sC" x="362" y="47" text-anchor="middle">slow</text>
+<rect class="sN" x="396" y="30" width="58" height="26" rx="4"/><text class="sC" x="425" y="47" text-anchor="middle">in</text>
+<rect class="sN" x="459" y="30" width="58" height="26" rx="4"/><text class="sC" x="488" y="47" text-anchor="middle">cairo</text>
+<rect class="sN" x="522" y="30" width="58" height="26" rx="4"/><text class="sC" x="551" y="47" text-anchor="middle">since</text>
+<rect class="sN" x="585" y="30" width="58" height="26" rx="4"/><text class="sC" x="614" y="47" text-anchor="middle">monday</text>
+<rect class="sN" x="648" y="30" width="58" height="26" rx="4"/><text class="sC" x="677" y="47" text-anchor="middle">[SEP]</text>
+<g data-s="1"><rect class="sA" x="142" y="28" width="62" height="30" rx="5" style="fill:none;stroke-width:2"/><rect class="sA" x="331" y="28" width="62" height="30" rx="5" style="fill:none;stroke-width:2"/><rect class="sA" x="457" y="28" width="62" height="30" rx="5" style="fill:none;stroke-width:2"/><text class="sM" x="14" y="18">selected (15% of tokens in practice; 3 here)</text></g>
+<g data-s="2"><line class="sLm" x1="173" y1="60" x2="173" y2="92" marker-end="url(#ahm)"/><rect class="sW" x="144" y="96" width="58" height="26" rx="4"/><text class="sC" x="173" y="113" text-anchor="middle">[MASK]</text><text class="sS" x="173" y="136" text-anchor="middle">80%: [MASK]</text></g>
+<g data-s="2"><line class="sLm" x1="362" y1="60" x2="362" y2="92" marker-end="url(#ahm)"/><rect class="sR" x="333" y="96" width="58" height="26" rx="4"/><text class="sC" x="362" y="113" text-anchor="middle">banana</text><text class="sS" x="362" y="136" text-anchor="middle">10%: random</text></g>
+<g data-s="2"><line class="sLm" x1="488" y1="60" x2="488" y2="92" marker-end="url(#ahm)"/><rect class="sV" x="459" y="96" width="58" height="26" rx="4"/><text class="sC" x="488" y="113" text-anchor="middle">cairo</text><text class="sS" x="488" y="136" text-anchor="middle">10%: unchanged</text></g>
+<g data-s="3"><rect class="sB" x="18" y="150" width="684" height="34" rx="6"/><text class="sT" x="360" y="172" text-anchor="middle">Transformer encoder: every position attends to every other, left and right</text></g>
+<g data-s="4"><line class="sLg" x1="173" y1="184" x2="173" y2="204" marker-end="url(#ahg)"/><text class="sGt" x="173" y="220" text-anchor="middle">predict "internet"</text></g>
+<g data-s="4"><line class="sLg" x1="362" y1="184" x2="362" y2="204" marker-end="url(#ahg)"/><text class="sGt" x="362" y="220" text-anchor="middle">predict "slow"</text></g>
+<g data-s="4"><line class="sLg" x1="488" y1="184" x2="488" y2="204" marker-end="url(#ahg)"/><text class="sGt" x="488" y="220" text-anchor="middle">predict "cairo"</text></g>
+<g data-s="4"><text class="sS" x="360" y="244" text-anchor="middle">loss on these 3 positions only; the other 8 are context</text></g>
+</svg><ol class="dia-steps">
+<li>15% of the tokens are selected for prediction (three in this short sentence).</li>
+<li>Of the selected tokens, 80% become [MASK], 10% a random token, 10% stay as they are, so the model cannot learn that only [MASK] positions matter. [MASK] never appears at fine-tuning time.</li>
+<li>The encoder reads the corrupted sentence with full bidirectional attention: "slow" can use "cairo" and "monday" as context.</li>
+<li>The training loss is cross-entropy for the original token, at the selected positions only.</li>
+</ol><figcaption>BERT's pretraining task, a fill-in-the-blanks exam over billions of sentences.</figcaption></figure>
 
 ```python
 from transformers import BertConfig, BertForMaskedLM, DataCollatorForLanguageModeling
@@ -205,6 +389,43 @@ collator = DataCollatorForLanguageModeling(tok, mlm=True, mlm_probability=0.15) 
 | Token classification | Linear on every token | **NER** (MSISDNs, bundle names, dates), POS tagging |
 | Multiple-choice QA | One score per (question, answer) pair → softmax | Exams, form filling |
 | **Extractive QA** | Two scores per token (start, end); pick the max start+end with i ≤ j | SQuAD; "find the answer in this contract" |
+
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="One pretrained BERT encoder with different heads: a sentence head on the [CLS] token outputs one class, a token head labels every token for named-entity recognition, and a question-answering head scores start and end positions of an answer span">
+<rect class="sN" x="120" y="186" width="66" height="24" rx="4"/><text class="sC" x="153" y="203" text-anchor="middle">[CLS]</text>
+<line class="sLm" x1="153" y1="186" x2="153" y2="168"/>
+<rect class="sN" x="188" y="186" width="66" height="24" rx="4"/><text class="sC" x="221" y="203" text-anchor="middle">recharge</text>
+<line class="sLm" x1="221" y1="186" x2="221" y2="168"/>
+<rect class="sN" x="256" y="186" width="66" height="24" rx="4"/><text class="sC" x="289" y="203" text-anchor="middle">50</text>
+<line class="sLm" x1="289" y1="186" x2="289" y2="168"/>
+<rect class="sN" x="324" y="186" width="66" height="24" rx="4"/><text class="sC" x="357" y="203" text-anchor="middle">EGP</text>
+<line class="sLm" x1="357" y1="186" x2="357" y2="168"/>
+<rect class="sN" x="392" y="186" width="66" height="24" rx="4"/><text class="sC" x="425" y="203" text-anchor="middle">on</text>
+<line class="sLm" x1="425" y1="186" x2="425" y2="168"/>
+<rect class="sN" x="460" y="186" width="66" height="24" rx="4"/><text class="sC" x="493" y="203" text-anchor="middle">0100…</text>
+<line class="sLm" x1="493" y1="186" x2="493" y2="168"/>
+<rect class="sN" x="528" y="186" width="66" height="24" rx="4"/><text class="sC" x="561" y="203" text-anchor="middle">[SEP]</text>
+<line class="sLm" x1="561" y1="186" x2="561" y2="168"/>
+<rect class="sB" x="120" y="130" width="472" height="38" rx="6"/><text class="sT" x="356" y="154" text-anchor="middle">pretrained BERT encoder (shared)</text>
+<text class="sM" x="14" y="202">input</text><text class="sM" x="14" y="154">body</text>
+<line class="sLm" x1="153" y1="130" x2="153" y2="112"/>
+<line class="sLm" x1="221" y1="130" x2="221" y2="112"/>
+<line class="sLm" x1="289" y1="130" x2="289" y2="112"/>
+<line class="sLm" x1="357" y1="130" x2="357" y2="112"/>
+<line class="sLm" x1="425" y1="130" x2="425" y2="112"/>
+<line class="sLm" x1="493" y1="130" x2="493" y2="112"/>
+<line class="sLm" x1="561" y1="130" x2="561" y2="112"/>
+<rect class="sA" x="120" y="76" width="66" height="30" rx="5"/><text class="sC" x="153" y="96" text-anchor="middle">class</text><text class="sM" x="14" y="70">sentence head:</text><text class="sS" x="14" y="86">one label</text>
+<line class="sLm" x1="153" y1="76" x2="153" y2="60" marker-end="url(#ahm)"/><text class="sGt" x="153" y="52" text-anchor="middle">"top-up"</text>
+<rect class="sV" x="190" y="76" width="62" height="30" rx="5"/><text class="sS" x="221" y="96" text-anchor="middle">O</text>
+<rect class="sV" x="258" y="76" width="62" height="30" rx="5"/><text class="sS" x="289" y="96" text-anchor="middle">B-AMT</text>
+<rect class="sV" x="326" y="76" width="62" height="30" rx="5"/><text class="sS" x="357" y="96" text-anchor="middle">I-AMT</text>
+<rect class="sV" x="394" y="76" width="62" height="30" rx="5"/><text class="sS" x="425" y="96" text-anchor="middle">O</text>
+<rect class="sV" x="462" y="76" width="62" height="30" rx="5"/><text class="sS" x="493" y="96" text-anchor="middle">B-MSISDN</text>
+<text class="sGt" x="357" y="52" text-anchor="middle">token head: a label per token (NER)</text>
+<rect class="sG" x="612" y="76" width="94" height="30" rx="5"/><text class="sS" x="659" y="96" text-anchor="middle">start · end</text><line class="sLm" x1="612" y1="100" x2="592" y2="136"/>
+<text class="sGt" x="659" y="52" text-anchor="middle">QA head: span</text>
+<text class="sS" x="360" y="236" text-anchor="middle">fine-tuning trains a tiny new head and nudges the encoder; the expensive pretraining is reused</text>
+</svg><figcaption>The same encoder, three jobs: what changes is the small layer on top and which positions it reads.</figcaption></figure>
 
 The BERT authors found that adding the MLM loss during fine-tuning stabilises training. Lower learning rates for lower layers and brief freezing help (Part 17 §17.2).
 
@@ -254,6 +475,30 @@ Uses:
 **GPT-3** (Brown et al., 2020): **175B parameters**. Its paper formalised **in-context learning (ICL)**: put zero, one or a few examples in the prompt (ZSL/OSL/FSL) and the model generalises without any weight update.
 
 **Scaling laws** (beyond the chapter; interviewers like these): loss falls as a **power law** in parameters, data and compute (Kaplan et al., 2020). **Chinchilla** (Hoffmann et al., 2022) showed many models were *under-trained*: the compute-optimal point is roughly **~20 training tokens per parameter**. Today's models are often trained far beyond that (trillions of tokens) because inference-efficient smaller models are worth the extra training.
+
+<figure class="dia"><svg viewBox="0 0 720 336" role="img" aria-label="Published model sizes against training tokens on log axes with the compute-optimal line of 20 tokens per parameter: GPT-3 and Gopher sit far below it at about 2 and 1 tokens per parameter, Chinchilla sits on it at 20, Llama 2 70B slightly above at about 29, and Llama 3 trains 70B and 8B models on 15 trillion tokens, about 214 and 1,875 tokens per parameter">
+<line class="sLm" x1="70" y1="220" x2="680" y2="220"/><line class="sLm" x1="70" y1="220" x2="70" y2="24"/>
+<text class="sS" x="70" y="236" text-anchor="middle">1B</text><line class="sLm" x1="70" y1="24" x2="70" y2="220" opacity=".12"/>
+<text class="sS" x="273.333" y="236" text-anchor="middle">10B</text><line class="sLm" x1="273.333" y1="24" x2="273.333" y2="220" opacity=".12"/>
+<text class="sS" x="476.667" y="236" text-anchor="middle">100B</text><line class="sLm" x1="476.667" y1="24" x2="476.667" y2="220" opacity=".12"/>
+<text class="sS" x="680" y="236" text-anchor="middle">1T</text><line class="sLm" x1="680" y1="24" x2="680" y2="220" opacity=".12"/>
+<text class="sS" x="62" y="224" text-anchor="end">100B</text><line class="sLm" x1="70" y1="220" x2="680" y2="220" opacity=".12"/>
+<text class="sS" x="62" y="148" text-anchor="end">1T</text><line class="sLm" x1="70" y1="144" x2="680" y2="144" opacity=".12"/>
+<text class="sS" x="62" y="72" text-anchor="end">10T</text><line class="sLm" x1="70" y1="68" x2="680" y2="68" opacity=".12"/>
+<text class="sS" x="375" y="252" text-anchor="middle">parameters N</text><text class="sS" x="20" y="122" text-anchor="middle" transform="rotate(-90 20 122)">training tokens D</text>
+<line class="sLg" x1="212.124" y1="220" x2="680" y2="45.1217" stroke-dasharray="6 4" style="stroke-width:2"/>
+<text class="sGt" x="543.876" y="90.2434">D = 20 N</text>
+<circle class="sP" cx="526.1" cy="183.7" r="5"/><text class="sS" x="518.084" y="173.739" text-anchor="end">GPT-3 (2020): 2 tok/param</text>
+<circle class="sP" cx="567.6" cy="183.7" r="5"/><text class="sS" x="559.589" y="201.739" text-anchor="end">Gopher (2021): 1 tok/param</text>
+<circle class="sP" cx="445.2" cy="132.9" r="5"/><text class="sS" x="437.17" y="136.894" text-anchor="end">Chinchilla (2022): 20 tok/param</text>
+<circle class="sP" cx="445.2" cy="121.1" r="5"/><text class="sS" x="453.17" y="125.122">Llama 2 70B (2023): 29 tok/param</text>
+<circle class="sP" cx="445.2" cy="54.6" r="5"/><text class="sS" x="453.17" y="58.6171">Llama 3 70B (2024): 214 tok/param</text>
+<circle class="sP" cx="253.6" cy="54.6" r="5"/><text class="sS" x="245.628" y="58.6171" text-anchor="end">Llama 3 8B (2024): 1875 tok/param</text>
+<rect class="sN" x="14" y="266" width="692" height="62" rx="8"/>
+<text class="sT" x="24" y="286">compute ≈ 6 · N · D FLOPs</text>
+<text class="sS" x="24" y="304">Gopher 5.0e+23 vs Chinchilla 5.9e+23 FLOPs: a similar budget, 4× fewer</text><text class="sGt" x="24" y="320">parameters and 4.7× more data, and Chinchilla won.</text>
+<text class="sS" x="696" y="304" text-anchor="end">Llama 3 goes far past 20×: extra training</text><text class="sWt" x="696" y="320" text-anchor="end">buys a smaller model that is cheaper to serve</text>
+</svg><figcaption>Under-trained, compute-optimal, then deliberately over-trained: published parameter and token counts against the Chinchilla rule of thumb.</figcaption></figure>
 
 ### Generating text with Hugging Face
 
@@ -392,6 +637,18 @@ Why not just REST? MCP includes **AI-friendly discovery**: servers describe thei
 
 **Libraries and tools:** **LangChain** (chains and components), **LangGraph** (stateful, long-running agent workflows), **smolagents** (Hugging Face agents), **Haystack** (RAG/QA pipelines), **LlamaIndex** (ingest, index and query your data). Local LLMs: **Ollama** (CLI + API server), **LM Studio** (GUI), **text-generation-webui**; all largely built on **llama.cpp** (Part 17 §17.7).
 
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: an agent loop where the LLM plans and emits a tool call, the orchestrator executes it and returns an observation, the LLM re-plans, and a human approves the consequential refund">
+<rect class="sB" x="14" y="90" width="120" height="50" rx="8"/><text class="sT" x="74" y="113" text-anchor="middle">user goal</text><text class="sC" x="74" y="129" text-anchor="middle">"refund order 881"</text>
+<line class="sL" x1="134" y1="115" x2="196" y2="115" marker-end="url(#ah)"/><rect class="sA" x="200" y="80" width="150" height="70" rx="8"/><text class="sT" x="275" y="113" text-anchor="middle">LLM</text><text class="sC" x="275" y="129" text-anchor="middle">plan · pick a tool</text>
+<line class="sL" x1="350" y1="100" x2="436" y2="60" marker-end="url(#ah)"/><rect class="sV" x="440" y="30" width="150" height="50" rx="8"/><text class="sT" x="515" y="53" text-anchor="middle">tool call</text><text class="sC" x="515" y="69" text-anchor="middle">get_order(881)</text>
+<line class="sLm" x1="590" y1="55" x2="640" y2="55"/><line class="sLm" x1="640" y1="55" x2="640" y2="160"/><line class="sLm" x1="640" y1="160" x2="594" y2="160" marker-end="url(#ahm)"/>
+<rect class="sG" x="440" y="135" width="150" height="50" rx="8"/><text class="sT" x="515" y="158" text-anchor="middle">observation</text><text class="sC" x="515" y="174" text-anchor="middle">paid, 1,200 EGP</text><line class="sLg" x1="440" y1="160" x2="354" y2="130" marker-end="url(#ahg)"/>
+<line class="sLw" x1="275" y1="150" x2="275" y2="196" marker-end="url(#ahw)"/><rect class="sW" x="190" y="198" width="170" height="40" rx="8"/><text class="sT" x="275" y="223" text-anchor="middle">human approves refund</text>
+<text class="sC" x="648" y="110">your code</text><text class="sC" x="648" y="126">runs it</text>
+<circle class="sP" r="5"><animateMotion dur="5s" repeatCount="indefinite" path="M134 115 H200 M350 100 L440 60 M590 55 H640 V160 H590 M440 160 L354 130"/></circle>
+<text class="sC" x="520" y="226" text-anchor="middle">loop until done; consequential actions need a person</text>
+</svg><figcaption>An agent is an LLM in a loop with tools. The model proposes; your code executes, validates and asks for approval.</figcaption></figure>
+
 ---
 
 ## 21.7 Retrieval-Augmented Generation (RAG) — the enterprise workhorse 🟢 ⭐
@@ -425,6 +682,15 @@ QUERY:   user question → (rewrite/expand) → embed → RETRIEVE top-k (dense 
   - Tools: **RAGAS**, TruLens, **LLM-as-a-judge** (calibrated against human labels).
 - **Failure modes:** a retrieval miss (the answer isn't in the top-k), stale documents, conflicting sources, prompt injection *inside documents*, over-long contexts ("lost in the middle").
 - **RAG vs fine-tuning:** use **RAG for knowledge** (facts that change: tariffs, policies) and **fine-tuning for behaviour/format/style** (tone, output schema, domain phrasing). Often combine them.
+
+<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="A hybrid retrieval funnel: from 120,000 chunks, BM25 and dense search each return 50, merged to about 80 candidates, reranked by a cross-encoder to the top 5, which go into the prompt">
+<rect class="sN" x="14" y="16" width="692" height="36" rx="6"/><text class="sT" x="360" y="32" text-anchor="middle">120,000 chunks</text><text class="sC" x="360" y="47" text-anchor="middle">the indexed knowledge base</text>
+<rect class="sB" x="100" y="60" width="520" height="36" rx="6"/><text class="sT" x="360" y="76" text-anchor="middle">BM25 top 50 + dense top 50</text><text class="sC" x="360" y="91" text-anchor="middle">exact terms + meaning</text>
+<rect class="sV" x="170" y="104" width="380" height="36" rx="6"/><text class="sT" x="360" y="120" text-anchor="middle">≈ 80 unique candidates</text><text class="sC" x="360" y="135" text-anchor="middle">merged (reciprocal rank fusion)</text>
+<rect class="sA" x="240" y="148" width="240" height="36" rx="6"/><text class="sT" x="360" y="164" text-anchor="middle">cross-encoder rerank → top 5</text><text class="sC" x="360" y="179" text-anchor="middle">precise, slower, small k</text>
+<rect class="sG" x="180" y="192" width="360" height="36" rx="6"/><text class="sT" x="360" y="208" text-anchor="middle">prompt: question + 5 chunks + rules</text><text class="sC" x="360" y="223" text-anchor="middle">answer with citations</text>
+<text class="sC" x="14" y="244">measure retrieval (recall@k) and generation (faithfulness) separately</text>
+</svg><figcaption>Recall first, precision second: cheap retrievers cast a wide net, an expensive reranker picks the few that enter the prompt.</figcaption></figure>
 
 ---
 
@@ -470,6 +736,37 @@ config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, task_type="CAUSAL_LM
 model = get_peft_model(base_model, config)     # add a 4-bit base (BitsAndBytesConfig) = QLoRA
 model.print_trainable_parameters()             # e.g. "trainable params: 0.2% of all"
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="KV cache memory for a batch of eight requests on a Llama-3-8B-shaped model in fp16: with 32 key-value heads it grows from 8 GiB at 2k tokens to 512 GiB at 128k; grouped-query attention with 8 key-value heads needs a quarter of that">
+<text class="sM" x="14" y="22">KV cache for a batch of 8 requests, Llama-3-8B shape, fp16</text>
+<text class="sT" x="130" y="62" text-anchor="end">2k tokens</text>
+<rect class="sR" x="140" y="40" width="215.487" height="15" rx="3" opacity=".75"/><text class="sS" x="361.487" y="52">8.0 GiB</text>
+<rect class="sG" x="140" y="58" width="147.315" height="15" rx="3" opacity=".75"/><text class="sS" x="293.315" y="70">2.0 GiB</text>
+<text class="sT" x="130" y="106" text-anchor="end">8k tokens</text>
+<rect class="sR" x="140" y="84" width="283.658" height="15" rx="3" opacity=".75"/><text class="sS" x="429.658" y="96">32 GiB</text>
+<rect class="sG" x="140" y="102" width="215.487" height="15" rx="3" opacity=".75"/><text class="sS" x="361.487" y="114">8.0 GiB</text>
+<text class="sT" x="130" y="150" text-anchor="end">32k tokens</text>
+<rect class="sR" x="140" y="128" width="351.829" height="15" rx="3" opacity=".75"/><text class="sS" x="497.829" y="140">128 GiB</text>
+<rect class="sG" x="140" y="146" width="283.658" height="15" rx="3" opacity=".75"/><text class="sS" x="429.658" y="158">32 GiB</text>
+<text class="sT" x="130" y="194" text-anchor="end">128k tokens</text>
+<rect class="sR" x="140" y="172" width="420" height="15" rx="3" opacity=".75"/><text class="sS" x="566" y="184">512 GiB</text>
+<rect class="sG" x="140" y="190" width="351.829" height="15" rx="3" opacity=".75"/><text class="sS" x="497.829" y="202">128 GiB</text>
+<rect class="sR" x="14" y="222" width="12" height="10" rx="2" opacity=".75"/><text class="sS" x="32" y="231">multi-head attention</text><rect class="sG" x="180" y="222" width="12" height="10" rx="2" opacity=".75"/><text class="sS" x="198" y="231">grouped-query attention</text>
+<text class="sC" x="706" y="231" text-anchor="end">per token: 512 KiB vs 128 KiB</text>
+</svg><figcaption>Why GQA and paged KV caches matter: cache size = 2 × layers × KV heads × head dim × bytes × tokens × batch. Computed; bars on a log scale.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="LoRA keeps a 4096 by 4096 weight matrix frozen and learns two thin matrices, 4096 by 16 and 16 by 4096, whose product is a low-rank update: about 131 thousand trainable parameters instead of 16.8 million, under one percent">
+<rect class="sB" x="30" y="40" width="170" height="170" rx="4"/><text class="sT" x="115" y="120" text-anchor="middle">W (frozen)</text><text class="sC" x="115" y="140" text-anchor="middle">4096 × 4096</text><text class="sS" x="115" y="160" text-anchor="middle">16.8 M params</text>
+<text class="sT" x="222" y="130" text-anchor="middle">+</text>
+<rect class="sG" x="244" y="40" width="14" height="170" rx="3"/><text class="sT" x="251" y="226" text-anchor="middle">B</text><text class="sS" x="251" y="32" text-anchor="middle">4096×16</text>
+<text class="sT" x="272" y="130" text-anchor="middle">·</text>
+<rect class="sG" x="286" y="118" width="170" height="14" rx="3"/><text class="sS" x="371" y="110" text-anchor="middle">A: 16×4096</text>
+<text class="sGt" x="371" y="160" text-anchor="middle">ΔW = B·A, rank 16</text><text class="sGt" x="371" y="178" text-anchor="middle">131,072 trainable params</text>
+<rect class="sN" x="490" y="50" width="216" height="140" rx="8"/>
+<text class="sT" x="598" y="74" text-anchor="middle">per 4096×4096 projection</text>
+<text class="sRt" x="598" y="102" text-anchor="middle">full fine-tune: 16.8 M</text><text class="sGt" x="598" y="124" text-anchor="middle">LoRA r = 16: 131 k</text>
+<text class="sC" x="598" y="150" text-anchor="middle">0.78% of the weights</text><text class="sS" x="598" y="172" text-anchor="middle">adapter files are megabytes</text>
+</svg><figcaption>LoRA in shapes: the update is the product of two thin matrices, so it trains well under 1% of each projection. Computed.</figcaption></figure>
 
 **State-space models** (Mamba and others, in Géron's online SSM chapter) offer linear-time alternatives for very long sequences. Hybrids combine them with attention (Part 19 §19.6).
 

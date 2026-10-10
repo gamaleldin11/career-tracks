@@ -34,6 +34,32 @@ This is the module to live in during the final week before a data-scientist inte
 9. **Monitoring.** Data quality, feature and score drift (PSI), performance as 30-day labels arrive, campaign KPIs; retrain monthly or on alerts with validation gates.
 10. **Risks.** Leakage from post-churn signals, feedback loops (offers change future behaviour), fairness across regions, offer fatigue, personal-data rules.
 
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: churn system design; sources feed a point-in-time feature pipeline, a registered LightGBM model scores weekly, the CRM sends offers with a random holdout, outcomes arrive 30 days later and feed monitoring and retraining">
+<rect class="sB" x="14" y="24" width="140" height="54" rx="8"/><text class="sT" x="84" y="49" text-anchor="middle">sources</text><text class="sC" x="84" y="65" text-anchor="middle">usage · CRM</text>
+<line class="sL" x1="154" y1="51" x2="186" y2="51" marker-end="url(#ah)"/><rect class="sV" x="190" y="24" width="150" height="54" rx="8"/><text class="sT" x="265" y="49" text-anchor="middle">feature pipeline</text><text class="sC" x="265" y="65" text-anchor="middle">as of Sunday 00:00</text>
+<line class="sL" x1="340" y1="51" x2="372" y2="51" marker-end="url(#ah)"/><rect class="sA" x="376" y="24" width="150" height="54" rx="8"/><text class="sT" x="451" y="49" text-anchor="middle">LightGBM</text><text class="sC" x="451" y="65" text-anchor="middle">registry: @champion</text>
+<line class="sL" x1="526" y1="51" x2="558" y2="51" marker-end="url(#ah)"/><rect class="sG" x="562" y="24" width="144" height="54" rx="8"/><text class="sT" x="634" y="49" text-anchor="middle">weekly scores</text><text class="sC" x="634" y="65" text-anchor="middle">table, top 50,000</text>
+<line class="sL" x1="634" y1="78" x2="634" y2="112" marker-end="url(#ah)"/>
+<rect class="sW" x="562" y="114" width="144" height="54" rx="8"/><text class="sT" x="634" y="139" text-anchor="middle">CRM offers</text><text class="sC" x="634" y="155" text-anchor="middle">90% treated</text><rect class="sN" x="376" y="114" width="150" height="54" rx="8"/><text class="sT" x="451" y="139" text-anchor="middle">random holdout</text><text class="sC" x="451" y="155" text-anchor="middle">10% of the list</text>
+<line class="sLm" x1="562" y1="141" x2="530" y2="141" marker-end="url(#ahm)"/>
+<rect class="sB" x="190" y="114" width="150" height="54" rx="8"/><text class="sT" x="265" y="139" text-anchor="middle">outcomes</text><text class="sC" x="265" y="155" text-anchor="middle">30 days later</text><line class="sLm" x1="376" y1="141" x2="344" y2="141" marker-end="url(#ahm)"/>
+<rect class="sR" x="14" y="114" width="140" height="54" rx="8"/><text class="sT" x="84" y="139" text-anchor="middle">monitor</text><text class="sC" x="84" y="155" text-anchor="middle">drift · uplift · KPIs</text><line class="sLm" x1="190" y1="141" x2="158" y2="141" marker-end="url(#ahm)"/>
+<path class="sLw" d="M84 114 V96 H265 V82" fill="none" stroke-dasharray="5 4" marker-end="url(#ahw)"/><text class="sWt" x="170" y="106" text-anchor="middle">retrain with gates</text>
+<circle class="sP" r="5"><animateMotion dur="6s" repeatCount="indefinite" path="M154 51 H634 V141 H158"/></circle>
+<text class="sS" x="360" y="196" text-anchor="middle">framing, data, model, deployment, impact measurement and monitoring in one picture</text>
+</svg><figcaption>The churn design answer as a system. The holdout box is what turns a model into measured business value.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 20-minute ML design answer: goal 2 minutes, framing 3, data and features 4, models 3, validation 3, deployment 2, impact and monitoring 3">
+<rect class="sB" x="14" y="30" width="67.2" height="44" rx="6"/><text class="sT" x="48.6" y="50" text-anchor="middle">goal</text><text class="sC" x="48.6" y="66" text-anchor="middle">2 min</text>
+<rect class="sB" x="83.2" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="135.1" y="50" text-anchor="middle">framing</text><text class="sC" x="135.1" y="66" text-anchor="middle">3 min</text>
+<rect class="sA" x="187" y="30" width="136.4" height="44" rx="6"/><text class="sT" x="256.2" y="50" text-anchor="middle">data + features</text><text class="sC" x="256.2" y="66" text-anchor="middle">4 min</text>
+<rect class="sA" x="325.4" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="377.3" y="50" text-anchor="middle">models</text><text class="sC" x="377.3" y="66" text-anchor="middle">3 min</text>
+<rect class="sV" x="429.2" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="481.1" y="50" text-anchor="middle">validation</text><text class="sC" x="481.1" y="66" text-anchor="middle">3 min</text>
+<rect class="sG" x="533" y="30" width="67.2" height="44" rx="6"/><text class="sT" x="567.6" y="50" text-anchor="middle">deploy</text><text class="sC" x="567.6" y="66" text-anchor="middle">2 min</text>
+<rect class="sW" x="602.2" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="654.1" y="50" text-anchor="middle">impact · monitor</text><text class="sC" x="654.1" y="66" text-anchor="middle">3 min</text>
+<text class="sC" x="14" y="98">decision, budget, cadence</text><text class="sC" x="706" y="98" text-anchor="end">holdout, drift, retraining, risks</text>
+</svg><figcaption>Spend the first five minutes on the decision and the target. Most weak answers jump straight to the model.</figcaption></figure>
+
 > [!say]
 > "I'd frame it from the CRM team's weekly budget of 50,000 offers: score subscribers every Sunday on their 30-day churn risk using only data up to Saturday, beat the current 14-day rule with a gradient-boosted model validated forward in time, and pick the top 50,000 by expected value. The first campaigns keep a random holdout, which proves the impact and gives us data to move from churn risk to uplift, so we stop paying offers to people who'd stay anyway. Then I'd monitor drift and the campaign's retained margin, and retrain monthly through the pipeline."
 
@@ -124,6 +150,29 @@ Answer aloud, then reveal. For 90 more questions with telecom flavour, see *AI J
 | Tell me about your forecasting work. | TimeGPT 90-day cash-flow forecasts, a gap-filled daily series for sparse data, a time-shifted backtest, background re-forecasting. |
 
 ## DS9.6 A two-week plan 🟢
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="The data-science two-week plan as a calendar: statistics and coding, framing and leakage, the modelling leaderboard and evaluation, causal, forecasting, text and serving, then design practice and a mock take-home">
+<rect class="sB" x="14" y="40" width="92" height="64" rx="8"/><text class="sM" x="22" y="56">day 1</text><text class="sT" x="60" y="78" text-anchor="middle">statistics</text><text class="sC" x="60" y="95" text-anchor="middle">aloud</text>
+<rect class="sB" x="114" y="40" width="92" height="64" rx="8"/><text class="sM" x="122" y="56">day 2</text><text class="sT" x="160" y="78" text-anchor="middle">pandas · SQL</text><text class="sC" x="160" y="95" text-anchor="middle">timed</text>
+<rect class="sV" x="214" y="40" width="92" height="64" rx="8"/><text class="sM" x="222" y="56">day 3</text><text class="sT" x="260" y="78" text-anchor="middle">framing ×3</text><text class="sC" x="260" y="95" text-anchor="middle">on paper</text>
+<rect class="sV" x="314" y="40" width="92" height="64" rx="8"/><text class="sM" x="322" y="56">day 4</text><text class="sT" x="360" y="78" text-anchor="middle">leakage lab</text><text class="sC" x="360" y="95" text-anchor="middle">find it</text>
+<rect class="sA" x="414" y="40" width="92" height="64" rx="8"/><text class="sM" x="422" y="56">day 5</text><text class="sT" x="460" y="78" text-anchor="middle">leaderboard</text><text class="sC" x="460" y="95" text-anchor="middle">LightGBM</text>
+<rect class="sA" x="514" y="40" width="92" height="64" rx="8"/><text class="sM" x="522" y="56">day 6</text><text class="sT" x="560" y="78" text-anchor="middle">leaderboard</text><text class="sC" x="560" y="95" text-anchor="middle">CatBoost</text>
+<rect class="sA" x="614" y="40" width="92" height="64" rx="8"/><text class="sM" x="622" y="56">day 7</text><text class="sT" x="660" y="78" text-anchor="middle">evaluation</text><text class="sC" x="660" y="95" text-anchor="middle">full page</text>
+<rect class="sG" x="14" y="126" width="92" height="64" rx="8"/><text class="sM" x="22" y="142">day 8</text><text class="sT" x="60" y="164" text-anchor="middle">causal</text><text class="sC" x="60" y="181" text-anchor="middle">DiD · uplift</text>
+<rect class="sG" x="114" y="126" width="92" height="64" rx="8"/><text class="sM" x="122" y="142">day 9</text><text class="sT" x="160" y="164" text-anchor="middle">forecasting</text><text class="sC" x="160" y="181" text-anchor="middle">backtest</text>
+<rect class="sG" x="214" y="126" width="92" height="64" rx="8"/><text class="sM" x="222" y="142">day 10</text><text class="sT" x="260" y="164" text-anchor="middle">text</text><text class="sC" x="260" y="181" text-anchor="middle">3 ways</text>
+<rect class="sG" x="314" y="126" width="92" height="64" rx="8"/><text class="sM" x="322" y="142">day 11</text><text class="sT" x="360" y="164" text-anchor="middle">MLflow</text><text class="sC" x="360" y="181" text-anchor="middle">+ FastAPI</text>
+<rect class="sW" x="414" y="126" width="92" height="64" rx="8"/><text class="sM" x="422" y="142">day 12</text><text class="sT" x="460" y="164" text-anchor="middle">ML design ×2</text><text class="sC" x="460" y="181" text-anchor="middle">recorded</text>
+<rect class="sW" x="514" y="126" width="92" height="64" rx="8"/><text class="sM" x="522" y="142">day 13</text><text class="sT" x="560" y="164" text-anchor="middle">take-home</text><text class="sC" x="560" y="181" text-anchor="middle">4 h + talk</text>
+<rect class="sW" x="614" y="126" width="92" height="64" rx="8"/><text class="sM" x="622" y="142">day 14</text><text class="sT" x="660" y="164" text-anchor="middle">bank ×2</text><text class="sC" x="660" y="181" text-anchor="middle">stories · rest</text>
+<text class="sM" x="14" y="30">week 1: foundations and the core model</text><text class="sM" x="14" y="116">week 2: beyond prediction, shipping, rehearsal</text>
+<rect class="sB" x="20" y="204" width="16" height="16" rx="3"/><text class="sC" x="42" y="217">stats · code</text>
+<rect class="sV" x="160" y="204" width="16" height="16" rx="3"/><text class="sC" x="182" y="217">framing · features</text>
+<rect class="sA" x="300" y="204" width="16" height="16" rx="3"/><text class="sC" x="322" y="217">models · evaluation</text>
+<rect class="sG" x="440" y="204" width="16" height="16" rx="3"/><text class="sC" x="462" y="217">beyond · production</text>
+<rect class="sW" x="580" y="204" width="16" height="16" rx="3"/><text class="sC" x="602" y="217">rehearse</text>
+</svg><figcaption>Days 5–7 produce the model everything else builds on. Protect them.</figcaption></figure>
 
 | Days | Do |
 |---|---|

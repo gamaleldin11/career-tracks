@@ -17,6 +17,15 @@ Scaling is not a checklist you complete in advance. It is a loop:
 3. **Fix that** with the simplest change that buys enough headroom.
 4. **Repeat**, because the bottleneck has now moved somewhere else.
 
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: a loop of measure, find the bottleneck, fix only that, and repeat">
+<ellipse class="sN" cx="360" cy="112" rx="205" ry="78" stroke-dasharray="6 5"/>
+<rect class="sA" x="253" y="12" width="214" height="44" rx="10"/><text class="sT" x="360" y="31" text-anchor="middle">1 · measure</text><text class="sC" x="360" y="47" text-anchor="middle">latency, errors, CPU, queues</text>
+<rect class="sW" x="458" y="90" width="214" height="44" rx="10"/><text class="sT" x="565" y="109" text-anchor="middle">2 · find the bottleneck</text><text class="sC" x="565" y="125" text-anchor="middle">the ONE resource that saturates</text>
+<rect class="sG" x="253" y="168" width="214" height="44" rx="10"/><text class="sT" x="360" y="187" text-anchor="middle">3 · fix only that</text><text class="sC" x="360" y="203" text-anchor="middle">simplest change with headroom</text>
+<rect class="sB" x="48" y="90" width="214" height="44" rx="10"/><text class="sT" x="155" y="109" text-anchor="middle">4 · it moved: repeat</text><text class="sC" x="155" y="125" text-anchor="middle">the next limit appears</text>
+<circle class="sPv" r="7"><animateMotion dur="8s" repeatCount="indefinite" path="M360 34 A205 78 0 1 1 359.9 34"/></circle>
+</svg><figcaption>Scaling is a loop, not a checklist. Each fix moves the bottleneck somewhere else.</figcaption></figure>
+
 > [!say]
 > "I wouldn't add components up front. I'd measure where the time and the saturation are, fix that specific bottleneck with the simplest change, then measure again. Each step on the scaling ladder adds operational cost, so each one has to be earned by a real limit."
 
@@ -66,6 +75,67 @@ User counts are often attached to these stages ("1,000 users: one server; 1 mill
 > [!mistake] Scaling app servers into a connection storm
 > Autoscaling from 4 to 40 app instances, each with a pool of 50, means up to 2,000 connections hitting a database that allows a few hundred. The database falls over *because* you scaled. Size pools with Little's Law ([[SD1.3]]) and put a pooler in front.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Forty app instances each opening fifty connections overwhelm a database; a connection pooler funnels them into fifty real connections">
+<text class="sT" x="180" y="22" text-anchor="middle">Without a pooler</text><text class="sT" x="540" y="22" text-anchor="middle">With PgBouncer in front</text>
+<rect class="sA" x="20" y="36" width="70" height="18" rx="3"/><text class="sC" x="55" y="49" text-anchor="middle">app 1</text>
+<line class="sLr" x1="90" y1="45" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="45" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="45" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="58" width="70" height="18" rx="3"/><text class="sC" x="55" y="71" text-anchor="middle">app 2</text>
+<line class="sLr" x1="90" y1="67" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="67" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="67" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="80" width="70" height="18" rx="3"/><text class="sC" x="55" y="93" text-anchor="middle">app 3</text>
+<line class="sLr" x1="90" y1="89" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="89" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="89" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="102" width="70" height="18" rx="3"/><text class="sC" x="55" y="115" text-anchor="middle">app 4</text>
+<line class="sLr" x1="90" y1="111" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="111" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="111" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="124" width="70" height="18" rx="3"/><text class="sC" x="55" y="137" text-anchor="middle">app 5</text>
+<line class="sLr" x1="90" y1="133" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="133" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="133" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="146" width="70" height="18" rx="3"/><text class="sC" x="55" y="159" text-anchor="middle">app 6</text>
+<line class="sLr" x1="90" y1="155" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="155" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="155" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="168" width="70" height="18" rx="3"/><text class="sC" x="55" y="181" text-anchor="middle">app 7</text>
+<line class="sLr" x1="90" y1="177" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="177" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="177" x2="236" y2="146" opacity=".35"/>
+<rect class="sA" x="20" y="190" width="70" height="18" rx="3"/><text class="sC" x="55" y="203" text-anchor="middle">app 8</text>
+<line class="sLr" x1="90" y1="199" x2="236" y2="86" opacity=".35"/>
+<line class="sLr" x1="90" y1="199" x2="236" y2="116" opacity=".35"/>
+<line class="sLr" x1="90" y1="199" x2="236" y2="146" opacity=".35"/>
+<text class="sC" x="20" y="228">… 40 instances × pool 50</text>
+<rect class="sR" x="240" y="70" width="110" height="90" rx="10"/><text class="sT" x="295" y="102" text-anchor="middle">database</text><text class="sRt" x="295" y="120" text-anchor="middle">2,000 asked</text><text class="sC" x="295" y="138" text-anchor="middle">~100–500 allowed</text>
+<rect class="sA" x="380" y="36" width="70" height="18" rx="3"/><text class="sC" x="415" y="49" text-anchor="middle">app 1</text>
+<line class="sLm" x1="450" y1="45" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="58" width="70" height="18" rx="3"/><text class="sC" x="415" y="71" text-anchor="middle">app 2</text>
+<line class="sLm" x1="450" y1="67" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="80" width="70" height="18" rx="3"/><text class="sC" x="415" y="93" text-anchor="middle">app 3</text>
+<line class="sLm" x1="450" y1="89" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="102" width="70" height="18" rx="3"/><text class="sC" x="415" y="115" text-anchor="middle">app 4</text>
+<line class="sLm" x1="450" y1="111" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="124" width="70" height="18" rx="3"/><text class="sC" x="415" y="137" text-anchor="middle">app 5</text>
+<line class="sLm" x1="450" y1="133" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="146" width="70" height="18" rx="3"/><text class="sC" x="415" y="159" text-anchor="middle">app 6</text>
+<line class="sLm" x1="450" y1="155" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="168" width="70" height="18" rx="3"/><text class="sC" x="415" y="181" text-anchor="middle">app 7</text>
+<line class="sLm" x1="450" y1="177" x2="496" y2="115" opacity=".6"/>
+<rect class="sA" x="380" y="190" width="70" height="18" rx="3"/><text class="sC" x="415" y="203" text-anchor="middle">app 8</text>
+<line class="sLm" x1="450" y1="199" x2="496" y2="115" opacity=".6"/>
+<rect class="sV" x="500" y="85" width="90" height="60" rx="10"/><text class="sT" x="545" y="112" text-anchor="middle">PgBouncer</text><text class="sC" x="545" y="128" text-anchor="middle">2,000 in</text>
+<line class="sLg" x1="590" y1="100" x2="616" y2="100"/>
+<line class="sLg" x1="590" y1="110" x2="616" y2="110"/>
+<line class="sLg" x1="590" y1="120" x2="616" y2="120"/>
+<line class="sLg" x1="590" y1="130" x2="616" y2="130"/>
+<rect class="sG" x="620" y="70" width="90" height="90" rx="10"/><text class="sT" x="665" y="108" text-anchor="middle">database</text><text class="sGt" x="665" y="126" text-anchor="middle">50 real</text>
+<text class="sC" x="545" y="168" text-anchor="middle">50 out</text>
+</svg><figcaption>Scaling the app tier multiplies connections. A pooler lets thousands of short client connections share a few dozen real ones.</figcaption></figure>
+
 ## SD2.4 Stage 3: a load balancer and stateless app servers 🟢 ⭐
 
 When one app server runs out of CPU, or you want deploys and machine failures to stop causing downtime, run **several identical app servers behind a load balancer** ([[SD1.5]]).
@@ -95,6 +165,24 @@ Most applications read far more than they write (10:1 to 100:1 is common). Stage
 
 > [!term] Replication lag
 > Replicas usually receive changes asynchronously, a few milliseconds to seconds behind the primary. A user who saves their profile and is immediately sent to a replica may see the old value. Fixes: read your own recent writes from the primary for a short time ("read-your-writes"), or route a session to the primary after it writes.
+
+<figure class="dia steps"><svg viewBox="0 0 720 258" role="img" aria-label="Sequence diagram: a write goes to the primary, a read immediately after goes to a lagging replica and returns the old value; reading from the primary after one's own write fixes it">
+<text class="sT" x="70" y="22" text-anchor="middle">User</text><line class="sD" x1="70" y1="32" x2="70" y2="250"/>
+<text class="sT" x="240" y="22" text-anchor="middle">App</text><line class="sD" x1="240" y1="32" x2="240" y2="250"/>
+<text class="sT" x="450" y="22" text-anchor="middle">Primary</text><line class="sD" x1="450" y1="32" x2="450" y2="250"/>
+<text class="sT" x="640" y="22" text-anchor="middle">Replica</text><line class="sD" x1="640" y1="32" x2="640" y2="250"/>
+<g data-s="1"><line class="sL" x1="70" y1="50" x2="236" y2="56" marker-end="url(#ah)"/><text class="sC" x="155" y="46" text-anchor="middle">save name = Mona</text><line class="sL" x1="240" y1="62" x2="446" y2="70" marker-end="url(#ah)"/><text class="sC" x="343" y="60" text-anchor="middle">UPDATE</text></g>
+<g data-s="2"><line class="sLg" x1="450" y1="82" x2="244" y2="90" marker-end="url(#ahg)"/><line class="sLg" x1="240" y1="96" x2="74" y2="102" marker-end="url(#ahg)"/><text class="sGt" x="155" y="112" text-anchor="middle">200 OK</text><line class="sLw" x1="450" y1="90" x2="636" y2="200" stroke-dasharray="6 4" marker-end="url(#ahw)"/><text class="sWt" x="600" y="130" text-anchor="middle">replicating…</text></g>
+<g data-s="3"><line class="sL" x1="70" y1="132" x2="236" y2="138" marker-end="url(#ah)"/><text class="sC" x="155" y="128" text-anchor="middle">reload profile</text><line class="sL" x1="240" y1="146" x2="636" y2="154" marker-end="url(#ah)"/><text class="sC" x="345" y="144" text-anchor="middle">SELECT (a replica)</text><line class="sLr" x1="640" y1="162" x2="244" y2="170" marker-end="url(#ahr)"/><line class="sLr" x1="240" y1="176" x2="74" y2="182" marker-end="url(#ahr)"/><text class="sRt" x="155" y="196" text-anchor="middle">shows "Mina": the old name!</text></g>
+<g data-s="4"><rect class="sG" x="578" y="204" width="124" height="22" rx="6"/><text class="sC" x="640" y="219" text-anchor="middle">now has "Mona"</text></g>
+<g data-s="5"><line class="sLg" x1="240" y1="230" x2="446" y2="234" marker-end="url(#ahg)"/><text class="sGt" x="343" y="226" text-anchor="middle">read-your-writes: this user reads</text><text class="sGt" x="343" y="248" text-anchor="middle">from the primary for a few seconds</text></g>
+</svg><ol class="dia-steps">
+<li>The user saves a new name; the app writes it to the primary.</li>
+<li>The primary confirms and the user sees "saved". Replication to the replica runs asynchronously and takes a moment.</li>
+<li>The user reloads at once. The read goes to a replica that hasn't received the change yet, so it shows the old name. The data isn't lost; it's just not there yet.</li>
+<li>A fraction of a second later the replica catches up.</li>
+<li>The usual fix: for a short time after a user writes, send that user's reads to the primary. Everyone else keeps reading from replicas.</li>
+</ol><figcaption>Replication lag as users experience it. Eventual consistency is fine for a news feed and confusing for "I just saved this".</figcaption></figure>
 
 > [!sota] What large read-heavy sites actually ran
 > Stack Overflow described its 2016 setup in detail: on a sample day it served about **209 million HTTP requests** and **66 million page loads** from **9 primary web servers**, **4 SQL Server machines** (two clusters, each a primary with a replica) and a pair of Redis servers that answered about **5.8 billion cache hits** that day, with Redis below 2% CPU. The lesson isn't "use few servers"; it's that heavy caching, efficient queries and measurement took a monolith a very long way. (Its public sites moved to Google Cloud in 2025.)
@@ -131,6 +219,14 @@ When the primary database can't keep up with **writes** or **storage** even on a
 
 **Choosing the shard key is the whole game.** A good key spreads load evenly and keeps the data one request needs on one shard: `tenant_id` for a B2B SaaS, `user_id` for a consumer app. A bad key creates **hot shards** (sharding by country when 80% of users are in Egypt) or forces **scatter-gather** queries across every shard. Cross-shard joins, transactions and unique constraints become application problems, and moving data when you add shards (**resharding**) is a project of its own; consistent hashing ([[SD4.6]]) limits how much moves.
 
+<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Two sharding schemes: by tenant spreads load evenly; by country puts most users on one hot shard">
+<text class="sT" x="170" y="22" text-anchor="middle">shard key = tenant_id</text><rect class="sB" x="120" y="34" width="100" height="36" rx="8"/><text class="sT" x="170" y="50" text-anchor="middle">router</text><text class="sC" x="170" y="66" text-anchor="middle">hash(tenant)</text><line class="sLm" x1="170" y1="70" x2="70" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="20" y="108" width="100" height="50" rx="8"/><text class="sT" x="70" y="128" text-anchor="middle">shard 1</text><text class="sC" x="70" y="146" text-anchor="middle">tenants 1–1k</text><rect class="sN" x="20" y="168" width="100" height="12" rx="3"/><rect class="sG" x="20" y="168" width="55" height="12" rx="3"/><line class="sLm" x1="170" y1="70" x2="180" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="130" y="108" width="100" height="50" rx="8"/><text class="sT" x="180" y="128" text-anchor="middle">shard 2</text><text class="sC" x="180" y="146" text-anchor="middle">1k–2k</text><rect class="sN" x="130" y="168" width="100" height="12" rx="3"/><rect class="sG" x="130" y="168" width="50" height="12" rx="3"/><line class="sLm" x1="170" y1="70" x2="290" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="240" y="108" width="100" height="50" rx="8"/><text class="sT" x="290" y="128" text-anchor="middle">shard 3</text><text class="sC" x="290" y="146" text-anchor="middle">2k–3k</text><rect class="sN" x="240" y="168" width="100" height="12" rx="3"/><rect class="sG" x="240" y="168" width="60" height="12" rx="3"/>
+<text class="sT" x="530" y="22" text-anchor="middle">shard key = country</text><rect class="sB" x="480" y="34" width="100" height="36" rx="8"/><text class="sT" x="530" y="50" text-anchor="middle">router</text><text class="sC" x="530" y="66" text-anchor="middle">by country</text><line class="sLm" x1="530" y1="70" x2="430" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="380" y="108" width="100" height="50" rx="8"/><text class="sT" x="430" y="128" text-anchor="middle">shard 1</text><text class="sC" x="430" y="146" text-anchor="middle">EG</text><rect class="sN" x="380" y="168" width="100" height="12" rx="3"/><rect class="sR" x="380" y="168" width="98" height="12" rx="3"/><line class="sLm" x1="530" y1="70" x2="540" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="490" y="108" width="100" height="50" rx="8"/><text class="sT" x="540" y="128" text-anchor="middle">shard 2</text><text class="sC" x="540" y="146" text-anchor="middle">SA</text><rect class="sN" x="490" y="168" width="100" height="12" rx="3"/><rect class="sG" x="490" y="168" width="15" height="12" rx="3"/><line class="sLm" x1="530" y1="70" x2="650" y2="104" marker-end="url(#ahm)"/><rect class="sB" x="600" y="108" width="100" height="50" rx="8"/><text class="sT" x="650" y="128" text-anchor="middle">shard 3</text><text class="sC" x="650" y="146" text-anchor="middle">AE</text><rect class="sN" x="600" y="168" width="100" height="12" rx="3"/><rect class="sG" x="600" y="168" width="10" height="12" rx="3"/>
+<text class="sGt" x="170" y="204" text-anchor="middle">load spreads evenly; a tenant's data stays together</text>
+<text class="sRt" x="530" y="204" text-anchor="middle">80% of users in Egypt → one hot shard</text>
+<text class="sC" x="360" y="230" text-anchor="middle">bars: share of each shard's capacity in use</text>
+</svg><figcaption>The shard key decides everything. Good keys spread load and keep one request's data on one shard.</figcaption></figure>
+
 > [!sota] How Figma did it (2020–2024)
 > Figma's database team published the path in March 2024. In 2020 Figma ran **a single PostgreSQL database on AWS's largest physical instance**. By the end of 2022 they had added caching, read replicas and about a dozen **vertically partitioned** databases. When single tables still outgrew one machine, they spent roughly nine months building **horizontal sharding**: first "logical sharding" (queries routed as if sharded while the data still sat in one database, so mistakes were cheap to undo), then "physical sharding", behind a proxy (DBProxy) that parses each query and routes it to the right shard. Every step on this ladder, in order, at a company whose database load grew almost 100× in four years.
 
@@ -165,6 +261,36 @@ Go multi-region for one of two reasons: **latency** for users on other continent
 
 **Recovery targets** decide which pattern you need: the **RTO** (how long you may be down) and the **RPO** (how much recent data you may lose). See [[SD4.8]].
 
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Three multi-region patterns: backup and restore, warm standby with async replication, and active-active with both regions live">
+<text class="sT" x="120" y="22" text-anchor="middle">Backup &amp; restore</text><text class="sC" x="120" y="236" text-anchor="middle">RTO: hours · cheapest</text>
+<rect class="sA" x="10" y="36" width="100" height="150" rx="10"/><text class="sT" x="60" y="56" text-anchor="middle">Region A</text><text class="sC" x="60" y="76" text-anchor="middle">live</text>
+<rect class="sB" x="24" y="92" width="72" height="18" rx="3"/>
+<rect class="sB" x="24" y="118" width="72" height="18" rx="3"/>
+<rect class="sB" x="24" y="144" width="72" height="18" rx="3"/>
+<rect class="sN" x="130" y="36" width="100" height="150" rx="10"/><text class="sT" x="180" y="56" text-anchor="middle">Region B</text><text class="sC" x="180" y="76" text-anchor="middle">nothing running</text><rect class="sG" x="144" y="130" width="72" height="30" rx="4"/><text class="sC" x="180" y="150" text-anchor="middle">backups</text>
+<line class="sLm" x1="110" y1="145" x2="142" y2="145" marker-end="url(#ahm)"/>
+<text class="sS" x="120" y="210" text-anchor="middle">restore from copies</text>
+<text class="sT" x="358" y="22" text-anchor="middle">Warm standby</text><text class="sC" x="358" y="236" text-anchor="middle">RTO: minutes · RPO = lag</text>
+<rect class="sA" x="248" y="36" width="100" height="150" rx="10"/><text class="sT" x="298" y="56" text-anchor="middle">Region A</text><text class="sC" x="298" y="76" text-anchor="middle">live</text>
+<rect class="sB" x="262" y="92" width="72" height="18" rx="3"/>
+<rect class="sB" x="262" y="118" width="72" height="18" rx="3"/>
+<rect class="sB" x="262" y="144" width="72" height="18" rx="3"/>
+<rect class="sB" x="368" y="36" width="100" height="150" rx="10"/><text class="sT" x="418" y="56" text-anchor="middle">Region B</text><text class="sC" x="418" y="76" text-anchor="middle">small copy</text><rect class="sB" x="382" y="92" width="72" height="18" rx="3"/>
+<line class="sLw" x1="348" y1="120" x2="380" y2="120" stroke-dasharray="5 3" marker-end="url(#ahw)"/>
+<text class="sS" x="358" y="210" text-anchor="middle">promote B on failure</text>
+<text class="sT" x="596" y="22" text-anchor="middle">Active-active</text><text class="sC" x="596" y="236" text-anchor="middle">seconds · most complex</text>
+<rect class="sA" x="486" y="36" width="100" height="150" rx="10"/><text class="sT" x="536" y="56" text-anchor="middle">Region A</text><text class="sC" x="536" y="76" text-anchor="middle">live</text>
+<rect class="sB" x="500" y="92" width="72" height="18" rx="3"/>
+<rect class="sB" x="500" y="118" width="72" height="18" rx="3"/>
+<rect class="sB" x="500" y="144" width="72" height="18" rx="3"/>
+<rect class="sA" x="606" y="36" width="100" height="150" rx="10"/><text class="sT" x="656" y="56" text-anchor="middle">Region B</text><text class="sC" x="656" y="76" text-anchor="middle">live</text>
+<rect class="sB" x="620" y="92" width="72" height="18" rx="3"/>
+<rect class="sB" x="620" y="118" width="72" height="18" rx="3"/>
+<rect class="sB" x="620" y="144" width="72" height="18" rx="3"/>
+<line class="sLw" x1="586" y1="120" x2="606" y2="120" marker-start="url(#ahw)" marker-end="url(#ahw)"/>
+<text class="sS" x="596" y="210" text-anchor="middle">both take writes</text>
+</svg><figcaption>Multi-region patterns, cheapest to most resilient. RTO is how long you're down; RPO is how much recent data you lose.</figcaption></figure>
+
 > [!sota] Why "one region" is a business decision, not just a technical one
 > On 19–20 October 2025 a race condition in the automation that manages DynamoDB's DNS records left the service's regional endpoint in AWS's us-east-1 (Northern Virginia) with an empty DNS record. Because other AWS internals depend on DynamoDB, EC2 instance launches and Network Load Balancer health checks were affected too, and impact on customer applications lasted, in stages, for about 14 hours. Products that ran only in that region went down with it. Most can accept that risk; banks, payment gateways and hospitals usually can't.
 
@@ -182,6 +308,23 @@ A popular rule says "at a million users, break the monolith into microservices".
 | Failure | In-process calls don't fail on the network | Every call can time out; needs retries, circuit breakers, tracing |
 | Data | One database, real transactions | A database per service; consistency through events and sagas |
 | Cost to run | Low | High: platform, observability, on-call per service |
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="A modular monolith with four modules in one deployable and one database, versus four microservices each with its own database talking over the network">
+<text class="sT" x="170" y="22" text-anchor="middle">Modular monolith</text><text class="sT" x="540" y="22" text-anchor="middle">Microservices</text>
+<rect class="sA" x="20" y="36" width="300" height="140" rx="12"/><text class="sC" x="170" y="54" text-anchor="middle">one deployable, many copies</text>
+<rect class="sB" x="34" y="64" width="128" height="40" rx="8" stroke-dasharray="5 3"/><text class="sT" x="98" y="89" text-anchor="middle">Orders</text>
+<rect class="sB" x="178" y="64" width="128" height="40" rx="8" stroke-dasharray="5 3"/><text class="sT" x="242" y="89" text-anchor="middle">Payments</text>
+<rect class="sB" x="34" y="116" width="128" height="40" rx="8" stroke-dasharray="5 3"/><text class="sT" x="98" y="141" text-anchor="middle">Catalog</text>
+<rect class="sB" x="178" y="116" width="128" height="40" rx="8" stroke-dasharray="5 3"/><text class="sT" x="242" y="141" text-anchor="middle">Users</text>
+<text class="sC" x="170" y="168" text-anchor="middle">calls are in-process method calls</text>
+<rect class="sG" x="70" y="196" width="200" height="34" rx="8"/><text class="sC" x="170" y="218" text-anchor="middle">one DB, a schema per module</text><line class="sLm" x1="170" y1="176" x2="170" y2="194" marker-end="url(#ahm)"/>
+<rect class="sA" x="380" y="40" width="130" height="40" rx="8"/><text class="sT" x="445" y="65" text-anchor="middle">Orders</text><rect class="sG" x="410" y="92" width="70" height="26" rx="6"/><text class="sC" x="445" y="110" text-anchor="middle">own DB</text><line class="sLm" x1="445" y1="80" x2="445" y2="90"/>
+<rect class="sA" x="550" y="40" width="130" height="40" rx="8"/><text class="sT" x="615" y="65" text-anchor="middle">Payments</text><rect class="sG" x="580" y="92" width="70" height="26" rx="6"/><text class="sC" x="615" y="110" text-anchor="middle">own DB</text><line class="sLm" x1="615" y1="80" x2="615" y2="90"/>
+<rect class="sA" x="380" y="140" width="130" height="40" rx="8"/><text class="sT" x="445" y="165" text-anchor="middle">Catalog</text><rect class="sG" x="410" y="192" width="70" height="26" rx="6"/><text class="sC" x="445" y="210" text-anchor="middle">own DB</text><line class="sLm" x1="445" y1="180" x2="445" y2="190"/>
+<rect class="sA" x="550" y="140" width="130" height="40" rx="8"/><text class="sT" x="615" y="165" text-anchor="middle">Users</text><rect class="sG" x="580" y="192" width="70" height="26" rx="6"/><text class="sC" x="615" y="210" text-anchor="middle">own DB</text><line class="sLm" x1="615" y1="180" x2="615" y2="190"/>
+<line class="sLw" x1="510" y1="60" x2="550" y2="60" marker-start="url(#ahw)" marker-end="url(#ahw)"/><line class="sLw" x1="445" y1="118" x2="445" y2="140" marker-end="url(#ahw)"/><line class="sLw" x1="510" y1="160" x2="550" y2="160" marker-start="url(#ahw)" marker-end="url(#ahw)"/>
+<text class="sWt" x="530" y="234" text-anchor="middle">network calls: timeouts, retries, tracing, events</text>
+</svg><figcaption>Same boundaries, different deployment. A modular monolith keeps the option to extract a service later, without paying the distributed-systems tax now.</figcaption></figure>
 
 > [!sota] Three public data points
 > - **Shopify** runs one of the largest Ruby on Rails codebases as a **modular monolith** with enforced component boundaries ("Deconstructing the Monolith", 2019), and serves Black Friday at the scale in [[SD2.8]].

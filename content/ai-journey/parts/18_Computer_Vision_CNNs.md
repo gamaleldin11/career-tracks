@@ -80,6 +80,13 @@ A neuron at (i, j) in layer l sees rows i…i+f_h−1 and columns j…j+f_w−1 
 - `padding="same"`: zero-pad so the output size equals the input size. Only allowed with stride 1 in PyTorch.
 - Stride 2 roughly halves each spatial dimension.
 
+<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="Convolution output size on a row of seven pixels with a kernel of three: valid padding gives five, same padding gives seven, and stride two with padding one gives four">
+<text class="sM" x="14" y="26">valid, stride 1</text><rect class="sB" x="14" y="34" width="30" height="26" rx="3"/><text class="sC" x="29" y="52" text-anchor="middle">1</text><rect class="sB" x="48" y="34" width="30" height="26" rx="3"/><text class="sC" x="63" y="52" text-anchor="middle">2</text><rect class="sB" x="82" y="34" width="30" height="26" rx="3"/><text class="sC" x="97" y="52" text-anchor="middle">3</text><rect class="sB" x="116" y="34" width="30" height="26" rx="3"/><text class="sC" x="131" y="52" text-anchor="middle">4</text><rect class="sB" x="150" y="34" width="30" height="26" rx="3"/><text class="sC" x="165" y="52" text-anchor="middle">5</text><rect class="sB" x="184" y="34" width="30" height="26" rx="3"/><text class="sC" x="199" y="52" text-anchor="middle">6</text><rect class="sB" x="218" y="34" width="30" height="26" rx="3"/><text class="sC" x="233" y="52" text-anchor="middle">7</text><rect class="sV" x="14" y="68" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="48" y="68" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="82" y="68" width="98" height="8" rx="2" opacity=".6"/><text class="sT" x="420" y="52">out = ⌊(7 + 2·0 − 3) / 1⌋ + 1 = 5</text>
+<text class="sM" x="14" y="102">same (padding 1), stride 1</text><rect class="sN" x="14" y="110" width="30" height="26" rx="3" stroke-dasharray="3 2"/><text class="sC" x="29" y="128" text-anchor="middle">0</text><rect class="sB" x="48" y="110" width="30" height="26" rx="3"/><text class="sC" x="63" y="128" text-anchor="middle">1</text><rect class="sB" x="82" y="110" width="30" height="26" rx="3"/><text class="sC" x="97" y="128" text-anchor="middle">2</text><rect class="sB" x="116" y="110" width="30" height="26" rx="3"/><text class="sC" x="131" y="128" text-anchor="middle">3</text><rect class="sB" x="150" y="110" width="30" height="26" rx="3"/><text class="sC" x="165" y="128" text-anchor="middle">4</text><rect class="sB" x="184" y="110" width="30" height="26" rx="3"/><text class="sC" x="199" y="128" text-anchor="middle">5</text><rect class="sB" x="218" y="110" width="30" height="26" rx="3"/><text class="sC" x="233" y="128" text-anchor="middle">6</text><rect class="sB" x="252" y="110" width="30" height="26" rx="3"/><text class="sC" x="267" y="128" text-anchor="middle">7</text><rect class="sN" x="286" y="110" width="30" height="26" rx="3" stroke-dasharray="3 2"/><text class="sC" x="301" y="128" text-anchor="middle">0</text><rect class="sV" x="14" y="144" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="48" y="144" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="82" y="144" width="98" height="8" rx="2" opacity=".6"/><text class="sT" x="420" y="128">out = ⌊(7 + 2·1 − 3) / 1⌋ + 1 = 7</text>
+<text class="sM" x="14" y="178">padding 1, stride 2</text><rect class="sN" x="14" y="186" width="30" height="26" rx="3" stroke-dasharray="3 2"/><text class="sC" x="29" y="204" text-anchor="middle">0</text><rect class="sB" x="48" y="186" width="30" height="26" rx="3"/><text class="sC" x="63" y="204" text-anchor="middle">1</text><rect class="sB" x="82" y="186" width="30" height="26" rx="3"/><text class="sC" x="97" y="204" text-anchor="middle">2</text><rect class="sB" x="116" y="186" width="30" height="26" rx="3"/><text class="sC" x="131" y="204" text-anchor="middle">3</text><rect class="sB" x="150" y="186" width="30" height="26" rx="3"/><text class="sC" x="165" y="204" text-anchor="middle">4</text><rect class="sB" x="184" y="186" width="30" height="26" rx="3"/><text class="sC" x="199" y="204" text-anchor="middle">5</text><rect class="sB" x="218" y="186" width="30" height="26" rx="3"/><text class="sC" x="233" y="204" text-anchor="middle">6</text><rect class="sB" x="252" y="186" width="30" height="26" rx="3"/><text class="sC" x="267" y="204" text-anchor="middle">7</text><rect class="sN" x="286" y="186" width="30" height="26" rx="3" stroke-dasharray="3 2"/><text class="sC" x="301" y="204" text-anchor="middle">0</text><rect class="sV" x="14" y="220" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="82" y="220" width="98" height="8" rx="2" opacity=".6"/><rect class="sV" x="150" y="220" width="98" height="8" rx="2" opacity=".6"/><text class="sT" x="420" y="204">out = ⌊(7 + 2·1 − 3) / 2⌋ + 1 = 4</text>
+<text class="sC" x="14" y="244">purple bars: where the first kernel windows sit</text>
+</svg><figcaption>The formula interviewers ask for, on one row of pixels. Height and width follow it independently.</figcaption></figure>
+
 ### Filters and feature maps
 
 A **filter (kernel)** is the neuron's weights, a tiny image. A vertical-line filter produces a **feature map** that lights up on vertical lines. Filters are **learned**, not hand-designed. A conv layer has **many** filters and outputs one feature map per filter, so its output is 3-D (channels × H × W). Each filter spans **all input channels**.
@@ -89,6 +96,71 @@ The neuron output (Géron's Equation 12-1):
 > **z_{i,j,k} = b_k + Σ_u Σ_v Σ_{k'} x_{i·s_h+u, j·s_w+v, k'} · w_{u,v,k',k}**
 
 (Technically this is a **cross-correlation**, but everyone calls it convolution.)
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 256" role="img" aria-label="A 3 by 3 vertical-edge kernel sliding over a 5 by 5 image with an edge; each position's sum of products fills one cell of the 3 by 3 feature map, which is high exactly at the edge">
+<text class="sM" x="105" y="28" text-anchor="middle">input 5×5 (an edge)</text>
+<rect class="sN" x="30" y="40" width="28" height="28" rx="2"/><text class="sC" x="44" y="59" text-anchor="middle">0</text>
+<rect class="sN" x="60" y="40" width="28" height="28" rx="2"/><text class="sC" x="74" y="59" text-anchor="middle">0</text>
+<rect class="sB" x="90" y="40" width="28" height="28" rx="2"/><text class="sC" x="104" y="59" text-anchor="middle">1</text>
+<rect class="sB" x="120" y="40" width="28" height="28" rx="2"/><text class="sC" x="134" y="59" text-anchor="middle">1</text>
+<rect class="sB" x="150" y="40" width="28" height="28" rx="2"/><text class="sC" x="164" y="59" text-anchor="middle">1</text>
+<rect class="sN" x="30" y="70" width="28" height="28" rx="2"/><text class="sC" x="44" y="89" text-anchor="middle">0</text>
+<rect class="sN" x="60" y="70" width="28" height="28" rx="2"/><text class="sC" x="74" y="89" text-anchor="middle">0</text>
+<rect class="sB" x="90" y="70" width="28" height="28" rx="2"/><text class="sC" x="104" y="89" text-anchor="middle">1</text>
+<rect class="sB" x="120" y="70" width="28" height="28" rx="2"/><text class="sC" x="134" y="89" text-anchor="middle">1</text>
+<rect class="sB" x="150" y="70" width="28" height="28" rx="2"/><text class="sC" x="164" y="89" text-anchor="middle">1</text>
+<rect class="sN" x="30" y="100" width="28" height="28" rx="2"/><text class="sC" x="44" y="119" text-anchor="middle">0</text>
+<rect class="sN" x="60" y="100" width="28" height="28" rx="2"/><text class="sC" x="74" y="119" text-anchor="middle">0</text>
+<rect class="sB" x="90" y="100" width="28" height="28" rx="2"/><text class="sC" x="104" y="119" text-anchor="middle">1</text>
+<rect class="sB" x="120" y="100" width="28" height="28" rx="2"/><text class="sC" x="134" y="119" text-anchor="middle">1</text>
+<rect class="sB" x="150" y="100" width="28" height="28" rx="2"/><text class="sC" x="164" y="119" text-anchor="middle">1</text>
+<rect class="sN" x="30" y="130" width="28" height="28" rx="2"/><text class="sC" x="44" y="149" text-anchor="middle">0</text>
+<rect class="sN" x="60" y="130" width="28" height="28" rx="2"/><text class="sC" x="74" y="149" text-anchor="middle">0</text>
+<rect class="sB" x="90" y="130" width="28" height="28" rx="2"/><text class="sC" x="104" y="149" text-anchor="middle">1</text>
+<rect class="sB" x="120" y="130" width="28" height="28" rx="2"/><text class="sC" x="134" y="149" text-anchor="middle">1</text>
+<rect class="sB" x="150" y="130" width="28" height="28" rx="2"/><text class="sC" x="164" y="149" text-anchor="middle">1</text>
+<rect class="sN" x="30" y="160" width="28" height="28" rx="2"/><text class="sC" x="44" y="179" text-anchor="middle">0</text>
+<rect class="sN" x="60" y="160" width="28" height="28" rx="2"/><text class="sC" x="74" y="179" text-anchor="middle">0</text>
+<rect class="sB" x="90" y="160" width="28" height="28" rx="2"/><text class="sC" x="104" y="179" text-anchor="middle">1</text>
+<rect class="sB" x="120" y="160" width="28" height="28" rx="2"/><text class="sC" x="134" y="179" text-anchor="middle">1</text>
+<rect class="sB" x="150" y="160" width="28" height="28" rx="2"/><text class="sC" x="164" y="179" text-anchor="middle">1</text>
+<text class="sM" x="295" y="28" text-anchor="middle">kernel 3×3</text>
+<rect class="sV" x="250" y="40" width="28" height="28" rx="2"/><text class="sC" x="264" y="59" text-anchor="middle">-1</text>
+<rect class="sV" x="280" y="40" width="28" height="28" rx="2"/><text class="sC" x="294" y="59" text-anchor="middle">0</text>
+<rect class="sV" x="310" y="40" width="28" height="28" rx="2"/><text class="sC" x="324" y="59" text-anchor="middle">1</text>
+<rect class="sV" x="250" y="70" width="28" height="28" rx="2"/><text class="sC" x="264" y="89" text-anchor="middle">-1</text>
+<rect class="sV" x="280" y="70" width="28" height="28" rx="2"/><text class="sC" x="294" y="89" text-anchor="middle">0</text>
+<rect class="sV" x="310" y="70" width="28" height="28" rx="2"/><text class="sC" x="324" y="89" text-anchor="middle">1</text>
+<rect class="sV" x="250" y="100" width="28" height="28" rx="2"/><text class="sC" x="264" y="119" text-anchor="middle">-1</text>
+<rect class="sV" x="280" y="100" width="28" height="28" rx="2"/><text class="sC" x="294" y="119" text-anchor="middle">0</text>
+<rect class="sV" x="310" y="100" width="28" height="28" rx="2"/><text class="sC" x="324" y="119" text-anchor="middle">1</text>
+<text class="sC" x="295" y="156" text-anchor="middle">vertical-edge detector</text>
+<text class="sM" x="505" y="28" text-anchor="middle">feature map 3×3</text>
+<rect class="sN" x="460" y="40" width="28" height="28" rx="2"/>
+<rect class="sN" x="490" y="40" width="28" height="28" rx="2"/>
+<rect class="sN" x="520" y="40" width="28" height="28" rx="2"/>
+<rect class="sN" x="460" y="70" width="28" height="28" rx="2"/>
+<rect class="sN" x="490" y="70" width="28" height="28" rx="2"/>
+<rect class="sN" x="520" y="70" width="28" height="28" rx="2"/>
+<rect class="sN" x="460" y="100" width="28" height="28" rx="2"/>
+<rect class="sN" x="490" y="100" width="28" height="28" rx="2"/>
+<rect class="sN" x="520" y="100" width="28" height="28" rx="2"/>
+<g data-s="1-1"><rect class="sN" x="28" y="38" width="92" height="92" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><rect class="sN" x="458" y="38" width="32" height="32" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sT" x="360" y="200" text-anchor="middle">window at row 0, col 0: sum of products = 3</text><text class="sC" x="360" y="220" text-anchor="middle">1×1 + 1×1 + 1×1 = 3</text></g>
+<g data-s="2-2"><rect class="sN" x="58" y="38" width="92" height="92" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><rect class="sN" x="488" y="38" width="32" height="32" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sT" x="360" y="200" text-anchor="middle">window at row 0, col 1: sum of products = 3</text><text class="sC" x="360" y="220" text-anchor="middle">1×1 + 1×1 + 1×1 = 3</text></g>
+<g data-s="3-3"><rect class="sN" x="88" y="38" width="92" height="92" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><rect class="sN" x="518" y="38" width="32" height="32" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sT" x="360" y="200" text-anchor="middle">window at row 0, col 2: sum of products = 0</text><text class="sC" x="360" y="220" text-anchor="middle">1×-1 + 1×1 + 1×-1 + 1×1 + 1×-1 + 1×1 = 0</text></g>
+<g data-s="4-4"><rect class="sN" x="58" y="68" width="92" height="92" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><rect class="sN" x="488" y="68" width="32" height="32" rx="4" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sT" x="360" y="200" text-anchor="middle">window at row 1, col 1: sum of products = 3</text><text class="sC" x="360" y="220" text-anchor="middle">1×1 + 1×1 + 1×1 = 3</text></g>
+<g data-s="1-3"><text class="sT" x="474" y="59" text-anchor="middle">3</text></g>
+<g data-s="2-3"><text class="sT" x="504" y="59" text-anchor="middle">3</text></g>
+<g data-s="3-3"><text class="sT" x="534" y="59" text-anchor="middle">0</text></g>
+<g data-s="4"><rect class="sG" x="460" y="40" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="474" y="59" text-anchor="middle">3</text><rect class="sG" x="490" y="40" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="504" y="59" text-anchor="middle">3</text><rect class="sN" x="520" y="40" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="534" y="59" text-anchor="middle">0</text><rect class="sG" x="460" y="70" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="474" y="89" text-anchor="middle">3</text><rect class="sG" x="490" y="70" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="504" y="89" text-anchor="middle">3</text><rect class="sN" x="520" y="70" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="534" y="89" text-anchor="middle">0</text><rect class="sG" x="460" y="100" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="474" y="119" text-anchor="middle">3</text><rect class="sG" x="490" y="100" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="504" y="119" text-anchor="middle">3</text><rect class="sN" x="520" y="100" width="28" height="28" rx="2" opacity=".7"/><text class="sT" x="534" y="119" text-anchor="middle">0</text></g>
+<g data-s="5"><text class="sGt" x="360" y="244" text-anchor="middle">the map lights up exactly where dark meets bright: the network learns kernels like this one</text></g>
+</svg><ol class="dia-steps">
+<li>Place the kernel on the top-left 3×3 window. Multiply each pixel by the kernel weight under it and add everything up: one number for one output cell.</li>
+<li>Slide one pixel right (stride 1) and repeat. Now the window straddles the dark-to-bright edge.</li>
+<li>One more step right: the window is inside the bright region, and the left and right columns cancel out.</li>
+<li>The same is done for every position, row by row. The same nine weights are reused everywhere: that sharing is why CNNs need so few parameters.</li>
+<li>The result is a feature map that responds to vertical edges. A layer learns dozens of such kernels; deeper layers combine their maps into textures, parts and objects.</li>
+</ol><figcaption>A convolution, computed. The kernel's weights are learned, not designed; this one happens to be a classic edge detector.</figcaption></figure>
 
 ### In PyTorch
 
@@ -148,6 +220,31 @@ nn.AdaptiveAvgPool2d(output_size=1)    # GLOBAL average pooling: one number per 
 - **Global average pooling (GAP)** before the classifier replaced AlexNet's huge dense layers and cut parameters dramatically.
 - **Depthwise max pooling** (pooling across channels) can learn invariance to rotation, thickness or colour. PyTorch has no built-in layer; Géron builds one with `F.max_pool1d` over the channel axis.
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Max pooling a 4 by 4 grid with a 2 by 2 window and stride 2 keeps the largest value of each colour-coded block: 6, 5, 3 and 4">
+<rect class="sB" x="60" y="30" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="78" y="54" text-anchor="middle">1</text>
+<rect class="sB" x="100" y="30" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="118" y="54" text-anchor="middle">3</text>
+<rect class="sV" x="140" y="30" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="158" y="54" text-anchor="middle">2</text>
+<rect class="sV" x="180" y="30" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="198" y="54" text-anchor="middle">1</text>
+<rect class="sB" x="60" y="70" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="78" y="94" text-anchor="middle">4</text>
+<rect class="sB" x="100" y="70" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="118" y="94" text-anchor="middle">6</text>
+<rect class="sV" x="140" y="70" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="158" y="94" text-anchor="middle">5</text>
+<rect class="sV" x="180" y="70" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="198" y="94" text-anchor="middle">0</text>
+<rect class="sA" x="60" y="110" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="78" y="134" text-anchor="middle">3</text>
+<rect class="sA" x="100" y="110" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="118" y="134" text-anchor="middle">1</text>
+<rect class="sG" x="140" y="110" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="158" y="134" text-anchor="middle">1</text>
+<rect class="sG" x="180" y="110" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="198" y="134" text-anchor="middle">2</text>
+<rect class="sA" x="60" y="150" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="78" y="174" text-anchor="middle">0</text>
+<rect class="sA" x="100" y="150" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="118" y="174" text-anchor="middle">2</text>
+<rect class="sG" x="140" y="150" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="158" y="174" text-anchor="middle">4</text>
+<rect class="sG" x="180" y="150" width="36" height="36" rx="3" opacity=".6"/><text class="sT" x="198" y="174" text-anchor="middle">3</text>
+<line class="sL" x1="240" y1="110" x2="330" y2="110" marker-end="url(#ah)"/><text class="sC" x="285" y="100" text-anchor="middle">max 2×2</text><text class="sC" x="285" y="130" text-anchor="middle">stride 2</text>
+<rect class="sB" x="350" y="60" width="46" height="46" rx="4"/><text class="sT" x="373" y="89" text-anchor="middle">6</text>
+<rect class="sV" x="400" y="60" width="46" height="46" rx="4"/><text class="sT" x="423" y="89" text-anchor="middle">5</text>
+<rect class="sA" x="350" y="110" width="46" height="46" rx="4"/><text class="sT" x="373" y="139" text-anchor="middle">3</text>
+<rect class="sG" x="400" y="110" width="46" height="46" rx="4"/><text class="sT" x="423" y="139" text-anchor="middle">4</text>
+<text class="sC" x="560" y="70" text-anchor="middle">no weights to learn</text><text class="sC" x="560" y="90" text-anchor="middle">4× fewer values</text><text class="sC" x="560" y="110" text-anchor="middle">small shifts of the</text><text class="sC" x="560" y="128" text-anchor="middle">input barely change it</text>
+</svg><figcaption>Max pooling keeps the strongest response in each block, which buys compute savings and a little translation invariance.</figcaption></figure>
+
 ---
 
 ## 18.4 A first CNN: Fashion-MNIST at ~92% 🟡
@@ -170,6 +267,33 @@ model = nn.Sequential(
     nn.Linear(64, 10),                                                  # logits → CrossEntropyLoss
 ).to(device)
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 308" role="img" aria-label="Layer-by-layer output shapes and parameter counts of the Fashion-MNIST CNN, computed by running a 28 by 28 input through it: the image shrinks 28 to 14 to 7 to 3 while channels grow 64 to 128 to 256; the convolutions hold about 78 percent of the 1.4 million parameters, the last 256-channel one alone about 590 thousand; two 3 by 3 convolutions use about 28 percent fewer weights than one 5 by 5">
+<text class="sT" x="14" y="20">layer</text><text class="sT" x="190" y="20" text-anchor="middle">output shape</text><text class="sT" x="330" y="20" text-anchor="end">parameters</text>
+<rect class="sB" x="14" y="30" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="43" text-anchor="middle">conv 7×7</text><text class="sS" x="190" y="43" text-anchor="middle">64×28×28</text><text class="sS" x="330" y="43" text-anchor="end">3,200</text>
+<rect class="sB" x="342" y="32" width="1.0846" height="14" rx="3"/>
+<rect class="sN" x="14" y="51" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="64" text-anchor="middle">max pool 2</text><text class="sS" x="190" y="64" text-anchor="middle">64×14×14</text><text class="sS" x="330" y="64" text-anchor="end">–</text>
+<rect class="sB" x="14" y="72" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="85" text-anchor="middle">conv 3×3</text><text class="sS" x="190" y="85" text-anchor="middle">128×14×14</text><text class="sS" x="330" y="85" text-anchor="end">73,856</text>
+<rect class="sB" x="342" y="74" width="25.0325" height="14" rx="3"/>
+<rect class="sB" x="14" y="93" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="106" text-anchor="middle">conv 3×3</text><text class="sS" x="190" y="106" text-anchor="middle">128×14×14</text><text class="sS" x="330" y="106" text-anchor="end">147,584</text>
+<rect class="sB" x="342" y="95" width="50.0217" height="14" rx="3"/>
+<rect class="sN" x="14" y="114" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="127" text-anchor="middle">max pool 2</text><text class="sS" x="190" y="127" text-anchor="middle">128×7×7</text><text class="sS" x="330" y="127" text-anchor="end">–</text>
+<rect class="sB" x="14" y="135" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="148" text-anchor="middle">conv 3×3</text><text class="sS" x="190" y="148" text-anchor="middle">256×7×7</text><text class="sS" x="330" y="148" text-anchor="end">295,168</text>
+<rect class="sB" x="342" y="137" width="100.043" height="14" rx="3"/>
+<rect class="sB" x="14" y="156" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="169" text-anchor="middle">conv 3×3</text><text class="sS" x="190" y="169" text-anchor="middle">256×7×7</text><text class="sS" x="330" y="169" text-anchor="end">590,080</text>
+<rect class="sB" x="342" y="158" width="200" height="14" rx="3"/>
+<rect class="sN" x="14" y="177" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="190" text-anchor="middle">max pool 2</text><text class="sS" x="190" y="190" text-anchor="middle">256×3×3</text><text class="sS" x="330" y="190" text-anchor="end">–</text>
+<rect class="sN" x="14" y="198" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="211" text-anchor="middle">flatten</text><text class="sS" x="190" y="211" text-anchor="middle">2304</text><text class="sS" x="330" y="211" text-anchor="end">–</text>
+<rect class="sV" x="14" y="219" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="232" text-anchor="middle">linear</text><text class="sS" x="190" y="232" text-anchor="middle">128</text><text class="sS" x="330" y="232" text-anchor="end">295,040</text>
+<rect class="sV" x="342" y="221" width="100" height="14" rx="3"/>
+<rect class="sV" x="14" y="240" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="253" text-anchor="middle">linear</text><text class="sS" x="190" y="253" text-anchor="middle">64</text><text class="sS" x="330" y="253" text-anchor="end">8,256</text>
+<rect class="sV" x="342" y="242" width="2.79826" height="14" rx="3"/>
+<rect class="sV" x="14" y="261" width="100" height="18" rx="4" opacity=".6"/><text class="sS" x="64" y="274" text-anchor="middle">linear</text><text class="sS" x="190" y="274" text-anchor="middle">10</text><text class="sS" x="330" y="274" text-anchor="end">650</text>
+<rect class="sV" x="342" y="263" width="0.220309" height="14" rx="3"/>
+<text class="sT" x="14" y="298">total 1,413,834 parameters: convolutions 79%, dense layers 21%</text>
+<rect class="sN" x="560" y="30" width="146" height="150" rx="8"/><text class="sT" x="633" y="50" text-anchor="middle">two 3×3 vs one 5×5</text><text class="sS" x="633" y="70" text-anchor="middle">(128 → 128 channels)</text>
+<text class="sGt" x="633" y="98" text-anchor="middle">2 × 3×3: 295,168</text><text class="sRt" x="633" y="120" text-anchor="middle">1 × 5×5: 409,728</text><text class="sS" x="633" y="146" text-anchor="middle">28% fewer weights,</text><text class="sS" x="633" y="162" text-anchor="middle">same 5×5 receptive field</text>
+</svg><figcaption>The CNN above traced with PyTorch: shapes shrink, channels grow, and the parameter bars show where the weights live.</figcaption></figure>
 
 Design rules visible here:
 - **Double the filters after each pooling layer** (64 → 128 → 256). The spatial size halves, so the compute stays balanced, and there are many more ways to combine low-level features.
@@ -212,6 +336,25 @@ A block learns **f(x) = h(x) − x**, and the output is **f(x) + x**.
 - The skip path is a **gradient highway**: the signal crosses many layers even before they have learned anything. This is what made 152-layer (and later 1,000-layer) networks trainable, and it is **inherited by every transformer** (Part 21).
 - When the shape changes (stride 2, more channels), the skip uses a **1×1 conv with stride 2** to match.
 - **Stochastic depth:** randomly drop whole residual units during training (`torchvision.ops.stochastic_depth`). Faster training, regularisation.
+
+<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="A residual block: the input passes through convolution, batch normalisation and ReLU layers, and a skip connection adds the original input to the result before the final ReLU">
+<rect class="sB" x="14" y="90" width="70" height="44" rx="8"/><text class="sT" x="49" y="117" text-anchor="middle">x</text>
+<line class="sL" x1="84" y1="112" x2="120" y2="112" marker-end="url(#ah)"/>
+<rect class="sV" x="124" y="90" width="86" height="44" rx="8"/><text class="sT" x="167" y="117" text-anchor="middle">conv 3×3</text>
+<line class="sLm" x1="210" y1="112" x2="218" y2="112" marker-end="url(#ahm)"/>
+<rect class="sV" x="220" y="90" width="86" height="44" rx="8"/><text class="sT" x="263" y="117" text-anchor="middle">BatchNorm</text>
+<line class="sLm" x1="306" y1="112" x2="314" y2="112" marker-end="url(#ahm)"/>
+<rect class="sV" x="316" y="90" width="86" height="44" rx="8"/><text class="sT" x="359" y="117" text-anchor="middle">ReLU</text>
+<line class="sLm" x1="402" y1="112" x2="410" y2="112" marker-end="url(#ahm)"/>
+<rect class="sV" x="412" y="90" width="86" height="44" rx="8"/><text class="sT" x="455" y="117" text-anchor="middle">conv 3×3</text>
+<line class="sLm" x1="498" y1="112" x2="506" y2="112" marker-end="url(#ahm)"/>
+<rect class="sV" x="508" y="90" width="86" height="44" rx="8"/><text class="sT" x="551" y="117" text-anchor="middle">BatchNorm</text>
+<line class="sL" x1="600" y1="112" x2="622" y2="112" marker-end="url(#ah)"/><circle class="sW" cx="640" cy="112" r="16"/><text class="sT" x="640" y="118" text-anchor="middle">+</text>
+<line class="sL" x1="656" y1="112" x2="682" y2="112" marker-end="url(#ah)"/><text class="sC" x="700" y="117" text-anchor="end">ReLU</text>
+<path class="sLg" d="M49 90 V44 H640 V94" fill="none" stroke-width="3" marker-end="url(#ahg)"/><text class="sGt" x="345" y="36" text-anchor="middle">skip connection: x added back unchanged (a gradient highway)</text>
+<text class="sC" x="345" y="168" text-anchor="middle">the block only has to learn a correction f(x); output = f(x) + x</text>
+<text class="sS" x="345" y="190" text-anchor="middle">at initialisation f(x) ≈ 0, so a deep stack starts as the identity and stays trainable</text>
+</svg><figcaption>The residual block behind ResNet. The skip path lets gradients reach early layers even in very deep networks.</figcaption></figure>
 
 ```python
 import torch.nn.functional as F
@@ -311,6 +454,32 @@ weights.meta["categories"][logits.argmax(1)[0]]       # e.g. 'palace', 'daisy'
 ⚠️ **Always use the model's own preprocessing** (`weights.transforms()`). Wrong input size or wrong normalisation (ImageNet means [0.485, 0.456, 0.406], stds [0.229, 0.224, 0.225]) silently ruins accuracy. This is the vision version of training/serving skew.
 
 **Fine-tuning on a new task** (Géron: Flowers102, only 10 images per class, 102 classes):
+
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Transfer learning in two phases: first train only a new classification head on a frozen pretrained backbone, then unfreeze the top blocks and fine-tune with a much lower learning rate">
+<text class="sM" x="14" y="22">phase 1: train the new head</text>
+<rect class="sN" x="14" y="30" width="100" height="50" rx="6"/><text class="sT" x="64" y="52" text-anchor="middle">block 1</text><text class="sC" x="64" y="70" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="114" y1="55" x2="122" y2="55" marker-end="url(#ahm)"/>
+<rect class="sN" x="124" y="30" width="100" height="50" rx="6"/><text class="sT" x="174" y="52" text-anchor="middle">block 2</text><text class="sC" x="174" y="70" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="224" y1="55" x2="232" y2="55" marker-end="url(#ahm)"/>
+<rect class="sN" x="234" y="30" width="100" height="50" rx="6"/><text class="sT" x="284" y="52" text-anchor="middle">block 3</text><text class="sC" x="284" y="70" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="334" y1="55" x2="342" y2="55" marker-end="url(#ahm)"/>
+<rect class="sN" x="344" y="30" width="100" height="50" rx="6"/><text class="sT" x="394" y="52" text-anchor="middle">block 4</text><text class="sC" x="394" y="70" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="444" y1="55" x2="452" y2="55" marker-end="url(#ahm)"/>
+<rect class="sG" x="458" y="30" width="120" height="50" rx="6"/><text class="sT" x="518" y="52" text-anchor="middle">new head</text><text class="sC" x="518" y="70" text-anchor="middle">102 classes</text>
+<text class="sWt" x="600" y="52">lr 1e-3</text><text class="sC" x="600" y="70">few epochs</text>
+<text class="sM" x="14" y="118">phase 2: fine-tune the top blocks</text>
+<rect class="sN" x="14" y="126" width="100" height="50" rx="6"/><text class="sT" x="64" y="148" text-anchor="middle">block 1</text><text class="sC" x="64" y="166" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="114" y1="151" x2="122" y2="151" marker-end="url(#ahm)"/>
+<rect class="sN" x="124" y="126" width="100" height="50" rx="6"/><text class="sT" x="174" y="148" text-anchor="middle">block 2</text><text class="sC" x="174" y="166" text-anchor="middle">frozen 🔒</text>
+<line class="sLm" x1="224" y1="151" x2="232" y2="151" marker-end="url(#ahm)"/>
+<rect class="sA" x="234" y="126" width="100" height="50" rx="6"/><text class="sT" x="284" y="148" text-anchor="middle">block 3</text><text class="sC" x="284" y="166" text-anchor="middle">trainable</text>
+<line class="sLm" x1="334" y1="151" x2="342" y2="151" marker-end="url(#ahm)"/>
+<rect class="sA" x="344" y="126" width="100" height="50" rx="6"/><text class="sT" x="394" y="148" text-anchor="middle">block 4</text><text class="sC" x="394" y="166" text-anchor="middle">trainable</text>
+<line class="sLm" x1="444" y1="151" x2="452" y2="151" marker-end="url(#ahm)"/>
+<rect class="sG" x="458" y="126" width="120" height="50" rx="6"/><text class="sT" x="518" y="148" text-anchor="middle">new head</text><text class="sC" x="518" y="166" text-anchor="middle">102 classes</text>
+<text class="sWt" x="600" y="148">lr 1e-5</text><text class="sC" x="600" y="166">with augmentation</text>
+<text class="sS" x="360" y="226" text-anchor="middle">pretrained ImageNet features do most of the work; 10 images per class can be enough</text>
+</svg><figcaption>The everyday vision workflow: reuse a pretrained backbone, train a head, then gently fine-tune.</figcaption></figure>
 
 ```python
 model.classifier[2] = nn.Linear(1024, 102).to(device)      # new head

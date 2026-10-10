@@ -50,6 +50,22 @@ At entry level, "system design" usually means "explain how your project is put t
 
 **Example:** 10 million new short links per month, each ~500 bytes with metadata → 5 GB per month → 60 GB per year → **300 GB over 5 years**: one database can hold that. Reads at 100:1 → ~400 reads per second average, a few thousand at peak: comfortable with a cache.
 
+<figure class="dia steps"><svg viewBox="0 0 720 248" role="img" aria-label="Estimation chain for a URL shortener: 10 million links a month times 500 bytes is 5 gigabytes a month, 60 a year and 300 over five years; 1 billion reads a month is about 386 reads per second on average and about 770 to 3,900 at peak">
+<text class="sT" x="14" y="22">storage</text>
+<rect class="sN" x="14" y="32" width="150" height="50" rx="8"/><text class="sS" x="89" y="52" text-anchor="middle">new links per month</text><text class="sT" x="89" y="72" text-anchor="middle">10,000,000</text>
+<g data-s="1"><line class="sLm" x1="166" y1="57" x2="220" y2="57" marker-end="url(#ahm)"/><text class="sS" x="193" y="51" text-anchor="middle">× 500 B</text><rect class="sB" x="222" y="32" width="140" height="50" rx="8"/><text class="sS" x="292" y="52" text-anchor="middle">per month</text><text class="sT" x="292" y="72" text-anchor="middle">5 GB</text></g>
+<g data-s="2"><line class="sLm" x1="364" y1="57" x2="410" y2="57" marker-end="url(#ahm)"/><text class="sS" x="387" y="51" text-anchor="middle">× 12</text><rect class="sB" x="412" y="32" width="120" height="50" rx="8"/><text class="sS" x="472" y="52" text-anchor="middle">per year</text><text class="sT" x="472" y="72" text-anchor="middle">60 GB</text><line class="sLm" x1="534" y1="57" x2="576" y2="57" marker-end="url(#ahm)"/><text class="sS" x="555" y="51" text-anchor="middle">× 5</text><rect class="sG" x="578" y="32" width="128" height="50" rx="8"/><text class="sS" x="642" y="52" text-anchor="middle">5 years</text><text class="sT" x="642" y="72" text-anchor="middle">300 GB</text><text class="sGt" x="642" y="100" text-anchor="middle">fits one database</text></g>
+<text class="sT" x="14" y="132">traffic</text>
+<g data-s="3"><rect class="sN" x="14" y="142" width="150" height="50" rx="8"/><text class="sS" x="89" y="162" text-anchor="middle">reads per month (100:1)</text><text class="sT" x="89" y="182" text-anchor="middle">1,000,000,000</text><line class="sLm" x1="166" y1="167" x2="220" y2="167" marker-end="url(#ahm)"/><text class="sS" x="193" y="161" text-anchor="middle">÷ 2.6M s</text><rect class="sB" x="222" y="142" width="140" height="50" rx="8"/><text class="sS" x="292" y="162" text-anchor="middle">average reads/s</text><text class="sT" x="292" y="182" text-anchor="middle">≈ 386</text><text class="sS" x="292" y="210" text-anchor="middle">(writes ≈ 3.9/s)</text></g>
+<g data-s="4"><line class="sLm" x1="364" y1="167" x2="410" y2="167" marker-end="url(#ahm)"/><text class="sS" x="387" y="161" text-anchor="middle">× 2–10</text><rect class="sW" x="412" y="142" width="160" height="50" rx="8"/><text class="sS" x="492" y="162" text-anchor="middle">peak reads/s</text><text class="sT" x="492" y="182" text-anchor="middle">≈ 772–3,858</text><text class="sGt" x="640" y="162" text-anchor="middle">a cache in front</text><text class="sGt" x="640" y="180" text-anchor="middle">handles it easily</text></g>
+<text class="sS" x="360" y="236" text-anchor="middle">a month ≈ 30 × 86,400 s ≈ 2.6 million seconds; 1 million per day ≈ 12 per second</text>
+</svg><ol class="dia-steps">
+<li>Ten million new short links a month at about 500 bytes each is 5 GB a month.</li>
+<li>That is 60 GB a year and 300 GB over five years: one database (plus replicas) holds it.</li>
+<li>At 100 reads per write, a billion reads a month averages about 386 per second.</li>
+<li>Peaks run 2–10× the average, a few thousand per second: a cache makes that comfortable.</li>
+</ol><figcaption>The worked estimate above as a chain of multiplications: round boldly, keep the units, and say what each number implies.</figcaption></figure>
+
 ## B12.3 Building blocks and their trade-offs 🟢 🟡 ⭐
 
 | Block | Why it exists | Key choices and trade-offs |
@@ -113,9 +129,20 @@ Each step, the signal that justifies it and what it costs, with real examples fr
 
 Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 
+<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="Converting the number one million to Base62 by repeated division by 62, giving the code 4c92">
+<text class="sT" x="20" y="24">encode ID 1,000,000 in Base62 (0–9, a–z, A–Z)</text>
+<text class="sM" x="130" y="50" text-anchor="middle">division</text><text class="sM" x="300" y="50" text-anchor="middle">quotient</text><text class="sM" x="420" y="50" text-anchor="middle">remainder</text><text class="sM" x="540" y="50" text-anchor="middle">digit</text>
+<rect class="sB" x="40" y="60" width="560" height="26" rx="4"/><text class="sC" x="130" y="78" text-anchor="middle">1,000,000 ÷ 62</text><text class="sC" x="300" y="78" text-anchor="middle">16,129</text><text class="sC" x="420" y="78" text-anchor="middle">2</text><rect class="sA" x="515" y="63" width="50" height="20" rx="4"/><text class="sX" x="540" y="78" text-anchor="middle">2</text>
+<rect class="sB" x="40" y="90" width="560" height="26" rx="4"/><text class="sC" x="130" y="108" text-anchor="middle">16,129 ÷ 62</text><text class="sC" x="300" y="108" text-anchor="middle">260</text><text class="sC" x="420" y="108" text-anchor="middle">9</text><rect class="sA" x="515" y="93" width="50" height="20" rx="4"/><text class="sX" x="540" y="108" text-anchor="middle">9</text>
+<rect class="sB" x="40" y="120" width="560" height="26" rx="4"/><text class="sC" x="130" y="138" text-anchor="middle">260 ÷ 62</text><text class="sC" x="300" y="138" text-anchor="middle">4</text><text class="sC" x="420" y="138" text-anchor="middle">12</text><rect class="sA" x="515" y="123" width="50" height="20" rx="4"/><text class="sX" x="540" y="138" text-anchor="middle">c</text>
+<rect class="sB" x="40" y="150" width="560" height="26" rx="4"/><text class="sC" x="130" y="168" text-anchor="middle">4 ÷ 62</text><text class="sC" x="300" y="168" text-anchor="middle">0</text><text class="sC" x="420" y="168" text-anchor="middle">4</text><rect class="sA" x="515" y="153" width="50" height="20" rx="4"/><text class="sX" x="540" y="168" text-anchor="middle">4</text>
+<path class="sLg" d="M580 168 V72" marker-end="url(#ahg)"/><text class="sGt" x="620" y="120">read</text><text class="sGt" x="620" y="136">upward</text>
+<text class="sS" x="320" y="200" text-anchor="middle">code = "4c92": 4 characters for a million; 7 characters cover 62⁷ ≈ 3.5 trillion</text>
+</svg><figcaption>Base62 is ordinary base conversion with a 62-symbol alphabet. A unique counter becomes a short, collision-free code.</figcaption></figure>
+
 **High-level design.**
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="URL shortener: clients, CDN, load balancer, API, cache, database, click queue, analytics workers">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: a redirect request goes through the CDN and load balancer to the link API, is answered from the Redis cache, and a click event is queued for analytics">
 <rect class="sB" x="10" y="95" width="80" height="40" rx="8"/><text class="sT" x="50" y="120" text-anchor="middle">Users</text>
 <rect class="sB" x="110" y="95" width="70" height="40" rx="8"/><text class="sT" x="145" y="120" text-anchor="middle">CDN</text>
 <rect class="sA" x="200" y="95" width="80" height="40" rx="8"/><text class="sT" x="240" y="120" text-anchor="middle">LB</text>
@@ -126,6 +153,8 @@ Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 <rect class="sB" x="610" y="166" width="100" height="44" rx="8"/><text class="sT" x="660" y="193" text-anchor="middle">Analytics</text>
 <line class="sL" x1="90" y1="115" x2="110" y2="115"/><line class="sL" x1="180" y1="115" x2="200" y2="115"/><line class="sL" x1="280" y1="115" x2="300" y2="115"/>
 <line class="sL" x1="420" y1="100" x2="470" y2="42"/><line class="sL" x1="420" y1="115" x2="470" y2="115"/><line class="sD" x1="420" y1="135" x2="470" y2="188"/><line class="sD" x1="580" y1="188" x2="610" y2="188"/>
+<circle class="sP" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M90 115 H360 L470 42 L360 108 H90"/></circle>
+<circle class="sPw" r="5"><animateMotion dur="4s" begin="1.6s" repeatCount="indefinite" path="M420 135 L470 188 H610"/></circle>
 </svg><figcaption>Redirects are served from cache, falling back to the database; clicks are recorded asynchronously so they never slow the redirect.</figcaption></figure>
 
 **Deep dives to offer:** cache-aside with long TTLs (links rarely change) and cache warming for viral links; a **hot key** (one link going viral) handled by the CDN caching 301s or in-process caching; recording clicks **asynchronously** through a queue so the redirect path stays fast; expiry with a TTL index or a cleanup job; abuse prevention (rate limiting creation, scanning destination URLs for malware); custom aliases with a unique constraint.
@@ -142,6 +171,33 @@ Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 | **Token bucket** | Tokens refill at a steady rate up to a capacity; each request takes one | Allows controlled bursts; the most common | Two values per key |
 | **Leaky bucket** | Requests queue and drain at a fixed rate | Smooth output | Queues add latency |
 
+<figure class="dia"><svg viewBox="0 0 720 184" role="img" aria-label="Fixed-window rate limiting allows 100 requests at the end of one minute and 100 at the start of the next, 200 in two seconds">
+<line class="sLm" x1="60" y1="120" x2="670" y2="120" marker-end="url(#ahm)"/>
+<line class="sD" x1="60.0" y1="30" x2="60.0" y2="130"/><text class="sC" x="60" y="146" text-anchor="middle">0:00</text>
+<line class="sD" x1="360.0" y1="30" x2="360.0" y2="130"/><text class="sC" x="360" y="146" text-anchor="middle">1:00</text>
+<line class="sD" x1="660.0" y1="30" x2="660.0" y2="130"/><text class="sC" x="660" y="146" text-anchor="middle">2:00</text>
+<rect class="sR" x="335" y="60" width="25" height="58" rx="3"/><text class="sRt" x="331" y="54" text-anchor="end">100 requests at 0:59</text>
+<rect class="sR" x="360" y="60" width="25" height="58" rx="3"/><text class="sRt" x="389" y="54">100 more at 1:00</text>
+<text class="sS" x="360" y="172" text-anchor="middle">each window says "100, fine", yet 200 arrived within 2 seconds</text>
+<text class="sC" x="210" y="100" text-anchor="middle">window 1: limit 100</text><text class="sC" x="535" y="100" text-anchor="middle">window 2: limit 100</text>
+</svg><figcaption>The fixed-window edge problem. Sliding windows and token buckets smooth it out.</figcaption></figure>
+
+<figure class="dia anim" data-rest="2"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: a token bucket with capacity five refills one token per second; a burst of three requests takes three tokens, which then refill">
+<rect class="sN" x="270" y="40" width="140" height="150" rx="10" style="stroke-width:2"/><text class="sC" x="340" y="32" text-anchor="middle">bucket: capacity 5</text>
+<text class="sGt" x="110" y="60" text-anchor="middle">refill: 1 token / second</text>
+<line class="sLg" x1="200" y1="66" x2="268" y2="90" marker-end="url(#ahg)"/>
+<circle class="sPg" cx="340" cy="170" r="10"/>
+<circle class="sPg" cx="340" cy="144" r="10"/>
+<circle class="sPg" cx="340" cy="118" r="10"><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="1;0;1" keyTimes="0;0.4125;0.5625"/></circle>
+<circle class="sPg" cx="340" cy="92" r="10"><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="1;0;1" keyTimes="0;0.3937;0.6875"/></circle>
+<circle class="sPg" cx="340" cy="66" r="10"><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="1;0;1" keyTimes="0;0.3750;0.8125"/></circle>
+<circle class="sP" r="6" opacity="0"><animateMotion dur="8.0s" repeatCount="indefinite" calcMode="linear" path="M560 115 H420" keyPoints="0;0;1;1" keyTimes="0;0.3250;0.3750;1"/><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3250;0.3875"/></circle>
+<circle class="sP" r="6" opacity="0"><animateMotion dur="8.0s" repeatCount="indefinite" calcMode="linear" path="M560 115 H420" keyPoints="0;0;1;1" keyTimes="0;0.3438;0.3937;1"/><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3438;0.4062"/></circle>
+<circle class="sP" r="6" opacity="0"><animateMotion dur="8.0s" repeatCount="indefinite" calcMode="linear" path="M560 115 H420" keyPoints="0;0;1;1" keyTimes="0;0.3625;0.4125;1"/><animate attributeName="opacity" dur="8.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3625;0.4250"/></circle>
+<rect class="sA" x="560" y="92" width="140" height="46" rx="8"/><text class="sT" x="630" y="113" text-anchor="middle">burst of 3</text><text class="sC" x="630" y="129" text-anchor="middle">each takes a token</text>
+<text class="sS" x="340" y="214" text-anchor="middle">bursts up to the capacity pass; a sustained rate above the refill gets 429</text>
+</svg><figcaption>Token bucket: two numbers per key (tokens and last refill time) in Redis, updated atomically with a small Lua script.</figcaption></figure>
+
 **Distributed design:** counters in **Redis** (atomic `INCR` with `EXPIRE`, or a Lua script for a token bucket) so all instances share them; the limiter runs in an API gateway or middleware ([[B3.11]]); fail **open** (allow) or **closed** (deny) if Redis is unavailable, which is a business decision; return `429` with `Retry-After` and rate-limit headers.
 
 ## B12.7 Worked design 3: notification system 🟡 ⭐
@@ -157,9 +213,50 @@ Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 5. **Tracking:** a `notifications` table with status (queued, sent, delivered, failed) updated from provider callbacks; a **dead-letter queue** for permanent failures.
 6. **Priorities:** separate queues so a password-reset OTP isn't stuck behind 100,000 marketing emails.
 
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Notification system: domain events reach a notification service that applies preferences and templates, then priority queues feed channel workers that call providers">
+<rect class="sB" x="10" y="90" width="110" height="50" rx="8"/><text class="sT" x="65" y="113" text-anchor="middle">domain events</text><text class="sC" x="65" y="129" text-anchor="middle">via outbox</text><line class="sL" x1="120" y1="115" x2="146" y2="115" marker-end="url(#ah)"/>
+<rect class="sA" x="150" y="60" width="170" height="110" rx="10"/><text class="sT" x="235" y="82" text-anchor="middle">notification service</text><text class="sC" x="235" y="104" text-anchor="middle">preferences, quiet hours</text><text class="sC" x="235" y="122" text-anchor="middle">templates (EN / AR)</text><text class="sC" x="235" y="140" text-anchor="middle">dedupe key</text>
+<line class="sLm" x1="320" y1="115" x2="356" y2="48" marker-end="url(#ahm)"/><rect class="sR" x="360" y="30" width="150" height="36" rx="6"/><text class="sC" x="435" y="53" text-anchor="middle">high: OTP, alerts</text><line class="sLm" x1="510" y1="48" x2="536" y2="48" marker-end="url(#ahm)"/>
+<line class="sLm" x1="320" y1="115" x2="356" y2="118" marker-end="url(#ahm)"/><rect class="sW" x="360" y="100" width="150" height="36" rx="6"/><text class="sC" x="435" y="123" text-anchor="middle">normal: email</text><line class="sLm" x1="510" y1="118" x2="536" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="320" y1="115" x2="356" y2="188" marker-end="url(#ahm)"/><rect class="sB" x="360" y="170" width="150" height="36" rx="6"/><text class="sC" x="435" y="193" text-anchor="middle">bulk: marketing</text><line class="sLm" x1="510" y1="188" x2="536" y2="188" marker-end="url(#ahm)"/>
+<rect class="sG" x="540" y="20" width="160" height="50" rx="8"/><text class="sT" x="620" y="43" text-anchor="middle">SMS / push workers</text><text class="sC" x="620" y="59" text-anchor="middle">retries · breaker</text><rect class="sG" x="540" y="90" width="160" height="50" rx="8"/><text class="sT" x="620" y="113" text-anchor="middle">email workers</text><text class="sC" x="620" y="129" text-anchor="middle">per-provider limits</text><rect class="sG" x="540" y="160" width="160" height="50" rx="8"/><text class="sT" x="620" y="183" text-anchor="middle">bulk workers</text><text class="sC" x="620" y="199" text-anchor="middle">throttled</text>
+<text class="sS" x="360" y="236" text-anchor="middle">provider callbacks update delivery status; permanent failures go to a dead-letter queue</text>
+</svg><figcaption>Priority queues keep a password-reset code from waiting behind 100,000 marketing emails.</figcaption></figure>
+
 ## B12.8 Worked design 4: FinSight at scale (multi-tenant SaaS) 🟡 ⭐
 
 "FinSight now has 5,000 companies. Some upload 200,000 transactions a month. Design it."
+
+<figure class="dia anim"><svg viewBox="0 0 720 284" role="img" aria-label="FinSight at scale: the client uploads CSVs straight to Blob Storage with a pre-signed URL; an UploadReceived message on a queue triggers the import worker, which writes daily aggregates to the SQL primary; a TransactionsChanged event feeds a forecasting service that calls TimeGPT once per tenant per day; dashboards are served through the API from a per-tenant Redis cache backed by a read replica; a tenant catalogue routes large tenants to their own databases">
+<line class="sLm" x1="142" y1="52" x2="162" y2="52" marker-end="url(#ahm)"/>
+<line class="sLm" x1="442" y1="52" x2="448" y2="52" marker-end="url(#ahm)"/>
+<line class="sLm" x1="578" y1="52" x2="584" y2="52" marker-end="url(#ahm)"/>
+<line class="sLm" x1="650" y1="74" x2="650" y2="116" marker-end="url(#ahm)"/>
+<line class="sLm" x1="650" y1="162" x2="650" y2="204" marker-end="url(#ahm)"/>
+<line class="sLm" x1="586" y1="228" x2="580" y2="228" marker-end="url(#ahm)"/>
+<line class="sLm" x1="450" y1="228" x2="444" y2="228" marker-end="url(#ahm)"/>
+<line class="sLm" x1="228" y1="74" x2="228" y2="116" marker-end="url(#ahm)"/>
+<line class="sLm" x1="586" y1="140" x2="580" y2="140" marker-end="url(#ahm)"/>
+<line class="sLm" x1="450" y1="140" x2="444" y2="140" marker-end="url(#ahm)"/>
+<path class="sLw" d="M 78.0 30 C 78.0 19 378.0 19 378.0 28" marker-end="url(#ahw)" style="fill:none" stroke-dasharray="5 4"/>
+<text class="sWt" x="228" y="13" text-anchor="middle">upload straight to Blob with a pre-signed URL</text>
+<line class="sLm" x1="248" y1="74" x2="348" y2="118" marker-end="url(#ahm)"/>
+<rect class="sA" x="14" y="30" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="78" y="49" text-anchor="middle">Angular client</text><text class="sS" x="78" y="65" text-anchor="middle">per tenant</text>
+<rect class="sB" x="164" y="30" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="228" y="49" text-anchor="middle">API</text><text class="sS" x="228" y="65" text-anchor="middle">auth, rate limits</text>
+<rect class="sN" x="314" y="30" width="128" height="44" rx="8"/><text class="sT" x="378" y="49" text-anchor="middle">Blob Storage</text><text class="sS" x="378" y="65" text-anchor="middle">raw CSV</text>
+<rect class="sV" x="450" y="30" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="514" y="49" text-anchor="middle">queue</text><text class="sS" x="514" y="65" text-anchor="middle">UploadReceived</text>
+<rect class="sB" x="586" y="30" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="650" y="49" text-anchor="middle">import worker</text><text class="sS" x="650" y="65" text-anchor="middle">batch, validate</text>
+<rect class="sN" x="164" y="118" width="128" height="44" rx="8"/><text class="sT" x="228" y="137" text-anchor="middle">tenant catalogue</text><text class="sS" x="228" y="153" text-anchor="middle">shared or own DB</text>
+<rect class="sR" x="314" y="118" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="378" y="137" text-anchor="middle">Redis</text><text class="sS" x="378" y="153" text-anchor="middle">per-tenant cache</text>
+<rect class="sG" x="450" y="118" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="514" y="137" text-anchor="middle">read replica</text><text class="sS" x="514" y="153" text-anchor="middle">dashboards, reports</text>
+<rect class="sG" x="586" y="118" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="650" y="137" text-anchor="middle">SQL primary</text><text class="sS" x="650" y="153" text-anchor="middle">aggregates per day</text>
+<rect class="sN" x="314" y="206" width="128" height="44" rx="8"/><text class="sT" x="378" y="225" text-anchor="middle">TimeGPT</text><text class="sS" x="378" y="241" text-anchor="middle">external API</text>
+<rect class="sB" x="450" y="206" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="514" y="225" text-anchor="middle">forecast service</text><text class="sS" x="514" y="241" text-anchor="middle">dedup tenant/day</text>
+<rect class="sV" x="586" y="206" width="128" height="44" rx="8" opacity=".8"/><text class="sT" x="650" y="225" text-anchor="middle">event</text><text class="sS" x="650" y="241" text-anchor="middle">TransactionsChanged</text>
+<circle class="sPw" r="5"><animateMotion dur="6s" repeatCount="indefinite" path="M 78.0 30 C 78.0 19 378.0 19 378.0 52.0 L 514.0 52.0 L 650.0 52.0 L 650.0 140.0 L 650.0 228.0 L 514.0 228.0 L 378.0 228.0"/></circle>
+<circle class="sPg" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M 78.0 52.0 L 228.0 52.0 L 348.0 118 L 378.0 140.0"/></circle>
+<text class="sS" x="14" y="274">amber: an upload flowing through import, aggregation and forecasting · green: a dashboard read served from cache</text>
+</svg><figcaption>The design above as one picture: the write path is asynchronous end to end, and reads never touch the primary.</figcaption></figure>
 
 - **Tenancy:** shared database with `CompanyId` and global query filters for small tenants; the option to move large tenants to their own database (hybrid, [[B9.8]]), routed by a tenant catalogue.
 - **Ingestion:** CSV uploads go **directly to Blob Storage** (pre-signed URL); an `UploadReceived` message triggers an **import worker** that parses, validates and categorises in batches, writes with bulk operations, and reports per-row errors.

@@ -8,6 +8,46 @@ A full-stack developer is judged on the **seams**: how the UI and the API agree 
 > **Most asked:** *Walk me through what happens when the user clicks Save* · *How do your front end and back end share types?* · *How do you deploy the front end and the API?* · *How do you configure the API URL per environment?* · *Why Angular and .NET, not Next.js?*
 > **Time budget:** 3 hours.
 
+## FS1.0 Foundations: two programs and a boundary 🟢
+
+A web application is really **two programs on two computers** that talk over HTTP:
+
+- The **front end** runs in the user's browser. Its code is downloaded, so anyone can read it, change it in DevTools, or skip it and call your API directly with `curl`. Treat it as **untrusted**: its validation is a convenience for the user, not a protection.
+- The **back end** runs on servers you control. Secrets, permissions, business rules and the database live there, and every rule is checked there again.
+- Between them, data travels as **JSON text**: serialised on one side, parsed on the other. Both sides must agree on its shape (the **contract**, [[FS1.2]]), and either side can see the network fail or be slow, so the UI always needs loading and error states.
+
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: requests and JSON responses cross the trust boundary between the user's browser, where code is public and editable, and the servers you control, where secrets, rules and data live">
+<rect class="sN" x="14" y="24" width="300" height="190" rx="12"/><text class="sT" x="164" y="44" text-anchor="middle">the user's browser</text>
+<rect class="sA" x="54" y="56" width="220" height="44" rx="8"/><text class="sT" x="164" y="76" text-anchor="middle">Angular / React app</text><text class="sC" x="164" y="92" text-anchor="middle">downloaded JavaScript</text>
+<text class="sC" x="30" y="128">• anyone can read and change the code</text>
+<text class="sC" x="30" y="150">• client validation = convenience only</text>
+<text class="sC" x="30" y="172">• clock, locale and network vary</text>
+<line class="sLr" x1="360" y1="14" x2="360" y2="222" stroke-dasharray="7 5"/><text class="sRt" x="360" y="238" text-anchor="middle">trust boundary</text>
+<line class="sLm" x1="316" y1="90" x2="400" y2="90" marker-end="url(#ahm)"/><line class="sLm" x1="404" y1="140" x2="320" y2="140" marker-end="url(#ahm)"/>
+<text class="sC" x="340" y="82" text-anchor="end">request</text><text class="sC" x="380" y="156">JSON</text>
+<rect class="sN" x="406" y="24" width="300" height="190" rx="12"/><text class="sT" x="556" y="44" text-anchor="middle">servers you control</text>
+<rect class="sG" x="436" y="56" width="120" height="44" rx="8"/><text class="sT" x="496" y="76" text-anchor="middle">API</text><text class="sC" x="496" y="92" text-anchor="middle">rules · auth</text><rect class="sB" x="576" y="56" width="110" height="44" rx="8"/><text class="sT" x="631" y="76" text-anchor="middle">database</text><text class="sC" x="631" y="92" text-anchor="middle">source of truth</text>
+<text class="sC" x="422" y="128">• secrets and keys live only here</text>
+<text class="sC" x="422" y="150">• authorisation decided here</text>
+<text class="sC" x="422" y="172">• one clock (UTC) and one truth</text>
+<circle class="sP" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M274 78 H436"/></circle><circle class="sPg" r="5"><animateMotion dur="3s" begin="1.5s" repeatCount="indefinite" path="M436 120 H274"/></circle>
+</svg><figcaption>Two programs on two computers. Anything that matters (validation, permissions, secrets) has to live on the right of the line.</figcaption></figure>
+
+**Origin** is the other idea that shapes every deployment decision. The browser groups everything by origin, the combination of **scheme, host and port**. A page may call its own origin freely; reading responses from another origin needs the server's permission (**CORS**, [[FS2.6]]), and cookies follow their own "site" rules ([[FS2.2]]).
+
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="The parts of a URL that form its origin: scheme, host and port; and four example URLs compared with https://app.example.com">
+<rect class="sV" x="40" y="24" width="70" height="34" rx="6"/><text class="sT" x="75" y="46" text-anchor="middle">https</text><text class="sC" x="75" y="76" text-anchor="middle">scheme</text>
+<rect class="sA" x="118" y="24" width="170" height="34" rx="6"/><text class="sT" x="203" y="46" text-anchor="middle">app.example.com</text><text class="sC" x="203" y="76" text-anchor="middle">host</text>
+<rect class="sW" x="296" y="24" width="70" height="34" rx="6"/><text class="sT" x="331" y="46" text-anchor="middle">443</text><text class="sC" x="331" y="76" text-anchor="middle">port</text>
+<rect class="sN" x="374" y="24" width="170" height="34" rx="6"/><text class="sC" x="459" y="46" text-anchor="middle">/invoices?page=2</text><text class="sC" x="459" y="76" text-anchor="middle">path: not part of it</text>
+<path class="sLm" d="M40 88 V96 H366 V88" fill="none"/><text class="sM" x="203" y="112" text-anchor="middle">origin = scheme + host + port</text>
+<text class="sM" x="40" y="140">a page on https://app.example.com calling…</text>
+<text class="sC" x="40" y="164" xml:space="preserve" style="white-space:pre">https://app.example.com/api/invoices</text><text class="sC" x="380" y="164">same origin</text><text class="sGt" x="530" y="164">✓ allowed freely</text>
+<text class="sC" x="40" y="186" xml:space="preserve" style="white-space:pre">https://api.example.com</text><text class="sC" x="380" y="186">different host</text><text class="sRt" x="530" y="186">✗ needs CORS</text>
+<text class="sC" x="40" y="208" xml:space="preserve" style="white-space:pre">http://app.example.com</text><text class="sC" x="380" y="208">different scheme</text><text class="sRt" x="530" y="208">✗ needs CORS</text>
+<text class="sC" x="40" y="230" xml:space="preserve" style="white-space:pre">https://app.example.com:8443</text><text class="sC" x="380" y="230">different port</text><text class="sRt" x="530" y="230">✗ needs CORS</text>
+</svg><figcaption>The browser's unit of trust is the origin. Change any one of the three parts and you're talking to a different origin.</figcaption></figure>
+
 ## FS1.1 Four shapes of a full-stack app 🟢 ⭐
 
 | Shape | How it works | Pros | Cons | Example |
@@ -25,6 +65,16 @@ A full-stack developer is judged on the **seams**: how the UI and the API agree 
 <rect class="sB" x="600" y="130" width="110" height="50" rx="8"/><text class="sT" x="655" y="160" text-anchor="middle">SQL Server</text>
 <line class="sL" x1="110" y1="102" x2="160" y2="102"/><line class="sL" x1="330" y1="90" x2="400" y2="45"/><line class="sL" x1="330" y1="115" x2="400" y2="155"/><line class="sL" x1="560" y1="155" x2="600" y2="155"/>
 </svg><figcaption>Same-origin: the browser sees one host, so there's no CORS and cookies are first-party. This is roughly how FinSight was deployed.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Cross-origin deployment: the browser loads the SPA from a CDN at app.example.com and calls the API at api.example.com, which needs a CORS preflight and response headers">
+<rect class="sB" x="10" y="90" width="100" height="44" rx="8"/><text class="sT" x="60" y="110" text-anchor="middle">browser</text><text class="sC" x="60" y="126" text-anchor="middle">app.example.com</text>
+<rect class="sA" x="220" y="20" width="170" height="50" rx="8"/><text class="sT" x="305" y="43" text-anchor="middle">CDN</text><text class="sS" x="305" y="59" text-anchor="middle">app.example.com: SPA files</text>
+<rect class="sG" x="220" y="150" width="170" height="50" rx="8"/><text class="sT" x="305" y="173" text-anchor="middle">API</text><text class="sC" x="305" y="189" text-anchor="middle">api.example.com</text><line class="sL" x1="390" y1="175" x2="460" y2="175"/><rect class="sB" x="460" y="150" width="120" height="50" rx="8"/><text class="sT" x="520" y="180" text-anchor="middle">database</text>
+<line class="sL" x1="110" y1="104" x2="216" y2="50" marker-end="url(#ah)"/>
+<line class="sLw" x1="110" y1="124" x2="216" y2="160" marker-end="url(#ahw)" stroke-dasharray="5 4"/><text class="sWt" x="140" y="166">1 OPTIONS preflight</text>
+<line class="sLg" x1="110" y1="132" x2="216" y2="186" marker-end="url(#ahg)"/><text class="sGt" x="110" y="210">2 real request, if allowed</text>
+<rect class="sW" x="430" y="30" width="276" height="80" rx="8"/><text class="sC" x="568" y="52" text-anchor="middle">the API must answer with</text><text class="sC" x="444" y="74" xml:space="preserve" style="white-space:pre">Access-Control-Allow-Origin:</text><text class="sC" x="444" y="94" xml:space="preserve" style="white-space:pre">  https://app.example.com</text>
+</svg><figcaption>Cross-origin: independent hosting and scaling, paid for with CORS, preflight round trips and stricter cookie rules (FS2.6 has the details).</figcaption></figure>
 
 > [!say]
 > "FinSight was served from one origin: Caddy terminated TLS, nginx served the Angular build at the root and proxied /api and the SignalR hub to the ASP.NET Core container. Same-origin meant no CORS configuration in production and first-party cookies for auth. If the UI moved to a CDN on another domain, I'd have to configure CORS with credentials and think about SameSite."
@@ -48,6 +98,21 @@ type InvoiceDto = components["schemas"]["InvoiceDto"];   // always matches the s
 
 Run generation in CI and fail the build if the generated file changed but wasn't committed, so a backend change that breaks the front end is caught **before** merge.
 
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: C# DTOs produce an OpenAPI document, a generator turns it into TypeScript types, and components compile against them; CI regenerates and fails on drift">
+<rect class="sV" x="8" y="30" width="132" height="54" rx="8"/><text class="sT" x="74" y="55" text-anchor="middle">C# DTOs</text><text class="sC" x="74" y="71" text-anchor="middle">record InvoiceDto</text>
+<line class="sLm" x1="140" y1="57" x2="150" y2="57" marker-end="url(#ahm)"/>
+<rect class="sW" x="152" y="30" width="132" height="54" rx="8"/><text class="sT" x="218" y="55" text-anchor="middle">OpenAPI 3.1</text><text class="sC" x="218" y="71" text-anchor="middle">/openapi/v1.json</text>
+<line class="sLm" x1="284" y1="57" x2="294" y2="57" marker-end="url(#ahm)"/>
+<rect class="sB" x="296" y="30" width="132" height="54" rx="8"/><text class="sT" x="362" y="55" text-anchor="middle">generator</text><text class="sC" x="362" y="71" text-anchor="middle">openapi-typescript…</text>
+<line class="sLm" x1="428" y1="57" x2="438" y2="57" marker-end="url(#ahm)"/>
+<rect class="sA" x="440" y="30" width="132" height="54" rx="8"/><text class="sT" x="506" y="55" text-anchor="middle">TypeScript types</text><text class="sC" x="506" y="71" text-anchor="middle">schema.d.ts</text>
+<line class="sLm" x1="572" y1="57" x2="582" y2="57" marker-end="url(#ahm)"/>
+<rect class="sG" x="584" y="30" width="132" height="54" rx="8"/><text class="sT" x="650" y="55" text-anchor="middle">components</text><text class="sC" x="650" y="71" text-anchor="middle">compile against them</text>
+<circle class="sP" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M74 57 H650"/></circle>
+<rect class="sR" x="150" y="112" width="420" height="46" rx="8" opacity=".9"/><text class="sT" x="360" y="132" text-anchor="middle">CI: regenerate, then git diff --exit-code</text><text class="sC" x="360" y="150" text-anchor="middle">a renamed field fails the build, not production</text>
+<path class="sLr" d="M218 84 V110" marker-end="url(#ahr)"/><path class="sLr" d="M506 110 V86" marker-end="url(#ahr)"/>
+</svg><figcaption>One source of truth for the contract: the server's code. Everything downstream is generated.</figcaption></figure>
+
 **Other contract details to settle once:**
 
 | Topic | Decision |
@@ -63,6 +128,15 @@ Run generation in CI and fail the build if the generated file changed but wasn't
 ## FS1.3 Running both halves locally 🟢 ⭐
 
 **Use the dev server's proxy**, so the browser sees one origin even in development, with no CORS and real cookies:
+
+<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="Local development: the browser talks only to the front-end dev server on port 4200, which proxies /api and /hubs to the API on port 7001">
+<rect class="sB" x="10" y="70" width="110" height="50" rx="8"/><text class="sT" x="65" y="93" text-anchor="middle">browser</text><text class="sC" x="65" y="109" text-anchor="middle">one origin</text>
+<rect class="sA" x="170" y="30" width="230" height="130" rx="10"/><text class="sT" x="285" y="52" text-anchor="middle">dev server :4200</text><text class="sC" x="285" y="76" text-anchor="middle">serves the bundle, hot reload</text>
+<rect class="sN" x="186" y="92" width="198" height="50" rx="6"/><text class="sC" x="285" y="112" text-anchor="middle">proxy: /api and /hubs</text><text class="sC" x="285" y="130" text-anchor="middle">→ https://localhost:7001</text>
+<line class="sL" x1="120" y1="95" x2="166" y2="95" marker-end="url(#ah)"/>
+<line class="sLg" x1="384" y1="117" x2="466" y2="117" marker-end="url(#ahg)"/><rect class="sG" x="470" y="92" width="120" height="50" rx="8"/><text class="sT" x="530" y="115" text-anchor="middle">API :7001</text><text class="sC" x="530" y="131" text-anchor="middle">ASP.NET Core</text><line class="sL" x1="590" y1="117" x2="616" y2="117"/><rect class="sB" x="616" y="92" width="94" height="50" rx="8"/><text class="sT" x="663" y="115" text-anchor="middle">database</text><text class="sC" x="663" y="131" text-anchor="middle">compose</text>
+<text class="sS" x="360" y="190" text-anchor="middle">the browser only ever talks to localhost:4200, so no CORS and real cookies, like production</text>
+</svg><figcaption>The dev-server proxy recreates the same-origin production setup on your machine.</figcaption></figure>
 
 ```json
 // Angular: proxy.conf.json, referenced from angular.json "serve" options
@@ -99,6 +173,21 @@ builder.Build().Run();
 | **Runtime config** | The app fetches `/config.json` (or a `window.__CONFIG__` script written at container start) before bootstrapping | One build for all environments; values set by the deployment |
 | **Relative URLs** | Call `/api/...` and let the reverse proxy route | No API URL to configure at all, which is the simplest when same-origin |
 
+<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Build-time configuration produces a different bundle per environment; runtime configuration deploys one build everywhere with a config.json per environment">
+<text class="sT" x="180" y="22" text-anchor="middle">build-time config</text><text class="sT" x="540" y="22" text-anchor="middle">runtime config</text>
+<rect class="sB" x="110" y="36" width="140" height="40" rx="8"/><text class="sT" x="180" y="61" text-anchor="middle">source</text>
+<line class="sLm" x1="180" y1="76" x2="66" y2="106" marker-end="url(#ahm)"/><rect class="sW" x="14" y="108" width="104" height="44" rx="8"/><text class="sT" x="66" y="128" text-anchor="middle">build (dev)</text><text class="sC" x="66" y="144" text-anchor="middle">apiUrl baked in</text>
+<line class="sLm" x1="180" y1="76" x2="182" y2="106" marker-end="url(#ahm)"/><rect class="sW" x="130" y="108" width="104" height="44" rx="8"/><text class="sT" x="182" y="128" text-anchor="middle">build (staging)</text><text class="sC" x="182" y="144" text-anchor="middle">apiUrl baked in</text>
+<line class="sLm" x1="180" y1="76" x2="298" y2="106" marker-end="url(#ahm)"/><rect class="sW" x="246" y="108" width="104" height="44" rx="8"/><text class="sT" x="298" y="128" text-anchor="middle">build (prod)</text><text class="sC" x="298" y="144" text-anchor="middle">apiUrl baked in</text>
+<text class="sRt" x="180" y="180" text-anchor="middle">prod runs a bundle nobody tested</text>
+<line class="sD" x1="360" y1="10" x2="360" y2="196"/>
+<rect class="sA" x="470" y="36" width="140" height="40" rx="8"/><text class="sT" x="540" y="54" text-anchor="middle">one build</text><text class="sC" x="540" y="70" text-anchor="middle">tested once</text>
+<line class="sLm" x1="540" y1="76" x2="426" y2="106" marker-end="url(#ahm)"/><rect class="sG" x="374" y="108" width="104" height="44" rx="8"/><text class="sT" x="426" y="128" text-anchor="middle">dev</text><text class="sC" x="426" y="144" text-anchor="middle">config.json</text>
+<line class="sLm" x1="540" y1="76" x2="542" y2="106" marker-end="url(#ahm)"/><rect class="sG" x="490" y="108" width="104" height="44" rx="8"/><text class="sT" x="542" y="128" text-anchor="middle">staging</text><text class="sC" x="542" y="144" text-anchor="middle">config.json</text>
+<line class="sLm" x1="540" y1="76" x2="658" y2="106" marker-end="url(#ahm)"/><rect class="sG" x="606" y="108" width="104" height="44" rx="8"/><text class="sT" x="658" y="128" text-anchor="middle">prod</text><text class="sC" x="658" y="144" text-anchor="middle">config.json</text>
+<text class="sGt" x="540" y="180" text-anchor="middle">one artifact; values set per environment</text>
+</svg><figcaption>"Build once, promote everywhere" needs runtime configuration. With same-origin relative URLs you may need neither.</figcaption></figure>
+
 ```ts
 // Angular: load runtime config before the app starts
 export const appConfig: ApplicationConfig = {
@@ -133,6 +222,42 @@ finsight/
 ## FS1.6 A feature, end to end ⭐
 
 "The accountant clicks **Mark paid** on an overdue invoice." Walk every layer; this is the most common full-stack interview question in disguise.
+
+<figure class="dia steps"><svg viewBox="0 0 720 266" role="img" aria-label="The Mark paid feature travelling through eight layers: UI, client data layer, edge, API pipeline, application, data, async processing and a real-time update back to the UI">
+<rect class="sN" x="14" y="20" width="692" height="26" rx="5"/><text class="sM" x="24" y="37">UI</text>
+<rect class="sN" x="14" y="50" width="692" height="26" rx="5"/><text class="sM" x="24" y="67">client data layer</text>
+<rect class="sN" x="14" y="80" width="692" height="26" rx="5"/><text class="sM" x="24" y="97">edge</text>
+<rect class="sN" x="14" y="110" width="692" height="26" rx="5"/><text class="sM" x="24" y="127">API pipeline</text>
+<rect class="sN" x="14" y="140" width="692" height="26" rx="5"/><text class="sM" x="24" y="157">application</text>
+<rect class="sN" x="14" y="170" width="692" height="26" rx="5"/><text class="sM" x="24" y="187">data</text>
+<rect class="sN" x="14" y="200" width="692" height="26" rx="5"/><text class="sM" x="24" y="217">async</text>
+<rect class="sN" x="14" y="230" width="692" height="26" rx="5"/><text class="sM" x="24" y="247">real-time</text>
+<g data-s="1"><rect class="sA" x="196" y="22" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="37">button disabled · optimistic "Paid" badge</text></g>
+<g data-s="2"><rect class="sA" x="196" y="52" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="67">POST /api/invoices/42/payments · Idempotency-Key · cookie</text></g>
+<g class="pk" data-s="2"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 33 V63"/></circle></g>
+<g data-s="3"><rect class="sB" x="196" y="82" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="97">reverse proxy: TLS, rate limit, forward to the API</text></g>
+<g class="pk" data-s="3"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 63 V93"/></circle></g>
+<g data-s="4"><rect class="sV" x="196" y="112" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="127">authenticate → policy CanRecordPayment (same tenant?)</text></g>
+<g class="pk" data-s="4"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 93 V123"/></circle></g>
+<g data-s="5"><rect class="sV" x="196" y="142" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="157">validate amount → invoice.ApplyPayment() enforces rules</text></g>
+<g class="pk" data-s="5"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 123 V153"/></circle></g>
+<g data-s="6"><rect class="sG" x="196" y="172" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="187">one transaction: payment + status + outbox row</text></g>
+<g class="pk" data-s="6"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 153 V183"/></circle></g>
+<g data-s="7"><rect class="sW" x="196" y="202" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="217">relay publishes InvoicePaid → forecast, receipt, cache</text></g>
+<g class="pk" data-s="7"><circle class="sP" r="5"><animateMotion dur="0.8s" begin="indefinite" fill="freeze" path="M184 183 V213"/></circle></g>
+<g data-s="8"><rect class="sW" x="196" y="232" width="470" height="22" rx="4" opacity=".8"/><text class="sC" x="206" y="247">SignalR to the tenant group → UI refetches</text></g>
+<g class="pk" data-s="8"><circle class="sPg" r="5"><animateMotion dur="1.4s" begin="indefinite" fill="freeze" path="M684 213 V33"/></circle></g>
+<g data-s="8"><line class="sLg" x1="684" y1="243" x2="684" y2="36" stroke-dasharray="4 4" marker-end="url(#ahg)"/></g>
+</svg><ol class="dia-steps">
+<li>The click: the button disables itself and the badge turns "Paid" immediately (optimistic), with a rollback ready if the call fails.</li>
+<li>The generated client posts to the payments endpoint with an idempotency key, so a retry can't pay twice. On the same origin the auth cookie travels automatically.</li>
+<li>The reverse proxy terminates TLS, applies a rate limit to writes and forwards the request.</li>
+<li>Authentication reads the cookie; a resource-based policy checks this user may record payments for <b>this</b> tenant's invoice.</li>
+<li>The handler validates the amount and asks the invoice aggregate to apply the payment, which enforces "not already paid".</li>
+<li>EF Core saves the payment, the new status and an outbox event in one transaction. A rowversion clash returns 409.</li>
+<li>The outbox relay publishes <code>InvoicePaid</code>. Workers re-run the forecast, email the receipt and invalidate the dashboard cache.</li>
+<li>SignalR pushes the event to the company's group, and every open screen refetches its invoices. One trace ID links all eight steps in your telemetry.</li>
+</ol><figcaption>The question behind most full-stack interviews: what happens between the click and the database, and back?</figcaption></figure>
 
 | Layer | What happens | Decisions worth mentioning |
 |---|---|---|

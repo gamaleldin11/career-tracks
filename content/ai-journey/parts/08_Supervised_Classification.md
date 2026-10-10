@@ -137,6 +137,82 @@ df["hour_cos"] = np.cos(2 * np.pi * df["hour"] / 24)
 
 Now midnight and 11pm are close in feature space. Matters for linear models and KNN; trees can carve the discontinuity themselves.
 
+<figure class="dia"><svg viewBox="0 0 720 266" role="img" aria-label="Hours as integers put 23 and 0 at opposite ends of a line, 23 units apart; encoded as sine and cosine they sit on a circle where 23:00 and 00:00 are neighbours at the same distance as any two consecutive hours">
+<text class="sT" x="180" y="22" text-anchor="middle">hour as an integer</text><line class="sLm" x1="30" y1="80" x2="330" y2="80"/>
+<circle class="sPr" cx="30.0" cy="80" r="5"/>
+<text class="sS" x="30" y="100" text-anchor="middle">0</text>
+<circle class="sP" cx="43.0" cy="80" r="3"/>
+<circle class="sP" cx="56.1" cy="80" r="3"/>
+<circle class="sP" cx="69.1" cy="80" r="3"/>
+<text class="sS" x="69.1304" y="100" text-anchor="middle">3</text>
+<circle class="sP" cx="82.2" cy="80" r="3"/>
+<circle class="sP" cx="95.2" cy="80" r="3"/>
+<circle class="sP" cx="108.3" cy="80" r="3"/>
+<text class="sS" x="108.261" y="100" text-anchor="middle">6</text>
+<circle class="sP" cx="121.3" cy="80" r="3"/>
+<circle class="sP" cx="134.3" cy="80" r="3"/>
+<circle class="sP" cx="147.4" cy="80" r="3"/>
+<text class="sS" x="147.391" y="100" text-anchor="middle">9</text>
+<circle class="sP" cx="160.4" cy="80" r="3"/>
+<circle class="sP" cx="173.5" cy="80" r="3"/>
+<circle class="sP" cx="186.5" cy="80" r="3"/>
+<text class="sS" x="186.522" y="100" text-anchor="middle">12</text>
+<circle class="sP" cx="199.6" cy="80" r="3"/>
+<circle class="sP" cx="212.6" cy="80" r="3"/>
+<circle class="sP" cx="225.7" cy="80" r="3"/>
+<text class="sS" x="225.652" y="100" text-anchor="middle">15</text>
+<circle class="sP" cx="238.7" cy="80" r="3"/>
+<circle class="sP" cx="251.7" cy="80" r="3"/>
+<circle class="sP" cx="264.8" cy="80" r="3"/>
+<text class="sS" x="264.783" y="100" text-anchor="middle">18</text>
+<circle class="sP" cx="277.8" cy="80" r="3"/>
+<circle class="sP" cx="290.9" cy="80" r="3"/>
+<circle class="sP" cx="303.9" cy="80" r="3"/>
+<text class="sS" x="303.913" y="100" text-anchor="middle">21</text>
+<circle class="sP" cx="317.0" cy="80" r="3"/>
+<circle class="sPr" cx="330.0" cy="80" r="5"/>
+<text class="sS" x="330" y="100" text-anchor="middle">23</text>
+<path class="sLr" d="M 30.0 70 Q 180 20 330.0 70" fill="none" marker-end="url(#ahr)"/>
+<text class="sRt" x="180" y="130" text-anchor="middle">23:00 → 00:00 looks 23 apart</text>
+<text class="sS" x="180" y="150" text-anchor="middle">the model sees midnight as far from 11 pm</text>
+<text class="sT" x="540" y="16" text-anchor="middle">(sin, cos) of 2π·hour/24</text><circle class="sLm" cx="540" cy="126" r="74" style="fill:none"/>
+<circle class="sPg" cx="540.0" cy="52.0" r="5"/>
+<text class="sS" x="540" y="40" text-anchor="middle">0</text>
+<circle class="sP" cx="559.2" cy="54.5" r="3"/>
+<circle class="sP" cx="577.0" cy="61.9" r="3"/>
+<circle class="sP" cx="592.3" cy="73.7" r="3"/>
+<text class="sS" x="603.64" y="66.3604" text-anchor="middle">3</text>
+<circle class="sP" cx="604.1" cy="89.0" r="3"/>
+<circle class="sP" cx="611.5" cy="106.8" r="3"/>
+<circle class="sP" cx="614.0" cy="126.0" r="3"/>
+<text class="sS" x="630" y="130" text-anchor="middle">6</text>
+<circle class="sP" cx="611.5" cy="145.2" r="3"/>
+<circle class="sP" cx="604.1" cy="163.0" r="3"/>
+<circle class="sP" cx="592.3" cy="178.3" r="3"/>
+<text class="sS" x="603.64" y="193.64" text-anchor="middle">9</text>
+<circle class="sP" cx="577.0" cy="190.1" r="3"/>
+<circle class="sP" cx="559.2" cy="197.5" r="3"/>
+<circle class="sP" cx="540.0" cy="200.0" r="3"/>
+<text class="sS" x="540" y="220" text-anchor="middle">12</text>
+<circle class="sP" cx="520.8" cy="197.5" r="3"/>
+<circle class="sP" cx="503.0" cy="190.1" r="3"/>
+<circle class="sP" cx="487.7" cy="178.3" r="3"/>
+<text class="sS" x="476.36" y="193.64" text-anchor="middle">15</text>
+<circle class="sP" cx="475.9" cy="163.0" r="3"/>
+<circle class="sP" cx="468.5" cy="145.2" r="3"/>
+<circle class="sP" cx="466.0" cy="126.0" r="3"/>
+<text class="sS" x="450" y="130" text-anchor="middle">18</text>
+<circle class="sP" cx="468.5" cy="106.8" r="3"/>
+<circle class="sP" cx="475.9" cy="89.0" r="3"/>
+<circle class="sP" cx="487.7" cy="73.7" r="3"/>
+<text class="sS" x="476.36" y="66.3604" text-anchor="middle">21</text>
+<circle class="sP" cx="503.0" cy="61.9" r="3"/>
+<circle class="sPg" cx="520.8" cy="54.5" r="5"/>
+<text class="sS" x="516.706" y="43.0667" text-anchor="middle">23</text>
+<text class="sGt" x="540" y="238" text-anchor="middle">23:00 ↔ 00:00 distance 0.26, the same as 11:00 ↔ 12:00 (0.26)</text>
+<text class="sS" x="540" y="256" text-anchor="middle">opposite hours (00:00 ↔ 12:00) are the farthest apart: 2</text>
+</svg><figcaption>Cyclic encoding, computed: two columns place the 24 hours on a circle, so the wrap-around at midnight disappears.</figcaption></figure>
+
 **B — Text length as a proxy.** The full ad topic line is high-cardinality free text. Its *length* is one clean numeric feature that may carry signal (long headlines vs short) at almost no cost. A cheap way to extract something from text without going full NLP — see Part 10 for the full treatment.
 
 **C — Top-N + "Other".** The standard, robust fix for high cardinality. One-hot on 237 countries gives 237 sparse columns, most with a handful of rows each; the model cannot learn anything reliable from them and you have invited overfitting. Keeping the top 20 and bucketing the rest keeps the signal and drops the noise.
@@ -214,6 +290,770 @@ models = {
 
 A dict of named pipelines, iterated over — clean, and trivially extensible. The capstone extends the same structure to five models.
 
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="The same two-class data with a roughly circular positive region, classified by three models: logistic regression cannot wrap a ring with one straight line and predicts everything negative, KNN with k equal 5 follows the points closely, and a depth-3 decision tree carves axis-aligned rectangles">
+<rect class="sN" x="14" y="34" width="196" height="196" rx="0" style="fill:none"/>
+<circle class="sP" cx="58.4" cy="41.4" r="3"/>
+<circle class="sP" cx="30.7" cy="181.5" r="3"/>
+<circle class="sP" cx="209.8" cy="189.0" r="3"/>
+<circle class="sPg" cx="102.8" cy="133.0" r="3"/>
+<circle class="sP" cx="51.7" cy="67.2" r="3"/>
+<circle class="sP" cx="17.9" cy="177.7" r="3"/>
+<circle class="sP" cx="93.9" cy="53.2" r="3"/>
+<circle class="sP" cx="64.6" cy="35.6" r="3"/>
+<circle class="sP" cx="26.4" cy="108.4" r="3"/>
+<circle class="sPg" cx="80.3" cy="94.5" r="3"/>
+<circle class="sPg" cx="111.5" cy="102.7" r="3"/>
+<circle class="sP" cx="41.9" cy="217.4" r="3"/>
+<circle class="sP" cx="199.4" cy="134.2" r="3"/>
+<circle class="sPg" cx="127.5" cy="87.1" r="3"/>
+<circle class="sP" cx="186.7" cy="174.0" r="3"/>
+<circle class="sP" cx="40.5" cy="80.2" r="3"/>
+<circle class="sP" cx="33.1" cy="94.7" r="3"/>
+<circle class="sP" cx="179.3" cy="131.3" r="3"/>
+<circle class="sP" cx="52.7" cy="200.6" r="3"/>
+<circle class="sP" cx="28.0" cy="53.0" r="3"/>
+<circle class="sPg" cx="113.5" cy="92.5" r="3"/>
+<circle class="sP" cx="16.3" cy="162.7" r="3"/>
+<circle class="sPg" cx="66.3" cy="147.0" r="3"/>
+<circle class="sP" cx="188.7" cy="195.7" r="3"/>
+<circle class="sP" cx="91.7" cy="197.4" r="3"/>
+<circle class="sP" cx="53.6" cy="79.8" r="3"/>
+<circle class="sP" cx="72.8" cy="227.4" r="3"/>
+<circle class="sP" cx="47.4" cy="144.6" r="3"/>
+<circle class="sP" cx="59.4" cy="149.6" r="3"/>
+<circle class="sPg" cx="129.3" cy="173.4" r="3"/>
+<circle class="sP" cx="32.6" cy="213.3" r="3"/>
+<circle class="sP" cx="84.6" cy="71.7" r="3"/>
+<circle class="sPg" cx="113.0" cy="91.2" r="3"/>
+<circle class="sP" cx="17.3" cy="202.5" r="3"/>
+<circle class="sPg" cx="89.7" cy="117.6" r="3"/>
+<circle class="sP" cx="203.1" cy="229.4" r="3"/>
+<circle class="sP" cx="177.8" cy="188.8" r="3"/>
+<circle class="sP" cx="203.2" cy="81.2" r="3"/>
+<circle class="sP" cx="208.1" cy="116.3" r="3"/>
+<circle class="sP" cx="100.5" cy="213.7" r="3"/>
+<circle class="sPg" cx="132.7" cy="132.5" r="3"/>
+<circle class="sP" cx="37.9" cy="116.2" r="3"/>
+<circle class="sP" cx="102.7" cy="205.2" r="3"/>
+<circle class="sPg" cx="154.2" cy="137.6" r="3"/>
+<circle class="sPg" cx="91.2" cy="159.3" r="3"/>
+<circle class="sP" cx="101.5" cy="208.8" r="3"/>
+<circle class="sP" cx="156.1" cy="91.2" r="3"/>
+<circle class="sPg" cx="85.4" cy="145.2" r="3"/>
+<circle class="sP" cx="32.3" cy="40.3" r="3"/>
+<circle class="sP" cx="152.2" cy="190.7" r="3"/>
+<circle class="sPg" cx="59.0" cy="127.0" r="3"/>
+<circle class="sP" cx="15.3" cy="109.8" r="3"/>
+<circle class="sP" cx="192.1" cy="84.3" r="3"/>
+<circle class="sP" cx="57.8" cy="171.9" r="3"/>
+<circle class="sP" cx="121.3" cy="38.5" r="3"/>
+<circle class="sP" cx="180.7" cy="128.8" r="3"/>
+<circle class="sP" cx="136.5" cy="42.4" r="3"/>
+<circle class="sP" cx="179.8" cy="191.6" r="3"/>
+<circle class="sP" cx="86.5" cy="42.1" r="3"/>
+<circle class="sPg" cx="70.9" cy="109.8" r="3"/>
+<circle class="sP" cx="179.2" cy="95.9" r="3"/>
+<circle class="sP" cx="174.9" cy="111.4" r="3"/>
+<circle class="sPg" cx="85.0" cy="146.2" r="3"/>
+<circle class="sP" cx="178.3" cy="177.3" r="3"/>
+<circle class="sP" cx="27.5" cy="86.3" r="3"/>
+<circle class="sP" cx="36.9" cy="67.5" r="3"/>
+<circle class="sPg" cx="67.7" cy="172.8" r="3"/>
+<circle class="sP" cx="68.4" cy="55.9" r="3"/>
+<circle class="sPg" cx="94.7" cy="159.2" r="3"/>
+<circle class="sP" cx="160.5" cy="181.0" r="3"/>
+<text class="sT" x="112" y="24" text-anchor="middle">logistic regression</text><text class="sS" x="112" y="246" text-anchor="middle">no line fits a ring: all negative</text><text class="sS" x="112" y="261" text-anchor="middle">train accuracy 74%</text>
+<rect class="sG" x="293.2" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="293.2" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="293.2" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="299.733" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="306.267" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="312.8" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="319.333" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="325.867" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="332.4" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="338.933" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="345.467" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="352" y="60.1333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="358.533" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="365.067" y="60.1333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="371.6" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="73.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="378.133" y="66.6667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="384.667" y="79.7333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="391.2" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sN" x="254" y="34" width="196" height="196" rx="0" style="fill:none"/>
+<circle class="sP" cx="298.4" cy="41.4" r="3"/>
+<circle class="sP" cx="270.7" cy="181.5" r="3"/>
+<circle class="sP" cx="449.8" cy="189.0" r="3"/>
+<circle class="sPg" cx="342.8" cy="133.0" r="3"/>
+<circle class="sP" cx="291.7" cy="67.2" r="3"/>
+<circle class="sP" cx="257.9" cy="177.7" r="3"/>
+<circle class="sP" cx="333.9" cy="53.2" r="3"/>
+<circle class="sP" cx="304.6" cy="35.6" r="3"/>
+<circle class="sP" cx="266.4" cy="108.4" r="3"/>
+<circle class="sPg" cx="320.3" cy="94.5" r="3"/>
+<circle class="sPg" cx="351.5" cy="102.7" r="3"/>
+<circle class="sP" cx="281.9" cy="217.4" r="3"/>
+<circle class="sP" cx="439.4" cy="134.2" r="3"/>
+<circle class="sPg" cx="367.5" cy="87.1" r="3"/>
+<circle class="sP" cx="426.7" cy="174.0" r="3"/>
+<circle class="sP" cx="280.5" cy="80.2" r="3"/>
+<circle class="sP" cx="273.1" cy="94.7" r="3"/>
+<circle class="sP" cx="419.3" cy="131.3" r="3"/>
+<circle class="sP" cx="292.7" cy="200.6" r="3"/>
+<circle class="sP" cx="268.0" cy="53.0" r="3"/>
+<circle class="sPg" cx="353.5" cy="92.5" r="3"/>
+<circle class="sP" cx="256.3" cy="162.7" r="3"/>
+<circle class="sPg" cx="306.3" cy="147.0" r="3"/>
+<circle class="sP" cx="428.7" cy="195.7" r="3"/>
+<circle class="sP" cx="331.7" cy="197.4" r="3"/>
+<circle class="sP" cx="293.6" cy="79.8" r="3"/>
+<circle class="sP" cx="312.8" cy="227.4" r="3"/>
+<circle class="sP" cx="287.4" cy="144.6" r="3"/>
+<circle class="sP" cx="299.4" cy="149.6" r="3"/>
+<circle class="sPg" cx="369.3" cy="173.4" r="3"/>
+<circle class="sP" cx="272.6" cy="213.3" r="3"/>
+<circle class="sP" cx="324.6" cy="71.7" r="3"/>
+<circle class="sPg" cx="353.0" cy="91.2" r="3"/>
+<circle class="sP" cx="257.3" cy="202.5" r="3"/>
+<circle class="sPg" cx="329.7" cy="117.6" r="3"/>
+<circle class="sP" cx="443.1" cy="229.4" r="3"/>
+<circle class="sP" cx="417.8" cy="188.8" r="3"/>
+<circle class="sP" cx="443.2" cy="81.2" r="3"/>
+<circle class="sP" cx="448.1" cy="116.3" r="3"/>
+<circle class="sP" cx="340.5" cy="213.7" r="3"/>
+<circle class="sPg" cx="372.7" cy="132.5" r="3"/>
+<circle class="sP" cx="277.9" cy="116.2" r="3"/>
+<circle class="sP" cx="342.7" cy="205.2" r="3"/>
+<circle class="sPg" cx="394.2" cy="137.6" r="3"/>
+<circle class="sPg" cx="331.2" cy="159.3" r="3"/>
+<circle class="sP" cx="341.5" cy="208.8" r="3"/>
+<circle class="sP" cx="396.1" cy="91.2" r="3"/>
+<circle class="sPg" cx="325.4" cy="145.2" r="3"/>
+<circle class="sP" cx="272.3" cy="40.3" r="3"/>
+<circle class="sP" cx="392.2" cy="190.7" r="3"/>
+<circle class="sPg" cx="299.0" cy="127.0" r="3"/>
+<circle class="sP" cx="255.3" cy="109.8" r="3"/>
+<circle class="sP" cx="432.1" cy="84.3" r="3"/>
+<circle class="sP" cx="297.8" cy="171.9" r="3"/>
+<circle class="sP" cx="361.3" cy="38.5" r="3"/>
+<circle class="sP" cx="420.7" cy="128.8" r="3"/>
+<circle class="sP" cx="376.5" cy="42.4" r="3"/>
+<circle class="sP" cx="419.8" cy="191.6" r="3"/>
+<circle class="sP" cx="326.5" cy="42.1" r="3"/>
+<circle class="sPg" cx="310.9" cy="109.8" r="3"/>
+<circle class="sP" cx="419.2" cy="95.9" r="3"/>
+<circle class="sP" cx="414.9" cy="111.4" r="3"/>
+<circle class="sPg" cx="325.0" cy="146.2" r="3"/>
+<circle class="sP" cx="418.3" cy="177.3" r="3"/>
+<circle class="sP" cx="267.5" cy="86.3" r="3"/>
+<circle class="sP" cx="276.9" cy="67.5" r="3"/>
+<circle class="sPg" cx="307.7" cy="172.8" r="3"/>
+<circle class="sP" cx="308.4" cy="55.9" r="3"/>
+<circle class="sPg" cx="334.7" cy="159.2" r="3"/>
+<circle class="sP" cx="400.5" cy="181.0" r="3"/>
+<text class="sT" x="352" y="24" text-anchor="middle">KNN, k = 5</text><text class="sS" x="352" y="246" text-anchor="middle">follows the points</text><text class="sS" x="352" y="261" text-anchor="middle">train accuracy 99%</text>
+<rect class="sG" x="539.733" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="539.733" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="546.267" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="552.8" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="559.333" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="565.867" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="572.4" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="578.933" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="585.467" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="592" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="598.533" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="605.067" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="611.6" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="618.133" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="624.667" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="223.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="216.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="210.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="203.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="197.333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="190.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="184.267" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="177.733" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="171.2" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="164.667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="158.133" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="151.6" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="145.067" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="138.533" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="132" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="125.467" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="118.933" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="112.4" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="105.867" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="99.3333" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="92.8" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sG" x="631.2" y="86.2667" width="6.83333" height="6.83333" rx="0" opacity=".55"/>
+<rect class="sN" x="494" y="34" width="196" height="196" rx="0" style="fill:none"/>
+<circle class="sP" cx="538.4" cy="41.4" r="3"/>
+<circle class="sP" cx="510.7" cy="181.5" r="3"/>
+<circle class="sP" cx="689.8" cy="189.0" r="3"/>
+<circle class="sPg" cx="582.8" cy="133.0" r="3"/>
+<circle class="sP" cx="531.7" cy="67.2" r="3"/>
+<circle class="sP" cx="497.9" cy="177.7" r="3"/>
+<circle class="sP" cx="573.9" cy="53.2" r="3"/>
+<circle class="sP" cx="544.6" cy="35.6" r="3"/>
+<circle class="sP" cx="506.4" cy="108.4" r="3"/>
+<circle class="sPg" cx="560.3" cy="94.5" r="3"/>
+<circle class="sPg" cx="591.5" cy="102.7" r="3"/>
+<circle class="sP" cx="521.9" cy="217.4" r="3"/>
+<circle class="sP" cx="679.4" cy="134.2" r="3"/>
+<circle class="sPg" cx="607.5" cy="87.1" r="3"/>
+<circle class="sP" cx="666.7" cy="174.0" r="3"/>
+<circle class="sP" cx="520.5" cy="80.2" r="3"/>
+<circle class="sP" cx="513.1" cy="94.7" r="3"/>
+<circle class="sP" cx="659.3" cy="131.3" r="3"/>
+<circle class="sP" cx="532.7" cy="200.6" r="3"/>
+<circle class="sP" cx="508.0" cy="53.0" r="3"/>
+<circle class="sPg" cx="593.5" cy="92.5" r="3"/>
+<circle class="sP" cx="496.3" cy="162.7" r="3"/>
+<circle class="sPg" cx="546.3" cy="147.0" r="3"/>
+<circle class="sP" cx="668.7" cy="195.7" r="3"/>
+<circle class="sP" cx="571.7" cy="197.4" r="3"/>
+<circle class="sP" cx="533.6" cy="79.8" r="3"/>
+<circle class="sP" cx="552.8" cy="227.4" r="3"/>
+<circle class="sP" cx="527.4" cy="144.6" r="3"/>
+<circle class="sP" cx="539.4" cy="149.6" r="3"/>
+<circle class="sPg" cx="609.3" cy="173.4" r="3"/>
+<circle class="sP" cx="512.6" cy="213.3" r="3"/>
+<circle class="sP" cx="564.6" cy="71.7" r="3"/>
+<circle class="sPg" cx="593.0" cy="91.2" r="3"/>
+<circle class="sP" cx="497.3" cy="202.5" r="3"/>
+<circle class="sPg" cx="569.7" cy="117.6" r="3"/>
+<circle class="sP" cx="683.1" cy="229.4" r="3"/>
+<circle class="sP" cx="657.8" cy="188.8" r="3"/>
+<circle class="sP" cx="683.2" cy="81.2" r="3"/>
+<circle class="sP" cx="688.1" cy="116.3" r="3"/>
+<circle class="sP" cx="580.5" cy="213.7" r="3"/>
+<circle class="sPg" cx="612.7" cy="132.5" r="3"/>
+<circle class="sP" cx="517.9" cy="116.2" r="3"/>
+<circle class="sP" cx="582.7" cy="205.2" r="3"/>
+<circle class="sPg" cx="634.2" cy="137.6" r="3"/>
+<circle class="sPg" cx="571.2" cy="159.3" r="3"/>
+<circle class="sP" cx="581.5" cy="208.8" r="3"/>
+<circle class="sP" cx="636.1" cy="91.2" r="3"/>
+<circle class="sPg" cx="565.4" cy="145.2" r="3"/>
+<circle class="sP" cx="512.3" cy="40.3" r="3"/>
+<circle class="sP" cx="632.2" cy="190.7" r="3"/>
+<circle class="sPg" cx="539.0" cy="127.0" r="3"/>
+<circle class="sP" cx="495.3" cy="109.8" r="3"/>
+<circle class="sP" cx="672.1" cy="84.3" r="3"/>
+<circle class="sP" cx="537.8" cy="171.9" r="3"/>
+<circle class="sP" cx="601.3" cy="38.5" r="3"/>
+<circle class="sP" cx="660.7" cy="128.8" r="3"/>
+<circle class="sP" cx="616.5" cy="42.4" r="3"/>
+<circle class="sP" cx="659.8" cy="191.6" r="3"/>
+<circle class="sP" cx="566.5" cy="42.1" r="3"/>
+<circle class="sPg" cx="550.9" cy="109.8" r="3"/>
+<circle class="sP" cx="659.2" cy="95.9" r="3"/>
+<circle class="sP" cx="654.9" cy="111.4" r="3"/>
+<circle class="sPg" cx="565.0" cy="146.2" r="3"/>
+<circle class="sP" cx="658.3" cy="177.3" r="3"/>
+<circle class="sP" cx="507.5" cy="86.3" r="3"/>
+<circle class="sP" cx="516.9" cy="67.5" r="3"/>
+<circle class="sPg" cx="547.7" cy="172.8" r="3"/>
+<circle class="sP" cx="548.4" cy="55.9" r="3"/>
+<circle class="sPg" cx="574.7" cy="159.2" r="3"/>
+<circle class="sP" cx="640.5" cy="181.0" r="3"/>
+<text class="sT" x="592" y="24" text-anchor="middle">decision tree, depth 3</text><text class="sS" x="592" y="246" text-anchor="middle">axis-aligned boxes</text><text class="sS" x="592" y="261" text-anchor="middle">train accuracy 90%</text>
+</svg><figcaption>Three models, three shapes of boundary. Shaded cells are predicted positive. Each model was fitted on these 70 points.</figcaption></figure>
+
 ### Logistic Regression
 
 **Despite the name, it is a classifier.** The mechanism:
@@ -230,6 +1070,29 @@ A dict of named pipelines, iterated over — clean, and trivially extensible. Th
 > **L = −(1/n) Σ [ yᵢ log(ŷᵢ) + (1 − yᵢ) log(1 − ŷᵢ) ]**
 
 MSE with a sigmoid gives a non-convex surface with flat regions where gradients vanish. Cross-entropy is convex in the parameters and its gradient stays healthy when the model is confidently wrong — which is exactly when you need a strong correction signal.
+
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Loss against predicted probability when the true class is 1: log-loss rises without bound as the prediction approaches 0, while squared error never exceeds 1; at p equal 0.01 the log-loss gradient is about minus 1 but the squared-error gradient through the sigmoid is almost 0">
+<polyline class="sLg" points="72.0,30.0 74.0,43.4 76.0,57.2 78.0,67.0 80.0,74.6 82.0,80.8 84.0,86.0 86.0,90.6 88.0,94.6 90.0,98.1 92.0,101.4 94.0,104.3 96.0,107.1 98.0,109.6 100.0,111.9 102.0,114.1 104.0,116.2 106.0,118.1 108.0,120.0 110.0,121.7 112.0,123.4 114.0,125.0 116.0,126.5 118.0,127.9 120.0,129.3 122.0,130.6 124.0,131.9 126.0,133.2 128.0,134.3 130.0,135.5 132.0,136.6 134.0,137.7 136.0,138.7 138.0,139.8 140.0,140.7 142.0,141.7 144.0,142.6 146.0,143.5 148.0,144.4 150.0,145.3 152.0,146.1 154.0,146.9 156.0,147.7 158.0,148.5 160.0,149.3 162.0,150.0 164.0,150.8 166.0,151.5 168.0,152.2 170.0,152.9 172.0,153.5 174.0,154.2 176.0,154.8 178.0,155.5 180.0,156.1 182.0,156.7 184.0,157.3 186.0,157.9 188.0,158.5 190.0,159.1 192.0,159.6 194.0,160.2 196.0,160.7 198.0,161.3 200.0,161.8 202.0,162.3 204.0,162.8 206.0,163.3 208.0,163.8 210.0,164.3 212.0,164.8 214.0,165.3 216.0,165.7 218.0,166.2 220.0,166.7 222.0,167.1 224.0,167.5 226.0,168.0 228.0,168.4 230.0,168.8 232.0,169.3 234.0,169.7 236.0,170.1 238.0,170.5 240.0,170.9 242.0,171.3 244.0,171.7 246.0,172.1 248.0,172.5 250.0,172.9 252.0,173.2 254.0,173.6 256.0,174.0 258.0,174.3 260.0,174.7 262.0,175.0 264.0,175.4 266.0,175.7 268.0,176.1 270.0,176.4 272.0,176.8 274.0,177.1 276.0,177.4 278.0,177.8 280.0,178.1 282.0,178.4 284.0,178.7 286.0,179.0 288.0,179.4 290.0,179.7 292.0,180.0 294.0,180.3 296.0,180.6 298.0,180.9 300.0,181.2 302.0,181.5 304.0,181.8 306.0,182.1 308.0,182.3 310.0,182.6 312.0,182.9 314.0,183.2 316.0,183.5 318.0,183.7 320.0,184.0 322.0,184.3 324.0,184.6 326.0,184.8 328.0,185.1 330.0,185.4 332.0,185.6 334.0,185.9 336.0,186.1 338.0,186.4 340.0,186.6 342.0,186.9 344.0,187.1 346.0,187.4 348.0,187.6 350.0,187.9 352.0,188.1 354.0,188.4 356.0,188.6 358.0,188.8 360.0,189.1 362.0,189.3 364.0,189.5 366.0,189.8 368.0,190.0 370.0,190.2 372.0,190.4 374.0,190.7 376.0,190.9 378.0,191.1 380.0,191.3 382.0,191.6 384.0,191.8 386.0,192.0 388.0,192.2 390.0,192.4 392.0,192.6 394.0,192.8 396.0,193.0 398.0,193.3 400.0,193.5 402.0,193.7 404.0,193.9 406.0,194.1 408.0,194.3 410.0,194.5 412.0,194.7 414.0,194.9 416.0,195.1 418.0,195.3 420.0,195.5 422.0,195.7 424.0,195.8 426.0,196.0 428.0,196.2 430.0,196.4 432.0,196.6 434.0,196.8 436.0,197.0 438.0,197.2 440.0,197.3 442.0,197.5 444.0,197.7 446.0,197.9 448.0,198.1 450.0,198.3 452.0,198.4 454.0,198.6 456.0,198.8 458.0,199.0 460.0,199.1 462.0,199.3 464.0,199.5 466.0,199.7 468.0,199.8 470.0,200.0" style="stroke-width:2.4"/>
+<polyline class="sLr" points="70.0,166.0 72.0,166.3 74.0,166.7 76.0,167.0 78.0,167.3 80.0,167.7 82.0,168.0 84.0,168.3 86.0,168.7 88.0,169.0 90.0,169.3 92.0,169.6 94.0,170.0 96.0,170.3 98.0,170.6 100.0,170.9 102.0,171.2 104.0,171.5 106.0,171.8 108.0,172.2 110.0,172.5 112.0,172.8 114.0,173.1 116.0,173.4 118.0,173.7 120.0,174.0 122.0,174.3 124.0,174.6 126.0,174.9 128.0,175.1 130.0,175.4 132.0,175.7 134.0,176.0 136.0,176.3 138.0,176.6 140.0,176.9 142.0,177.1 144.0,177.4 146.0,177.7 148.0,178.0 150.0,178.2 152.0,178.5 154.0,178.8 156.0,179.0 158.0,179.3 160.0,179.6 162.0,179.8 164.0,180.1 166.0,180.4 168.0,180.6 170.0,180.9 172.0,181.1 174.0,181.4 176.0,181.6 178.0,181.9 180.0,182.1 182.0,182.4 184.0,182.6 186.0,182.9 188.0,183.1 190.0,183.3 192.0,183.6 194.0,183.8 196.0,184.0 198.0,184.3 200.0,184.5 202.0,184.7 204.0,185.0 206.0,185.2 208.0,185.4 210.0,185.6 212.0,185.9 214.0,186.1 216.0,186.3 218.0,186.5 220.0,186.7 222.0,186.9 224.0,187.1 226.0,187.3 228.0,187.6 230.0,187.8 232.0,188.0 234.0,188.2 236.0,188.4 238.0,188.6 240.0,188.8 242.0,189.0 244.0,189.1 246.0,189.3 248.0,189.5 250.0,189.7 252.0,189.9 254.0,190.1 256.0,190.3 258.0,190.4 260.0,190.6 262.0,190.8 264.0,191.0 266.0,191.2 268.0,191.3 270.0,191.5 272.0,191.7 274.0,191.8 276.0,192.0 278.0,192.2 280.0,192.3 282.0,192.5 284.0,192.6 286.0,192.8 288.0,193.0 290.0,193.1 292.0,193.3 294.0,193.4 296.0,193.6 298.0,193.7 300.0,193.9 302.0,194.0 304.0,194.1 306.0,194.3 308.0,194.4 310.0,194.6 312.0,194.7 314.0,194.8 316.0,195.0 318.0,195.1 320.0,195.2 322.0,195.3 324.0,195.5 326.0,195.6 328.0,195.7 330.0,195.8 332.0,196.0 334.0,196.1 336.0,196.2 338.0,196.3 340.0,196.4 342.0,196.5 344.0,196.6 346.0,196.7 348.0,196.8 350.0,196.9 352.0,197.0 354.0,197.1 356.0,197.2 358.0,197.3 360.0,197.4 362.0,197.5 364.0,197.6 366.0,197.7 368.0,197.8 370.0,197.9 372.0,198.0 374.0,198.0 376.0,198.1 378.0,198.2 380.0,198.3 382.0,198.4 384.0,198.4 386.0,198.5 388.0,198.6 390.0,198.6 392.0,198.7 394.0,198.8 396.0,198.8 398.0,198.9 400.0,199.0 402.0,199.0 404.0,199.1 406.0,199.1 408.0,199.2 410.0,199.2 412.0,199.3 414.0,199.3 416.0,199.4 418.0,199.4 420.0,199.5 422.0,199.5 424.0,199.6 426.0,199.6 428.0,199.6 430.0,199.7 432.0,199.7 434.0,199.7 436.0,199.8 438.0,199.8 440.0,199.8 442.0,199.8 444.0,199.9 446.0,199.9 448.0,199.9 450.0,199.9 452.0,199.9 454.0,199.9 456.0,200.0 458.0,200.0 460.0,200.0 462.0,200.0 464.0,200.0 466.0,200.0 468.0,200.0 470.0,200.0" style="stroke-width:2.4"/>
+<line class="sLm" x1="70" y1="200" x2="480" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="24"/>
+<text class="sS" x="70" y="216" text-anchor="middle">0</text>
+<text class="sS" x="170" y="216" text-anchor="middle">0.25</text>
+<text class="sS" x="270" y="216" text-anchor="middle">0.5</text>
+<text class="sS" x="370" y="216" text-anchor="middle">0.75</text>
+<text class="sS" x="470" y="216" text-anchor="middle">1</text>
+<text class="sS" x="62" y="204" text-anchor="end">0</text>
+<text class="sS" x="62" y="170" text-anchor="end">1</text>
+<text class="sS" x="62" y="136" text-anchor="end">2</text>
+<text class="sS" x="62" y="102" text-anchor="end">3</text>
+<text class="sS" x="62" y="68" text-anchor="end">4</text>
+<text class="sS" x="62" y="34" text-anchor="end">5</text>
+<text class="sC" x="275" y="234" text-anchor="middle">predicted P(y = 1) when the truth is y = 1</text>
+<text class="sGt" x="94" y="40">−log p</text><text class="sRt" x="102" y="165.1">(1 − p)²</text>
+<rect class="sN" x="500" y="40" width="206" height="150" rx="8"/><text class="sT" x="603" y="62" text-anchor="middle">confidently wrong: p = 0.01</text>
+<text class="sGt" x="603" y="90" text-anchor="middle">log-loss 4.61</text><text class="sC" x="603" y="108" text-anchor="middle">gradient wrt z: -0.99</text>
+<text class="sRt" x="603" y="140" text-anchor="middle">MSE 0.98</text><text class="sC" x="603" y="158" text-anchor="middle">gradient wrt z: -0.020</text>
+<text class="sS" x="603" y="182" text-anchor="middle">the sigmoid flattens MSE's signal</text>
+</svg><figcaption>Why classifiers train on cross-entropy: it punishes confident mistakes hardest, and its gradient stays alive exactly there. Computed.</figcaption></figure>
 
 **`max_iter=1000`** — the default of 100 often fails to converge and prints a `ConvergenceWarning`. Raising it is the standard fix; if it still will not converge, your features are not scaled.
 
@@ -313,6 +1176,21 @@ for name, pipe in models.items():
 - `predict_proba(X)` → an `(n, 2)` array of class probabilities. `[:, 1]` takes the positive class.
 
 **ROC-AUC requires probabilities, not labels.** Passing `y_pred` to `roc_auc_score` is a common bug — it computes AUC over two points and gives a meaningless number.
+
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Two ROC curves for the same 200-sample test set: computed from predicted probabilities it is a smooth curve with an AUC of 0.89, while computed from hard 0/1 labels it collapses to three points and an AUC of 0.82">
+<rect class="sN" x="60" y="20" width="200" height="200" rx="0" style="fill:none"/><line class="sLm" x1="60" y1="220" x2="260" y2="20" stroke-dasharray="4 4"/>
+<polyline class="sLg" points="60.0,220.0 60.0,217.9 60.0,156.1 61.9,156.1 61.9,135.5 63.9,135.5 63.9,119.0 67.8,119.0 67.8,116.9 69.7,116.9 69.7,102.5 71.7,102.5 71.7,100.4 73.6,100.4 73.6,98.4 75.5,98.4 75.5,96.3 79.4,96.3 79.4,94.2 81.4,94.2 81.4,79.8 85.2,79.8 85.2,77.7 87.2,77.7 87.2,69.5 89.1,69.5 89.1,65.4 93.0,65.4 93.0,55.1 96.9,55.1 96.9,53.0 98.8,53.0 98.8,46.8 126.0,46.8 126.0,44.7 129.9,44.7 129.9,42.7 133.8,42.7 133.8,40.6 149.3,40.6 149.3,38.6 153.2,38.6 153.2,36.5 157.1,36.5 157.1,30.3 159.0,30.3 159.0,24.1 195.9,24.1 195.9,22.1 207.6,22.1 207.6,20.0 260.0,20.0" style="stroke-width:2.4"/>
+<polyline class="sLr" points="60.0,220.0 96.9,55.1 260.0,20.0" style="stroke-width:2.4"/>
+<circle class="sPr" cx="96.9" cy="55.1" r="5"/>
+<text class="sS" x="160" y="238" text-anchor="middle">false-positive rate →</text><text class="sS" x="46" y="120" text-anchor="end">TPR</text>
+<rect class="sN" x="300" y="30" width="406" height="150" rx="8"/>
+<text class="sGt" x="314" y="56">roc_auc_score(y, predict_proba(X)[:, 1]) = 0.891</text>
+<text class="sS" x="314" y="76">every threshold traced: a full curve</text>
+<text class="sRt" x="314" y="110">roc_auc_score(y, predict(X)) = 0.820</text>
+<text class="sS" x="314" y="130">one threshold only: three points joined by straight lines</text>
+<text class="sC" x="314" y="162">the label version understates this model by 0.071</text>
+<text class="sS" x="480" y="214" text-anchor="middle">pass probabilities (or decision_function scores), never hard labels</text>
+</svg><figcaption>The predict-instead-of-predict_proba bug, computed: the "curve" from labels is a single corner.</figcaption></figure>
 
 ### Reading a classification report
 
@@ -624,6 +1502,18 @@ Some classifiers are **natively multiclass** (`LogisticRegression`, Random Fores
 
 Force a strategy with `OneVsRestClassifier(...)` / `OneVsOneClassifier(...)`. After fitting, `clf.classes_` maps score columns to labels. Use `clf.classes_[scores.argmax()]`, never assume index = label.
 
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Multiclass with binary classifiers: one-vs-rest trains one model per class against all others; one-vs-one trains one model per pair of classes and takes a vote">
+<text class="sT" x="176" y="22" text-anchor="middle">one-vs-rest: N models</text><text class="sT" x="540" y="22" text-anchor="middle">one-vs-one: N(N−1)/2 models</text>
+<rect class="sA" x="30" y="40" width="70" height="36" rx="6"/><text class="sT" x="65" y="63" text-anchor="middle">cat</text><text class="sC" x="116" y="63" text-anchor="middle">vs</text><rect class="sN" x="132" y="40" width="190" height="36" rx="6"/><text class="sC" x="227" y="63" text-anchor="middle">all the others</text>
+<rect class="sV" x="30" y="92" width="70" height="36" rx="6"/><text class="sT" x="65" y="115" text-anchor="middle">dog</text><text class="sC" x="116" y="115" text-anchor="middle">vs</text><rect class="sN" x="132" y="92" width="190" height="36" rx="6"/><text class="sC" x="227" y="115" text-anchor="middle">all the others</text>
+<rect class="sG" x="30" y="144" width="70" height="36" rx="6"/><text class="sT" x="65" y="167" text-anchor="middle">fox</text><text class="sC" x="116" y="167" text-anchor="middle">vs</text><rect class="sN" x="132" y="144" width="190" height="36" rx="6"/><text class="sC" x="227" y="167" text-anchor="middle">all the others</text>
+<rect class="sA" x="410" y="40" width="90" height="36" rx="6"/><text class="sT" x="455" y="63" text-anchor="middle">cat</text><text class="sC" x="520" y="63" text-anchor="middle">vs</text><rect class="sV" x="540" y="40" width="90" height="36" rx="6"/><text class="sT" x="585" y="63" text-anchor="middle">dog</text>
+<rect class="sA" x="410" y="92" width="90" height="36" rx="6"/><text class="sT" x="455" y="115" text-anchor="middle">cat</text><text class="sC" x="520" y="115" text-anchor="middle">vs</text><rect class="sG" x="540" y="92" width="90" height="36" rx="6"/><text class="sT" x="585" y="115" text-anchor="middle">fox</text>
+<rect class="sV" x="410" y="144" width="90" height="36" rx="6"/><text class="sT" x="455" y="167" text-anchor="middle">dog</text><text class="sC" x="520" y="167" text-anchor="middle">vs</text><rect class="sG" x="540" y="144" width="90" height="36" rx="6"/><text class="sT" x="585" y="167" text-anchor="middle">fox</text>
+<text class="sC" x="176" y="210" text-anchor="middle">pick the class whose model is most confident</text><text class="sC" x="540" y="210" text-anchor="middle">each model votes; most votes wins</text>
+<text class="sS" x="360" y="234" text-anchor="middle">10 digits: 10 models (OvR) vs 45 models on smaller datasets (OvO, scikit-learn's choice for SVC)</text>
+</svg><figcaption>Two ways to make a binary classifier handle many classes.</figcaption></figure>
+
 Géron's multiclass SGD gets ~86–87% CV accuracy on MNIST, and **simply adding `StandardScaler` lifts it to ~89–90%**. Scaling matters for linear gradient-based models.
 
 ### 8.12.9 Error analysis — how to actually improve a classifier
@@ -790,6 +1680,28 @@ Géron moved SVMs to an online chapter (https://homl.info/svm-p), but they still
 - **No native probabilities:** `SVC(probability=True)` runs an internal Platt calibration with 5-fold CV, which is slow. Use `decision_function` for ranking.
 - **SVR** (regression) fits as many points as possible *inside* an ε-wide tube.
 - **When to use:** small-to-medium, clean, high-dimensional data (text, genomics). For large tabular data, gradient boosting usually wins.
+
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="A support vector machine: two classes separated by the line with the widest margin; the points on the margin edges, the support vectors, determine it">
+<line class="sL" x1="157" y1="225" x2="503" y2="25" stroke-width="2.5"/>
+<line class="sD" x1="177" y1="260" x2="523" y2="60"/>
+<line class="sD" x1="137" y1="190" x2="483" y2="-10"/>
+<circle class="sPg" cx="246" cy="220" r="6"/><circle class="sLm" cx="246" cy="220" r="11" fill="none" style="stroke-width:2"/>
+<circle class="sPg" cx="313" cy="216" r="6"/>
+<circle class="sPg" cx="350" cy="160" r="6"/><circle class="sLm" cx="350" cy="160" r="11" fill="none" style="stroke-width:2"/>
+<circle class="sPg" cx="427" cy="173" r="6"/>
+<circle class="sPg" cx="453" cy="118" r="6"/>
+<circle class="sPg" cx="368" cy="230" r="6"/>
+<circle class="sPg" cx="385" cy="140" r="6"/><circle class="sLm" cx="385" cy="140" r="11" fill="none" style="stroke-width:2"/>
+<rect class="sR" x="209" y="139" width="12" height="12"/><circle class="sLm" cx="215" cy="145" r="12" fill="none" style="stroke-width:2"/>
+<rect class="sR" x="249" y="70" width="12" height="12"/>
+<rect class="sR" x="321" y="74" width="12" height="12"/><circle class="sLm" cx="327" cy="80" r="12" fill="none" style="stroke-width:2"/>
+<rect class="sR" x="343" y="-8" width="12" height="12"/>
+<rect class="sR" x="200" y="64" width="12" height="12"/>
+<rect class="sR" x="405" y="20" width="12" height="12"/>
+<rect class="sR" x="346" y="37" width="12" height="12"/>
+<line class="sLw" x1="459.904" y1="50" x2="479.904" y2="84.641" marker-end="url(#ahw)"/><text class="sWt" x="487.904" y="102.641">margin</text>
+<text class="sC" x="540" y="70">the widest street that</text><text class="sC" x="540" y="88">separates the classes</text><text class="sC" x="540" y="130">circled points sit on the</text><text class="sC" x="540" y="148">edges: the support vectors</text><text class="sGt" x="540" y="166">only they define the line</text>
+</svg><figcaption>Move any point that isn't circled and the boundary doesn't change. That is why SVMs depend on scaling and on C.</figcaption></figure>
 
 ---
 

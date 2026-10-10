@@ -35,6 +35,37 @@ This is the module to live in during the final week before a data-engineering in
 9. **Scale and cost.** Spark sizing with AQE, partition pruning, compaction, auto-scaling and stopping idle clusters; streaming only where latency needs it ([[DE6]]).
 10. **Failure modes.** CDC connector lag (monitor consumer lag), late GPS events (watermarks, side output), a source schema change (contract failure in the producer's CI, schema-change alerts), a bad deployment (time travel to restore, backfill).
 
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: delivery-app data platform; CDC, app events and payment webhooks enter Kafka, a streaming job feeds a per-minute operations dashboard, and a lakehouse with bronze, silver and gold layers feeds Power BI and churn-model features, all orchestrated, tested and governed">
+<rect class="sB" x="14" y="20" width="120" height="44" rx="8"/><text class="sT" x="74" y="40" text-anchor="middle">PostgreSQL</text><text class="sC" x="74" y="56" text-anchor="middle">CDC (Debezium)</text><rect class="sB" x="14" y="80" width="120" height="44" rx="8"/><text class="sT" x="74" y="100" text-anchor="middle">app events · GPS</text><text class="sC" x="74" y="116" text-anchor="middle">Avro</text><rect class="sB" x="14" y="140" width="120" height="44" rx="8"/><text class="sT" x="74" y="160" text-anchor="middle">payment webhooks</text><text class="sC" x="74" y="176" text-anchor="middle">idempotent</text>
+<rect class="sW" x="170" y="20" width="90" height="164" rx="10"/><text class="sT" x="215" y="98" text-anchor="middle">Kafka</text><text class="sC" x="215" y="116" text-anchor="middle">topics</text>
+<line class="sL" x1="134" y1="42" x2="166" y2="42" marker-end="url(#ah)"/>
+<line class="sL" x1="134" y1="102" x2="166" y2="102" marker-end="url(#ah)"/>
+<line class="sL" x1="134" y1="162" x2="166" y2="162" marker-end="url(#ah)"/>
+<line class="sL" x1="260" y1="70" x2="296" y2="46" marker-end="url(#ah)"/><rect class="sV" x="300" y="20" width="170" height="50" rx="8"/><text class="sT" x="385" y="43" text-anchor="middle">streaming job</text><text class="sC" x="385" y="59" text-anchor="middle">event time · watermark</text>
+<line class="sL" x1="470" y1="45" x2="506" y2="45" marker-end="url(#ah)"/><rect class="sR" x="510" y="20" width="196" height="50" rx="8"/><text class="sT" x="608" y="43" text-anchor="middle">ops dashboard</text><text class="sC" x="608" y="59" text-anchor="middle">per-minute zones, &lt; 2 min</text>
+<line class="sL" x1="260" y1="130" x2="296" y2="130" marker-end="url(#ah)"/>
+<rect class="sN" x="300" y="90" width="170" height="94" rx="10"/><text class="sT" x="385" y="108" text-anchor="middle">lakehouse (Delta)</text>
+<rect class="sB" x="312" y="116" width="146" height="18" rx="4"/><text class="sC" x="385" y="129" text-anchor="middle">bronze</text>
+<rect class="sV" x="312" y="138" width="146" height="18" rx="4"/><text class="sC" x="385" y="151" text-anchor="middle">silver: MERGE CDC</text>
+<rect class="sA" x="312" y="160" width="146" height="18" rx="4"/><text class="sC" x="385" y="173" text-anchor="middle">gold: dbt marts</text>
+<line class="sL" x1="470" y1="150" x2="506" y2="112" marker-end="url(#ah)"/><rect class="sG" x="510" y="88" width="196" height="46" rx="8"/><text class="sT" x="608" y="109" text-anchor="middle">Power BI by 07:00</text><text class="sC" x="608" y="125" text-anchor="middle">Direct Lake on gold</text>
+<line class="sL" x1="470" y1="168" x2="506" y2="170" marker-end="url(#ah)"/><rect class="sG" x="510" y="148" width="196" height="46" rx="8"/><text class="sT" x="608" y="169" text-anchor="middle">features → churn model</text><text class="sC" x="608" y="185" text-anchor="middle">scores → CRM (reverse ETL)</text>
+<rect class="sN" x="14" y="206" width="692" height="30" rx="8"/><text class="sC" x="360" y="226" text-anchor="middle">around it all: Airflow (intervals, backfills) · contracts &amp; tests · catalog, masking, RLS · monitoring</text>
+<circle class="sPv" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M134 102 H260 L300 46 H510"/></circle><circle class="sP" r="5"><animateMotion dur="4s" begin="1.5s" repeatCount="indefinite" path="M134 42 H260 V130 H470 L510 112"/></circle>
+</svg><figcaption>The pipeline-design answer on one page: split by latency, one copy of the truth in the lakehouse, and governance around everything.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 25-minute pipeline-design answer split across requirements, ingestion, storage, processing, orchestration, quality, serving, and governance, cost and failure modes">
+<rect class="sB" x="14" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="55.52" y="50" text-anchor="middle">requirements</text><text class="sC" x="55.52" y="66" text-anchor="middle">3 min</text>
+<rect class="sB" x="97.04" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="138.56" y="50" text-anchor="middle">ingestion</text><text class="sC" x="138.56" y="66" text-anchor="middle">3 min</text>
+<rect class="sV" x="180.08" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="221.6" y="50" text-anchor="middle">storage</text><text class="sC" x="221.6" y="66" text-anchor="middle">3 min</text>
+<rect class="sV" x="263.12" y="30" width="108.72" height="44" rx="6"/><text class="sT" x="318.48" y="50" text-anchor="middle">processing</text><text class="sC" x="318.48" y="66" text-anchor="middle">4 min</text>
+<rect class="sA" x="373.84" y="30" width="53.36" height="44" rx="6"/><text class="sC" x="401.52" y="50" text-anchor="middle">Airflow</text><text class="sC" x="401.52" y="66" text-anchor="middle">2 min</text>
+<rect class="sA" x="429.2" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="470.72" y="50" text-anchor="middle">quality</text><text class="sC" x="470.72" y="66" text-anchor="middle">3 min</text>
+<rect class="sG" x="512.24" y="30" width="53.36" height="44" rx="6"/><text class="sC" x="539.92" y="50" text-anchor="middle">serving</text><text class="sC" x="539.92" y="66" text-anchor="middle">2 min</text>
+<rect class="sW" x="567.6" y="30" width="136.4" height="44" rx="6"/><text class="sT" x="636.8" y="50" text-anchor="middle">gov · cost · failures</text><text class="sC" x="636.8" y="66" text-anchor="middle">5 min</text>
+<text class="sC" x="14" y="98">consumers and latencies first</text><text class="sC" x="706" y="98" text-anchor="end">what breaks and how you'd know</text>
+</svg><figcaption>Name the consumers and their latency needs before any tool. The last five minutes are where seniority shows.</figcaption></figure>
+
 > [!say]
 > "I'd separate the latency needs: operations needs per-minute metrics, so app events and GPS stream through Kafka into a Structured Streaming job on event time with watermarks, while dashboards and features are daily batch. Operational tables come in by CDC with Debezium, land raw in bronze Delta tables, become clean current-state tables in silver by MERGE, and are modelled as star schemas in gold by incremental dbt models with a lookback for late data. Airflow runs everything by data interval so backfills are safe; quality is enforced with contracts, dbt tests, reconciliation and write-audit-publish; and PII is masked by role. I'd watch consumer lag, freshness SLOs and costs."
 
@@ -135,6 +166,29 @@ Your gaps file calls the DE CV "the largest list, because it currently rests on 
 | Microsoft's DE certification now? | DP-700 (Fabric Data Engineer), since DP-203 retired in March 2025. |
 
 ## DE10.6 A two-week plan 🟢
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="The data-engineering two-week plan as a calendar: platform and SQL, modelling and Python, lakehouse formats and Spark, Airflow and dbt, Kafka, quality, then design practice and a mock take-home">
+<rect class="sB" x="14" y="40" width="92" height="64" rx="8"/><text class="sM" x="22" y="56">day 1</text><text class="sT" x="60" y="78" text-anchor="middle">platform</text><text class="sC" x="60" y="95" text-anchor="middle">draw it</text>
+<rect class="sB" x="114" y="40" width="92" height="64" rx="8"/><text class="sM" x="122" y="56">day 2</text><text class="sT" x="160" y="78" text-anchor="middle">SQL ×8</text><text class="sC" x="160" y="95" text-anchor="middle">MERGE · SCD2</text>
+<rect class="sB" x="214" y="40" width="92" height="64" rx="8"/><text class="sM" x="222" y="56">day 3</text><text class="sT" x="260" y="78" text-anchor="middle">SQL ×7</text><text class="sC" x="260" y="95" text-anchor="middle">dedup · timed</text>
+<rect class="sV" x="314" y="40" width="92" height="64" rx="8"/><text class="sM" x="322" y="56">day 4</text><text class="sT" x="360" y="78" text-anchor="middle">modelling</text><text class="sC" x="360" y="95" text-anchor="middle">3 businesses</text>
+<rect class="sV" x="414" y="40" width="92" height="64" rx="8"/><text class="sM" x="422" y="56">day 5</text><text class="sT" x="460" y="78" text-anchor="middle">Python</text><text class="sC" x="460" y="95" text-anchor="middle">pipeline lab</text>
+<rect class="sA" x="514" y="40" width="92" height="64" rx="8"/><text class="sM" x="522" y="56">day 6</text><text class="sT" x="560" y="78" text-anchor="middle">Delta · Iceberg</text><text class="sC" x="560" y="95" text-anchor="middle">on a laptop</text>
+<rect class="sA" x="614" y="40" width="92" height="64" rx="8"/><text class="sM" x="622" y="56">day 7</text><text class="sT" x="660" y="78" text-anchor="middle">Spark</text><text class="sC" x="660" y="95" text-anchor="middle">lab + UI</text>
+<rect class="sA" x="14" y="126" width="92" height="64" rx="8"/><text class="sM" x="22" y="142">day 8</text><text class="sT" x="60" y="164" text-anchor="middle">Spark</text><text class="sC" x="60" y="181" text-anchor="middle">skew · joins</text>
+<rect class="sG" x="114" y="126" width="92" height="64" rx="8"/><text class="sM" x="122" y="142">day 9</text><text class="sT" x="160" y="164" text-anchor="middle">Airflow + dbt</text><text class="sC" x="160" y="181" text-anchor="middle">orchestrate</text>
+<rect class="sG" x="214" y="126" width="92" height="64" rx="8"/><text class="sM" x="222" y="142">day 10</text><text class="sT" x="260" y="164" text-anchor="middle">Kafka</text><text class="sC" x="260" y="181" text-anchor="middle">+ Debezium</text>
+<rect class="sG" x="314" y="126" width="92" height="64" rx="8"/><text class="sM" x="322" y="142">day 11</text><text class="sT" x="360" y="164" text-anchor="middle">quality</text><text class="sC" x="360" y="181" text-anchor="middle">+ runbook</text>
+<rect class="sW" x="414" y="126" width="92" height="64" rx="8"/><text class="sM" x="422" y="142">day 12</text><text class="sT" x="460" y="164" text-anchor="middle">design ×2</text><text class="sC" x="460" y="181" text-anchor="middle">recorded</text>
+<rect class="sW" x="514" y="126" width="92" height="64" rx="8"/><text class="sM" x="522" y="142">day 13</text><text class="sT" x="560" y="164" text-anchor="middle">take-home</text><text class="sC" x="560" y="181" text-anchor="middle">4 hours</text>
+<rect class="sW" x="614" y="126" width="92" height="64" rx="8"/><text class="sM" x="622" y="142">day 14</text><text class="sT" x="660" y="164" text-anchor="middle">bank ×2</text><text class="sC" x="660" y="181" text-anchor="middle">stories · rest</text>
+<text class="sM" x="14" y="30">week 1: the platform, SQL, modelling, Python and formats</text><text class="sM" x="14" y="116">week 2: engines, orchestration, streaming, quality, rehearsal</text>
+<rect class="sB" x="14" y="204" width="16" height="16" rx="3"/><text class="sC" x="36" y="217">platform · SQL</text>
+<rect class="sV" x="154" y="204" width="16" height="16" rx="3"/><text class="sC" x="176" y="217">modelling · Python</text>
+<rect class="sA" x="294" y="204" width="16" height="16" rx="3"/><text class="sC" x="316" y="217">lakehouse · Spark</text>
+<rect class="sG" x="434" y="204" width="16" height="16" rx="3"/><text class="sC" x="456" y="217">ops · quality</text>
+<rect class="sW" x="574" y="204" width="16" height="16" rx="3"/><text class="sC" x="596" y="217">rehearse</text>
+</svg><figcaption>Each lab builds on the last: one pipeline that gains Spark, orchestration, streaming and quality as the fortnight goes on.</figcaption></figure>
 
 | Days | Do |
 |---|---|

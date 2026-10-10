@@ -126,6 +126,42 @@ Why squared, rather than absolute error?
 2. **It penalises large errors disproportionately.** Being wrong by 10 costs 100, being wrong by 1 costs 1. Whether that is desirable depends on your problem — it also makes MSE sensitive to outliers, which is why MAE is sometimes preferred.
 3. **It has a unique closed-form minimum** (see below).
 
+<figure class="dia steps"><svg viewBox="0 0 720 256" role="img" aria-label="Eight salary points against years of experience. A guessed line leaves large residuals drawn as squares; the normal-equation line leaves much smaller squares, and its mean squared error is the minimum possible">
+<line class="sLm" x1="64" y1="214" x2="430" y2="214"/><line class="sLm" x1="64" y1="214" x2="64" y2="24"/>
+<text class="sS" x="104" y="230" text-anchor="middle">1</text>
+<text class="sS" x="144" y="230" text-anchor="middle">2</text>
+<text class="sS" x="184" y="230" text-anchor="middle">3</text>
+<text class="sS" x="224" y="230" text-anchor="middle">4</text>
+<text class="sS" x="264" y="230" text-anchor="middle">5</text>
+<text class="sS" x="304" y="230" text-anchor="middle">6</text>
+<text class="sS" x="344" y="230" text-anchor="middle">7</text>
+<text class="sS" x="384" y="230" text-anchor="middle">8</text>
+<text class="sS" x="56" y="192" text-anchor="end">20</text><line class="sLm" x1="64" y1="188" x2="430" y2="188" opacity=".15"/>
+<text class="sS" x="56" y="140" text-anchor="end">40</text><line class="sLm" x1="64" y1="136" x2="430" y2="136" opacity=".15"/>
+<text class="sS" x="56" y="88" text-anchor="end">60</text><line class="sLm" x1="64" y1="84" x2="430" y2="84" opacity=".15"/>
+<text class="sS" x="56" y="36" text-anchor="end">80</text><line class="sLm" x1="64" y1="32" x2="430" y2="32" opacity=".15"/>
+<text class="sS" x="247" y="246" text-anchor="middle">years of experience (x)</text>
+<text class="sS" x="20" y="120" text-anchor="middle" transform="rotate(-90 20 120)">salary, k (y)</text>
+<g data-s="2-2"><line class="sLw" x1="80" y1="157.84" x2="408" y2="72.56" style="stroke-width:2.2"/><rect class="sW" x="104" y="151.6" width="32.76" height="32.76" rx="0" opacity=".35"/><line class="sLw" x1="104" y1="184.36" x2="104" y2="151.6" opacity=".7"/><rect class="sW" x="144" y="141.2" width="22.62" height="22.62" rx="0" opacity=".35"/><line class="sLw" x1="144" y1="163.82" x2="144" y2="141.2" opacity=".7"/><rect class="sW" x="184" y="128.98" width="1.82" height="1.82" rx="0" opacity=".35"/><line class="sLw" x1="184" y1="128.98" x2="184" y2="130.8" opacity=".7"/><rect class="sW" x="224" y="120.4" width="3.64" height="3.64" rx="0" opacity=".35"/><line class="sLw" x1="224" y1="124.04" x2="224" y2="120.4" opacity=".7"/><rect class="sW" x="264" y="110" width="22.36" height="22.36" rx="0" opacity=".35"/><line class="sLw" x1="264" y1="132.36" x2="264" y2="110" opacity=".7"/><rect class="sW" x="304" y="99.6" width="0" height="0" rx="0" opacity=".35"/><line class="sLw" x1="304" y1="99.6" x2="304" y2="99.6" opacity=".7"/><rect class="sW" x="344" y="89.2" width="1.3" height="1.3" rx="0" opacity=".35"/><line class="sLw" x1="344" y1="90.5" x2="344" y2="89.2" opacity=".7"/><rect class="sW" x="384" y="66.84" width="11.96" height="11.96" rx="0" opacity=".35"/><line class="sLw" x1="384" y1="66.84" x2="384" y2="78.8" opacity=".7"/></g>
+<g data-s="3-3"><line class="sLg" x1="80" y1="185.755" x2="408" y2="61.8703" style="stroke-width:2.2"/><rect class="sG" x="104" y="176.69" width="7.67" height="7.67" rx="0" opacity=".35"/><line class="sLg" x1="104" y1="184.36" x2="104" y2="176.69" opacity=".7"/><rect class="sG" x="144" y="161.582" width="2.23786" height="2.23786" rx="0" opacity=".35"/><line class="sLg" x1="144" y1="163.82" x2="144" y2="161.582" opacity=".7"/><rect class="sG" x="184" y="128.98" width="17.4943" height="17.4943" rx="0" opacity=".35"/><line class="sLg" x1="184" y1="128.98" x2="184" y2="146.474" opacity=".7"/><rect class="sG" x="224" y="124.04" width="7.32643" height="7.32643" rx="0" opacity=".35"/><line class="sLg" x1="224" y1="124.04" x2="224" y2="131.366" opacity=".7"/><rect class="sG" x="264" y="116.259" width="16.1014" height="16.1014" rx="0" opacity=".35"/><line class="sLg" x1="264" y1="132.36" x2="264" y2="116.259" opacity=".7"/><rect class="sG" x="304" y="99.6" width="1.55071" height="1.55071" rx="0" opacity=".35"/><line class="sLg" x1="304" y1="99.6" x2="304" y2="101.151" opacity=".7"/><rect class="sG" x="344" y="86.0429" width="4.45714" height="4.45714" rx="0" opacity=".35"/><line class="sLg" x1="344" y1="90.5" x2="344" y2="86.0429" opacity=".7"/><rect class="sG" x="384" y="66.84" width="4.095" height="4.095" rx="0" opacity=".35"/><line class="sLg" x1="384" y1="66.84" x2="384" y2="70.935" opacity=".7"/></g>
+<circle class="sP" cx="104.0" cy="184.4" r="4"/>
+<circle class="sP" cx="144.0" cy="163.8" r="4"/>
+<circle class="sP" cx="184.0" cy="129.0" r="4"/>
+<circle class="sP" cx="224.0" cy="124.0" r="4"/>
+<circle class="sP" cx="264.0" cy="132.4" r="4"/>
+<circle class="sP" cx="304.0" cy="99.6" r="4"/>
+<circle class="sP" cx="344.0" cy="90.5" r="4"/>
+<circle class="sP" cx="384.0" cy="66.8" r="4"/>
+<rect class="sN" x="458" y="30" width="250" height="196" rx="8"/>
+<text class="sT" x="583" y="52" text-anchor="middle">MSE = mean of the square areas</text>
+<g data-s="2-2"><text class="sWt" x="583" y="86" text-anchor="middle">guess: ŷ = 4x + 30</text><text class="sWt" x="583" y="108" text-anchor="middle">MSE = 41.5</text><text class="sS" x="583" y="140" text-anchor="middle">largest square: x = 1, a miss of 12.6</text><text class="sS" x="583" y="156" text-anchor="middle">which alone adds 159 / 8 = 19.8</text></g>
+<g data-s="3-3"><text class="sS" x="470" y="82" xml:space="preserve" style="white-space:pre">np.linalg.inv(X.T @ X) @ X.T @ y</text><text class="sGt" x="583" y="108" text-anchor="middle">b = 18.54,  w = 5.81</text><text class="sGt" x="583" y="130" text-anchor="middle">MSE = 13.3</text><text class="sS" x="583" y="160" text-anchor="middle">no other line has a smaller</text><text class="sS" x="583" y="176" text-anchor="middle">total square area</text><text class="sS" x="583" y="204" text-anchor="middle">X has a column of 1s for b: shape (8, 2)</text></g>
+</svg><ol class="dia-steps">
+<li>Eight people: years of experience and salary. We want the line ŷ = w·x + b that fits them best.</li>
+<li>Try a guess, ŷ = 4x + 30. Each residual becomes a square; MSE is the average square area (41.5).</li>
+<li>The normal equation computes the best line in one step: w = 5.81, b = 18.54, MSE = 13.3. Squaring is why one large miss counts more than several small ones.</li>
+</ol><figcaption>Mean squared error, drawn literally: every residual is the side of a square. The normal equation finds the line with the least total area.</figcaption></figure>
+
 Squaring also makes the units awkward (dollars-squared), which is why we report **RMSE** — the square root — instead.
 
 ### Two ways to solve it
@@ -185,6 +221,20 @@ If your neural network's loss becomes `NaN` in the first few epochs, the learnin
 
 `batch_size=64` in the Part 11 ANN is mini-batch gradient descent. One pass over all batches is one **epoch**.
 
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Three gradient-descent variants on the same loss surface: batch descent moves smoothly, stochastic descent wanders noisily, mini-batch descent is in between">
+<ellipse class="sLm" cx="360" cy="120" rx="31" ry="18" fill="none" opacity=".5"/>
+<ellipse class="sLm" cx="360" cy="120" rx="70" ry="40" fill="none" opacity=".5"/>
+<ellipse class="sLm" cx="360" cy="120" rx="121" ry="69" fill="none" opacity=".5"/>
+<ellipse class="sLm" cx="360" cy="120" rx="185" ry="106" fill="none" opacity=".5"/>
+<polyline class="sLg" points="150.0,24.0 175.2,35.5 197.4,45.7 216.9,54.6 234.1,62.4 249.2,69.3 262.5,75.4 274.2,80.8 284.5,85.5 293.5,89.6 301.5,93.3 308.5,96.5 314.7,99.3 320.1,101.8 324.9,104.0 329.1,105.9 332.8,107.6 336.1,109.1 339.0,110.4 341.5,111.5 343.7,112.6 345.7,113.4 347.4,114.2 348.9,114.9 350.2,115.5 351.4,116.1 352.4,116.5 353.3,117.0 354.1,117.3 354.8,117.6 355.5,117.9" fill="none" stroke-width="1.8"/>
+<text class="sGt" x="20" y="200">batch: smooth, every step uses all the data</text>
+<polyline class="sLr" points="150.0,24.0 141.4,39.0 187.8,54.1 205.1,73.0 248.0,90.4 242.7,101.9 244.3,118.8 243.8,120.9 272.4,133.2 263.5,135.4 271.2,141.9 328.0,143.2 377.7,143.6 354.8,161.6 363.3,161.7 363.3,133.4 348.3,132.2 347.5,121.1 348.9,122.4 325.3,125.8 263.2,121.2 278.9,121.0 302.9,137.6 296.8,122.3 301.5,134.9 334.2,135.2 340.8,158.9 334.5,150.3 347.2,167.4 356.6,186.7 385.4,177.1" fill="none" stroke-width="1.8"/>
+<text class="sRt" x="20" y="218">stochastic: one row per step, noisy</text>
+<polyline class="sLw" points="150.0,24.0 176.3,33.3 199.4,46.2 222.3,50.3 230.6,63.9 249.9,71.8 278.2,81.3 295.7,84.2 290.2,84.4 298.2,85.1 316.3,85.5 319.7,85.4 327.8,92.2 332.3,91.2 326.4,95.2 321.8,94.8 316.1,93.4 331.5,95.3 336.8,99.3 342.7,104.1 336.5,103.9 347.3,104.6 343.7,109.4 347.4,107.5 348.8,112.4 354.1,117.9 353.2,119.3 357.5,124.2 357.3,118.7 352.4,117.6 346.7,118.6" fill="none" stroke-width="1.8"/>
+<text class="sWt" x="20" y="236">mini-batch (32–256 rows): the practical middle</text>
+<circle class="sP" cx="150" cy="24" r="5"/><circle class="sPg" cx="360" cy="120" r="4"/>
+</svg><figcaption>Same surface, same learning rate, different amounts of data per step. Simulated with gradient noise.</figcaption></figure>
+
 ### Why scaling matters — the geometric answer
 
 This is the payoff for Part 4's feature scaling section.
@@ -192,6 +242,24 @@ This is the payoff for Part 4's feature scaling section.
 If `x₁ ∈ [0, 1]` and `x₂ ∈ [0, 100000]`, the loss surface is a long thin ravine rather than a round bowl. Gradient descent zig-zags across the narrow direction and crawls along the long one — it can take orders of magnitude more steps for the same result.
 
 Standardising features makes the contours roughly circular, so the gradient points more or less straight at the minimum. **This is the mechanism behind "scale your features", and it is why the requirement applies to gradient-based methods and not to trees.**
+
+<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Gradient descent on unscaled features zig-zags across a long thin ravine and is still far from the minimum after 25 steps; on standardised features the bowl is round and it reaches the minimum">
+<text class="sRt" x="190" y="22" text-anchor="middle">unscaled: a long thin ravine</text>
+<ellipse class="sLm" cx="190" cy="118" rx="39" ry="9" fill="none" opacity=".55"/>
+<ellipse class="sLm" cx="190" cy="118" rx="76" ry="18" fill="none" opacity=".55"/>
+<ellipse class="sLm" cx="190" cy="118" rx="132" ry="31" fill="none" opacity=".55"/>
+<polyline class="sLr" points="46.0,58.0 49.0,169.6 51.9,73.6 54.7,156.2 57.5,85.2 60.3,146.2 63.0,93.7 65.6,138.9 68.2,100.0 70.7,133.4 73.1,104.7 75.6,129.4 77.9,108.2 80.2,126.4 82.5,110.7 84.7,124.2 86.9,112.6 89.0,122.6 91.1,114.0 93.2,121.4 95.2,115.1 97.1,120.5 99.0,115.8 100.9,119.9 102.8,116.4 104.6,119.4" fill="none" stroke-width="2.2"/>
+<circle class="sP" cx="46" cy="58" r="5"/><circle class="sPg" cx="190" cy="118" r="4"/>
+<text class="sRt" x="190" y="222" text-anchor="middle">after 25 steps: still far along the ravine</text>
+<text class="sGt" x="530" y="22" text-anchor="middle">standardised: a round bowl</text>
+<ellipse class="sLm" cx="530" cy="118" rx="14" ry="14" fill="none" opacity=".55"/>
+<ellipse class="sLm" cx="530" cy="118" rx="28" ry="28" fill="none" opacity=".55"/>
+<ellipse class="sLm" cx="530" cy="118" rx="45" ry="45" fill="none" opacity=".55"/>
+<ellipse class="sLm" cx="530" cy="118" rx="64" ry="64" fill="none" opacity=".55"/>
+<polyline class="sLg" points="452.0,60.8 475.4,78.0 491.8,90.0 503.2,98.4 511.3,104.3 516.9,108.4 520.8,111.3 523.6,113.3 525.5,114.7 526.9,115.7 527.8,116.4 528.5,116.9 528.9,117.2 529.2,117.4 529.5,117.6 529.6,117.7 529.7,117.8 529.8,117.9 529.9,117.9 529.9,117.9 529.9,118.0 530.0,118.0 530.0,118.0 530.0,118.0 530.0,118.0 530.0,118.0" fill="none" stroke-width="2.2"/>
+<circle class="sP" cx="452" cy="61" r="5"/><circle class="sPg" cx="530" cy="118" r="4"/>
+<text class="sGt" x="530" y="222" text-anchor="middle">after 25 steps: at the minimum</text>
+</svg><figcaption>Why "scale your features": the same 25 gradient steps, computed on both surfaces. Only the feature scales differ.</figcaption></figure>
 
 ### Convexity
 
@@ -517,6 +585,22 @@ Steps 5–8 are where correctness lives. Steps 1–4 are where insight lives. St
 > [!quote] 💬 Say it in the interview
 > “ML systems are classified by supervision (supervised, unsupervised, self-supervised, RL), by batch vs online learning, and by instance- vs model-based learning.”
 
+<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Three independent ways to classify machine learning systems: by supervision (supervised, unsupervised, semi-supervised, self-supervised, reinforcement), by batch versus online learning, and by instance-based versus model-based generalisation">
+<text class="sT" x="14" y="46">1. supervision</text>
+<rect class="sB" x="150" y="20" width="104.8" height="44" rx="6"/><text class="sT" x="202.4" y="39" text-anchor="middle">supervised</text><text class="sS" x="202.4" y="56" text-anchor="middle">churn yes/no</text>
+<rect class="sV" x="262.8" y="20" width="104.8" height="44" rx="6"/><text class="sT" x="315.2" y="39" text-anchor="middle">unsupervised</text><text class="sS" x="315.2" y="56" text-anchor="middle">segments</text>
+<rect class="sA" x="375.6" y="20" width="104.8" height="44" rx="6"/><text class="sT" x="428" y="39" text-anchor="middle">semi-supervised</text><text class="sS" x="428" y="56" text-anchor="middle">500 frauds + 5M</text>
+<rect class="sG" x="488.4" y="20" width="104.8" height="44" rx="6"/><text class="sT" x="540.8" y="39" text-anchor="middle">self-supervised</text><text class="sS" x="540.8" y="56" text-anchor="middle">LLM pretraining</text>
+<rect class="sW" x="601.2" y="20" width="104.8" height="44" rx="6"/><text class="sT" x="653.6" y="39" text-anchor="middle">reinforcement</text><text class="sS" x="653.6" y="56" text-anchor="middle">offer policy</text>
+<text class="sT" x="14" y="106">2. over time</text>
+<rect class="sB" x="150" y="80" width="274" height="44" rx="6"/><text class="sT" x="287" y="99" text-anchor="middle">batch</text><text class="sS" x="287" y="116" text-anchor="middle">retrain from scratch</text>
+<rect class="sG" x="432" y="80" width="274" height="44" rx="6"/><text class="sT" x="569" y="99" text-anchor="middle">online</text><text class="sS" x="569" y="116" text-anchor="middle">partial_fit per chunk</text>
+<text class="sT" x="14" y="166">3. generalisation</text>
+<rect class="sA" x="150" y="140" width="274" height="44" rx="6"/><text class="sT" x="287" y="159" text-anchor="middle">instance-based</text><text class="sS" x="287" y="176" text-anchor="middle">KNN: compare to memory</text>
+<rect class="sV" x="432" y="140" width="274" height="44" rx="6"/><text class="sT" x="569" y="159" text-anchor="middle">model-based</text><text class="sS" x="569" y="176" text-anchor="middle">fit θ, then predict</text>
+<text class="sGt" x="360" y="212" text-anchor="middle">every system sits somewhere on all three: a churn LightGBM is supervised, batch and model-based</text>
+</svg><figcaption>Géron's three axes: answer all three to describe any ML system in one sentence.</figcaption></figure>
+
 > [!note] 📘 From the book
 > Sections 6.8–6.13 add material from Géron's *Hands-On Machine Learning with Scikit-Learn and PyTorch* (2025), Chapters 1, 2 and 4. Chapter 1 is the vocabulary chapter; Géron says it covers concepts "that every data scientist should know by heart". Interviewers often open with exactly these questions.
 
@@ -626,6 +710,126 @@ Split size depends on data volume. 80/20 is typical, but with 10 million rows a 
 
 Géron's cautionary tale: you try 100 values of a regularisation hyperparameter, pick the one with 5% test error, deploy, and get 15% in production. You **adapted the model to that particular test set**. The test error is now an optimistic, biased estimate.
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Simulation of tuning on the test set: one hundred hyperparameter values with true errors between 9 and 12 percent are each measured on 400 test rows; the best-looking one scores about 6 percent but its true error is about 9 percent, and over 3,000 repetitions the reported minimum averages about 6 percent against a true error of about 10 percent">
+<line class="sLm" x1="66" y1="214" x2="470" y2="214"/><line class="sLm" x1="66" y1="214" x2="66" y2="26"/>
+<text class="sS" x="58" y="218" text-anchor="end">4%</text><line class="sLm" x1="66" y1="214" x2="470" y2="214" opacity=".15"/>
+<text class="sS" x="58" y="156.667" text-anchor="end">8%</text><line class="sLm" x1="66" y1="152.667" x2="470" y2="152.667" opacity=".15"/>
+<text class="sS" x="58" y="95.3333" text-anchor="end">12%</text><line class="sLm" x1="66" y1="91.3333" x2="470" y2="91.3333" opacity=".15"/>
+<text class="sS" x="58" y="34" text-anchor="end">16%</text><line class="sLm" x1="66" y1="30" x2="470" y2="30" opacity=".15"/>
+<text class="sS" x="268" y="232" text-anchor="middle">100 hyperparameter values, sorted by their true error</text>
+<polyline class="sLm" points="66.0,137.3 70.0,135.9 74.1,134.9 78.1,134.8 82.2,133.4 86.2,133.4 90.2,133.2 94.3,133.0 98.3,132.6 102.4,132.1 106.4,131.6 110.4,131.5 114.5,130.6 118.5,130.0 122.6,129.6 126.6,129.0 130.6,128.4 134.7,128.3 138.7,128.2 142.8,127.9 146.8,127.8 150.8,127.5 154.9,127.5 158.9,127.3 163.0,126.4 167.0,124.7 171.1,124.3 175.1,123.9 179.1,123.9 183.2,123.7 187.2,123.6 191.3,123.6 195.3,122.9 199.3,120.4 203.4,120.3 207.4,120.1 211.5,119.3 215.5,119.2 219.5,118.9 223.6,117.6 227.6,117.5 231.7,117.4 235.7,115.7 239.7,115.3 243.8,115.3 247.8,114.7 251.9,114.6 255.9,113.6 259.9,113.3 264.0,112.3 268.0,111.8 272.1,111.5 276.1,111.3 280.1,110.6 284.2,110.4 288.2,110.3 292.3,110.2 296.3,109.4 300.3,109.1 304.4,108.6 308.4,108.3 312.5,107.5 316.5,107.1 320.5,107.0 324.6,106.6 328.6,106.5 332.7,106.1 336.7,105.9 340.7,105.3 344.8,105.2 348.8,104.9 352.9,104.8 356.9,104.8 360.9,104.1 365.0,103.5 369.0,103.4 373.1,103.2 377.1,103.0 381.2,102.7 385.2,102.4 389.2,101.8 393.3,101.1 397.3,101.0 401.4,100.5 405.4,99.6 409.4,99.2 413.5,98.3 417.5,98.2 421.6,98.2 425.6,97.8 429.6,97.3 433.7,96.9 437.7,96.3 441.8,95.0 445.8,94.5 449.8,93.3 453.9,93.0 457.9,92.9 462.0,92.7 466.0,92.6" style="fill:none;stroke-width:2"/>
+<circle class="sPv" cx="66.0" cy="133.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="70.0" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="74.1" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="78.1" cy="152.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="82.2" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="86.2" cy="152.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="90.2" cy="125.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="94.3" cy="114.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="98.3" cy="179.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="102.4" cy="187.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="106.4" cy="133.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="110.4" cy="129.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="114.5" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="118.5" cy="148.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="122.6" cy="145.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="126.6" cy="114.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="130.6" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="134.7" cy="156.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="138.7" cy="160.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="142.8" cy="148.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="146.8" cy="102.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="150.8" cy="133.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="154.9" cy="148.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="158.9" cy="122.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="163.0" cy="102.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="167.0" cy="102.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="171.1" cy="129.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="175.1" cy="64.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="179.1" cy="68.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="183.2" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="187.2" cy="95.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="191.3" cy="129.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="195.3" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="199.3" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="203.4" cy="145.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="207.4" cy="106.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="211.5" cy="145.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="215.5" cy="129.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="219.5" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="223.6" cy="110.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="227.6" cy="114.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="231.7" cy="68.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="235.7" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="239.7" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="243.8" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="247.8" cy="79.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="251.9" cy="110.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="255.9" cy="110.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="259.9" cy="91.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="264.0" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="268.0" cy="76.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="272.1" cy="106.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="276.1" cy="114.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="280.1" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="284.2" cy="64.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="288.2" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="292.3" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="296.3" cy="152.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="300.3" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="304.4" cy="95.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="308.4" cy="102.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="312.5" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="316.5" cy="145.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="320.5" cy="125.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="324.6" cy="141.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="328.6" cy="102.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="332.7" cy="91.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="336.7" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="340.7" cy="83.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="344.8" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="348.8" cy="91.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="352.9" cy="79.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="356.9" cy="79.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="360.9" cy="148.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="365.0" cy="68.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="369.0" cy="137.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="373.1" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="377.1" cy="68.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="381.2" cy="53.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="385.2" cy="125.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="389.2" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="393.3" cy="148.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="397.3" cy="118.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="401.4" cy="122.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="405.4" cy="95.2" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="409.4" cy="122.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="413.5" cy="87.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="417.5" cy="133.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="421.6" cy="76.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="425.6" cy="129.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="429.6" cy="87.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="433.7" cy="83.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="437.7" cy="114.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="441.8" cy="53.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="445.8" cy="110.5" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="449.8" cy="83.7" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="453.9" cy="45.3" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="457.9" cy="125.8" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="462.0" cy="99.0" r="2.6" opacity=".75"/>
+<circle class="sPv" cx="466.0" cy="72.2" r="2.6" opacity=".75"/>
+<circle class="sPr" cx="102.4" cy="187.2" r="5"/>
+<line class="sLr" x1="102.364" y1="181.167" x2="102.364" y2="136.104" marker-end="url(#ahr)"/>
+<text class="sRt" x="112.364" y="191.167">picked: 5.8% on the test set, 9.3% in reality</text>
+<text class="sS" x="76" y="40">grey line: true error</text><text class="sS" x="76" y="56">dots: measured on 400 test rows</text>
+<rect class="sN" x="492" y="34" width="214" height="170" rx="8"/>
+<text class="sT" x="599" y="58" text-anchor="middle">repeat 3,000 times</text>
+<text class="sRt" x="599" y="86" text-anchor="middle">reported (min of 100): 6.4%</text>
+<text class="sT" x="599" y="108" text-anchor="middle">actual error of that pick: 9.6%</text>
+<text class="sS" x="599" y="136" text-anchor="middle">the minimum of 100 noisy scores</text><text class="sS" x="599" y="152" text-anchor="middle">is mostly luck, not skill</text>
+<text class="sGt" x="599" y="180" text-anchor="middle">choose on validation, then test</text><text class="sGt" x="599" y="196" text-anchor="middle">once: no selection, no bias</text>
+</svg><figcaption>Géron's cautionary tale, simulated: pick the best of 100 test scores and you mostly pick the luckiest one. The test score is then an optimistic estimate.</figcaption></figure>
+
 ### Holdout validation, then retrain
 
 1. Split the training data into a **reduced training set** and a **validation (dev) set**.
@@ -648,6 +852,16 @@ Then, to know *why* the dev score is bad, hold out part of the (web) training da
 | Bad | — | **Overfitting** the training set | Regularise, simplify, more/cleaner data |
 | Good | Bad | **Data mismatch** | Make training data look like production (preprocess, augment, collect real data) |
 | Good | Good | Ready | Evaluate once on test |
+
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Web data is split into train and train-dev sets, app data into dev and test sets. In the first example train error is 2 percent and train-dev 9 percent, a jump that means overfitting; in the second, train-dev is 3 percent but dev is 11 percent, a jump that means data mismatch">
+<text class="sS" x="175" y="22" text-anchor="middle">web photos: plentiful, not like production</text><text class="sS" x="530" y="22" text-anchor="middle">app photos: scarce, production-like</text>
+<rect class="sB" x="20" y="30" width="228" height="32" rx="6"/><text class="sT" x="134" y="51" text-anchor="middle">train</text><rect class="sB" x="252" y="30" width="78" height="32" rx="6" opacity=".55"/><text class="sT" x="291" y="51" text-anchor="middle">train-dev</text>
+<rect class="sG" x="380" y="30" width="148" height="32" rx="6"/><text class="sT" x="454" y="51" text-anchor="middle">dev (validation)</text><rect class="sV" x="532" y="30" width="148" height="32" rx="6"/><text class="sT" x="606" y="51" text-anchor="middle">test</text>
+<line class="sLm" x1="20" y1="74" x2="700" y2="74" opacity=".3"/><line class="sLm" x1="360" y1="84" x2="360" y2="244" opacity=".3"/>
+<text class="sT" x="160" y="92" text-anchor="middle">case 1: overfitting</text><rect class="sB" x="60" y="208" width="50" height="18" rx="3"/><text class="sS" x="85" y="202" text-anchor="middle">2%</text><text class="sS" x="85" y="242" text-anchor="middle">train</text><rect class="sB" x="150" y="145" width="50" height="81" rx="3" opacity=".55"/><text class="sS" x="175" y="139" text-anchor="middle">9%</text><text class="sS" x="175" y="242" text-anchor="middle">train-dev</text><rect class="sG" x="240" y="136" width="50" height="90" rx="3"/><text class="sS" x="265" y="130" text-anchor="middle">10%</text><text class="sS" x="265" y="242" text-anchor="middle">dev</text><line class="sLr" x1="110" y1="208" x2="130" y2="208" stroke-dasharray="3 3"/><line class="sLr" x1="130" y1="208" x2="130" y2="147" marker-end="url(#ahr)"/><text class="sRt" x="160" y="112" text-anchor="middle">big jump from train to train-dev</text>
+<text class="sT" x="520" y="92" text-anchor="middle">case 2: data mismatch</text><rect class="sB" x="420" y="208" width="50" height="18" rx="3"/><text class="sS" x="445" y="202" text-anchor="middle">2%</text><text class="sS" x="445" y="242" text-anchor="middle">train</text><rect class="sB" x="510" y="199" width="50" height="27" rx="3" opacity=".55"/><text class="sS" x="535" y="193" text-anchor="middle">3%</text><text class="sS" x="535" y="242" text-anchor="middle">train-dev</text><rect class="sG" x="600" y="127" width="50" height="99" rx="3"/><text class="sS" x="625" y="121" text-anchor="middle">11%</text><text class="sS" x="625" y="242" text-anchor="middle">dev</text><line class="sLw" x1="560" y1="199" x2="580" y2="199" stroke-dasharray="3 3"/><line class="sLw" x1="580" y1="199" x2="580" y2="129" marker-end="url(#ahw)"/><text class="sWt" x="520" y="112" text-anchor="middle">big jump from train-dev to dev</text>
+<text class="sS" x="160" y="262" text-anchor="middle">fix: regularise, simplify, more data</text><text class="sS" x="520" y="262" text-anchor="middle">fix: make training data look like the app</text>
+</svg><figcaption>Reading the train-dev set (example error rates): where the big jump happens tells you which problem you have.</figcaption></figure>
 
 **Telecom version:** you train a fraud model on a public dataset or another country's data. You validate on Egyptian traffic. A train-dev set tells you whether a poor Egyptian score is overfitting or a population difference.
 
@@ -689,6 +903,26 @@ Also from the chapter: ML systems are usually **pipelines of components** that t
 - **MAE** corresponds to the **ℓ₁ (Manhattan) norm**.
 - In general, ‖v‖ₖ = (Σ|vᵢ|ᵏ)^(1/k). ℓ₀ counts non-zeros; ℓ∞ is the max absolute value.
 - **The higher the norm index, the more it focuses on large values.** So RMSE is more outlier-sensitive than MAE. When outliers are exponentially rare (bell-shaped errors), RMSE works well and is preferred. When there are many outliers, prefer MAE.
+
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Left: the unit balls of the l1, l2 and l-infinity norms, a diamond, a circle and a square. Right: with ten moderate errors and then one outlier of 40, mean absolute error grows least, RMSE grows more, and the maximum error grows most">
+<line class="sLm" x1="25" y1="120" x2="215" y2="120"/><line class="sLm" x1="120" y1="215" x2="120" y2="25"/>
+<polygon class="sLw" style="fill:none;stroke-width:2.2" points="120,50 190,120 120,190 50,120"/>
+<circle class="sLg" style="fill:none;stroke-width:2.2" cx="120" cy="120" r="70"/>
+<rect class="sLv" style="fill:none;stroke-width:2.2" x="50" y="50" width="140" height="140"/>
+<text class="sWt" x="174" y="66" text-anchor="middle">ℓ₁</text><text class="sGt" x="166" y="186" text-anchor="middle">ℓ₂</text><text class="sC" x="200" y="54">ℓ∞</text>
+<text class="sS" x="120" y="214" text-anchor="middle">all points at distance 1 from the centre</text>
+<text class="sM" x="500" y="22" text-anchor="middle">ten errors, then one of them becomes 40</text>
+<text class="sC" x="380" y="62" text-anchor="end">MAE (ℓ₁)</text>
+<rect class="sW" x="390" y="44" width="13.2" height="16" rx="3" opacity=".5"/><text class="sS" x="409.2" y="57">2.4</text>
+<rect class="sW" x="390" y="64" width="34.1" height="16" rx="3"/><text class="sS" x="430.1" y="77">6.2  (×2.6)</text>
+<text class="sC" x="380" y="114" text-anchor="end">RMSE (ℓ₂)</text>
+<rect class="sG" x="390" y="96" width="14.3422" height="16" rx="3" opacity=".5"/><text class="sS" x="410.342" y="109">2.6</text>
+<rect class="sG" x="390" y="116" width="70.9479" height="16" rx="3"/><text class="sS" x="466.948" y="129">12.9  (×4.9)</text>
+<text class="sC" x="380" y="166" text-anchor="end">max error (ℓ∞)</text>
+<rect class="sV" x="390" y="148" width="22" height="16" rx="3" opacity=".5"/><text class="sS" x="418" y="161">4.0</text>
+<rect class="sV" x="390" y="168" width="220" height="16" rx="3"/><text class="sS" x="616" y="181">40.0  (×10.0)</text>
+<text class="sS" x="500" y="214" text-anchor="middle">faded: clean errors · solid: with one outlier</text>
+</svg><figcaption>Higher norm index, more weight on the largest error: why RMSE punishes outliers harder than MAE. Computed.</figcaption></figure>
 
 ### Get the data: notation Géron uses throughout
 
@@ -767,6 +1001,29 @@ Read it with the §6.4 table:
 - Decision tree: train 0, CV terrible → **severe overfitting**.
 - Random Forest: much better, but train ≪ CV → still overfitting. Regularise or get more data.
 
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Training versus cross-validation RMSE from Géron's housing example: linear regression about 69,000 and 70,000, a decision tree 0 and 66,573, a random forest 17,551 and 47,038, a tuned forest 43,590 in cross-validation and 41,445 on the test set">
+<rect class="sW" x="160" y="14" width="12" height="10" rx="2"/><text class="sC" x="178" y="23">training RMSE</text><rect class="sB" x="290" y="14" width="12" height="10" rx="2"/><text class="sC" x="308" y="23">cross-validation RMSE</text>
+<text class="sC" x="150" y="56" text-anchor="end">Linear Regression</text>
+<rect class="sW" x="160" y="38" width="303.481" height="13" rx="2"/><text class="sS" x="469.481" y="49">68,973</text>
+<rect class="sB" x="160" y="53" width="308.013" height="13" rx="2"/><text class="sS" x="474.013" y="64">70,003</text>
+<text class="sRt" x="706" y="58" text-anchor="end">underfits: both high</text>
+<text class="sC" x="150" y="92" text-anchor="end">Decision Tree</text>
+<rect class="sW" x="160" y="74" width="1.5" height="13" rx="2"/><text class="sS" x="166" y="85">0</text>
+<rect class="sB" x="160" y="89" width="292.921" height="13" rx="2"/><text class="sS" x="458.921" y="100">66,573</text>
+<text class="sRt" x="706" y="94" text-anchor="end">overfits: train 0, CV bad</text>
+<text class="sC" x="150" y="128" text-anchor="end">Random Forest</text>
+<rect class="sW" x="160" y="110" width="77.2244" height="13" rx="2"/><text class="sS" x="243.224" y="121">17,551</text>
+<rect class="sB" x="160" y="125" width="206.967" height="13" rx="2"/><text class="sS" x="372.967" y="136">47,038</text>
+<text class="sRt" x="706" y="130" text-anchor="end">better, still a gap</text>
+<text class="sC" x="150" y="164" text-anchor="end">RF tuned</text>
+<rect class="sB" x="160" y="161" width="191.796" height="13" rx="2"/><text class="sS" x="357.796" y="172">43,590</text>
+<text class="sGt" x="706" y="166" text-anchor="end">CV after grid search</text>
+<text class="sC" x="150" y="200" text-anchor="end">final, on test</text>
+<rect class="sG" x="160" y="197" width="182.358" height="13" rx="2"/><text class="sS" x="348.358" y="208">41,445</text>
+<text class="sGt" x="706" y="202" text-anchor="end">reported once</text>
+<text class="sS" x="360" y="226" text-anchor="middle">read the gap: train ≈ CV and both high → underfit; train ≪ CV → overfit (California housing, RMSE in dollars)</text>
+</svg><figcaption>The model comparison as bars: the distance between the two bars of each model is the diagnosis. Numbers from the table above.</figcaption></figure>
+
 Géron's advice: before tuning anything, **shortlist 2–5 promising models from different families** without spending long on each.
 
 ### Grid search over the *whole* pipeline
@@ -799,7 +1056,108 @@ grid_search.fit(housing, housing_labels)
 2. **An unimportant hyperparameter costs nothing extra.** In a grid, a useless 10-value hyperparameter makes the search 10× longer.
 3. You control the budget directly (`n_iter`).
 
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Nine trials over two hyperparameters where only one matters: a 3 by 3 grid tests just three values of the important one and misses the narrow peak, while nine random trials test nine distinct values and land closer to it">
+<rect class="sN" x="30" y="30" width="150" height="150" rx="0" style="fill:none"/><text class="sT" x="105" y="22" text-anchor="middle">grid: 9 trials, 3 distinct values</text>
+<text class="sS" x="22" y="105" text-anchor="end" transform="rotate(-90 22 105.0)">unimportant</text>
+<polyline class="sLv" points="30.0,240.0 31.5,240.0 33.0,240.0 34.5,240.0 36.0,240.0 37.5,240.0 39.0,240.0 40.5,240.0 42.0,240.0 43.5,240.0 45.0,240.0 46.5,240.0 48.0,240.0 49.5,240.0 51.0,240.0 52.5,240.0 54.0,240.0 55.5,240.0 57.0,240.0 58.5,240.0 60.0,240.0 61.5,240.0 63.0,240.0 64.5,240.0 66.0,240.0 67.5,240.0 69.0,240.0 70.5,240.0 72.0,240.0 73.5,240.0 75.0,240.0 76.5,240.0 78.0,240.0 79.5,240.0 81.0,240.0 82.5,240.0 84.0,240.0 85.5,240.0 87.0,240.0 88.5,240.0 90.0,240.0 91.5,240.0 93.0,240.0 94.5,240.0 96.0,240.0 97.5,240.0 99.0,240.0 100.5,240.0 102.0,240.0 103.5,240.0 105.0,240.0 106.5,240.0 108.0,239.9 109.5,239.9 111.0,239.8 112.5,239.7 114.0,239.5 115.5,239.1 117.0,238.5 118.5,237.7 120.0,236.4 121.5,234.7 123.0,232.5 124.5,229.5 126.0,225.9 127.5,221.6 129.0,216.7 130.5,211.5 132.0,206.2 133.5,201.1 135.0,196.6 136.5,193.0 138.0,190.8 139.5,190.0 141.0,190.8 142.5,193.0 144.0,196.6 145.5,201.1 147.0,206.2 148.5,211.5 150.0,216.7 151.5,221.6 153.0,225.9 154.5,229.5 156.0,232.5 157.5,234.7 159.0,236.4 160.5,237.7 162.0,238.5 163.5,239.1 165.0,239.5 166.5,239.7 168.0,239.8 169.5,239.9 171.0,239.9 172.5,240.0 174.0,240.0 175.5,240.0 177.0,240.0 178.5,240.0 180.0,240.0"/><text class="sS" x="186" y="220">score</text>
+<circle class="sPw" cx="52.5" cy="157.5" r="4.5"/>
+<line class="sD" x1="52.5" y1="180" x2="52.5" y2="240"/>
+<circle class="sPw" cx="52.5" cy="105.0" r="4.5"/>
+<line class="sD" x1="52.5" y1="180" x2="52.5" y2="240"/>
+<circle class="sPw" cx="52.5" cy="52.5" r="4.5"/>
+<line class="sD" x1="52.5" y1="180" x2="52.5" y2="240"/>
+<circle class="sPw" cx="105.0" cy="157.5" r="4.5"/>
+<line class="sD" x1="105" y1="180" x2="105" y2="239.987"/>
+<circle class="sPw" cx="105.0" cy="105.0" r="4.5"/>
+<line class="sD" x1="105" y1="180" x2="105" y2="239.987"/>
+<circle class="sPw" cx="105.0" cy="52.5" r="4.5"/>
+<line class="sD" x1="105" y1="180" x2="105" y2="239.987"/>
+<circle class="sPw" cx="157.5" cy="157.5" r="4.5"/>
+<line class="sD" x1="157.5" y1="180" x2="157.5" y2="234.73"/>
+<circle class="sPw" cx="157.5" cy="105.0" r="4.5"/>
+<line class="sD" x1="157.5" y1="180" x2="157.5" y2="234.73"/>
+<circle class="sPw" cx="157.5" cy="52.5" r="4.5"/>
+<line class="sD" x1="157.5" y1="180" x2="157.5" y2="234.73"/>
+<text class="sS" x="190" y="60">best score found</text><text class="sRt" x="190" y="78">0.11</text>
+<text class="sS" x="105" y="254" text-anchor="middle">important hyperparameter →</text>
+<rect class="sN" x="380" y="30" width="150" height="150" rx="0" style="fill:none"/><text class="sT" x="455" y="22" text-anchor="middle">random: 9 trials, 9 distinct values</text>
+<text class="sS" x="372" y="105" text-anchor="end" transform="rotate(-90 372 105.0)">unimportant</text>
+<polyline class="sLv" points="380.0,240.0 381.5,240.0 383.0,240.0 384.5,240.0 386.0,240.0 387.5,240.0 389.0,240.0 390.5,240.0 392.0,240.0 393.5,240.0 395.0,240.0 396.5,240.0 398.0,240.0 399.5,240.0 401.0,240.0 402.5,240.0 404.0,240.0 405.5,240.0 407.0,240.0 408.5,240.0 410.0,240.0 411.5,240.0 413.0,240.0 414.5,240.0 416.0,240.0 417.5,240.0 419.0,240.0 420.5,240.0 422.0,240.0 423.5,240.0 425.0,240.0 426.5,240.0 428.0,240.0 429.5,240.0 431.0,240.0 432.5,240.0 434.0,240.0 435.5,240.0 437.0,240.0 438.5,240.0 440.0,240.0 441.5,240.0 443.0,240.0 444.5,240.0 446.0,240.0 447.5,240.0 449.0,240.0 450.5,240.0 452.0,240.0 453.5,240.0 455.0,240.0 456.5,240.0 458.0,239.9 459.5,239.9 461.0,239.8 462.5,239.7 464.0,239.5 465.5,239.1 467.0,238.5 468.5,237.7 470.0,236.4 471.5,234.7 473.0,232.5 474.5,229.5 476.0,225.9 477.5,221.6 479.0,216.7 480.5,211.5 482.0,206.2 483.5,201.1 485.0,196.6 486.5,193.0 488.0,190.8 489.5,190.0 491.0,190.8 492.5,193.0 494.0,196.6 495.5,201.1 497.0,206.2 498.5,211.5 500.0,216.7 501.5,221.6 503.0,225.9 504.5,229.5 506.0,232.5 507.5,234.7 509.0,236.4 510.5,237.7 512.0,238.5 513.5,239.1 515.0,239.5 516.5,239.7 518.0,239.8 519.5,239.9 521.0,239.9 522.5,240.0 524.0,240.0 525.5,240.0 527.0,240.0 528.5,240.0 530.0,240.0"/><text class="sS" x="536" y="220">score</text>
+<circle class="sPg" cx="462.2" cy="128.1" r="4.5"/>
+<line class="sD" x1="462.218" y1="180" x2="462.218" y2="239.715"/>
+<circle class="sPg" cx="506.7" cy="136.7" r="4.5"/>
+<line class="sD" x1="506.728" y1="180" x2="506.728" y2="233.634"/>
+<circle class="sPg" cx="456.6" cy="128.4" r="4.5"/>
+<line class="sD" x1="456.552" y1="180" x2="456.552" y2="239.973"/>
+<circle class="sPg" cx="442.3" cy="33.9" r="4.5"/>
+<line class="sD" x1="442.324" y1="180" x2="442.324" y2="240"/>
+<circle class="sPg" cx="395.6" cy="113.3" r="4.5"/>
+<line class="sD" x1="395.56" y1="180" x2="395.56" y2="240"/>
+<circle class="sPg" cx="413.7" cy="127.6" r="4.5"/>
+<line class="sD" x1="413.721" y1="180" x2="413.721" y2="240"/>
+<circle class="sPg" cx="529.8" cy="130.6" r="4.5"/>
+<line class="sD" x1="529.811" y1="180" x2="529.811" y2="239.999"/>
+<circle class="sPg" cx="471.2" cy="117.1" r="4.5"/>
+<line class="sD" x1="471.167" y1="180" x2="471.167" y2="235.155"/>
+<circle class="sPg" cx="489.6" cy="112.9" r="4.5"/>
+<line class="sD" x1="489.568" y1="180" x2="489.568" y2="190.002"/>
+<text class="sS" x="540" y="60">best score found</text><text class="sGt" x="540" y="78">1.00</text>
+<text class="sS" x="455" y="254" text-anchor="middle">important hyperparameter →</text>
+</svg><figcaption>Why randomized search wins when some hyperparameters barely matter (Bergstra and Bengio, 2012). The score curve depends only on the horizontal axis. Computed.</figcaption></figure>
+
 `HalvingGridSearchCV` / `HalvingRandomSearchCV` (successive halving) start many candidates with **limited resources** (a small sample, or few iterations), keep the best, and give them more resources each round. Optuna (Part 11) goes further with Bayesian optimisation and pruning.
+
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Successive halving: 27 candidates get one unit of resources, the best 9 get three, the best 3 get nine, and the winner gets 27, for 108 units instead of 729">
+<text class="sC" x="14" y="54">round 1: 27 candidates</text>
+<rect class="sB" x="170" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="185" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="200" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="215" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="230" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="245" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="260" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="275" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="290" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="305" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="320" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="335" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="350" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="365" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="380" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="395" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="410" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="425" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="440" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="455" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="470" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="485" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="500" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="515" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="530" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="545" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<rect class="sB" x="560" y="34" width="13" height="28" rx="3" opacity="0.37"/>
+<text class="sS" x="706" y="54" text-anchor="end">1× resources each</text>
+<text class="sC" x="14" y="98">round 2: 9 candidates</text>
+<rect class="sB" x="170" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="185" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="200" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="215" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="230" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="245" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="260" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="275" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<rect class="sB" x="290" y="78" width="13" height="28" rx="3" opacity="0.42"/>
+<text class="sS" x="706" y="98" text-anchor="end">3× resources each</text>
+<text class="sC" x="14" y="142">round 3: 3 candidates</text>
+<rect class="sB" x="170" y="122" width="13" height="28" rx="3" opacity="0.57"/>
+<rect class="sB" x="185" y="122" width="13" height="28" rx="3" opacity="0.57"/>
+<rect class="sB" x="200" y="122" width="13" height="28" rx="3" opacity="0.57"/>
+<text class="sS" x="706" y="142" text-anchor="end">9× resources each</text>
+<text class="sC" x="14" y="186">round 4: 1 candidate</text>
+<rect class="sG" x="170" y="166" width="13" height="28" rx="3"/>
+<text class="sS" x="706" y="186" text-anchor="end">27× resources each</text>
+<text class="sS" x="360" y="220" text-anchor="middle">total budget 108 units vs 729 to train all 27 at full size; the risk is dropping a slow starter early</text>
+</svg><figcaption>HalvingGridSearchCV with factor 3: cheap rounds weed out bad candidates; only survivors earn more data or iterations. Computed.</figcaption></figure>
 
 ### Ensembles and error analysis
 

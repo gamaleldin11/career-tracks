@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "handbook",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["site/serve.js"],
+      "port": 8790
+    }
+  ]
+}

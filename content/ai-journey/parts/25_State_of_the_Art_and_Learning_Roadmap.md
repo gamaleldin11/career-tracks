@@ -70,6 +70,34 @@ Read this table left to right. If a right-hand column feels shaky, go back to th
 
 **The one-sentence story:** *Everything is gradient descent on a differentiable function chosen to fit the data's structure (images → convolution, sequences → recurrence → attention), evaluated honestly on held-out data, and deployed with monitoring.* If you can say that and unpack any word in it, you have a strong foundation.
 
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="The course in one sentence: the structure of the data picks the architecture, trees and linear models for tables, convolution for images, recurrence for sequences, attention for text; then a differentiable function and loss are fitted by gradient descent, judged on held-out data and kept honest by monitoring">
+<text class="sM" x="80" y="22" text-anchor="middle">the data's structure</text><text class="sM" x="250" y="22" text-anchor="middle">picks the architecture</text>
+<rect class="sA" x="14" y="34" width="132" height="34" rx="6"/><text class="sT" x="80" y="56" text-anchor="middle">tables</text>
+<line class="sLm" x1="146" y1="51" x2="176" y2="51" marker-end="url(#ahm)"/>
+<rect class="sN" x="180" y="34" width="140" height="34" rx="6"/><text class="sC" x="250" y="56" text-anchor="middle">trees, linear</text>
+<line class="sLm" x1="320" y1="51" x2="360" y2="85"/>
+<rect class="sB" x="14" y="78" width="132" height="34" rx="6"/><text class="sT" x="80" y="100" text-anchor="middle">images</text>
+<line class="sLm" x1="146" y1="95" x2="176" y2="95" marker-end="url(#ahm)"/>
+<rect class="sN" x="180" y="78" width="140" height="34" rx="6"/><text class="sC" x="250" y="100" text-anchor="middle">convolution</text>
+<line class="sLm" x1="320" y1="95" x2="360" y2="85"/>
+<rect class="sV" x="14" y="122" width="132" height="34" rx="6"/><text class="sT" x="80" y="144" text-anchor="middle">sequences</text>
+<line class="sLm" x1="146" y1="139" x2="176" y2="139" marker-end="url(#ahm)"/>
+<rect class="sN" x="180" y="122" width="140" height="34" rx="6"/><text class="sC" x="250" y="144" text-anchor="middle">recurrence</text>
+<line class="sLm" x1="320" y1="139" x2="360" y2="85"/>
+<rect class="sG" x="14" y="166" width="132" height="34" rx="6"/><text class="sT" x="80" y="188" text-anchor="middle">text, tokens</text>
+<line class="sLm" x1="146" y1="183" x2="176" y2="183" marker-end="url(#ahm)"/>
+<rect class="sN" x="180" y="166" width="140" height="34" rx="6"/><text class="sC" x="250" y="188" text-anchor="middle">attention</text>
+<line class="sLm" x1="320" y1="183" x2="360" y2="85"/>
+<line class="sL" x1="360" y1="85" x2="380" y2="85" marker-end="url(#ah)"/>
+<rect class="sB" x="384" y="58" width="152" height="54" rx="8"/><text class="sT" x="460" y="83" text-anchor="middle">a differentiable</text><text class="sC" x="460" y="99" text-anchor="middle">function + a loss</text>
+<rect class="sV" x="550" y="58" width="152" height="54" rx="8"/><text class="sT" x="626" y="83" text-anchor="middle">gradient descent</text><text class="sC" x="626" y="99" text-anchor="middle">fits it</text>
+<rect class="sG" x="550" y="150" width="152" height="54" rx="8"/><text class="sT" x="626" y="175" text-anchor="middle">held-out data</text><text class="sC" x="626" y="191" text-anchor="middle">judges it honestly</text>
+<rect class="sA" x="384" y="150" width="152" height="54" rx="8"/><text class="sT" x="460" y="175" text-anchor="middle">monitoring</text><text class="sC" x="460" y="191" text-anchor="middle">keeps it honest</text>
+<line class="sL" x1="536" y1="85" x2="548" y2="85" marker-end="url(#ah)"/><line class="sL" x1="626" y1="112" x2="626" y2="146" marker-end="url(#ah)"/><line class="sL" x1="548" y1="177" x2="538" y2="177" marker-end="url(#ah)"/>
+<circle class="sP" r="5"><animateMotion dur="5s" repeatCount="indefinite" path="M 362 85 H 384 M 460 85 H 626 V 177 H 460"/></circle>
+<text class="sS" x="360" y="236" text-anchor="middle">trees are the exception that proves the rule: they are fitted greedily, and boosting is gradient descent in function space</text>
+</svg><figcaption>The one-sentence story as a picture: every part of the course is one box on this path.</figcaption></figure>
+
 ---
 
 ## 25.2 What "state of the art" means in practice (and what interviewers want) 🟢 ⭐
@@ -218,6 +246,23 @@ Follow the 4-week plan in **Part 16**. Minimum proof of skill:
 3. What's the **cost** (latency, GPU, licence, data residency)?
 4. Is there an **open implementation** and independent replication?
 5. Would it change a **business decision**?
+
+<figure class="dia steps"><svg viewBox="0 0 720 266" role="img" aria-label="A five-question funnel for judging a new state-of-the-art claim: is it on my kind of data, does it beat a strong baseline, is the cost acceptable, is there open code and replication, would it change a business decision; only then adopt it, with an A/B test">
+<g data-s="1"><rect class="sB" x="14" y="20" width="640" height="32" rx="6"/><text class="sT" x="26" y="41">1. my kind of data?</text><text class="sC" x="642" y="41" text-anchor="end">tabular, Arabic text, telecom time series</text></g>
+<g data-s="2"><rect class="sV" x="49" y="60" width="570" height="32" rx="6"/><text class="sT" x="61" y="81">2. beats a strong baseline?</text><text class="sC" x="607" y="81" text-anchor="end">tuned LightGBM, BM25, seasonal naive</text></g>
+<g data-s="3"><rect class="sW" x="84" y="100" width="500" height="32" rx="6"/><text class="sT" x="96" y="121">3. cost acceptable?</text><text class="sC" x="572" y="121" text-anchor="end">latency, GPU, licence, data residency</text></g>
+<g data-s="4"><rect class="sA" x="119" y="140" width="430" height="32" rx="6"/><text class="sT" x="334" y="161" text-anchor="middle">4. open code and a replication?</text></g>
+<g data-s="5"><rect class="sG" x="154" y="180" width="360" height="32" rx="6"/><text class="sT" x="334" y="201" text-anchor="middle">5. changes a business decision?</text></g>
+<g data-s="6"><rect class="sG" x="254" y="224" width="160" height="30" rx="15"/><text class="sGt" x="334" y="244" text-anchor="middle">adopt (with an A/B test)</text><line class="sLg" x1="334" y1="214" x2="334" y2="222" marker-end="url(#ahg)"/></g>
+<text class="sS" x="684" y="238" text-anchor="end">most "new SOTA"</text><text class="sS" x="684" y="254" text-anchor="end">stops at 1 or 2</text>
+</svg><ol class="dia-steps">
+<li><b>my kind of data?</b> Examples: tabular, Arabic text, telecom time series. A vision result on ImageNet says little about churn.</li>
+<li><b>beats a strong baseline?</b> Examples: tuned LightGBM, BM25, seasonal naive. Beating a weak baseline is the commonest trick in papers.</li>
+<li><b>cost acceptable?</b> Examples: latency, GPU, licence, data residency. PDPL can rule out a hosted model outright.</li>
+<li><b>open code and a replication?</b> Examples: someone else got the same numbers. A single blog post is not evidence.</li>
+<li><b>changes a business decision?</b> Examples: a better campaign, a cheaper call centre. A 0.3% metric gain nobody acts on is not worth a migration.</li>
+<li>Only a claim that survives all five is worth a pilot, and the pilot itself is an A/B test against the current model.</li>
+</ol><figcaption>A filter for the weekly flood of "new state of the art": cheap questions first, expensive ones last.</figcaption></figure>
 
 ---
 

@@ -489,6 +489,21 @@ Ethernet adapter Ethernet0:
 </ol>
 <p><strong>Worked example 1:</strong> What subnet is <code>192.168.10.37/26</code> in? /26 = 255.255.255.<strong>192</strong>. Magic number = 256 − 192 = <strong>64</strong>. Subnets: .0, .64, .128, .192. 37 falls in the <strong>.0 block</strong> → network <code>192.168.10.0</code>, broadcast <code>.63</code>, usable <code>.1–.62</code> (2⁶−2 = 62 hosts).</p>
 <p><strong>Worked example 2:</strong> Split <code>192.168.1.0/24</code> into 4 equal subnets. Need 4 subnets → borrow 2 bits (2²=4) → /26, 64 addresses each: <code>.0–.63</code>, <code>.64–.127</code>, <code>.128–.191</code>, <code>.192–.255</code>. Each has 62 usable hosts.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A /24 network split into four /26 subnets of 64 addresses: .0, .64, .128 and .192, each with its host range and broadcast address; .37 falls in the first">
+<rect class="sB" x="30" y="30" width="660" height="34" rx="6"/><text class="sT" x="360" y="52" text-anchor="middle">192.168.1.0/24: 256 addresses</text>
+<rect class="sA" x="32" y="84" width="161" height="60" rx="6"/><text class="sT" x="112.5" y="104" text-anchor="middle">.0/26</text><text class="sC" x="112.5" y="122" text-anchor="middle">hosts .1–.62</text><text class="sC" x="112.5" y="138" text-anchor="middle">broadcast .63</text>
+<line class="sLm" x1="360" y1="64" x2="112.5" y2="82"/>
+<rect class="sV" x="197" y="84" width="161" height="60" rx="6"/><text class="sT" x="277.5" y="104" text-anchor="middle">.64/26</text><text class="sC" x="277.5" y="122" text-anchor="middle">hosts .65–.126</text><text class="sC" x="277.5" y="138" text-anchor="middle">broadcast .127</text>
+<line class="sLm" x1="360" y1="64" x2="277.5" y2="82"/>
+<rect class="sG" x="362" y="84" width="161" height="60" rx="6"/><text class="sT" x="442.5" y="104" text-anchor="middle">.128/26</text><text class="sC" x="442.5" y="122" text-anchor="middle">hosts .129–.190</text><text class="sC" x="442.5" y="138" text-anchor="middle">broadcast .191</text>
+<line class="sLm" x1="360" y1="64" x2="442.5" y2="82"/>
+<rect class="sW" x="527" y="84" width="161" height="60" rx="6"/><text class="sT" x="607.5" y="104" text-anchor="middle">.192/26</text><text class="sC" x="607.5" y="122" text-anchor="middle">hosts .193–.254</text><text class="sC" x="607.5" y="138" text-anchor="middle">broadcast .255</text>
+<line class="sLm" x1="360" y1="64" x2="607.5" y2="82"/>
+<line class="sLr" x1="125.391" y1="150" x2="125.391" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="125.391" y="188" text-anchor="middle">.37 → network .0, broadcast .63</text>
+<text class="sS" x="360" y="214" text-anchor="middle">magic number = 256 − 192 = 64: subnets start at .0, .64, .128, .192</text>
+</svg><figcaption>Borrowing two host bits turns one /24 into four /26 blocks of 64. The block size is the magic number.</figcaption></figure>
+
 <p><strong>Worked example 3:</strong> A branch needs 100 hosts — smallest subnet? Need 2<sup>h</sup>−2 ≥ 100 → h=7 (126 hosts) → mask /25 (32−7). Answer: a /25, e.g. <code>10.20.30.0/25</code>, hosts .1–.126, broadcast .127.</p>
 
 <div class="tw"><table>
@@ -622,7 +637,7 @@ Inside local          Inside global        Outside
   <tr><td><strong>Used by</strong></td><td>HTTP/HTTPS, SSH, FTP, SMTP, RDP — anything that must arrive complete</td><td>DNS queries, DHCP, VoIP, video streaming, SNMP, NTP — where speed beats perfection</td></tr>
 </table></div>
 
-<figure><svg viewBox="0 0 700 250" role="img" aria-label="TCP three-way handshake sequence">
+<figure><svg viewBox="0 0 770 250" role="img" aria-label="TCP three-way handshake sequence">
   <line class="sN" x1="150" y1="40" x2="150" y2="230"/><line class="sN" x1="550" y1="40" x2="550" y2="230"/>
   <rect class="sA" x="95" y="14" width="110" height="30" rx="7"/><text class="sT" x="150" y="34" text-anchor="middle">Client</text>
   <rect class="sA" x="495" y="14" width="110" height="30" rx="7"/><text class="sT" x="550" y="34" text-anchor="middle">Server</text>
@@ -709,6 +724,21 @@ Inside local          Inside global        Outside
 
 <h3>3.5 ARP — gluing IP to Ethernet</h3>
 <p><strong>ARP</strong> (Address Resolution Protocol) answers one question: <em>"Who has IP x.x.x.x? Tell me your MAC."</em> The request is a broadcast; the owner replies unicast; the result is cached in the <strong>ARP table</strong> (<code>arp -a</code>). Without ARP, a host knows the destination IP but can't build the Ethernet frame. <strong>Gratuitous ARP</strong> announces your own IP (used when failover moves an IP to a new MAC). <strong>ARP spoofing</strong> — an attacker answering with their own MAC — is the classic LAN man-in-the-middle attack (Module 7).</p>
+
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="ARP: a PC broadcasts who has 192.168.1.1, the switch floods it to every device, only the gateway replies with its MAC address by unicast, and the PC caches the answer">
+<rect class="sA" x="14" y="90" width="140" height="56" rx="8"/><text class="sT" x="84" y="116" text-anchor="middle">PC 192.168.1.20</text><text class="sC" x="84" y="132" text-anchor="middle">needs a MAC</text>
+<rect class="sB" x="290" y="90" width="120" height="56" rx="8"/><text class="sT" x="350" y="116" text-anchor="middle">switch</text><text class="sC" x="350" y="132" text-anchor="middle">floods broadcasts</text>
+<rect class="sN" x="560" y="20" width="146" height="46" rx="8"/><text class="sT" x="633" y="41" text-anchor="middle">printer</text><text class="sC" x="633" y="57" text-anchor="middle">192.168.1.30</text>
+<line class="sLm" x1="410" y1="118" x2="556" y2="43" marker-end="url(#ahm)" stroke-dasharray="5 4"/>
+<rect class="sG" x="560" y="90" width="146" height="46" rx="8"/><text class="sT" x="633" y="111" text-anchor="middle">gateway</text><text class="sC" x="633" y="127" text-anchor="middle">192.168.1.1</text>
+<line class="sLm" x1="410" y1="118" x2="556" y2="113" marker-end="url(#ahm)" stroke-dasharray="5 4"/>
+<rect class="sN" x="560" y="160" width="146" height="46" rx="8"/><text class="sT" x="633" y="181" text-anchor="middle">laptop</text><text class="sC" x="633" y="197" text-anchor="middle">192.168.1.45</text>
+<line class="sLm" x1="410" y1="118" x2="556" y2="183" marker-end="url(#ahm)" stroke-dasharray="5 4"/>
+<line class="sLm" x1="154" y1="110" x2="286" y2="110" marker-end="url(#ahm)"/><text class="sC" x="220" y="102" text-anchor="middle">"who has .1?"</text><text class="sC" x="220" y="82" text-anchor="middle">broadcast ff:ff:…</text>
+<path class="sLg" d="M560 100 H440 L410 132 H158" fill="none" marker-end="url(#ahg)"/><text class="sGt" x="290" y="170" text-anchor="middle">unicast reply: ".1 is at 00:1a:2b:…"</text>
+<rect class="sN" x="14" y="176" width="260" height="40" rx="6"/><text class="sC" x="24" y="200" xml:space="preserve" style="white-space:pre">arp -a  →  192.168.1.1  00-1a-2b-…</text>
+<text class="sC" x="290" y="204">cached for a few minutes</text>
+</svg><figcaption>ARP: one broadcast question, one unicast answer, one cache entry. Duplicate-IP and "gateway not resolving" tickets live here.</figcaption></figure>
 
 <h3>3.6 ICMP — the network's diagnostic channel</h3>
 <p><strong>ICMP</strong> (Internet Control Message Protocol) carries control/error messages, not user data. <strong>Ping</strong> sends ICMP <em>Echo Request</em> and expects <em>Echo Reply</em> — proving L3 reachability and measuring round-trip time. <strong>Traceroute</strong> is cleverer: it sends packets with <strong>TTL</strong> = 1, 2, 3…; each router that decrements TTL to zero returns an ICMP <em>Time Exceeded</em>, revealing itself — so you see the whole path hop by hop. (Windows <code>tracert</code> uses ICMP probes; Linux <code>traceroute</code> defaults to UDP.) Also: "Destination Unreachable" and "Fragmentation Needed" (PMTU discovery). Firewalls often block ICMP, so <mark>a failed ping doesn't always mean the host is down</mark> — say that in interviews.</p>
@@ -837,10 +867,37 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
 </ol>
 <p>Entries age out (default ~300 s). This is why the first packet to a quiet host is flooded but the reply instantly teaches the switch where everyone is. <strong>MAC flapping</strong> (same MAC seen on two ports rapidly) signals a loop or a duplicated machine.</p>
 
+<figure class="dia steps"><svg viewBox="0 0 720 296" role="img" aria-label="A switch with four PCs: the first frame from A to B teaches the switch that A is on port 1 and is flooded because B is unknown; B's reply teaches it that B is on port 2 and is forwarded only to port 1">
+<rect class="sB" x="250" y="90" width="200" height="60" rx="10"/><text class="sT" x="350" y="116" text-anchor="middle">switch</text><text class="sS" x="350" y="134" text-anchor="middle">ports 1–4</text>
+<rect class="sN" x="24" y="20" width="92" height="40" rx="8"/><text class="sT" x="70" y="38" text-anchor="middle">PC A</text><text class="sS" x="70" y="53" text-anchor="middle">aa:11</text>
+<line class="sLm" x1="116" y1="40" x2="250" y2="105"/><text class="sM" x="238" y="99" text-anchor="end">1</text>
+<rect class="sN" x="24" y="150" width="92" height="40" rx="8"/><text class="sT" x="70" y="168" text-anchor="middle">PC B</text><text class="sS" x="70" y="183" text-anchor="middle">bb:22</text>
+<line class="sLm" x1="116" y1="170" x2="250" y2="135"/><text class="sM" x="238" y="129" text-anchor="end">2</text>
+<rect class="sN" x="584" y="20" width="92" height="40" rx="8"/><text class="sT" x="630" y="38" text-anchor="middle">PC C</text><text class="sS" x="630" y="53" text-anchor="middle">cc:33</text>
+<line class="sLm" x1="584" y1="40" x2="450" y2="105"/><text class="sM" x="462" y="99">3</text>
+<rect class="sN" x="584" y="150" width="92" height="40" rx="8"/><text class="sT" x="630" y="168" text-anchor="middle">PC D</text><text class="sS" x="630" y="183" text-anchor="middle">dd:44</text>
+<line class="sLm" x1="584" y1="170" x2="450" y2="135"/><text class="sM" x="462" y="129">4</text>
+<text class="sM" x="130" y="232" text-anchor="middle">MAC table</text>
+<g data-s="1-1"><rect class="sN" x="60" y="240" width="140" height="22" rx="3"/><text class="sS" x="130" y="255" text-anchor="middle">(empty)</text></g>
+<g data-s="2-5"><rect class="sG" x="60" y="240" width="140" height="22" rx="3" opacity=".6"/><text class="sC" x="130" y="255" text-anchor="middle">aa:11 → port 1</text></g>
+<g data-s="4-5"><rect class="sG" x="60" y="264" width="140" height="22" rx="3" opacity=".6"/><text class="sC" x="130" y="279" text-anchor="middle">bb:22 → port 2</text></g>
+<g data-s="2-3"><line class="sLg" x1="116" y1="44" x2="250" y2="103" marker-end="url(#ahg)"/><text class="sGt" x="180" y="60" text-anchor="middle">A → B</text></g>
+<g data-s="3-3"><line class="sLw" x1="250" y1="137" x2="116" y2="166" marker-end="url(#ahw)"/><line class="sLw" x1="450" y1="105" x2="584" y2="44" marker-end="url(#ahw)"/><line class="sLw" x1="450" y1="135" x2="584" y2="166" marker-end="url(#ahw)"/><text class="sWt" x="706" y="110" text-anchor="end">flood: B unknown</text></g>
+<g data-s="4-4"><line class="sLg" x1="116" y1="170" x2="250" y2="139" marker-end="url(#ahg)"/><line class="sLg" x1="250" y1="107" x2="116" y2="46" marker-end="url(#ahg)"/><text class="sGt" x="176" y="182" text-anchor="middle">B → A</text><text class="sGt" x="706" y="110" text-anchor="end">C and D see nothing</text></g>
+<g data-s="5"><text class="sGt" x="350" y="182" text-anchor="middle">now every A↔B frame is unicast, port to port</text></g>
+<text class="sS" x="560" y="255" text-anchor="middle">entries age out after ~300 s</text><text class="sS" x="560" y="271" text-anchor="middle">same MAC on two ports = loop</text>
+</svg><ol class="dia-steps">
+<li>The MAC table starts empty: the switch knows nothing about who is where.</li>
+<li>A sends a frame to B on port 1. <b>Learn</b>: the switch records the <em>source</em>, aa:11 → port 1.</li>
+<li>B's MAC is not in the table yet, so the switch <b>floods</b> the frame out every other port. C and D see it and drop it.</li>
+<li>B replies on port 2. The switch learns bb:22 → port 2 and, since A is now known, <b>forwards</b> the reply out port 1 only.</li>
+<li>From now on A↔B traffic is switched port to port. Broadcasts (like ARP) are still flooded by design.</li>
+</ol><figcaption>Learn, flood, forward: the whole of layer-2 switching in three moves.</figcaption></figure>
+
 <h3>4.2 VLANs — one switch, many networks</h3>
 <p>A <strong>VLAN</strong> (Virtual LAN, IEEE 802.1Q) logically splits one physical switch into multiple isolated layer-2 networks — separate <strong>broadcast domains</strong>. Devices in VLAN 10 can't talk to VLAN 20 at layer 2 at all; traffic between them must be <em>routed</em>. Why: security (Finance separated from Guests), smaller broadcast domains, and grouping by function regardless of physical location.</p>
 
-<figure><svg viewBox="0 0 700 300" role="img" aria-label="Two switches with VLAN 10 and VLAN 20 connected by an 802.1Q trunk">
+<figure><svg viewBox="0 0 800 300" role="img" aria-label="Two switches with VLAN 10 and VLAN 20 connected by an 802.1Q trunk">
   <rect class="sB" x="60" y="110" width="220" height="52" rx="9"/><text class="sT" x="170" y="132" text-anchor="middle">Switch A</text><text class="sS" x="170" y="149" text-anchor="middle">access ports: VLAN 10 · VLAN 20</text>
   <rect class="sB" x="420" y="110" width="220" height="52" rx="9"/><text class="sT" x="530" y="132" text-anchor="middle">Switch B</text><text class="sS" x="530" y="149" text-anchor="middle">access ports: VLAN 10 · VLAN 20</text>
   <line class="sL" x1="280" y1="136" x2="420" y2="136"/><text class="sM" x="292" y="126">TRUNK · 802.1Q tags</text>
@@ -875,6 +932,26 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
   <li>If an active link dies, a blocked port comes alive — redundancy without loops.</li>
   <li>Classic STP converges slowly (30–50 s); <strong>RSTP (802.1w)</strong> does it in seconds and is the modern default. <strong>PortFast</strong> makes edge ports (PCs) skip the listening/learning wait; <strong>BPDU Guard</strong> shuts an edge port if a switch appears on it.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 252" role="img" aria-label="Spanning tree on three switches in a triangle: without it a broadcast loops forever; the switches elect S1 as root, pick root ports toward it, block one redundant port on S3, and unblock it when a link fails">
+<line class="sLm" x1="360" y1="56" x2="170" y2="200"/>
+<line class="sLm" x1="360" y1="56" x2="550" y2="200"/>
+<line class="sLm" x1="170" y1="200" x2="550" y2="200"/>
+<g data-s="1-1"><g class="pk" data-s="1"><circle class="sPr" r="5"><animateMotion dur="2s" begin="indefinite" fill="freeze" path="M 360 56 L 170 200 L 550 200 Z"/></circle></g><text class="sRt" x="360" y="240" text-anchor="middle">a broadcast loops forever: frames have no TTL</text></g>
+<rect class="sB" x="294" y="34" width="132" height="44" rx="8"/><text class="sT" x="360" y="53" text-anchor="middle">S1</text><text class="sS" x="360" y="69" text-anchor="middle">priority 4096 · root</text>
+<rect class="sB" x="104" y="178" width="132" height="44" rx="8"/><text class="sT" x="170" y="197" text-anchor="middle">S2</text><text class="sS" x="170" y="213" text-anchor="middle">32768 · lower MAC</text>
+<rect class="sB" x="484" y="178" width="132" height="44" rx="8"/><text class="sT" x="550" y="197" text-anchor="middle">S3</text><text class="sS" x="550" y="213" text-anchor="middle">32768 · higher MAC</text>
+<g data-s="2"><rect class="sG" x="294" y="34" width="132" height="44" rx="8" style="fill:none;stroke-width:2.4"/><text class="sGt" x="360" y="16" text-anchor="middle">root bridge: lowest bridge ID</text></g>
+<g data-s="3"><text class="sGt" x="186" y="160" text-anchor="end">RP</text><text class="sGt" x="534" y="160">RP</text><text class="sC" x="252" y="216" text-anchor="middle">DP</text><text class="sC" x="306" y="90" text-anchor="end">DP</text><text class="sC" x="414" y="90">DP</text></g>
+<g data-s="4-4"><rect class="sR" x="458" y="188" width="22" height="24" rx="4"/><text class="sT" x="469" y="206" text-anchor="middle">✗</text><text class="sRt" x="360" y="240" text-anchor="middle">S3's port to S2 blocks: one loop-free tree</text></g>
+<g data-s="5-5"><line class="sLr" x1="270" y1="120" x2="250" y2="140" style="stroke-width:3"/><text class="sRt" x="200" y="138" text-anchor="end">✗ link fails</text><rect class="sG" x="458" y="188" width="22" height="24" rx="4"/><text class="sGt" x="360" y="240" text-anchor="middle">blocked port starts forwarding: redundancy restored</text></g>
+</svg><ol class="dia-steps">
+<li>Three switches wired in a triangle for redundancy. Without STP a single broadcast circles the loop forever and multiplies into a broadcast storm.</li>
+<li>Switches exchange BPDUs and elect the <b>root bridge</b>: lowest priority, then lowest MAC. S1 wins with priority 4096.</li>
+<li>Every other switch picks its <b>root port</b> (RP, best path to the root); each segment gets one <b>designated port</b> (DP).</li>
+<li>Any port that is neither is <b>blocked</b>: here S3's port toward S2. The topology is now a tree.</li>
+<li>If the S1–S2 link fails, the blocked port moves to forwarding (seconds with RSTP, 30–50 s with classic STP).</li>
+</ol><figcaption>STP turns a looped layer-2 topology into a tree and keeps the spare link in reserve.</figcaption></figure>
 
 <h3>4.5 Link aggregation &amp; port-level security</h3>
 <ul>
@@ -981,14 +1058,63 @@ O   172.16.4.0/24    via 192.168.10.253 [110/20] <span class="c"># OSPF [AD/metr
 S*  0.0.0.0/0        via 41.33.7.1              <span class="c"># default route → internet</span></code></pre>
 <p>Packet to <code>172.16.4.9</code> → the OSPF /24 wins. Packet to <code>8.8.8.8</code> → only the default matches. Being able to narrate this makes routing questions easy.</p>
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Routing table lookup for 172.16.4.9: only the OSPF 172.16.4.0/24 route and the default route match, and the /24 wins as the longest prefix">
+<rect class="sB" x="14" y="20" width="260" height="40" rx="6"/><text class="sC" x="144" y="38" text-anchor="middle">packet to</text><text class="sT" x="144" y="54" text-anchor="middle">172.16.4.9</text>
+<rect class="sN" x="14" y="80" width="420" height="28" rx="4" opacity=".5"/><text class="sT" x="30" y="99">C</text><text class="sC" x="70" y="99" xml:space="preserve" style="white-space:pre">192.168.10.0/24</text><text class="sC" x="290" y="99">connected</text>
+<text class="sC" x="450" y="99">no match</text>
+<rect class="sN" x="14" y="114" width="420" height="28" rx="4" opacity=".5"/><text class="sT" x="30" y="133">S</text><text class="sC" x="70" y="133" xml:space="preserve" style="white-space:pre">10.50.0.0/16</text><text class="sC" x="290" y="133">via .254</text>
+<text class="sC" x="450" y="133">no match</text>
+<rect class="sG" x="14" y="148" width="420" height="28" rx="4"/><text class="sT" x="30" y="167">O</text><text class="sC" x="70" y="167" xml:space="preserve" style="white-space:pre">172.16.4.0/24</text><text class="sC" x="290" y="167">via .253</text>
+<text class="sGt" x="450" y="167">✓ matches, /24 is the longest: used</text>
+<rect class="sA" x="14" y="182" width="420" height="28" rx="4"/><text class="sT" x="30" y="201">S*</text><text class="sC" x="70" y="201" xml:space="preserve" style="white-space:pre">0.0.0.0/0</text><text class="sC" x="290" y="201">via 41.33.7.1</text>
+<text class="sC" x="450" y="201">matches, but only /0</text>
+<text class="sS" x="360" y="232" text-anchor="middle">among matching routes, the most specific (longest prefix) wins; the default route is the last resort</text>
+</svg><figcaption>How a router reads its table: find every route that contains the address, then take the longest prefix.</figcaption></figure>
+
 <h3>5.5 First-hop redundancy (Depth)</h3>
 <p>If the default gateway router dies, every host on the subnet is stranded — so two routers share a <strong>virtual IP</strong> that hosts use as their gateway. Protocols: <strong>HSRP</strong> (Cisco), <strong>VRRP</strong> (standard), <strong>GLBP</strong> (Cisco, load-balances). One is active, the other takes over the virtual IP+MAC on failure. Worth one sentence in an interview: "for gateway redundancy we'd run HSRP or VRRP."</p>
+
+<figure class="dia steps"><svg viewBox="0 0 720 284" role="img" aria-label="First-hop redundancy: two routers share a virtual gateway IP; the active router answers for it, and if it fails the standby takes over the virtual IP and MAC so hosts keep the same gateway">
+<rect class="sN" x="270" y="20" width="180" height="40" rx="8"/><text class="sT" x="360" y="45" text-anchor="middle">internet / core</text>
+<line class="sLm" x1="200" y1="98" x2="360" y2="60"/>
+<rect class="sB" x="125" y="98" width="150" height="44" rx="8"/><text class="sT" x="200" y="117" text-anchor="middle">R1</text><text class="sS" x="200" y="133" text-anchor="middle">10.0.0.2 · active</text>
+<line class="sLm" x1="520" y1="98" x2="360" y2="60"/>
+<rect class="sB" x="445" y="98" width="150" height="44" rx="8"/><text class="sT" x="520" y="117" text-anchor="middle">R2</text><text class="sS" x="520" y="133" text-anchor="middle">10.0.0.3 · standby</text>
+<rect class="sA" x="270" y="156" width="180" height="30" rx="15"/><text class="sT" x="360" y="176" text-anchor="middle">virtual IP 10.0.0.1</text>
+<line class="sD" x1="275" y1="171" x2="200" y2="142"/><line class="sD" x1="445" y1="171" x2="520" y2="142"/>
+<rect class="sN" x="140" y="214" width="80" height="30" rx="6"/><text class="sC" x="180" y="234" text-anchor="middle">host 1</text>
+<line class="sLm" x1="180" y1="214" x2="360" y2="188"/>
+<rect class="sN" x="260" y="214" width="80" height="30" rx="6"/><text class="sC" x="300" y="234" text-anchor="middle">host 2</text>
+<line class="sLm" x1="300" y1="214" x2="360" y2="188"/>
+<rect class="sN" x="380" y="214" width="80" height="30" rx="6"/><text class="sC" x="420" y="234" text-anchor="middle">host 3</text>
+<line class="sLm" x1="420" y1="214" x2="360" y2="188"/>
+<rect class="sN" x="500" y="214" width="80" height="30" rx="6"/><text class="sC" x="540" y="234" text-anchor="middle">host 4</text>
+<line class="sLm" x1="540" y1="214" x2="360" y2="188"/>
+<text class="sS" x="360" y="270" text-anchor="middle">every host's default gateway = 10.0.0.1 (the virtual IP), never a router's own address</text>
+<g data-s="1-1"><line class="sLg" x1="360" y1="156" x2="220" y2="142" marker-end="url(#ahg)"/><text class="sGt" x="110" y="172" text-anchor="middle">R1 owns the VIP</text></g>
+<g data-s="2-2"><rect class="sR" x="125" y="98" width="150" height="44" rx="8" opacity=".5"/><text class="sRt" x="200" y="88" text-anchor="middle">✗ R1 down</text><text class="sC" x="620" y="172" text-anchor="middle">hellos stop</text></g>
+<g data-s="3-3"><line class="sLg" x1="360" y1="156" x2="500" y2="142" marker-end="url(#ahg)"/><text class="sGt" x="620" y="172" text-anchor="middle">R2 takes the VIP</text><text class="sGt" x="620" y="188" text-anchor="middle">and its virtual MAC</text></g>
+</svg><ol class="dia-steps">
+<li>Hosts use the virtual IP 10.0.0.1 as their gateway. R1 is active and answers for it; R2 listens to R1's hello messages.</li>
+<li>R1 fails: its hellos stop arriving at R2.</li>
+<li>R2 becomes active and takes over the virtual IP <em>and</em> virtual MAC, so hosts' ARP caches stay valid. No host is reconfigured.</li>
+</ol><figcaption>HSRP / VRRP: the gateway address belongs to the pair, not to a box.</figcaption></figure>
 
 <h3>5.6 Access Control Lists (ACLs)</h3>
 <p>An <strong>ACL</strong> is an ordered list of permit/deny rules applied to an interface (inbound or outbound). Processing is <strong>top-down, first match wins</strong>, and every ACL ends with an invisible <strong>implicit deny all</strong>. <strong>Standard</strong> ACLs filter by source IP only; <strong>extended</strong> ACLs match source/destination IP, protocol, and ports:</p>
 <pre><code>access-list 110 permit tcp 192.168.10.0 0.0.0.255 any eq 443   <span class="c"># let LAN browse HTTPS</span>
 access-list 110 deny   ip  any any                              <span class="c"># (implicit anyway)</span></code></pre>
 <p>The order rule is a favorite trick question: <mark>if a broad "permit any" sits above a specific deny, the deny never fires</mark>. ACLs are also the building block of firewall rules and NAT match lists.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="An access control list evaluated top-down: a broad permit any rule above a specific deny means the deny never fires and the RDP packet is allowed">
+<rect class="sA" x="160" y="30" width="380" height="36" rx="6"/><text class="sT" x="176" y="53">10</text><text class="sC" x="214" y="53" xml:space="preserve" style="white-space:pre">permit ip any any</text>
+<rect class="sN" x="160" y="76" width="380" height="36" rx="6" opacity=".55"/><text class="sT" x="176" y="99">20</text><text class="sC" x="214" y="99" xml:space="preserve" style="white-space:pre">deny tcp any host 10.0.0.5 eq 3389</text>
+<rect class="sN" x="160" y="122" width="380" height="36" rx="6" opacity=".55"/><text class="sT" x="176" y="145">—</text><text class="sC" x="214" y="145" xml:space="preserve" style="white-space:pre">implicit deny any</text>
+<rect class="sB" x="14" y="30" width="120" height="36" rx="8"/><text class="sT" x="74" y="46" text-anchor="middle">RDP packet</text><text class="sC" x="74" y="62" text-anchor="middle">to 10.0.0.5</text><line class="sL" x1="134" y1="48" x2="156" y2="48" marker-end="url(#ah)"/>
+<line class="sLr" x1="540" y1="48" x2="600" y2="48" marker-end="url(#ahr)"/><text class="sRt" x="604" y="44">permitted ✗</text><text class="sC" x="604" y="62">first match wins</text>
+<text class="sC" x="560" y="94">never evaluated</text>
+<text class="sS" x="360" y="196" text-anchor="middle">fix: put specific denies above broad permits; every ACL ends with an implicit deny</text>
+</svg><figcaption>ACLs stop at the first matching line. A broad permit placed too high silently disables everything below it.</figcaption></figure>
 
 <div class="qhead"><h3>Interview questions — Module 5</h3><button data-qa="qa5">Show all answers</button></div>
 <div class="qa" id="qa5">
@@ -1037,6 +1163,40 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Blackhole after change</strong>: summary or static route pointing somewhere that silently discards. Traceroute stops dead at one hop with no unreachables — compare with the routing table at that hop.</li>
   <li>One-liner to reuse: <mark>"traceroute tells me <em>where</em>; the routing table at that hop tells me <em>why</em>."</mark></li>
 </ul></div>
+
+<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="Three routing failures and how traceroute shows them: a routing loop where traceroute alternates between R1 and R2 until the TTL runs out; asymmetric routing where the SYN leaves through a stateful firewall but the reply returns through another router, so ping works but TCP times out; and a blackhole where a summary route points to Null0 and traceroute stops after R3 with stars">
+<rect class="sN" x="8" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="124" y="18" text-anchor="middle">routing loop</text>
+<rect class="sN" x="248" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="364" y="18" text-anchor="middle">asymmetric + stateful firewall</text>
+<rect class="sN" x="488" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="604" y="18" text-anchor="middle">blackhole after a change</text>
+<rect class="sA" x="20" y="50" width="52" height="30" rx="8"/><text class="sT" x="46" y="70" text-anchor="middle">PC</text><rect class="sB" x="96" y="50" width="52" height="30" rx="8"/><text class="sT" x="122" y="70" text-anchor="middle">R1</text><rect class="sB" x="174" y="50" width="52" height="30" rx="8"/><text class="sT" x="200" y="70" text-anchor="middle">R2</text>
+<line class="sLm" x1="72" y1="65" x2="94" y2="65" marker-end="url(#ahm)"/>
+<path class="sLr" d="M 148 58 C 160 40 162 40 174 58" marker-end="url(#ahr)" style="fill:none"/>
+<path class="sLr" d="M 174 74 C 162 92 160 92 148 74" marker-end="url(#ahr)" style="fill:none"/>
+<text class="sS" x="124" y="112" text-anchor="middle">each thinks the other owns</text><text class="sS" x="124" y="126" text-anchor="middle">10.9.0.0/16</text>
+<text class="sS" x="22" y="156" xml:space="preserve" style="white-space:pre">1  10.1.0.1  (R1)</text>
+<text class="sS" x="22" y="172" xml:space="preserve" style="white-space:pre">2  10.0.12.2  (R2)</text>
+<text class="sS" x="22" y="188" xml:space="preserve" style="white-space:pre">3  10.0.12.1  (R1)</text>
+<text class="sS" x="22" y="204" xml:space="preserve" style="white-space:pre">4  10.0.12.2  (R2)</text>
+<text class="sRt" x="22" y="220" xml:space="preserve" style="white-space:pre">…  repeats until TTL 30</text>
+<text class="sRt" x="124" y="248" text-anchor="middle">same pair of hops repeating</text>
+<rect class="sA" x="258" y="64" width="44" height="30" rx="8"/><text class="sT" x="280" y="84" text-anchor="middle">A</text><rect class="sA" x="426" y="64" width="44" height="30" rx="8"/><text class="sT" x="448" y="84" text-anchor="middle">B</text>
+<rect class="sR" x="330" y="40" width="70" height="26" rx="8"/><text class="sT" x="365" y="58" text-anchor="middle">FW</text><rect class="sB" x="330" y="96" width="70" height="26" rx="8"/><text class="sT" x="365" y="114" text-anchor="middle">R2</text>
+<line class="sLg" x1="302" y1="72" x2="328" y2="56" marker-end="url(#ahg)"/><line class="sLg" x1="402" y1="54" x2="426" y2="70" marker-end="url(#ahg)"/><text class="sGt" x="365" y="34" text-anchor="middle">SYN out</text>
+<line class="sLw" x1="426" y1="88" x2="402" y2="108" marker-end="url(#ahw)"/><line class="sLw" x1="328" y1="110" x2="304" y2="90" marker-end="url(#ahw)"/><text class="sWt" x="365" y="136" text-anchor="middle">SYN-ACK back via R2</text>
+<text class="sS" x="364" y="160" text-anchor="middle">the firewall saw a SYN but never</text><text class="sS" x="364" y="174" text-anchor="middle">the SYN-ACK, so it drops the ACK</text>
+<text class="sS" x="262" y="202" xml:space="preserve" style="white-space:pre">ping A → B      OK</text><text class="sRt" x="262" y="218" xml:space="preserve" style="white-space:pre">TCP A → B      times out</text>
+<text class="sWt" x="364" y="248" text-anchor="middle">"ping works, TCP dies"</text>
+<rect class="sA" x="500" y="50" width="52" height="30" rx="8"/><text class="sT" x="526" y="70" text-anchor="middle">PC</text><rect class="sB" x="576" y="50" width="52" height="30" rx="8"/><text class="sT" x="602" y="70" text-anchor="middle">R1</text><rect class="sB" x="654" y="50" width="52" height="30" rx="8"/><text class="sT" x="680" y="70" text-anchor="middle">R3</text>
+<line class="sLm" x1="552" y1="65" x2="574" y2="65" marker-end="url(#ahm)"/><line class="sLm" x1="628" y1="65" x2="652" y2="65" marker-end="url(#ahm)"/>
+<rect class="sV" x="648" y="92" width="66" height="22" rx="4"/><text class="sT" x="681" y="107" text-anchor="middle">Null0</text><line class="sLv" x1="680" y1="80" x2="680" y2="90" marker-end="url(#ahv)"/>
+<text class="sS" x="604" y="130" text-anchor="middle">summary route → Null0, silent drop</text>
+<text class="sS" x="502" y="156" xml:space="preserve" style="white-space:pre">1  10.1.0.1  (R1)</text>
+<text class="sS" x="502" y="172" xml:space="preserve" style="white-space:pre">2  10.0.13.3  (R3)</text>
+<text class="sRt" x="502" y="188" xml:space="preserve" style="white-space:pre">3  *  *  *</text>
+<text class="sRt" x="502" y="204" xml:space="preserve" style="white-space:pre">4  *  *  *</text>
+<text class="sS" x="502" y="228" xml:space="preserve" style="white-space:pre">R3# show ip route 10.9.4.0</text>
+<text class="sRt" x="604" y="248" text-anchor="middle">stops dead, no unreachables</text>
+</svg><figcaption>Traceroute tells you where; the routing table at that hop tells you why.</figcaption></figure>
 
 <div class="deep deep3"><span class="dtag">Level 3 · Capstone — design a branch network from scratch</span>
 <p>Interviewers sometimes flip from quizzing to designing: <em>"You get a new 60-person branch. Design its network."</em> Here's a complete model answer that stitches Modules 1–8 together. Given block: <code>10.20.0.0/16</code>, branch #4 gets <code>10.20.4.0/22</code>.</p>
@@ -1107,6 +1267,34 @@ access-list 110 deny   ip  any any                              <span class="c">
 </table></div>
 <p>Common Wi-Fi tickets: weak signal/dead zones (coverage), channel interference (co-channel APs), wrong PSK, 802.1X certificate expired, DHCP scope exhausted on the guest VLAN, and "connected but no internet" (usually DHCP/DNS, not radio).</p>
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="The eleven 2.4 GHz Wi-Fi channels drawn as overlapping arcs; only channels 1, 6 and 11 do not overlap">
+<path class="sLg" d="M70 170 Q 154 40 238 170" fill="none" stroke-width="3"/>
+<text class="sT" x="154" y="192" text-anchor="middle">1</text>
+<path class="sLm" d="M108 170 Q 192 70 276 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="192" y="192" text-anchor="middle">2</text>
+<path class="sLm" d="M146 170 Q 230 70 314 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="230" y="192" text-anchor="middle">3</text>
+<path class="sLm" d="M184 170 Q 268 70 352 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="268" y="192" text-anchor="middle">4</text>
+<path class="sLm" d="M222 170 Q 306 70 390 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="306" y="192" text-anchor="middle">5</text>
+<path class="sLg" d="M260 170 Q 344 40 428 170" fill="none" stroke-width="3"/>
+<text class="sT" x="344" y="192" text-anchor="middle">6</text>
+<path class="sLm" d="M298 170 Q 382 70 466 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="382" y="192" text-anchor="middle">7</text>
+<path class="sLm" d="M336 170 Q 420 70 504 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="420" y="192" text-anchor="middle">8</text>
+<path class="sLm" d="M374 170 Q 458 70 542 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="458" y="192" text-anchor="middle">9</text>
+<path class="sLm" d="M412 170 Q 496 70 580 170" fill="none" stroke-width="1.2" opacity=".6"/>
+<text class="sC" x="496" y="192" text-anchor="middle">10</text>
+<path class="sLg" d="M450 170 Q 534 40 618 170" fill="none" stroke-width="3"/>
+<text class="sT" x="534" y="192" text-anchor="middle">11</text>
+<line class="sLm" x1="30" y1="170" x2="700" y2="170"/>
+<text class="sC" x="360" y="22" text-anchor="middle">2.4 GHz: each channel is ~22 MHz wide but channels are only 5 MHz apart</text>
+<text class="sGt" x="360" y="214" text-anchor="middle">only 1, 6 and 11 don't overlap: plan neighbouring access points on those three</text>
+</svg><figcaption>Why 2.4 GHz has only three usable channels. Two access points on channels 3 and 4 interfere with each other and with 1 and 6.</figcaption></figure>
+
 <h3>6.2 WAN technologies</h3>
 <ul>
   <li><strong>Leased line</strong> — dedicated point-to-point circuit from a carrier; guaranteed bandwidth, expensive.</li>
@@ -1115,6 +1303,19 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>SD-WAN</strong> — the modern answer: appliances at each site build encrypted tunnels over <em>multiple</em> cheap links (internet, LTE, MPLS) and steer each application over the best path in real time, managed from one dashboard. Expect the term to come up; one clean sentence about it impresses.</li>
   <li>Vocabulary: <strong>CPE</strong> (customer premises equipment), <strong>last mile</strong>, <strong>QoS</strong> (Quality of Service — prioritizing voice/video over bulk data using DSCP markings), <strong>latency</strong> (delay, ms), <strong>jitter</strong> (variation in delay — kills VoIP), <strong>bandwidth</strong> vs <strong>throughput</strong> (capacity vs what you actually get).</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="SD-WAN: a branch edge device has MPLS, fibre internet and LTE links to the hub and steers each application, such as voice over the lowest-jitter path and SaaS over a local internet exit, failing over in seconds">
+<rect class="sA" x="14" y="90" width="130" height="60" rx="8"/><text class="sT" x="79" y="118" text-anchor="middle">branch</text><text class="sC" x="79" y="134" text-anchor="middle">SD-WAN edge</text>
+<line class="sLm" x1="144" y1="120" x2="270" y2="50"/><rect class="sB" x="270" y="30" width="150" height="40" rx="8"/><text class="sT" x="345" y="47" text-anchor="middle">MPLS</text><text class="sS" x="345" y="63" text-anchor="middle">low jitter, costly</text>
+<line class="sLm" x1="420" y1="50" x2="520" y2="120"/>
+<line class="sLm" x1="144" y1="120" x2="270" y2="120"/><rect class="sB" x="270" y="100" width="150" height="40" rx="8"/><text class="sT" x="345" y="117" text-anchor="middle">internet (fibre)</text><text class="sS" x="345" y="133" text-anchor="middle">fast, best effort</text>
+<line class="sLm" x1="420" y1="120" x2="520" y2="120"/>
+<line class="sLm" x1="144" y1="120" x2="270" y2="190"/><rect class="sN" x="270" y="170" width="150" height="40" rx="8"/><text class="sT" x="345" y="187" text-anchor="middle">LTE / 5G</text><text class="sS" x="345" y="203" text-anchor="middle">backup</text>
+<line class="sLm" x1="420" y1="190" x2="520" y2="120"/>
+<rect class="sA" x="524" y="90" width="130" height="60" rx="8"/><text class="sT" x="589" y="118" text-anchor="middle">HQ / cloud</text><text class="sC" x="589" y="134" text-anchor="middle">SD-WAN hub</text>
+<text class="sM" x="530" y="30">policy per application:</text><text class="sC" x="530" y="50">voice → lowest-jitter path</text><text class="sC" x="530" y="68">SaaS → nearest internet exit</text>
+<text class="sS" x="360" y="236" text-anchor="middle">the controller measures every link continuously and moves each application to the path that meets its target</text>
+</svg><figcaption>SD-WAN in one picture: several cheap and expensive links, one policy that picks per application in real time.</figcaption></figure>
 
 <h3>6.3 VPNs — private tunnels over public networks</h3>
 <p>A <strong>VPN</strong> (Virtual Private Network) creates an encrypted tunnel across an untrusted network so remote traffic behaves like it's on the private LAN. Two shapes:</p>
@@ -1227,6 +1428,26 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>802.1X / NAC</strong> — port-based network access control: a device must authenticate (EAP → RADIUS) before its switch port or Wi-Fi association passes traffic; NAC can also check device health before admitting it.</li>
 </ul>
 
+<figure class="dia steps"><svg viewBox="0 0 720 248" role="img" aria-label="A stateful firewall: an outbound HTTPS connection allowed by rule creates a state table entry, the server's reply matches that entry and is admitted, and an unsolicited inbound packet from an attacker matches nothing and is dropped">
+<rect class="sB" x="14" y="70" width="130" height="50" rx="8"/><text class="sT" x="79" y="93" text-anchor="middle">LAN PC</text><text class="sC" x="79" y="109" text-anchor="middle">10.0.0.5</text>
+<rect class="sA" x="290" y="60" width="140" height="70" rx="8"/><text class="sT" x="360" y="93" text-anchor="middle">stateful firewall</text><text class="sC" x="360" y="109" text-anchor="middle">rule: LAN → any 443</text>
+<rect class="sB" x="576" y="70" width="130" height="50" rx="8"/><text class="sT" x="641" y="93" text-anchor="middle">web server</text><text class="sC" x="641" y="109" text-anchor="middle">93.184.216.34</text>
+<rect class="sN" x="576" y="170" width="130" height="44" rx="8"/><text class="sT" x="641" y="190" text-anchor="middle">attacker</text><text class="sC" x="641" y="206" text-anchor="middle">203.0.113.9</text>
+<text class="sM" x="360" y="160" text-anchor="middle">state table</text>
+<rect class="sN" x="236" y="168" width="248" height="26" rx="4"/>
+<g data-s="1-1"><text class="sS" x="360" y="186" text-anchor="middle">(empty)</text></g>
+<g data-s="2-4"><text class="sC" x="360" y="186" text-anchor="middle">10.0.0.5:51544 ↔ 93.184.216.34:443</text></g>
+<g data-s="2-2"><line class="sLg" x1="144" y1="88" x2="286" y2="88" marker-end="url(#ahg)"/><line class="sLg" x1="430" y1="88" x2="572" y2="88" marker-end="url(#ahg)"/><text class="sGt" x="215" y="80" text-anchor="middle">SYN :443</text><text class="sGt" x="500" y="80" text-anchor="middle">allowed by rule</text></g>
+<g data-s="3-3"><line class="sLg" x1="572" y1="102" x2="430" y2="102" marker-end="url(#ahg)"/><line class="sLg" x1="286" y1="102" x2="148" y2="102" marker-end="url(#ahg)"/><text class="sGt" x="500" y="118" text-anchor="middle">reply matches state</text><text class="sGt" x="215" y="118" text-anchor="middle">admitted</text></g>
+<g data-s="4-4"><line class="sLr" x1="572" y1="192" x2="474" y2="150" marker-end="url(#ahr)"/><text class="sRt" x="530" y="236" text-anchor="middle">unsolicited inbound: no state, no rule</text><text class="sRt" x="452" y="140" text-anchor="end">✗ dropped</text></g>
+<text class="sS" x="360" y="22" text-anchor="middle">rules say who may start a conversation; the state table lets the rest of it through</text>
+</svg><ol class="dia-steps">
+<li>The state table is empty and the only rule says: LAN hosts may open HTTPS connections out.</li>
+<li>The PC sends a SYN to port 443. The rule allows it, and the firewall records the connection (both IPs and ports) in its state table.</li>
+<li>The server's reply matches that entry, so it is admitted without any inbound rule. A stateless filter would need an explicit, wide "allow return traffic" rule here.</li>
+<li>A packet from the internet that belongs to no recorded connection matches neither state nor rule, and is dropped.</li>
+</ol><figcaption>Why stateful is the norm: rules only describe who may initiate; replies ride on the state table.</figcaption></figure>
+
 <h3>7.3 Attacks you must be able to describe</h3>
 <div class="tw"><table>
   <tr><th>Attack</th><th>What happens</th><th>Primary defenses</th></tr>
@@ -1239,6 +1460,24 @@ access-list 110 deny   ip  any any                              <span class="c">
   <tr><td><strong>SQL injection / XSS</strong></td><td>Web-app input attacks (know the names)</td><td>Input validation, WAF</td></tr>
   <tr><td><strong>Social engineering</strong></td><td>Manipulating people — "IT calling, tell me your password"</td><td>Process discipline: verify identity, never share credentials</td></tr>
 </table></div>
+
+<figure class="dia steps"><svg viewBox="0 0 720 248" role="img" aria-label="ARP spoofing: the attacker sends unsolicited ARP replies claiming the gateway's IP address with its own MAC, the victim's ARP cache is overwritten, and the victim's traffic flows through the attacker; Dynamic ARP Inspection blocks the forged replies">
+<rect class="sB" x="14" y="40" width="140" height="54" rx="8"/><text class="sT" x="84" y="65" text-anchor="middle">victim PC</text><text class="sC" x="84" y="81" text-anchor="middle">10.0.0.5</text>
+<rect class="sB" x="566" y="40" width="140" height="54" rx="8"/><text class="sT" x="636" y="65" text-anchor="middle">gateway</text><text class="sC" x="636" y="81" text-anchor="middle">10.0.0.1 · MAC aa:aa</text>
+<rect class="sN" x="290" y="150" width="140" height="54" rx="8"/><text class="sT" x="360" y="175" text-anchor="middle">attacker</text><text class="sC" x="360" y="191" text-anchor="middle">MAC ee:ee</text>
+<text class="sM" x="84" y="122" text-anchor="middle">victim ARP cache</text>
+<rect class="sN" x="14" y="130" width="140" height="24" rx="4"/>
+<g data-s="1-1"><text class="sC" x="84" y="147" text-anchor="middle">10.0.0.1 → aa:aa</text><line class="sLg" x1="154" y1="67" x2="562" y2="67" marker-end="url(#ahg)"/><text class="sGt" x="360" y="59" text-anchor="middle">traffic goes straight to the gateway</text></g>
+<g data-s="2-2"><text class="sC" x="84" y="147" text-anchor="middle">10.0.0.1 → aa:aa</text><line class="sLr" x1="300" y1="150" x2="154" y2="92" marker-end="url(#ahr)"/><text class="sRt" x="150" y="200" text-anchor="middle">"10.0.0.1 is at ee:ee"</text><text class="sS" x="150" y="216" text-anchor="middle">unsolicited, repeated</text></g>
+<g data-s="3-4"><rect class="sR" x="14" y="130" width="140" height="24" rx="4" opacity=".55"/><text class="sT" x="84" y="147" text-anchor="middle">10.0.0.1 → ee:ee</text></g>
+<g data-s="3"><line class="sLr" x1="154" y1="80" x2="300" y2="152" marker-end="url(#ahr)"/><line class="sLr" x1="430" y1="152" x2="566" y2="80" marker-end="url(#ahr)"/><text class="sRt" x="360" y="236" text-anchor="middle">every frame now passes through the attacker: read, alter, forward</text></g>
+<g data-s="4"><text class="sGt" x="560" y="150">defence:</text><text class="sGt" x="560" y="168">Dynamic ARP Inspection</text><text class="sS" x="560" y="186">checks ARP against the</text><text class="sS" x="560" y="202">DHCP snooping table</text></g>
+</svg><ol class="dia-steps">
+<li>Normally the victim's ARP cache maps the gateway IP 10.0.0.1 to the gateway's real MAC, so frames go straight there.</li>
+<li>The attacker sends unsolicited ARP replies: "10.0.0.1 is at ee:ee". ARP has no authentication, so hosts accept them.</li>
+<li>The victim's cache now points the gateway IP at the attacker. Every outbound frame goes to the attacker, who forwards it on: a man-in-the-middle on the LAN.</li>
+<li>Switch-side defence: <b>Dynamic ARP Inspection</b> drops ARP replies that don't match the DHCP snooping binding table. TLS keeps the intercepted content unreadable.</li>
+</ol><figcaption>ARP spoofing: one forged answer to a question nobody asked turns a LAN into a man-in-the-middle.</figcaption></figure>
 
 <h3>7.4 Hardening — what you'd actually do</h3>
 <ul>
@@ -1283,6 +1522,24 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li>Domain admin obtained → <strong>ransomware deployed everywhere at 2 a.m.</strong>, including reachable backups (<em>tiered admin model, immutable/offline backups — the last line that must hold</em>)</li>
 </ol>
 <p>Telling this story compactly demonstrates you understand <em>why</em> the boring controls exist — segmentation isn't bureaucracy, it's what turns "company down" into "one laptop reimaged."</p>
+
+<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="An attack chain from phishing to malware, credential theft, lateral movement and ransomware, with the control that stops each stage">
+<rect class="sR" x="14" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="77" y="67" text-anchor="middle">phish</text>
+<line class="sLg" x1="77" y1="84" x2="77" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="14" y="114" width="126" height="44" rx="6"/><text class="sC" x="77" y="134" text-anchor="middle">stopped by</text><text class="sC" x="77" y="150" text-anchor="middle">mail filtering</text>
+<line class="sLr" x1="140" y1="62" x2="154" y2="62" marker-end="url(#ahr)"/>
+<rect class="sR" x="156" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="219" y="67" text-anchor="middle">malware calls out</text>
+<line class="sLg" x1="219" y1="84" x2="219" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="156" y="114" width="126" height="44" rx="6"/><text class="sC" x="219" y="134" text-anchor="middle">stopped by</text><text class="sC" x="219" y="150" text-anchor="middle">EDR, DNS filter</text>
+<line class="sLr" x1="282" y1="62" x2="296" y2="62" marker-end="url(#ahr)"/>
+<rect class="sR" x="298" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="361" y="67" text-anchor="middle">credential theft</text>
+<line class="sLg" x1="361" y1="84" x2="361" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="298" y="114" width="126" height="44" rx="6"/><text class="sC" x="361" y="134" text-anchor="middle">stopped by</text><text class="sC" x="361" y="150" text-anchor="middle">least privilege</text>
+<line class="sLr" x1="424" y1="62" x2="438" y2="62" marker-end="url(#ahr)"/>
+<rect class="sR" x="440" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="503" y="67" text-anchor="middle">lateral movement</text>
+<line class="sLg" x1="503" y1="84" x2="503" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="440" y="114" width="126" height="44" rx="6"/><text class="sC" x="503" y="134" text-anchor="middle">stopped by</text><text class="sC" x="503" y="150" text-anchor="middle">segmentation, MFA</text>
+<line class="sLr" x1="566" y1="62" x2="580" y2="62" marker-end="url(#ahr)"/>
+<rect class="sR" x="582" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="645" y="67" text-anchor="middle">ransomware</text>
+<line class="sLg" x1="645" y1="84" x2="645" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="582" y="114" width="126" height="44" rx="6"/><text class="sC" x="645" y="134" text-anchor="middle">stopped by</text><text class="sC" x="645" y="150" text-anchor="middle">immutable backups</text>
+<text class="sS" x="360" y="190" text-anchor="middle">each boring control breaks one link; together they turn "company down" into "one laptop reimaged"</text>
+</svg><figcaption>Defence in depth as a chain: the attacker must succeed at every step, the defender only needs to break one.</figcaption></figure>
 
 <h3>D7.3 Identity &amp; crypto vocabulary one level down</h3>
 <ul>
@@ -1333,6 +1590,32 @@ PORT     STATE    SERVICE
   <li><strong>Verify full function</strong> — and confirm with the user.</li>
   <li><strong>Document</strong> — ticket notes, root cause, knowledge-base article.</li>
 </ol>
+
+<figure class="dia steps"><svg viewBox="0 0 720 252" role="img" aria-label="The bottom-up ping ladder: loopback, the IP configuration, the gateway, an internet IP and a name; the first rung that fails points at the layer to fix">
+<rect class="sN" x="14" y="210" width="190" height="34" rx="6"/>
+<rect class="sN" x="14" y="166" width="190" height="34" rx="6"/>
+<rect class="sN" x="14" y="122" width="190" height="34" rx="6"/>
+<rect class="sN" x="14" y="78" width="190" height="34" rx="6"/>
+<rect class="sN" x="14" y="34" width="190" height="34" rx="6"/>
+<g data-s="1"><rect class="sG" x="14" y="210" width="190" height="34" rx="6" opacity=".55"/><text class="sWt" x="436" y="232">fails → reset the stack / NIC driver</text></g>
+<g data-s="2"><rect class="sG" x="14" y="166" width="190" height="34" rx="6" opacity=".55"/><text class="sWt" x="436" y="188">fails → APIPA 169.254.x.x: DHCP</text></g>
+<g data-s="3"><rect class="sG" x="14" y="122" width="190" height="34" rx="6" opacity=".55"/><text class="sWt" x="436" y="144">fails → cable, port, VLAN or Wi-Fi</text></g>
+<g data-s="4"><rect class="sG" x="14" y="78" width="190" height="34" rx="6" opacity=".55"/><text class="sWt" x="436" y="100">fails → gateway route, firewall or ISP</text></g>
+<g data-s="5"><rect class="sG" x="14" y="34" width="190" height="34" rx="6" opacity=".55"/><text class="sWt" x="436" y="56">fails → DNS server or settings</text></g>
+<text class="sC" x="26" y="232" xml:space="preserve" style="white-space:pre">ping 127.0.0.1</text><text class="sC" x="214" y="232">the PC's own TCP/IP stack</text>
+<text class="sC" x="26" y="188" xml:space="preserve" style="white-space:pre">ipconfig /all</text><text class="sC" x="214" y="188">a valid IP, mask, gateway?</text>
+<text class="sC" x="26" y="144" xml:space="preserve" style="white-space:pre">ping 192.168.1.1</text><text class="sC" x="214" y="144">the LAN to the gateway</text>
+<text class="sC" x="26" y="100" xml:space="preserve" style="white-space:pre">ping 8.8.8.8</text><text class="sC" x="214" y="100">routing out to the internet</text>
+<text class="sC" x="26" y="56" xml:space="preserve" style="white-space:pre">ping google.com</text><text class="sC" x="214" y="56">name resolution (DNS)</text>
+<g data-s="6"><text class="sGt" x="360" y="16" text-anchor="middle">all five pass? the network is fine: look at the application, the proxy or the user's account</text></g>
+</svg><ol class="dia-steps">
+<li>Start at the bottom: loopback proves the PC's own network stack works.</li>
+<li>Check the configuration. An address in 169.254.0.0/16 means DHCP never answered.</li>
+<li>Ping the default gateway: success proves the cable, switch port, VLAN or Wi-Fi association.</li>
+<li>Ping a public IP: success proves routing, NAT and the firewall path out.</li>
+<li>Ping a name: if the IP works but the name doesn't, it's DNS.</li>
+<li>If every rung passes, the network is innocent. Say this ladder out loud in the interview before naming any tool.</li>
+</ol><figcaption>The answer to "a user can't reach the internet": climb from the bottom, and the first failing rung names the layer.</figcaption></figure>
 
 <h3>8.2 The toolkit</h3>
 <div class="tw"><table>
@@ -1615,7 +1898,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 </table></div>
 
 <h3>9.4 DAS, NAS, SAN</h3>
-<figure><svg viewBox="0 0 700 300" role="img" aria-label="DAS directly attached, NAS serving files over the LAN, SAN serving blocks over a dedicated network">
+<figure><svg viewBox="0 0 725 300" role="img" aria-label="DAS directly attached, NAS serving files over the LAN, SAN serving blocks over a dedicated network">
   <text class="sM" x="20" y="24">DAS</text>
   <rect class="sA" x="20" y="36" width="110" height="40" rx="8"/><text class="sT" x="75" y="61" text-anchor="middle">Server</text>
   <line class="sL" x1="75" y1="76" x2="75" y2="106"/>
@@ -1675,6 +1958,33 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li>Tools worth naming: Veeam (the VMware world's favorite), Commvault, Windows Server Backup, Linux <code>rsync</code>/<code>tar</code>.</li>
 </ul>
 
+<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Backup types over a week: full backups copy everything daily; incrementals copy changes since the previous day; differentials copy all changes since Sunday's full">
+<text class="sT" x="215" y="24" text-anchor="middle">Sun</text>
+<text class="sT" x="325" y="24" text-anchor="middle">Mon</text>
+<text class="sT" x="435" y="24" text-anchor="middle">Tue</text>
+<text class="sT" x="545" y="24" text-anchor="middle">Wed</text>
+<text class="sT" x="655" y="24" text-anchor="middle">Thu</text>
+<text class="sT" x="156" y="66" text-anchor="end">full every day</text>
+<rect class="sG" x="174" y="44" width="82" height="36" rx="5"/><text class="sC" x="215" y="67" text-anchor="middle">full</text>
+<rect class="sG" x="284" y="44" width="82" height="36" rx="5"/><text class="sC" x="325" y="67" text-anchor="middle">full</text>
+<rect class="sG" x="394" y="44" width="82" height="36" rx="5"/><text class="sC" x="435" y="67" text-anchor="middle">full</text>
+<rect class="sG" x="504" y="44" width="82" height="36" rx="5"/><text class="sC" x="545" y="67" text-anchor="middle">full</text>
+<rect class="sG" x="614" y="44" width="82" height="36" rx="5"/><text class="sC" x="655" y="67" text-anchor="middle">full</text>
+<text class="sT" x="156" y="122" text-anchor="end">incremental</text>
+<rect class="sG" x="174" y="100" width="82" height="36" rx="5"/><text class="sC" x="215" y="123" text-anchor="middle">full</text>
+<rect class="sA" x="284" y="100" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="325" y="123" text-anchor="middle">Δ since Sun</text>
+<rect class="sA" x="394" y="100" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="435" y="123" text-anchor="middle">Δ since Mon</text>
+<rect class="sA" x="504" y="100" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="545" y="123" text-anchor="middle">Δ since Tue</text>
+<rect class="sA" x="614" y="100" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="655" y="123" text-anchor="middle">Δ since Wed</text>
+<text class="sT" x="156" y="178" text-anchor="end">differential</text>
+<rect class="sG" x="174" y="156" width="82" height="36" rx="5"/><text class="sC" x="215" y="179" text-anchor="middle">full</text>
+<rect class="sV" x="284" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="325" y="179" text-anchor="middle">Δ since Sun</text>
+<rect class="sV" x="394" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="435" y="179" text-anchor="middle">Δ since Sun</text>
+<rect class="sV" x="504" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="545" y="179" text-anchor="middle">Δ since Sun</text>
+<rect class="sV" x="614" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="655" y="179" text-anchor="middle">Δ since Sun</text>
+<text class="sS" x="360" y="222" text-anchor="middle">restore Thursday: full = 1 set · incremental = Sun + Mon + Tue + Wed + Thu · differential = Sun + Thu</text>
+</svg><figcaption>Incrementals are fastest to take and slowest to restore; differentials grow through the week but restore from just two sets.</figcaption></figure>
+
 <div class="qhead"><h3>Interview questions — Module 9</h3><button data-qa="qa9">Show all answers</button></div>
 <div class="qa" id="qa9">
 <details><summary>Explain the difference between NAS and SAN.</summary><div class="a"><p><strong>Model answer:</strong> "Both are shared network storage; the difference is what they serve. A NAS owns its own filesystem and serves <em>files</em> — SMB or NFS shares over the ordinary LAN; clients see a network folder. A SAN serves raw <em>blocks</em>: the array presents LUNs over Fibre Channel or iSCSI, and each server formats the LUN with its own filesystem as if it were a local disk. NAS is simpler and perfect for user shares; SAN gives the low latency and shared block access that databases and VMware clusters need — vMotion and HA depend on every host seeing the same LUNs."</p></div></details>
@@ -1703,6 +2013,24 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
 
 <h3>D9.2 Why RAID 5 fell out of favor — the math in one paragraph</h3>
 <p>Consumer/nearline disks quote an unrecoverable read error (<strong>URE</strong>) rate around 1 per 10<sup>14</sup> bits ≈ one bad sector per ~12.5 TB read. Rebuilding a failed disk in a RAID 5 of large drives forces reading <em>every</em> surviving bit — 10 TB × 5 disks approaches or exceeds that expectation, so the rebuild itself may hit an unreadable sector, and with zero remaining redundancy the array (or at least data) is lost. Hence: <strong>RAID 6 or RAID 10 for big disks</strong>, enterprise drives with better URE (10<sup>15</sup>), scrubbing (periodic full-array reads that catch latent bad sectors early), and hot spares to shrink the exposed window. Bonus vocabulary: <strong>SMART</strong> monitoring predicts failures; replace on pre-fail attributes, don't wait.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Probability that a RAID 5 rebuild reads every surviving bit without an unrecoverable read error, falling as disks grow: with 10 TB disks about 4 percent at the 10 to the 14 spec and about 73 percent at 10 to the 15">
+<polyline class="sLr" points="72.6,35.4 75.2,40.5 77.9,45.6 80.5,50.4 83.1,55.1 85.8,59.7 88.4,64.1 91.0,68.4 93.6,72.5 96.2,76.6 98.9,80.4 101.5,84.2 104.1,87.9 106.8,91.4 109.4,94.8 112.0,98.1 114.6,101.3 117.2,104.4 119.9,107.4 122.5,110.4 125.1,113.2 127.8,115.9 130.4,118.6 133.0,121.1 135.6,123.6 138.2,126.0 140.9,128.3 143.5,130.6 146.1,132.8 148.8,134.9 151.4,137.0 154.0,138.9 156.6,140.9 159.2,142.7 161.9,144.5 164.5,146.3 167.1,148.0 169.8,149.6 172.4,151.2 175.0,152.7 177.6,154.2 180.2,155.7 182.9,157.1 185.5,158.4 188.1,159.7 190.8,161.0 193.4,162.2 196.0,163.4 198.6,164.6 201.2,165.7 203.9,166.8 206.5,167.8 209.1,168.8 211.8,169.8 214.4,170.8 217.0,171.7 219.6,172.6 222.2,173.4 224.9,174.3 227.5,175.1 230.1,175.9 232.8,176.6 235.4,177.4 238.0,178.1 240.6,178.8 243.2,179.4 245.9,180.1 248.5,180.7 251.1,181.3 253.8,181.9 256.4,182.5 259.0,183.0 261.6,183.6 264.2,184.1 266.9,184.6 269.5,185.1 272.1,185.5 274.8,186.0 277.4,186.4 280.0,186.9 282.6,187.3 285.2,187.7 287.9,188.1 290.5,188.4 293.1,188.8 295.8,189.2 298.4,189.5 301.0,189.8 303.6,190.1 306.2,190.5 308.9,190.8 311.5,191.0 314.1,191.3 316.8,191.6 319.4,191.9 322.0,192.1 324.6,192.4 327.2,192.6 329.9,192.8 332.5,193.1 335.1,193.3 337.8,193.5 340.4,193.7 343.0,193.9 345.6,194.1 348.2,194.3 350.9,194.5 353.5,194.6 356.1,194.8 358.8,195.0 361.4,195.1 364.0,195.3 366.6,195.4 369.2,195.6 371.9,195.7 374.5,195.8 377.1,196.0 379.8,196.1 382.4,196.2 385.0,196.3 387.6,196.5 390.2,196.6 392.9,196.7 395.5,196.8 398.1,196.9 400.8,197.0 403.4,197.1 406.0,197.2 408.6,197.3 411.2,197.3 413.9,197.4 416.5,197.5 419.1,197.6 421.8,197.7 424.4,197.7 427.0,197.8 429.6,197.9 432.2,197.9 434.9,198.0 437.5,198.1 440.1,198.1 442.8,198.2 445.4,198.2 448.0,198.3 450.6,198.4 453.2,198.4 455.9,198.5 458.5,198.5 461.1,198.6 463.8,198.6 466.4,198.6 469.0,198.7 471.6,198.7 474.2,198.8 476.9,198.8 479.5,198.8 482.1,198.9 484.8,198.9 487.4,199.0 490.0,199.0" style="stroke-width:2.4"/>
+<polyline class="sLg" points="72.6,30.5 75.2,31.1 77.9,31.6 80.5,32.2 83.1,32.7 85.8,33.2 88.4,33.8 91.0,34.3 93.6,34.8 96.2,35.4 98.9,35.9 101.5,36.4 104.1,36.9 106.8,37.4 109.4,38.0 112.0,38.5 114.6,39.0 117.2,39.5 119.9,40.0 122.5,40.5 125.1,41.0 127.8,41.6 130.4,42.1 133.0,42.6 135.6,43.1 138.2,43.6 140.9,44.1 143.5,44.6 146.1,45.1 148.8,45.6 151.4,46.1 154.0,46.5 156.6,47.0 159.2,47.5 161.9,48.0 164.5,48.5 167.1,49.0 169.8,49.5 172.4,49.9 175.0,50.4 177.6,50.9 180.2,51.4 182.9,51.9 185.5,52.3 188.1,52.8 190.8,53.3 193.4,53.7 196.0,54.2 198.6,54.7 201.2,55.1 203.9,55.6 206.5,56.1 209.1,56.5 211.8,57.0 214.4,57.4 217.0,57.9 219.6,58.3 222.2,58.8 224.9,59.2 227.5,59.7 230.1,60.1 232.8,60.6 235.4,61.0 238.0,61.5 240.6,61.9 243.2,62.4 245.9,62.8 248.5,63.2 251.1,63.7 253.8,64.1 256.4,64.6 259.0,65.0 261.6,65.4 264.2,65.8 266.9,66.3 269.5,66.7 272.1,67.1 274.8,67.6 277.4,68.0 280.0,68.4 282.6,68.8 285.2,69.2 287.9,69.7 290.5,70.1 293.1,70.5 295.8,70.9 298.4,71.3 301.0,71.7 303.6,72.1 306.2,72.5 308.9,72.9 311.5,73.4 314.1,73.8 316.8,74.2 319.4,74.6 322.0,75.0 324.6,75.4 327.2,75.8 329.9,76.2 332.5,76.6 335.1,76.9 337.8,77.3 340.4,77.7 343.0,78.1 345.6,78.5 348.2,78.9 350.9,79.3 353.5,79.7 356.1,80.1 358.8,80.4 361.4,80.8 364.0,81.2 366.6,81.6 369.2,82.0 371.9,82.3 374.5,82.7 377.1,83.1 379.8,83.5 382.4,83.8 385.0,84.2 387.6,84.6 390.2,84.9 392.9,85.3 395.5,85.7 398.1,86.0 400.8,86.4 403.4,86.8 406.0,87.1 408.6,87.5 411.2,87.9 413.9,88.2 416.5,88.6 419.1,88.9 421.8,89.3 424.4,89.6 427.0,90.0 429.6,90.3 432.2,90.7 434.9,91.0 437.5,91.4 440.1,91.7 442.8,92.1 445.4,92.4 448.0,92.8 450.6,93.1 453.2,93.5 455.9,93.8 458.5,94.1 461.1,94.5 463.8,94.8 466.4,95.1 469.0,95.5 471.6,95.8 474.2,96.1 476.9,96.5 479.5,96.8 482.1,97.1 484.8,97.5 487.4,97.8 490.0,98.1" style="stroke-width:2.4"/>
+<line class="sLm" x1="70" y1="200" x2="490" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
+<text class="sS" x="175" y="216" text-anchor="middle">4 TB</text>
+<text class="sS" x="280" y="216" text-anchor="middle">8 TB</text>
+<text class="sS" x="385" y="216" text-anchor="middle">12 TB</text>
+<text class="sS" x="490" y="216" text-anchor="middle">16 TB</text>
+<text class="sS" x="64" y="204" text-anchor="end">0%</text>
+<text class="sS" x="64" y="119" text-anchor="end">50%</text>
+<text class="sS" x="64" y="34" text-anchor="end">100%</text>
+<text class="sC" x="280" y="234" text-anchor="middle">size of each disk in a 5-disk RAID 5 (4 survivors read in full during rebuild)</text>
+<circle class="sPr" cx="332.5" cy="193.1" r="5"/><circle class="sPg" cx="332.5" cy="76.6" r="5"/>
+<rect class="sN" x="510" y="30" width="196" height="170" rx="8"/><text class="sT" x="608" y="52" text-anchor="middle">rebuild survives (no URE)</text>
+<text class="sC" x="522" y="78">10 TB disks:</text><text class="sRt" x="522" y="100">10¹⁴ spec → 4%</text><text class="sGt" x="522" y="120">10¹⁵ spec → 73%</text>
+<text class="sS" x="522" y="150">P = e^(−bits read / URE)</text><text class="sS" x="522" y="168">spec rates are pessimistic,</text><text class="sS" x="522" y="184">the trend is the lesson</text>
+</svg><figcaption>The RAID 5 argument as a curve: the bigger the disks, the likelier the rebuild trips over one unreadable sector with no redundancy left. Computed from the quoted URE rates.</figcaption></figure>
 
 <h3>D9.3 Controller cache, queues, and the performance conversation</h3>
 <ul>
@@ -1857,8 +2185,35 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td>iSCSI works, terrible throughput</td><td>Jumbo frame mismatch somewhere in the path — vmkping/ping with DF-bit 8972</td></tr>
   <tr><td>Windows can see the share, Linux can't (same NAS)</td><td>Dual-protocol permission models (NTFS ACLs vs POSIX) out of sync</td></tr>
   <tr><td>Old scanner/MFP can't reach shares anymore</td><td>It only speaks SMB1 — isolate/replace the device, never re-enable SMB1</td></tr>
-  <tr><td>Restore failed when finally needed</td><td>Backups never test-restored; or app needed application-consistent (VSS) backups</td></tr>
+    <tr><td>Restore failed when finally needed</td><td>Backups never test-restored; or app needed application-consistent (VSS) backups</td></tr>
 </table></div>
+
+<figure class="dia steps"><svg viewBox="0 0 720 246" role="img" aria-label="Why df and du disagree: a directory entry names an inode whose data blocks hold 20 gigabytes, and nginx holds the inode open; deleting the name drops the link count to zero but the open file descriptor keeps the blocks allocated, so df still reports them while du does not; lsof shows the deleted file, and restarting nginx closes the descriptor and frees the space">
+<rect class="sB" x="20" y="40" width="150" height="46" rx="8"/><text class="sT" x="95" y="61" text-anchor="middle">directory /var/log</text><text class="sS" x="95" y="77" text-anchor="middle">name: app.log</text>
+<rect class="sV" x="280" y="40" width="160" height="46" rx="8"/><text class="sT" x="360" y="68" text-anchor="middle">inode 1234</text>
+<rect class="sN" x="520" y="34" width="186" height="58" rx="8"/><text class="sT" x="613" y="54" text-anchor="middle">data blocks</text>
+<rect class="sA" x="534" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="555" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="576" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="597" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="618" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="639" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="660" y="64" width="17" height="18" rx="2"/>
+<rect class="sA" x="681" y="64" width="17" height="18" rx="2"/>
+<line class="sLm" x1="442" y1="63" x2="518" y2="63" marker-end="url(#ahm)"/>
+<rect class="sG" x="280" y="150" width="160" height="46" rx="8"/><text class="sT" x="360" y="171" text-anchor="middle">nginx (PID 812)</text><text class="sS" x="360" y="187" text-anchor="middle">fd 5 → inode 1234</text>
+<line class="sLg" x1="360" y1="148" x2="360" y2="90" marker-end="url(#ahg)"/>
+<g data-s="1-1"><line class="sLm" x1="172" y1="63" x2="278" y2="63" marker-end="url(#ahm)"/><text class="sS" x="360" y="112" text-anchor="middle">links: 1   open by: 1</text><text class="sS" x="130" y="160" text-anchor="middle">du: walks names → 20 GB</text><text class="sS" x="130" y="178" text-anchor="middle">df: counts used blocks → 20 GB</text></g>
+<g data-s="2-2"><rect class="sR" x="18" y="38" width="154" height="50" rx="8" style="fill:none;stroke-width:2.5" stroke-dasharray="5 4"/><text class="sRt" x="95" y="108" text-anchor="middle">rm app.log: the name is gone</text><text class="sWt" x="360" y="112" text-anchor="middle">links: 0   open by: 1</text><text class="sWt" x="130" y="160" text-anchor="middle">du: no name → 0 GB</text><text class="sRt" x="130" y="178" text-anchor="middle">df: blocks still used → 20 GB</text></g>
+<g data-s="3-3"><text class="sWt" x="360" y="112" text-anchor="middle">links: 0   open by: 1</text><rect class="sN" x="14" y="206" width="692" height="30" rx="6"/><text class="sS" x="24" y="226" xml:space="preserve" style="white-space:pre">lsof | grep deleted   →   nginx  812  ...  5w  REG  /var/log/app.log (deleted)</text></g>
+<g data-s="4-4"><rect class="sR" x="278" y="148" width="164" height="50" rx="8" style="fill:none;stroke-width:2.5" stroke-dasharray="5 4"/><text class="sGt" x="360" y="112" text-anchor="middle">links: 0   open by: 0 → freed</text><text class="sGt" x="130" y="160" text-anchor="middle">df drops by 20 GB</text><text class="sS" x="560" y="160">restart or reload nginx</text><text class="sS" x="560" y="178">(or truncate /proc/812/fd/5)</text><rect class="sN" x="534" y="64" width="17" height="18" rx="2"/><rect class="sN" x="555" y="64" width="17" height="18" rx="2"/><rect class="sN" x="576" y="64" width="17" height="18" rx="2"/><rect class="sN" x="597" y="64" width="17" height="18" rx="2"/><rect class="sN" x="618" y="64" width="17" height="18" rx="2"/><rect class="sN" x="639" y="64" width="17" height="18" rx="2"/><rect class="sN" x="660" y="64" width="17" height="18" rx="2"/><rect class="sN" x="681" y="64" width="17" height="18" rx="2"/></g>
+</svg><ol class="dia-steps">
+<li>A file is a name in a directory pointing to an inode, which owns the data blocks. nginx has it open as file descriptor 5.</li>
+<li>rm only removes the name. The inode lives on while any process holds it open, so du (which walks names) misses it and df (which counts blocks) still sees it.</li>
+<li>lsof lists open files whose name was deleted: that is the space leak.</li>
+<li>When the last file descriptor closes, the inode and its blocks are freed and df finally agrees with du.</li>
+</ol><figcaption>The "df full, du innocent" edge case: deleting a name does not free space while a process still holds the file open.</figcaption></figure>
+
 </div></section>
 <section class="mod" id="m10"><div class="eyebrow">Module 10 · VMware</div>
 <h2>VMware &amp; virtualization</h2>
@@ -1868,7 +2223,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <p><strong>Virtualization</strong> runs multiple isolated <strong>virtual machines (VMs)</strong> — each with its own OS, virtual CPU, memory, disk, and NIC — on one physical server. The layer that makes this possible is the <strong>hypervisor</strong>: it owns the hardware and schedules each VM's access to it. Before virtualization, servers ran one app each at 5–15% utilization; virtualization consolidated them, and it's the foundation cloud computing is built on.</p>
 <p><strong>Benefits to recite:</strong> consolidation (fewer physical boxes → less power/cooling/space), fast provisioning (new server in minutes from a template), isolation (one VM crashing doesn't touch others), hardware independence (a VM is just files — portable between hosts), high availability and live migration, easy lab/testing, snapshot-based rollback, simpler DR (replicate VM files).</p>
 
-<figure><svg viewBox="0 0 700 250" role="img" aria-label="Type 1 bare-metal hypervisor versus type 2 hosted hypervisor">
+<figure><svg viewBox="0 0 715 250" role="img" aria-label="Type 1 bare-metal hypervisor versus type 2 hosted hypervisor">
   <text class="sM" x="60" y="24">TYPE 1 · bare-metal (ESXi, Hyper-V)</text>
   <rect class="sA" x="40" y="36" width="80" height="50" rx="6"/><text class="sT" x="80" y="58" text-anchor="middle">VM</text><text class="sS" x="80" y="74" text-anchor="middle">guest OS</text>
   <rect class="sA" x="130" y="36" width="80" height="50" rx="6"/><text class="sT" x="170" y="58" text-anchor="middle">VM</text><text class="sS" x="170" y="74" text-anchor="middle">guest OS</text>
@@ -1954,6 +2309,30 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td><strong>Templates &amp; cloning</strong></td><td>A <strong>template</strong> is a golden VM image; deploy new VMs from it with <strong>guest customization</strong> (new hostname, IP, SID). Full clone = independent copy; linked clone shares the parent's disk</td><td>How real estates deploy servers in minutes; <strong>OVF/OVA</strong> are the portable appliance formats</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="vSphere features: vMotion moves a running VM between hosts without downtime, used by DRS for balancing; HA restarts the VMs of a failed host on the surviving hosts">
+<text class="sT" x="180" y="22" text-anchor="middle">vMotion / DRS: live move, zero downtime</text>
+<rect class="sB" x="20" y="40" width="100" height="130" rx="8"/><text class="sT" x="70" y="58" text-anchor="middle">host 1</text>
+<rect class="sB" x="130" y="40" width="100" height="130" rx="8"/><text class="sT" x="180" y="58" text-anchor="middle">host 2</text>
+<rect class="sB" x="240" y="40" width="100" height="130" rx="8"/><text class="sT" x="290" y="58" text-anchor="middle">host 3</text>
+<rect class="sA" x="34" y="72" width="72" height="26" rx="5"/><text class="sC" x="70" y="90" text-anchor="middle">VM1</text>
+<rect class="sW" x="34" y="106" width="72" height="26" rx="5"/><text class="sC" x="70" y="124" text-anchor="middle">VM2</text>
+<rect class="sA" x="144" y="72" width="72" height="26" rx="5"/><text class="sC" x="180" y="90" text-anchor="middle">VM3</text>
+<rect class="sA" x="254" y="72" width="72" height="26" rx="5"/><text class="sC" x="290" y="90" text-anchor="middle">VM4</text>
+<path class="sLw" d="M106 120 Q 130 140 144 86" fill="none" marker-end="url(#ahw)"/>
+<text class="sC" x="180" y="196" text-anchor="middle">memory copied while it runs; sub-second switch</text>
+<text class="sT" x="530" y="22" text-anchor="middle">HA: host fails, VMs restart elsewhere</text>
+<rect class="sB" x="370" y="40" width="100" height="130" rx="8"/><text class="sT" x="420" y="58" text-anchor="middle">host 1</text>
+<rect class="sR" x="480" y="40" width="100" height="130" rx="8" opacity=".5"/><text class="sT" x="530" y="58" text-anchor="middle">host 2 ✗</text>
+<rect class="sB" x="590" y="40" width="100" height="130" rx="8"/><text class="sT" x="640" y="58" text-anchor="middle">host 3</text>
+<rect class="sA" x="384" y="72" width="72" height="26" rx="5"/><text class="sC" x="420" y="90" text-anchor="middle">VM1</text>
+<rect class="sW" x="494" y="72" width="72" height="26" rx="5" stroke-dasharray="4 3" opacity=".6"/><text class="sC" x="530" y="90" text-anchor="middle">VM2</text>
+<rect class="sW" x="494" y="106" width="72" height="26" rx="5" stroke-dasharray="4 3" opacity=".6"/><text class="sC" x="530" y="124" text-anchor="middle">VM3</text>
+<rect class="sA" x="604" y="72" width="72" height="26" rx="5"/><text class="sC" x="640" y="90" text-anchor="middle">VM4</text>
+<path class="sLw" d="M530 100 Q 560 190 600 110" fill="none" marker-end="url(#ahw)"/><path class="sLw" d="M530 120 Q 490 190 440 140" fill="none" marker-end="url(#ahw)"/>
+<text class="sRt" x="530" y="196" text-anchor="middle">a reboot: minutes of downtime, not zero</text>
+<text class="sS" x="360" y="220" text-anchor="middle">DRS uses vMotion to balance load; HA restarts after failure; FT keeps a live shadow for zero downtime</text>
+</svg><figcaption>The classic interview pair: vMotion moves running VMs (planned, no downtime); HA reacts to failure by restarting them (unplanned, minutes).</figcaption></figure>
+
 <h3>10.7 Resource management (Depth, but high-yield)</h3>
 <ul>
   <li><strong>Shares / Reservations / Limits</strong> per VM: shares = relative priority under contention; reservation = guaranteed minimum; limit = hard cap.</li>
@@ -1961,6 +2340,23 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>CPU Ready time</strong> — how long a VM waited for physical CPU; the metric that catches oversized VMs ("more vCPUs isn't always faster" — scheduling gets harder).</li>
   <li>Watch in the client / <code>esxtop</code>: CPU ready, ballooning/swap, datastore latency, and alarms in vCenter.</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Three VMs competing for 12 GHz: VM A with 2000 shares and a 2 GHz reservation, VM B with 1000 shares and a 1 GHz limit, VM C with 1000 shares and a 4 GHz reservation; the computed split honours the reservations, caps B at its limit and divides the rest by shares">
+<text class="sM" x="14" y="22">host with 12 GHz of CPU, every VM wants 8 GHz: the scheduler splits it like this</text>
+<text class="sT" x="80" y="64" text-anchor="end">VM A</text><text class="sS" x="80" y="80" text-anchor="end">shares 2000</text>
+<rect class="sN" x="90" y="50" width="416" height="26" rx="4"/>
+<rect class="sA" x="90" y="50" width="277.333" height="26" rx="4"/><text class="sT" x="373.333" y="68">5.3 GHz</text>
+<rect class="sG" x="90" y="50" width="104" height="26" rx="4" opacity=".7"/><text class="sS" x="142" y="67" text-anchor="middle">reserved</text>
+<text class="sT" x="80" y="114" text-anchor="end">VM B</text><text class="sS" x="80" y="130" text-anchor="end">shares 1000</text>
+<rect class="sN" x="90" y="100" width="416" height="26" rx="4"/>
+<rect class="sA" x="90" y="100" width="52" height="26" rx="4"/><text class="sT" x="148" y="118">1.0 GHz</text>
+<line class="sLr" x1="142" y1="94" x2="142" y2="132" style="stroke-width:2.4"/><text class="sRt" x="146" y="96">limit 1</text>
+<text class="sT" x="80" y="164" text-anchor="end">VM C</text><text class="sS" x="80" y="180" text-anchor="end">shares 1000</text>
+<rect class="sN" x="90" y="150" width="416" height="26" rx="4"/>
+<rect class="sA" x="90" y="150" width="294.667" height="26" rx="4"/><text class="sT" x="390.667" y="168">5.7 GHz</text>
+<rect class="sG" x="90" y="150" width="208" height="26" rx="4" opacity=".7"/><text class="sS" x="194" y="167" text-anchor="middle">reserved</text>
+<text class="sS" x="360" y="210" text-anchor="middle">reservations are paid first, the rest is split 2 : 1 : 1 by shares, and a limit caps a VM even when CPU is idle</text>
+</svg><figcaption>Shares only matter under contention; reservations are a floor, limits a ceiling. Allocation computed by proportional share with those bounds.</figcaption></figure>
 
 <h3>10.8 Everyday associate tasks &amp; troubleshooting</h3>
 <ul>
@@ -2262,6 +2658,7 @@ top / htop               <span class="c"># live processes</span></code></pre>
   <text class="sS" x="40" y="135">r = 4 · w = 2 · x = 1 → rwx=7, r-x=5, r--=4  ⇒  chmod 754 file</text>
   <text class="sS" x="40" y="155">x on a directory = permission to enter it; r = list it; w = create/delete inside it</text>
 </svg><figcaption>Reading <code>ls -l</code> output and converting to the numeric (octal) form. Common values: <code>755</code> (executable/dir), <code>644</code> (normal file), <code>600</code> (private key), <code>777</code> (everyone everything — almost always wrong).</figcaption></figure>
+
 <pre><code>chmod 640 report.txt        <span class="c"># numeric: rw- r-- ---</span>
 chmod u+x deploy.sh         <span class="c"># symbolic: add execute for user</span>
 chown ahmed:devops file     <span class="c"># change owner and group</span>
@@ -2327,6 +2724,29 @@ sudo vgextend vg_data /dev/sdc             <span class="c"># grow the pool</span
 sudo lvextend -r -L +20G /dev/vg_data/lv_var   <span class="c"># grow LV AND filesystem (-r)</span></code></pre>
 <p>That three-step flow — often after first extending the disk in VMware — is one of the most common real tasks in this job: <mark>"extend the VM's disk in vCenter → rescan → grow PV/LV → grow filesystem, all online."</mark></p>
 
+<figure class="dia steps"><svg viewBox="0 0 720 240" role="img" aria-label="LVM layers: disks become physical volumes, which pool into a volume group, which is carved into logical volumes holding mounted filesystems; adding a 20 GB disk grows the pool and lets lv_var and /var grow online">
+<text class="sM" x="14" y="216">disks</text>
+<text class="sM" x="14" y="172">PV</text>
+<text class="sM" x="14" y="128">VG</text>
+<text class="sM" x="14" y="84">LV</text>
+<text class="sM" x="14" y="40">mount</text>
+<rect class="sN" x="80" y="196" width="150" height="30" rx="5"/><text class="sC" x="155" y="216" text-anchor="middle">/dev/sdb  50 GB</text>
+<rect class="sB" x="80" y="152" width="150" height="30" rx="5"/><text class="sC" x="155" y="172" text-anchor="middle">PV sdb</text><line class="sLm" x1="155" y1="196" x2="155" y2="182"/>
+<g data-s="1"><rect class="sA" x="250" y="196" width="150" height="30" rx="5"/><text class="sC" x="325" y="216" text-anchor="middle">/dev/sdc  20 GB (new)</text><text class="sM" x="500" y="216">pvcreate /dev/sdc</text></g>
+<g data-s="1"><rect class="sA" x="250" y="152" width="150" height="30" rx="5"/><text class="sC" x="325" y="172" text-anchor="middle">PV sdc</text><line class="sLm" x1="325" y1="196" x2="325" y2="182"/></g>
+<line class="sLm" x1="155" y1="152" x2="155" y2="138"/><g data-s="1-1"><rect class="sB" x="80" y="108" width="150" height="30" rx="5"/><text class="sC" x="155" y="128" text-anchor="middle">vg_data  50 GB</text></g>
+<g data-s="2-3"><rect class="sA" x="80" y="108" width="320" height="30" rx="5"/><text class="sT" x="240" y="128" text-anchor="middle">vg_data  70 GB (pool)</text><line class="sLm" x1="325" y1="152" x2="325" y2="138"/><text class="sM" x="500" y="128">vgextend vg_data /dev/sdc</text></g>
+<rect class="sB" x="80" y="64" width="90" height="30" rx="5"/><text class="sC" x="125" y="84" text-anchor="middle">lv_home 20</text><g data-s="1-2"><rect class="sB" x="176" y="64" width="54" height="30" rx="5"/><text class="sC" x="203" y="84" text-anchor="middle">lv_var</text></g>
+<g data-s="3-3"><rect class="sG" x="176" y="64" width="140" height="30" rx="5"/><text class="sC" x="246" y="84" text-anchor="middle">lv_var 30 → 50 GB</text><text class="sM" x="500" y="84">lvextend -r -L +20G …/lv_var</text></g>
+<rect class="sN" x="80" y="20" width="90" height="30" rx="5"/><text class="sC" x="125" y="40" text-anchor="middle">/home</text><g data-s="1-2"><rect class="sN" x="176" y="20" width="54" height="30" rx="5"/><text class="sC" x="203" y="40" text-anchor="middle">/var</text></g>
+<g data-s="3-3"><rect class="sG" x="176" y="20" width="140" height="30" rx="5"/><text class="sC" x="246" y="40" text-anchor="middle">/var grown online</text><text class="sS" x="500" y="40">-r also resizes the filesystem</text></g>
+<line class="sLm" x1="125" y1="64" x2="125" y2="50"/><line class="sLm" x1="203" y1="64" x2="203" y2="50"/><line class="sLm" x1="125" y1="108" x2="125" y2="94"/><line class="sLm" x1="203" y1="108" x2="203" y2="94"/>
+</svg><ol class="dia-steps">
+<li>A new 20 GB disk appears (added in vCenter, then rescanned). <code>pvcreate</code> turns it into a physical volume.</li>
+<li><code>vgextend</code> adds the PV to the volume group: the pool grows from 50 to 70 GB. Nothing is mounted differently yet.</li>
+<li><code>lvextend -r</code> grows the logical volume <em>and</em> its filesystem while /var stays mounted: no downtime, no reboot.</li>
+</ol><figcaption>LVM puts a pool between disks and filesystems, which is what makes "grow it online" possible.</figcaption></figure>
+
 <h3>11.10 Logs, cron, SSH, vi</h3>
 <ul>
   <li><strong>Logs:</strong> <code>/var/log/syslog</code> (Debian) / <code>/var/log/messages</code> (RHEL), <code>auth.log</code>/<code>secure</code> (logins), <code>dmesg</code> (kernel/hardware), plus <code>journalctl</code>. Troubleshooting = <code>tail -f</code> the right log while reproducing the issue.</li>
@@ -2378,6 +2798,22 @@ MiB Mem: 15843 total, 320 free, 14200 used, 1323 buff/cache
   <li>Lost root password: reboot → edit GRUB entry → <code>rd.break</code> or <code>init=/bin/bash</code> → remount rw → <code>passwd</code> → (SELinux: <code>touch /.autorelabel</code>). Recognition level is fine.</li>
   <li><code>systemd-analyze blame</code> — what made boot slow; <code>systemctl list-dependencies</code> — why a unit starts (or doesn't).</li>
 </ol>
+
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="The Linux boot chain from firmware to GRUB, the kernel and initramfs, systemd and the target, with typical failure points: a broken bootloader, a forgotten root password and a bad fstab entry">
+<rect class="sB" x="14" y="40" width="126" height="52" rx="8"/><text class="sT" x="77" y="64" text-anchor="middle">firmware</text><text class="sC" x="77" y="80" text-anchor="middle">BIOS / UEFI</text>
+<line class="sLm" x1="140" y1="66" x2="154" y2="66" marker-end="url(#ahm)"/>
+<rect class="sV" x="156" y="40" width="126" height="52" rx="8"/><text class="sT" x="219" y="64" text-anchor="middle">GRUB</text><text class="sC" x="219" y="80" text-anchor="middle">bootloader</text>
+<line class="sLm" x1="282" y1="66" x2="296" y2="66" marker-end="url(#ahm)"/>
+<rect class="sA" x="298" y="40" width="126" height="52" rx="8"/><text class="sT" x="361" y="64" text-anchor="middle">kernel</text><text class="sC" x="361" y="80" text-anchor="middle">+ initramfs</text>
+<line class="sLm" x1="424" y1="66" x2="438" y2="66" marker-end="url(#ahm)"/>
+<rect class="sG" x="440" y="40" width="126" height="52" rx="8"/><text class="sT" x="503" y="64" text-anchor="middle">systemd</text><text class="sC" x="503" y="80" text-anchor="middle">PID 1</text>
+<line class="sLm" x1="566" y1="66" x2="580" y2="66" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="40" width="126" height="52" rx="8"/><text class="sT" x="645" y="64" text-anchor="middle">target</text><text class="sC" x="645" y="80" text-anchor="middle">multi-user</text>
+<line class="sLr" x1="219" y1="92" x2="219" y2="124" marker-end="url(#ahr)"/><rect class="sR" x="133" y="126" width="172" height="46" rx="6" opacity=".8"/><text class="sC" x="219" y="146" text-anchor="middle">missing / broken GRUB</text><text class="sT" x="219" y="164" text-anchor="middle">→ rescue media</text>
+<line class="sLr" x1="503" y1="92" x2="503" y2="124" marker-end="url(#ahr)"/><rect class="sR" x="417" y="126" width="172" height="46" rx="6" opacity=".8"/><text class="sC" x="503" y="146" text-anchor="middle">bad /etc/fstab line</text><text class="sT" x="503" y="164" text-anchor="middle">→ emergency mode</text>
+<line class="sLr" x1="361" y1="92" x2="361" y2="184" marker-end="url(#ahr)"/><rect class="sR" x="275" y="186" width="172" height="46" rx="6" opacity=".8"/><text class="sC" x="361" y="206" text-anchor="middle">forgotten root password</text><text class="sT" x="361" y="224" text-anchor="middle">→ rd.break at GRUB</text>
+<text class="sS" x="360" y="252" text-anchor="middle">knowing the chain tells you where to look when a server won't come up</text>
+</svg><figcaption>Boot, stage by stage. A typo in /etc/fstab is the classic "server won't boot" ticket; add nofail to non-critical mounts.</figcaption></figure>
 
 <h3>D11.3 Config-file literacy — the files you'll actually edit</h3>
 <pre><code><span class="c"># /etc/fstab — one line, six fields</span>
@@ -2612,6 +3048,26 @@ tmux new -s work → C-b d → tmux attach -t work    <span class="c"># your ses
   <li>Tools: <code>gpupdate /force</code> (apply now), <code>gpresult /r</code> (what applied — first stop when "policy isn't applying"), Group Policy Management Console (<code>gpmc.msc</code>).</li>
 </ul>
 
+<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Group Policy processing order: local, site, domain, OU and child OU, each applied after the previous so the closest policy wins conflicts, with enforced links and blocked inheritance as exceptions">
+<rect class="sN" x="14" y="70" width="104" height="54" rx="6"/><text class="sT" x="66" y="94" text-anchor="middle">Local</text><text class="sC" x="66" y="112" text-anchor="middle">this PC</text>
+<line class="sLm" x1="118" y1="97" x2="124" y2="97" marker-end="url(#ahm)"/>
+<text class="sM" x="66" y="146" text-anchor="middle">1</text>
+<rect class="sB" x="126" y="70" width="104" height="54" rx="6"/><text class="sT" x="178" y="94" text-anchor="middle">Site</text><text class="sC" x="178" y="112" text-anchor="middle">AD site</text>
+<line class="sLm" x1="230" y1="97" x2="236" y2="97" marker-end="url(#ahm)"/>
+<text class="sM" x="178" y="146" text-anchor="middle">2</text>
+<rect class="sV" x="238" y="70" width="104" height="54" rx="6"/><text class="sT" x="290" y="94" text-anchor="middle">Domain</text><text class="sC" x="290" y="112" text-anchor="middle">password policy</text>
+<line class="sLm" x1="342" y1="97" x2="348" y2="97" marker-end="url(#ahm)"/>
+<text class="sM" x="290" y="146" text-anchor="middle">3</text>
+<rect class="sA" x="350" y="70" width="104" height="54" rx="6"/><text class="sT" x="402" y="94" text-anchor="middle">OU</text><text class="sC" x="402" y="112" text-anchor="middle">Finance PCs</text>
+<line class="sLm" x1="454" y1="97" x2="460" y2="97" marker-end="url(#ahm)"/>
+<text class="sM" x="402" y="146" text-anchor="middle">4</text>
+<rect class="sG" x="462" y="70" width="104" height="54" rx="6"/><text class="sT" x="514" y="94" text-anchor="middle">child OU</text><text class="sC" x="514" y="112" text-anchor="middle">closest</text>
+<text class="sM" x="514" y="146" text-anchor="middle">5</text>
+<text class="sM" x="14" y="30">applied in this order: later wins on conflicts</text>
+<rect class="sW" x="580" y="40" width="126" height="130" rx="8" opacity=".8"/><text class="sT" x="643" y="62" text-anchor="middle">exceptions</text><text class="sC" x="643" y="86" text-anchor="middle">"Enforced" link:</text><text class="sC" x="643" y="102" text-anchor="middle">can't be overridden</text><text class="sC" x="643" y="126" text-anchor="middle">"Block inheritance"</text><text class="sC" x="643" y="142" text-anchor="middle">on an OU</text>
+<text class="sS" x="290" y="222" text-anchor="middle">gpresult /r shows what actually applied: the first command for "policy isn't applying"</text>
+</svg><figcaption>LSDOU: the policy closest to the user or computer is applied last, so it wins, unless a higher link is enforced.</figcaption></figure>
+
 <h3>12.4 Daily AD tasks (what "user account management" means)</h3>
 <pre><code><span class="c"># GUI: Active Directory Users and Computers (dsa.msc / ADUC)</span>
 <span class="c"># PowerShell equivalents worth name-dropping:</span>
@@ -2680,6 +3136,15 @@ Tools: icacls D:\Finance /t (dump ACLs), Effective Access tab, takeown for orpha
   <li><strong>DNS scavenging</strong>: stale dynamic A records answer for machines that changed IPs → "RDP lands on the wrong machine" weirdness; scavenging + correct DHCP/DNS aging fixes it.</li>
 </ul></div>
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Network access passes through two gates, the share permission Read and the NTFS permission Modify; the effective permission is the more restrictive Read">
+<rect class="sB" x="14" y="80" width="120" height="50" rx="8"/><text class="sT" x="74" y="103" text-anchor="middle">user</text><text class="sC" x="74" y="119" text-anchor="middle">over the network</text>
+<line class="sL" x1="134" y1="105" x2="176" y2="105" marker-end="url(#ah)"/><rect class="sW" x="180" y="60" width="160" height="90" rx="8"/><text class="sT" x="260" y="84" text-anchor="middle">share permission</text><text class="sC" x="260" y="106" text-anchor="middle">Everyone: Read</text><text class="sC" x="260" y="130" text-anchor="middle">gate 1</text>
+<line class="sL" x1="340" y1="105" x2="382" y2="105" marker-end="url(#ah)"/><rect class="sV" x="386" y="60" width="160" height="90" rx="8"/><text class="sT" x="466" y="84" text-anchor="middle">NTFS permission</text><text class="sC" x="466" y="106" text-anchor="middle">Finance-Team: Modify</text><text class="sC" x="466" y="130" text-anchor="middle">gate 2</text>
+<line class="sL" x1="546" y1="105" x2="588" y2="105" marker-end="url(#ah)"/><rect class="sR" x="592" y="80" width="114" height="50" rx="8"/><text class="sT" x="649" y="103" text-anchor="middle">effective</text><text class="sC" x="649" y="119" text-anchor="middle">Read only</text>
+<text class="sRt" x="360" y="186" text-anchor="middle">both gates apply; the most restrictive wins → "I can open files but can't save"</text>
+<text class="sGt" x="360" y="208" text-anchor="middle">best practice: share = Authenticated Users Full Control, do all real control with NTFS</text>
+</svg><figcaption>Two permission systems in series. Local logons only see NTFS; network access sees both.</figcaption></figure>
+
 <div class="deep deep3"><span class="dtag">Level 3 · Expert corner — PowerShell toolbox &amp; hybrid identity</span>
 <h3>The associate's PowerShell dozen</h3>
 <pre><code>Get-ADUser a.hassan -Properties * | Select Enabled,LockedOut,PasswordExpired,LastLogonDate
@@ -2728,6 +3193,21 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 </table></div>
 <div class="note"><b>The distinction they will test:</b> incident vs service request ("something broke" vs "I need something"), and incident vs problem ("restore service now" vs "find the root cause so it stops recurring").</div>
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="ITIL flow: repeated incidents are each closed with a workaround; recurrence opens a problem record, root cause analysis produces a known error documented in the knowledge base, and a change request with CAB approval deploys the fix so the incidents stop">
+<rect class="sR" x="14" y="30" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="50" text-anchor="middle">incident #1: VPN drops</text>
+<rect class="sR" x="14" y="70" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="90" text-anchor="middle">incident #2: VPN drops</text>
+<rect class="sR" x="14" y="110" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="130" text-anchor="middle">incident #3: VPN drops</text>
+<text class="sM" x="89" y="22" text-anchor="middle">service desk: restore fast</text>
+<line class="sLm" x1="164" y1="85" x2="214" y2="85" marker-end="url(#ahm)"/><rect class="sA" x="218" y="60" width="140" height="50" rx="8"/><text class="sT" x="288" y="83" text-anchor="middle">workaround</text><text class="sC" x="288" y="99" text-anchor="middle">users back online</text>
+<text class="sS" x="288" y="132" text-anchor="middle">service restored (incident closed)</text>
+<line class="sLm" x1="89" y1="150" x2="89" y2="176" marker-end="url(#ahm)"/><text class="sS" x="96" y="168">recurring? open a problem</text>
+<rect class="sV" x="14" y="180" width="150" height="50" rx="8"/><text class="sT" x="89" y="203" text-anchor="middle">problem record</text><text class="sC" x="89" y="219" text-anchor="middle">root cause analysis</text>
+<line class="sLm" x1="164" y1="205" x2="214" y2="205" marker-end="url(#ahm)"/><rect class="sB" x="218" y="180" width="140" height="50" rx="8"/><text class="sT" x="288" y="203" text-anchor="middle">known error</text><text class="sC" x="288" y="219" text-anchor="middle">written up in the KB</text>
+<line class="sLm" x1="358" y1="205" x2="408" y2="205" marker-end="url(#ahm)"/><rect class="sW" x="412" y="180" width="140" height="50" rx="8"/><text class="sT" x="482" y="203" text-anchor="middle">change (RFC)</text><text class="sC" x="482" y="219" text-anchor="middle">risk, CAB, rollback</text>
+<line class="sLg" x1="552" y1="205" x2="590" y2="205" marker-end="url(#ahg)"/><rect class="sG" x="594" y="180" width="112" height="50" rx="8"/><text class="sT" x="650" y="203" text-anchor="middle">fix deployed</text><text class="sC" x="650" y="219" text-anchor="middle">incidents stop</text>
+<text class="sC" x="560" y="60" text-anchor="middle">incident: "restore now"</text><text class="sC" x="560" y="80" text-anchor="middle">problem: "make it stop"</text><text class="sC" x="560" y="100" text-anchor="middle">change: "safely alter"</text>
+</svg><figcaption>Incident, problem and change are three different clocks: minutes to restore, days to understand, a planned window to fix.</figcaption></figure>
+
 <h3>13.2 SLAs and priority</h3>
 <ul>
   <li><strong>SLA</strong> (Service Level Agreement) — the contract with the customer: e.g. "P1 incidents: respond in 15 min, restore in 4 h; 99.9% availability." <strong>OLA</strong>s are the same promises between internal teams.</li>
@@ -2736,6 +3216,39 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <li><strong>Escalation</strong>: <em>functional</em> (L1 → L2 → L3 — more expertise) vs <em>hierarchical</em> (to management — visibility for big/breaching incidents). Escalating on time with good notes is a skill they hire for: <mark>say what you tried, what you ruled out, and attach the evidence</mark>.</li>
   <li>Support tiers: <strong>L1</strong> triage/known fixes, <strong>L2</strong> deep technical work (this role grows into it), <strong>L3</strong> engineering/vendors.</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="An impact by urgency matrix giving priorities P1 to P4, and the incident flow from logging and prioritising to L1, escalation, resolution and closure">
+<text class="sT" x="160" y="22" text-anchor="middle">priority = impact × urgency</text>
+<text class="sC" x="130" y="44" text-anchor="middle">high urgency</text>
+<text class="sC" x="200" y="44" text-anchor="middle">medium</text>
+<text class="sC" x="270" y="44" text-anchor="middle">low</text>
+<text class="sC" x="88" y="74" text-anchor="end">high impact</text>
+<rect class="sR" x="96" y="54" width="66" height="34" rx="5"/><text class="sT" x="129" y="76" text-anchor="middle">P1</text>
+<rect class="sW" x="166" y="54" width="66" height="34" rx="5"/><text class="sT" x="199" y="76" text-anchor="middle">P2</text>
+<rect class="sA" x="236" y="54" width="66" height="34" rx="5"/><text class="sT" x="269" y="76" text-anchor="middle">P3</text>
+<text class="sC" x="88" y="114" text-anchor="end">medium</text>
+<rect class="sW" x="96" y="94" width="66" height="34" rx="5"/><text class="sT" x="129" y="116" text-anchor="middle">P2</text>
+<rect class="sA" x="166" y="94" width="66" height="34" rx="5"/><text class="sT" x="199" y="116" text-anchor="middle">P3</text>
+<rect class="sN" x="236" y="94" width="66" height="34" rx="5"/><text class="sT" x="269" y="116" text-anchor="middle">P4</text>
+<text class="sC" x="88" y="154" text-anchor="end">low</text>
+<rect class="sA" x="96" y="134" width="66" height="34" rx="5"/><text class="sT" x="129" y="156" text-anchor="middle">P3</text>
+<rect class="sN" x="166" y="134" width="66" height="34" rx="5"/><text class="sT" x="199" y="156" text-anchor="middle">P4</text>
+<rect class="sN" x="236" y="134" width="66" height="34" rx="5"/><text class="sT" x="269" y="156" text-anchor="middle">P4</text>
+<text class="sC" x="166" y="196" text-anchor="middle">dead core switch at night: P1 · CEO's mouse: P4</text>
+<rect class="sB" x="380" y="20" width="220" height="28" rx="6"/><text class="sC" x="490" y="39" text-anchor="middle">logged</text>
+<line class="sLm" x1="490" y1="48" x2="490" y2="54"/>
+<rect class="sB" x="380" y="54" width="220" height="28" rx="6"/><text class="sC" x="490" y="73" text-anchor="middle">categorised · prioritised</text>
+<line class="sLm" x1="490" y1="82" x2="490" y2="88"/>
+<rect class="sA" x="380" y="88" width="220" height="28" rx="6"/><text class="sC" x="490" y="107" text-anchor="middle">L1: known fix?</text>
+<line class="sLm" x1="490" y1="116" x2="490" y2="122"/>
+<rect class="sW" x="380" y="122" width="220" height="28" rx="6"/><text class="sC" x="490" y="141" text-anchor="middle">escalate L2 / L3</text>
+<line class="sLm" x1="490" y1="150" x2="490" y2="156"/>
+<rect class="sG" x="380" y="156" width="220" height="28" rx="6"/><text class="sC" x="490" y="175" text-anchor="middle">resolved</text>
+<line class="sLm" x1="490" y1="184" x2="490" y2="190"/>
+<rect class="sG" x="380" y="190" width="220" height="28" rx="6"/><text class="sC" x="490" y="209" text-anchor="middle">closed: user confirms</text>
+<text class="sC" x="612" y="87">functional</text><text class="sC" x="612" y="103">escalation</text>
+<text class="sC" x="490" y="232" text-anchor="middle">timestamps on every step: SLA clocks run on them</text>
+</svg><figcaption>How a ticket is prioritised and where it travels. Using these words precisely is half of an ITIL interview question.</figcaption></figure>
 
 <h3>13.3 The operations rhythm</h3>
 <ul>
@@ -2775,6 +3288,23 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 </table></div>
 <p>Availability math (memorize one row and derive the rest): <strong>99.9%</strong> = 8h 46m downtime/year · <strong>99.99%</strong> = 52 min · <strong>99.999%</strong> = 5 min. "Three nines vs four nines" is the difference between a maintenance window and full redundancy — good vocabulary for SLA talk.</p>
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Allowed downtime per year for availability targets: 99 percent is 3.7 days, 99.9 percent 8 hours 46 minutes, 99.99 percent 53 minutes, 99.999 percent about 5 minutes">
+<text class="sM" x="14" y="22">allowed downtime per year (log scale)</text>
+<text class="sT" x="150" y="52" text-anchor="end">99%</text><rect class="sW" x="160" y="36" width="286.028" height="20" rx="3"/><text class="sC" x="452.028" y="51">3.7 days / year</text>
+<text class="sS" x="706" y="51" text-anchor="end">7 h 18 min / month</text>
+<text class="sT" x="150" y="80" text-anchor="end">99.5%</text><rect class="sW" x="160" y="64" width="265.124" height="20" rx="3"/><text class="sC" x="431.124" y="79">1.8 days / year</text>
+<text class="sS" x="706" y="79" text-anchor="end">3 h 39 min / month</text>
+<text class="sT" x="150" y="108" text-anchor="end">99.9%</text><rect class="sA" x="160" y="92" width="216.585" height="20" rx="3"/><text class="sC" x="382.585" y="107">8 h 46 min / year</text>
+<text class="sS" x="706" y="107" text-anchor="end">43.8 min / month</text>
+<text class="sT" x="150" y="136" text-anchor="end">99.95%</text><rect class="sA" x="160" y="120" width="195.681" height="20" rx="3"/><text class="sC" x="361.681" y="135">4 h 23 min / year</text>
+<text class="sS" x="706" y="135" text-anchor="end">21.9 min / month</text>
+<text class="sT" x="150" y="164" text-anchor="end">99.99%</text><rect class="sG" x="160" y="148" width="147.142" height="20" rx="3"/><text class="sC" x="313.142" y="163">52.6 min / year</text>
+<text class="sS" x="706" y="163" text-anchor="end">4.4 min / month</text>
+<text class="sT" x="150" y="192" text-anchor="end">99.999%</text><rect class="sG" x="160" y="176" width="77.6992" height="20" rx="3"/><text class="sC" x="243.699" y="191">5.3 min / year</text>
+<text class="sS" x="706" y="191" text-anchor="end">26 s / month</text>
+<text class="sS" x="360" y="218" text-anchor="middle">each extra nine divides the budget by ten, and roughly multiplies the cost: four nines means no maintenance window</text>
+</svg><figcaption>The nines, computed: memorise 99.9% ≈ 8 h 46 min a year and divide by ten for each extra nine.</figcaption></figure>
+
 <h3>D13.2 Major incidents &amp; RCA — how grown-up ops behaves</h3>
 <ul>
   <li><strong>Major Incident process</strong>: declare early → incident manager owns coordination → separate <em>technical bridge</em> from <em>business comms</em> (engineers must not spend the outage writing emails) → workaround first, elegance later → post-incident review within days.</li>
@@ -2782,6 +3312,26 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <li><strong>Blameless culture</strong>: RCAs name process gaps, not people — say this phrase; delivery centers live it.</li>
   <li><strong>Change types</strong>: standard (pre-approved, low risk — password resets, cert renewals), normal (CAB-assessed), emergency (break-glass during incidents, reviewed after). Every P1 postmortem asks "what change caused this?" — ~70% of incidents trace to changes, which is why change control exists.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 222" role="img" aria-label="Five whys from users losing email down to the root cause: the mail VM paused because its datastore filled, because a snapshot grew for three weeks, because backup snapshot deletion kept failing, because nobody acted on the failed-job alert; fixes at three levels">
+<g data-s="1"><rect class="sR" x="30" y="14" width="320" height="28" rx="6"/><text class="sC" x="42" y="33">users lost email</text><text class="sS" x="340" y="33" text-anchor="end">symptom</text></g>
+<g data-s="2"><rect class="sB" x="50" y="48" width="320" height="28" rx="6"/><text class="sC" x="62" y="67">mail VM paused</text><text class="sS" x="360" y="67" text-anchor="end">why? 1</text></g>
+<g data-s="3"><rect class="sB" x="70" y="82" width="320" height="28" rx="6"/><text class="sC" x="82" y="101">datastore full</text><text class="sS" x="380" y="101" text-anchor="end">why? 2</text></g>
+<g data-s="4"><rect class="sB" x="90" y="116" width="320" height="28" rx="6"/><text class="sC" x="102" y="135">snapshot grew for 3 weeks</text><text class="sS" x="400" y="135" text-anchor="end">why? 3</text></g>
+<g data-s="5"><rect class="sB" x="110" y="150" width="320" height="28" rx="6"/><text class="sC" x="122" y="169">backup snapshot deletion kept failing</text><text class="sS" x="420" y="169" text-anchor="end">why? 4</text></g>
+<g data-s="6"><rect class="sG" x="130" y="184" width="320" height="28" rx="6"/><text class="sT" x="142" y="203">nobody acted on the failed-job alert</text><text class="sS" x="440" y="203" text-anchor="end">root cause</text></g>
+<g data-s="6"><rect class="sN" x="500" y="40" width="206" height="40" rx="6"/><text class="sC" x="603" y="58" text-anchor="middle">free space</text><text class="sS" x="603" y="74" text-anchor="middle">correct</text></g>
+<g data-s="6"><rect class="sA" x="500" y="90" width="206" height="40" rx="6"/><text class="sC" x="603" y="108" text-anchor="middle">alarm on snapshot age</text><text class="sS" x="603" y="124" text-anchor="middle">better</text></g>
+<g data-s="6"><rect class="sG" x="500" y="140" width="206" height="40" rx="6"/><text class="sC" x="603" y="158" text-anchor="middle">make alerts actionable, routed</text><text class="sS" x="603" y="174" text-anchor="middle">systemic</text></g>
+<g data-s="6"><text class="sM" x="603" y="26" text-anchor="middle">fix at every level</text></g>
+</svg><ol class="dia-steps">
+<li>Start from the symptom the business felt: users lost email.</li>
+<li>Why? The mail VM was paused by the hypervisor.</li>
+<li>Why? Its datastore ran out of space.</li>
+<li>Why? A snapshot had been growing for three weeks.</li>
+<li>Why? The backup job's snapshot deletion kept failing.</li>
+<li>Why? The failed-job alert existed but nobody acted on it: the root cause is a process gap, not a disk. Fix at every level, systemic last but most important.</li>
+</ol><figcaption>The 5 Whys, told as the bootcamp's RCA story: keep asking until the answer is a process you can change.</figcaption></figure>
 
 <h3>D13.3 Monitoring that works (and the KPIs on your dashboard)</h3>
 <ul>

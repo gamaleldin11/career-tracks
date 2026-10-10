@@ -113,6 +113,38 @@ sklearn uses **CART** (Classification And Regression Trees), which always produc
 
 > **J(k, tₖ) = (m_left/m)·G_left + (m_right/m)·G_right**
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="CART compares candidate splits by weighted Gini impurity: a split on days since recharge gives children with impurity 0 and 0.32, weighted 0.16; a split on city leaves both children as mixed as the parent, weighted 0.48">
+<text class="sT" x="360" y="20" text-anchor="middle">node: 6 stay · 4 churn → Gini = 0.48</text>
+<rect class="sG" x="14" y="36" width="340" height="180" rx="10" opacity=".25"/><text class="sT" x="184" y="58" text-anchor="middle">days since recharge &gt; 14?</text>
+<rect class="sB" x="34" y="72" width="140" height="70" rx="6"/><text class="sM" x="104" y="92" text-anchor="middle">yes</text><text class="sC" x="104" y="112" text-anchor="middle">5 stay · 0 churn</text><text class="sC" x="104" y="132" text-anchor="middle">Gini 0.00</text>
+<circle class="sPg" cx="46" cy="156" r="4.5"/>
+<circle class="sPg" cx="58" cy="156" r="4.5"/>
+<circle class="sPg" cx="70" cy="156" r="4.5"/>
+<circle class="sPg" cx="82" cy="156" r="4.5"/>
+<circle class="sPg" cx="94" cy="156" r="4.5"/>
+<rect class="sB" x="194" y="72" width="140" height="70" rx="6"/><text class="sM" x="264" y="92" text-anchor="middle">no</text><text class="sC" x="264" y="112" text-anchor="middle">1 stay · 4 churn</text><text class="sC" x="264" y="132" text-anchor="middle">Gini 0.32</text>
+<circle class="sPg" cx="206" cy="156" r="4.5"/>
+<circle class="sPr" cx="218" cy="156" r="4.5"/>
+<circle class="sPr" cx="230" cy="156" r="4.5"/>
+<circle class="sPr" cx="242" cy="156" r="4.5"/>
+<circle class="sPr" cx="254" cy="156" r="4.5"/>
+<text class="sGt" x="184" y="186" text-anchor="middle">weighted J = 0.16</text><text class="sGt" x="184" y="204" text-anchor="middle">chosen: purer children</text>
+<rect class="sN" x="370" y="36" width="340" height="180" rx="10"/><text class="sT" x="540" y="58" text-anchor="middle">city = Cairo?</text>
+<rect class="sB" x="390" y="72" width="140" height="70" rx="6"/><text class="sM" x="460" y="92" text-anchor="middle">yes</text><text class="sC" x="460" y="112" text-anchor="middle">3 stay · 2 churn</text><text class="sC" x="460" y="132" text-anchor="middle">Gini 0.48</text>
+<circle class="sPg" cx="402" cy="156" r="4.5"/>
+<circle class="sPg" cx="414" cy="156" r="4.5"/>
+<circle class="sPg" cx="426" cy="156" r="4.5"/>
+<circle class="sPr" cx="438" cy="156" r="4.5"/>
+<circle class="sPr" cx="450" cy="156" r="4.5"/>
+<rect class="sB" x="550" y="72" width="140" height="70" rx="6"/><text class="sM" x="620" y="92" text-anchor="middle">no</text><text class="sC" x="620" y="112" text-anchor="middle">3 stay · 2 churn</text><text class="sC" x="620" y="132" text-anchor="middle">Gini 0.48</text>
+<circle class="sPg" cx="562" cy="156" r="4.5"/>
+<circle class="sPg" cx="574" cy="156" r="4.5"/>
+<circle class="sPg" cx="586" cy="156" r="4.5"/>
+<circle class="sPr" cx="598" cy="156" r="4.5"/>
+<circle class="sPr" cx="610" cy="156" r="4.5"/>
+<text class="sC" x="540" y="186" text-anchor="middle">weighted J = 0.48</text><text class="sRt" x="540" y="204" text-anchor="middle">useless: children as mixed as the parent</text>
+</svg><figcaption>CART tries every feature and threshold and keeps the split with the lowest weighted impurity. Computed for a 10-customer node.</figcaption></figure>
+
 It then recurses on each subset until it reaches `max_depth`, cannot reduce impurity, or hits another stopping rule.
 
 **CART is greedy.** It optimises each split locally with no look-ahead. Finding the *optimal* tree is **NP-complete** (O(exp(m))), so a "reasonably good" greedy tree is the practical choice.
@@ -210,6 +242,25 @@ voting_clf.fit(X_train, y_train)
 
 - **Hard voting:** majority of predicted classes.
 - **Soft voting** (`voting="soft"`): average the predicted **probabilities** and take the argmax. It usually beats hard voting because confident votes count more (**0.92** here). Every estimator needs `predict_proba` (`SVC(probability=True)`), and it works best when the probabilities are **calibrated**.
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="The voting example run with scikit-learn: logistic regression 0.864, random forest 0.896, SVC 0.896, hard voting 0.912 and soft voting 0.92; on one test point two models vote for the wrong class so hard voting is wrong, but the random forest is confident at 0.75, so the averaged probability is just above 0.5 and soft voting is right">
+<text class="sT" x="160" y="22" text-anchor="middle">test accuracy (125 points)</text>
+<text class="sS" x="100" y="52" text-anchor="end">lr</text><rect class="sB" x="110" y="36" width="93.8667" height="22" rx="4" opacity=".7"/><text class="sT" x="209.867" y="52">0.864</text>
+<text class="sS" x="100" y="82" text-anchor="end">rf</text><rect class="sB" x="110" y="66" width="140.8" height="22" rx="4" opacity=".7"/><text class="sT" x="256.8" y="82">0.896</text>
+<text class="sS" x="100" y="112" text-anchor="end">svc</text><rect class="sB" x="110" y="96" width="140.8" height="22" rx="4" opacity=".7"/><text class="sT" x="256.8" y="112">0.896</text>
+<text class="sS" x="100" y="142" text-anchor="end">hard vote</text><rect class="sG" x="110" y="126" width="164.267" height="22" rx="4" opacity=".7"/><text class="sT" x="280.267" y="142">0.912</text>
+<text class="sS" x="100" y="172" text-anchor="end">soft vote</text><rect class="sG" x="110" y="156" width="176" height="22" rx="4" opacity=".7"/><text class="sT" x="292" y="172">0.920</text>
+<text class="sS" x="220" y="200" text-anchor="middle">axis starts at 0.80</text>
+<rect class="sN" x="390" y="30" width="316" height="186" rx="8"/><text class="sT" x="548" y="50" text-anchor="middle">one test point (true class 1)</text>
+<text class="sS" x="450" y="74" text-anchor="middle">model</text><text class="sS" x="540" y="74" text-anchor="middle">votes</text><text class="sS" x="640" y="74" text-anchor="middle">P(class 1)</text>
+<text class="sT" x="450" y="96" text-anchor="middle">lr</text><text class="sRt" x="540" y="96" text-anchor="middle">0</text><text class="sT" x="640" y="96" text-anchor="middle">0.22</text>
+<text class="sT" x="450" y="118" text-anchor="middle">rf</text><text class="sGt" x="540" y="118" text-anchor="middle">1</text><text class="sT" x="640" y="118" text-anchor="middle">0.75</text>
+<text class="sT" x="450" y="140" text-anchor="middle">svc</text><text class="sRt" x="540" y="140" text-anchor="middle">0</text><text class="sT" x="640" y="140" text-anchor="middle">0.55</text>
+<line class="sLm" x1="410" y1="166" x2="690" y2="166"/>
+<text class="sS" x="450" y="186" text-anchor="middle">result</text><text class="sRt" x="540" y="186" text-anchor="middle">hard: 0</text><text class="sGt" x="640" y="186" text-anchor="middle">soft: 0.506 → 1</text>
+<text class="sS" x="548" y="208" text-anchor="middle">rf's confident 0.75 outweighs two weak votes</text>
+<text class="sS" x="360" y="240" text-anchor="middle">hard and soft disagree on 3 of 125 test points; soft is right on 2 of them</text>
+</svg><figcaption>Why soft voting can beat hard voting: confident probabilities count for more than a bare majority (the code above, with SVC(probability=True); its Platt-calibrated probability can sit slightly on the other side of 0.5 from its vote).</figcaption></figure>
+
 - `VotingClassifier` clones the estimators. The fitted clones are in `estimators_` / `named_estimators_`.
 
 ---
@@ -240,6 +291,57 @@ bag_clf = BaggingClassifier(DecisionTreeClassifier(), n_estimators=500,
 
 - **Bagging vs pasting:** bagging adds diversity (slightly higher bias, less correlated predictors, lower variance) and usually wins. Prefer bagging when data is noisy or the model overfits; pasting is slightly cheaper.
 - **Parallel by nature.** Predictors train and predict independently across cores or servers, so it scales well.
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Three bootstrap samples drawn with replacement from ten training rows: each contains duplicates and leaves some rows out, which serve as that tree's out-of-bag validation rows">
+<text class="sM" x="14" y="26">training rows</text>
+<rect class="sB" x="130" y="12" width="48" height="24" rx="4"/><text class="sC" x="154" y="29" text-anchor="middle">r1</text>
+<rect class="sB" x="186" y="12" width="48" height="24" rx="4"/><text class="sC" x="210" y="29" text-anchor="middle">r2</text>
+<rect class="sB" x="242" y="12" width="48" height="24" rx="4"/><text class="sC" x="266" y="29" text-anchor="middle">r3</text>
+<rect class="sB" x="298" y="12" width="48" height="24" rx="4"/><text class="sC" x="322" y="29" text-anchor="middle">r4</text>
+<rect class="sB" x="354" y="12" width="48" height="24" rx="4"/><text class="sC" x="378" y="29" text-anchor="middle">r5</text>
+<rect class="sB" x="410" y="12" width="48" height="24" rx="4"/><text class="sC" x="434" y="29" text-anchor="middle">r6</text>
+<rect class="sB" x="466" y="12" width="48" height="24" rx="4"/><text class="sC" x="490" y="29" text-anchor="middle">r7</text>
+<rect class="sB" x="522" y="12" width="48" height="24" rx="4"/><text class="sC" x="546" y="29" text-anchor="middle">r8</text>
+<rect class="sB" x="578" y="12" width="48" height="24" rx="4"/><text class="sC" x="602" y="29" text-anchor="middle">r9</text>
+<rect class="sB" x="634" y="12" width="48" height="24" rx="4"/><text class="sC" x="658" y="29" text-anchor="middle">r10</text>
+<text class="sC" x="120" y="78" text-anchor="end">tree 1 sample</text>
+<rect class="sA" x="130" y="60" width="48" height="24" rx="4"/><text class="sC" x="154" y="77" text-anchor="middle">r1</text>
+<rect class="sW" x="186" y="60" width="48" height="24" rx="4"/><text class="sC" x="210" y="77" text-anchor="middle">r2</text>
+<rect class="sW" x="242" y="60" width="48" height="24" rx="4"/><text class="sC" x="266" y="77" text-anchor="middle">r2</text>
+<rect class="sW" x="298" y="60" width="48" height="24" rx="4"/><text class="sC" x="322" y="77" text-anchor="middle">r2</text>
+<rect class="sA" x="354" y="60" width="48" height="24" rx="4"/><text class="sC" x="378" y="77" text-anchor="middle">r3</text>
+<rect class="sA" x="410" y="60" width="48" height="24" rx="4"/><text class="sC" x="434" y="77" text-anchor="middle">r4</text>
+<rect class="sA" x="466" y="60" width="48" height="24" rx="4"/><text class="sC" x="490" y="77" text-anchor="middle">r5</text>
+<rect class="sW" x="522" y="60" width="48" height="24" rx="4"/><text class="sC" x="546" y="77" text-anchor="middle">r7</text>
+<rect class="sW" x="578" y="60" width="48" height="24" rx="4"/><text class="sC" x="602" y="77" text-anchor="middle">r7</text>
+<rect class="sA" x="634" y="60" width="48" height="24" rx="4"/><text class="sC" x="658" y="77" text-anchor="middle">r8</text>
+<text class="sGt" x="130" y="102">out-of-bag: r6, r9, r10</text>
+<text class="sC" x="120" y="132" text-anchor="end">tree 2 sample</text>
+<rect class="sA" x="130" y="114" width="48" height="24" rx="4"/><text class="sC" x="154" y="131" text-anchor="middle">r1</text>
+<rect class="sA" x="186" y="114" width="48" height="24" rx="4"/><text class="sC" x="210" y="131" text-anchor="middle">r2</text>
+<rect class="sA" x="242" y="114" width="48" height="24" rx="4"/><text class="sC" x="266" y="131" text-anchor="middle">r3</text>
+<rect class="sA" x="298" y="114" width="48" height="24" rx="4"/><text class="sC" x="322" y="131" text-anchor="middle">r4</text>
+<rect class="sW" x="354" y="114" width="48" height="24" rx="4"/><text class="sC" x="378" y="131" text-anchor="middle">r5</text>
+<rect class="sW" x="410" y="114" width="48" height="24" rx="4"/><text class="sC" x="434" y="131" text-anchor="middle">r5</text>
+<rect class="sA" x="466" y="114" width="48" height="24" rx="4"/><text class="sC" x="490" y="131" text-anchor="middle">r6</text>
+<rect class="sW" x="522" y="114" width="48" height="24" rx="4"/><text class="sC" x="546" y="131" text-anchor="middle">r9</text>
+<rect class="sW" x="578" y="114" width="48" height="24" rx="4"/><text class="sC" x="602" y="131" text-anchor="middle">r9</text>
+<rect class="sW" x="634" y="114" width="48" height="24" rx="4"/><text class="sC" x="658" y="131" text-anchor="middle">r9</text>
+<text class="sGt" x="130" y="156">out-of-bag: r7, r8, r10</text>
+<text class="sC" x="120" y="186" text-anchor="end">tree 3 sample</text>
+<rect class="sA" x="130" y="168" width="48" height="24" rx="4"/><text class="sC" x="154" y="185" text-anchor="middle">r1</text>
+<rect class="sA" x="186" y="168" width="48" height="24" rx="4"/><text class="sC" x="210" y="185" text-anchor="middle">r3</text>
+<rect class="sW" x="242" y="168" width="48" height="24" rx="4"/><text class="sC" x="266" y="185" text-anchor="middle">r4</text>
+<rect class="sW" x="298" y="168" width="48" height="24" rx="4"/><text class="sC" x="322" y="185" text-anchor="middle">r4</text>
+<rect class="sW" x="354" y="168" width="48" height="24" rx="4"/><text class="sC" x="378" y="185" text-anchor="middle">r5</text>
+<rect class="sW" x="410" y="168" width="48" height="24" rx="4"/><text class="sC" x="434" y="185" text-anchor="middle">r5</text>
+<rect class="sW" x="466" y="168" width="48" height="24" rx="4"/><text class="sC" x="490" y="185" text-anchor="middle">r5</text>
+<rect class="sW" x="522" y="168" width="48" height="24" rx="4"/><text class="sC" x="546" y="185" text-anchor="middle">r5</text>
+<rect class="sW" x="578" y="168" width="48" height="24" rx="4"/><text class="sC" x="602" y="185" text-anchor="middle">r5</text>
+<rect class="sA" x="634" y="168" width="48" height="24" rx="4"/><text class="sC" x="658" y="185" text-anchor="middle">r6</text>
+<text class="sGt" x="130" y="210">out-of-bag: r2, r7, r8, r9, r10</text>
+<text class="sS" x="360" y="232" text-anchor="middle">with replacement: duplicates (amber) appear, and 11 of 30 rows here were never drawn (~37% expected)</text>
+</svg><figcaption>Bagging, concretely: each tree sees a resampled training set. The rows it never saw score it for free (OOB evaluation).</figcaption></figure>
 
 ### Out-of-bag (OOB) evaluation — free validation
 
@@ -502,6 +604,29 @@ Defaults: the base models' `predict_proba` is used, falling back to `decision_fu
 
 ⚠️ **Classic interview trap:** training the blender on **in-sample** base predictions leaks. The base models have memorised the training set, so the blender learns to trust them too much. Out-of-fold predictions are mandatory.
 
+<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="Training a stacking blender on in-sample base predictions versus out-of-fold predictions: in-sample, the random forest looks perfect on the training set, so the blender gives it a weight of about 6 and the stack scores 0.912 or 0.888 on test; with out-of-fold predictions the forest looks like 0.90, the weights are balanced, and the stack scores 0.92 or 0.928">
+<rect class="sN" x="14" y="10" width="336" height="236" rx="8" opacity=".4"/><text class="sRt" x="182" y="30" text-anchor="middle">in-sample predictions (leaky)</text>
+<text class="sS" x="28" y="56">base model accuracy on these features</text>
+<text class="sS" x="58" y="80" text-anchor="end">lr</text><rect class="sB" x="66" y="66" width="168.533" height="16" rx="3" opacity=".7"/><text class="sS" x="240.533" y="79">0.843</text>
+<text class="sS" x="58" y="102" text-anchor="end">rf</text><rect class="sB" x="66" y="88" width="200" height="16" rx="3" opacity=".7"/><text class="sS" x="272" y="101">1.000</text>
+<text class="sS" x="58" y="124" text-anchor="end">svc</text><rect class="sB" x="66" y="110" width="185.6" height="16" rx="3" opacity=".7"/><text class="sS" x="257.6" y="123">0.928</text>
+<text class="sS" x="28" y="152">logistic blender weights</text>
+<text class="sS" x="58" y="172" text-anchor="end">lr</text><rect class="sV" x="66" y="160" width="14.0948" height="13" rx="3" opacity=".7"/><text class="sS" x="86.0948" y="171">0.47</text>
+<text class="sS" x="58" y="190" text-anchor="end">rf</text><rect class="sW" x="66" y="178" width="184.667" height="13" rx="3" opacity=".7"/><text class="sS" x="256.667" y="189">6.16</text>
+<text class="sS" x="58" y="208" text-anchor="end">svc</text><rect class="sV" x="66" y="196" width="36.2133" height="13" rx="3" opacity=".7"/><text class="sS" x="108.213" y="207">1.21</text>
+<text class="sRt" x="182" y="232" text-anchor="middle">test accuracy: logistic blender 0.912 · forest blender 0.888</text>
+<rect class="sN" x="370" y="10" width="336" height="236" rx="8" opacity=".4"/><text class="sGt" x="538" y="30" text-anchor="middle">out-of-fold predictions (cross_val_predict)</text>
+<text class="sS" x="384" y="56">base model accuracy on these features</text>
+<text class="sS" x="414" y="80" text-anchor="end">lr</text><rect class="sB" x="422" y="66" width="168" height="16" rx="3" opacity=".7"/><text class="sS" x="596" y="79">0.840</text>
+<text class="sS" x="414" y="102" text-anchor="end">rf</text><rect class="sB" x="422" y="88" width="180.8" height="16" rx="3" opacity=".7"/><text class="sS" x="608.8" y="101">0.904</text>
+<text class="sS" x="414" y="124" text-anchor="end">svc</text><rect class="sB" x="422" y="110" width="184" height="16" rx="3" opacity=".7"/><text class="sS" x="612" y="123">0.920</text>
+<text class="sS" x="384" y="152">logistic blender weights</text>
+<text class="sS" x="414" y="172" text-anchor="end">lr</text><rect class="sV" x="422" y="160" width="26.1886" height="13" rx="3" opacity=".7"/><text class="sS" x="454.189" y="171">0.87</text>
+<text class="sS" x="414" y="190" text-anchor="end">rf</text><rect class="sV" x="422" y="178" width="66.7249" height="13" rx="3" opacity=".7"/><text class="sS" x="494.725" y="189">2.22</text>
+<text class="sS" x="414" y="208" text-anchor="end">svc</text><rect class="sV" x="422" y="196" width="95.1339" height="13" rx="3" opacity=".7"/><text class="sS" x="523.134" y="207">3.17</text>
+<text class="sGt" x="538" y="232" text-anchor="middle">test accuracy: logistic blender 0.920 · forest blender 0.928</text>
+</svg><figcaption>The interview trap, measured on the moons data: in-sample predictions make the random forest look perfect, so the blender over-trusts it.</figcaption></figure>
+
 ---
 
 ## 8B.8 Géron's summary: which ensemble when 🟡 ⭐
@@ -537,6 +662,28 @@ Géron's closing tip: *"Random forests, AdaBoost, GBRT, and HGB are among the fi
 | Sensitivity to noise/outliers | Robust | More sensitive (especially AdaBoost) |
 | Tuning effort | Low; good defaults | Higher; learning rate × trees × depth interact |
 | Typical accuracy on tabular | Very good | Usually **best** |
+
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Validation log-loss as trees are added on a noisy synthetic dataset: gradient boosting with learning rate 0.3 is best after about 10 trees and then gets steadily worse, while a random forest improves and then stays flat">
+<line class="sLm" x1="70" y1="200" x2="590" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="26"/>
+<text class="sS" x="64" y="179.714" text-anchor="end">0.4</text>
+<text class="sS" x="64" y="131.143" text-anchor="end">0.6</text>
+<text class="sS" x="64" y="82.5714" text-anchor="end">0.8</text>
+<text class="sS" x="64" y="34" text-anchor="end">1.0</text>
+<text class="sS" x="70" y="216" text-anchor="middle">1</text>
+<text class="sS" x="269.842" y="216" text-anchor="middle">10</text>
+<text class="sS" x="469.683" y="216" text-anchor="middle">100</text>
+<text class="sS" x="590" y="216" text-anchor="middle">400</text>
+<text class="sC" x="330" y="234" text-anchor="middle">number of trees (log scale) →   validation log-loss ↑</text>
+<polyline class="sLw" points="70.0,128.8 130.2,141.8 165.3,150.2 190.3,155.1 209.7,160.0 225.5,162.0 238.9,162.9 250.5,164.3 260.7,163.8 269.8,164.8 278.1,163.2 285.7,163.1 292.6,163.2 299.0,161.9 305.0,162.2 310.6,162.0 315.9,162.1 320.9,161.9 325.5,161.7 330.0,161.9 334.2,161.4 338.3,161.3 342.1,161.5 345.8,161.5 349.4,160.7 352.8,159.8 356.0,159.4 359.2,159.1 362.2,159.4 365.2,158.7 368.0,158.1 370.8,157.8 373.5,157.6 376.1,157.6 378.6,157.2 381.0,156.8 383.4,155.5 385.7,155.2 388.0,154.4 390.2,155.5 392.3,155.1 394.4,155.7 396.4,155.6 398.4,155.6 400.4,155.8 402.3,155.3 404.2,155.4 406.0,154.6 407.8,154.2 409.5,154.3 411.2,154.1 412.9,154.5 414.6,154.1 416.2,153.9 417.8,154.0 419.4,153.5 420.9,153.1 422.4,153.7 423.9,153.7 425.3,153.5 426.8,153.4 428.2,153.5 429.6,153.3 431.0,152.8 432.3,152.6 433.6,152.6 434.9,152.5 436.2,152.4 437.5,152.1 438.7,151.5 440.0,150.9 441.2,150.8 442.4,150.9 443.6,150.0 444.7,149.9 445.9,149.7 447.0,149.2 448.1,149.2 449.2,148.6 450.3,147.3 451.4,146.8 452.5,147.0 453.5,146.5 454.6,146.5 455.6,146.5 456.6,146.3 457.6,146.0 458.6,145.6 459.6,145.3 460.5,144.9 461.5,144.7 462.4,144.7 463.4,145.3 464.3,145.2 465.2,145.2 466.1,144.7 467.0,144.2 467.9,143.3 468.8,143.2 469.7,143.2 470.5,142.7 471.4,142.7 472.2,142.4 473.1,142.2 473.9,142.1 474.7,142.0 475.6,142.0 476.4,141.3 477.2,141.0 478.0,141.1 478.7,140.7 479.5,140.7 480.3,139.8 481.1,139.7 481.8,139.6 482.6,139.5 483.3,139.4 484.0,139.2 484.8,139.0 485.5,138.0 486.2,138.1 486.9,138.4 487.7,138.3 488.4,137.9 489.0,137.5 489.7,137.5 490.4,137.4 491.1,137.0 491.8,136.7 492.5,136.6 493.1,136.4 493.8,135.8 494.4,135.9 495.1,135.9 495.7,136.0 496.4,135.5 497.0,135.5 497.6,135.4 498.3,135.4 498.9,135.0 499.5,134.7 500.1,134.2 500.7,133.5 501.3,133.3 501.9,132.6 502.5,132.5 503.1,131.7 503.7,131.8 504.3,131.5 504.9,131.2 505.5,131.6 506.0,131.0 506.6,130.9 507.2,130.2 507.7,129.5 508.3,129.0 508.8,128.2 509.4,127.8 509.9,127.6 510.5,127.4 511.0,127.0 511.6,126.7 512.1,126.8 512.6,127.0 513.1,126.5 513.7,126.5 514.2,126.1 514.7,125.7 515.2,125.9 515.7,125.8 516.2,126.5 516.8,126.6 517.3,126.2 517.8,125.8 518.3,125.9 518.7,125.7 519.2,125.9 519.7,125.5 520.2,124.4 520.7,123.7 521.2,124.2 521.7,124.0 522.1,123.6 522.6,122.8 523.1,122.2 523.5,121.9 524.0,121.9 524.5,121.8 524.9,121.4 525.4,121.4 525.8,121.1 526.3,120.6 526.7,120.8 527.2,120.6 527.6,120.5 528.1,120.4 528.5,120.2 529.0,119.8 529.4,119.2 529.8,118.0 530.3,118.0 530.7,117.8 531.1,117.4 531.6,117.6 532.0,117.3 532.4,117.2 532.8,117.3 533.2,117.0 533.7,116.6 534.1,116.3 534.5,115.6 534.9,115.3 535.3,115.3 535.7,115.1 536.1,115.1 536.5,114.8 536.9,114.4 537.3,113.9 537.7,113.6 538.1,113.4 538.5,113.3 538.9,112.2 539.3,112.0 539.7,111.4 540.1,111.5 540.4,111.2 540.8,111.2 541.2,110.8 541.6,110.7 542.0,110.9 542.3,110.3 542.7,109.0 543.1,109.0 543.5,108.6 543.8,108.0 544.2,107.4 544.6,107.1 544.9,107.2 545.3,107.1 545.7,106.5 546.0,105.7 546.4,105.1 546.7,105.0 547.1,104.5 547.5,104.4 547.8,104.3 548.2,103.8 548.5,103.3 548.9,103.0 549.2,102.9 549.6,102.7 549.9,102.4 550.2,102.1 550.6,101.8 550.9,102.0 551.3,101.2 551.6,101.5 551.9,101.1 552.3,101.3 552.6,101.1 552.9,101.3 553.3,100.8 553.6,100.8 553.9,100.3 554.3,100.4 554.6,99.6 554.9,99.5 555.2,99.3 555.6,98.7 555.9,98.5 556.2,98.0 556.5,97.8 556.8,97.7 557.2,97.6 557.5,97.4 557.8,97.1 558.1,97.0 558.4,96.9 558.7,97.0 559.0,96.7 559.4,96.2 559.7,95.5 560.0,95.7 560.3,95.0 560.6,94.1 560.9,93.7 561.2,93.3 561.5,93.1 561.8,92.9 562.1,92.8 562.4,92.5 562.7,92.7 563.0,92.4 563.3,92.0 563.6,91.7 563.9,91.1 564.2,90.9 564.5,90.8 564.7,90.5 565.0,89.4 565.3,88.9 565.6,88.7 565.9,88.5 566.2,88.5 566.5,87.5 566.8,87.4 567.0,87.0 567.3,86.1 567.6,85.6 567.9,85.2 568.2,85.2 568.4,85.0 568.7,84.6 569.0,83.7 569.3,83.2 569.5,83.5 569.8,83.0 570.1,82.4 570.4,82.2 570.6,81.9 570.9,81.6 571.2,81.0 571.4,81.3 571.7,81.1 572.0,81.0 572.2,80.6 572.5,80.7 572.8,80.3 573.0,80.0 573.3,80.2 573.6,80.1 573.8,79.8 574.1,79.6 574.3,79.2 574.6,78.9 574.9,78.6 575.1,78.7 575.4,78.6 575.6,78.5 575.9,78.6 576.1,78.1 576.4,77.9 576.7,76.8 576.9,76.4 577.2,76.2 577.4,76.0 577.7,75.8 577.9,75.7 578.2,74.9 578.4,75.0 578.7,74.5 578.9,74.0 579.2,74.0 579.4,73.9 579.6,73.6 579.9,73.1 580.1,73.0 580.4,71.9 580.6,72.0 580.9,71.9 581.1,71.7 581.3,71.1 581.6,71.0 581.8,71.0 582.1,70.0 582.3,69.9 582.5,70.1 582.8,69.5 583.0,68.5 583.2,68.2 583.5,67.8 583.7,67.9 583.9,67.9 584.2,67.5 584.4,67.4 584.6,67.0 584.9,66.0 585.1,66.0 585.3,65.5 585.5,65.2 585.8,64.9 586.0,64.3 586.2,64.2 586.5,64.0 586.7,64.1 586.9,63.7 587.1,63.4 587.4,63.4 587.6,63.3 587.8,62.9 588.0,62.7 588.2,62.3 588.5,62.4 588.7,62.5 588.9,62.1 589.1,61.7 589.3,60.7 589.6,60.4 589.8,59.8 590.0,59.3" style="stroke-width:2.2"/>
+<polyline class="sLg" points="269.8,107.6 305.0,148.1 330.0,147.5 365.2,161.2 390.2,162.2 425.3,161.7 450.3,162.3 469.7,162.5 504.9,162.3 529.8,162.4 565.0,162.9 590.0,162.9" style="stroke-width:2.2"/>
+<text class="sGt" x="265.842" y="99.5772" text-anchor="end">forest (from 10 trees)</text>
+<circle class="sPw" cx="269.8" cy="164.8" r="5"/><line class="sD" x1="269.842" y1="172.838" x2="269.842" y2="200"/>
+<text class="sWt" x="269.842" y="152.838" text-anchor="middle">best at 10 trees: stop here</text>
+<rect class="sN" x="604" y="40" width="104" height="120" rx="8"/>
+<text class="sT" x="656" y="62" text-anchor="middle">at 400 trees</text>
+<text class="sWt" x="656" y="88" text-anchor="middle">boosting 0.88</text><text class="sGt" x="656" y="108" text-anchor="middle">forest 0.45</text>
+<text class="sS" x="656" y="136" text-anchor="middle">forest only</text><text class="sS" x="656" y="150" text-anchor="middle">plateaus</text>
+</svg><figcaption>"More estimators" in practice, computed with scikit-learn on noisy data: boosting needs early stopping, a forest just plateaus.</figcaption></figure>
 
 ---
 
@@ -582,6 +729,57 @@ print({k: f"{v.mean():.3f} ± {v.std():.3f}" for k, v in scores.items() if "test
 Points to narrate in an interview:
 - No scaling or imputation is needed for trees; the ordinal encoding is just the categorical representation.
 - **`class_weight="balanced"` distorts probabilities.** Recalibrate before using them as risk scores.
+
+<figure class="dia"><svg viewBox="0 0 720 258" role="img" aria-label="Reliability curves for three gradient-boosting models on a churn-like dataset with a 6 percent positive rate: the default model sits on the diagonal, the class-weight balanced model predicts far higher probabilities than the observed rates, with a mean prediction around 19 percent, and isotonic recalibration brings it back to the diagonal; ROC AUC is almost identical for all three">
+<line class="sLm" x1="60" y1="216" x2="360" y2="216"/><line class="sLm" x1="60" y1="216" x2="60" y2="26"/><line class="sLm" x1="60" y1="216" x2="360" y2="26" stroke-dasharray="4 4"/>
+<text class="sS" x="60" y="232" text-anchor="middle">0</text><text class="sS" x="52" y="220" text-anchor="end">0</text>
+<text class="sS" x="210" y="232" text-anchor="middle">0.5</text><text class="sS" x="52" y="125" text-anchor="end">0.5</text>
+<text class="sS" x="360" y="232" text-anchor="middle">1</text><text class="sS" x="52" y="30" text-anchor="end">1</text>
+<text class="sS" x="210" y="248" text-anchor="middle">predicted churn probability (bins of 0.1)</text>
+<text class="sS" x="18" y="121" text-anchor="middle" transform="rotate(-90 18 121)">observed churn rate</text>
+<polyline class="sLv" points="65.0,213.3 102.0,193.5 133.5,157.1 164.1,132.9 194.9,95.4 224.5,85.1 256.4,56.5 288.2,65.8 317.1,32.2 342.0,30.5" style="fill:none;stroke-width:2.4"/>
+<circle class="sPv" cx="65.0" cy="213.3" r="3"/>
+<circle class="sPv" cx="102.0" cy="193.5" r="3"/>
+<circle class="sPv" cx="133.5" cy="157.1" r="3"/>
+<circle class="sPv" cx="164.1" cy="132.9" r="3"/>
+<circle class="sPv" cx="194.9" cy="95.4" r="3"/>
+<circle class="sPv" cx="224.5" cy="85.1" r="3"/>
+<circle class="sPv" cx="256.4" cy="56.5" r="3"/>
+<circle class="sPv" cx="288.2" cy="65.8" r="3"/>
+<circle class="sPv" cx="317.1" cy="32.2" r="3"/>
+<circle class="sPv" cx="342.0" cy="30.5" r="3"/>
+<polyline class="sLr" points="78.7,214.2 101.6,213.5 132.5,212.0 163.5,209.1 193.5,205.2 223.8,193.0 253.2,185.0 284.8,166.3 315.6,129.0 349.1,43.8" style="fill:none;stroke-width:2.4"/>
+<circle class="sPr" cx="78.7" cy="214.2" r="3"/>
+<circle class="sPr" cx="101.6" cy="213.5" r="3"/>
+<circle class="sPr" cx="132.5" cy="212.0" r="3"/>
+<circle class="sPr" cx="163.5" cy="209.1" r="3"/>
+<circle class="sPr" cx="193.5" cy="205.2" r="3"/>
+<circle class="sPr" cx="223.8" cy="193.0" r="3"/>
+<circle class="sPr" cx="253.2" cy="185.0" r="3"/>
+<circle class="sPr" cx="284.8" cy="166.3" r="3"/>
+<circle class="sPr" cx="315.6" cy="129.0" r="3"/>
+<circle class="sPr" cx="349.1" cy="43.8" r="3"/>
+<polyline class="sLg" points="65.0,213.3 102.4,185.5 132.8,174.3 166.3,159.8 194.9,138.4 223.9,103.8 253.8,88.3 287.4,64.0 315.8,60.3 346.7,32.2" style="fill:none;stroke-width:2.4"/>
+<circle class="sPg" cx="65.0" cy="213.3" r="3"/>
+<circle class="sPg" cx="102.4" cy="185.5" r="3"/>
+<circle class="sPg" cx="132.8" cy="174.3" r="3"/>
+<circle class="sPg" cx="166.3" cy="159.8" r="3"/>
+<circle class="sPg" cx="194.9" cy="138.4" r="3"/>
+<circle class="sPg" cx="223.9" cy="103.8" r="3"/>
+<circle class="sPg" cx="253.8" cy="88.3" r="3"/>
+<circle class="sPg" cx="287.4" cy="64.0" r="3"/>
+<circle class="sPg" cx="315.8" cy="60.3" r="3"/>
+<circle class="sPg" cx="346.7" cy="32.2" r="3"/>
+<rect class="sN" x="390" y="30" width="316" height="186" rx="8"/>
+<text class="sT" x="548" y="52" text-anchor="middle">test set: 16,000 rows, churn rate 5.9%</text>
+<text class="sS" x="600" y="76" text-anchor="middle">mean predicted</text><text class="sS" x="676" y="76" text-anchor="middle">ROC AUC</text>
+<line class="sLv" x1="402" y1="94" x2="420" y2="94" style="stroke-width:2.4"/><text class="sS" x="426" y="98">default</text><text class="sC" x="600" y="98" text-anchor="middle">5.7%</text><text class="sS" x="676" y="98" text-anchor="middle">0.910</text>
+<line class="sLr" x1="402" y1="118" x2="420" y2="118" style="stroke-width:2.4"/><text class="sS" x="426" y="122">class_weight="balanced"</text><text class="sRt" x="600" y="122" text-anchor="middle">18.6%</text><text class="sS" x="676" y="122" text-anchor="middle">0.906</text>
+<line class="sLg" x1="402" y1="142" x2="420" y2="142" style="stroke-width:2.4"/><text class="sS" x="426" y="146">balanced + isotonic</text><text class="sGt" x="600" y="146" text-anchor="middle">6.1%</text><text class="sS" x="676" y="146" text-anchor="middle">0.904</text>
+<line class="sLm" x1="402" y1="164" x2="420" y2="164" stroke-dasharray="4 4"/><text class="sS" x="426" y="168">perfect calibration (diagonal)</text>
+<text class="sS" x="548" y="188" text-anchor="middle">same ranking, 3× inflated probabilities:</text><text class="sS" x="548" y="204" text-anchor="middle">recalibrate before using them as risk</text>
+</svg><figcaption>class_weight="balanced", measured on synthetic churn-like data: ranking (AUC) barely moves, but the probabilities stop meaning probabilities until you recalibrate.</figcaption></figure>
+
 - **Temporal validation** is needed if the features are monthly snapshots: train on Jan–Jun, validate on Jul, test on Aug (`TimeSeriesSplit` or manual cut-offs). A random KFold on snapshots leaks future behaviour.
 - **Feature windows must end before the label window starts.** Features up to 31 March, churn label = "left during April–May". Anything computed after the cut-off is target leakage.
 

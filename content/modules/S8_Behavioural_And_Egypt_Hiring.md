@@ -8,6 +8,62 @@ Technical rounds decide whether you *can* do the job; behavioural rounds decide 
 > **Most asked:** *Tell me about yourself* · *Walk me through your project* · *Hardest bug?* · *A conflict with a teammate?* · *A failure?* · *Why us?* · *Your salary expectation?* · *Your military status?* · *Do you have questions for us?*
 > **Time budget:** 3 hours to prepare, then rehearse out loud until it's natural.
 
+## S8.0 Foundations: what interviewers are actually scoring 🟢
+
+Most companies with a real hiring process use a **structured interview**: each interviewer has a short list of competencies, asks questions designed to reveal them, and fills in a **scorecard** afterwards, usually with a rating per competency and evidence quoted from your answers. Two things follow:
+
+- **Evidence beats adjectives.** "I'm a team player" scores nothing; "I paired with the author of the conflicting branch, we agreed a folder convention, and the conflicts stopped" is evidence for collaboration *and* ownership.
+- **Every question has a target.** Know what each common question is testing and make sure your answer delivers it.
+
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Matrix of common behavioural questions against the competencies each one mainly tests">
+<text class="sC" x="262" y="20" text-anchor="middle">Communication</text>
+<text class="sC" x="338" y="36" text-anchor="middle">Technical depth</text>
+<text class="sC" x="414" y="20" text-anchor="middle">Ownership</text>
+<text class="sC" x="490" y="36" text-anchor="middle">Collaboration</text>
+<text class="sC" x="566" y="20" text-anchor="middle">Self-awareness</text>
+<text class="sC" x="642" y="36" text-anchor="middle">Motivation</text>
+<text class="sS" x="214" y="57" text-anchor="end">Tell me about yourself</text>
+<line class="sN" x1="224" y1="66" x2="700" y2="66" opacity=".5"/>
+<circle class="sA" cx="262" cy="52" r="9"/>
+<circle class="sN" cx="338" cy="52" r="6"/>
+<circle class="sA" cx="642" cy="52" r="9"/>
+<text class="sS" x="214" y="85" text-anchor="end">Walk me through a project</text>
+<line class="sN" x1="224" y1="94" x2="700" y2="94" opacity=".5"/>
+<circle class="sA" cx="262" cy="80" r="9"/>
+<circle class="sA" cx="338" cy="80" r="9"/>
+<circle class="sA" cx="414" cy="80" r="9"/>
+<circle class="sN" cx="490" cy="80" r="6"/>
+<text class="sS" x="214" y="113" text-anchor="end">Hardest bug</text>
+<line class="sN" x1="224" y1="122" x2="700" y2="122" opacity=".5"/>
+<circle class="sN" cx="262" cy="108" r="6"/>
+<circle class="sA" cx="338" cy="108" r="9"/>
+<circle class="sA" cx="414" cy="108" r="9"/>
+<circle class="sN" cx="566" cy="108" r="6"/>
+<text class="sS" x="214" y="141" text-anchor="end">A conflict</text>
+<line class="sN" x1="224" y1="150" x2="700" y2="150" opacity=".5"/>
+<circle class="sA" cx="262" cy="136" r="9"/>
+<circle class="sN" cx="414" cy="136" r="6"/>
+<circle class="sA" cx="490" cy="136" r="9"/>
+<circle class="sN" cx="566" cy="136" r="6"/>
+<text class="sS" x="214" y="169" text-anchor="end">A failure</text>
+<line class="sN" x1="224" y1="178" x2="700" y2="178" opacity=".5"/>
+<circle class="sN" cx="262" cy="164" r="6"/>
+<circle class="sA" cx="414" cy="164" r="9"/>
+<circle class="sA" cx="566" cy="164" r="9"/>
+<text class="sS" x="214" y="197" text-anchor="end">Why us?</text>
+<line class="sN" x1="224" y1="206" x2="700" y2="206" opacity=".5"/>
+<circle class="sN" cx="262" cy="192" r="6"/>
+<circle class="sA" cx="642" cy="192" r="9"/>
+<text class="sS" x="214" y="225" text-anchor="end">Salary expectation</text>
+<line class="sN" x1="224" y1="234" x2="700" y2="234" opacity=".5"/>
+<circle class="sA" cx="262" cy="220" r="9"/>
+<circle class="sN" cx="566" cy="220" r="6"/>
+<circle class="sN" cx="642" cy="220" r="6"/>
+<circle class="sA" cx="230" cy="256" r="8"/><text class="sC" x="244" y="260">main signal</text><circle class="sN" cx="350" cy="256" r="5"/><text class="sC" x="362" y="260">also scored</text>
+</svg><figcaption>What each common question is really scoring. A good answer feeds the big dots on purpose.</figcaption></figure>
+
+Interviewers also listen for **signals that cut across every answer**: you say "I" for your own work and "we" for the team's; you name trade-offs instead of claiming everything went perfectly; you're specific (numbers, names of tools, what changed); and you stop when you've answered.
+
 ## S8.1 How hiring works here 🟢 ⭐
 
 **Where the jobs come from:**
@@ -28,6 +84,34 @@ Technical rounds decide whether you *can* do the job; behavioural rounds decide 
 | Data and analytics teams | Telecoms, banks, e-commerce, consultancies | SQL above all, Power BI or Python, business sense |
 
 **The loop:** application → HR screen (English, availability, notice period, salary expectation, military status) → technical screen → coding round or take-home task → team or manager round → offer. Expect two to four weeks end to end; follow up politely after a week of silence.
+
+<figure class="dia steps"><svg viewBox="0 0 720 190" role="img" aria-label="The interview loop from application through HR screen, technical screen, coding round, manager round and offer">
+<rect class="sB" x="10" y="40" width="104" height="52" rx="8"/><text class="sT" x="62" y="64" text-anchor="middle">Apply</text><text class="sC" x="62" y="80" text-anchor="middle">CV + referral</text>
+<line class="sLm" x1="114" y1="66" x2="126" y2="66" marker-end="url(#ahm)"/>
+<rect class="sB" x="128" y="40" width="104" height="52" rx="8"/><text class="sT" x="180" y="64" text-anchor="middle">HR screen</text><text class="sC" x="180" y="80" text-anchor="middle">15–30 min call</text>
+<line class="sLm" x1="232" y1="66" x2="244" y2="66" marker-end="url(#ahm)"/>
+<rect class="sA" x="246" y="40" width="104" height="52" rx="8"/><text class="sT" x="298" y="64" text-anchor="middle">Tech screen</text><text class="sC" x="298" y="80" text-anchor="middle">45–60 min call</text>
+<line class="sLm" x1="350" y1="66" x2="362" y2="66" marker-end="url(#ahm)"/>
+<rect class="sA" x="364" y="40" width="104" height="52" rx="8"/><text class="sT" x="416" y="64" text-anchor="middle">Coding round</text><text class="sC" x="416" y="80" text-anchor="middle">or take-home</text>
+<line class="sLm" x1="468" y1="66" x2="480" y2="66" marker-end="url(#ahm)"/>
+<rect class="sB" x="482" y="40" width="104" height="52" rx="8"/><text class="sT" x="534" y="64" text-anchor="middle">Team / manager</text><text class="sC" x="534" y="80" text-anchor="middle">fit + depth</text>
+<line class="sLm" x1="586" y1="66" x2="598" y2="66" marker-end="url(#ahm)"/>
+<rect class="sG" x="600" y="40" width="104" height="52" rx="8"/><text class="sT" x="652" y="64" text-anchor="middle">Offer</text><text class="sC" x="652" y="80" text-anchor="middle">in writing</text>
+<g data-s="1-1"><path class="sLw" d="M62 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">Does the CV match the posting's words? A referral moves you to the top of the pile.</text></g>
+<g data-s="2-2"><path class="sLw" d="M180 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">English, availability, notice period, salary range, military status. Short, friendly, decisive.</text></g>
+<g data-s="3-3"><path class="sLw" d="M298 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">Fundamentals for the track: the "most asked" lists at the top of every module.</text></g>
+<g data-s="4-4"><path class="sLw" d="M416 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">Clean, working, tested code; talking through trade-offs (§S8.6).</text></g>
+<g data-s="5-5"><path class="sLw" d="M534 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">Your project walkthrough, STAR stories and questions for them.</text></g>
+<g data-s="6-6"><path class="sLw" d="M652 96 v20"/><text class="sS" x="360" y="136" text-anchor="middle">Compare net per month and the whole package (§S8.8).</text></g>
+<text class="sC" x="360" y="176" text-anchor="middle">Typical end to end: two to four weeks. Run several loops in parallel.</text>
+</svg><ol class="dia-steps">
+<li>Apply. Tailor the CV to the posting's exact words; ask a contact for a referral.</li>
+<li>HR screen: logistics and a first impression. Have your one-breath answers ready.</li>
+<li>Technical screen: the fundamentals of your track.</li>
+<li>Coding round or take-home: correctness first, then clarity and tests.</li>
+<li>Team or manager round: behaviour, ownership and how you work with people.</li>
+<li>Offer: get it in writing, compare net per month, and negotiate the package.</li>
+</ol><figcaption>The usual loop. Each stage filters for something different, so prepare for each one separately.</figcaption></figure>
 
 > [!note] Military status
 > Egyptian employers ask male candidates for it at screening, and many postings filter on it. You are **permanently exempted** (March 2025). Say it in one breath, "Exempted, I have the certificate", and keep the certificate scan ready to send.
@@ -55,6 +139,18 @@ The formula, in about 60 seconds: **present** (who you are now) → **past** (tw
 
 > [!term] STAR
 > **S**ituation (one or two sentences of context) → **T**ask (what *you* had to do) → **A**ction (what you did, in the first person, with detail: most of the answer) → **R**esult (what changed, and what you learned). Aim for 90 seconds to two minutes.
+
+<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time budget for a two-minute STAR answer: most of it on the actions">
+<rect class="sB" x="20" y="40" width="83" height="44" rx="4"/><text class="sX" x="62.5" y="60" text-anchor="middle">S</text><text class="sC" x="62.5" y="76" text-anchor="middle">~15 s</text>
+<text class="sS" x="62.5" y="104" text-anchor="middle">Situation</text>
+<rect class="sB" x="105" y="40" width="54.6667" height="44" rx="4"/><text class="sX" x="133.333" y="60" text-anchor="middle">T</text><text class="sC" x="133.333" y="76" text-anchor="middle">~10 s</text>
+<text class="sS" x="133.333" y="104" text-anchor="middle">Task</text>
+<rect class="sA" x="161.667" y="40" width="394.667" height="44" rx="4"/><text class="sX" x="360" y="60" text-anchor="middle">A</text><text class="sC" x="360" y="76" text-anchor="middle">~70 s</text>
+<text class="sS" x="360" y="104" text-anchor="middle">Action: what YOU did</text>
+<rect class="sG" x="558.333" y="40" width="139.667" height="44" rx="4"/><text class="sX" x="629.167" y="60" text-anchor="middle">R</text><text class="sC" x="629.167" y="76" text-anchor="middle">~25 s</text>
+<text class="sS" x="629.167" y="104" text-anchor="middle">Result + lesson</text>
+<text class="sT" x="20" y="26">A two-minute STAR answer</text>
+</svg><figcaption>Spend most of the time on the actions. A long situation is the most common way STAR answers go wrong.</figcaption></figure>
 
 Prepare these eight stories once; each answers several questions.
 
@@ -138,6 +234,22 @@ Ask two or three; pick ones whose answers you actually want.
 
 - **Social insurance** under Law No. 148 of 2019: the employee pays **11%** of the *insurable wage* (the employer pays a further 18.75%). The insurable wage has a floor and a cap that rise every January; for **2026** they are **EGP 2,700 and EGP 16,700 per month**, so above the cap the deduction stops growing.
 - **Income tax:** progressive, with a personal exemption. The brackets change with new laws, so use a current Egyptian net-salary calculator, or the Egyptian Tax Authority's own, rather than any number quoted from memory.
+
+<figure class="dia"><svg viewBox="0 0 720 245" role="img" aria-label="Employee social insurance deduction: 11 percent of the insurable wage, flat at 297 below the floor and at 1,837 above the 2026 cap">
+<line class="sLm" x1="70" y1="200" x2="680" y2="200" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="200" x2="70" y2="28" marker-end="url(#ahm)"/>
+<polyline class="sL" points="70.0,178.4 76.0,178.4 82.0,178.4 88.0,178.4 94.0,178.4 100.0,178.4 106.0,178.4 112.0,178.4 118.0,178.4 124.0,178.4 130.0,178.4 136.0,178.0 142.0,176.0 148.0,174.0 154.0,172.0 160.0,170.0 166.0,168.0 172.0,166.0 178.0,164.0 184.0,162.0 190.0,160.0 196.0,158.0 202.0,156.0 208.0,154.0 214.0,152.0 220.0,150.0 226.0,148.0 232.0,146.0 238.0,144.0 244.0,142.0 250.0,140.0 256.0,138.0 262.0,136.0 268.0,134.0 274.0,132.0 280.0,130.0 286.0,128.0 292.0,126.0 298.0,124.0 304.0,122.0 310.0,120.0 316.0,118.0 322.0,116.0 328.0,114.0 334.0,112.0 340.0,110.0 346.0,108.0 352.0,106.0 358.0,104.0 364.0,102.0 370.0,100.0 376.0,98.0 382.0,96.0 388.0,94.0 394.0,92.0 400.0,90.0 406.0,88.0 412.0,86.0 418.0,84.0 424.0,82.0 430.0,80.0 436.0,78.0 442.0,76.0 448.0,74.0 454.0,72.0 460.0,70.0 466.0,68.0 472.0,66.4 478.0,66.4 484.0,66.4 490.0,66.4 496.0,66.4 502.0,66.4 508.0,66.4 514.0,66.4 520.0,66.4 526.0,66.4 532.0,66.4 538.0,66.4 544.0,66.4 550.0,66.4 556.0,66.4 562.0,66.4 568.0,66.4 574.0,66.4 580.0,66.4 586.0,66.4 592.0,66.4 598.0,66.4 604.0,66.4 610.0,66.4 616.0,66.4 622.0,66.4 628.0,66.4 634.0,66.4 640.0,66.4 646.0,66.4 652.0,66.4 658.0,66.4 664.0,66.4 670.0,66.4"/>
+<line class="sD" x1="134.8" y1="200" x2="134.8" y2="170.4"/>
+<line class="sD" x1="470.8" y1="200" x2="470.8" y2="58.4"/>
+<text class="sC" x="134.8" y="218" text-anchor="middle">2,700 floor</text>
+<text class="sC" x="470.8" y="218" text-anchor="middle">16,700 cap</text>
+<text class="sC" x="670" y="218" text-anchor="middle">25,000</text>
+<text class="sC" x="62" y="70.4" text-anchor="end">1,837</text>
+<text class="sC" x="62" y="182.4" text-anchor="end">297</text>
+<text class="sGt" x="526" y="56.4" text-anchor="middle">flat above the cap</text>
+<text class="sM" x="286" y="116.545" text-anchor="middle">11% of the insurable wage</text>
+<text class="sC" x="670" y="236" text-anchor="end">monthly insurable wage (EGP) →</text>
+<text class="sC" x="76" y="28">employee deduction (EGP / month)</text>
+</svg><figcaption>Your social-insurance deduction in 2026: 11% of the insurable wage, which is held between EGP 2,700 and EGP 16,700 a month. Income tax comes on top and has its own brackets.</figcaption></figure>
 
 **The contract:**
 

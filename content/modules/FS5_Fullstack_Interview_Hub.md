@@ -33,6 +33,33 @@ Full-stack interviews in Egypt typically combine a frontend fundamentals round, 
 9. **Testing:** domain tests for "which reminders are due today", integration tests for the job with a fake clock, a component test for the settings panel, one E2E test.
 10. **Observability:** metrics for reminders sent and failed per day; an alert if the job didn't run.
 
+<figure class="dia anim"><svg viewBox="0 0 720 296" role="img" aria-label="Animation: invoice reminders design; the owner edits settings through the API, a daily job finds due invoices and enqueues messages, an email worker sends them and a SignalR event updates the dashboard">
+<rect class="sB" x="14" y="30" width="140" height="50" rx="8"/><text class="sT" x="84" y="53" text-anchor="middle">settings panel</text><text class="sC" x="84" y="69" text-anchor="middle">owner, EN / AR</text><line class="sL" x1="154" y1="55" x2="186" y2="55" marker-end="url(#ah)"/>
+<rect class="sA" x="190" y="30" width="140" height="50" rx="8"/><text class="sT" x="260" y="53" text-anchor="middle">API</text><text class="sC" x="260" y="69" text-anchor="middle">settings · history</text><line class="sL" x1="330" y1="55" x2="366" y2="55" marker-end="url(#ah)"/>
+<rect class="sG" x="370" y="30" width="150" height="50" rx="8"/><text class="sT" x="445" y="53" text-anchor="middle">database</text><text class="sC" x="445" y="69" text-anchor="middle">settings · reminders</text>
+<rect class="sV" x="560" y="30" width="146" height="50" rx="8"/><text class="sT" x="633" y="53" text-anchor="middle">daily job</text><text class="sC" x="633" y="69" text-anchor="middle">09:00 Cairo time</text><line class="sLm" x1="560" y1="55" x2="524" y2="55" marker-end="url(#ahm)"/><text class="sC" x="542" y="22" text-anchor="middle">find due</text>
+<line class="sLw" x1="633" y1="80" x2="633" y2="126" marker-end="url(#ahw)"/><text class="sC" x="640" y="108">enqueue</text>
+<rect class="sW" x="560" y="130" width="146" height="50" rx="8"/><text class="sT" x="633" y="153" text-anchor="middle">queue</text><text class="sC" x="633" y="169" text-anchor="middle">one per invoice</text><line class="sLw" x1="560" y1="155" x2="524" y2="155" marker-end="url(#ahw)"/>
+<rect class="sV" x="370" y="130" width="150" height="50" rx="8"/><text class="sT" x="445" y="153" text-anchor="middle">email worker</text><text class="sC" x="445" y="169" text-anchor="middle">idempotent</text><line class="sLm" x1="370" y1="155" x2="334" y2="155" marker-end="url(#ahm)"/>
+<rect class="sG" x="190" y="130" width="140" height="50" rx="8"/><text class="sT" x="260" y="153" text-anchor="middle">SignalR hub</text><text class="sC" x="260" y="169" text-anchor="middle">ReminderSent</text><line class="sLm" x1="190" y1="155" x2="158" y2="155" marker-end="url(#ahm)"/>
+<rect class="sB" x="14" y="130" width="140" height="50" rx="8"/><text class="sT" x="84" y="153" text-anchor="middle">dashboard</text><text class="sC" x="84" y="169" text-anchor="middle">counts update live</text>
+<line class="sLm" x1="445" y1="180" x2="445" y2="214" marker-end="url(#ahm)"/><rect class="sR" x="370" y="216" width="150" height="44" rx="8"/><text class="sT" x="445" y="236" text-anchor="middle">email provider</text><text class="sC" x="445" y="252" text-anchor="middle">retries → dead letter</text>
+<circle class="sP" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M154 55 H370"/></circle>
+<circle class="sPw" r="5"><animateMotion dur="4s" begin="1s" repeatCount="indefinite" path="M633 80 V155 H154"/></circle>
+<text class="sS" x="360" y="284" text-anchor="middle">UI, contract, data, scheduled work, async delivery, real-time feedback: every layer in one answer</text>
+</svg><figcaption>The invoice-reminders answer on one page. Draw this in the first ten minutes, then go deep where the interviewer points.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 45-minute full-stack design answer: clarify, UI, API, data, background jobs, real-time and auth, then failure modes, testing and observability">
+<rect class="sB" x="14" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="52.4444" y="50" text-anchor="middle">clarify</text><text class="sC" x="52.4444" y="66" text-anchor="middle">5 min</text>
+<rect class="sA" x="90.8889" y="30" width="90.2667" height="44" rx="6"/><text class="sT" x="137.022" y="50" text-anchor="middle">UI</text><text class="sC" x="137.022" y="66" text-anchor="middle">6 min</text>
+<rect class="sA" x="183.156" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="221.6" y="50" text-anchor="middle">API</text><text class="sC" x="221.6" y="66" text-anchor="middle">5 min</text>
+<rect class="sG" x="260.044" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="298.489" y="50" text-anchor="middle">data</text><text class="sC" x="298.489" y="66" text-anchor="middle">5 min</text>
+<rect class="sV" x="336.933" y="30" width="121.022" height="44" rx="6"/><text class="sT" x="398.444" y="50" text-anchor="middle">background jobs</text><text class="sC" x="398.444" y="66" text-anchor="middle">8 min</text>
+<rect class="sW" x="459.956" y="30" width="90.2667" height="44" rx="6"/><text class="sT" x="506.089" y="50" text-anchor="middle">live · auth</text><text class="sC" x="506.089" y="66" text-anchor="middle">6 min</text>
+<rect class="sR" x="552.222" y="30" width="151.778" height="44" rx="6"/><text class="sT" x="629.111" y="50" text-anchor="middle">failure · tests</text><text class="sC" x="629.111" y="66" text-anchor="middle">10 min</text>
+<text class="sC" x="14" y="98">users, rules, scale, languages</text><text class="sC" x="706" y="98" text-anchor="end">what breaks, how you'd know, how you'd test it</text>
+</svg><figcaption>Leave the last ten minutes for failure modes and testing. That's where mid-level answers separate from junior ones.</figcaption></figure>
+
 > [!say]
 > "I'd start from the user: the owner configures reminders and sees what was sent. The API exposes settings and history with a generated client. A daily job in Cairo time finds invoices due for a reminder and enqueues one message each; an idempotent worker sends the email in the customer's language, so retries never double-send, and a SignalR event updates the dashboard. Owners alone can change settings, everything is tenant-scoped, failures retry then show as failed, and I'd test the scheduling rule with a fake clock."
 
@@ -106,6 +133,29 @@ Mixed on purpose: full-stack interviewers jump between layers. Answer aloud, the
 | How do you add an AI feature safely? | Server-side calls, tenant-scoped retrieval, streaming, output treated as untrusted, rate limits and budgets. |
 
 ## FS5.6 A two-week plan 🟢
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="The full-stack two-week plan as a calendar: refresh front end and back end, build auth and a real feature, test and deploy, then rehearse">
+<rect class="sB" x="14" y="40" width="92" height="64" rx="8"/><text class="sM" x="22" y="56">day 1</text><text class="sT" x="60" y="78" text-anchor="middle">your app</text><text class="sC" x="60" y="95" text-anchor="middle">walk a feature</text>
+<rect class="sB" x="114" y="40" width="92" height="64" rx="8"/><text class="sM" x="122" y="56">day 2</text><text class="sT" x="160" y="78" text-anchor="middle">JS · TS</text><text class="sC" x="160" y="95" text-anchor="middle">front end</text>
+<rect class="sB" x="214" y="40" width="92" height="64" rx="8"/><text class="sM" x="222" y="56">day 3</text><text class="sT" x="260" y="78" text-anchor="middle">framework</text><text class="sC" x="260" y="95" text-anchor="middle">your stack</text>
+<rect class="sA" x="314" y="40" width="92" height="64" rx="8"/><text class="sM" x="322" y="56">day 4</text><text class="sT" x="360" y="78" text-anchor="middle">one screen</text><text class="sC" x="360" y="95" text-anchor="middle">every state</text>
+<rect class="sA" x="414" y="40" width="92" height="64" rx="8"/><text class="sM" x="422" y="56">day 5</text><text class="sT" x="460" y="78" text-anchor="middle">C# · APIs</text><text class="sC" x="460" y="95" text-anchor="middle">back end</text>
+<rect class="sA" x="514" y="40" width="92" height="64" rx="8"/><text class="sM" x="522" y="56">day 6</text><text class="sT" x="560" y="78" text-anchor="middle">EF Core</text><text class="sC" x="560" y="95" text-anchor="middle">SQL</text>
+<rect class="sV" x="614" y="40" width="92" height="64" rx="8"/><text class="sM" x="622" y="56">day 7</text><text class="sT" x="660" y="78" text-anchor="middle">auth A or B</text><text class="sC" x="660" y="95" text-anchor="middle">end to end</text>
+<rect class="sV" x="14" y="126" width="92" height="64" rx="8"/><text class="sM" x="22" y="142">day 8</text><text class="sT" x="60" y="164" text-anchor="middle">real feature</text><text class="sC" x="60" y="181" text-anchor="middle">done properly</text>
+<rect class="sG" x="114" y="126" width="92" height="64" rx="8"/><text class="sM" x="122" y="142">day 9</text><text class="sT" x="160" y="164" text-anchor="middle">tests</text><text class="sC" x="160" y="181" text-anchor="middle">both sides, CI</text>
+<rect class="sG" x="214" y="126" width="92" height="64" rx="8"/><text class="sM" x="222" y="142">day 10</text><text class="sT" x="260" y="164" text-anchor="middle">deploy</text><text class="sC" x="260" y="181" text-anchor="middle">a live link</text>
+<rect class="sW" x="314" y="126" width="92" height="64" rx="8"/><text class="sM" x="322" y="142">day 11</text><text class="sT" x="360" y="164" text-anchor="middle">design ×2</text><text class="sC" x="360" y="181" text-anchor="middle">timed</text>
+<rect class="sW" x="414" y="126" width="92" height="64" rx="8"/><text class="sM" x="422" y="142">day 12</text><text class="sT" x="460" y="164" text-anchor="middle">take-home</text><text class="sC" x="460" y="181" text-anchor="middle">4 h, timed</text>
+<rect class="sW" x="514" y="126" width="92" height="64" rx="8"/><text class="sM" x="522" y="142">day 13</text><text class="sT" x="560" y="164" text-anchor="middle">mock round</text><text class="sC" x="560" y="181" text-anchor="middle">record it</text>
+<rect class="sW" x="614" y="126" width="92" height="64" rx="8"/><text class="sM" x="622" y="142">day 14</text><text class="sT" x="660" y="164" text-anchor="middle">bank ×2</text><text class="sC" x="660" y="181" text-anchor="middle">stories · rest</text>
+<text class="sM" x="14" y="30">week 1: refresh both halves</text><text class="sM" x="14" y="116">week 2: build, ship, then rehearse</text>
+<rect class="sB" x="20" y="204" width="16" height="16" rx="3"/><text class="sC" x="42" y="217">front end</text>
+<rect class="sA" x="160" y="204" width="16" height="16" rx="3"/><text class="sC" x="182" y="217">back end</text>
+<rect class="sV" x="300" y="204" width="16" height="16" rx="3"/><text class="sC" x="322" y="217">auth · features</text>
+<rect class="sG" x="440" y="204" width="16" height="16" rx="3"/><text class="sC" x="462" y="217">tests · shipping</text>
+<rect class="sW" x="580" y="204" width="16" height="16" rx="3"/><text class="sC" x="602" y="217">rehearse</text>
+</svg><figcaption>Week 2 produces evidence (a feature, tests, a live link) before it produces rehearsal.</figcaption></figure>
 
 | Days | Do |
 |---|---|

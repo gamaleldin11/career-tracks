@@ -8,6 +8,28 @@ Auth questions appear in every backend and full-stack interview, and they're whe
 > **Most asked:** *AuthN vs AuthZ?* · *How does JWT work?* · *How do you revoke a JWT?* · *What's a refresh token?* · *OAuth vs OpenID Connect?* · *What is PKCE?* · *Roles vs claims vs policies?*
 > **Time budget:** 3 hours.
 
+## B7.0 Foundations: how "logged in" works on a stateless protocol 🟢
+
+HTTP remembers nothing between requests ([[S1.6]]). So "logging in" is really two steps: **prove who you are once**, then **carry proof on every request after that**.
+
+**Proving who you are** uses one or more **factors**: something you **know** (a password, a PIN), something you **have** (a phone receiving a code, a hardware key, a passkey on your device), something you **are** (a fingerprint or face that unlocks that key). **Multi-factor authentication** combines two kinds, so one stolen password isn't enough.
+
+**Carrying proof** means the server issues a credential the client presents each time. There are two designs:
+
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="A reference token is an ID the server looks up in a session store; a self-contained token carries signed claims the server verifies without a lookup">
+<text class="sT" x="180" y="22" text-anchor="middle">reference token (session ID)</text><text class="sT" x="540" y="22" text-anchor="middle">self-contained token (JWT)</text>
+<rect class="sB" x="20" y="40" width="110" height="46" rx="8"/><text class="sT" x="75" y="61" text-anchor="middle">browser</text><text class="sC" x="75" y="77" text-anchor="middle">sid=9f2c…</text><line class="sL" x1="130" y1="63" x2="196" y2="63" marker-end="url(#ah)"/><rect class="sA" x="200" y="40" width="140" height="46" rx="8"/><text class="sT" x="270" y="61" text-anchor="middle">API</text><text class="sC" x="270" y="77" text-anchor="middle">who is 9f2c?</text>
+<line class="sLw" x1="270" y1="86" x2="270" y2="116" marker-end="url(#ahw)"/><rect class="sW" x="200" y="120" width="140" height="46" rx="8"/><text class="sT" x="270" y="141" text-anchor="middle">session store</text><text class="sC" x="270" y="157" text-anchor="middle">Redis / database</text>
+<text class="sC" x="180" y="196" text-anchor="middle">a lookup per request; revoke = delete it</text>
+<line class="sD" x1="360" y1="12" x2="360" y2="210"/>
+<rect class="sB" x="380" y="40" width="120" height="46" rx="8"/><text class="sT" x="440" y="61" text-anchor="middle">browser</text><text class="sC" x="440" y="77" text-anchor="middle">eyJhbGci…</text><line class="sL" x1="500" y1="63" x2="556" y2="63" marker-end="url(#ah)"/><rect class="sA" x="560" y="40" width="140" height="46" rx="8"/><text class="sT" x="630" y="61" text-anchor="middle">API</text><text class="sC" x="630" y="77" text-anchor="middle">check signature</text>
+<rect class="sG" x="560" y="120" width="140" height="46" rx="8"/><text class="sC" x="630" y="140" text-anchor="middle">claims inside:</text><text class="sC" x="630" y="156" text-anchor="middle">sub · role · tenant</text>
+<text class="sC" x="540" y="196" text-anchor="middle">no lookup; hard to revoke before expiry</text>
+</svg><figcaption>Two ways to remember who someone is. Both are bearer credentials: whoever holds one can use it, so both must be protected in transit and in storage.</figcaption></figure>
+
+> [!term] Bearer token
+> A token that grants access to whoever presents it, like cash: no further proof is required. That's why tokens travel only over HTTPS, live as short a time as practical, and are kept away from JavaScript where possible.
+
 ## B7.1 Two different questions 🟢 ⭐
 
 | | Authentication (AuthN) | Authorisation (AuthZ) |
@@ -21,6 +43,18 @@ Auth questions appear in every backend and full-stack interview, and they're whe
 
 > [!term] JWT (JSON Web Token)
 > A compact, **signed** token carrying **claims** about a subject, in three Base64url parts separated by dots: `header.payload.signature`. Anyone can **read** the payload; only someone with the key can **create a valid signature**, so the server can trust the claims without a database lookup. It's defined in **RFC 7519**.
+
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A JWT's three dot-separated parts: a header naming the algorithm, a readable payload of claims, and a signature made with the issuer's private key">
+<rect class="sR" x="20" y="30" width="210" height="30" rx="4"/><text class="sC" x="125" y="50" text-anchor="middle">eyJhbGciOiJSUzI1NiJ9</text><text class="sM" x="125" y="80" text-anchor="middle">header</text>
+<text class="sX" x="237" y="52" text-anchor="middle">.</text>
+<rect class="sV" x="244" y="30" width="210" height="30" rx="4"/><text class="sC" x="349" y="50" text-anchor="middle">eyJzdWIiOiI4ZjNj…</text><text class="sM" x="349" y="80" text-anchor="middle">payload (claims)</text>
+<text class="sX" x="461" y="52" text-anchor="middle">.</text>
+<rect class="sA" x="468" y="30" width="210" height="30" rx="4"/><text class="sC" x="573" y="50" text-anchor="middle">SflKxwRJSMeKKF2QT4…</text><text class="sM" x="573" y="80" text-anchor="middle">signature</text>
+<rect class="sB" x="20" y="100" width="210" height="70" rx="6"/><text class="sC" x="28" y="122" xml:space="preserve" style="white-space:pre">{ "alg": "RS256",</text><text class="sC" x="28" y="140" xml:space="preserve" style="white-space:pre">  "kid": "2026-10" }</text>
+<rect class="sB" x="244" y="100" width="210" height="90" rx="6"/><text class="sC" x="252" y="122" xml:space="preserve" style="white-space:pre">{ "sub": "8f3c…",</text><text class="sC" x="252" y="140" xml:space="preserve" style="white-space:pre">  "role": ["Accountant"],</text><text class="sC" x="252" y="158" xml:space="preserve" style="white-space:pre">  "company_id": "c-42",</text><text class="sC" x="252" y="176" xml:space="preserve" style="white-space:pre">  "exp": 1791060000 }</text>
+<rect class="sG" x="468" y="100" width="232" height="90" rx="6"/><text class="sC" x="584" y="124" text-anchor="middle">sign(header.payload)</text><text class="sC" x="584" y="142" text-anchor="middle">with the issuer's PRIVATE key</text><text class="sGt" x="584" y="168" text-anchor="middle">API verifies with the PUBLIC key</text>
+<text class="sWt" x="240" y="214" text-anchor="middle">Base64url, not encryption: anyone can decode the first two parts</text>
+</svg><figcaption>Anatomy of a JWT. The signature makes the claims trustworthy; it doesn't make them secret.</figcaption></figure>
 
 ```json
 // header
@@ -81,6 +115,23 @@ A JWT stays valid until it expires, even after logout or a password change. Opti
 
 **Refresh-token rotation with reuse detection:** every refresh returns a **new** refresh token and invalidates the old one. If an old one is ever presented again, someone stole it, so the server revokes the whole token family and forces a new login. That's what current OAuth security guidance recommends for browser-based apps.
 
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 254" role="img" aria-label="Refresh token rotation: each refresh returns a new refresh token; when an attacker replays an old one, the server detects reuse and revokes the whole token family">
+<text class="sT" x="100" y="22" text-anchor="middle">App</text><line class="sD" x1="100" y1="32" x2="100" y2="246"/>
+<text class="sT" x="380" y="22" text-anchor="middle">Auth server</text><line class="sD" x1="380" y1="32" x2="380" y2="246"/>
+<text class="sT" x="640" y="22" text-anchor="middle">Attacker</text><line class="sD" x1="640" y1="32" x2="640" y2="246"/>
+<g data-s="1"><line class="sL" x1="100" y1="50" x2="376" y2="56" marker-end="url(#ah)"/><text class="sM" x="240" y="46" text-anchor="middle">refresh with RT1</text><line class="sLg" x1="376" y1="70" x2="104" y2="76" marker-end="url(#ahg)"/><text class="sGt" x="240" y="90" text-anchor="middle">new AT + RT2; RT1 marked used</text></g>
+<g data-s="2"><rect class="sR" x="560" y="104" width="160" height="28" rx="6"/><text class="sC" x="640" y="123" text-anchor="middle">stole RT1 earlier</text></g>
+<g data-s="3"><line class="sLr" x1="636" y1="146" x2="384" y2="152" marker-end="url(#ahr)"/><text class="sRt" x="510" y="142" text-anchor="middle">refresh with RT1 (already used!)</text></g>
+<g data-s="4"><rect class="sR" x="300" y="166" width="160" height="40" rx="8"/><text class="sC" x="380" y="184" text-anchor="middle">reuse detected:</text><text class="sC" x="380" y="199" text-anchor="middle">revoke the whole family</text></g>
+<g data-s="5"><line class="sLm" x1="376" y1="222" x2="104" y2="228" marker-end="url(#ahm)"/><text class="sWt" x="240" y="242" text-anchor="middle">RT2 rejected too → log in again</text></g>
+</svg><ol class="dia-steps">
+<li>The access token (AT) expired, so the app refreshes with RT1 and receives a new access token plus a new refresh token, RT2. RT1 is now spent.</li>
+<li>Suppose an attacker had copied RT1 at some point.</li>
+<li>The attacker tries to use RT1. It has already been used once, which can only mean a copy exists.</li>
+<li>The server can't tell which party is legitimate, so it revokes every token descended from that login.</li>
+<li>The real user's RT2 stops working too, and they sign in again. The stolen token bought the attacker nothing.</li>
+</ol><figcaption>Rotation with reuse detection turns a stolen refresh token from a long-term breach into a forced re-login.</figcaption></figure>
+
 ## B7.4 Passwords and ASP.NET Core Identity 🟢
 
 **ASP.NET Core Identity** provides users, password hashing (PBKDF2 with many iterations), lockout after failed attempts, email confirmation, two-factor authentication, external logins and, in **.NET 10, passkeys** (WebAuthn/FIDO2). Since .NET 8, `MapIdentityApi<TUser>()` exposes ready-made login, register and refresh endpoints for SPAs.
@@ -95,6 +146,28 @@ builder.Services.AddIdentityCore<AppUser>(o =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Guesses per second measured on one CPU core: hundreds of thousands per second for salted SHA-256, about two dozen for ASP.NET Core Identity's PBKDF2 with HMAC-SHA512 and 100,000 iterations, and about 9 for scrypt, so a million-password dictionary against one account takes about a second, about half a day and more than a day respectively; below, the decoded layout of a real Identity hash: format byte, PRF, iteration count, salt length, salt and subkey">
+<text class="sS" x="14" y="20">guesses per second on one CPU core (log scale), and the time to try 1,000,000 common passwords against ONE account</text>
+<line class="sLm" x1="300" y1="30" x2="300" y2="134" opacity=".15"/><text class="sS" x="300" y="146" text-anchor="middle">1</text>
+<line class="sLm" x1="357.143" y1="30" x2="357.143" y2="134" opacity=".15"/><text class="sS" x="357.143" y="146" text-anchor="middle">1e1</text>
+<line class="sLm" x1="414.286" y1="30" x2="414.286" y2="134" opacity=".15"/><text class="sS" x="414.286" y="146" text-anchor="middle">1e2</text>
+<line class="sLm" x1="471.429" y1="30" x2="471.429" y2="134" opacity=".15"/><text class="sS" x="471.429" y="146" text-anchor="middle">1e3</text>
+<line class="sLm" x1="528.571" y1="30" x2="528.571" y2="134" opacity=".15"/><text class="sS" x="528.571" y="146" text-anchor="middle">1e4</text>
+<line class="sLm" x1="585.714" y1="30" x2="585.714" y2="134" opacity=".15"/><text class="sS" x="585.714" y="146" text-anchor="middle">1e5</text>
+<line class="sLm" x1="642.857" y1="30" x2="642.857" y2="134" opacity=".15"/><text class="sS" x="642.857" y="146" text-anchor="middle">1e6</text>
+<line class="sLm" x1="700" y1="30" x2="700" y2="134" opacity=".15"/><text class="sS" x="700" y="146" text-anchor="middle">1e7</text>
+<text class="sS" x="290" y="50" text-anchor="end">salted SHA-256 (Python)</text><rect class="sR" x="300" y="34" width="338.34" height="22" rx="4" opacity=".7"/><text class="sT" x="632.34" y="50" text-anchor="end">833,591/s · 1.2 s</text>
+<text class="sS" x="290" y="82" text-anchor="end">Identity: PBKDF2-SHA512 ×100,000 (.NET)</text><rect class="sG" x="300" y="66" width="79.7828" height="22" rx="4" opacity=".7"/><text class="sT" x="385.783" y="82">25/s · 11.2 hours</text>
+<text class="sS" x="290" y="114" text-anchor="end">scrypt N=2¹⁵, r=8 (Python)</text><rect class="sG" x="300" y="98" width="55.658" height="22" rx="4" opacity=".7"/><text class="sT" x="361.658" y="114">9/s · 1.2 days</text>
+<text class="sS" x="14" y="178">what Identity stores (61 bytes, Base64): decoded from a real PasswordHasher output</text>
+<rect class="sB" x="14" y="188" width="60" height="26" rx="4" opacity=".6"/><text class="sS" x="20" y="206" xml:space="preserve" style="white-space:pre">01</text><text class="sS" x="44" y="230" text-anchor="middle">format v3</text>
+<rect class="sB" x="78" y="188" width="114" height="26" rx="4" opacity=".6"/><text class="sS" x="84" y="206" xml:space="preserve" style="white-space:pre">00000002</text><text class="sS" x="135" y="230" text-anchor="middle">PRF: HMAC-SHA512</text>
+<rect class="sB" x="196" y="188" width="114" height="26" rx="4" opacity=".6"/><text class="sS" x="202" y="206" xml:space="preserve" style="white-space:pre">000186a0</text><text class="sS" x="253" y="230" text-anchor="middle">100,000 iterations</text>
+<rect class="sB" x="314" y="188" width="114" height="26" rx="4" opacity=".6"/><text class="sS" x="320" y="206" xml:space="preserve" style="white-space:pre">00000010</text><text class="sS" x="371" y="230" text-anchor="middle">salt length 16</text>
+<rect class="sV" x="432" y="188" width="76" height="26" rx="4" opacity=".6"/><text class="sS" x="438" y="206" xml:space="preserve" style="white-space:pre">salt</text><text class="sS" x="470" y="230" text-anchor="middle">16 random bytes</text>
+<rect class="sV" x="512" y="188" width="156" height="26" rx="4" opacity=".6"/><text class="sS" x="518" y="206" xml:space="preserve" style="white-space:pre">subkey</text><text class="sS" x="590" y="230" text-anchor="middle">32-byte derived key</text>
+</svg><figcaption>Why "slow on purpose" matters, measured on this machine (GPUs multiply the SHA-256 figure by thousands). The salt makes that cost apply per account.</figcaption></figure>
 
 Password rules from [[S9.7]] apply: slow salted hashing, rate limiting, breached-password checks, MFA, generic error messages.
 
@@ -132,16 +205,23 @@ The deprecations are formalised in **RFC 9700, OAuth 2.0 Security Best Current P
 > [!term] PKCE (Proof Key for Code Exchange)
 > The client creates a random **code verifier**, sends its hash (the **code challenge**) when starting login, and must present the original verifier when exchanging the authorisation code for tokens. A stolen authorisation code is useless without the verifier, which is why public clients (SPAs, mobile apps) that can't keep a secret are safe using the code flow.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Authorization code flow with PKCE between browser app, authorization server and API">
-<rect class="sA" x="20" y="20" width="140" height="180" rx="10"/><text class="sT" x="90" y="45" text-anchor="middle">App (SPA/BFF)</text>
-<rect class="sW" x="290" y="20" width="160" height="180" rx="10"/><text class="sT" x="370" y="45" text-anchor="middle">Authorisation server</text>
-<rect class="sG" x="580" y="20" width="120" height="180" rx="10"/><text class="sT" x="640" y="45" text-anchor="middle">Your API</text>
-<line class="sL" x1="160" y1="70" x2="290" y2="70"/><text class="sM" x="166" y="64">① redirect + code_challenge</text>
-<line class="sD" x1="290" y1="95" x2="160" y2="95"/><text class="sM" x="180" y="110">② user logs in → code</text>
-<line class="sL" x1="160" y1="130" x2="290" y2="130"/><text class="sM" x="166" y="124">③ code + code_verifier</text>
-<line class="sD" x1="290" y1="150" x2="160" y2="150"/><text class="sM" x="172" y="166">④ access + ID + refresh tokens</text>
-<line class="sL" x1="160" y1="185" x2="580" y2="185"/><text class="sM" x="300" y="180">⑤ Authorization: Bearer access_token</text>
-</svg><figcaption>Authorisation code with PKCE. With a backend-for-frontend, steps ③–④ happen on your server, and the browser only ever holds a session cookie.</figcaption></figure>
+<figure class="dia steps"><svg viewBox="0 0 720 266" role="img" aria-label="Authorization code flow with PKCE: the app sends a code challenge, the user signs in, the app exchanges the code plus the verifier for tokens, then calls the API with the access token">
+<text class="sT" x="70" y="22" text-anchor="middle">Browser</text><line class="sD" x1="70" y1="32" x2="70" y2="256"/>
+<text class="sT" x="270" y="22" text-anchor="middle">App / BFF</text><line class="sD" x1="270" y1="32" x2="270" y2="256"/>
+<text class="sT" x="480" y="22" text-anchor="middle">Auth server</text><line class="sD" x1="480" y1="32" x2="480" y2="256"/>
+<text class="sT" x="660" y="22" text-anchor="middle">Your API</text><line class="sD" x1="660" y1="32" x2="660" y2="256"/>
+<g data-s="1"><rect class="sV" x="190" y="40" width="160" height="24" rx="6"/><text class="sC" x="270" y="56" text-anchor="middle">make verifier + hash</text><line class="sL" x1="270" y1="70" x2="476" y2="78" marker-end="url(#ah)"/><text class="sM" x="373" y="70" text-anchor="middle">redirect + code_challenge</text></g>
+<g data-s="2"><line class="sLm" x1="70" y1="96" x2="476" y2="104" marker-end="url(#ahm)"/><text class="sC" x="270" y="92" text-anchor="middle">user signs in (password, passkey, MFA)</text><line class="sLg" x1="476" y1="116" x2="274" y2="124" marker-end="url(#ahg)"/><text class="sGt" x="373" y="136" text-anchor="middle">redirect back with a one-time code</text></g>
+<g data-s="3"><line class="sL" x1="270" y1="152" x2="476" y2="160" marker-end="url(#ah)"/><text class="sM" x="373" y="150" text-anchor="middle">code + code_verifier</text></g>
+<g data-s="4"><rect class="sG" x="400" y="166" width="160" height="24" rx="6"/><text class="sC" x="480" y="182" text-anchor="middle">hash(verifier) matches ✓</text><line class="sLg" x1="476" y1="196" x2="274" y2="204" marker-end="url(#ahg)"/><text class="sGt" x="373" y="216" text-anchor="middle">access + ID + refresh tokens</text></g>
+<g data-s="5"><line class="sL" x1="270" y1="236" x2="656" y2="244" marker-end="url(#ah)"/><text class="sM" x="560" y="234" text-anchor="middle">Bearer &lt;access token&gt;</text></g>
+</svg><ol class="dia-steps">
+<li>The app generates a random <b>code verifier</b>, keeps it, and redirects to the authorisation server with only its hash, the <b>code challenge</b>.</li>
+<li>The user signs in at the authorisation server, never at your app. The server redirects back with a short-lived authorisation code.</li>
+<li>The app exchanges the code for tokens, presenting the original verifier.</li>
+<li>The server hashes the verifier and checks it against the challenge from step 1. A stolen code is useless without the verifier, so public clients need no secret.</li>
+<li>The app (or, with a BFF, your server) calls the API with the access token. With a BFF, steps 3–5 happen server-side and the browser holds only a session cookie.</li>
+</ol><figcaption>Authorisation code with PKCE, the recommended flow for any app with a user.</figcaption></figure>
 
 > [!say]
 > "OAuth 2.0 is about delegated access, getting an access token to call an API; OpenID Connect adds identity with an ID token. For anything with a user, SPAs included, I use the authorisation code flow with PKCE, which protects the code exchange without a client secret. For service-to-service calls with no user, client credentials. The implicit and password flows are deprecated."
@@ -183,6 +263,22 @@ public class InvoiceEditHandler : AuthorizationHandler<OperationAuthorizationReq
     }
 }
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 194" role="img" aria-label="Authorisation path: unauthenticated requests get 401, failed policies 403, failed resource checks 404 or 403, and only then does the handler run">
+<rect class="sB" x="8" y="40" width="130" height="52" rx="8"/><text class="sT" x="73" y="64" text-anchor="middle">request</text><text class="sC" x="73" y="80" text-anchor="middle">GET /invoices/1043</text>
+<line class="sLg" x1="138" y1="66" x2="150" y2="66" marker-end="url(#ahg)"/>
+<rect class="sW" x="152" y="40" width="130" height="52" rx="8"/><text class="sT" x="217" y="64" text-anchor="middle">authenticated?</text><text class="sS" x="217" y="80" text-anchor="middle">valid token / cookie</text>
+<line class="sLg" x1="282" y1="66" x2="294" y2="66" marker-end="url(#ahg)"/>
+<rect class="sW" x="296" y="40" width="130" height="52" rx="8"/><text class="sT" x="361" y="64" text-anchor="middle">policy?</text><text class="sC" x="361" y="80" text-anchor="middle">role, claims, MFA</text>
+<line class="sLg" x1="426" y1="66" x2="438" y2="66" marker-end="url(#ahg)"/>
+<rect class="sW" x="440" y="40" width="130" height="52" rx="8"/><text class="sT" x="505" y="64" text-anchor="middle">this resource?</text><text class="sC" x="505" y="80" text-anchor="middle">same tenant, status</text>
+<line class="sLg" x1="570" y1="66" x2="582" y2="66" marker-end="url(#ahg)"/>
+<rect class="sG" x="584" y="40" width="130" height="52" rx="8"/><text class="sT" x="649" y="64" text-anchor="middle">handler runs</text><text class="sC" x="649" y="80" text-anchor="middle">200</text>
+<line class="sLr" x1="217" y1="92" x2="217" y2="122" marker-end="url(#ahr)"/><rect class="sR" x="155" y="126" width="124" height="26" rx="6" opacity=".85"/><text class="sC" x="217" y="144" text-anchor="middle">401 Unauthorized</text>
+<line class="sLr" x1="361" y1="92" x2="361" y2="122" marker-end="url(#ahr)"/><rect class="sR" x="299" y="126" width="124" height="26" rx="6" opacity=".85"/><text class="sC" x="361" y="144" text-anchor="middle">403 Forbidden</text>
+<line class="sLr" x1="505" y1="92" x2="505" y2="122" marker-end="url(#ahr)"/><rect class="sR" x="443" y="126" width="124" height="26" rx="6" opacity=".85"/><text class="sC" x="505" y="144" text-anchor="middle">404 or 403</text>
+<text class="sS" x="360" y="182" text-anchor="middle">roles and policies answer "this kind of user"; the resource check answers "this user, this record"</text>
+</svg><figcaption>Three gates, three failure codes. Returning 404 for another tenant's record avoids confirming that it exists.</figcaption></figure>
 
 **Permission-based authorisation** (mid level): instead of hard-coding roles in attributes, map roles to fine-grained **permissions** (`invoices.approve`, `team.manage`) stored in data, and check permissions in policies. Roles can then change without redeploying.
 

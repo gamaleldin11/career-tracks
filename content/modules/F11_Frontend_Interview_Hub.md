@@ -31,6 +31,22 @@ This is the module to live in during the final week before a frontend interview.
 5. **Refine:** accessibility attributes, small refactors, a test if time allows.
 6. **Summarise:** what works, what you'd do next, and trade-offs you made.
 
+<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time budget for a 60-minute machine-coding round">
+<text class="sT" x="20" y="22">A 60-minute machine-coding round</text>
+<rect class="sA" x="20" y="34" width="54.6667" height="40" rx="4"/><text class="sT" x="48.3333" y="59" text-anchor="middle">5′</text>
+<text class="sS" x="48.3333" y="94" text-anchor="middle">clarify</text>
+<rect class="sB" x="76.6667" y="34" width="32" height="40" rx="4"/><text class="sT" x="93.6667" y="59" text-anchor="middle">3′</text>
+<text class="sS" x="93.6667" y="110" text-anchor="middle">sketch</text>
+<rect class="sG" x="110.667" y="34" width="338" height="40" rx="4"/><text class="sT" x="280.667" y="59" text-anchor="middle">30′</text>
+<text class="sS" x="280.667" y="94" text-anchor="middle">minimum working version</text>
+<rect class="sW" x="450.667" y="34" width="134" height="40" rx="4"/><text class="sT" x="518.667" y="59" text-anchor="middle">12′</text>
+<text class="sS" x="518.667" y="110" text-anchor="middle">edge cases</text>
+<rect class="sV" x="586.667" y="34" width="66" height="40" rx="4"/><text class="sT" x="620.667" y="59" text-anchor="middle">6′</text>
+<text class="sS" x="620.667" y="94" text-anchor="middle">refine</text>
+<rect class="sB" x="654.667" y="34" width="43.3333" height="40" rx="4"/><text class="sT" x="677.333" y="59" text-anchor="middle">4′</text>
+<text class="sS" x="677.333" y="110" text-anchor="middle">wrap up</text>
+</svg><figcaption>Get something working by the half-way mark. A polished half-feature scores worse than a plain whole one.</figcaption></figure>
+
 **Practise these classics** (each in under 60 minutes, in both React and Angular if you can):
 
 | Component | Tests your grasp of |
@@ -47,6 +63,23 @@ This is the module to live in during the final week before a frontend interview.
 | Image carousel | Index state, auto-play clean-up, reduced motion |
 | Nested file tree | Recursion, expand and collapse state |
 | Kanban board | Lists of lists, moving items, a non-drag alternative |
+
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Typeahead component: its state, an input with the combobox role, and a listbox of options with the active one marked">
+<rect class="sA" x="20" y="20" width="300" height="200" rx="12"/><text class="sT" x="170" y="42" text-anchor="middle">Typeahead</text>
+<text class="sC" x="36" y="66" xml:space="preserve" style="white-space:pre">query: string</text>
+<text class="sC" x="36" y="86" xml:space="preserve" style="white-space:pre">items: Item[]</text>
+<text class="sC" x="36" y="106" xml:space="preserve" style="white-space:pre">active: number (−1 = none)</text>
+<text class="sC" x="36" y="126" xml:space="preserve" style="white-space:pre">open: boolean</text>
+<text class="sC" x="36" y="146" xml:space="preserve" style="white-space:pre">status: idle | loading | error</text>
+<text class="sC" x="170" y="186" text-anchor="middle">state lives here; children get props</text>
+<rect class="sB" x="380" y="20" width="320" height="60" rx="10"/><text class="sM" x="540" y="42" text-anchor="middle">&lt;input role="combobox"&gt;</text><text class="sC" x="540" y="62" text-anchor="middle">aria-expanded · aria-activedescendant</text>
+<rect class="sB" x="380" y="96" width="320" height="124" rx="10"/><text class="sM" x="540" y="118" text-anchor="middle">&lt;ul role="listbox"&gt;</text>
+<rect class="sN" x="400" y="130" width="280" height="22" rx="4"/><text class="sC" x="540" y="145" text-anchor="middle">&lt;li role="option"&gt;</text>
+<rect class="sG" x="400" y="158" width="280" height="22" rx="4"/><text class="sC" x="540" y="173" text-anchor="middle">&lt;li role="option" aria-selected&gt;</text>
+<rect class="sN" x="400" y="186" width="280" height="22" rx="4"/><text class="sC" x="540" y="201" text-anchor="middle">&lt;li role="option"&gt;</text>
+<line class="sL" x1="320" y1="50" x2="376" y2="50" marker-end="url(#ah)"/><line class="sL" x1="320" y1="140" x2="376" y2="140" marker-end="url(#ah)"/>
+<text class="sS" x="360" y="238" text-anchor="middle">typing → debounce → abort the previous request → fetch → items; ↑ ↓ move active, Enter picks, Esc closes</text>
+</svg><figcaption>The typeahead as a sketch you would draw in the first three minutes: one owner of state, and the ARIA combobox pattern for the markup.</figcaption></figure>
 
 ### Worked example: an accessible typeahead in React ⭐
 
@@ -153,13 +186,27 @@ Mid-level frontend interviews increasingly include "design the frontend of X". U
 | **I**nterface (API) | Endpoints or messages between client and server: pagination, real-time events, error shapes | ~15% |
 | **O**ptimisations | Performance, accessibility, security, i18n, observability, testing: the deep dives | ~40% |
 
+<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time split across the RADIO framework: requirements, architecture, data model, interface, optimisations">
+<text class="sT" x="20" y="22">RADIO in a 45-minute round</text>
+<rect class="sA" x="20" y="34" width="103.778" height="40" rx="4"/><text class="sT" x="72.8889" y="59" text-anchor="middle">7′</text>
+<text class="sS" x="72.8889" y="94" text-anchor="middle">Requirements</text>
+<rect class="sB" x="125.778" y="34" width="134" height="40" rx="4"/><text class="sT" x="193.778" y="59" text-anchor="middle">9′</text>
+<text class="sS" x="193.778" y="110" text-anchor="middle">Architecture</text>
+<rect class="sB" x="261.778" y="34" width="58.4444" height="40" rx="4"/><text class="sT" x="292" y="59" text-anchor="middle">4′</text>
+<text class="sS" x="292" y="94" text-anchor="middle">Data model</text>
+<rect class="sB" x="322.222" y="34" width="103.778" height="40" rx="4"/><text class="sT" x="375.111" y="59" text-anchor="middle">7′</text>
+<text class="sS" x="375.111" y="110" text-anchor="middle">Interface</text>
+<rect class="sG" x="428" y="34" width="270" height="40" rx="4"/><text class="sT" x="564" y="59" text-anchor="middle">18′</text>
+<text class="sS" x="564" y="94" text-anchor="middle">Optimisations</text>
+</svg><figcaption>The deep dives (optimisations) are where mid-level candidates are separated, so protect their time.</figcaption></figure>
+
 ### Worked example: "Design FinSight's dashboard" ⭐
 
 **Requirements.** Company owners and accountants see cash balance, a 90-day forecast chart, recent transactions and alerts. Desktop first, usable on a phone. Data updates when a CSV upload or an invoice payment triggers re-forecasting. English and Arabic. Must load quickly after login.
 
 **Architecture.**
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Dashboard architecture: widgets, query cache, API client, SignalR, API">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: dashboard architecture; a ForecastUpdated event arrives over SignalR, invalidates the forecast query, and the chart refetches through the API client">
 <rect class="sA" x="20" y="20" width="420" height="80" rx="10"/><text class="sT" x="230" y="40" text-anchor="middle">Dashboard page (route, lazy-loaded)</text>
 <rect class="sB" x="35" y="52" width="90" height="36" rx="6"/><text class="sS" x="80" y="75" text-anchor="middle">Balance card</text>
 <rect class="sB" x="135" y="52" width="100" height="36" rx="6"/><text class="sS" x="185" y="75" text-anchor="middle">Forecast chart</text>
@@ -171,7 +218,9 @@ Mid-level frontend interviews increasingly include "design the frontend of X". U
 <rect class="sB" x="500" y="60" width="200" height="140" rx="10"/><text class="sT" x="600" y="85" text-anchor="middle">ASP.NET Core API</text><text class="sS" x="600" y="108" text-anchor="middle">GET /dashboard/summary</text><text class="sS" x="600" y="126" text-anchor="middle">GET /forecast?days=90</text><text class="sS" x="600" y="144" text-anchor="middle">GET /transactions?cursor=</text><text class="sS" x="600" y="162" text-anchor="middle">hub: ForecastUpdated</text>
 <line class="sL" x1="440" y1="202" x2="500" y2="160"/><line class="sL" x1="440" y1="147" x2="500" y2="120"/>
 <line class="sD" x1="120" y1="100" x2="120" y2="125"/><line class="sD" x1="340" y1="147" x2="220" y2="147"/>
-</svg><figcaption>Each widget owns its query, so one slow or failing endpoint never blanks the page; SignalR events invalidate the affected queries.</figcaption></figure>
+<circle class="sPw" r="5"><animateMotion dur="6s" repeatCount="indefinite" path="M500 120 L440 147 H340"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" path="M220 147 L120 147 L120 185 L440 202 L500 160 L440 202 L185 100 L185 88" keyPoints="0;0;1;1" keyTimes="0;0.3;0.9;1"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3;0.92"/></circle>
+</svg><figcaption>Each widget owns its query, so one slow or failing endpoint never blanks the page. Here a <code>ForecastUpdated</code> event (orange) arrives over SignalR and invalidates the forecast query, which refetches (blue) and updates only the chart.</figcaption></figure>
 
 - Client-side rendering behind login (no SEO need); the dashboard route is lazy-loaded; the chart library is loaded with `@defer`/`lazy`.
 - Each widget has its own query, its own skeleton and its own error state ([[F8.3]]).

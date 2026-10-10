@@ -20,9 +20,38 @@ This is the module to live in during the final week before a backend (.NET) inte
 
 Enterprise and outsourcing companies (banks, software houses for Gulf clients) lean heavily on the fundamentals round and SQL; product companies add DSA and design.
 
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Two typical interview processes: enterprise and outsourcing companies focus on fundamentals and SQL; product companies add live coding, a take-home or design round">
+<text class="sM" x="14" y="38">enterprise / outsourcing</text>
+<rect class="sB" x="14" y="50" width="160" height="50" rx="8"/><text class="sT" x="94" y="73" text-anchor="middle">HR screen</text><text class="sC" x="94" y="89" text-anchor="middle">English · notice</text>
+<line class="sLm" x1="174" y1="75" x2="188" y2="75" marker-end="url(#ahm)"/>
+<rect class="sA" x="190" y="50" width="160" height="50" rx="8"/><text class="sT" x="270" y="73" text-anchor="middle">fundamentals</text><text class="sC" x="270" y="89" text-anchor="middle">C# · EF · SQL, rapid</text>
+<line class="sLm" x1="350" y1="75" x2="364" y2="75" marker-end="url(#ahm)"/>
+<rect class="sA" x="366" y="50" width="160" height="50" rx="8"/><text class="sT" x="446" y="73" text-anchor="middle">SQL / live fix</text><text class="sC" x="446" y="89" text-anchor="middle">on paper or IDE</text>
+<line class="sLm" x1="526" y1="75" x2="540" y2="75" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="50" width="160" height="50" rx="8"/><text class="sT" x="622" y="73" text-anchor="middle">manager</text><text class="sC" x="622" y="89" text-anchor="middle">project deep-dive</text>
+<text class="sM" x="14" y="138">product company</text>
+<rect class="sB" x="14" y="150" width="160" height="50" rx="8"/><text class="sT" x="94" y="173" text-anchor="middle">HR screen</text><text class="sC" x="94" y="189" text-anchor="middle">English · notice</text>
+<line class="sLm" x1="174" y1="175" x2="188" y2="175" marker-end="url(#ahm)"/>
+<rect class="sW" x="190" y="150" width="160" height="50" rx="8"/><text class="sT" x="270" y="173" text-anchor="middle">live coding</text><text class="sC" x="270" y="189" text-anchor="middle">DSA or endpoint</text>
+<line class="sLm" x1="350" y1="175" x2="364" y2="175" marker-end="url(#ahm)"/>
+<rect class="sV" x="366" y="150" width="160" height="50" rx="8"/><text class="sT" x="446" y="173" text-anchor="middle">take-home</text><text class="sC" x="446" y="189" text-anchor="middle">or a design round</text>
+<line class="sLm" x1="526" y1="175" x2="540" y2="175" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="150" width="160" height="50" rx="8"/><text class="sT" x="622" y="173" text-anchor="middle">team round</text><text class="sC" x="622" y="189" text-anchor="middle">ownership · trade-offs</text>
+<text class="sS" x="360" y="226" text-anchor="middle">same job title, different emphasis: read the posting and ask HR which rounds to expect</text>
+</svg><figcaption>The two shapes a .NET backend process usually takes in Egypt and the Gulf.</figcaption></figure>
+
 ## B14.2 Live practical tasks you should be able to do 🟢 ⭐
 
 Practise each until you can do it in 30–45 minutes while talking:
+
+<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 45-minute live task: 5 minutes clarifying, 5 sketching, 25 building while talking, 5 testing, 5 discussing trade-offs">
+<rect class="sB" x="14" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="52.4444" y="50" text-anchor="middle">clarify</text><text class="sC" x="52.4444" y="66" text-anchor="middle">5 min</text>
+<rect class="sV" x="90.8889" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="129.333" y="50" text-anchor="middle">sketch</text><text class="sC" x="129.333" y="66" text-anchor="middle">5 min</text>
+<rect class="sA" x="167.778" y="30" width="382.444" height="44" rx="6"/><text class="sT" x="360" y="50" text-anchor="middle">build, talking</text><text class="sC" x="360" y="66" text-anchor="middle">25 min</text>
+<rect class="sG" x="552.222" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="590.667" y="50" text-anchor="middle">test it</text><text class="sC" x="590.667" y="66" text-anchor="middle">5 min</text>
+<rect class="sW" x="629.111" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="667.556" y="50" text-anchor="middle">trade-offs</text><text class="sC" x="667.556" y="66" text-anchor="middle">5 min</text>
+<text class="sC" x="14" y="98">ask about inputs, errors, auth</text><text class="sC" x="706" y="98" text-anchor="end">what you'd add with more time</text>
+</svg><figcaption>Budget the time out loud. Interviewers grade the process as much as the code.</figcaption></figure>
 
 1. **Build an endpoint:** `POST /api/orders` with a validated DTO, a service, EF Core persistence, `201 Created` with `Location`, and ProblemDetails errors.
 2. **Write a LINQ query** that groups orders by customer, returns the top five by total, and translates to one SQL query (and explain how you'd check that it does).
@@ -65,6 +94,50 @@ public class ReportService
 
 > [!note] Answers
 > (1) A singleton holding a scoped `DbContext`: a captive dependency, shared across threads. (2) `async void`: callers can't await it and exceptions crash the process. (3) `ToList()` before `Where`: loads every invoice for every company. (4) A payments query per invoice: N+1. (5) `new HttpClient()` in a loop: socket exhaustion; use `IHttpClientFactory`. (6) `.Wait()`: blocking; and a request body of `null`. (7) No `CancellationToken`, no error handling, no logging; one failed email aborts the rest. (8) Sending email inline: should be a queued job ([[B8.8]]). Naming all eight, then rewriting it properly, is a strong mid-level answer.
+
+<figure class="dia steps"><svg viewBox="0 0 720 338" role="img" aria-label="The ReportService snippet with its eight problems highlighted one at a time">
+<rect class="sN" x="8" y="14" width="704" height="316" rx="8"/>
+<g data-s="1-1"><rect class="sR" x="14" y="54" width="646" height="19" rx="3" opacity=".55"/><rect class="sR" x="14" y="73" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="2-2"><rect class="sR" x="14" y="111" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="3-3"><rect class="sR" x="14" y="149" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="4-4"><rect class="sR" x="14" y="168" width="646" height="19" rx="3" opacity=".55"/><rect class="sR" x="14" y="206" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="5-5"><rect class="sR" x="14" y="225" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="6-6"><rect class="sR" x="14" y="244" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="7-7"><rect class="sW" x="14" y="111" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="168" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="187" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="206" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="225" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="244" width="646" height="19" rx="3" opacity=".55"/><rect class="sW" x="14" y="263" width="646" height="19" rx="3" opacity=".55"/></g>
+<g data-s="8-8"><rect class="sV" x="14" y="244" width="646" height="19" rx="3" opacity=".55"/></g>
+<text class="sC" x="22" y="30" xml:space="preserve" style="white-space:pre">public class ReportService</text>
+<text class="sC" x="22" y="49" xml:space="preserve" style="white-space:pre">{</text>
+<text class="sC" x="22" y="68" xml:space="preserve" style="white-space:pre">    private readonly AppDbContext _db;            // registered as Singleton</text>
+<text class="sC" x="22" y="87" xml:space="preserve" style="white-space:pre">    public ReportService(AppDbContext db) =&gt; _db = db;</text>
+<text class="sC" x="22" y="125" xml:space="preserve" style="white-space:pre">    public async void SendMonthly(int companyId)</text>
+<text class="sC" x="22" y="144" xml:space="preserve" style="white-space:pre">    {</text>
+<text class="sC" x="22" y="163" xml:space="preserve" style="white-space:pre">        var invoices = _db.Invoices.ToList().Where(i =&gt; i.CompanyId == companyId);</text>
+<text class="sC" x="22" y="182" xml:space="preserve" style="white-space:pre">        foreach (var inv in invoices)</text>
+<text class="sC" x="22" y="201" xml:space="preserve" style="white-space:pre">        {</text>
+<text class="sC" x="22" y="220" xml:space="preserve" style="white-space:pre">            var payments = _db.Payments.Where(p =&gt; p.InvoiceId == inv.Id).ToList();</text>
+<text class="sC" x="22" y="239" xml:space="preserve" style="white-space:pre">            var client = new HttpClient();</text>
+<text class="sC" x="22" y="258" xml:space="preserve" style="white-space:pre">            client.PostAsync("https://mail.example/send", null).Wait();</text>
+<text class="sC" x="22" y="277" xml:space="preserve" style="white-space:pre">        }</text>
+<text class="sC" x="22" y="296" xml:space="preserve" style="white-space:pre">    }</text>
+<text class="sC" x="22" y="315" xml:space="preserve" style="white-space:pre">}</text>
+<g data-s="1"><circle class="sPr" cx="680" cy="63" r="9"/><text class="sX" x="680" y="67" text-anchor="middle">1</text></g>
+<g data-s="2"><circle class="sPr" cx="680" cy="120" r="9"/><text class="sX" x="680" y="124" text-anchor="middle">2</text></g>
+<g data-s="3"><circle class="sPr" cx="680" cy="158" r="9"/><text class="sX" x="680" y="162" text-anchor="middle">3</text></g>
+<g data-s="4"><circle class="sPr" cx="680" cy="177" r="9"/><text class="sX" x="680" y="181" text-anchor="middle">4</text></g>
+<g data-s="5"><circle class="sPr" cx="680" cy="234" r="9"/><text class="sX" x="680" y="238" text-anchor="middle">5</text></g>
+<g data-s="6"><circle class="sPr" cx="680" cy="253" r="9"/><text class="sX" x="680" y="257" text-anchor="middle">6</text></g>
+<g data-s="7"><circle class="sPw" cx="702" cy="120" r="9"/><text class="sX" x="702" y="124" text-anchor="middle">7</text></g>
+<g data-s="8"><circle class="sPv" cx="702" cy="253" r="9"/><text class="sX" x="702" y="257" text-anchor="middle">8</text></g>
+</svg><ol class="dia-steps">
+<li><b>Captive dependency.</b> A scoped <code>DbContext</code> injected into a singleton lives forever and is shared across threads. <code>DbContext</code> isn't thread-safe.</li>
+<li><b><code>async void</code>.</b> Nobody can await it, and an exception thrown inside crashes the process instead of reaching a handler.</li>
+<li><b><code>ToList()</code> before <code>Where</code>.</b> Every invoice of every company is loaded into memory, then filtered in C#.</li>
+<li><b>N+1.</b> One payments query per invoice. Load them together (<code>Include</code> or one grouped query).</li>
+<li><b><code>new HttpClient()</code> per iteration.</b> Each one holds a socket open after disposal; enough of them exhaust ports. Use <code>IHttpClientFactory</code>.</li>
+<li><b><code>.Wait()</code>.</b> Sync-over-async blocks a thread-pool thread. And the request body is <code>null</code>.</li>
+<li><b>No <code>CancellationToken</code>, no error handling, no logging.</b> One failed email silently aborts the rest of the loop.</li>
+<li><b>Wrong place.</b> Sending email inline belongs in a queued background job with retries (B8.8).</li>
+</ol><figcaption>Name the problem, say why it hurts in production, then the fix. That pattern scores on every bug-hunt question.</figcaption></figure>
 
 ## B14.3 Take-home tasks 🟢 ⭐
 
@@ -185,6 +258,29 @@ Answer aloud before revealing. Mark misses and reread the linked module.
 | Node's concurrency model? | One JS thread, non-blocking I/O via the event loop and libuv. |
 
 ## B14.6 A two-week plan 🟢
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="The two-week plan as a calendar: fundamentals, building labs, security and scale, quality and design, then rehearsal">
+<rect class="sB" x="14" y="40" width="92" height="64" rx="8"/><text class="sM" x="22" y="56">day 1</text><text class="sT" x="60" y="78" text-anchor="middle">HTTP · SQL</text><text class="sC" x="60" y="95" text-anchor="middle">warm-up</text>
+<rect class="sB" x="114" y="40" width="92" height="64" rx="8"/><text class="sM" x="122" y="56">day 2</text><text class="sT" x="160" y="78" text-anchor="middle">C# · SOLID</text><text class="sC" x="160" y="95" text-anchor="middle">own examples</text>
+<rect class="sB" x="214" y="40" width="92" height="64" rx="8"/><text class="sM" x="222" y="56">day 3</text><text class="sT" x="260" y="78" text-anchor="middle">C# · SOLID</text><text class="sC" x="260" y="95" text-anchor="middle">console lab</text>
+<rect class="sA" x="314" y="40" width="92" height="64" rx="8"/><text class="sM" x="322" y="56">day 4</text><text class="sT" x="360" y="78" text-anchor="middle">API lab</text><text class="sC" x="360" y="95" text-anchor="middle">B3 · B4</text>
+<rect class="sA" x="414" y="40" width="92" height="64" rx="8"/><text class="sM" x="422" y="56">day 5</text><text class="sT" x="460" y="78" text-anchor="middle">EF Core</text><text class="sC" x="460" y="95" text-anchor="middle">N+1 · splits</text>
+<rect class="sA" x="514" y="40" width="92" height="64" rx="8"/><text class="sM" x="522" y="56">day 6</text><text class="sT" x="560" y="78" text-anchor="middle">SQL tuning</text><text class="sC" x="560" y="95" text-anchor="middle">query plans</text>
+<rect class="sV" x="614" y="40" width="92" height="64" rx="8"/><text class="sM" x="622" y="56">day 7</text><text class="sT" x="660" y="78" text-anchor="middle">auth</text><text class="sC" x="660" y="95" text-anchor="middle">OWASP top 3</text>
+<rect class="sV" x="14" y="126" width="92" height="64" rx="8"/><text class="sM" x="22" y="142">day 8</text><text class="sT" x="60" y="164" text-anchor="middle">Redis · queue</text><text class="sC" x="60" y="181" text-anchor="middle">B8 lab</text>
+<rect class="sG" x="114" y="126" width="92" height="64" rx="8"/><text class="sM" x="122" y="142">day 9</text><text class="sT" x="160" y="164" text-anchor="middle">tests · OTel</text><text class="sC" x="160" y="181" text-anchor="middle">B10 · B11</text>
+<rect class="sG" x="214" y="126" width="92" height="64" rx="8"/><text class="sM" x="222" y="142">day 10</text><text class="sT" x="260" y="164" text-anchor="middle">architecture</text><text class="sC" x="260" y="181" text-anchor="middle">one design</text>
+<rect class="sW" x="314" y="126" width="92" height="64" rx="8"/><text class="sM" x="322" y="142">day 11</text><text class="sT" x="360" y="164" text-anchor="middle">DSA ×5</text><text class="sC" x="360" y="181" text-anchor="middle">Node if listed</text>
+<rect class="sW" x="414" y="126" width="92" height="64" rx="8"/><text class="sM" x="422" y="142">day 12</text><text class="sT" x="460" y="164" text-anchor="middle">live tasks</text><text class="sC" x="460" y="181" text-anchor="middle">timed</text>
+<rect class="sW" x="514" y="126" width="92" height="64" rx="8"/><text class="sM" x="522" y="142">day 13</text><text class="sT" x="560" y="164" text-anchor="middle">mock round</text><text class="sC" x="560" y="181" text-anchor="middle">record it</text>
+<rect class="sW" x="614" y="126" width="92" height="64" rx="8"/><text class="sM" x="622" y="142">day 14</text><text class="sT" x="660" y="164" text-anchor="middle">bank ×2</text><text class="sC" x="660" y="181" text-anchor="middle">stories · rest</text>
+<text class="sM" x="14" y="30">week 1: the core stack</text><text class="sM" x="14" y="116">week 2: production topics, then rehearsal</text>
+<rect class="sB" x="40" y="204" width="16" height="16" rx="3"/><text class="sC" x="62" y="217">fundamentals</text>
+<rect class="sA" x="176" y="204" width="16" height="16" rx="3"/><text class="sC" x="198" y="217">build</text>
+<rect class="sV" x="312" y="204" width="16" height="16" rx="3"/><text class="sC" x="334" y="217">security · scale</text>
+<rect class="sG" x="448" y="204" width="16" height="16" rx="3"/><text class="sC" x="470" y="217">quality · design</text>
+<rect class="sW" x="584" y="204" width="16" height="16" rx="3"/><text class="sC" x="606" y="217">rehearse</text>
+</svg><figcaption>The plan at a glance. The last four days are practice under interview conditions, not new material.</figcaption></figure>
 
 | Days | Do |
 |---|---|

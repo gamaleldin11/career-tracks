@@ -1,4 +1,5 @@
-# ---- build output (GitHub Actions rebuilds it on every push)
+# ---- build output (Vercel rebuilds it on every push to main; the local diagram
+# checks live in site/qa/, not here, because dist/ is never committed)
 dist/
 
 # ---- dependencies
@@ -11,6 +12,8 @@ npm-debug.log*
 .cache/
 __pycache__/
 *.py[cod]
+.venv/
+venv/
 .ipynb_checkpoints/
 
 # ---- secrets and local environment
@@ -36,7 +39,9 @@ private/
 *.swp
 *~
 .obsidian/
-.claude/settings.local.json
+# Claude Code: keep the shared preview config, ignore per-machine settings
+.claude/*
+!.claude/launch.json
 
 # ---- operating systems
 .DS_Store

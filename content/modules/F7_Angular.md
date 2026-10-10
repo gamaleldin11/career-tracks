@@ -8,6 +8,30 @@ Angular is the framework most Egyptian enterprise, banking and outsourcing teams
 > **Most asked:** *What are signals?* · *How does change detection work, and what is OnPush?* · *switchMap vs mergeMap vs concatMap vs exhaustMap?* · *Subject vs BehaviorSubject?* · *How do you avoid memory leaks from subscriptions?* · *Template-driven vs reactive forms?* · *What's an interceptor?* · *What is dependency injection?*
 > **Time budget:** 5 hours, with an Angular CLI project (`npm i -g @angular/cli && ng new`).
 
+## F7.0 Foundations: what a framework adds, and how Angular starts 🟢
+
+**Library or framework?** "You call a library; a framework calls you." React is a library for rendering; you choose the router, data fetching and forms. Angular is a **framework**: it owns the component model and also ships the router, `HttpClient`, forms, dependency injection, testing setup and the build. In exchange for following its structure, every Angular codebase looks broadly the same, which is why large enterprise teams like it.
+
+**Decorators.** `@Component({ selector, template, imports })` attaches **metadata** to a class: which tag it renders as, what its template is, what the template may use. Angular reads that metadata to create and render the component. `@Injectable()` marks a class that the injector can create.
+
+**Templates are compiled.** During `ng build`, the Angular compiler turns every template into JavaScript instructions **ahead of time** (AOT). Template mistakes (an unknown property, a wrong input type) fail the build instead of failing in a user's browser, and no compiler is shipped to the browser.
+
+**How the app starts:**
+
+<figure class="dia"><svg viewBox="0 0 760 148" role="img" aria-label="Angular startup: index.html, main.ts bootstraps the App with appConfig providers, the App renders, and the router fills the outlet">
+<rect class="sB" x="8" y="30" width="140" height="52" rx="8"/><text class="sT" x="78" y="54" text-anchor="middle">index.html</text><text class="sC" x="78" y="70" text-anchor="middle">&lt;app-root&gt;</text>
+<line class="sLm" x1="148" y1="56" x2="156" y2="56" marker-end="url(#ahm)"/>
+<rect class="sA" x="158" y="30" width="140" height="52" rx="8"/><text class="sT" x="228" y="54" text-anchor="middle">main.ts</text><text class="sC" x="228" y="70" text-anchor="middle">bootstrapApplication</text>
+<line class="sLm" x1="298" y1="56" x2="306" y2="56" marker-end="url(#ahm)"/>
+<rect class="sV" x="308" y="30" width="140" height="52" rx="8"/><text class="sT" x="378" y="54" text-anchor="middle">appConfig</text><text class="sC" x="378" y="70" text-anchor="middle">providers → injector</text>
+<line class="sLm" x1="448" y1="56" x2="456" y2="56" marker-end="url(#ahm)"/>
+<rect class="sA" x="458" y="30" width="140" height="52" rx="8"/><text class="sT" x="528" y="54" text-anchor="middle">App component</text><text class="sC" x="528" y="70" text-anchor="middle">renders its template</text>
+<line class="sLm" x1="598" y1="56" x2="606" y2="56" marker-end="url(#ahm)"/>
+<rect class="sG" x="608" y="30" width="140" height="52" rx="8"/><text class="sT" x="678" y="54" text-anchor="middle">router-outlet</text><text class="sC" x="678" y="70" text-anchor="middle">page for the URL</text>
+<text class="sM" x="380" y="112" text-anchor="middle">provideRouter(routes) · provideHttpClient(withInterceptors([…])) · …</text>
+<text class="sC" x="380" y="136" text-anchor="middle">after that, a signal change (or, in older apps, any async event) triggers re-rendering</text>
+</svg><figcaption>How a standalone Angular app starts. Everything injectable is configured once, in <code>appConfig</code>.</figcaption></figure>
+
 ## F7.1 How an Angular app is built 🟢 ⭐
 
 - **Components** combine a TypeScript class, an HTML **template** and styles. Since **v19 they're standalone by default**; NgModules are optional (you'll still see them in older code).
@@ -74,6 +98,27 @@ export class InvoiceCard {
 > [!term] Signal
 > A reactive value wrapper. You read it by calling it (`count()`), and Angular **tracks** which templates, `computed` values and effects read it. When the value changes, exactly those dependents update. That's fine-grained reactivity, without checking the whole component tree.
 
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: updating the items signal propagates to the count and total computeds and then to the two template bindings that read them; the unrelated theme signal stays idle">
+<rect class="sA" x="40" y="70" width="160" height="46" rx="8"/><text class="sT" x="120" y="89" text-anchor="middle">items</text><text class="sC" x="120" y="106" text-anchor="middle">signal</text>
+<rect class="sB" x="40" y="160" width="160" height="46" rx="8"/><text class="sT" x="120" y="179" text-anchor="middle">theme</text><text class="sC" x="120" y="196" text-anchor="middle">signal</text>
+<rect class="sV" x="260" y="40" width="160" height="46" rx="8"/><text class="sT" x="340" y="59" text-anchor="middle">count</text><text class="sC" x="340" y="76" text-anchor="middle">computed</text>
+<rect class="sV" x="260" y="110" width="160" height="46" rx="8"/><text class="sT" x="340" y="129" text-anchor="middle">total</text><text class="sC" x="340" y="146" text-anchor="middle">computed</text>
+<rect class="sG" x="500" y="30" width="160" height="46" rx="8"/><text class="sT" x="580" y="49" text-anchor="middle">badge</text><text class="sC" x="580" y="66" text-anchor="middle">{{ count() }}</text>
+<rect class="sG" x="500" y="100" width="160" height="46" rx="8"/><text class="sT" x="580" y="119" text-anchor="middle">footer</text><text class="sC" x="580" y="136" text-anchor="middle">{{ total() | currency }}</text>
+<rect class="sB" x="500" y="170" width="160" height="46" rx="8"/><text class="sT" x="580" y="189" text-anchor="middle">body class</text><text class="sC" x="580" y="206" text-anchor="middle">[class.dark]</text>
+<line class="sLm" x1="200" y1="93" x2="258" y2="63" marker-end="url(#ahm)"/>
+<line class="sLm" x1="200" y1="93" x2="258" y2="133" marker-end="url(#ahm)"/>
+<line class="sLm" x1="420" y1="63" x2="498" y2="53" marker-end="url(#ahm)"/>
+<line class="sLm" x1="420" y1="133" x2="498" y2="123" marker-end="url(#ahm)"/>
+<line class="sLm" x1="200" y1="183" x2="498" y2="193" marker-end="url(#ahm)"/>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M200 93 L260 63" keyPoints="0;1;1" keyTimes="0;0.25;1" calcMode="linear"/><animate attributeName="opacity" dur="3s" begin="0s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.3"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M200 93 L260 133" keyPoints="0;1;1" keyTimes="0;0.25;1" calcMode="linear"/><animate attributeName="opacity" dur="3s" begin="0s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.3"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="3s" begin="0.9s" repeatCount="indefinite" path="M420 63 L500 53" keyPoints="0;1;1" keyTimes="0;0.25;1" calcMode="linear"/><animate attributeName="opacity" dur="3s" begin="0.9s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.3"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="3s" begin="0.9s" repeatCount="indefinite" path="M420 133 L500 123" keyPoints="0;1;1" keyTimes="0;0.25;1" calcMode="linear"/><animate attributeName="opacity" dur="3s" begin="0.9s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.3"/></circle>
+<text class="sWt" x="120" y="32" text-anchor="middle">items.update(…)</text>
+<text class="sS" x="360" y="232" text-anchor="middle">theme didn't change, so [class.dark] isn't touched; nothing walks the whole tree</text>
+</svg><figcaption>Fine-grained reactivity. A change travels only along the edges of the dependency graph that Angular recorded when each value was read.</figcaption></figure>
+
 ```ts
 export class CartStore {
   private items = signal<CartItem[]>([]);                 // writable
@@ -117,6 +162,29 @@ invoices = httpResource<Invoice[]>(() => `/api/customers/${this.customerId()}/in
 
 **Zoneless.** With signals telling Angular exactly what changed, Zone.js isn't needed. **Zoneless change detection became the default for new apps in v21** (November 2025), and **v22 (June 2026) made OnPush the default strategy** for components that don't specify one.
 
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 760 262" role="img" aria-label="The same component tree checked three ways: everything with Default change detection, a path with OnPush, and a single view with signals">
+<line class="sLm" x1="300" y1="54" x2="110" y2="90"/>
+<line class="sLm" x1="300" y1="54" x2="300" y2="90"/>
+<line class="sLm" x1="300" y1="54" x2="490" y2="90"/>
+<line class="sLm" x1="300" y1="124" x2="220" y2="160"/>
+<line class="sLm" x1="300" y1="124" x2="380" y2="160"/>
+<line class="sLm" x1="380" y1="194" x2="380" y2="220"/>
+<rect class="sB" x="240" y="20" width="120" height="34" rx="8"/><text class="sC" x="300" y="42" text-anchor="middle">App</text>
+<rect class="sB" x="50" y="90" width="120" height="34" rx="8"/><text class="sC" x="110" y="112" text-anchor="middle">Header</text>
+<rect class="sB" x="240" y="90" width="120" height="34" rx="8"/><text class="sC" x="300" y="112" text-anchor="middle">Dashboard</text>
+<rect class="sB" x="430" y="90" width="120" height="34" rx="8"/><text class="sC" x="490" y="112" text-anchor="middle">Sidebar</text>
+<rect class="sB" x="160" y="160" width="120" height="34" rx="8"/><text class="sC" x="220" y="182" text-anchor="middle">Chart</text>
+<rect class="sB" x="320" y="160" width="120" height="34" rx="8"/><text class="sC" x="380" y="182" text-anchor="middle">InvoiceList</text>
+<rect class="sB" x="320" y="220" width="120" height="34" rx="8"/><text class="sC" x="380" y="242" text-anchor="middle">Row ×50</text>
+<g data-s="1-1"><rect class="sN" x="237" y="17" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="47" y="87" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="237" y="87" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="427" y="87" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="157" y="157" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="317" y="157" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="317" y="217" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><text class="sT" x="574" y="40">Default + Zone.js</text><text class="sC" x="574" y="60">a click anywhere:</text><text class="sC" x="574" y="76">check every binding</text><text class="sC" x="574" y="92">in every component</text></g>
+<g data-s="2-2"><rect class="sN" x="237" y="17" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="237" y="87" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><rect class="sN" x="317" y="157" width="126" height="40" rx="10" style="stroke:var(--mid);stroke-width:3"/><text class="sT" x="574" y="40">OnPush</text><text class="sC" x="574" y="60">only components whose</text><text class="sC" x="574" y="76">inputs changed by reference,</text><text class="sC" x="574" y="92">or that had an event, and</text><text class="sC" x="574" y="108">their ancestors</text></g>
+<g data-s="3-3"><rect class="sN" x="317" y="157" width="126" height="40" rx="10" style="stroke:var(--entry);stroke-width:3"/><text class="sT" x="574" y="40">Signals, zoneless</text><text class="sC" x="574" y="60">only the view whose</text><text class="sC" x="574" y="76">template read the</text><text class="sC" x="574" y="92">changed signal</text></g>
+</svg><ol class="dia-steps">
+<li>Classic Angular: Zone.js notices any async event, and change detection re-evaluates every binding in every component, top to bottom.</li>
+<li>OnPush: components are skipped unless an input changed by reference, an event happened inside them, or something they read marked them dirty. Immutable data is what makes this safe.</li>
+<li>Signals and zoneless: Angular knows which template read the signal that changed, so it refreshes that one view and nothing else. This is the default for new apps.</li>
+</ol><figcaption>Three generations of change detection on one tree. Highlighted components are the ones Angular checks.</figcaption></figure>
+
 | Version | Milestone |
 |---|---|
 | v16 (2023) | Signals introduced (developer preview) |
@@ -152,6 +220,17 @@ export class InvoiceApi {
 - **`InjectionToken`** provides non-class values (configuration objects, an API base URL).
 - `useClass`, `useValue`, `useFactory` and `useExisting` configure what gets injected; that's how tests swap in fakes.
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Angular injector hierarchy: a root injector with app singletons, a lazy route injector, and element injectors that give each chart component its own store">
+<rect class="sV" x="130" y="14" width="460" height="52" rx="8"/><text class="sT" x="360" y="38" text-anchor="middle">root injector</text><text class="sC" x="360" y="54" text-anchor="middle">providedIn: "root" · HttpClient · InvoiceApi (one each)</text>
+<rect class="sA" x="70" y="100" width="260" height="52" rx="8"/><text class="sT" x="200" y="124" text-anchor="middle">route injector (lazy /reports)</text><text class="sC" x="200" y="140" text-anchor="middle">ReportsService for that feature</text>
+<rect class="sG" x="390" y="100" width="260" height="52" rx="8"/><text class="sT" x="520" y="124" text-anchor="middle">element injectors</text><text class="sC" x="520" y="140" text-anchor="middle">providers: [ChartStore] on a component</text>
+<line class="sLm" x1="330" y1="66" x2="220" y2="98" marker-end="url(#ahm)"/><line class="sLm" x1="390" y1="66" x2="500" y2="98" marker-end="url(#ahm)"/>
+<rect class="sB" x="390" y="180" width="80" height="40" rx="6"/><text class="sC" x="430" y="198" text-anchor="middle">Chart 1</text><text class="sC" x="430" y="212" text-anchor="middle">own store</text><line class="sLm" x1="520" y1="152" x2="430" y2="178"/>
+<rect class="sB" x="480" y="180" width="80" height="40" rx="6"/><text class="sC" x="520" y="198" text-anchor="middle">Chart 2</text><text class="sC" x="520" y="212" text-anchor="middle">own store</text><line class="sLm" x1="520" y1="152" x2="520" y2="178"/>
+<rect class="sB" x="570" y="180" width="80" height="40" rx="6"/><text class="sC" x="610" y="198" text-anchor="middle">Chart 3</text><text class="sC" x="610" y="212" text-anchor="middle">own store</text><line class="sLm" x1="520" y1="152" x2="610" y2="178"/>
+<text class="sS" x="200" y="200" text-anchor="middle">a lookup walks up: element → route → root</text>
+</svg><figcaption>Hierarchical injection. Ask for a dependency and Angular walks up from the component until an injector provides it.</figcaption></figure>
+
 ## F7.6 RxJS essentials 🟢 🟡 ⭐
 
 An **Observable** is a lazy stream of values over time ([[F4.8]]). Angular's `HttpClient`, router events and reactive form `valueChanges` are all Observables.
@@ -172,6 +251,33 @@ When each value from one stream starts another async operation (an HTTP call), y
 | **`mergeMap`** | Run them **in parallel** | Independent requests where order doesn't matter |
 | **`concatMap`** | **Queue** it; run one at a time, in order | Saves that must happen in sequence |
 | **`exhaustMap`** | **Ignore** the new value until the current call finishes | A "Pay" or "Login" button clicked repeatedly |
+
+<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="Marble diagram: three source values each start a two-unit request; switchMap cancels earlier ones, mergeMap overlaps, concatMap queues, exhaustMap ignores b">
+<text class="sM" x="140" y="34" text-anchor="end">source</text><line class="sLm" x1="150" y1="30" x2="700" y2="30" marker-end="url(#ahm)"/>
+<circle class="sA" cx="175.0" cy="30" r="12"/><text class="sT" x="175" y="35" text-anchor="middle">a</text>
+<circle class="sA" cx="250.0" cy="30" r="12"/><text class="sT" x="250" y="35" text-anchor="middle">b</text>
+<circle class="sA" cx="300.0" cy="30" r="12"/><text class="sT" x="300" y="35" text-anchor="middle">c</text>
+<text class="sM" x="140" y="84" text-anchor="end">switchMap</text><line class="sLm" x1="150" y1="80" x2="700" y2="80" marker-end="url(#ahm)"/>
+<text class="sRt" x="250" y="85" text-anchor="middle">✕ A</text>
+<text class="sRt" x="300" y="85" text-anchor="middle">✕ B</text>
+<circle class="sG" cx="400.0" cy="80" r="12"/><text class="sT" x="400" y="85" text-anchor="middle">C</text>
+<text class="sGt" x="704" y="72" text-anchor="end">cancels the previous inner call</text>
+<text class="sM" x="140" y="128" text-anchor="end">mergeMap</text><line class="sLm" x1="150" y1="124" x2="700" y2="124" marker-end="url(#ahm)"/>
+<circle class="sG" cx="275.0" cy="124" r="12"/><text class="sT" x="275" y="129" text-anchor="middle">A</text>
+<circle class="sG" cx="350.0" cy="124" r="12"/><text class="sT" x="350" y="129" text-anchor="middle">B</text>
+<circle class="sG" cx="400.0" cy="124" r="12"/><text class="sT" x="400" y="129" text-anchor="middle">C</text>
+<text class="sC" x="704" y="116" text-anchor="end">runs them all at once</text>
+<text class="sM" x="140" y="172" text-anchor="end">concatMap</text><line class="sLm" x1="150" y1="168" x2="700" y2="168" marker-end="url(#ahm)"/>
+<circle class="sG" cx="275.0" cy="168" r="12"/><text class="sT" x="275" y="173" text-anchor="middle">A</text>
+<circle class="sG" cx="375.0" cy="168" r="12"/><text class="sT" x="375" y="173" text-anchor="middle">B</text>
+<circle class="sG" cx="475.0" cy="168" r="12"/><text class="sT" x="475" y="173" text-anchor="middle">C</text>
+<text class="sC" x="704" y="160" text-anchor="end">one at a time, in order</text>
+<text class="sM" x="140" y="216" text-anchor="end">exhaustMap</text><line class="sLm" x1="150" y1="212" x2="700" y2="212" marker-end="url(#ahm)"/>
+<circle class="sG" cx="275.0" cy="212" r="12"/><text class="sT" x="275" y="217" text-anchor="middle">A</text>
+<circle class="sG" cx="400.0" cy="212" r="12"/><text class="sT" x="400" y="217" text-anchor="middle">C</text>
+<text class="sWt" x="704" y="204" text-anchor="end">ignores b while A runs</text>
+<text class="sC" x="360" y="266" text-anchor="middle">each source value starts a request that takes 2 time units; capital letters are its result</text>
+</svg><figcaption>The flattening operators as a marble diagram. The only difference is what happens when a new value arrives while an inner call is still running.</figcaption></figure>
 
 ```ts
 results$ = this.searchControl.valueChanges.pipe(
@@ -227,6 +333,20 @@ export const appConfig: ApplicationConfig = {
 
 Requests are **immutable**; you `clone()` them to change them.
 
+<figure class="dia"><svg viewBox="0 0 720 130" role="img" aria-label="An HTTP request passes from the component through HttpClient and two interceptors to the backend, and the response returns through them in reverse">
+<rect class="sB" x="8" y="40" width="128" height="52" rx="8"/><text class="sT" x="72" y="64" text-anchor="middle">component</text><text class="sC" x="72" y="80" text-anchor="middle">api.list()</text>
+<line class="sL" x1="136" y1="58" x2="148" y2="58" marker-end="url(#ah)"/><line class="sLg" x1="148" y1="76" x2="136" y2="76" marker-end="url(#ahg)"/>
+<rect class="sA" x="150" y="40" width="128" height="52" rx="8"/><text class="sT" x="214" y="71" text-anchor="middle">HttpClient</text>
+<line class="sL" x1="278" y1="58" x2="290" y2="58" marker-end="url(#ah)"/><line class="sLg" x1="290" y1="76" x2="278" y2="76" marker-end="url(#ahg)"/>
+<rect class="sW" x="292" y="40" width="128" height="52" rx="8"/><text class="sT" x="356" y="64" text-anchor="middle">authInterceptor</text><text class="sC" x="356" y="80" text-anchor="middle">add Bearer token</text>
+<line class="sL" x1="420" y1="58" x2="432" y2="58" marker-end="url(#ah)"/><line class="sLg" x1="432" y1="76" x2="420" y2="76" marker-end="url(#ahg)"/>
+<rect class="sW" x="434" y="40" width="128" height="52" rx="8"/><text class="sT" x="498" y="64" text-anchor="middle">errorInterceptor</text><text class="sC" x="498" y="80" text-anchor="middle">401 → /login</text>
+<line class="sL" x1="562" y1="58" x2="574" y2="58" marker-end="url(#ah)"/><line class="sLg" x1="574" y1="76" x2="562" y2="76" marker-end="url(#ahg)"/>
+<rect class="sG" x="576" y="40" width="128" height="52" rx="8"/><text class="sT" x="640" y="64" text-anchor="middle">backend</text><text class="sC" x="640" y="80" text-anchor="middle">ASP.NET Core</text>
+<text class="sC" x="360" y="22" text-anchor="middle">request →  (each interceptor clones and passes it on with next(req))</text>
+<text class="sGt" x="360" y="118" text-anchor="middle">← response flows back through them in reverse order</text>
+</svg><figcaption>Interceptors form a chain around every request. Order matters: they run in the order listed on the way out and in reverse on the way back.</figcaption></figure>
+
 > [!story]
 > FinSight used `@auth0/angular-jwt`, whose interceptor attaches the JWT to API calls automatically. Explaining what the library does under the hood (an interceptor that clones each request with a `Bearer` header for allowed domains) shows understanding rather than just usage.
 
@@ -249,6 +369,24 @@ export const authGuard: CanActivateFn = () => {
   return auth.isLoggedIn() ? true : inject(Router).createUrlTree(["/login"]);
 };
 ```
+
+<figure class="dia steps"><svg viewBox="0 0 720 236" role="img" aria-label="Navigating to /invoices/42: the router matches the invoices route; while logged out the auth guard redirects to the login page and the invoices chunk is not downloaded; after login the guard allows activation, the lazy chunk is fetched once, and the child route :id renders the invoice page with id 42 as an input">
+<text class="sS" x="130" y="22" text-anchor="middle">routes, checked top to bottom</text><text class="sS" x="400" y="22" text-anchor="middle">authGuard</text><text class="sS" x="610" y="22" text-anchor="middle">browser</text>
+<rect class="sN" x="14" y="32" width="236" height="28" rx="6"/><text class="sS" x="24" y="51" xml:space="preserve" style="white-space:pre">""  → HomePage</text>
+<rect class="sN" x="14" y="66" width="236" height="28" rx="6"/><text class="sS" x="24" y="85" xml:space="preserve" style="white-space:pre">"login"  → lazy LoginPage</text>
+<rect class="sN" x="14" y="100" width="236" height="28" rx="6"/><text class="sS" x="24" y="119" xml:space="preserve" style="white-space:pre">"invoices"  → guard + lazy chunk</text>
+<rect class="sN" x="14" y="134" width="236" height="28" rx="6"/><text class="sS" x="24" y="153" xml:space="preserve" style="white-space:pre">"**"  → NotFoundPage</text>
+<rect class="sN" x="300" y="32" width="200" height="96" rx="8"/><rect class="sN" x="520" y="32" width="186" height="196" rx="8"/>
+<g data-s="1-1"><text class="sT" x="24" y="196" xml:space="preserve" style="white-space:pre">navigate("/invoices/42")</text><rect class="sA" x="14" y="100" width="236" height="28" rx="6" style="fill:none;stroke-width:2.5"/><text class="sS" x="132" y="220" text-anchor="middle">"" and "login" do not match; "invoices" does</text><text class="sS" x="613" y="54" text-anchor="middle">URL: /invoices/42</text></g>
+<g data-s="2-2"><rect class="sA" x="14" y="100" width="236" height="28" rx="6" style="fill:none;stroke-width:2.5"/><text class="sS" x="400" y="56" text-anchor="middle">auth.isLoggedIn()</text><text class="sRt" x="400" y="80" text-anchor="middle">false</text><text class="sRt" x="400" y="104" text-anchor="middle">→ UrlTree("/login")</text><text class="sWt" x="613" y="54" text-anchor="middle">URL: /login</text><text class="sS" x="613" y="80" text-anchor="middle">LoginPage chunk loads</text><text class="sS" x="613" y="104" text-anchor="middle">invoices chunk: not fetched</text><rect class="sW" x="14" y="66" width="236" height="28" rx="6" style="fill:none;stroke-width:2.5"/><line class="sLw" x1="250" y1="113" x2="250" y2="63" marker-end="url(#ahw)"/></g>
+<g data-s="3-3"><rect class="sG" x="14" y="100" width="236" height="28" rx="6" style="fill:none;stroke-width:2.5"/><text class="sS" x="400" y="56" text-anchor="middle">auth.isLoggedIn()</text><text class="sGt" x="400" y="80" text-anchor="middle">true</text><text class="sGt" x="400" y="104" text-anchor="middle">→ activate</text><text class="sGt" x="613" y="54" text-anchor="middle">GET invoices-chunk.js</text><text class="sS" x="613" y="72" text-anchor="middle">(first visit only)</text></g>
+<g data-s="4-4"><rect class="sG" x="14" y="100" width="236" height="28" rx="6" style="fill:none;stroke-width:2.5"/><rect class="sB" x="300" y="146" width="200" height="82" rx="8"/><text class="sT" x="400" y="166" text-anchor="middle">INVOICE_ROUTES</text><text class="sS" x="312" y="188" xml:space="preserve" style="white-space:pre">":id" → InvoicePage</text><text class="sGt" x="400" y="212" text-anchor="middle">id = input("42")</text><text class="sS" x="613" y="54" text-anchor="middle">URL: /invoices/42</text><text class="sGt" x="613" y="80" text-anchor="middle">InvoicePage rendered</text><text class="sS" x="613" y="104" text-anchor="middle">next visit: chunk cached</text></g>
+</svg><ol class="dia-steps">
+<li>The router tries the routes in order. Paths are matched by segment: "invoices" matches the first segment of /invoices/42.</li>
+<li>Before activating, canActivate runs authGuard. Logged out, it returns a UrlTree, so the router redirects to /login and never downloads the invoices code.</li>
+<li>After sign-in the guard returns true, and loadChildren fetches the feature chunk for the first time.</li>
+<li>The child routes take over: ":id" matches 42, which arrives as a component input. The guard improved the UX; the API still checks every request.</li>
+</ol><figcaption>The route configuration above in action: matching, a guard redirect, lazy loading on first visit, and child routes.</figcaption></figure>
 
 - **Lazy loading** (`loadComponent`, `loadChildren`) splits each feature into its own JavaScript chunk, downloaded on first visit.
 - **Guards** (`canActivate`, `canMatch`, `canDeactivate` for "unsaved changes") are UX, **not security**: the API must still authorise every request ([[S9.6]]).
@@ -286,6 +424,26 @@ submit() {
   <button type="submit">Save</button>
 </form>
 ```
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 242" role="img" aria-label="An Angular reactive form tree: a FormGroup with customer, amount and a FormArray of line groups; an invalid amount makes the whole form invalid, and an invalid line deep in the array does the same">
+<rect class="sB" x="270" y="20" width="180" height="40" rx="8"/><text class="sT" x="360" y="38" text-anchor="middle">form (FormGroup)</text>
+<rect class="sN" x="60" y="96" width="180" height="40" rx="8"/><text class="sC" x="150" y="114" text-anchor="middle">customer</text><text class="sS" x="150" y="130" text-anchor="middle">required, max 120</text>
+<line class="sLm" x1="360" y1="60" x2="150" y2="96"/>
+<rect class="sN" x="270" y="96" width="180" height="40" rx="8"/><text class="sC" x="360" y="114" text-anchor="middle">amount</text><text class="sS" x="360" y="130" text-anchor="middle">min 1</text>
+<line class="sLm" x1="360" y1="60" x2="360" y2="96"/>
+<rect class="sN" x="480" y="96" width="180" height="40" rx="8"/><text class="sC" x="570" y="114" text-anchor="middle">lines (FormArray)</text>
+<line class="sLm" x1="360" y1="60" x2="570" y2="96"/>
+<rect class="sN" x="480" y="170" width="180" height="36" rx="8"/><text class="sC" x="570" y="192" text-anchor="middle">line 1 (FormGroup)</text><line class="sLm" x1="570" y1="136" x2="570" y2="170"/>
+<g data-s="1-1"><text class="sGt" x="360" y="230" text-anchor="middle">every control VALID, so the form is VALID and Save works</text></g>
+<g data-s="2-3"><rect class="sR" x="270" y="96" width="180" height="40" rx="8" opacity=".5"/><text class="sRt" x="360" y="152" text-anchor="middle">amount = 0 → errors: { min }</text></g>
+<g data-s="3-3"><rect class="sR" x="270" y="20" width="180" height="40" rx="8" opacity=".5"/><text class="sRt" x="470" y="40">INVALID: one bad child is enough</text><text class="sRt" x="360" y="230" text-anchor="middle">submit(): markAllAsTouched() shows every error, then stops</text></g>
+<g data-s="4-4"><rect class="sR" x="480" y="170" width="180" height="36" rx="8" opacity=".5"/><rect class="sR" x="480" y="96" width="180" height="40" rx="8" opacity=".5"/><rect class="sR" x="270" y="20" width="180" height="40" rx="8" opacity=".5"/><text class="sRt" x="470" y="40">INVALID from deep inside</text><text class="sC" x="360" y="230" text-anchor="middle">a FormArray row added later rolls up the same way</text></g>
+</svg><ol class="dia-steps">
+<li>The form is a tree: a <code>FormGroup</code> with two controls and a <code>FormArray</code> of line groups. Each control runs its validators.</li>
+<li>The user leaves amount at 0: <code>Validators.min(1)</code> sets <code>errors: { min: … }</code> on that control.</li>
+<li>Validity rolls up: one invalid child makes every ancestor invalid, so <code>form.invalid</code> is true and <code>submit()</code> marks everything touched and returns.</li>
+<li>The same happens from deep inside a dynamic row in the <code>FormArray</code>. Check <code>form.invalid</code> once at the top; read errors per control.</li>
+</ol><figcaption>Reactive forms as a tree of controls: status and value propagate upward.</figcaption></figure>
 
 **Custom validators** are functions `(control) => ValidationErrors | null`; **async validators** (is this email taken?) return an Observable or Promise of the same.
 

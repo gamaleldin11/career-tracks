@@ -90,6 +90,50 @@ arr5 = np.linspace(0, 1, 25)               # 25 evenly spaced points, endpoint I
 - `arange(start, stop, step)` — *you* specify the step; the count falls out; `stop` is **excluded**. With float steps it can produce an off-by-one element because of floating-point accumulation.
 - `linspace(start, stop, num)` — *you* specify how many points; the step falls out; `stop` is **included** by default.
 
+<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="arange from 0 to 10 in steps of 2 gives 0 to 8 and excludes 10; linspace from 0 to 10 with 5 points includes 10; arange from 1 to 1.3 in steps of 0.1 unexpectedly returns four values, the last being 1.3000000000000003, because 0.1 is not exact in binary">
+<text class="sS" x="14" y="44" xml:space="preserve" style="white-space:pre">np.arange(0, 10, 2)</text>
+<line class="sLm" x1="210" y1="40" x2="600" y2="40"/>
+<line class="sLr" x1="580" y1="30" x2="580" y2="50" stroke-dasharray="3 2"/><text class="sS" x="580" y="26" text-anchor="middle">stop 10</text>
+<circle class="sP" cx="220.0" cy="40" r="5"/>
+<text class="sS" x="220" y="62" text-anchor="middle">0</text>
+<circle class="sP" cx="292.0" cy="40" r="5"/>
+<text class="sS" x="292" y="62" text-anchor="middle">2</text>
+<circle class="sP" cx="364.0" cy="40" r="5"/>
+<text class="sS" x="364" y="62" text-anchor="middle">4</text>
+<circle class="sP" cx="436.0" cy="40" r="5"/>
+<text class="sS" x="436" y="62" text-anchor="middle">6</text>
+<circle class="sP" cx="508.0" cy="40" r="5"/>
+<text class="sS" x="508" y="62" text-anchor="middle">8</text>
+<text class="sS" x="14" y="62">step given, stop excluded</text>
+<text class="sS" x="14" y="108" xml:space="preserve" style="white-space:pre">np.linspace(0, 10, 5)</text>
+<line class="sLm" x1="210" y1="104" x2="600" y2="104"/>
+<line class="sLr" x1="580" y1="94" x2="580" y2="114" stroke-dasharray="3 2"/><text class="sS" x="580" y="90" text-anchor="middle">stop 10</text>
+<circle class="sPg" cx="220.0" cy="104" r="5"/>
+<text class="sS" x="220" y="126" text-anchor="middle">0</text>
+<circle class="sPg" cx="310.0" cy="104" r="5"/>
+<text class="sS" x="310" y="126" text-anchor="middle">2.5</text>
+<circle class="sPg" cx="400.0" cy="104" r="5"/>
+<text class="sS" x="400" y="126" text-anchor="middle">5</text>
+<circle class="sPg" cx="490.0" cy="104" r="5"/>
+<text class="sS" x="490" y="126" text-anchor="middle">7.5</text>
+<circle class="sPg" cx="580.0" cy="104" r="5"/>
+<text class="sS" x="580" y="126" text-anchor="middle">10</text>
+<text class="sS" x="14" y="126">count given, stop included</text>
+<text class="sS" x="14" y="172" xml:space="preserve" style="white-space:pre">np.arange(1, 1.3, 0.1)</text>
+<line class="sLm" x1="210" y1="168" x2="600" y2="168"/>
+<line class="sLr" x1="580" y1="158" x2="580" y2="178" stroke-dasharray="3 2"/><text class="sS" x="580" y="154" text-anchor="middle">stop 1.3</text>
+<circle class="sP" cx="220.0" cy="168" r="5"/>
+<text class="sS" x="220" y="190" text-anchor="middle">1</text>
+<circle class="sP" cx="340.0" cy="168" r="5"/>
+<text class="sS" x="340" y="190" text-anchor="middle">1.1</text>
+<circle class="sP" cx="460.0" cy="168" r="5"/>
+<text class="sS" x="460" y="190" text-anchor="middle">1.2</text>
+<circle class="sPr" cx="580.0" cy="168" r="5"/>
+<text class="sRt" x="588" y="190">1.3000000000000003</text>
+<text class="sRt" x="14" y="190">4 values: the stop sneaks in</text>
+<text class="sS" x="360" y="230" text-anchor="middle">0.1 has no exact binary form, so float steps drift; use arange for integers and linspace for float ranges</text>
+</svg><figcaption>arange vs linspace on number lines, computed with NumPy. The third row is the float off-by-one the text warns about.</figcaption></figure>
+
 For plotting axes and any float range, prefer `linspace`. For integer indices, `arange`.
 
 ### Random arrays
@@ -190,6 +234,22 @@ a                 # array([ 1, 99,  3,  4,  5])   ← a changed!
 
 **Basic slicing returns a view, not a copy.** This is what makes NumPy fast (no data copied) and is a frequent source of "why did my original array change?". Use `.copy()` when you want independence:
 
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 184" role="img" aria-label="A NumPy slice is a view sharing memory with the original array, so writing to it changes the original; fancy indexing returns an independent copy">
+<text class="sM" x="110" y="64" text-anchor="end">a  →</text>
+<g data-s="1-1"><rect class="sB" x="120" y="44" width="54" height="34" rx="4"/><text class="sT" x="147" y="66" text-anchor="middle">1</text><rect class="sB" x="180" y="44" width="54" height="34" rx="4"/><text class="sT" x="207" y="66" text-anchor="middle">2</text><rect class="sB" x="240" y="44" width="54" height="34" rx="4"/><text class="sT" x="267" y="66" text-anchor="middle">3</text><rect class="sB" x="300" y="44" width="54" height="34" rx="4"/><text class="sT" x="327" y="66" text-anchor="middle">4</text><rect class="sB" x="360" y="44" width="54" height="34" rx="4"/><text class="sT" x="387" y="66" text-anchor="middle">5</text><rect class="sN" x="176" y="98" width="172" height="34" rx="6" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sM" x="110" y="120" text-anchor="end">b = a[1:4]</text><text class="sWt" x="262" y="152" text-anchor="middle">b is a window onto a's memory: nothing copied</text></g>
+<g data-s="2-2"><rect class="sB" x="120" y="44" width="54" height="34" rx="4"/><text class="sT" x="147" y="66" text-anchor="middle">1</text><rect class="sR" x="180" y="44" width="54" height="34" rx="4"/><text class="sT" x="207" y="66" text-anchor="middle">99</text><rect class="sB" x="240" y="44" width="54" height="34" rx="4"/><text class="sT" x="267" y="66" text-anchor="middle">3</text><rect class="sB" x="300" y="44" width="54" height="34" rx="4"/><text class="sT" x="327" y="66" text-anchor="middle">4</text><rect class="sB" x="360" y="44" width="54" height="34" rx="4"/><text class="sT" x="387" y="66" text-anchor="middle">5</text><rect class="sN" x="176" y="98" width="172" height="34" rx="6" style="fill:none;stroke:var(--mid);stroke-width:3"/><text class="sM" x="110" y="120" text-anchor="end">b[0] = 99</text><text class="sRt" x="262" y="152" text-anchor="middle">writing through the view changes a</text></g>
+<g data-s="3-3"><rect class="sB" x="120" y="44" width="54" height="34" rx="4"/><text class="sT" x="147" y="66" text-anchor="middle">1</text><rect class="sB" x="180" y="44" width="54" height="34" rx="4"/><text class="sT" x="207" y="66" text-anchor="middle">99</text><rect class="sB" x="240" y="44" width="54" height="34" rx="4"/><text class="sT" x="267" y="66" text-anchor="middle">3</text><rect class="sB" x="300" y="44" width="54" height="34" rx="4"/><text class="sT" x="327" y="66" text-anchor="middle">4</text><rect class="sB" x="360" y="44" width="54" height="34" rx="4"/><text class="sT" x="387" y="66" text-anchor="middle">5</text><rect class="sG" x="120" y="110" width="54" height="34" rx="4"/><text class="sT" x="147" y="132" text-anchor="middle">1</text><rect class="sG" x="180" y="110" width="54" height="34" rx="4"/><text class="sT" x="207" y="132" text-anchor="middle">3</text><rect class="sG" x="240" y="110" width="54" height="34" rx="4"/><text class="sT" x="267" y="132" text-anchor="middle">5</text><text class="sM" x="110" y="130" text-anchor="end">c = a[[0, 2, 4]]</text><text class="sGt" x="262" y="168" text-anchor="middle">fancy (list or mask) indexing allocates a copy: changing c leaves a alone</text></g>
+<text class="sC" x="147" y="36" text-anchor="middle">[0]</text>
+<text class="sC" x="207" y="36" text-anchor="middle">[1]</text>
+<text class="sC" x="267" y="36" text-anchor="middle">[2]</text>
+<text class="sC" x="327" y="36" text-anchor="middle">[3]</text>
+<text class="sC" x="387" y="36" text-anchor="middle">[4]</text>
+</svg><ol class="dia-steps">
+<li>Basic slicing returns a <b>view</b>: <code>b</code> points into <code>a</code>'s buffer, which is why slicing a huge array is instant.</li>
+<li>So writing <code>b[0] = 99</code> writes into <code>a[1]</code>. This surprises everyone once.</li>
+<li>Indexing with a list or a boolean mask builds a new array: a copy. Use <code>.copy()</code> when you need a slice you can safely modify.</li>
+</ol><figcaption>Views make NumPy fast and occasionally confusing. Ask "did this allocate?" whenever an original changes unexpectedly.</figcaption></figure>
+
 ```python
 b = a[1:4].copy()
 ```
@@ -249,6 +309,36 @@ For a 2-D array of shape `(rows, cols)`, axis 0 is rows and axis 1 is columns. S
 
 Check it with shapes: `(5, 3)` summed with `axis=0` → shape `(3,)`. The 5 is gone.
 
+<figure class="dia"><svg viewBox="0 0 720 264" role="img" aria-label="A 5 by 3 array: summing with axis 0 collapses the rows into three column totals; summing with axis 1 collapses the columns into five row totals">
+<rect class="sB" x="250" y="30" width="46" height="26" rx="3"/><text class="sC" x="273" y="48" text-anchor="middle">1</text>
+<rect class="sB" x="300" y="30" width="46" height="26" rx="3"/><text class="sC" x="323" y="48" text-anchor="middle">2</text>
+<rect class="sB" x="350" y="30" width="46" height="26" rx="3"/><text class="sC" x="373" y="48" text-anchor="middle">3</text>
+<rect class="sB" x="250" y="60" width="46" height="26" rx="3"/><text class="sC" x="273" y="78" text-anchor="middle">4</text>
+<rect class="sB" x="300" y="60" width="46" height="26" rx="3"/><text class="sC" x="323" y="78" text-anchor="middle">5</text>
+<rect class="sB" x="350" y="60" width="46" height="26" rx="3"/><text class="sC" x="373" y="78" text-anchor="middle">6</text>
+<rect class="sB" x="250" y="90" width="46" height="26" rx="3"/><text class="sC" x="273" y="108" text-anchor="middle">7</text>
+<rect class="sB" x="300" y="90" width="46" height="26" rx="3"/><text class="sC" x="323" y="108" text-anchor="middle">8</text>
+<rect class="sB" x="350" y="90" width="46" height="26" rx="3"/><text class="sC" x="373" y="108" text-anchor="middle">9</text>
+<rect class="sB" x="250" y="120" width="46" height="26" rx="3"/><text class="sC" x="273" y="138" text-anchor="middle">1</text>
+<rect class="sB" x="300" y="120" width="46" height="26" rx="3"/><text class="sC" x="323" y="138" text-anchor="middle">1</text>
+<rect class="sB" x="350" y="120" width="46" height="26" rx="3"/><text class="sC" x="373" y="138" text-anchor="middle">1</text>
+<rect class="sB" x="250" y="150" width="46" height="26" rx="3"/><text class="sC" x="273" y="168" text-anchor="middle">2</text>
+<rect class="sB" x="300" y="150" width="46" height="26" rx="3"/><text class="sC" x="323" y="168" text-anchor="middle">0</text>
+<rect class="sB" x="350" y="150" width="46" height="26" rx="3"/><text class="sC" x="373" y="168" text-anchor="middle">2</text>
+<text class="sM" x="325" y="20" text-anchor="middle">shape (5, 3)</text>
+<line class="sLg" x1="273" y1="182" x2="273" y2="202" marker-end="url(#ahg)"/><rect class="sG" x="250" y="206" width="46" height="26" rx="3"/><text class="sT" x="273" y="224" text-anchor="middle">15</text>
+<line class="sLg" x1="323" y1="182" x2="323" y2="202" marker-end="url(#ahg)"/><rect class="sG" x="300" y="206" width="46" height="26" rx="3"/><text class="sT" x="323" y="224" text-anchor="middle">16</text>
+<line class="sLg" x1="373" y1="182" x2="373" y2="202" marker-end="url(#ahg)"/><rect class="sG" x="350" y="206" width="46" height="26" rx="3"/><text class="sT" x="373" y="224" text-anchor="middle">21</text>
+<text class="sGt" x="325" y="252" text-anchor="middle">sum(axis=0) → shape (3,)</text>
+<line class="sLw" x1="402" y1="43" x2="426" y2="43" marker-end="url(#ahw)"/><rect class="sW" x="430" y="30" width="46" height="26" rx="3"/><text class="sT" x="453" y="48" text-anchor="middle">6</text>
+<line class="sLw" x1="402" y1="73" x2="426" y2="73" marker-end="url(#ahw)"/><rect class="sW" x="430" y="60" width="46" height="26" rx="3"/><text class="sT" x="453" y="78" text-anchor="middle">15</text>
+<line class="sLw" x1="402" y1="103" x2="426" y2="103" marker-end="url(#ahw)"/><rect class="sW" x="430" y="90" width="46" height="26" rx="3"/><text class="sT" x="453" y="108" text-anchor="middle">24</text>
+<line class="sLw" x1="402" y1="133" x2="426" y2="133" marker-end="url(#ahw)"/><rect class="sW" x="430" y="120" width="46" height="26" rx="3"/><text class="sT" x="453" y="138" text-anchor="middle">3</text>
+<line class="sLw" x1="402" y1="163" x2="426" y2="163" marker-end="url(#ahw)"/><rect class="sW" x="430" y="150" width="46" height="26" rx="3"/><text class="sT" x="453" y="168" text-anchor="middle">4</text>
+<text class="sWt" x="486" y="110">sum(axis=1)</text><text class="sWt" x="486" y="128">→ shape (5,)</text>
+<text class="sC" x="130" y="110" text-anchor="middle">axis = the</text><text class="sC" x="130" y="128" text-anchor="middle">dimension that</text><text class="sT" x="130" y="146" text-anchor="middle">disappears</text>
+</svg><figcaption>axis=0 removes the first dimension (rows), leaving one value per column; axis=1 removes columns, leaving one per row.</figcaption></figure>
+
 This exact rule carries into Pandas, where it is the source of endless confusion because `df.drop(axis=1)` drops columns while `df.sum(axis=1)` sums *across* columns. Both are consistent with "axis 1 is the column axis"; they just do different things with it.
 
 ### Percentiles and quantiles
@@ -289,6 +379,28 @@ arr6_5.flatten()      # back to 1-D
 A.reshape(-1)         # -1 means "infer this dimension"
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 266" role="img" aria-label="One buffer of six integers seen through different shapes: reshape 2 by 3 and 3 by 2 and minus one by one all share the memory; the transpose swaps strides and is not C-contiguous; ravel returns a view of the reshaped array but a copy of the transposed one, and flatten always copies">
+<text class="sS" x="14" y="24">memory (one buffer of 6 int64s)</text>
+<rect class="sB" x="14" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="32" y="51" text-anchor="middle">0</text>
+<rect class="sV" x="54" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="72" y="51" text-anchor="middle">1</text>
+<rect class="sG" x="94" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="112" y="51" text-anchor="middle">2</text>
+<rect class="sA" x="134" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="152" y="51" text-anchor="middle">3</text>
+<rect class="sW" x="174" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="192" y="51" text-anchor="middle">4</text>
+<rect class="sR" x="214" y="32" width="36" height="28" rx="4" opacity=".6"/><text class="sT" x="232" y="51" text-anchor="middle">5</text>
+<text class="sS" x="270" y="51">a = np.arange(6)</text>
+<g data-s="1-1"><text class="sT" x="14" y="92" xml:space="preserve" style="white-space:pre">a.reshape(2, 3)</text><text class="sS" x="14" y="112">shape (2, 3)   strides (24, 8) bytes</text><rect class="sB" x="40" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="137" text-anchor="middle">0</text><rect class="sV" x="78" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="137" text-anchor="middle">1</text><rect class="sG" x="116" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="133" y="137" text-anchor="middle">2</text><rect class="sA" x="40" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="160" text-anchor="middle">3</text><rect class="sW" x="78" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="160" text-anchor="middle">4</text><rect class="sR" x="116" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="133" y="160" text-anchor="middle">5</text><text class="sGt" x="420" y="140">np.shares_memory(a, …) = True</text><text class="sS" x="420" y="160">same buffer, new shape: no copy</text></g>
+<g data-s="2-2"><text class="sT" x="14" y="92" xml:space="preserve" style="white-space:pre">a.reshape(3, 2)</text><text class="sS" x="14" y="112">shape (3, 2)   strides (16, 8) bytes</text><rect class="sB" x="40" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="137" text-anchor="middle">0</text><rect class="sV" x="78" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="137" text-anchor="middle">1</text><rect class="sG" x="40" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="160" text-anchor="middle">2</text><rect class="sA" x="78" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="160" text-anchor="middle">3</text><rect class="sW" x="40" y="168" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="183" text-anchor="middle">4</text><rect class="sR" x="78" y="168" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="183" text-anchor="middle">5</text><text class="sGt" x="420" y="140">np.shares_memory(a, …) = True</text><text class="sS" x="420" y="160">same buffer, new shape: no copy</text></g>
+<g data-s="3-3"><text class="sT" x="14" y="92" xml:space="preserve" style="white-space:pre">a.reshape(-1, 1)</text><text class="sS" x="14" y="112">shape (6, 1)   strides (8, 8) bytes</text><rect class="sB" x="40" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="137" text-anchor="middle">0</text><rect class="sV" x="40" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="160" text-anchor="middle">1</text><rect class="sG" x="40" y="168" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="183" text-anchor="middle">2</text><rect class="sA" x="40" y="191" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="206" text-anchor="middle">3</text><rect class="sW" x="40" y="214" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="229" text-anchor="middle">4</text><rect class="sR" x="40" y="237" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="252" text-anchor="middle">5</text><text class="sGt" x="420" y="140">np.shares_memory(a, …) = True</text><text class="sS" x="420" y="160">same buffer, new shape: no copy</text></g>
+<g data-s="4-4"><text class="sT" x="14" y="92" xml:space="preserve" style="white-space:pre">a.reshape(2, 3).T</text><text class="sS" x="14" y="112">shape (3, 2)   strides (8, 24) bytes</text><rect class="sB" x="40" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="137" text-anchor="middle">0</text><rect class="sA" x="78" y="122" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="137" text-anchor="middle">3</text><rect class="sV" x="40" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="160" text-anchor="middle">1</text><rect class="sW" x="78" y="145" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="160" text-anchor="middle">4</text><rect class="sG" x="40" y="168" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="57" y="183" text-anchor="middle">2</text><rect class="sR" x="78" y="168" width="34" height="20" rx="4" opacity=".6"/><text class="sT" x="95" y="183" text-anchor="middle">5</text><text class="sGt" x="420" y="140">np.shares_memory(a, …) = True</text><text class="sS" x="420" y="160">transpose only swaps the strides</text><text class="sWt" x="420" y="180">C-contiguous: False</text></g>
+<g data-s="5-5"><text class="sT" x="14" y="92" xml:space="preserve" style="white-space:pre">flatten() vs ravel()</text><text class="sS" x="14" y="124" xml:space="preserve" style="white-space:pre">a.reshape(2, 3).ravel()    → [0, 1, 2, 3, 4, 5]</text><text class="sGt" x="700" y="124" text-anchor="end">view (shares memory: True)</text><text class="sS" x="14" y="148" xml:space="preserve" style="white-space:pre">a.reshape(2, 3).T.ravel()  → [0, 3, 1, 4, 2, 5]</text><text class="sWt" x="700" y="148" text-anchor="end">copy (shares memory: False)</text><text class="sS" x="14" y="172" xml:space="preserve" style="white-space:pre">a.reshape(2, 3).T.flatten() → [0, 3, 1, 4, 2, 5]</text><text class="sWt" x="700" y="172" text-anchor="end">always a copy</text><text class="sS" x="14" y="204">ravel returns a view only when the order allows it; flatten never does</text></g>
+</svg><ol class="dia-steps">
+<li>reshape(2, 3) fills rows first (C order): 0 1 2 on the first row. Same buffer, no copy.</li>
+<li>reshape(3, 2) reads the same 6 values two at a time.</li>
+<li>reshape(-1, 1) infers the 6 and gives the column shape scikit-learn expects for one feature.</li>
+<li>Transposing does not move data: it swaps the strides, so the result is no longer C-contiguous.</li>
+<li>ravel() gives a view when the memory order allows, and silently a copy when it does not; flatten() always copies.</li>
+</ol><figcaption>Reshape, transpose, ravel and flatten on np.arange(6), with shapes, strides and np.shares_memory computed by NumPy.</figcaption></figure>
+
 `reshape` reinterprets the same memory with a different shape. The product of the new shape must equal `size`, or you get an error.
 
 **`-1` is a wildcard**: `reshape(-1, 1)` means "one column, as many rows as needed". You will type this constantly, because scikit-learn insists that `X` be 2-D even when it holds a single feature:
@@ -315,6 +427,14 @@ This is the two-step idea that everything downstream is built on:
 
 1. A comparison against an array returns a **boolean array**, not a single boolean.
 2. Indexing an array *with* a boolean array selects where `True`.
+
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Boolean masking: comparing an array with 4 gives a True/False array, and indexing with it keeps only the values 8, 6 and 9">
+<text class="sM" x="120" y="42" text-anchor="end">a</text><rect class="sB" x="130" y="20" width="54" height="34" rx="4"/><text class="sT" x="157" y="42" text-anchor="middle">3</text><rect class="sB" x="190" y="20" width="54" height="34" rx="4"/><text class="sT" x="217" y="42" text-anchor="middle">8</text><rect class="sB" x="250" y="20" width="54" height="34" rx="4"/><text class="sT" x="277" y="42" text-anchor="middle">1</text><rect class="sB" x="310" y="20" width="54" height="34" rx="4"/><text class="sT" x="337" y="42" text-anchor="middle">6</text><rect class="sB" x="370" y="20" width="54" height="34" rx="4"/><text class="sT" x="397" y="42" text-anchor="middle">9</text><rect class="sB" x="430" y="20" width="54" height="34" rx="4"/><text class="sT" x="457" y="42" text-anchor="middle">2</text>
+<text class="sM" x="120" y="98" text-anchor="end">a &gt; 4</text><rect class="sN" x="130" y="76" width="54" height="34" rx="4"/><text class="sT" x="157" y="98" text-anchor="middle">F</text><rect class="sG" x="190" y="76" width="54" height="34" rx="4"/><text class="sT" x="217" y="98" text-anchor="middle">T</text><rect class="sN" x="250" y="76" width="54" height="34" rx="4"/><text class="sT" x="277" y="98" text-anchor="middle">F</text><rect class="sG" x="310" y="76" width="54" height="34" rx="4"/><text class="sT" x="337" y="98" text-anchor="middle">T</text><rect class="sG" x="370" y="76" width="54" height="34" rx="4"/><text class="sT" x="397" y="98" text-anchor="middle">T</text><rect class="sN" x="430" y="76" width="54" height="34" rx="4"/><text class="sT" x="457" y="98" text-anchor="middle">F</text>
+<text class="sM" x="120" y="154" text-anchor="end">a[a &gt; 4]</text><rect class="sG" x="130" y="132" width="54" height="34" rx="4"/><text class="sT" x="157" y="154" text-anchor="middle">8</text><rect class="sG" x="190" y="132" width="54" height="34" rx="4"/><text class="sT" x="217" y="154" text-anchor="middle">6</text><rect class="sG" x="250" y="132" width="54" height="34" rx="4"/><text class="sT" x="277" y="154" text-anchor="middle">9</text>
+<text class="sC" x="560" y="50">a comparison makes</text><text class="sC" x="560" y="68">a boolean array</text><text class="sC" x="560" y="108">indexing with it keeps</text><text class="sC" x="560" y="126">the True positions</text>
+<text class="sS" x="360" y="196" text-anchor="middle">combine with &amp; | ~ and parentheses: (a &gt; 2) &amp; (a &lt; 8)</text>
+</svg><figcaption>The two-step idea behind every filter in NumPy and pandas: compare to get a mask, index with the mask.</figcaption></figure>
 
 `df[df.Monthly_Usage_MB > 10000]` in Pandas is the same mechanism with labels attached.
 
@@ -363,6 +483,31 @@ matrix_mul = A @ B    # identical to np.dot for 2-D — preferred, PEP 465
 - **Cosine similarity** (Part 10) is a normalised dot product.
 - A **matrix multiply** is a grid of dot products: `(A@B)[i,j] = row i of A · column j of B`.
 
+<figure class="dia steps"><svg viewBox="0 0 720 226" role="img" aria-label="A 2 by 3 matrix times a 3 by 2 matrix gives a 2 by 2 matrix; each result cell is the dot product of a row of A and a column of B, for example 1 times 7 plus 2 times 9 plus 3 times 11 equals 58">
+<text class="sT" x="100" y="38" text-anchor="middle">A</text><text class="sS" x="100" y="52" text-anchor="middle">(2, 3)</text><rect class="sN" x="40" y="60" width="36" height="28" rx="4"/><text class="sC" x="58" y="79" text-anchor="middle">1</text><rect class="sN" x="80" y="60" width="36" height="28" rx="4"/><text class="sC" x="98" y="79" text-anchor="middle">2</text><rect class="sN" x="120" y="60" width="36" height="28" rx="4"/><text class="sC" x="138" y="79" text-anchor="middle">3</text><rect class="sN" x="40" y="92" width="36" height="28" rx="4"/><text class="sC" x="58" y="111" text-anchor="middle">4</text><rect class="sN" x="80" y="92" width="36" height="28" rx="4"/><text class="sC" x="98" y="111" text-anchor="middle">5</text><rect class="sN" x="120" y="92" width="36" height="28" rx="4"/><text class="sC" x="138" y="111" text-anchor="middle">6</text><text class="sT" x="172" y="96" text-anchor="middle">@</text><text class="sT" x="290" y="38" text-anchor="middle">B</text><text class="sS" x="290" y="52" text-anchor="middle">(3, 2)</text><rect class="sN" x="250" y="60" width="36" height="28" rx="4"/><text class="sC" x="268" y="79" text-anchor="middle">7</text><rect class="sN" x="290" y="60" width="36" height="28" rx="4"/><text class="sC" x="308" y="79" text-anchor="middle">8</text><rect class="sN" x="250" y="92" width="36" height="28" rx="4"/><text class="sC" x="268" y="111" text-anchor="middle">9</text><rect class="sN" x="290" y="92" width="36" height="28" rx="4"/><text class="sC" x="308" y="111" text-anchor="middle">10</text><rect class="sN" x="250" y="124" width="36" height="28" rx="4"/><text class="sC" x="268" y="143" text-anchor="middle">11</text><rect class="sN" x="290" y="124" width="36" height="28" rx="4"/><text class="sC" x="308" y="143" text-anchor="middle">12</text><text class="sT" x="346" y="96" text-anchor="middle">=</text>
+<text class="sT" x="510" y="38" text-anchor="middle">C</text><text class="sS" x="510" y="52" text-anchor="middle">(2, 2)</text>
+<rect class="sN" x="470" y="60" width="52" height="28" rx="4"/>
+<rect class="sN" x="526" y="60" width="52" height="28" rx="4"/>
+<rect class="sN" x="470" y="92" width="52" height="28" rx="4"/>
+<rect class="sN" x="526" y="92" width="52" height="28" rx="4"/>
+<g data-s="1-1"><text class="sM" x="360" y="186" text-anchor="middle">inner sizes must match: (2, 3) @ (3, 2); the outer sizes give the result shape (2, 2)</text></g>
+<g data-s="2-2"><rect class="sA" x="37" y="57" width="122" height="34" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sV" x="247" y="57" width="42" height="98" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sG" x="470" y="60" width="52" height="28" rx="4"/><text class="sGt" x="360" y="186" text-anchor="middle">C[0,0] = 1·7 + 2·9 + 3·11 = 58</text></g>
+<g data-s="2"><text class="sT" x="496" y="79" text-anchor="middle">58</text></g>
+<g data-s="3-3"><rect class="sA" x="37" y="57" width="122" height="34" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sV" x="287" y="57" width="42" height="98" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sG" x="526" y="60" width="52" height="28" rx="4"/><text class="sGt" x="360" y="186" text-anchor="middle">C[0,1] = 1·8 + 2·10 + 3·12 = 64</text></g>
+<g data-s="3"><text class="sT" x="552" y="79" text-anchor="middle">64</text></g>
+<g data-s="4-4"><rect class="sA" x="37" y="89" width="122" height="34" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sV" x="247" y="57" width="42" height="98" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sG" x="470" y="92" width="52" height="28" rx="4"/><text class="sGt" x="360" y="186" text-anchor="middle">C[1,0] = 4·7 + 5·9 + 6·11 = 139</text></g>
+<g data-s="4"><text class="sT" x="496" y="111" text-anchor="middle">139</text></g>
+<g data-s="5-5"><rect class="sA" x="37" y="89" width="122" height="34" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sV" x="287" y="57" width="42" height="98" rx="6" style="fill:none;stroke-width:2.2"/><rect class="sG" x="526" y="92" width="52" height="28" rx="4"/><text class="sGt" x="360" y="186" text-anchor="middle">C[1,1] = 4·8 + 5·10 + 6·12 = 154</text></g>
+<g data-s="5"><text class="sT" x="552" y="111" text-anchor="middle">154</text></g>
+<text class="sS" x="360" y="214" text-anchor="middle">every cell is one dot product: row of A · column of B; a neuron layer is exactly this, with A = inputs and B = weights</text>
+</svg><ol class="dia-steps">
+<li>Check shapes first: the inner sizes (3 and 3) must match; the outer sizes (2 and 2) give the shape of the result.</li>
+<li>C[0,0] is row 0 of A dotted with column 0 of B: 1·7 + 2·9 + 3·11 = 58.</li>
+<li>C[0,1]: same row, next column: 64.</li>
+<li>C[1,0]: next row, first column: 139.</li>
+<li>C[1,1] = 154. Four cells, four dot products of length 3: (2·2)·3 = 12 multiplications.</li>
+</ol><figcaption>A matrix product is a grid of dot products. Computed.</figcaption></figure>
+
 **Shape rules for `@`:** `(m, n) @ (n, p) → (m, p)`. The inner dimensions must match. The notebook demonstrates this by trying both orders:
 
 ```python
@@ -394,6 +539,23 @@ det_A = np.linalg.det(A)
 The inverse is the matrix analogue of `1/x`: `A @ A⁻¹ = I`, where `I` is the identity (ones on the diagonal). The `np.round(..., 10)` is doing real work — floating-point error means you get `0.9999999999999998` rather than `1.0`, and rounding reveals the intent.
 
 **The determinant** is a single number summarising the matrix. `det(A) == 0` means the matrix is **singular** — not invertible — which geometrically means it squashes space flat and loses a dimension.
+
+<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="The determinant as area: the unit square has area 1; the matrix 1 2 3 4 maps it to a parallelogram of area 2 with a flipped orientation, determinant minus 2; the matrix 1 2 2 4 squashes it onto a line, determinant 0, so it has no inverse">
+<line class="sLm" x1="30" y1="200" x2="210" y2="200"/><line class="sLm" x1="40" y1="210" x2="40" y2="20"/>
+<polygon class="sB" opacity=".7" points="40.0,200.0 62.0,200.0 62.0,178.0 40.0,178.0"/>
+<text class="sT" x="130" y="22" text-anchor="middle">unit square</text>
+<text class="sGt" x="150" y="44" text-anchor="middle">det = 1</text>
+<line class="sLm" x1="270" y1="200" x2="450" y2="200"/><line class="sLm" x1="280" y1="210" x2="280" y2="20"/>
+<polygon class="sG" opacity=".7" points="280.0,200.0 302.0,134.0 346.0,46.0 324.0,112.0"/>
+<text class="sT" x="370" y="22" text-anchor="middle">A = [[1, 2], [3, 4]]</text>
+<text class="sGt" x="390" y="44" text-anchor="middle">det = -2</text>
+<line class="sLm" x1="510" y1="200" x2="690" y2="200"/><line class="sLm" x1="520" y1="210" x2="520" y2="20"/>
+<polygon class="sR" opacity=".7" points="520.0,200.0 542.0,156.0 586.0,68.0 564.0,112.0"/>
+<text class="sT" x="610" y="22" text-anchor="middle">S = [[1, 2], [2, 4]]</text>
+<text class="sRt" x="630" y="44" text-anchor="middle">det = 0</text>
+<text class="sRt" x="600" y="110">parallel columns:</text><text class="sRt" x="600" y="126">plane → line,</text><text class="sRt" x="600" y="142">no inverse</text>
+<text class="sC" x="356" y="110">area 1 → 2</text><text class="sS" x="356" y="126">minus sign:</text><text class="sS" x="356" y="140">orientation flips</text>
+</svg><figcaption>The determinant is the factor by which a matrix scales area. Zero means a dimension is lost, which is what perfectly collinear features do to XᵀX.</figcaption></figure>
 
 **Why this matters for ML.** The closed-form solution to linear regression is the *normal equation*:
 

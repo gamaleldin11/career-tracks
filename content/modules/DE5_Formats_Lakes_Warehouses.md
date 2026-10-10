@@ -8,6 +8,27 @@ Where and how data is stored decides what's fast, what's cheap and what's even p
 > **Most asked:** *Parquet vs Avro?* · *Why is Parquet fast?* · *How does Delta Lake provide ACID transactions?* · *Delta vs Iceberg?* · *What is time travel?* · *Snowflake vs BigQuery?* · *What is a lakehouse catalog?*
 > **Time budget:** 3 hours.
 
+## DE5.0 Foundations: files are not tables 🟢
+
+Cloud object storage (ADLS, S3, OneLake) is a giant, cheap key-value store: a path maps to a blob of bytes. It has no idea that a hundred Parquet files in `orders/` are meant to be **one table**. That gap causes three problems:
+
+- Readers that **list the folder** while a job writes can see a half-finished table.
+- A job that **crashes** leaves partial files behind, and nothing records which files form a complete write.
+- Files are **immutable**: changing one row means rewriting a file, and something must track which version is current.
+
+File **formats** (CSV, Avro, Parquet) decide how bytes are laid out inside each file. **Table formats** (Delta Lake, Iceberg) add a metadata layer that defines which files make up the table at each version.
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 210" role="img" aria-label="Writing to a plain folder lets readers see a half-written table and leaves orphan files after a crash; with a transaction log, new files become visible only when a commit file appears atomically">
+<text class="sM" x="100" y="24" text-anchor="middle">orders/ (a plain folder)</text>
+<g data-s="1-1"><rect class="sB" x="24" y="40" width="150" height="24" rx="4"/><text class="sC" x="32" y="57" xml:space="preserve" style="white-space:pre">part-0.parquet</text><rect class="sB" x="24" y="68" width="150" height="24" rx="4"/><text class="sC" x="32" y="85" xml:space="preserve" style="white-space:pre">part-1.parquet</text><rect class="sB" x="24" y="96" width="150" height="24" rx="4"/><text class="sC" x="32" y="113" xml:space="preserve" style="white-space:pre">part-2.parquet</text><rect class="sW" x="24" y="124" width="150" height="24" rx="4"/><text class="sC" x="32" y="141" xml:space="preserve" style="white-space:pre">part-3.parquet</text><text class="sWt" x="400" y="60">a job is writing parts 3, 4 and 5…</text><text class="sC" x="400" y="90">a reader lists the folder now and</text><text class="sC" x="400" y="108">gets 3 old files + 1 new one:</text><text class="sRt" x="400" y="126">a table state that never existed</text></g>
+<g data-s="2-2"><rect class="sB" x="24" y="40" width="150" height="24" rx="4"/><text class="sC" x="32" y="57" xml:space="preserve" style="white-space:pre">part-0.parquet</text><rect class="sB" x="24" y="68" width="150" height="24" rx="4"/><text class="sC" x="32" y="85" xml:space="preserve" style="white-space:pre">part-1.parquet</text><rect class="sB" x="24" y="96" width="150" height="24" rx="4"/><text class="sC" x="32" y="113" xml:space="preserve" style="white-space:pre">part-2.parquet</text><rect class="sR" x="24" y="124" width="150" height="24" rx="4"/><text class="sC" x="32" y="141" xml:space="preserve" style="white-space:pre">part-3.parquet</text><rect class="sR" x="24" y="152" width="150" height="24" rx="4"/><text class="sC" x="32" y="169" xml:space="preserve" style="white-space:pre">part-4.parquet</text><text class="sRt" x="400" y="60">the job crashes half-way</text><text class="sC" x="400" y="90">two orphan files stay behind;</text><text class="sRt" x="400" y="108">every reader now double-counts</text><text class="sC" x="400" y="126">until someone cleans up by hand</text></g>
+<g data-s="3-3"><rect class="sB" x="24" y="40" width="150" height="24" rx="4"/><text class="sC" x="32" y="57" xml:space="preserve" style="white-space:pre">part-0.parquet</text><rect class="sB" x="24" y="68" width="150" height="24" rx="4"/><text class="sC" x="32" y="85" xml:space="preserve" style="white-space:pre">part-1.parquet</text><rect class="sB" x="24" y="96" width="150" height="24" rx="4"/><text class="sC" x="32" y="113" xml:space="preserve" style="white-space:pre">part-2.parquet</text><rect class="sN" x="24" y="124" width="150" height="24" rx="4"/><text class="sC" x="32" y="141" xml:space="preserve" style="white-space:pre">part-3.parquet</text><rect class="sN" x="24" y="152" width="150" height="24" rx="4"/><text class="sC" x="32" y="169" xml:space="preserve" style="white-space:pre">part-4.parquet</text><rect class="sN" x="24" y="180" width="150" height="24" rx="4"/><text class="sC" x="32" y="197" xml:space="preserve" style="white-space:pre">part-5.parquet</text><rect class="sV" x="200" y="40" width="170" height="24" rx="4"/><text class="sC" x="208" y="57" xml:space="preserve" style="white-space:pre">_delta_log/…42.json</text><rect class="sG" x="200" y="68" width="170" height="24" rx="4"/><text class="sC" x="208" y="85" xml:space="preserve" style="white-space:pre">_delta_log/…43.json</text><text class="sC" x="400" y="60">new files are invisible until the</text><text class="sC" x="400" y="78">commit file 43 appears, atomically</text><text class="sGt" x="400" y="108">readers see version 42, then 43;</text><text class="sGt" x="400" y="126">a crash before 43 changes nothing</text></g>
+</svg><ol class="dia-steps">
+<li>Object storage holds <b>files</b>, not tables. While a job writes new files, a reader listing the folder sees whatever happens to be there: a mix of old and half-written data.</li>
+<li>If the job crashes, the files it already wrote stay. Every reader now includes them, and nothing records which files belong to a complete write.</li>
+<li>A table format writes data files first, then <b>one</b> small commit file naming exactly which files make up the new version. Creating that file is atomic, so readers see version 42 or 43, never something in between.</li>
+</ol><figcaption>That is all "ACID on a data lake" means: the log, not the folder listing, defines what the table is.</figcaption></figure>
+
 ## DE5.1 File formats compared 🟢 ⭐
 
 | Format | Layout | Schema | Strengths | Weaknesses | Typical use |
@@ -41,6 +62,32 @@ Where and how data is stored decides what's fast, what's cheap and what's even p
 - **Encodings:** **dictionary encoding** (store each distinct city once, then small integer codes), run-length encoding, delta encoding; then **compression** with Snappy (fast) or **Zstandard** (better ratio, now a common default).
 - Parquet files are **immutable**: "updating" a row means writing new files, which is why table formats exist.
 
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Dictionary encoding stores each distinct city once and replaces values with small codes; run-length encoding then stores runs of repeated codes as value and count">
+<text class="sM" x="80" y="22" text-anchor="middle">city column</text>
+<rect class="sB" x="30" y="30" width="100" height="20" rx="3"/><text class="sC" x="80" y="45" text-anchor="middle">Cairo</text>
+<rect class="sB" x="30" y="52" width="100" height="20" rx="3"/><text class="sC" x="80" y="67" text-anchor="middle">Cairo</text>
+<rect class="sB" x="30" y="74" width="100" height="20" rx="3"/><text class="sC" x="80" y="89" text-anchor="middle">Cairo</text>
+<rect class="sB" x="30" y="96" width="100" height="20" rx="3"/><text class="sC" x="80" y="111" text-anchor="middle">Giza</text>
+<rect class="sB" x="30" y="118" width="100" height="20" rx="3"/><text class="sC" x="80" y="133" text-anchor="middle">Giza</text>
+<rect class="sB" x="30" y="140" width="100" height="20" rx="3"/><text class="sC" x="80" y="155" text-anchor="middle">Alex</text>
+<rect class="sB" x="30" y="162" width="100" height="20" rx="3"/><text class="sC" x="80" y="177" text-anchor="middle">Cairo</text>
+<rect class="sB" x="30" y="184" width="100" height="20" rx="3"/><text class="sC" x="80" y="199" text-anchor="middle">Cairo</text>
+<line class="sL" x1="140" y1="110" x2="186" y2="110" marker-end="url(#ah)"/>
+<text class="sM" x="260" y="22" text-anchor="middle">dictionary</text><rect class="sV" x="200" y="30" width="120" height="22" rx="4"/><text class="sC" x="260" y="46" text-anchor="middle">0 = Cairo</text><rect class="sV" x="200" y="56" width="120" height="22" rx="4"/><text class="sC" x="260" y="72" text-anchor="middle">1 = Giza</text><rect class="sV" x="200" y="82" width="120" height="22" rx="4"/><text class="sC" x="260" y="98" text-anchor="middle">2 = Alex</text>
+<text class="sM" x="450" y="22" text-anchor="middle">codes</text>
+<rect class="sA" x="420" y="30" width="60" height="20" rx="3"/><text class="sC" x="450" y="45" text-anchor="middle">0</text>
+<rect class="sA" x="420" y="52" width="60" height="20" rx="3"/><text class="sC" x="450" y="67" text-anchor="middle">0</text>
+<rect class="sA" x="420" y="74" width="60" height="20" rx="3"/><text class="sC" x="450" y="89" text-anchor="middle">0</text>
+<rect class="sA" x="420" y="96" width="60" height="20" rx="3"/><text class="sC" x="450" y="111" text-anchor="middle">1</text>
+<rect class="sA" x="420" y="118" width="60" height="20" rx="3"/><text class="sC" x="450" y="133" text-anchor="middle">1</text>
+<rect class="sA" x="420" y="140" width="60" height="20" rx="3"/><text class="sC" x="450" y="155" text-anchor="middle">2</text>
+<rect class="sA" x="420" y="162" width="60" height="20" rx="3"/><text class="sC" x="450" y="177" text-anchor="middle">0</text>
+<rect class="sA" x="420" y="184" width="60" height="20" rx="3"/><text class="sC" x="450" y="199" text-anchor="middle">0</text>
+<line class="sL" x1="490" y1="110" x2="536" y2="110" marker-end="url(#ah)"/>
+<text class="sM" x="620" y="22" text-anchor="middle">run-length</text><rect class="sG" x="560" y="30" width="120" height="22" rx="4"/><text class="sC" x="620" y="46" text-anchor="middle">0 × 3</text><rect class="sG" x="560" y="56" width="120" height="22" rx="4"/><text class="sC" x="620" y="72" text-anchor="middle">1 × 2</text><rect class="sG" x="560" y="82" width="120" height="22" rx="4"/><text class="sC" x="620" y="98" text-anchor="middle">2 × 1</text><rect class="sG" x="560" y="108" width="120" height="22" rx="4"/><text class="sC" x="620" y="124" text-anchor="middle">0 × 2</text>
+<text class="sS" x="360" y="226" text-anchor="middle">then a general compressor (Snappy, Zstandard) squeezes what's left</text>
+</svg><figcaption>Why columnar files are small: a column of one type with repeated values encodes into almost nothing.</figcaption></figure>
+
 ## DE5.3 Table formats: Delta Lake and Apache Iceberg 🟡 ⭐
 
 Object storage (ADLS, S3) offers files, not tables: no transactions, no atomic multi-file updates, and slow directory listing. **Open table formats** add a metadata layer that turns a folder of Parquet files into a reliable table.
@@ -58,9 +105,36 @@ Object storage (ADLS, S3) offers files, not tables: no transactions, no atomic m
 
 A Delta table is Parquet data files plus a **`_delta_log/`** folder of numbered JSON **commit files** (`00000000000000000042.json`), each recording files **added** and **removed** in that transaction, plus periodic **checkpoint** files (Parquet) summarising the state. Readers reconstruct the current version from the latest checkpoint plus later commits. Writers commit by atomically creating the next-numbered log file; if two writers race, one fails and retries after checking for conflicts.
 
+<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="A Delta Lake transaction log of numbered JSON commits that add and remove Parquet files, with periodic checkpoints, and the resulting file sets for versions 40, 41 and 42">
+<text class="sM" x="14" y="22">_delta_log/</text>
+<rect class="sB" x="14" y="32" width="140" height="28" rx="4"/><text class="sC" x="22" y="51" xml:space="preserve" style="white-space:pre">…040.json</text><text class="sC" x="166" y="51">add part-6 · part-7</text>
+<rect class="sB" x="14" y="66" width="140" height="28" rx="4"/><text class="sC" x="22" y="85" xml:space="preserve" style="white-space:pre">…041.json</text><text class="sC" x="166" y="85">add part-8 · remove part-3</text>
+<rect class="sV" x="14" y="100" width="140" height="28" rx="4"/><text class="sC" x="22" y="119" xml:space="preserve" style="white-space:pre">…042.json</text><text class="sC" x="166" y="119">MERGE: add part-9 · remove part-6</text>
+<rect class="sW" x="14" y="136" width="140" height="28" rx="4"/><text class="sC" x="22" y="155" xml:space="preserve" style="white-space:pre">…040.checkpoint</text><text class="sC" x="166" y="155">every 10 commits: full file list</text>
+<rect class="sN" x="460" y="30" width="246" height="134" rx="8"/><text class="sT" x="583" y="50" text-anchor="middle">files in each version</text>
+<text class="sC" x="476" y="76">v40: 0 1 2 3 4 5 6 7</text><text class="sC" x="476" y="98">v41: 0 1 2 _ 4 5 6 7 8</text><text class="sC" x="476" y="120">v42: 0 1 2 _ 4 5 _ 7 8 9</text>
+<text class="sGt" x="476" y="150">VERSION AS OF 41 → replay to 41</text>
+<text class="sS" x="360" y="192" text-anchor="middle">a reader takes the latest checkpoint and replays the few commits after it</text>
+</svg><figcaption>Delta in one picture: each version is the file set you get by replaying commits. Time travel is replaying fewer of them.</figcaption></figure>
+
 ### How Apache Iceberg works
 
 An Iceberg table has a **catalog** entry pointing to the current **metadata file**, which lists **snapshots**; each snapshot points to a **manifest list**, which points to **manifest files**, which list **data files** with per-file statistics and partition values. A commit atomically swaps the catalog's pointer to a new metadata file. Iceberg's **hidden partitioning** (partition by `days(event_ts)` without a separate column) and **partition evolution** are notable strengths, as is broad multi-engine support (Spark, Trino, Flink, Snowflake, BigQuery, Athena, DuckDB).
+
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Apache Iceberg's metadata tree: the catalog points to a metadata file, which lists snapshots, each with a manifest list pointing to manifests that list data files with statistics">
+<rect class="sB" x="14" y="60" width="122" height="56" rx="8"/><text class="sT" x="75" y="86" text-anchor="middle">catalog</text><text class="sC" x="75" y="102" text-anchor="middle">orders → v7</text>
+<rect class="sV" x="160" y="60" width="122" height="56" rx="8"/><text class="sT" x="221" y="86" text-anchor="middle">metadata.json</text><text class="sC" x="221" y="102" text-anchor="middle">schema · snapshots</text>
+<rect class="sA" x="306" y="60" width="122" height="56" rx="8"/><text class="sT" x="367" y="86" text-anchor="middle">snapshot S7</text><text class="sC" x="367" y="102" text-anchor="middle">manifest list</text>
+<rect class="sW" x="452" y="60" width="122" height="56" rx="8"/><text class="sT" x="513" y="86" text-anchor="middle">manifests</text><text class="sC" x="513" y="102" text-anchor="middle">files + stats</text>
+<rect class="sG" x="598" y="60" width="122" height="56" rx="8"/><text class="sT" x="659" y="86" text-anchor="middle">data files</text><text class="sC" x="659" y="102" text-anchor="middle">Parquet</text>
+<line class="sLm" x1="136" y1="88" x2="158" y2="88" marker-end="url(#ahm)"/>
+<line class="sLm" x1="282" y1="88" x2="304" y2="88" marker-end="url(#ahm)"/>
+<line class="sLm" x1="428" y1="88" x2="450" y2="88" marker-end="url(#ahm)"/>
+<line class="sLm" x1="574" y1="88" x2="596" y2="88" marker-end="url(#ahm)"/>
+<text class="sC" x="221" y="140" text-anchor="middle">older snapshots stay</text><text class="sC" x="221" y="156" text-anchor="middle">for time travel</text>
+<text class="sC" x="513" y="140" text-anchor="middle">min/max per file lets</text><text class="sC" x="513" y="156" text-anchor="middle">planning skip files</text>
+<text class="sS" x="360" y="196" text-anchor="middle">a commit writes new metadata and swaps the catalog pointer: one atomic step</text>
+</svg><figcaption>Iceberg: a tree of metadata instead of a log, which lets any engine plan a query without listing a single directory.</figcaption></figure>
 
 **Iceberg v3** (the specification implemented across Iceberg releases in 2025, and generally available in Snowflake and Databricks in 2026) adds deletion vectors, row lineage, a `VARIANT` type for semi-structured data, default column values, geospatial types and nanosecond timestamps.
 
@@ -85,6 +159,14 @@ Without a catalog, a lake is a pile of folders; with one, it's a governed set of
 ## DE5.5 Cloud warehouses and lakehouse platforms 🟡 ⭐
 
 All modern platforms **separate storage from compute**: data sits in cheap durable storage, and compute clusters scale up, down or to zero independently, with several workloads reading the same data without competing.
+
+<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Separated storage and compute: one copy of the data in object storage read by independent compute clusters for ETL, BI and data science, each sized and billed separately">
+<rect class="sB" x="14" y="150" width="692" height="56" rx="10"/><text class="sT" x="360" y="174" text-anchor="middle">one copy of the data in object storage</text><text class="sC" x="360" y="194" text-anchor="middle">OneLake · ADLS · S3 · Snowflake managed storage</text>
+<rect class="sV" x="40" y="30" width="180" height="56" rx="8"/><text class="sT" x="130" y="56" text-anchor="middle">ETL cluster</text><text class="sC" x="130" y="72" text-anchor="middle">large, nightly, then off</text><line class="sLm" x1="130" y1="86" x2="130" y2="146" marker-end="url(#ahm)"/>
+<rect class="sA" x="270" y="30" width="180" height="56" rx="8"/><text class="sT" x="360" y="56" text-anchor="middle">BI warehouse</text><text class="sC" x="360" y="72" text-anchor="middle">medium, office hours</text><line class="sLm" x1="360" y1="86" x2="360" y2="146" marker-end="url(#ahm)"/>
+<rect class="sG" x="500" y="30" width="180" height="56" rx="8"/><text class="sT" x="590" y="56" text-anchor="middle">data science</text><text class="sC" x="590" y="72" text-anchor="middle">GPU notebook, on demand</text><line class="sLm" x1="590" y1="86" x2="590" y2="146" marker-end="url(#ahm)"/>
+<text class="sC" x="360" y="116" text-anchor="middle">each scales, pauses and is billed independently; none slows the others</text>
+</svg><figcaption>Separating storage from compute is the architectural change behind every modern platform, from Snowflake to Fabric.</figcaption></figure>
 
 | Platform | Architecture in one line | Pricing model (roughly) | Notable features |
 |---|---|---|---|
@@ -111,6 +193,37 @@ All modern platforms **separate storage from compute**: data sits in cheap durab
 > Vacuuming deletes old data files, so you **can no longer time-travel** to versions older than the retention period. Setting retention very low saves storage but breaks rollbacks and any reader still using an old version. Keep the default unless you have a reason, and align it with your recovery needs.
 
 **Deleting personal data** (a data-protection request) in a lakehouse: `DELETE` the rows, then **vacuum** or **expire snapshots** past the retention, or the data still exists in old files and versions.
+
+<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="Fifteen daily table versions; vacuum with a seven-day retention removes the files behind the first week, so time travel only reaches back seven days">
+<line class="sLm" x1="60" y1="100" x2="656" y2="100" marker-end="url(#ahm)"/>
+<circle class="sPr" cx="60" cy="100" r="7" opacity=".5"/>
+<text class="sC" x="60" y="126" text-anchor="middle">day 1</text>
+<circle class="sPr" cx="102" cy="100" r="7" opacity=".5"/>
+<circle class="sPr" cx="144" cy="100" r="7" opacity=".5"/>
+<text class="sC" x="144" y="126" text-anchor="middle">day 3</text>
+<circle class="sPr" cx="186" cy="100" r="7" opacity=".5"/>
+<circle class="sPr" cx="228" cy="100" r="7" opacity=".5"/>
+<text class="sC" x="228" y="126" text-anchor="middle">day 5</text>
+<circle class="sPr" cx="270" cy="100" r="7" opacity=".5"/>
+<circle class="sPr" cx="312" cy="100" r="7" opacity=".5"/>
+<text class="sC" x="312" y="126" text-anchor="middle">day 7</text>
+<circle class="sPg" cx="354" cy="100" r="7"/>
+<circle class="sPg" cx="396" cy="100" r="7"/>
+<text class="sC" x="396" y="126" text-anchor="middle">day 9</text>
+<circle class="sPg" cx="438" cy="100" r="7"/>
+<circle class="sPg" cx="480" cy="100" r="7"/>
+<text class="sC" x="480" y="126" text-anchor="middle">day 11</text>
+<circle class="sPg" cx="522" cy="100" r="7"/>
+<circle class="sPg" cx="564" cy="100" r="7"/>
+<text class="sC" x="564" y="126" text-anchor="middle">day 13</text>
+<circle class="sPg" cx="606" cy="100" r="7"/>
+<circle class="sPg" cx="648" cy="100" r="7"/>
+<text class="sC" x="648" y="126" text-anchor="middle">day 15</text>
+<rect class="sR" x="48" y="60" width="276" height="24" rx="6" opacity=".5"/><text class="sC" x="186" y="77" text-anchor="middle">files vacuumed: no time travel here</text>
+<rect class="sG" x="342" y="60" width="318" height="24" rx="6" opacity=".6"/><text class="sC" x="501" y="77" text-anchor="middle">retention: 7 days of versions</text>
+<text class="sM" x="360" y="30" text-anchor="middle">VACUUM with 7-day retention, run on day 15</text>
+<text class="sS" x="360" y="160" text-anchor="middle">deleting personal data also needs this step, or the old files still hold it</text>
+</svg><figcaption>Retention is a trade between storage cost, how far back you can roll back, and how quickly deleted data really disappears.</figcaption></figure>
 
 ## DE5.7 Choosing a platform 🟡
 

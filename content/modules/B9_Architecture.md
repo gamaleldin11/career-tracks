@@ -8,6 +8,32 @@ Senior Egyptian .NET postings name **Clean Architecture**, **DDD** and **microse
 > **Most asked:** *Explain Clean Architecture* · *Monolith or microservices?* · *What is DDD / an aggregate?* · *What is CQRS and when is it worth it?* · *How do you handle a transaction across services?* · *How would you structure your project?*
 > **Time budget:** 3 hours.
 
+## B9.0 Foundations: what "architecture" means 🟢
+
+Architecture is the set of decisions that are **expensive to change later**: how the code is divided into parts, which part may depend on which, where data lives, and how parts communicate. Renaming a variable is cheap; moving a business rule out of the database or splitting a service is not.
+
+Three ideas run through this module:
+
+- **Boundaries.** Every part has an inside (free to change) and an outside (its public API). Good boundaries put things that change together on the same side.
+- **Dependency direction.** "A depends on B" means A must change, or at least recompile, when B changes. Point dependencies toward what changes **least**: the business rules. Note the difference between *calling* something at run time and *referencing* it at compile time; interfaces let them point in opposite directions.
+- **Conway's law.** Systems end up shaped like the teams that build them. Architecture and team structure have to be designed together ([[B9.6]]).
+
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="At run time requests flow from the API through the application to infrastructure; at compile time infrastructure references the application's interfaces, so dependencies point inward to the domain">
+<text class="sT" x="180" y="22" text-anchor="middle">run time: who calls whom</text><text class="sT" x="540" y="22" text-anchor="middle">compile time: who references whom</text>
+<rect class="sB" x="90" y="40" width="180" height="40" rx="8"/><text class="sT" x="180" y="65" text-anchor="middle">Api</text>
+<line class="sL" x1="180" y1="80" x2="180" y2="98" marker-end="url(#ah)"/>
+<rect class="sA" x="90" y="100" width="180" height="40" rx="8"/><text class="sT" x="180" y="125" text-anchor="middle">Application</text>
+<line class="sL" x1="180" y1="140" x2="180" y2="158" marker-end="url(#ah)"/>
+<rect class="sW" x="90" y="160" width="180" height="40" rx="8"/><text class="sT" x="180" y="185" text-anchor="middle">Infrastructure (EF, SMTP)</text>
+<text class="sC" x="180" y="226" text-anchor="middle">requests flow down to the database</text>
+<line class="sD" x1="360" y1="12" x2="360" y2="236"/>
+<rect class="sB" x="450" y="40" width="180" height="40" rx="8"/><text class="sT" x="540" y="58" text-anchor="middle">Api</text><text class="sC" x="540" y="74" text-anchor="middle">composition root</text>
+<rect class="sA" x="380" y="120" width="150" height="40" rx="8"/><text class="sT" x="455" y="138" text-anchor="middle">Application</text><text class="sC" x="455" y="154" text-anchor="middle">interfaces</text><rect class="sW" x="560" y="120" width="140" height="40" rx="8"/><text class="sT" x="630" y="145" text-anchor="middle">Infrastructure</text>
+<rect class="sG" x="470" y="190" width="140" height="34" rx="8"/><text class="sT" x="540" y="212" text-anchor="middle">Domain</text>
+<line class="sLm" x1="500" y1="80" x2="460" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="580" y1="80" x2="620" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="455" y1="160" x2="515" y2="188" marker-end="url(#ahm)"/><line class="sLg" x1="560" y1="140" x2="534" y2="140" marker-end="url(#ahg)"/><text class="sGt" x="547" y="112" text-anchor="middle">implements</text>
+<line class="sLm" x1="630" y1="160" x2="570" y2="188" marker-end="url(#ahm)"/>
+</svg><figcaption>Clean Architecture is about the right-hand picture. Calls still go down at run time; what changes is which project has to know about which.</figcaption></figure>
+
 ## B9.1 Layered architecture 🟢 ⭐
 
 The classic structure separates **presentation** (controllers, endpoints), **business logic** (services, domain) and **data access** (repositories, DbContext).
@@ -65,6 +91,35 @@ Features/
 
 Many teams combine them: a Clean-style **domain core** for shared rules, with **vertical slices** in the application and API layers.
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A grid of layers by features: organising by layer spreads one feature across four folders; a vertical slice keeps one feature's code together">
+<text class="sM" x="230" y="24" text-anchor="middle">CreateInvoice</text>
+<text class="sM" x="350" y="24" text-anchor="middle">MarkPaid</text>
+<text class="sM" x="470" y="24" text-anchor="middle">GetForecast</text>
+<text class="sM" x="590" y="24" text-anchor="middle">InviteUser</text>
+<text class="sS" x="166" y="58" text-anchor="end">endpoint</text>
+<rect class="sB" x="176" y="34" width="108" height="34" rx="4"/>
+<rect class="sW" x="296" y="34" width="108" height="34" rx="4"/>
+<rect class="sB" x="416" y="34" width="108" height="34" rx="4"/>
+<rect class="sB" x="536" y="34" width="108" height="34" rx="4"/>
+<text class="sS" x="166" y="98" text-anchor="end">validation</text>
+<rect class="sB" x="176" y="74" width="108" height="34" rx="4"/>
+<rect class="sW" x="296" y="74" width="108" height="34" rx="4"/>
+<rect class="sB" x="416" y="74" width="108" height="34" rx="4"/>
+<rect class="sB" x="536" y="74" width="108" height="34" rx="4"/>
+<text class="sS" x="166" y="138" text-anchor="end">handler / service</text>
+<rect class="sB" x="176" y="114" width="108" height="34" rx="4"/>
+<rect class="sW" x="296" y="114" width="108" height="34" rx="4"/>
+<rect class="sB" x="416" y="114" width="108" height="34" rx="4"/>
+<rect class="sB" x="536" y="114" width="108" height="34" rx="4"/>
+<text class="sS" x="166" y="178" text-anchor="end">data access</text>
+<rect class="sB" x="176" y="154" width="108" height="34" rx="4"/>
+<rect class="sW" x="296" y="154" width="108" height="34" rx="4"/>
+<rect class="sB" x="416" y="154" width="108" height="34" rx="4"/>
+<rect class="sB" x="536" y="154" width="108" height="34" rx="4"/>
+<rect class="sN" x="292" y="30" width="116" height="162" rx="8" style="stroke:var(--mid);stroke-width:3"/>
+<text class="sS" x="350" y="214" text-anchor="middle">a "mark paid" change touches one column (a slice) instead of one file in every layer folder</text>
+</svg><figcaption>Layers are the rows; features are the columns. Folders by layer make every change a horizontal trip; vertical slices make it a vertical one.</figcaption></figure>
+
 ## B9.4 Domain-Driven Design, the essentials 🟡 ⭐
 
 DDD is a way to tackle **complex business domains** by modelling software closely on the business, in the business's language.
@@ -76,6 +131,23 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 
 > [!term] Bounded context
 > A boundary inside which one model and one language apply consistently. "Customer" in Billing (payment terms, invoices) and "Customer" in Support (tickets, SLA) are different models with different rules; each context owns its own model, and they integrate through explicit contracts or events. Bounded contexts are the natural seams for modules or microservices.
+
+<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Two bounded contexts each with its own Customer model, integrated through an event">
+<rect class="sN" x="20" y="30" width="300" height="150" rx="14"/><text class="sT" x="170" y="52" text-anchor="middle">Billing context</text>
+<rect class="sA" x="80" y="66" width="180" height="100" rx="8"/>
+<text class="sT" x="170" y="88" text-anchor="middle">Customer</text>
+<text class="sC" x="170" y="108" text-anchor="middle">payment terms</text>
+<text class="sC" x="170" y="128" text-anchor="middle">credit limit</text>
+<text class="sC" x="170" y="148" text-anchor="middle">invoices</text>
+<rect class="sN" x="400" y="30" width="300" height="150" rx="14"/><text class="sT" x="550" y="52" text-anchor="middle">Support context</text>
+<rect class="sG" x="460" y="66" width="180" height="100" rx="8"/>
+<text class="sT" x="550" y="88" text-anchor="middle">Customer</text>
+<text class="sC" x="550" y="108" text-anchor="middle">tickets</text>
+<text class="sC" x="550" y="128" text-anchor="middle">SLA tier</text>
+<text class="sC" x="550" y="148" text-anchor="middle">preferred language</text>
+<line class="sLw" x1="320" y1="105" x2="396" y2="105" marker-end="url(#ahw)"/><text class="sC" x="358" y="96" text-anchor="middle">event:</text><text class="sM" x="358" y="124" text-anchor="middle">CustomerRenamed</text>
+<text class="sS" x="360" y="206" text-anchor="middle">same word, two models; each context owns its own, and they integrate through contracts or events</text>
+</svg><figcaption>Bounded contexts. Trying to make one Customer class serve both teams produces a model that suits neither.</figcaption></figure>
 
 **Tactical DDD (the building blocks):**
 
@@ -89,6 +161,17 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 | **Domain service** | Logic that doesn't belong to one entity | `ExchangeRateService` converting between currencies |
 
 **Aggregate rules of thumb:** keep aggregates **small**; reference other aggregates **by ID**, not by object; one transaction should change **one aggregate**; coordinate across aggregates with domain events (eventual consistency).
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="An invoice aggregate with lines and payments inside one consistency boundary, referencing the customer aggregate by ID and raising an InvoicePaid event">
+<rect class="sN" x="20" y="30" width="360" height="170" rx="14" stroke-dasharray="7 5" style="stroke:var(--accent);stroke-width:2"/><text class="sM" x="36" y="50">Invoice aggregate (one transaction)</text>
+<rect class="sA" x="130" y="64" width="140" height="46" rx="8"/><text class="sT" x="200" y="85" text-anchor="middle">Invoice</text><text class="sC" x="200" y="101" text-anchor="middle">aggregate root</text>
+<rect class="sB" x="40" y="140" width="140" height="40" rx="8"/><text class="sT" x="110" y="165" text-anchor="middle">InvoiceLine ×n</text><rect class="sB" x="220" y="140" width="140" height="40" rx="8"/><text class="sT" x="290" y="165" text-anchor="middle">Payment ×n</text>
+<line class="sLm" x1="170" y1="110" x2="120" y2="138"/><line class="sLm" x1="230" y1="110" x2="280" y2="138"/>
+<text class="sC" x="200" y="218" text-anchor="middle">only invoice.ApplyPayment() may add payments</text>
+<rect class="sB" x="470" y="60" width="200" height="46" rx="8"/><text class="sT" x="570" y="81" text-anchor="middle">Customer aggregate</text><text class="sC" x="570" y="97" text-anchor="middle">its own boundary</text>
+<line class="sLm" x1="270" y1="82" x2="466" y2="82" marker-end="url(#ahm)" stroke-dasharray="5 4"/><text class="sC" x="570" y="50" text-anchor="middle">referenced by CustomerId only</text>
+<line class="sLw" x1="270" y1="100" x2="466" y2="160" marker-end="url(#ahw)"/><rect class="sW" x="470" y="140" width="200" height="46" rx="8"/><text class="sT" x="570" y="161" text-anchor="middle">InvoicePaid event</text><text class="sC" x="570" y="177" text-anchor="middle">handled elsewhere</text>
+</svg><figcaption>An aggregate is a consistency boundary. Inside: invariants enforced by the root. Across boundaries: IDs and events, not object references.</figcaption></figure>
 
 > [!say]
 > "An aggregate is a consistency boundary: a root entity with its children that must change together, and the root enforces the invariants. For example, an invoice can't be overpaid, so payments are only added through the invoice. I keep aggregates small, reference others by ID, change one per transaction, and use domain events for side effects like sending a receipt."
@@ -106,6 +189,16 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 | **Code-level CQRS** | Separate command handlers and query handlers in the same database | Very common; low cost; reads use `AsNoTracking` projections or Dapper, writes use aggregates |
 | **Separate read models** | Read-optimised tables or views (denormalised) updated from the write side | Heavy, complex read screens; reporting |
 | **Separate read store** | Reads from a different database (a search index, a replica, a cache) | Very high read scale; accepts eventual consistency |
+
+<figure class="dia anim"><svg viewBox="0 0 720 194" role="img" aria-label="Animation: a command passes through the domain model to the write store and a projection updates a read model; queries read the read model directly">
+<rect class="sW" x="20" y="30" width="120" height="40" rx="8"/><text class="sT" x="80" y="48" text-anchor="middle">command</text><text class="sC" x="80" y="64" text-anchor="middle">MarkPaid</text><line class="sL" x1="140" y1="50" x2="176" y2="50" marker-end="url(#ah)"/><rect class="sA" x="180" y="30" width="150" height="40" rx="8"/><text class="sT" x="255" y="48" text-anchor="middle">domain model</text><text class="sC" x="255" y="64" text-anchor="middle">invariants</text><line class="sL" x1="330" y1="50" x2="366" y2="50" marker-end="url(#ah)"/><rect class="sB" x="370" y="30" width="120" height="40" rx="8"/><text class="sT" x="430" y="48" text-anchor="middle">write store</text><text class="sC" x="430" y="64" text-anchor="middle">normalised</text>
+<line class="sLw" x1="490" y1="50" x2="526" y2="50" marker-end="url(#ahw)"/><rect class="sV" x="530" y="30" width="170" height="40" rx="8"/><text class="sT" x="615" y="48" text-anchor="middle">projection</text><text class="sC" x="615" y="64" text-anchor="middle">InvoicePaid → update</text>
+<line class="sLw" x1="615" y1="70" x2="615" y2="110" marker-end="url(#ahw)"/><rect class="sG" x="530" y="114" width="170" height="40" rx="8"/><text class="sT" x="615" y="132" text-anchor="middle">read model</text><text class="sC" x="615" y="148" text-anchor="middle">denormalised for screens</text>
+<rect class="sB" x="20" y="114" width="120" height="40" rx="8"/><text class="sT" x="80" y="132" text-anchor="middle">query</text><text class="sC" x="80" y="148" text-anchor="middle">GetDashboard</text><line class="sLg" x1="140" y1="134" x2="526" y2="134" marker-end="url(#ahg)"/><text class="sC" x="330" y="126" text-anchor="middle">AsNoTracking projection, or Dapper: no domain model</text>
+<circle class="sPw" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M140 50 H530 V130 H700"/></circle>
+<circle class="sPg" r="5"><animateMotion dur="2.5s" repeatCount="indefinite" path="M140 134 H530 H140"/></circle>
+<text class="sS" x="360" y="182" text-anchor="middle">writes go through the rules; reads go straight to a shape built for them (eventually consistent if separate)</text>
+</svg><figcaption>CQRS. Commands and queries take different paths because they have different jobs: one protects invariants, the other serves screens fast.</figcaption></figure>
 
 > [!story]
 > FinSight's **command and query DTOs** were a lightweight form of CQRS, and the `DailyAggregatedTransaction` table is effectively a **read model**: a projection maintained for the forecasting and dashboard reads. Naming it that way in an interview shows you recognise the pattern you built.
@@ -166,6 +259,27 @@ Example, checkout: reserve stock → charge payment → create shipment. If the 
 | Shared database, **schema per tenant** | Stronger | Medium | Migrate N schemas | Moderate number of tenants with some customisation |
 | **Database per tenant** | Strongest; easy per-tenant backup, restore and data residency | Highest | Many databases to manage; elastic pools help | Enterprise or regulated customers |
 | Hybrid | Big tenants get their own database, small ones share | Varies | More complex routing | Growing SaaS |
+
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Three multi-tenancy models: one shared table with a tenant column, a schema per tenant, and a database per tenant">
+<text class="sT" x="120" y="22" text-anchor="middle">shared schema</text><text class="sC" x="120" y="40" text-anchor="middle">one Invoices table, TenantId column</text>
+<rect class="sA" x="30" y="54" width="180" height="120" rx="8"/>
+<rect class="sB" x="40" y="62" width="160" height="18" rx="3"/><text class="sC" x="50" y="75">TenantId = A</text>
+<rect class="sB" x="40" y="84" width="160" height="18" rx="3"/><text class="sC" x="50" y="97">TenantId = B</text>
+<rect class="sB" x="40" y="106" width="160" height="18" rx="3"/><text class="sC" x="50" y="119">TenantId = A</text>
+<rect class="sB" x="40" y="128" width="160" height="18" rx="3"/><text class="sC" x="50" y="141">TenantId = C</text>
+<rect class="sB" x="40" y="150" width="160" height="18" rx="3"/><text class="sC" x="50" y="163">TenantId = B</text>
+<text class="sT" x="358" y="22" text-anchor="middle">schema per tenant</text><text class="sC" x="358" y="40" text-anchor="middle">tenant_a.Invoices, tenant_b.Invoices</text>
+<rect class="sN" x="268" y="54" width="180" height="120" rx="8"/>
+<rect class="sW" x="278" y="62" width="160" height="30" rx="4"/><text class="sC" x="358" y="82" text-anchor="middle">schema tenant_a</text>
+<rect class="sW" x="278" y="98" width="160" height="30" rx="4"/><text class="sC" x="358" y="118" text-anchor="middle">schema tenant_b</text>
+<rect class="sW" x="278" y="134" width="160" height="30" rx="4"/><text class="sC" x="358" y="154" text-anchor="middle">schema tenant_c</text>
+<text class="sT" x="596" y="22" text-anchor="middle">database per tenant</text><text class="sC" x="596" y="40" text-anchor="middle">a separate database each</text>
+<rect class="sG" x="506" y="70" width="54" height="90" rx="8"/><text class="sX" x="533" y="120" text-anchor="middle">A</text>
+<rect class="sG" x="568" y="70" width="54" height="90" rx="8"/><text class="sX" x="595" y="120" text-anchor="middle">B</text>
+<rect class="sG" x="630" y="70" width="54" height="90" rx="8"/><text class="sX" x="657" y="120" text-anchor="middle">C</text>
+<text class="sC" x="130" y="196" text-anchor="middle">cheapest; isolation by query filter</text><text class="sC" x="368" y="196" text-anchor="middle">middle ground</text><text class="sC" x="606" y="196" text-anchor="middle">strongest isolation; most to run</text>
+<line class="sLm" x1="40" y1="214" x2="690" y2="214" marker-end="url(#ahm)"/><text class="sC" x="365" y="230" text-anchor="middle">more isolation, more cost and operations →</text>
+</svg><figcaption>Multi-tenancy models from cheapest to most isolated. FinSight used the first; many SaaS products move their largest customers to the third.</figcaption></figure>
 
 Key concerns in any model: resolving the tenant (from a JWT claim, subdomain or header) once per request; enforcing it at the data layer (global query filters, PostgreSQL row-level security); the tenant in **cache keys** and **background jobs**; per-tenant rate limits so one "noisy neighbour" can't slow others; and tests that prove isolation.
 

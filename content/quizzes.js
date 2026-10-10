@@ -403,4 +403,393 @@ for (const [tid, sets] of Object.entries(SD_TRACKS)) {
   QUIZ[tid].push(...SD_CORE, ...(sets.includes('deep') ? SD_DEEP : []), ...(SD_ROLE[tid] || []));
 }
 
+// Foundations: questions on the "§X.0 Foundations" sections. Every track whose path
+// includes the module gets them, so a new foundations section needs no track bookkeeping.
+const FOUNDATIONS = {
+  S1: [
+    q('Web', 'Which layer uses port numbers to hand data to the right program?', ['Link', 'Internet (IP)', 'Transport (TCP/UDP)', 'Application'], 2, 'IP addresses find the machine; ports find the program on it.', 'S1.0'),
+    q('Web', 'Counting DNS, about how many round trips pass before the first byte of a brand-new HTTPS request over TCP and TLS 1.3?', ['1', '2', '4', '8'], 2, 'DNS, the TCP handshake, the TLS handshake, then the HTTP request: four. HTTP/3 merges the transport and TLS handshakes.', 'S1.5'),
+    q('Web', 'Why can one lost packet stall every request on an HTTP/2 connection?', ['HTTP/2 cannot multiplex', 'TCP hands bytes over strictly in order, so later packets wait for the resend', 'TLS has to renegotiate', 'Browsers allow only six connections'], 1, 'This is TCP head-of-line blocking; QUIC orders each stream separately.', 'S1.3'),
+    q('Web', 'A session cookie is SameSite=Lax. Which request from another site still carries it?', ['A form POST', 'A fetch() call', 'A top-level link click (GET) into your site', 'An iframe load'], 2, 'Lax blocks the cross-site POSTs and fetches CSRF needs, while links into your site still arrive logged in.', 'S1.6'),
+    q('Web', 'You change a DNS A record whose TTL is 3600. Some users still reach the old server for…', ['No time: DNS is instant', 'Up to an hour, until cached answers expire', 'Exactly 24 hours', 'Until they clear cookies'], 1, 'Resolvers and browsers cache the answer for its TTL; lower the TTL a day before a move.', 'S1.2'),
+  ],
+  S2: [
+    q('Git', 'What does origin/main tell you?', ['The live state of main on GitHub', 'Where main was on origin the last time you fetched or pushed', 'Your own main branch', 'The name of the default branch'], 1, 'Remote-tracking branches only move when you talk to the remote: fetch, pull or push.', 'S2.0'),
+    q('Git', 'A 1 MB file is unchanged across 50 commits. Git stores its content…', ['50 times', 'Once: every snapshot\'s tree points to the same blob, named by its content hash', 'As 50 diffs', 'Only in the newest commit'], 1, 'Objects are named by the hash of their content, so identical content is stored once.', 'S2.0'),
+    q('Git', 'Your branch renamed a method and the other branch sorted the result on a different line. During the merge…', ['Git reports a conflict on both lines', 'Git applies both changes automatically; it only stops on lines both sides changed', 'Git keeps only your version', 'Git keeps only theirs'], 1, 'Three-way merge compares each side with the merge base; one-sided changes merge cleanly.', 'S2.4'),
+  ],
+  S3: [
+    q('SQL', 'Which column type should hold money amounts?', ['FLOAT', 'DECIMAL / NUMERIC', 'REAL', 'VARCHAR'], 1, 'FLOAT cannot store most decimal fractions exactly, so sums drift; DECIMAL is exact.', 'S3.0'),
+    q('SQL', 'Orders and products are many-to-many. How do you model that?', ['A comma-separated list of product IDs in orders', 'A junction table (order_items) whose key is (order_id, product_id)', 'A foreign key from products to orders', 'One wide table'], 1, 'The junction table turns one many-to-many into two one-to-many relationships.', 'S3.0'),
+    q('SQL', 'A column holds 10, NULL, 30, NULL, 20. AVG(col) returns…', ['12', '20', '15', 'NULL'], 1, 'Aggregates skip NULLs: 60 / 3. AVG(COALESCE(col, 0)) would give 12.', 'S3.3'),
+    q('SQL', 'Query A returns 4 rows (one city twice), query B returns 2 rows. A UNION ALL B returns…', ['4 rows', '5 rows', '6 rows', 'Only the distinct rows'], 2, 'UNION ALL keeps every row; UNION, INTERSECT and EXCEPT return distinct rows.', 'S3.8'),
+  ],
+  S4: [
+    q('DSA', 'Why is reading arr[i] O(1)?', ['Arrays are always cached', 'Item i sits at start + i × item size, one calculation away', 'Arrays are sorted', 'The runtime searches in parallel'], 1, 'Contiguous storage makes the address computable; a linked list has to follow pointers.', 'S4.0'),
+    q('DSA', 'a is a List<int> holding [1]. After var b = a; b.Add(2); a contains…', ['[1]', '[1, 2]: both names refer to the same list', 'Nothing: a compile error', '[2]'], 1, 'List<T> is a reference type; assigning copies the reference, not the list.', 'S4.0'),
+    q('DSA', 'Two different keys hash to the same bucket. What happens?', ['The second insert fails', 'A collision: the table chains or probes, and lookups compare keys', 'The table crashes', 'Lookups become O(log n)'], 1, 'Collisions are normal; a good hash function keeps chains short, so lookups stay O(1) on average.', 'S4.0'),
+    q('DSA', 'How many results does a backtracking Subsets() produce for 4 distinct numbers?', ['4', '8', '16', '24'], 2, 'Every element is in or out: 2⁴ = 16, including the empty set. Exponential by nature.', 'S4.14'),
+    q('DSA', 'Inside a loop over n items you test x in my_list for each. The loop is…', ['O(n)', 'O(n²): each membership test scans the list', 'O(log n)', 'O(1)'], 1, 'Convert to a set first: lookups become O(1) on average (about 30 ns versus 4 ms at a million items here).', 'S4.3'),
+  ],
+  S6: [
+    q('Stats', 'pandas .std() and np.std() give different answers on the same numbers. Why?', ['A bug in NumPy', 'pandas divides by n − 1 by default, NumPy by n', 'pandas drops outliers', 'NumPy rounds'], 1, 'Pass ddof=1 to NumPy for the sample standard deviation.', 'S6.0'),
+    q('Stats', 'You survey only your app users about satisfaction with your service. The main problem?', ['Too few questions', 'The sample isn\'t random from all customers, so it can\'t represent them', 'Surveys are always biased upward', 'Nothing, if n is large'], 1, 'A bigger biased sample is still biased.', 'S6.0'),
+    q('Stats', 'Where does the 16 in "n ≈ 16σ²/δ² per group" come from?', ['A historical convention', '2 × (1.96 + 0.84)², for α = 0.05 two-sided and 80% power', 'The number of weeks to run a test', '4²'], 1, 'The effect must sit 2.8 standard errors from zero, and two groups double the variance.', 'S6.9'),
+    q('Statistics', 'Order values are heavily skewed with outliers, two independent groups. A sensible test is…', ['Paired t-test', 'Mann–Whitney U (rank-based)', 'Chi-square', 'Pearson correlation'], 1, 'Rank-based tests are robust to skew and outliers; Welch’s t-test is the default when means are meaningful.', 'S6.7'),
+    q('Statistics', 'Treatment A beats B for small and for large kidney stones, yet loses overall. The usual cause is…', ['A coding error', 'Different case mixes: A got mostly the hard cases (Simpson’s paradox)', 'Too small a sample', 'Regression to the mean'], 1, 'Each overall rate is a weighted average of the subgroups; stone size confounds treatment and outcome.', 'S6.8'),
+  ],
+  S7: [
+    q('Python', '{[1, 2]: "x"} raises TypeError. Why?', ['Dict keys must be strings', 'A list is mutable, so it isn\'t hashable; use a tuple', 'The value must be a list too', 'Dicts cannot hold lists'], 1, 'Only hashable (immutable) values can be keys or set members.', 'S7.0'),
+    q('Python', 'Why is arr.sum() on a NumPy array far faster than a Python for loop over a list?', ['NumPy uses the GPU', 'The numbers sit raw in one block and one compiled loop adds them, with no per-item type checks', 'Lists are sorted first', 'NumPy skips some items'], 1, 'A list holds pointers to separate objects; every Python-level operation checks types and allocates.', 'S7.0'),
+    q('pandas', 'Transactions have no rows on weekends. What does df.set_index("date").resample("D")["revenue"].sum() do with those days?', ['Drops them', 'Inserts them with revenue 0', 'Fills them with NaN and raises', 'Copies Friday’s value'], 1, 'resample builds a continuous daily index; rolling(7) then really means seven calendar days.', 'S7.7'),
+    q('pandas', 'Labelling 100,000 rows with df.apply(..., axis=1) versus np.where on the column is typically…', ['About the same', 'Hundreds of times slower', 'Faster', 'Only slower with strings'], 1, 'Measured here: about 215 ms versus under 1 ms; a row-wise apply is a Python loop in disguise.', 'S7.8'),
+  ],
+  S9: [
+    q('Security', 'A logged-in user changes /invoices/1043 to /invoices/1044 and sees another company\'s invoice. Which check failed?', ['Authentication', 'Authorisation: the server didn\'t check that the invoice belongs to the caller', 'Input validation', 'TLS'], 1, 'They were authenticated; nothing checked ownership of that object (IDOR).', 'S9.0'),
+    q('Security', 'A webhook provider signs each payload with a secret you both share. That is…', ['Encryption', 'An HMAC', 'A digital signature with a key pair', 'Base64 encoding'], 1, 'A keyed hash proves the sender knew the shared secret and the body was not changed.', 'S9.0'),
+    q('Security', 'The form already validates the amount in Angular. Does the API still need to?', ['No, the UI blocks bad input', 'Yes: the client is outside the trust boundary and can send anything', 'Only in production', 'Only for admins'], 1, 'Client-side validation is for user experience; anyone can call the API directly.', 'S9.0'),
+  ],
+  S10: [
+    q('DevOps', 'Why build the container image once and promote it, instead of rebuilding for each environment?', ['Builds are expensive', 'So production runs exactly the artifact that passed testing; only configuration changes', 'Registries charge per build', 'Staging cannot build images'], 1, 'A rebuild can pull different dependencies and produce something nobody tested.', 'S10.0'),
+    q('DevOps', 'A dependency goes from 2.3.1 to 3.0.0. Under semantic versioning that signals…', ['A bug fix', 'A new backward-compatible feature', 'Breaking changes', 'Nothing in particular'], 2, 'MAJOR changes break compatibility; "^2.3.1" would not accept 3.0.0.', 'S10.0'),
+    q('Cloud', 'In infrastructure as code, drift means…', ['A slow deployment', 'The real resources no longer match the code, usually after a manual change', 'A newer provider version', 'A failed pipeline'], 1, 'The next plan proposes reverting it; fix it for good by putting the change in code.', 'S10.5'),
+  ],
+  F1: [
+    q('A11y', 'A screen reader says nothing useful about your <div onclick> "Export". Why?', ['Screen readers skip divs with text', 'It gets no role and isn\'t focusable in the accessibility tree, which is what screen readers read', 'The onclick needs aria-live', 'Divs are hidden by default'], 1, 'Assistive tech reads the accessibility tree; a native <button> gives the role, focus and keyboard behaviour.', 'F1.0'),
+    q('A11y', 'Voice-control users say "click Send" at a button that shows "Send", and nothing happens. Likely cause?', ['The button is too small', 'Its accessible name (e.g. an aria-label "Submit form") doesn\'t match the visible label', 'Voice control ignores buttons', 'Missing tabindex'], 1, 'WCAG 2.5.3 Label in Name: the accessible name should contain the visible text.', 'F1.0'),
+    q('Accessibility', 'A custom disclosure button opens a filter panel. What must your click handler update for screen-reader users?', ['Nothing: ARIA handles it', 'aria-expanded on the button (and the panel’s hidden state)', 'The tabindex of every link', 'The page title'], 1, 'ARIA adds no behaviour; your code must keep the announced state true.', 'F1.7'),
+    q('Accessibility', 'Grey #777777 text on white has a contrast ratio of about…', ['2.8 : 1, clearly failing', '4.48 : 1, just failing AA for normal text', '7 : 1, passing AAA', '21 : 1'], 1, 'One step darker, #767676, reaches 4.54 : 1 and passes. Compute the ratio; do not eyeball it.', 'F1.8'),
+  ],
+  F2: [
+    q('CSS', 'A <span> ignores width: 200px. Why?', ['Spans can\'t be styled', 'It is an inline box in normal flow, and inline boxes ignore width and height', 'width needs !important', 'The span is empty'], 1, 'Use display: inline-block or block, or make the parent a flex or grid container.', 'F2.0'),
+    q('CSS', 'width: 300px; padding: 20px; border: 5px with the default box-sizing. How wide is the box?', ['300px', '340px', '350px', '310px'], 2, 'content-box adds padding and border: 300 + 2×20 + 2×5. With border-box it is exactly 300.', 'F2.2'),
+    q('CSS', 'Three nested lists each set font-size: 1.2em on a 16px root. The innermost text is about…', ['19.2px', '23px', '27.6px', '16px'], 2, 'em compounds: 16 × 1.2³ ≈ 27.6px. With 1.2rem every level is 19.2px.', 'F2.7'),
+    q('CSS', 'An unlayered .nav .link rule and a #home rule inside @layer base both set color. Which wins?', ['#home, because IDs beat classes', 'The unlayered rule: cascade layers are checked before specificity', 'Whichever is later in the file', 'Neither applies'], 1, 'Layers are compared before specificity, and unlayered styles beat every layer.', 'F2.1'),
+  ],
+  F3: [
+    q('JS', 'Your single-page app uses more memory after every route change. A likely cause?', ['Too many CSS rules', 'A setInterval or event listener that is never cleaned up keeps old objects reachable', 'Using const instead of let', 'The garbage collector is disabled'], 1, 'A leak in JS is something still reachable but no longer needed; clean up in useEffect or DestroyRef.', 'F3.0'),
+    q('JS', 'After makeCounter() returns, where does its local count live on?', ['It is deleted', 'In an environment on the heap that stays alive while the returned function can reach it', 'On the call stack', 'In localStorage'], 1, 'The inner function keeps a link to the environment it was created in: that is the closure.', 'F3.4'),
+    q('JavaScript', 'Why is 0.1 + 0.2 === 0.3 false?', ['A JavaScript bug', 'Both sides round to different neighbouring binary doubles', 'Strict equality compares types', 'Numbers are strings internally'], 1, 'The literal 0.3 is stored just below 0.3, the sum just above. Use integer cents or a tolerance.', 'F3.1'),
+    q('JS', 'console.log(y); let y = 5; throws ReferenceError. Why, if let is hoisted?', ['let is not hoisted', 'y is hoisted but uninitialised until its line runs: the temporal dead zone', 'console.log runs too early', 'y is block-scoped to console'], 1, 'var would print undefined; let and const exist from the start of the block but cannot be read yet.', 'F3.3'),
+    q('JS', 'Which of these is true in JavaScript?', ['"0" == false is false', '"0" == false is true, yet if ("0") still runs its block', '[] is falsy', 'NaN == NaN is true'], 1, 'Loose equality converts both sides to numbers; truthiness is a separate rule. Use === and test == null only on purpose.', 'F3.2'),
+  ],
+  F4: [
+    q('Async', 'At 60 frames per second, roughly how long does the browser have for each frame?', ['1 ms', '16.7 ms', '100 ms', '1 second'], 1, 'Your JavaScript, style, layout and paint share that budget; longer work delays the next frame and input.', 'F4.0'),
+    q('Async', 'Who provides setTimeout and fetch in the browser?', ['The JavaScript language itself', 'The browser (Web APIs); the engine only runs your callbacks', 'The operating system directly', 'React'], 1, 'The browser waits on timers and the network on other threads, then queues your callback.', 'F4.0'),
+  ],
+  F5: [
+    q('TS', 'Thinking of types as sets of values, what is never?', ['Every value', 'The empty set: no value belongs to it', 'null and undefined', 'Any object'], 1, 'That is why assigning a leftover case to never fails to compile when a branch is missing.', 'F5.0'),
+    q('TS', 'Your Vite build passes but tsc reports type errors. How?', ['Vite has a different type checker', 'Vite (esbuild) only strips types and never type-checks; run tsc --noEmit in CI', 'tsc is wrong', 'Vite ignores .ts files'], 1, 'Stripping and checking are separate jobs.', 'F5.0'),
+    q('TypeScript', 'For pluck<T, K extends keyof T>(items: T[], key: K): T[K][] called with Invoice[] and "amount" (a number field), the return type is…', ['any[]', 'number[]', 'Invoice[]', 'string[]'], 1, 'T is inferred as Invoice, K as the literal "amount", and T[K] looks up the property type.', 'F5.7'),
+  ],
+  F6: [
+    q('React', 'What does <button disabled={x}>Save</button> become after compilation?', ['An HTML string', 'A function call returning a plain object that describes the element', 'A DOM node created immediately', 'A web component'], 1, 'JSX compiles to jsx("button", {...}); the DOM is only touched when React commits.', 'F6.0'),
+    q('React', 'In which phase does React actually change the DOM?', ['Render', 'Commit', 'When setState is called', 'During the diff'], 1, 'Render and diff are pure calculation; commit applies the differences, then effects run after paint.', 'F6.1'),
+    q('React', 'A memoised child still re-renders on every parent render. The most likely cause is…', ['memo is broken', 'A prop such as onClick={() => …} is a new function each render, so the shallow comparison fails', 'Too many hooks', 'Strict mode'], 1, 'Stabilise it with useCallback (or let the React Compiler do it), or move the state closer to where it is used.', 'F6.6'),
+    q('React', 'Which error does a React error boundary NOT catch?', ['An exception thrown while a child renders', 'An exception thrown in an onClick handler', 'An error in a child’s render during an update', 'A rendering error in a lazy-loaded component'], 1, 'Boundaries cover rendering; handle event-handler and async errors with try/catch and state.', 'F6.7'),
+  ],
+  F7: [
+    q('Angular', 'Why does a template typo like {{ invoice.amout }} fail at ng build rather than in the browser?', ['Angular runs unit tests during build', 'Templates are compiled ahead of time into JavaScript and type-checked', 'The browser rejects unknown properties', 'It doesn\'t; it fails at runtime'], 1, 'AOT compilation checks templates against the component types.', 'F7.0'),
+    q('Angular', 'A user taps Pay three times quickly. Which operator stops duplicate payment requests?', ['switchMap', 'mergeMap', 'concatMap', 'exhaustMap'], 3, 'exhaustMap ignores new triggers while the current request is still running.', 'F7.6'),
+  ],
+  F8: [
+    q('State', 'You store the overdue count in its own state and update it by hand. What is the risk?', ['It uses more memory', 'It can drift from the invoices it was counted from; derive it instead', 'Counts cannot be state', 'Nothing'], 1, 'One source of truth; compute derived values from it.', 'F8.0'),
+    q('State', 'Why can offset pagination show the same row on two pages?', ['A database bug', 'A new row inserted above shifts every later offset; a cursor ("after #48") does not', 'Browsers cache pages', 'Offsets start at 1'], 1, 'Cursors anchor to the last item seen, so inserts don\'t shift the next page.', 'F8.7'),
+  ],
+  F9: [
+    q('Perf', 'Why can a big stylesheet in <head> delay the first paint?', ['Stylesheets are downloaded last', 'CSS is render-blocking: the browser waits for the CSSOM before painting', 'CSS blocks JavaScript downloads', 'It doesn\'t'], 1, 'Inline the critical CSS and load the rest without blocking.', 'F9.0'),
+    q('Perf', 'Which property can be animated by the compositor alone, skipping layout and paint?', ['width', 'top', 'transform', 'margin-left'], 2, 'transform and opacity only need compositing, so they stay smooth on slow phones.', 'F9.0'),
+  ],
+  F10: [
+    q('Testing', 'Why write the test first and watch it fail before fixing the bug?', ['It is faster', 'It proves the test can actually detect the bug; a test that never failed may test nothing', 'Runners require it', 'It increases coverage'], 1, 'Red, green, refactor: the red step validates the test itself.', 'F10.0'),
+    q('Testing', 'A UI test uses await wait(500) before asserting and fails now and then in CI. Best fix?', ['wait(2000)', 'Retry the test three times', 'Wait for the condition, e.g. findByRole or a web-first assertion', 'Delete the test'], 2, 'Fixed sleeps race against real timing; wait for what you need to see.', 'F10.8'),
+    q('Testing', 'A success message appears after an API call resolves. Which query should the test use?', ['getByText', 'queryByText', 'await findByText', 'getByTestId'], 2, 'findBy waits (1 s by default); getBy throws immediately and queryBy is for asserting absence.', 'F10.4'),
+    q('Testing', 'Why does Playwright rarely need sleep() before click()?', ['It clicks instantly', 'It waits until the element is attached, visible, stable, enabled and receiving events', 'It retries the whole test', 'It disables animations'], 1, 'Auto-waiting checks actionability before acting; web-first assertions retry until they pass.', 'F10.6'),
+  ],
+  B1: [
+    q('.NET', 'An API is slow under load while CPU sits at 15%, and many handlers call .Result on database tasks. The likely problem?', ['The GC', 'Thread-pool starvation: blocked pool threads can\'t serve new requests', 'Too much memory', 'JIT compilation'], 1, 'Go async all the way so awaiting releases threads back to the pool.', 'B1.0'),
+    q('.NET', 'What does the JIT compiler do?', ['Turns C# into IL', 'Turns IL into machine code at run time, recompiling hot methods with more optimisation', 'Collects garbage', 'Links NuGet packages'], 1, 'Roslyn produces IL; the JIT produces machine code on the target machine. Native AOT does it ahead of time.', 'B1.1'),
+  ],
+  B2: [
+    q('Design', 'Low coupling and high cohesion mean…', ['Many small classes that all reference each other', 'Modules know little about each other, and each module\'s contents belong together', 'One big class per feature', 'No interfaces'], 1, 'Then a change stays inside one module instead of rippling everywhere.', 'B2.0'),
+    q('Design', 'In a UML class diagram, a dashed line with a hollow arrowhead means…', ['Inherits', 'Implements an interface', 'Owns (composition)', 'Calls'], 1, 'Solid with a hollow arrowhead is inheritance; a filled diamond is composition.', 'B2.0'),
+  ],
+  B3: [
+    q('ASP.NET', 'What is HttpContext.RequestAborted for?', ['Aborting the server', 'A cancellation token that fires when the client disconnects, so you can stop database work', 'Returning 499', 'Retrying requests'], 1, 'Pass it (or the CancellationToken parameter) down to EF Core and HttpClient calls.', 'B3.0'),
+    q('ASP.NET', 'Browser preflight OPTIONS requests get 401. The likely cause?', ['The API needs a new route', 'UseCors is registered after authentication, so the token-less preflight is rejected first', 'The browser is out of date', 'Rate limiting'], 1, 'Middleware order: CORS before authentication.', 'B3.2'),
+    q('ASP.NET', 'An unexpected exception reaches the global handler in production. The client should receive…', ['The exception message and stack trace', 'A generic 500 ProblemDetails with a traceId; details go to the log', 'An empty 200', 'A redirect to the home page'], 1, 'The traceId lets support find the logged details without leaking internals such as connection strings.', 'B3.5'),
+  ],
+  B4: [
+    q('API', 'Why is renaming a JSON field in a public API risky even if your own frontend is updated the same day?', ['JSON field names are case-sensitive', 'Consumers you don\'t control, like installed mobile app versions and partners, still send and expect the old name', 'It breaks OpenAPI generation', 'It isn\'t risky'], 1, 'The contract is shared; add fields, deprecate, and version breaking changes.', 'B4.0'),
+    q('API', 'How should a monetary amount be sent in JSON?', ['As a float like 900.5', 'As a decimal string ("900.50") or integer minor units, plus a currency code', 'As text like "900 pounds"', 'Any number type'], 1, 'JSON has no decimal type; floats lose precision.', 'B4.0'),
+  ],
+  B5: [
+    q('EF Core', 'Two queries for invoice 7 in the same DbContext return…', ['Two separate objects', 'The same object instance, because of the identity map', 'An error', 'A copy and a proxy'], 1, 'Within one context, one row maps to one tracked object.', 'B5.0'),
+    q('EF Core', 'You change invoice.Status and call SaveChanges. How does EF know what to update?', ['It updates every column', 'It compares the tracked entity with the snapshot taken when it was loaded', 'You must call Update() first', 'It reloads the row'], 1, 'DetectChanges diffs against the snapshot and updates only changed columns.', 'B5.2'),
+  ],
+  B6: [
+    q('Database', 'How can a COMMIT be durable without writing every changed data page to disk?', ['It isn\'t durable', 'The change is appended to the transaction log (write-ahead log) and flushed; pages are written later and the log replays after a crash', 'Data is kept in RAM only', 'Replicas hold the data'], 1, 'Sequential log writes are fast; checkpoints write pages in batches.', 'B6.0'),
+    q('Database', 'Two requests read balance 1000, subtract 100 and 200 in C#, and both save. The final 800 is…', ['Correct', 'A lost update: the second write overwrote the first', 'A dirty read', 'A phantom read'], 1, 'Let the database do the arithmetic, lock the row, or use a version check.', 'B6.5'),
+    q('Database', 'WHERE amount * 1.14 > 2200 runs as a full index SCAN. The sargable rewrite is…', ['WHERE amount * 1.14 >= 2200', 'WHERE amount > 2200 / 1.14', 'Add another index on amount', 'WHERE CAST(amount AS INT) > 1930'], 1, 'Keep the column bare so the engine can SEARCH the index; measured here: about 29 ms versus 0.2 ms.', 'B6.4'),
+  ],
+  B7: [
+    q('Auth', 'What is the trade-off between a session ID and a JWT?', ['None', 'A session ID needs a lookup per request but is easy to revoke; a JWT is verified without a lookup but is hard to revoke before it expires', 'JWTs are encrypted', 'Session IDs can\'t be stolen'], 1, 'Both are bearer credentials; protect them either way.', 'B7.0'),
+    q('Auth', 'An attacker replays a refresh token that was already rotated. What should the server do?', ['Issue new tokens', 'Treat it as theft: revoke the whole token family and force a new login', 'Ignore it', 'Extend the old token'], 1, 'Reuse detection is why rotation is recommended for browser apps.', 'B7.3'),
+    q('Auth', 'ASP.NET Core Identity’s default PasswordHasher (v3 format) uses…', ['Plain SHA-256', 'PBKDF2 with HMAC-SHA512 and 100,000 iterations, plus a 16-byte salt', 'MD5 with a pepper', 'bcrypt'], 1, 'Decoded from a real hash here; about 25 guesses per second per core instead of hundreds of thousands.', 'B7.4'),
+  ],
+  B8: [
+    q('Caching', 'Cache reads take 1 ms, database reads 20 ms. At a 90% hit ratio, average read latency is about…', ['1 ms', '2.9 ms', '10 ms', '18 ms'], 1, '0.9 × 1 + 0.1 × 20 = 2.9 ms, and the database sees a tenth of the reads.', 'B8.0'),
+    q('Messaging', 'The relay crashes after publishing an outbox message but before marking it sent. What happens?', ['The message is lost', 'It is published again after restart, so consumers must be idempotent', 'The transaction rolls back', 'The broker deletes the duplicate'], 1, 'Outbox gives at-least-once publishing; the inbox on the consumer side handles duplicates.', 'B8.7'),
+  ],
+  B9: [
+    q('Architecture', 'In Clean Architecture, which way does the compile-time reference go between Application and Infrastructure?', ['Application references Infrastructure', 'Infrastructure references Application (it implements Application\'s interfaces)', 'Neither', 'Both'], 1, 'Calls go down at run time; references point inward to the core.', 'B9.0'),
+    q('Architecture', 'Why reference other aggregates by ID rather than by object?', ['IDs are faster to serialise', 'It keeps each aggregate a separate consistency boundary changed in its own transaction', 'EF Core requires it', 'To avoid nulls'], 1, 'Cross-aggregate changes coordinate through domain events.', 'B9.4'),
+  ],
+  B10: [
+    q('Testing', 'A service calls DateTime.UtcNow directly to decide if an invoice is overdue. What does that cost you in tests?', ['Nothing', 'No seam: tests can\'t control time, so they become date-dependent or flaky; inject TimeProvider instead', 'Slower tests', 'It breaks DI'], 1, 'FakeTimeProvider lets tests set and advance the clock.', 'B10.0'),
+    q('Testing', 'A mutation testing tool changes > to >= and every test still passes. What does that tell you?', ['The code is correct', 'No test covers the boundary case; the mutant survived', 'The tool is broken', 'Coverage is 100%'], 1, 'Surviving mutants point at missing edge-case tests.', 'B10.10'),
+    q('Testing', 'xUnit runs three tests in one class. How many instances of the test class are created?', ['One, shared', 'Three, one per test', 'One per collection', 'None; methods are static'], 1, 'Share expensive objects deliberately with IClassFixture or ICollectionFixture.', 'B10.2'),
+  ],
+  B11: [
+    q('Observability', 'Metrics show p99 latency spiked at 14:05. What links that spike to the reason?', ['CPU graphs', 'A slow trace from that period, and logs carrying the same trace ID', 'The deployment log only', 'Restarting the service'], 1, 'Metrics say something is wrong, traces say where, logs say why.', 'B11.0'),
+    q('Observability', 'Why should a database check go in the readiness probe rather than liveness?', ['Readiness is faster', 'A database blip would make every instance fail liveness and restart at once; readiness just pauses traffic', 'Liveness can\'t reach the database', 'No reason'], 1, 'Liveness: restart me. Readiness: don\'t route to me yet.', 'B11.6'),
+    q('Observability', '1% of requests take about 3 s and the rest about 80 ms. The mean latency is about…', ['3 s', '130 ms: the mean hides the slow path that owns the p99', '80 ms', '1.5 s'], 1, 'Simulated here: mean ≈ 129 ms, p50 ≈ 81 ms, p99 ≈ 2.6 s. Alert on percentiles.', 'B11.3'),
+  ],
+  B12: [
+    q('System design', 'Why encode a unique counter in Base62 for short URLs?', ['It encrypts the URL', 'It turns a unique number into a short code with no collisions to check', 'It is required by HTTP', 'It makes codes random'], 1, 'Base conversion is reversible and unique; 7 characters give about 3.5 trillion codes.', 'B12.5'),
+    q('System design', 'A fixed-window limiter of 100 per minute lets 200 requests through in 2 seconds. How?', ['A bug in Redis', '100 arrive at the end of one window and 100 at the start of the next', 'Clock drift', 'It cannot happen'], 1, 'The window edge problem; sliding windows or token buckets smooth it.', 'B12.6'),
+    q('System design', 'Why separate priority queues in a notification system?', ['To save money', 'So urgent messages like OTP codes never wait behind bulk marketing sends', 'Queues are faster when small', 'Providers require it'], 1, 'Isolation by priority keeps latency-critical messages fast.', 'B12.7'),
+    q('System design', '10 million new short links a month at about 500 bytes each need roughly how much storage over five years?', ['3 GB', '300 GB', '30 TB', '3 PB'], 1, '5 GB a month, 60 GB a year, 300 GB in five years: one database holds it.', 'B12.2'),
+  ],
+  B13: [
+    q('Node.js', 'A Node handler spends 80 ms in a synchronous JSON.parse. What happens to other requests?', ['They run in parallel on other threads', 'They wait: the single JavaScript thread is busy', 'Node automatically moves the work to libuv', 'Nothing, parsing is I/O'], 1, 'Waiting is free; computing blocks everyone.', 'B13.0'),
+    q('Node.js', 'Which part of Node provides the event loop and the thread pool?', ['V8', 'libuv', 'npm', 'The CLR'], 1, 'V8 runs JavaScript; libuv provides the loop, the thread pool and async I/O.', 'B13.0'),
+    q('Node.js', 'Code after an await and a setTimeout(fn, 0) are both scheduled. Which usually runs first?', ['The setTimeout callback', 'The code after await, because promise continuations are microtasks', 'They run in parallel', 'It is random'], 1, 'Microtasks drain after every callback, before the next phase.', 'B13.0'),
+    q('Node.js', 'What does write() returning false on a writable stream mean?', ['The write failed', 'The buffer is full: pause the producer until "drain"', 'The stream is closed', 'Nothing important'], 1, 'That is the backpressure signal; stream.pipeline handles it for you.', 'B13.7'),
+    q('Node', 'Page 49,000 of a list with OFFSET took about 30 ms in the measurement, keyset about…', ['30 ms too', '0.02 ms: it seeks straight to the cursor', '300 ms', '3 ms'], 1, 'OFFSET reads and discards every earlier row; keyset uses the index to start at (due_date, id) > cursor.', 'B13.5'),
+  ],
+  B14: [
+    q('Interview', 'A scoped DbContext injected into a singleton is called…', ['A memory leak only', 'A captive dependency, shared across threads', 'Fine if the method is async', 'Required for performance'], 1, 'The singleton keeps one DbContext alive forever; DbContext is not thread-safe.', 'B14.2'),
+    q('Interview', 'Why is async void dangerous outside event handlers?', ['It runs synchronously', 'Callers cannot await it and its exceptions crash the process', 'It allocates more memory', 'It cannot use await'], 1, 'Return Task so callers can await and observe failures.', 'B14.2'),
+  ],
+  FS1: [
+    q('Full-stack', 'Why must the server re-check validation the SPA already did?', ['Browsers are slow', 'The front end runs on the user\'s machine and can be changed or bypassed', 'Angular forms are buggy', 'It is not necessary'], 1, 'The front end is untrusted; client validation is only for UX.', 'FS1.0'),
+    q('Full-stack', 'Which of these is the same origin as https://app.example.com?', ['https://api.example.com', 'http://app.example.com', 'https://app.example.com/api/invoices', 'https://app.example.com:8443'], 2, 'Origin = scheme + host + port; the path is not part of it.', 'FS1.0'),
+  ],
+  FS2: [
+    q('Full-stack', 'An HttpOnly cookie protects the credential from…', ['CSRF', 'Being read by injected scripts (XSS)', 'Expiry', 'CORS'], 1, 'JavaScript cannot read it, but the browser still sends it automatically, which is why CSRF defences are needed.', 'FS2.0'),
+    q('Full-stack', 'What can a server do with a session ID that it cannot do with a self-contained JWT?', ['Read claims', 'Revoke it instantly by deleting the session', 'Sign it', 'Send it in a header'], 1, 'Self-contained tokens stay valid until they expire, so they are kept short-lived.', 'FS2.0'),
+    q('Auth', 'Why does a browser SignalR client put the JWT in the query string for the WebSocket connection?', ['It is more secure', 'The browser WebSocket API cannot set an Authorization header', 'SignalR requires it for negotiate', 'To enable caching'], 1, 'Read it only for hub paths, and keep query-string tokens out of access logs.', 'FS2.8'),
+  ],
+  FS3: [
+    q('Full-stack', 'A CSV import takes three minutes. What should the upload request return?', ['200 after the import finishes', '202 Accepted with an import ID; progress arrives later', '504', 'A redirect'], 1, 'Record the intent, return quickly, do the work in a worker, report progress.', 'FS3.0'),
+    q('Full-stack', 'Which signal may mark an order as paid?', ['The browser reaching the success redirect', 'A verified, signed server-to-server webhook from the gateway', 'The client posting "paid: true"', 'The amount on the checkout page'], 1, 'Redirects can be faked or never arrive; the signed webhook is the source of truth.', 'FS3.3'),
+  ],
+  FS4: [
+    q('Shipping', 'In a same-origin VM deployment, which ports should be open to the internet?', ['All of them', '80 and 443, plus 22 restricted to your IP', 'Only 1433 for SQL Server', '8080 for the API'], 1, 'Everything else, including the database port, stays closed.', 'FS4.2'),
+    q('Shipping', 'Nightly backups at 02:00 and a failure at 09:40 means an RPO of about…', ['1.5 hours', '7 hours 40 minutes of lost data', 'Zero', 'One day of downtime'], 1, 'RPO is data lost since the last recovery point; RTO is the downtime.', 'FS4.5'),
+  ],
+  DA1: [
+    q('Analytics', 'On an order-lines table (one row per item), what does COUNT(*) per city count?', ['Orders', 'Items (order lines), not orders', 'Customers', 'Revenue'], 1, 'Know the grain; orders need COUNT(DISTINCT order_id).', 'DA1.0'),
+    q('Analytics', 'Friday: 5 orders from 10 sessions. Saturday: 20 orders from 1,000 sessions. What is the two-day conversion rate?', ['26%', 'About 2.5%', '50%', '2%'], 1, 'Divide total orders by total sessions; never average the daily rates.', 'DA1.0'),
+    q('Analytics', 'Revenue fell; customers are down 18% while orders per customer and AOV are flat. Where do you look next?', ['Prices', 'Segment the customer drop by platform, region and channel', 'The AOV formula', 'Nothing, it is seasonal'], 1, 'Decompose with the metric tree, then segment the branch that moved.', 'DA1.8'),
+    q('Analytics', 'A month starts with 1,000 customers; 50 leave and 300 join. Monthly churn is…', ['3.8% (50 ÷ 1,300)', '5% (50 ÷ 1,000)', '4% (50 ÷ 1,250)', '4.4% (50 ÷ average)'], 1, 'Divide by customers at the start of the period; other denominators understate churn and overstate LTV in a growing business.', 'DA1.5'),
+  ],
+  DA2: [
+    q('Excel', 'You fill =B2*E1 down from C2. What does C3 contain?', ['=B2*E1', '=B3*E2', '=B3*E1', '=C3*E2'], 1, 'Relative references move with the formula; write $E$1 to pin the rate.', 'DA2.0'),
+    q('Excel', 'Why does VLOOKUP break when someone inserts a column in the lookup range?', ['It recalculates slowly', 'It returns a column by number, which now points at a different column', 'It switches to approximate match', 'It cannot look left'], 1, 'XLOOKUP references the return column itself, so it moves with it.', 'DA2.3'),
+  ],
+  DA3: [
+    q('SQL', 'What is the key difference between GROUP BY and a window function?', ['Window functions are faster', 'GROUP BY collapses rows to one per group; a window function adds a column and keeps every row', 'GROUP BY cannot use SUM', 'There is none'], 1, 'Aggregate to buckets, then compare buckets with windows.', 'DA3.0'),
+    q('SQL', 'A daily series has no row for a day with zero orders. What goes wrong with LAG?', ['Nothing', 'LAG compares with the previous row, which is two days back', 'LAG returns NULL for every row', 'It double-counts'], 1, 'Fill missing days from a calendar with a LEFT JOIN first.', 'DA3.1'),
+    q('SQL', 'For orders 120, 150, 180, 240, 400, 2,600, percentile_disc(0.5) returns…', ['210', '180', '240', '615'], 1, 'disc returns an actual value (first with cumulative share ≥ 0.5); percentile_cont interpolates to 210.', 'DA3.7'),
+  ],
+  DA4: [
+    q('Power BI', 'A slicer on dim_Store[Region] changes Total Sales := SUM(fact_Sales[Amount]). Why?', ['The measure references Region', 'The filter flows along the one-to-many relationship to the fact rows', 'Slicers recompute columns', 'It does not'], 1, 'Filters flow from the one side to the many side.', 'DA4.0'),
+    q('Power BI', 'What does a matrix total row show for a measure?', ['The sum of the cells above', 'The measure re-evaluated without the row filter', 'The average of the cells', 'Nothing'], 1, 'Totals are evaluated in their own filter context.', 'DA4.5'),
+  ],
+  DA5: [
+    q('Visualisation', 'Which encoding lets readers compare quantities most accurately?', ['Area', 'Angle', 'Position on a common scale', 'Colour hue'], 2, 'Bars and dots on one axis beat pies and bubbles.', 'DA5.0'),
+    q('Visualisation', 'Why must a bar chart axis start at zero?', ['Software requires it', 'Bars encode value by length, so a cut axis distorts the ratio', 'It looks cleaner', 'To fit labels'], 1, 'Lines may zoom; bars may not.', 'DA5.3'),
+  ],
+  DA6: [
+    q('Product analytics', 'Why can the analytics tool show fewer orders than the database?', ['The database double-counts', 'Client-side events are lost to ad blockers, closed tabs and declined consent', 'Time zones never matter', 'It cannot'], 1, 'Use server records for money, client events for behaviour.', 'DA6.0'),
+    q('Product analytics', 'A promotion week had 1,500 orders vs a 1,000 baseline. What else must you subtract to get the incremental effect?', ['Nothing', 'Pull-forward and cannibalisation', 'Only refunds', 'The discount'], 1, 'Incremental = promo orders − baseline − pull-forward − cannibalised.', 'DA6.6'),
+  ],
+  DS1: [
+    q('Data science', 'What does "generalisation" mean for a model?', ['Fitting the training data perfectly', 'Performing well on new data it has not seen', 'Using many features', 'Training quickly'], 1, 'Training fit is easy; performance on unseen cases is the point.', 'DS1.0'),
+    q('Data science', 'A churn feature uses support calls counted up to month end, after the prediction date. What is wrong?', ['Nothing', 'It leaks information from after the cut-off', 'It is too slow', 'It needs scaling'], 1, 'Features may only use data available at the prediction point.', 'DS1.3'),
+  ],
+  DS2: [
+    q('Data science', 'Where must a scaler or imputer be fitted?', ['On all the data before splitting', 'On the training rows only, then applied unchanged to validation and test', 'On the test set', 'Separately on each set'], 1, 'Anything learned from data must come from training rows only.', 'DS2.0'),
+    q('Data science', 'Naive target encoding gives a category the mean label including the row itself. The result?', ['Better generalisation', 'The feature contains the answer: leakage', 'Slower training', 'Nothing'], 1, 'Compute it out of fold and shrink towards a prior.', 'DS2.3'),
+  ],
+  DS3: [
+    q('Data science', 'Training error keeps falling while validation error starts rising. What is happening?', ['Underfitting', 'Overfitting: the model is fitting noise', 'Data drift', 'A bug in the metric'], 1, 'Stop at the bottom of the validation curve: regularise, early-stop.', 'DS3.0'),
+    q('Data science', 'In gradient boosting, what does each new tree fit?', ['The original labels', 'The residuals (negative gradient) of the ensemble so far', 'A random subset of labels', 'The previous tree'], 1, 'Each round corrects what is still wrong, scaled by the learning rate.', 'DS3.5'),
+  ],
+  DS4: [
+    q('Data science', 'Raising the classification threshold usually…', ['Raises recall', 'Raises precision and lowers recall', 'Changes the model', 'Has no effect'], 1, 'Fewer cases are flagged, so those flagged are more often right, but more positives are missed.', 'DS4.0'),
+    q('Data science', 'With 2% positives, ROC-AUC is 0.90. Why might PR-AUC be much lower?', ['A bug', 'False positives barely move the FP rate when negatives dominate, but they hurt precision', 'PR-AUC ignores recall', 'They measure the same thing'], 1, 'PR-AUC reflects the flagged list you actually work through.', 'DS4.3'),
+    q('Evaluation', 'The offer sent to predicted churners doubles in cost. The profit-maximising threshold…', ['Stays at 0.5', 'Moves up: each false positive now costs more', 'Moves down', 'Becomes irrelevant'], 1, 'Re-derive the threshold from costs whenever costs or base rates change; here it moved from 0.28 to 0.50.', 'DS4.4'),
+  ],
+  DS5: [
+    q('Data science', 'Why does comparing loyalty members with non-members overstate the programme effect?', ['Members are fewer', 'Engaged customers both join more and spend more: a confounder', 'Spending is noisy', 'It does not'], 1, 'Selection mixes who joined with what the programme did.', 'DS5.0'),
+    q('Data science', 'Cairo rose 12, Alexandria rose 6 over the same period. The DiD estimate of Cairo\'s policy is…', ['+12', '+6', '+18', '0'], 1, 'Treated change minus control change, assuming parallel trends.', 'DS5.4'),
+  ],
+  DS6: [
+    q('Forecasting', 'Why must forecasts be validated forward in time?', ['It is faster', 'Shuffled splits let the model learn from the future', 'Random splits need more data', 'It is a convention only'], 1, 'Train on the past, test on what came after.', 'DS6.0'),
+    q('Forecasting', 'Why does "same week last year" fail for Ramadan demand?', ['Ramadan is fixed in the Gregorian calendar', 'Ramadan moves about 11 days earlier each Gregorian year', 'Demand does not change in Ramadan', 'Weeks differ in length'], 1, 'Use Hijri-calendar features instead.', 'DS6.2'),
+  ],
+  DS7: [
+    q('Data science', 'Why scale features before k-means?', ['k-means needs integers', 'Distances are dominated by the feature with the largest units otherwise', 'It speeds up convergence only', 'It is not needed'], 1, 'Spend in pounds would swamp order counts.', 'DS7.0'),
+    q('Data science', 'In TF-IDF, why does a word like "the" get a low weight?', ['It is short', 'It appears in almost every document, so it is not distinctive', 'It is a stop word in Arabic', 'TF-IDF ignores frequency'], 1, 'Inverse document frequency down-weights common words.', 'DS7.3'),
+  ],
+  DS8: [
+    q('MLOps', 'Churn labels arrive 30 days after scoring. What do you monitor meanwhile?', ['Nothing', 'Input drift (e.g. PSI) and the score distribution', 'Only accuracy', 'Training loss'], 1, 'Drift is the early warning; performance is the late verdict.', 'DS8.6'),
+    q('MLOps', 'What is training–serving skew?', ['A slow model', 'Features computed differently in training and in production', 'Imbalanced classes', 'A model too large for the server'], 1, 'One feature definition and code path for both prevents it.', 'DS8.5'),
+  ],
+  DE1: [
+    q('Data engineering', 'Why do analytical engines store data by column?', ['It is easier to update rows', 'Queries read few columns over many rows, and one-type columns compress well', 'Columns are required by SQL', 'For transactions'], 1, 'Row stores suit OLTP; column stores suit scans and aggregations.', 'DE1.0'),
+    q('Data engineering', 'A daily job is retried and yesterday\'s revenue doubles. What is missing?', ['A bigger cluster', 'Idempotent writes: overwrite the partition or MERGE on keys', 'More logging', 'A faster network'], 1, 'Running the same slice twice must change nothing.', 'DE1.6'),
+  ],
+  DE2: [
+    q('Data engineering', 'A customer moves city. Which SCD type keeps past orders reported under the old city?', ['Type 1', 'Type 2', 'Type 0 for every column', 'None can'], 1, 'Type 2 adds a new row with validity dates; facts keep the old surrogate key.', 'DE2.5'),
+    q('Data engineering', 'Why must account balances not be summed across days?', ['They are text', 'They are semi-additive: summing over time gives a meaningless total', 'They are always zero', 'SQL forbids it'], 1, 'Use the closing balance or an average across time.', 'DE2.3'),
+    q('Data modelling', 'Order lines and order fulfilment facts share the same dim_zone table. That dimension is…', ['Degenerate', 'Conformed', 'Junk', 'Role-playing'], 1, 'Conformed dimensions let you compare metrics from different facts by the same attributes.', 'DE2.8'),
+  ],
+  DE3: [
+    q('Data engineering', 'Why read a little before the watermark (a lookback)?', ['To speed up the job', 'To catch rows committed late, which requires an idempotent write', 'To skip duplicates', 'It is never useful'], 1, 'Overlap on read, idempotency on write.', 'DE3.0'),
+    q('Data engineering', 'WHERE MONTH(event_date) = 10 on a date-partitioned table usually…', ['Prunes partitions', 'Reads every partition because the function hides the column', 'Fails', 'Uses an index'], 1, 'Filter the partition column directly.', 'DE3.6'),
+  ],
+  DE4: [
+    q('Data engineering', 'Which errors should an API extractor retry?', ['All of them', 'Transient ones: network errors, 429 and 5xx, with backoff', 'Only 400', 'None'], 1, 'Client errors like 400 and 401 will not fix themselves.', 'DE4.2'),
+    q('Data engineering', 'CPU-bound pure-Python work runs no faster with threads because of…', ['The network', 'The GIL: only one thread runs Python bytecode at a time', 'Memory limits', 'Pandas'], 1, 'Use processes for CPU-bound Python, threads or asyncio for I/O.', 'DE4.9'),
+  ],
+  DE5: [
+    q('Data engineering', 'What makes a Delta or Iceberg table ACID on object storage?', ['A database server', 'A transaction log or metadata that defines which files form each version', 'Faster disks', 'Parquet itself'], 1, 'Readers follow the log, not the folder listing.', 'DE5.0'),
+    q('Data engineering', 'After VACUUM with 7-day retention, what can you no longer do?', ['Query current data', 'Time-travel to versions older than 7 days', 'Write new data', 'Read Parquet'], 1, 'Old files are gone, so older versions cannot be reconstructed.', 'DE5.6'),
+  ],
+  DE6: [
+    q('Data engineering', 'What is a shuffle in Spark?', ['Random sampling', 'Moving rows between executors so equal keys meet in one partition', 'Sorting a column', 'Caching data'], 1, 'Wide operations like groupBy and big joins need it; it is usually the costly part.', 'DE6.0'),
+    q('Data engineering', 'One task in a stage takes 3 minutes while the others take 10 seconds. Likely cause?', ['Too many partitions', 'Data skew: a hot key landed in one partition', 'A slow driver', 'Caching'], 1, 'Use AQE skew handling, separate hot keys, broadcast, or salting.', 'DE6.7'),
+  ],
+  DE7: [
+    q('Data engineering', 'Why must an Airflow task use the data interval instead of now()?', ['now() is slow', 'So reruns and backfills process the same past slice', 'Airflow forbids now()', 'For logging'], 1, 'A run owns an interval, not "today".', 'DE7.0'),
+    q('Data engineering', 'In dbt, what builds the dependency graph between models?', ['A YAML list', 'ref() and source() calls inside the SQL', 'Airflow', 'File names'], 1, 'ref() is both the dependency and the lineage.', 'DE7.4'),
+    q('dbt', 'Why does an incremental fct_orders model reprocess the last three days on every run?', ['To warm the cache', 'To catch late-arriving or updated rows that a strict max(created_at) filter would miss', 'dbt requires it', 'To rebuild indexes'], 1, 'With a merge on the unique key, reprocessing a lookback window is idempotent.', 'DE7.4'),
+  ],
+  DE8: [
+    q('Data engineering', 'How does Kafka differ from a classic message queue?', ['It is slower', 'Records stay in a log after reading; each consumer group tracks its own offset', 'It deletes on read', 'It has no partitions'], 1, 'Many groups can read and replay the same events independently.', 'DE8.0'),
+    q('Data engineering', 'A group has 6 partitions and 8 consumers. What happens?', ['All 8 share the work', 'Two consumers sit idle', 'Kafka adds partitions', 'It fails'], 1, 'Partition count caps a group\'s parallelism.', 'DE8.2'),
+  ],
+  DE9: [
+    q('Data engineering', 'Why are data bugs more dangerous than code bugs?', ['They are rarer', 'Jobs keep succeeding and produce plausible wrong numbers', 'They are always obvious', 'They only affect dashboards'], 1, 'Explicit checks and observability replace the crash you never get.', 'DE9.0'),
+    q('Data engineering', 'What does a data contract move upstream?', ['Storage costs', 'Breakage detection: a breaking change fails the producer\'s CI', 'Query speed', 'Dashboard design'], 1, 'Fix it in the producer\'s pull request, not in twenty broken reports.', 'DE9.6'),
+  ],
+  AI3: [
+    q('Pandas', "pd.to_datetime('03/04/2025', dayfirst=True) gives…", ['4 March 2025', '3 April 2025', 'An error', 'NaT'], 1, 'dayfirst reads the first number as the day. Over a third of all dates are ambiguous this way, and nothing errors.', 'AI3.6'),
+    q('Pandas', 'Why does astype("category") shrink a million-row column of five city names so much?', ['It compresses the strings', 'Each row stores a small integer code; the five names are stored once', 'It drops duplicates', 'It converts to bytes'], 1, 'Measured here: about 55 MB as object, about 1 MB as category.', 'AI3.6'),
+    q('Pandas', 'Compared with CSV, a Parquet file of the same DataFrame is typically…', ['Larger and slower', 'Smaller, faster to read, and keeps column types such as dates', 'Identical', 'Text-based'], 1, 'Measured here on 500k rows: about 16 MB vs 4 MB, and dates come back as datetime64.', 'AI3.7'),
+  ],
+  AI4: [
+    q('Preprocessing', 'High earners skip the income question. Filling the gaps with the mean income…', ['Is unbiased', 'Biases the column downward, because missingness depends on the missing value (MNAR)', 'Raises the mean', 'Has no effect on a model'], 1, 'Add a was-missing indicator and say so; no imputation recovers MNAR values.', 'AI4.2'),
+    q('Preprocessing', 'Why prefer SimpleImputer over df.fillna(df.mean()) in a pipeline?', ['It is faster', 'It stores the training statistic and reuses it on test data and single live rows', 'It handles strings only', 'It never leaks'], 1, 'fit learns once; transform applies the stored value everywhere.', 'AI4.2'),
+    q('Preprocessing', 'The test set contains a colour never seen in training. pd.get_dummies on the test set…', ['Ignores it', 'Produces a different set of columns than the model was trained on', 'Raises immediately', 'Maps it to the most frequent colour'], 1, 'A fitted OneHotEncoder(handle_unknown="ignore") keeps the training columns and encodes it as zeros.', 'AI4.3'),
+    q('Preprocessing', 'Ten positives in 2,000 rows, 20% random test split: roughly how often does the test set get no positives at all?', ['Never', 'About 1 split in 10', 'About half the time', 'Always'], 1, 'Simulated: about 11%. stratify=y guarantees exactly 2.', 'AI4.5'),
+  ],
+  AI6: [
+    q('ML', 'Nine trials over two hyperparameters, only one of which matters. Random search beats a 3×3 grid because…', ['It is exhaustive', 'It tries nine distinct values of the important one instead of three', 'It uses gradients', 'It caches results'], 1, 'Bergstra and Bengio (2012).', 'AI6.12'),
+    q('ML', 'One error in ten grows from 4 to 40. Which metric grows the most?', ['MAE', 'RMSE', 'They grow equally', 'Neither changes'], 1, 'Here MAE goes 2.4 → 6.2 and RMSE 2.6 → 12.9: squaring weights the outlier.', 'AI6.11'),
+    q('ML foundations', 'You compare 100 hyperparameter values on the test set and report the best score. That score is…', ['Unbiased', 'Optimistic: the minimum of many noisy scores is partly luck', 'Pessimistic', 'Fine if the test set is large'], 1, 'Simulated here: the best of 100 reads about 6% while its true error is about 10%. Choose on validation, test once.', 'AI6.10'),
+    q('ML foundations', 'Train-dev error is close to training error, but dev error (production-like data) is much higher. The diagnosis is…', ['Overfitting', 'Data mismatch', 'Underfitting', 'A leaky test set'], 1, 'The model generalises to unseen web data but not to app data: make training data look like production.', 'AI6.10'),
+  ],
+  AI13: [
+    q('Evaluation', 'On data that is 89% "Slight", the most-frequent dummy scores accuracy 0.89. Its macro-F1 is about…', ['0.89', '0.94', '0.31', '0'], 2, 'F1 is 0.94 for Slight and 0 for the other two classes; their mean is 0.31.', 'AI13.8'),
+    q('Capstone', 'One row is one casualty. What does drop_duplicates(subset=["Reference Number"]) do?', ['Removes true duplicates only', 'Keeps one casualty per accident and silently deletes the rest, including the most severe', 'Nothing', 'Raises an error'], 1, 'Use drop_duplicates() for identical rows; repeated accident IDs are legitimate here.', 'AI13.3'),
+  ],
+  AI16: [
+    q('Telecom', 'Monthly margin 60 EGP, churn 4% vs 3%. Lifetime value rises by roughly…', ['3%', '10%', '35%', '100%'], 2, 'margin × r / (1 − r): 1,440 → 1,940 EGP.', 'AI16.2'),
+    q('Telecom', 'A 0.92-AUC churn model drives a campaign that changes nothing. A likely reason is that it targeted…', ['Persuadable customers', 'The highest-risk customers, many of them lost causes the offer cannot keep', 'Too few customers', 'Customers with low ARPU'], 1, 'Rank by uplift, not by risk, and prove it with a holdout.', 'AI16.10'),
+  ],
+  AI17: [
+    q('Deep learning', 'Why is bf16 the default for training while fp16 needs loss scaling?', ['bf16 has more fraction bits', 'bf16 keeps fp32\'s 8 exponent bits, so tiny gradients do not underflow', 'bf16 is an integer format', 'fp16 is slower'], 1, 'bf16 trades precision for range; fp16 does the opposite.', 'AI17.7'),
+    q('Deep learning', 'Roughly how much memory do a 7B model\'s weights take in 4-bit NF4?', ['112 GB', '28 GB', '14 GB', '3.5 GB'], 3, 'Half a byte per parameter; fp32 training with Adam needs about 112 GB.', 'AI17.7'),
+    q('Deep learning', 'In a 20-layer ReLU network with the default PyTorch nn.Linear init, the gradient reaching layer 1 is about 10⁻⁸ while layer 20 gets about 10⁻³. The fix is…', ['A larger learning rate everywhere', 'He (Kaiming) initialisation for ReLU layers', 'Sigmoid activations', 'More epochs'], 1, 'He init keeps activation and gradient variance roughly constant through depth; measured here within about 7×.', 'AI17.1'),
+  ],
+  AI24: [
+    q('RL', 'In Géron\'s three-state MDP, raising γ from 0.90 to 0.95 makes the agent in s1…', ['Stay put', 'Go through the fire (−50) for the later +40', 'Stop acting', 'Pick randomly'], 1, 'Valuing the future more makes short-term pain worth paying.', 'AI24.6'),
+  ],
+  N4: [
+    q('Switching', 'A switch receives a frame for a destination MAC it has not learned yet. It…', ['Drops it', 'Floods it out every port except the one it arrived on', 'Sends it to the router', 'Asks DHCP'], 1, 'The reply then teaches the switch where that MAC lives.', 'N4.1'),
+    q('Switching', 'Spanning Tree elects as root bridge the switch with…', ['The most ports', 'The lowest bridge ID (priority, then MAC)', 'The highest uptime', 'The fastest links'], 1, 'Every other switch then blocks its redundant ports.', 'N4.4'),
+  ],
+  N7: [
+    q('Security', 'A stateful firewall lets a web server\'s reply back in because…', ['An inbound rule allows all of port 443', 'The reply matches a connection recorded in its state table', 'Replies are never filtered', 'The NAT table is empty'], 1, 'Rules say who may initiate; state admits the rest of the conversation.', 'N7.2'),
+    q('Security', 'Which switch feature stops ARP spoofing?', ['PortFast', 'Dynamic ARP Inspection', 'STP', 'LACP'], 1, 'It checks ARP replies against the DHCP snooping binding table.', 'N7.3'),
+  ],
+  N9: [
+    q('Storage', 'Why did RAID 5 fall out of favour for large disks?', ['It needs too many disks', 'A rebuild must read every surviving bit, so an unreadable sector with no redundancy left becomes likely', 'It is slower than RAID 0', 'It cannot use SSDs'], 1, 'On a 10¹⁴ URE spec with four 10 TB survivors, a clean rebuild is only about 4% likely.', 'N9.2'),
+  ],
+  N13: [
+    q('ITIL', 'The same VPN outage recurs every Monday. Besides restoring service each time, you open…', ['A service request', 'A problem record, to find and remove the root cause', 'A new incident category', 'A CMDB entry'], 1, 'Incident restores; problem finds the cause; a change deploys the fix.', 'N13.1'),
+    q('ITIL', 'About how much downtime per year does 99.99% availability allow?', ['5 minutes', '53 minutes', '8 hours 46 minutes', '3.7 days'], 1, 'Each extra nine divides the budget by ten.', 'N13.2'),
+  ],
+  S5: [
+    q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
+  ],
+  AI2: [
+    q('NumPy', 'np.arange(1, 1.3, 0.1) returns how many values?', ['3', '4, the last being 1.3000000000000003', '2', 'An error'], 1, 'Float steps accumulate error, so the excluded stop sneaks in. Use linspace for float ranges.', 'AI2.2'),
+  ],
+  AI8: [
+    q('Classification', 'Hour of day is fed to a linear model. Why encode it as sin and cos of 2π·hour/24?', ['To scale it', 'So 23:00 and 00:00 are neighbours instead of 23 units apart', 'To remove outliers', 'Trees require it'], 1, 'On the circle every pair of consecutive hours is the same distance apart.', 'AI8.3'),
+  ],
+  AI8B: [
+    q('Trees', 'Adding more trees keeps hurting validation loss. Which model is this likely to be?', ['A random forest', 'Gradient boosting without early stopping', 'Bagging', 'A single decision tree'], 1, 'Forests plateau; boosting keeps fitting residuals and overfits, so stop at the best validation round.', 'AI8B.8'),
+    q('Trees', 'A boosted model trained with class_weight="balanced" on 6% churn predicts a mean probability near 19%. What should you do before using the scores as risk?', ['Nothing, AUC is unchanged', 'Recalibrate (e.g. isotonic or Platt) on held-out data', 'Lower the learning rate', 'Drop the class weights and retrain with more trees'], 1, 'Reweighting keeps the ranking but inflates probabilities; calibration maps them back to observed rates.', 'AI8B.9'),
+  ],
+  AI9: [
+    q('Unsupervised', 'A small, distinct customer segment disappears inside a large cluster. The k-means property behind this is…', ['It needs scaled data', 'It favours clusters of similar size', 'It is deterministic', 'It uses cosine distance'], 1, 'Increase k a lot, or use a density method such as HDBSCAN that also labels noise.', 'AI9.17'),
+  ],
+  AI11: [
+    q('PyTorch', 'Why sample the learning rate with suggest_float(..., log=True)?', ['It is faster', 'Uniform sampling over 1e-5 to 1e-1 almost never tries values below 1e-2', 'Optuna requires it', 'It avoids overfitting'], 1, 'Log-uniform sampling gives each order of magnitude equal attention.', 'AI11.14'),
+    q('PyTorch', 'x.grad is 10 after one backward pass. You update x, run forward and backward again without zeroing, and the new gradient is 8. x.grad is now…', ['8', '18', '10', '2'], 1, 'backward() adds into .grad, so call optimizer.zero_grad() (or x.grad.zero_()) before each backward.', 'AI11.10'),
+  ],
+  AI19: [
+    q('Time series', 'Hourly traffic has near-zero night hours. Which error metric should the report lead with?', ['MAPE', 'WAPE or MASE', 'R²', 'Accuracy'], 1, 'MAPE divides by each actual, so a miss of 6 on an actual of 2 counts as 300%.', 'AI19.6'),
+  ],
+  AI21: [
+    q('LLMs', 'Grouped-query attention with 8 KV heads instead of 32 shrinks the KV cache by…', ['Nothing', '4×', '32×', '2×'], 1, 'Cache size scales with the number of KV heads: 2 × layers × KV heads × head dim × bytes per token.', 'AI21.9'),
+    q('LLMs', 'LoRA with rank 16 on a 4096×4096 projection trains roughly…', ['16.8 million parameters', '131 thousand parameters, under 1%', '4096 parameters', 'All of them'], 1, 'Two thin matrices, 4096×16 and 16×4096, give a low-rank update ΔW = B·A.', 'AI21.9'),
+  ],
+  AI7: [
+    q('Regression', 'Residuals against fitted values form a funnel that widens to the right. Which assumption fails?', ['Linearity', 'Homoscedasticity (constant error variance)', 'Independence', 'No multicollinearity'], 1, 'Try modelling log(y), or use robust standard errors; a U shape would instead signal non-linearity.', 'AI7.8'),
+    q('Regression', 'How many columns does PolynomialFeatures(degree=3) produce from 20 features (bias included)?', ['60', '1,771', '8,000', '231'], 1, '(n+d)! / (d!·n!) = 23! / (3!·20!) = 1,771: scale after expanding, and regularise.', 'AI7.15'),
+  ],
+  AI10: [
+    q('NLP', 'The Porter stemmer maps organization to organ. This is an example of…', ['Under-stemming', 'Over-stemming: different words collide into one feature', 'Lemmatisation', 'Tokenisation'], 1, 'A lemmatizer keeps them apart, and handles irregular forms such as ran → run when told it is a verb.', 'AI10.4'),
+    q('NLP', 'After removing stopwords with a default English list, "the food was not good" and "the food was good" become…', ['Different inputs', 'The same input: "food good"', 'Empty', 'Two tokens each, still different'], 1, 'Negations are in most default lists; for sentiment, remove them from the stopword set.', 'AI10.3'),
+  ],
+  AI15: [
+    q('Statistics', 'In Monty Hall, why does switching win 2/3 of the time?', ['The host chooses randomly', 'The host always opens a goat door, so the 2/3 on the unpicked doors moves to the one left closed', 'Two doors remain, so it is 1/2', 'It does not; staying is better'], 1, 'Your first pick stays at 1/3; switching wins exactly when that pick was wrong.', 'AI15.10'),
+  ],
+  SD1: [
+    q('System design', 'Request costs vary a lot (some take 5 s, most 0.5 s). Which balancing algorithm usually gives better tail latency?', ['Round robin', 'Least connections', 'Random', 'DNS round robin'], 1, 'Round robin keeps sending work to a server busy with a slow request; least connections avoids it. Simulated here: p95 9.3 s vs 5.9 s.', 'SD1.5'),
+  ],
+  SD3: [
+    q('System design', 'A function runs at a constant 50 requests per second all month. Compared with two always-on containers, serverless is likely…', ['Cheaper, always', 'More expensive: pay-per-call overtakes a fixed hourly price at steady high volume', 'Exactly the same', 'Free'], 1, 'With illustrative prices the break-even was about 27 requests per second on average.', 'SD3.6'),
+    q('System design', 'Choosing the primary database or a public API contract is best treated as…', ['A two-way door: decide fast', 'A one-way door: take time, and write an ADR', 'A detail for later', 'A vendor decision only'], 1, 'Spend decision time on what is expensive to reverse; decide reversible choices quickly.', 'SD3.1'),
+  ],
+  AI1: [
+    q('Python', 'pipe = filter(f, map(g, nums)); first = next(pipe); rest = list(pipe). What does a second list(pipe) return?', ['The full result again', 'An empty list: the iterator is exhausted', 'An error', 'Only the first value'], 1, 'map and filter are lazy, single-pass iterators; materialise with list() if you need the values twice.', 'AI1.4'),
+  ],
+  AI18: [
+    q('CNNs', 'Two stacked 3×3 convolutions (128→128 channels) versus one 5×5 with the same receptive field use…', ['The same number of weights', 'About 28% fewer weights, plus an extra non-linearity', 'Twice as many weights', 'No weights'], 1, '2 × (9·128·128 + 128) = 295,168 versus 25·128·128 + 128 = 409,728.', 'AI18.4'),
+  ],
+};
+const { TRACKS } = require('./course');
+for (const t of TRACKS) {
+  for (const id of new Set(t.stages.flatMap((s) => s[1]))) if (FOUNDATIONS[id] && QUIZ[t.id]) QUIZ[t.id].push(...FOUNDATIONS[id]);
+}
+
 module.exports = QUIZ;

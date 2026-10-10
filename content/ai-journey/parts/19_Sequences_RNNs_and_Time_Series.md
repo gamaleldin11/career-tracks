@@ -68,6 +68,64 @@ A feed-forward network maps a fixed-size input to an output. A **recurrent neura
 
 An **encoder–decoder** beats word-by-word seq-to-seq for translation because the end of a sentence can change how its beginning should be translated.
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Four RNN shapes: sequence to sequence, sequence to vector, vector to sequence, and encoder to decoder, each drawn as an unrolled chain of cells with inputs and outputs">
+<text class="sT" x="94" y="20" text-anchor="middle">sequence → sequence</text><text class="sC" x="94" y="36" text-anchor="middle">hourly traffic → next hour</text>
+<rect class="sV" x="28" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="54" y1="103" x2="62" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="41" cy="150" r="7"/><line class="sLm" x1="41" y1="143" x2="41" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="41" y1="90" x2="41" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="41" cy="58" r="7"/>
+<rect class="sV" x="64" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="90" y1="103" x2="98" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="77" cy="150" r="7"/><line class="sLm" x1="77" y1="143" x2="77" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="77" y1="90" x2="77" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="77" cy="58" r="7"/>
+<rect class="sV" x="100" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="126" y1="103" x2="134" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="113" cy="150" r="7"/><line class="sLm" x1="113" y1="143" x2="113" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="113" y1="90" x2="113" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="113" cy="58" r="7"/>
+<rect class="sV" x="136" y="90" width="26" height="26" rx="5"/>
+<circle class="sP" cx="149" cy="150" r="7"/><line class="sLm" x1="149" y1="143" x2="149" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="149" y1="90" x2="149" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="149" cy="58" r="7"/>
+<text class="sT" x="271" y="20" text-anchor="middle">sequence → vector</text><text class="sC" x="271" y="36" text-anchor="middle">90 days → churn risk</text>
+<rect class="sV" x="205" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="231" y1="103" x2="239" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="218" cy="150" r="7"/><line class="sLm" x1="218" y1="143" x2="218" y2="118" marker-end="url(#ahm)"/>
+<rect class="sV" x="241" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="267" y1="103" x2="275" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="254" cy="150" r="7"/><line class="sLm" x1="254" y1="143" x2="254" y2="118" marker-end="url(#ahm)"/>
+<rect class="sV" x="277" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="303" y1="103" x2="311" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="290" cy="150" r="7"/><line class="sLm" x1="290" y1="143" x2="290" y2="118" marker-end="url(#ahm)"/>
+<rect class="sV" x="313" y="90" width="26" height="26" rx="5"/>
+<circle class="sP" cx="326" cy="150" r="7"/><line class="sLm" x1="326" y1="143" x2="326" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="326" y1="90" x2="326" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="326" cy="58" r="7"/>
+<text class="sT" x="448" y="20" text-anchor="middle">vector → sequence</text><text class="sC" x="448" y="36" text-anchor="middle">profile → offers</text>
+<rect class="sV" x="382" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="408" y1="103" x2="416" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="395" cy="150" r="7"/><line class="sLm" x1="395" y1="143" x2="395" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="395" y1="90" x2="395" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="395" cy="58" r="7"/>
+<rect class="sV" x="418" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="444" y1="103" x2="452" y2="103" marker-end="url(#ahm)"/>
+<line class="sLg" x1="431" y1="90" x2="431" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="431" cy="58" r="7"/>
+<rect class="sV" x="454" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="480" y1="103" x2="488" y2="103" marker-end="url(#ahm)"/>
+<line class="sLg" x1="467" y1="90" x2="467" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="467" cy="58" r="7"/>
+<rect class="sV" x="490" y="90" width="26" height="26" rx="5"/>
+<line class="sLg" x1="503" y1="90" x2="503" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="503" cy="58" r="7"/>
+<text class="sT" x="625" y="20" text-anchor="middle">encoder → decoder</text><text class="sC" x="625" y="36" text-anchor="middle">Arabic → English</text>
+<rect class="sV" x="559" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="585" y1="103" x2="593" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="572" cy="150" r="7"/><line class="sLm" x1="572" y1="143" x2="572" y2="118" marker-end="url(#ahm)"/>
+<rect class="sV" x="595" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="621" y1="103" x2="629" y2="103" marker-end="url(#ahm)"/>
+<circle class="sP" cx="608" cy="150" r="7"/><line class="sLm" x1="608" y1="143" x2="608" y2="118" marker-end="url(#ahm)"/>
+<rect class="sA" x="631" y="90" width="26" height="26" rx="5"/>
+<line class="sLm" x1="657" y1="103" x2="665" y2="103" marker-end="url(#ahm)"/>
+<line class="sLg" x1="644" y1="90" x2="644" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="644" cy="58" r="7"/>
+<rect class="sA" x="667" y="90" width="26" height="26" rx="5"/>
+<line class="sLg" x1="680" y1="90" x2="680" y2="66" marker-end="url(#ahg)"/><circle class="sPg" cx="680" cy="58" r="7"/>
+<text class="sS" x="360" y="188" text-anchor="middle">blue: inputs fed in · green: outputs used · the same cell (and weights) at every step</text>
+</svg><figcaption>Which steps take an input and which produce a used output is the whole difference between the four shapes.</figcaption></figure>
+
 ### Training: backpropagation through time (BPTT)
 
 Unroll, run the forward pass, compute the loss on the outputs that matter (all of them for seq2seq, only the last for seq2vec), backprop through the unrolled graph, and **sum each shared weight's gradients over the time steps**. PyTorch does all of this automatically.
@@ -140,6 +198,36 @@ Choosing orders: a grid search (p, q, P, Q usually 0–2; d, D usually 0–1; s 
 > [!info] 📖 Géron Ch. 13 · “Preparing the Data for Machine Learning Models” · pp. 498–500
 
 **Sliding windows:** every past window of 56 days is a training input, and the next value is its target.
+
+<figure class="dia anim" data-rest="3"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: a seven-day input window and its next-day target slide along a daily series, each position giving one training example">
+<rect class="sB" x="30" y="117" width="20" height="63" rx="2" opacity=".6"/>
+<rect class="sB" x="57" y="94.6905" width="20" height="85.3095" rx="2" opacity=".6"/>
+<rect class="sB" x="84" y="88.2769" width="20" height="91.7231" rx="2" opacity=".6"/>
+<rect class="sB" x="111" y="101.685" width="20" height="78.3149" rx="2" opacity=".6"/>
+<rect class="sB" x="138" y="123.915" width="20" height="56.0851" rx="2" opacity=".6"/>
+<rect class="sB" x="165" y="137.323" width="20" height="42.6769" rx="2" opacity=".6"/>
+<rect class="sB" x="192" y="130.909" width="20" height="49.0905" rx="2" opacity=".6"/>
+<rect class="sB" x="219" y="108.6" width="20" height="71.4" rx="2" opacity=".6"/>
+<rect class="sB" x="246" y="86.2905" width="20" height="93.7095" rx="2" opacity=".6"/>
+<rect class="sB" x="273" y="79.8769" width="20" height="100.123" rx="2" opacity=".6"/>
+<rect class="sB" x="300" y="93.2851" width="20" height="86.7149" rx="2" opacity=".6"/>
+<rect class="sB" x="327" y="115.515" width="20" height="64.4851" rx="2" opacity=".6"/>
+<rect class="sB" x="354" y="128.923" width="20" height="51.0769" rx="2" opacity=".6"/>
+<rect class="sB" x="381" y="122.509" width="20" height="57.4905" rx="2" opacity=".6"/>
+<rect class="sB" x="408" y="100.2" width="20" height="79.8" rx="2" opacity=".6"/>
+<rect class="sB" x="435" y="77.8905" width="20" height="102.109" rx="2" opacity=".6"/>
+<rect class="sB" x="462" y="71.4769" width="20" height="108.523" rx="2" opacity=".6"/>
+<rect class="sB" x="489" y="84.8851" width="20" height="95.1149" rx="2" opacity=".6"/>
+<rect class="sB" x="516" y="107.115" width="20" height="72.8851" rx="2" opacity=".6"/>
+<rect class="sB" x="543" y="120.523" width="20" height="59.4769" rx="2" opacity=".6"/>
+<rect class="sB" x="570" y="114.109" width="20" height="65.8905" rx="2" opacity=".6"/>
+<rect class="sB" x="597" y="91.8" width="20" height="88.2" rx="2" opacity=".6"/>
+<rect class="sB" x="624" y="69.4905" width="20" height="110.509" rx="2" opacity=".6"/>
+<rect class="sB" x="651" y="63.0769" width="20" height="116.923" rx="2" opacity=".6"/>
+<line class="sLm" x1="30" y1="180" x2="690" y2="180"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;27 0;54 0;81 0;108 0;135 0;162 0;189 0;216 0;243 0;270 0;297 0;324 0;351 0;378 0" keyTimes="0.0000;0.0667;0.1333;0.2000;0.2667;0.3333;0.4000;0.4667;0.5333;0.6000;0.6667;0.7333;0.8000;0.8667;0.9333" dur="9s" calcMode="discrete" repeatCount="indefinite"/><rect class="sA" x="27" y="30" width="189" height="160" rx="6" opacity=".18" style="stroke-width:2"/><text class="sC" x="121" y="24" text-anchor="middle">input window (7 days)</text><rect class="sG" x="216" y="30" width="27" height="160" rx="6" opacity=".35"/><text class="sGt" x="229" y="204" text-anchor="middle">target</text></g>
+<text class="sS" x="360" y="226" text-anchor="middle">every position of the window is one training example: (7 past values → the next one)</text>
+</svg><figcaption>Sliding windows turn one long series into thousands of supervised examples. Géron uses 56-day windows for ridership.</figcaption></figure>
 
 ```python
 import torch
@@ -221,6 +309,30 @@ class SimpleRnnModel(nn.Module):
 
 A 3-D input to `nn.Linear` works because `torch.matmul` broadcasts over the leading dimensions: [batch, time, 32] @ [32, 14] → [batch, time, 14].
 
+<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Two multi-step forecasting strategies: recursive prediction feeds each forecast back as an input, compounding errors; direct prediction outputs every horizon at once">
+<text class="sM" x="14" y="24">recursive: predict one, feed it back</text>
+<rect class="sB" x="14" y="34" width="52" height="26" rx="4"/><text class="sC" x="40" y="52" text-anchor="middle">t−3</text>
+<rect class="sB" x="74" y="34" width="52" height="26" rx="4"/><text class="sC" x="100" y="52" text-anchor="middle">t−2</text>
+<rect class="sB" x="134" y="34" width="52" height="26" rx="4"/><text class="sC" x="160" y="52" text-anchor="middle">t−1</text>
+<rect class="sB" x="194" y="34" width="52" height="26" rx="4"/><text class="sC" x="220" y="52" text-anchor="middle">t</text>
+<rect class="sW" x="270" y="34" width="60" height="26" rx="4"/><text class="sC" x="300" y="52" text-anchor="middle">ŷ t+1</text>
+<rect class="sW" x="350" y="34" width="60" height="26" rx="4"/><text class="sC" x="380" y="52" text-anchor="middle">ŷ t+2</text>
+<path class="sLw" d="M380 60 Q 330 92 310 62" fill="none" marker-end="url(#ahw)"/>
+<rect class="sW" x="430" y="34" width="60" height="26" rx="4"/><text class="sC" x="460" y="52" text-anchor="middle">ŷ t+3</text>
+<path class="sLw" d="M460 60 Q 410 92 390 62" fill="none" marker-end="url(#ahw)"/>
+<text class="sRt" x="520" y="52">errors compound</text>
+<text class="sM" x="14" y="124">direct: one model outputs all horizons at once</text>
+<rect class="sB" x="14" y="134" width="52" height="26" rx="4"/><text class="sC" x="40" y="152" text-anchor="middle">t−3</text>
+<rect class="sB" x="74" y="134" width="52" height="26" rx="4"/><text class="sC" x="100" y="152" text-anchor="middle">t−2</text>
+<rect class="sB" x="134" y="134" width="52" height="26" rx="4"/><text class="sC" x="160" y="152" text-anchor="middle">t−1</text>
+<rect class="sB" x="194" y="134" width="52" height="26" rx="4"/><text class="sC" x="220" y="152" text-anchor="middle">t</text>
+<line class="sL" x1="250" y1="147" x2="290" y2="147" marker-end="url(#ah)"/><rect class="sV" x="294" y="130" width="100" height="34" rx="8"/><text class="sT" x="344" y="152" text-anchor="middle">model</text>
+<line class="sLm" x1="394" y1="147" x2="430" y2="120" marker-end="url(#ahm)"/><rect class="sG" x="434" y="108" width="60" height="24" rx="4"/><text class="sC" x="464" y="125" text-anchor="middle">ŷ t+1</text>
+<line class="sLm" x1="394" y1="147" x2="430" y2="147" marker-end="url(#ahm)"/><rect class="sG" x="434" y="135" width="60" height="24" rx="4"/><text class="sC" x="464" y="152" text-anchor="middle">ŷ t+2</text>
+<line class="sLm" x1="394" y1="147" x2="430" y2="174" marker-end="url(#ahm)"/><rect class="sG" x="434" y="162" width="60" height="24" rx="4"/><text class="sC" x="464" y="179" text-anchor="middle">ŷ t+3</text>
+<text class="sGt" x="520" y="152">no feedback, no compounding</text>
+</svg><figcaption>For 14 days ahead, Géron's direct model beats the recursive one for exactly this reason.</figcaption></figure>
+
 ---
 
 ## 19.5 Long sequences: two problems and their fixes 🟡
@@ -253,6 +365,21 @@ h₍ₜ₎ = y₍ₜ₎ = o ⊗ tanh(c₍ₜ₎)
 
 The long-term state flows through with only multiplication by the forget gate and an addition, a near-linear path for both memory and gradients (like ResNet's skip connections). The cell learns **to recognise important inputs, store them, keep them as long as needed, and read them when useful**, all differentiably. `nn.LSTM` is a drop-in replacement for `nn.RNN`.
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="An LSTM cell: the long-term state c runs along the top and is only multiplied by the forget gate and added to by the input gate times the candidate; the output gate reads tanh of c into the new short-term state h">
+<line class="sLg" x1="40" y1="40" x2="680" y2="40" marker-end="url(#ahg)" stroke-width="4"/><text class="sGt" x="30" y="44" text-anchor="end">c</text><text class="sGt" x="690" y="44">c′</text>
+<text class="sGt" x="360" y="16" text-anchor="middle">long-term state: only a multiply and an add per step (a gradient highway)</text>
+<circle class="sR" cx="160" cy="40" r="14"/><text class="sT" x="160" y="45" text-anchor="middle">×</text><circle class="sA" cx="370" cy="40" r="14"/><text class="sT" x="370" y="45" text-anchor="middle">+</text>
+<line class="sL" x1="40" y1="190" x2="680" y2="190" marker-end="url(#ah)" stroke-width="2.5"/><text class="sT" x="30" y="194" text-anchor="end">h</text><text class="sT" x="690" y="194">h′</text>
+<text class="sC" x="80" y="214" text-anchor="middle">x (input)</text><line class="sLm" x1="80" y1="204" x2="80" y2="194"/>
+<rect class="sR" x="100" y="110" width="120" height="44" rx="6"/><text class="sT" x="160" y="128" text-anchor="middle">forget f</text><text class="sC" x="160" y="146" text-anchor="middle">σ: what to erase</text><line class="sLm" x1="160" y1="188" x2="160" y2="156" marker-end="url(#ahm)"/>
+<rect class="sA" x="236" y="110" width="120" height="44" rx="6"/><text class="sT" x="296" y="128" text-anchor="middle">input i</text><text class="sC" x="296" y="146" text-anchor="middle">σ: what to write</text><line class="sLm" x1="296" y1="188" x2="296" y2="156" marker-end="url(#ahm)"/>
+<rect class="sV" x="384" y="110" width="120" height="44" rx="6"/><text class="sT" x="444" y="128" text-anchor="middle">candidate g</text><text class="sC" x="444" y="146" text-anchor="middle">tanh: new content</text><line class="sLm" x1="444" y1="188" x2="444" y2="156" marker-end="url(#ahm)"/>
+<rect class="sW" x="530" y="110" width="120" height="44" rx="6"/><text class="sT" x="590" y="128" text-anchor="middle">output o</text><text class="sC" x="590" y="146" text-anchor="middle">σ: what to read</text><line class="sLm" x1="590" y1="188" x2="590" y2="156" marker-end="url(#ahm)"/>
+<line class="sLr" x1="160" y1="108" x2="160" y2="56" marker-end="url(#ahr)"/>
+<circle class="sV" cx="370" cy="80" r="12"/><text class="sT" x="370" y="85" text-anchor="middle">×</text><line class="sLm" x1="296" y1="108" x2="360" y2="86"/><line class="sLm" x1="444" y1="108" x2="380" y2="86"/><line class="sLm" x1="370" y1="68" x2="370" y2="56" marker-end="url(#ahm)"/>
+<circle class="sW" cx="590" cy="80" r="12"/><text class="sT" x="590" y="85" text-anchor="middle">×</text><line class="sLm" x1="590" y1="108" x2="590" y2="94"/><line class="sLm" x1="540" y1="40" x2="580" y2="72" marker-end="url(#ahm)"/><text class="sC" x="534" y="66" text-anchor="end">tanh(c′)</text><line class="sLm" x1="602" y1="86" x2="650" y2="186" marker-end="url(#ahm)"/>
+</svg><figcaption>An LSTM in one picture. Gates are small sigmoid layers deciding what to forget, write and read; the top line is why it remembers.</figcaption></figure>
+
 **GRU** (Cho et al., 2014) is a simplified LSTM that often performs as well:
 - One state vector h.
 - One gate z controls **both** forgetting and writing (erase first, then store).
@@ -272,6 +399,96 @@ Greff et al. (2017), *"LSTM: A Search Space Odyssey"*, found LSTM variants perfo
 ### WaveNet: dilated causal convolutions
 
 DeepMind (van den Oord et al., 2016). Stack 1D convs with **dilation 1, 2, 4, 8, …, 512** so the receptive field doubles per layer. Ten layers act like a kernel of 1,024 steps with far fewer parameters. **Causal** left-padding means no peeking at the future. It produced state-of-the-art text-to-speech and even generated music, handling **tens of thousands of time steps** that LSTMs can't.
+
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="WaveNet's dilated causal convolutions: four layers with dilations 1, 2, 4 and 8 give the top output a receptive field of 16 past time steps without looking at the future">
+<circle class="sP" cx="40" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="80" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="120" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="160" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="200" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="240" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="280" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="320" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="360" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="400" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="440" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="480" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="520" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="560" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="600" cy="200" r="5" opacity=".7"/>
+<circle class="sP" cx="640" cy="200" r="5" opacity=".7"/>
+<text class="sC" x="706" y="204" text-anchor="end">input</text>
+<circle class="sPv" cx="40" cy="158" r="5"/>
+<circle class="sPv" cx="80" cy="158" r="5"/>
+<circle class="sPv" cx="120" cy="158" r="5"/>
+<circle class="sPv" cx="160" cy="158" r="5"/>
+<circle class="sPv" cx="200" cy="158" r="5"/>
+<circle class="sPv" cx="240" cy="158" r="5"/>
+<circle class="sPv" cx="280" cy="158" r="5"/>
+<circle class="sPv" cx="320" cy="158" r="5"/>
+<circle class="sPv" cx="360" cy="158" r="5"/>
+<circle class="sPv" cx="400" cy="158" r="5"/>
+<circle class="sPv" cx="440" cy="158" r="5"/>
+<circle class="sPv" cx="480" cy="158" r="5"/>
+<circle class="sPv" cx="520" cy="158" r="5"/>
+<circle class="sPv" cx="560" cy="158" r="5"/>
+<circle class="sPv" cx="600" cy="158" r="5"/>
+<circle class="sPv" cx="640" cy="158" r="5"/>
+<text class="sC" x="706" y="162" text-anchor="end">dilation 1</text>
+<circle class="sPv" cx="40" cy="116" r="5"/>
+<circle class="sPv" cx="80" cy="116" r="5"/>
+<circle class="sPv" cx="120" cy="116" r="5"/>
+<circle class="sPv" cx="160" cy="116" r="5"/>
+<circle class="sPv" cx="200" cy="116" r="5"/>
+<circle class="sPv" cx="240" cy="116" r="5"/>
+<circle class="sPv" cx="280" cy="116" r="5"/>
+<circle class="sPv" cx="320" cy="116" r="5"/>
+<circle class="sPv" cx="360" cy="116" r="5"/>
+<circle class="sPv" cx="400" cy="116" r="5"/>
+<circle class="sPv" cx="440" cy="116" r="5"/>
+<circle class="sPv" cx="480" cy="116" r="5"/>
+<circle class="sPv" cx="520" cy="116" r="5"/>
+<circle class="sPv" cx="560" cy="116" r="5"/>
+<circle class="sPv" cx="600" cy="116" r="5"/>
+<circle class="sPv" cx="640" cy="116" r="5"/>
+<text class="sC" x="706" y="120" text-anchor="end">dilation 2</text>
+<circle class="sPv" cx="40" cy="74" r="5"/>
+<circle class="sPv" cx="80" cy="74" r="5"/>
+<circle class="sPv" cx="120" cy="74" r="5"/>
+<circle class="sPv" cx="160" cy="74" r="5"/>
+<circle class="sPv" cx="200" cy="74" r="5"/>
+<circle class="sPv" cx="240" cy="74" r="5"/>
+<circle class="sPv" cx="280" cy="74" r="5"/>
+<circle class="sPv" cx="320" cy="74" r="5"/>
+<circle class="sPv" cx="360" cy="74" r="5"/>
+<circle class="sPv" cx="400" cy="74" r="5"/>
+<circle class="sPv" cx="440" cy="74" r="5"/>
+<circle class="sPv" cx="480" cy="74" r="5"/>
+<circle class="sPv" cx="520" cy="74" r="5"/>
+<circle class="sPv" cx="560" cy="74" r="5"/>
+<circle class="sPv" cx="600" cy="74" r="5"/>
+<circle class="sPv" cx="640" cy="74" r="5"/>
+<text class="sC" x="706" y="78" text-anchor="end">dilation 4</text>
+<circle class="sPg" cx="40" cy="32" r="5"/>
+<circle class="sPg" cx="80" cy="32" r="5"/>
+<circle class="sPg" cx="120" cy="32" r="5"/>
+<circle class="sPg" cx="160" cy="32" r="5"/>
+<circle class="sPg" cx="200" cy="32" r="5"/>
+<circle class="sPg" cx="240" cy="32" r="5"/>
+<circle class="sPg" cx="280" cy="32" r="5"/>
+<circle class="sPg" cx="320" cy="32" r="5"/>
+<circle class="sPg" cx="360" cy="32" r="5"/>
+<circle class="sPg" cx="400" cy="32" r="5"/>
+<circle class="sPg" cx="440" cy="32" r="5"/>
+<circle class="sPg" cx="480" cy="32" r="5"/>
+<circle class="sPg" cx="520" cy="32" r="5"/>
+<circle class="sPg" cx="560" cy="32" r="5"/>
+<circle class="sPg" cx="600" cy="32" r="5"/>
+<circle class="sPg" cx="640" cy="32" r="5"/>
+<text class="sC" x="706" y="36" text-anchor="end">dilation 8</text>
+<line class="sLg" x1="640" y1="37" x2="640" y2="69" stroke-width="2"/><line class="sLg" x1="640" y1="79" x2="640" y2="111" stroke-width="2"/><line class="sLg" x1="640" y1="121" x2="640" y2="153" stroke-width="2"/><line class="sLg" x1="640" y1="163" x2="640" y2="195" stroke-width="2"/><line class="sLg" x1="640" y1="163" x2="600" y2="195" stroke-width="2"/><line class="sLg" x1="640" y1="121" x2="560" y2="153" stroke-width="2"/><line class="sLg" x1="560" y1="163" x2="560" y2="195" stroke-width="2"/><line class="sLg" x1="560" y1="163" x2="520" y2="195" stroke-width="2"/><line class="sLg" x1="640" y1="79" x2="480" y2="111" stroke-width="2"/><line class="sLg" x1="480" y1="121" x2="480" y2="153" stroke-width="2"/><line class="sLg" x1="480" y1="163" x2="480" y2="195" stroke-width="2"/><line class="sLg" x1="480" y1="163" x2="440" y2="195" stroke-width="2"/><line class="sLg" x1="480" y1="121" x2="400" y2="153" stroke-width="2"/><line class="sLg" x1="400" y1="163" x2="400" y2="195" stroke-width="2"/><line class="sLg" x1="400" y1="163" x2="360" y2="195" stroke-width="2"/><line class="sLg" x1="640" y1="37" x2="320" y2="69" stroke-width="2"/><line class="sLg" x1="320" y1="79" x2="320" y2="111" stroke-width="2"/><line class="sLg" x1="320" y1="121" x2="320" y2="153" stroke-width="2"/><line class="sLg" x1="320" y1="163" x2="320" y2="195" stroke-width="2"/><line class="sLg" x1="320" y1="163" x2="280" y2="195" stroke-width="2"/><line class="sLg" x1="320" y1="121" x2="240" y2="153" stroke-width="2"/><line class="sLg" x1="240" y1="163" x2="240" y2="195" stroke-width="2"/><line class="sLg" x1="240" y1="163" x2="200" y2="195" stroke-width="2"/><line class="sLg" x1="320" y1="79" x2="160" y2="111" stroke-width="2"/><line class="sLg" x1="160" y1="121" x2="160" y2="153" stroke-width="2"/><line class="sLg" x1="160" y1="163" x2="160" y2="195" stroke-width="2"/><line class="sLg" x1="160" y1="163" x2="120" y2="195" stroke-width="2"/><line class="sLg" x1="160" y1="121" x2="80" y2="153" stroke-width="2"/><line class="sLg" x1="80" y1="163" x2="80" y2="195" stroke-width="2"/><line class="sLg" x1="80" y1="163" x2="40" y2="195" stroke-width="2"/>
+<text class="sGt" x="320" y="20" text-anchor="middle">one output sees 16 past steps after 4 layers; 10 layers see 1,024</text>
+</svg><figcaption>Dilations double the reach with every layer, and causal padding means no output ever peeks at a future step.</figcaption></figure>
 
 ```python
 import torch.nn.functional as F
@@ -313,6 +530,18 @@ Géron teaches the models. Here is how forecasting is done in industry, the leve
 4. **How many series?** One (use classical models) or 50,000 cells (use one **global** model across them).
 5. **Hierarchy:** cell → site → governorate → national. Forecasts should **reconcile** (sum up consistently): bottom-up, top-down, or optimal reconciliation (MinT).
 
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="A cell, site and national hierarchy: independent forecasts at each level do not add up, while bottom-up reconciliation sums the cell forecasts so every parent equals the sum of its children">
+<text class="sM" x="14" y="22">independently forecast at each level (left) vs reconciled bottom-up (right of each)</text>
+<rect class="sN" x="270" y="34" width="180" height="44" rx="8"/><text class="sT" x="360" y="52" text-anchor="middle">national</text><text class="sRt" x="330" y="70" text-anchor="middle">base 160</text><text class="sGt" x="392" y="70" text-anchor="middle">→ 156</text>
+<line class="sLm" x1="170" y1="104" x2="360" y2="78"/><rect class="sN" x="90" y="104" width="160" height="44" rx="8"/><text class="sT" x="170" y="122" text-anchor="middle">site 1</text><text class="sRt" x="144" y="140" text-anchor="middle">base 81</text><text class="sGt" x="206" y="140" text-anchor="middle">→ 77</text>
+<line class="sLm" x1="90" y1="174" x2="170" y2="148"/><rect class="sB" x="30" y="174" width="120" height="40" rx="8"/><text class="sC" x="90" y="192" text-anchor="middle">cell A</text><text class="sT" x="90" y="207" text-anchor="middle">42</text>
+<line class="sLm" x1="250" y1="174" x2="170" y2="148"/><rect class="sB" x="190" y="174" width="120" height="40" rx="8"/><text class="sC" x="250" y="192" text-anchor="middle">cell B</text><text class="sT" x="250" y="207" text-anchor="middle">35</text>
+<line class="sLm" x1="530" y1="104" x2="360" y2="78"/><rect class="sN" x="450" y="104" width="160" height="44" rx="8"/><text class="sT" x="530" y="122" text-anchor="middle">site 2</text><text class="sRt" x="504" y="140" text-anchor="middle">base 74</text><text class="sGt" x="566" y="140" text-anchor="middle">→ 79</text>
+<line class="sLm" x1="450" y1="174" x2="530" y2="148"/><rect class="sB" x="390" y="174" width="120" height="40" rx="8"/><text class="sC" x="450" y="192" text-anchor="middle">cell C</text><text class="sT" x="450" y="207" text-anchor="middle">28</text>
+<line class="sLm" x1="610" y1="174" x2="530" y2="148"/><rect class="sB" x="550" y="174" width="120" height="40" rx="8"/><text class="sC" x="610" y="192" text-anchor="middle">cell D</text><text class="sT" x="610" y="207" text-anchor="middle">51</text>
+<text class="sS" x="360" y="236" text-anchor="middle">base forecasts disagree: sites sum to 155, cells to 156, national says 160; bottom-up makes every level add up</text>
+</svg><figcaption>Reconciliation in one picture: the network planner and the finance team must see numbers that add up.</figcaption></figure>
+
 ### Validation: rolling-origin backtesting
 
 ```
@@ -333,6 +562,29 @@ Géron teaches the models. Here is how forecasting is done in industry, the leve
 | **MASE** | Error ÷ in-sample seasonal-naive error; < 1 beats naive | The best "did we beat the baseline?" metric |
 | **Pinball (quantile) loss, CRPS** | Probabilistic forecasts | — |
 | **Coverage** | Does the P90 interval contain ~90% of actuals? | Many models are over-confident |
+
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Hourly traffic with one near-zero night hour: absolute percentage errors are small except at 02:00, where an error of 6 units on an actual of 2 is 300 percent, pulling MAPE to about 50 percent while WAPE stays near 9 percent">
+<rect class="sB" x="60" y="169.333" width="44" height="10.6667" rx="3" opacity=".75"/><text class="sS" x="82" y="163.333" text-anchor="middle">8%</text>
+<text class="sS" x="82" y="196" text-anchor="middle">18:00</text><text class="sS" x="82" y="212" text-anchor="middle">120 vs 110</text>
+<rect class="sB" x="124" y="173.263" width="44" height="6.73684" rx="3" opacity=".75"/><text class="sS" x="146" y="167.263" text-anchor="middle">5%</text>
+<text class="sS" x="146" y="196" text-anchor="middle">20:00</text><text class="sS" x="146" y="212" text-anchor="middle">95 vs 100</text>
+<rect class="sB" x="188" y="164" width="44" height="16" rx="3" opacity=".75"/><text class="sS" x="210" y="158" text-anchor="middle">12%</text>
+<text class="sS" x="210" y="196" text-anchor="middle">22:00</text><text class="sS" x="210" y="212" text-anchor="middle">80 vs 70</text>
+<rect class="sR" x="252" y="52" width="44" height="128" rx="3" opacity=".75"/><text class="sS" x="274" y="46" text-anchor="middle">300%</text>
+<text class="sS" x="274" y="196" text-anchor="middle">02:00</text><text class="sS" x="274" y="212" text-anchor="middle">2 vs 8</text>
+<rect class="sB" x="316" y="167.2" width="44" height="12.8" rx="3" opacity=".75"/><text class="sS" x="338" y="161.2" text-anchor="middle">10%</text>
+<text class="sS" x="338" y="196" text-anchor="middle">06:00</text><text class="sS" x="338" y="212" text-anchor="middle">60 vs 66</text>
+<rect class="sB" x="380" y="168.364" width="44" height="11.6364" rx="3" opacity=".75"/><text class="sS" x="402" y="162.364" text-anchor="middle">9%</text>
+<text class="sS" x="402" y="196" text-anchor="middle">08:00</text><text class="sS" x="402" y="212" text-anchor="middle">110 vs 100</text>
+<rect class="sB" x="444" y="172.123" width="44" height="7.87692" rx="3" opacity=".75"/><text class="sS" x="466" y="166.123" text-anchor="middle">6%</text>
+<text class="sS" x="466" y="196" text-anchor="middle">10:00</text><text class="sS" x="466" y="212" text-anchor="middle">130 vs 122</text>
+<line class="sLm" x1="50" y1="180" x2="510" y2="180"/><text class="sM" x="14" y="18">absolute % error per hour (capped at 100% for display)</text>
+<rect class="sN" x="530" y="40" width="176" height="130" rx="8"/>
+<text class="sRt" x="618" y="64" text-anchor="middle">MAPE = 50%</text><text class="sS" x="618" y="82" text-anchor="middle">one quiet hour dominates</text>
+<text class="sGt" x="618" y="116" text-anchor="middle">WAPE = 9.2%</text><text class="sS" x="618" y="134" text-anchor="middle">Σ|error| / Σ actual</text>
+<text class="sS" x="618" y="158" text-anchor="middle">02:00: 6 units off = 300%</text>
+<text class="sS" x="360" y="234" text-anchor="middle">MAPE divides by each actual, so near-zero hours explode it; WAPE weights errors by volume</text>
+</svg><figcaption>Same forecast, two percentage metrics, computed: prefer WAPE (or MASE) when series touch zero.</figcaption></figure>
 
 ### Model families, in the order to try them
 

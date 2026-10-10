@@ -8,6 +8,83 @@ Data engineers build and run the systems that move data from where it's created 
 > **Most asked:** *What does a data engineer do?* · *OLTP vs OLAP?* · *Data warehouse vs data lake vs lakehouse?* · *ETL vs ELT?* · *Batch vs streaming?* · *What makes a pipeline idempotent?* · *Walk me through a platform you'd build.*
 > **Time budget:** 3 hours.
 
+## DE1.0 Foundations: where data lives and how it moves 🟢
+
+The data an analyst needs is born in **operational systems**: the app's database recording orders, a payment gateway's webhooks, events from the mobile app, files from partners. Those systems are built to run the business, fast, one record at a time. You can't run year-long analytical queries on them without slowing the app, and they usually keep only the **current** state, not history.
+
+So data engineering builds a **second home** for the data, designed for analysis, and the pipelines that keep it filled:
+
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: data flows from sources such as the app database, webhooks, events and partner files, through batch, CDC or streaming ingestion, into a lake, through cleaning and modelling layers, to dashboards, ML features and APIs">
+<text class="sM" x="72" y="22" text-anchor="middle">sources</text>
+<rect class="sB" x="10" y="34" width="124" height="32" rx="6"/><text class="sC" x="72" y="55" text-anchor="middle">app database</text>
+<rect class="sB" x="10" y="74" width="124" height="32" rx="6"/><text class="sC" x="72" y="95" text-anchor="middle">payment webhooks</text>
+<rect class="sB" x="10" y="114" width="124" height="32" rx="6"/><text class="sC" x="72" y="135" text-anchor="middle">app events</text>
+<rect class="sB" x="10" y="154" width="124" height="32" rx="6"/><text class="sC" x="72" y="175" text-anchor="middle">partner CSVs</text>
+<line class="sLm" x1="134" y1="114" x2="150" y2="114" marker-end="url(#ahm)"/>
+<text class="sM" x="214" y="22" text-anchor="middle">ingest</text>
+<rect class="sV" x="152" y="34" width="124" height="45.3333" rx="6"/><text class="sC" x="214" y="61.6667" text-anchor="middle">batch extract</text>
+<rect class="sV" x="152" y="87.3333" width="124" height="45.3333" rx="6"/><text class="sC" x="214" y="115" text-anchor="middle">CDC</text>
+<rect class="sV" x="152" y="140.667" width="124" height="45.3333" rx="6"/><text class="sC" x="214" y="168.333" text-anchor="middle">stream</text>
+<line class="sLm" x1="276" y1="114" x2="292" y2="114" marker-end="url(#ahm)"/>
+<text class="sM" x="356" y="22" text-anchor="middle">store</text>
+<rect class="sW" x="294" y="34" width="124" height="72" rx="6"/><text class="sC" x="356" y="75" text-anchor="middle">data lake</text>
+<rect class="sW" x="294" y="114" width="124" height="72" rx="6"/><text class="sC" x="356" y="155" text-anchor="middle">(bronze: raw)</text>
+<line class="sLm" x1="418" y1="114" x2="434" y2="114" marker-end="url(#ahm)"/>
+<text class="sM" x="498" y="22" text-anchor="middle">transform</text>
+<rect class="sA" x="436" y="34" width="124" height="72" rx="6"/><text class="sC" x="498" y="75" text-anchor="middle">silver: clean</text>
+<rect class="sA" x="436" y="114" width="124" height="72" rx="6"/><text class="sC" x="498" y="155" text-anchor="middle">gold: modelled</text>
+<line class="sLm" x1="560" y1="114" x2="576" y2="114" marker-end="url(#ahm)"/>
+<text class="sM" x="640" y="22" text-anchor="middle">serve</text>
+<rect class="sG" x="578" y="34" width="124" height="45.3333" rx="6"/><text class="sC" x="640" y="61.6667" text-anchor="middle">dashboards</text>
+<rect class="sG" x="578" y="87.3333" width="124" height="45.3333" rx="6"/><text class="sC" x="640" y="115" text-anchor="middle">ML features</text>
+<rect class="sG" x="578" y="140.667" width="124" height="45.3333" rx="6"/><text class="sC" x="640" y="168.333" text-anchor="middle">APIs</text>
+<circle class="sP" r="5"><animateMotion dur="5s" begin="0.0s" repeatCount="indefinite" path="M72 114 H650"/></circle>
+<circle class="sPg" r="5"><animateMotion dur="5s" begin="1.6s" repeatCount="indefinite" path="M72 114 H650"/></circle>
+<circle class="sPw" r="5"><animateMotion dur="5s" begin="3.2s" repeatCount="indefinite" path="M72 114 H650"/></circle>
+<text class="sS" x="360" y="216" text-anchor="middle">operational systems stay fast; analysis runs on a copy designed for it</text>
+</svg><figcaption>The shape of every data platform: ingest, store, transform, serve. The tools change; the stages don't.</figcaption></figure>
+
+The second home is shaped differently on disk. Analytical queries read a few columns across millions of rows, so analytical engines store data **by column** rather than by row:
+
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Row storage keeps each row's values together; column storage keeps each column together, so an aggregation over city and amount reads only those two columns">
+<text class="sM" x="14" y="24">row store (OLTP): one row's values together</text>
+<rect class="sB" x="14" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="34" y="54" text-anchor="middle">i1</text>
+<rect class="sV" x="57" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="77" y="54" text-anchor="middle">d1</text>
+<rect class="sW" x="100" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="120" y="54" text-anchor="middle">c1</text>
+<rect class="sG" x="143" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="163" y="54" text-anchor="middle">a1</text>
+<rect class="sB" x="186" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="206" y="54" text-anchor="middle">i2</text>
+<rect class="sV" x="229" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="249" y="54" text-anchor="middle">d2</text>
+<rect class="sW" x="272" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="292" y="54" text-anchor="middle">c2</text>
+<rect class="sG" x="315" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="335" y="54" text-anchor="middle">a2</text>
+<rect class="sB" x="358" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="378" y="54" text-anchor="middle">i3</text>
+<rect class="sV" x="401" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="421" y="54" text-anchor="middle">d3</text>
+<rect class="sW" x="444" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="464" y="54" text-anchor="middle">c3</text>
+<rect class="sG" x="487" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="507" y="54" text-anchor="middle">a3</text>
+<rect class="sB" x="530" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="550" y="54" text-anchor="middle">i4</text>
+<rect class="sV" x="573" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="593" y="54" text-anchor="middle">d4</text>
+<rect class="sW" x="616" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="636" y="54" text-anchor="middle">c4</text>
+<rect class="sG" x="659" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="679" y="54" text-anchor="middle">a4</text>
+<text class="sM" x="14" y="98">column store (OLAP): one column's values together</text>
+<rect class="sB" x="14" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="34" y="128" text-anchor="middle">i1</text>
+<rect class="sB" x="57" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="77" y="128" text-anchor="middle">i2</text>
+<rect class="sB" x="100" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="120" y="128" text-anchor="middle">i3</text>
+<rect class="sB" x="143" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="163" y="128" text-anchor="middle">i4</text>
+<rect class="sV" x="186" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="206" y="128" text-anchor="middle">d1</text>
+<rect class="sV" x="229" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="249" y="128" text-anchor="middle">d2</text>
+<rect class="sV" x="272" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="292" y="128" text-anchor="middle">d3</text>
+<rect class="sV" x="315" y="108" width="40" height="30" rx="3" opacity=".25"/><text class="sC" x="335" y="128" text-anchor="middle">d4</text>
+<rect class="sW" x="358" y="108" width="40" height="30" rx="3"/><text class="sC" x="378" y="128" text-anchor="middle">c1</text>
+<rect class="sW" x="401" y="108" width="40" height="30" rx="3"/><text class="sC" x="421" y="128" text-anchor="middle">c2</text>
+<rect class="sW" x="444" y="108" width="40" height="30" rx="3"/><text class="sC" x="464" y="128" text-anchor="middle">c3</text>
+<rect class="sW" x="487" y="108" width="40" height="30" rx="3"/><text class="sC" x="507" y="128" text-anchor="middle">c4</text>
+<rect class="sG" x="530" y="108" width="40" height="30" rx="3"/><text class="sC" x="550" y="128" text-anchor="middle">a1</text>
+<rect class="sG" x="573" y="108" width="40" height="30" rx="3"/><text class="sC" x="593" y="128" text-anchor="middle">a2</text>
+<rect class="sG" x="616" y="108" width="40" height="30" rx="3"/><text class="sC" x="636" y="128" text-anchor="middle">a3</text>
+<rect class="sG" x="659" y="108" width="40" height="30" rx="3"/><text class="sC" x="679" y="128" text-anchor="middle">a4</text>
+<path class="sLg" d="M358 146 V154 H699 V146" fill="none"/><text class="sGt" x="530" y="170" text-anchor="middle">read only these</text>
+<text class="sS" x="360" y="196" text-anchor="middle">SUM(amount) WHERE city = 'Cairo': the row store reads every block; the column store reads two columns, compressed</text>
+</svg><figcaption>Why warehouses are column stores: analytical queries touch few columns and many rows, and similar values compress well.</figcaption></figure>
+
 ## DE1.1 What data engineers do 🟢
 
 - **Ingest** data from operational databases, APIs, files, event streams and SaaS tools.
@@ -49,6 +126,22 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 > [!term] Open table format
 > A specification (Delta Lake, Apache Iceberg, Apache Hudi) that layers a **transaction log and metadata** over Parquet files in object storage, giving **ACID transactions**, schema evolution, **time travel** (query a table as of yesterday), efficient updates and deletes, and partition pruning. Several engines (Spark, Trino, Snowflake, Fabric, DuckDB) can read the same tables. Details are in [[DE5]].
 
+<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="The lakehouse stack: object storage at the bottom, Parquet files, an open table format adding a transaction log, and many query engines on top">
+<rect class="sA" x="14" y="20" width="692" height="46" rx="8"/><text class="sT" x="360" y="48" text-anchor="middle">engines: Spark · SQL warehouses · Trino · DuckDB · Power BI (Direct Lake)</text>
+<rect class="sV" x="14" y="78" width="692" height="62" rx="8"/><text class="sT" x="360" y="100" text-anchor="middle">open table format: Delta Lake · Apache Iceberg</text><text class="sC" x="360" y="120" text-anchor="middle">a transaction log over the files: ACID commits · schema enforcement · time travel</text>
+<rect class="sW" x="14" y="152" width="692" height="62" rx="8"/><text class="sT" x="360" y="174" text-anchor="middle">files: Parquet (columnar, compressed)</text>
+<rect class="sN" x="40" y="184" width="60" height="22" rx="3"/><text class="sC" x="70" y="199" text-anchor="middle">part-0</text>
+<rect class="sN" x="112" y="184" width="60" height="22" rx="3"/><text class="sC" x="142" y="199" text-anchor="middle">part-1</text>
+<rect class="sN" x="184" y="184" width="60" height="22" rx="3"/><text class="sC" x="214" y="199" text-anchor="middle">part-2</text>
+<rect class="sN" x="256" y="184" width="60" height="22" rx="3"/><text class="sC" x="286" y="199" text-anchor="middle">part-3</text>
+<rect class="sN" x="328" y="184" width="60" height="22" rx="3"/><text class="sC" x="358" y="199" text-anchor="middle">part-4</text>
+<rect class="sN" x="400" y="184" width="60" height="22" rx="3"/><text class="sC" x="430" y="199" text-anchor="middle">part-5</text>
+<rect class="sN" x="472" y="184" width="60" height="22" rx="3"/><text class="sC" x="502" y="199" text-anchor="middle">part-6</text>
+<rect class="sN" x="544" y="184" width="60" height="22" rx="3"/><text class="sC" x="574" y="199" text-anchor="middle">part-7</text>
+<rect class="sN" x="616" y="184" width="60" height="22" rx="3"/><text class="sC" x="646" y="199" text-anchor="middle">part-8</text>
+<rect class="sB" x="14" y="226" width="692" height="34" rx="8"/><text class="sT" x="360" y="248" text-anchor="middle">cheap object storage: ADLS Gen2 · S3 · OneLake</text>
+</svg><figcaption>A lakehouse is files plus a log. The log is what turns "a folder of Parquet" into a table many engines can trust.</figcaption></figure>
+
 > [!say]
 > "A warehouse stores modelled, structured data with fast SQL and strong governance; a lake stores any data cheaply as files, but without discipline turns into a swamp. A lakehouse keeps the files in object storage but adds a table format like Delta or Iceberg, which brings transactions, schema enforcement and time travel, so one copy of the data can serve BI, SQL and machine learning."
 
@@ -80,6 +173,26 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 | Why | Limited, expensive warehouse compute (older era); sensitive data must be masked before landing | Cheap, elastic warehouse compute; keep raw data; analysts can write transformations in SQL (dbt) |
 | Today | Still common in enterprises (SSIS on SQL Server, Informatica) and for heavy non-SQL processing | The default in cloud platforms |
 
+<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="ETL transforms data in a separate engine before loading it; ELT loads raw data first and transforms it inside the warehouse">
+<text class="sT" x="14" y="60">ETL</text>
+<rect class="sB" x="70" y="30" width="130" height="48" rx="8"/><text class="sT" x="135" y="59" text-anchor="middle">extract</text>
+<line class="sLm" x1="200" y1="54" x2="218" y2="54" marker-end="url(#ahm)"/>
+<rect class="sR" x="220" y="30" width="130" height="48" rx="8"/><text class="sT" x="285" y="59" text-anchor="middle">transform</text>
+<line class="sLm" x1="350" y1="54" x2="368" y2="54" marker-end="url(#ahm)"/>
+<rect class="sG" x="370" y="30" width="130" height="48" rx="8"/><text class="sT" x="435" y="59" text-anchor="middle">load</text>
+<rect class="sN" x="362" y="22" width="146" height="64" rx="8" style="fill:none" stroke-dasharray="4 3"/><text class="sC" x="516" y="60">inside the warehouse</text>
+<text class="sC" x="70" y="100">transform outside, before loading (SSIS, Spark job)</text>
+<text class="sT" x="14" y="150">ELT</text>
+<rect class="sB" x="70" y="120" width="130" height="48" rx="8"/><text class="sT" x="135" y="149" text-anchor="middle">extract</text>
+<line class="sLm" x1="200" y1="144" x2="218" y2="144" marker-end="url(#ahm)"/>
+<rect class="sG" x="220" y="120" width="130" height="48" rx="8"/><text class="sT" x="285" y="149" text-anchor="middle">load raw</text>
+<line class="sLm" x1="350" y1="144" x2="368" y2="144" marker-end="url(#ahm)"/>
+<rect class="sR" x="370" y="120" width="130" height="48" rx="8"/><text class="sT" x="435" y="149" text-anchor="middle">transform in SQL</text>
+<rect class="sN" x="212" y="112" width="296" height="64" rx="8" style="fill:none" stroke-dasharray="4 3"/><text class="sC" x="516" y="150">inside the warehouse</text>
+<text class="sC" x="70" y="190">load raw first, transform inside the warehouse (dbt)</text>
+<text class="sS" x="360" y="210" text-anchor="middle">ELT keeps the raw data, so a fixed transformation can always be replayed</text>
+</svg><figcaption>The difference is where the T happens. Cheap, elastic warehouse compute made ELT the default.</figcaption></figure>
+
 | | **Batch** | **Streaming** |
 |---|---|---|
 | Latency | Minutes to hours (hourly, nightly) | Seconds or less |
@@ -90,6 +203,17 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 
 > [!term] Change data capture (CDC)
 > Capturing inserts, updates and deletes from a source database **as they happen**, usually by reading its transaction log (SQL Server CDC, PostgreSQL logical replication, Oracle LogMiner/GoldenGate, MySQL binlog), so the platform gets every change without heavy full-table queries on the source. **Debezium** streams these changes into Kafka ([[DE8]]); managed tools (Fivetran, Azure Data Factory, Fabric mirroring) do it too.
+
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: change data capture reads a database's transaction log with Debezium and publishes each insert, update or delete as an event to Kafka, which lands in a bronze table">
+<rect class="sB" x="14" y="40" width="150" height="60" rx="8"/><text class="sT" x="89" y="68" text-anchor="middle">app database</text><text class="sC" x="89" y="84" text-anchor="middle">inserts · updates</text>
+<line class="sLm" x1="89" y1="100" x2="89" y2="126" marker-end="url(#ahm)"/><rect class="sN" x="14" y="128" width="150" height="50" rx="8"/><text class="sT" x="89" y="151" text-anchor="middle">transaction log</text><text class="sC" x="89" y="167" text-anchor="middle">every change, in order</text>
+<line class="sL" x1="164" y1="153" x2="206" y2="153" marker-end="url(#ah)"/><rect class="sV" x="210" y="128" width="140" height="50" rx="8"/><text class="sT" x="280" y="151" text-anchor="middle">Debezium</text><text class="sC" x="280" y="167" text-anchor="middle">reads the log</text>
+<line class="sL" x1="350" y1="153" x2="392" y2="153" marker-end="url(#ah)"/><rect class="sW" x="396" y="128" width="140" height="50" rx="8"/><text class="sT" x="466" y="151" text-anchor="middle">Kafka topic</text><text class="sC" x="466" y="167" text-anchor="middle">change events</text>
+<line class="sL" x1="536" y1="153" x2="568" y2="153" marker-end="url(#ah)"/><rect class="sG" x="572" y="128" width="134" height="50" rx="8"/><text class="sT" x="639" y="151" text-anchor="middle">bronze table</text><text class="sC" x="639" y="167" text-anchor="middle">append changes</text>
+<rect class="sN" x="210" y="30" width="496" height="70" rx="8"/><text class="sC" x="222" y="54" xml:space="preserve" style="white-space:pre">{"op": "u", "before": {"status": "pending"},</text><text class="sC" x="222" y="74" xml:space="preserve" style="white-space:pre">          "after":  {"status": "paid"}, "ts": 1760000000}</text>
+<circle class="sP" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M89 100 V153 H572"/></circle>
+<text class="sS" x="360" y="206" text-anchor="middle">no full re-extracts and no extra load on the app: just the stream of changes</text>
+</svg><figcaption>CDC turns a database into a stream of change events, including deletes, which periodic "WHERE updated_at > …" queries miss.</figcaption></figure>
 
 ## DE1.5 The modern data stack, layer by layer 🟢 🟡 ⭐
 
@@ -122,6 +246,18 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 | **Tested** | Data and code are checked | Unit tests for transformations; data tests on outputs |
 | **Recoverable** | A failure doesn't corrupt data | Atomic writes (table formats), retries, raw data kept in bronze |
 | **Documented** | People know what tables mean | Descriptions, owners, lineage, a catalog |
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 200" role="img" aria-label="An idempotent load: the first run writes three rows; a rerun with a blind insert duplicates them and doubles revenue; a rerun that overwrites the day's partition or merges on keys leaves three rows">
+<rect class="sV" x="14" y="70" width="150" height="60" rx="8"/><text class="sT" x="89" y="98" text-anchor="middle">job for</text><text class="sC" x="89" y="114" text-anchor="middle">2026-10-08</text>
+<line class="sL" x1="164" y1="100" x2="206" y2="100" marker-end="url(#ah)"/>
+<g data-s="1-1"><text class="sC" x="330" y="30" text-anchor="middle">first run: 3 rows</text><rect class="sB" x="220" y="40" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="56">2026-10-08  order 101  300</text><rect class="sB" x="220" y="64" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="80">2026-10-08  order 102  120</text><rect class="sB" x="220" y="88" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="104">2026-10-08  order 103  450</text><text class="sT" x="560" y="100" text-anchor="middle">total 870</text></g>
+<g data-s="2-2"><text class="sRt" x="330" y="30" text-anchor="middle">rerun with INSERT: 6 rows ✗</text><rect class="sB" x="220" y="40" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="56">2026-10-08  order 101  300</text><rect class="sB" x="220" y="64" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="80">2026-10-08  order 102  120</text><rect class="sB" x="220" y="88" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="104">2026-10-08  order 103  450</text><rect class="sR" x="220" y="112" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="128">2026-10-08  order 101  300</text><rect class="sR" x="220" y="136" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="152">2026-10-08  order 102  120</text><rect class="sR" x="220" y="160" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="176">2026-10-08  order 103  450</text><text class="sRt" x="560" y="100" text-anchor="middle">total 1,740</text><text class="sRt" x="560" y="120" text-anchor="middle">revenue doubled</text></g>
+<g data-s="3-3"><text class="sGt" x="330" y="30" text-anchor="middle">rerun with overwrite / MERGE: 3 rows ✓</text><rect class="sB" x="220" y="40" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="56">2026-10-08  order 101  300</text><rect class="sB" x="220" y="64" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="80">2026-10-08  order 102  120</text><rect class="sB" x="220" y="88" width="220" height="22" rx="3" opacity=".6"/><text class="sC" x="230" y="104">2026-10-08  order 103  450</text><text class="sGt" x="560" y="100" text-anchor="middle">total 870</text><text class="sGt" x="560" y="120" text-anchor="middle">safe to retry</text></g>
+</svg><ol class="dia-steps">
+<li>The daily job loads 8 October's three orders.</li>
+<li>The job fails half-way through something else and is retried. A blind <code>INSERT</code> appends the same rows again, and yesterday's revenue silently doubles.</li>
+<li>Overwriting the day's partition, or <code>MERGE</code> on the order key, makes the rerun a no-op. Retries and backfills become safe.</li>
+</ol><figcaption>Idempotency is the property that lets you retry anything. Design every write so running it twice changes nothing.</figcaption></figure>
 
 > [!say]
 > "The properties I design for are idempotency, so reruns never duplicate; incremental loading with watermarks or CDC, so we don't reprocess everything; backfill by date parameter; atomic writes so a failed run leaves no half-written data; and observability with freshness, volume and quality checks that alert the owner."

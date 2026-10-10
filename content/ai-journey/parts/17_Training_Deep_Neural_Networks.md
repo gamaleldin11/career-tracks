@@ -101,6 +101,34 @@ Details worth knowing:
 - **Orthogonal init** (`nn.init.orthogonal_`, Saxe et al. 2014) preserves vector norms. It is useful for RNNs and GANs.
 - **Scale down the output layer at init** (e.g. ÷10) in classifiers. Smaller initial logits mean less confident early predictions, which avoids huge early losses and gradients.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Norm of each layer's weight gradient after one backward pass through a 20-layer, 256-wide network: with sigmoid and Glorot initialisation the first layer gets about 12 orders of magnitude less gradient than the last; with ReLU and PyTorch's default initialisation more than 5 orders less; tanh with Glorot and ReLU with He initialisation keep the gradient roughly level through depth">
+<line class="sLm" x1="76" y1="196" x2="516" y2="196" opacity=".18"/><text class="sS" x="68" y="200" text-anchor="end">1e-14</text>
+<line class="sLm" x1="76" y1="172" x2="516" y2="172" opacity=".18"/><text class="sS" x="68" y="176" text-anchor="end">1e-12</text>
+<line class="sLm" x1="76" y1="148" x2="516" y2="148" opacity=".18"/><text class="sS" x="68" y="152" text-anchor="end">1e-10</text>
+<line class="sLm" x1="76" y1="124" x2="516" y2="124" opacity=".18"/><text class="sS" x="68" y="128" text-anchor="end">1e-8</text>
+<line class="sLm" x1="76" y1="100" x2="516" y2="100" opacity=".18"/><text class="sS" x="68" y="104" text-anchor="end">1e-6</text>
+<line class="sLm" x1="76" y1="76" x2="516" y2="76" opacity=".18"/><text class="sS" x="68" y="80" text-anchor="end">1e-4</text>
+<line class="sLm" x1="76" y1="52" x2="516" y2="52" opacity=".18"/><text class="sS" x="68" y="56" text-anchor="end">1e-2</text>
+<line class="sLm" x1="76" y1="28" x2="516" y2="28" opacity=".18"/><text class="sS" x="68" y="32" text-anchor="end">1</text>
+<line class="sLm" x1="76" y1="196" x2="516" y2="196"/><line class="sLm" x1="76" y1="196" x2="76" y2="24"/>
+<text class="sS" x="76" y="212" text-anchor="middle">1</text>
+<text class="sS" x="168.632" y="212" text-anchor="middle">5</text>
+<text class="sS" x="284.421" y="212" text-anchor="middle">10</text>
+<text class="sS" x="400.211" y="212" text-anchor="middle">15</text>
+<text class="sS" x="516" y="212" text-anchor="middle">20</text>
+<text class="sS" x="296" y="230" text-anchor="middle">← input side      hidden layer      output side →</text>
+<text class="sS" x="18" y="110" text-anchor="middle" transform="rotate(-90 18 110)">weight-gradient norm</text>
+<polyline class="sLr" points="76.0,186.3 99.2,176.6 122.3,169.3 145.5,161.8 168.6,154.1 191.8,146.3 214.9,138.8 238.1,131.2 261.3,123.1 284.4,115.2 307.6,107.7 330.7,100.4 353.9,92.6 377.1,85.1 400.2,77.2 423.4,69.4 446.5,62.1 469.7,54.4 492.8,46.7 516.0,39.4" style="fill:none;stroke-width:2.4"/>
+<line class="sLr" x1="538" y1="44" x2="562" y2="44" style="stroke-width:2.4"/><text class="sT" x="570" y="48">sigmoid + Glorot</text><text class="sRt" x="570" y="65">layer 1 : layer 20 = 1 : 2e12</text>
+<polyline class="sLw" points="76.0,123.8 99.2,124.3 122.3,124.7 145.5,125.1 168.6,124.8 191.8,122.5 214.9,118.2 238.1,113.9 261.3,109.4 284.4,104.7 307.6,100.6 330.7,95.7 353.9,90.4 377.1,85.5 400.2,80.8 423.4,75.7 446.5,71.5 469.7,66.7 492.8,62.2 516.0,57.7" style="fill:none;stroke-width:2.4"/>
+<line class="sLw" x1="538" y1="88" x2="562" y2="88" style="stroke-width:2.4"/><text class="sT" x="570" y="92">ReLU + PyTorch default</text><text class="sWt" x="570" y="109">layer 1 : layer 20 = 1 : 3e5</text>
+<polyline class="sLv" points="76.0,43.8 99.2,43.9 122.3,44.0 145.5,44.2 168.6,44.2 191.8,44.2 214.9,44.2 238.1,44.3 261.3,44.2 284.4,44.2 307.6,44.2 330.7,44.1 353.9,44.0 377.1,44.2 400.2,44.2 423.4,44.1 446.5,44.0 469.7,43.9 492.8,44.0 516.0,44.2" style="fill:none;stroke-width:2.4"/>
+<line class="sLv" x1="538" y1="132" x2="562" y2="132" style="stroke-width:2.4"/><text class="sT" x="570" y="136">tanh + Glorot</text><text class="sGt" x="570" y="153">layer 1 : layer 20 = 1 : 0.9</text>
+<polyline class="sLg" points="76.0,36.4 99.2,34.0 122.3,32.3 145.5,31.6 168.6,30.7 191.8,30.1 214.9,29.9 238.1,29.2 261.3,28.6 284.4,28.7 307.6,28.3 330.7,28.3 353.9,27.5 377.1,26.7 400.2,27.3 423.4,27.4 446.5,27.3 469.7,27.7 492.8,28.2 516.0,28.4" style="fill:none;stroke-width:2.4"/>
+<line class="sLg" x1="538" y1="176" x2="562" y2="176" style="stroke-width:2.4"/><text class="sT" x="570" y="180">ReLU + He</text><text class="sGt" x="570" y="197">layer 1 : layer 20 = 1 : 4.6</text>
+<text class="sS" x="616" y="222" text-anchor="middle">He: within ~7× across all 20 layers</text>
+</svg><figcaption>Vanishing gradients, measured: one backward pass through a 20-layer, 256-wide PyTorch MLP. The lower layers of the first two networks would barely learn.</figcaption></figure>
+
 ### Fix 2 — Better activation functions
 
 | Function | Formula | Pros | Cons / notes |
@@ -156,6 +184,76 @@ ln = nn.LayerNorm([3, 100, 200])   # normalise over the last dims, per instance
 
 LN is the normaliser of **transformers**, and it is increasingly used in CNNs and diffusion models.
 
+<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="Batch normalisation computes statistics for each feature across the examples in a batch; layer normalisation computes them for each example across its features">
+<text class="sT" x="180" y="22" text-anchor="middle">BatchNorm</text><text class="sC" x="180" y="40" text-anchor="middle">one feature, across the batch</text>
+<rect class="sN" x="70" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="106" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sA" x="142" y="56" width="32" height="26" rx="3"/>
+<rect class="sN" x="178" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="214" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="250" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="70" y="86" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="106" y="86" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sA" x="142" y="86" width="32" height="26" rx="3"/>
+<rect class="sN" x="178" y="86" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="214" y="86" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="250" y="86" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="70" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="106" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sA" x="142" y="116" width="32" height="26" rx="3"/>
+<rect class="sN" x="178" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="214" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="250" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="70" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="106" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sA" x="142" y="146" width="32" height="26" rx="3"/>
+<rect class="sN" x="178" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="214" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="250" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="70" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="106" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sA" x="142" y="176" width="32" height="26" rx="3"/>
+<rect class="sN" x="178" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="214" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="250" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<text class="sC" x="60" y="130" text-anchor="end">batch N</text>
+<text class="sC" x="175" y="218" text-anchor="middle">features C →</text>
+<text class="sT" x="520" y="22" text-anchor="middle">LayerNorm</text><text class="sC" x="520" y="40" text-anchor="middle">one example, across its features</text>
+<rect class="sN" x="410" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="446" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="482" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="518" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="554" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="590" y="56" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sG" x="410" y="86" width="32" height="26" rx="3"/>
+<rect class="sG" x="446" y="86" width="32" height="26" rx="3"/>
+<rect class="sG" x="482" y="86" width="32" height="26" rx="3"/>
+<rect class="sG" x="518" y="86" width="32" height="26" rx="3"/>
+<rect class="sG" x="554" y="86" width="32" height="26" rx="3"/>
+<rect class="sG" x="590" y="86" width="32" height="26" rx="3"/>
+<rect class="sN" x="410" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="446" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="482" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="518" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="554" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="590" y="116" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="410" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="446" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="482" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="518" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="554" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="590" y="146" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="410" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="446" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="482" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="518" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="554" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<rect class="sN" x="590" y="176" width="32" height="26" rx="3" opacity=".5"/>
+<text class="sC" x="400" y="130" text-anchor="end">batch N</text>
+<text class="sC" x="515" y="218" text-anchor="middle">features C →</text>
+<text class="sS" x="360" y="240" text-anchor="middle">BN needs batch statistics (running averages at inference); LN behaves the same in training and inference</text>
+</svg><figcaption>Same formula, different axis. That one difference is why transformers use LayerNorm.</figcaption></figure>
+
 ### Fix 5 — Gradient clipping
 
 Pascanu et al. (2013). Mostly for RNNs and transformers:
@@ -191,6 +289,29 @@ optimizer.step(); optimizer.zero_grad()
 3. **Unfreeze** the top layers (or all of them), **lower the learning rate**, and fine-tune.
 4. More similar tasks justify reusing more layers. More labelled data justifies unfreezing more.
 5. Transfer works best when **low-level features match**. Phone photos → phone photos, yes. Phone photos → satellite or medical images, much less.
+
+<figure class="dia steps"><svg viewBox="0 0 720 244" role="img" aria-label="Transfer learning in three steps: a network trained on task A with four layers from edges to objects; its head is replaced and the four layers are frozen so gradients only reach the new head; then the top two layers are unfrozen with a learning rate ten times lower than the head while the first two stay frozen">
+<rect class="sN" x="20" y="70" width="74" height="70" rx="8"/><text class="sT" x="57" y="101" text-anchor="middle">input</text><text class="sS" x="57" y="118" text-anchor="middle">image</text>
+<rect class="sB" x="120" y="44" width="70" height="122" rx="8"/><text class="sT" x="155" y="64" text-anchor="middle">layer 1</text><text class="sS" x="155" y="154" text-anchor="middle">edges</text>
+<line class="sLm" x1="96" y1="105" x2="118" y2="105" marker-end="url(#ahm)"/>
+<rect class="sB" x="210" y="44" width="70" height="122" rx="8"/><text class="sT" x="245" y="64" text-anchor="middle">layer 2</text><text class="sS" x="245" y="154" text-anchor="middle">textures</text>
+<line class="sLm" x1="188" y1="105" x2="208" y2="105" marker-end="url(#ahm)"/>
+<rect class="sB" x="300" y="44" width="70" height="122" rx="8"/><text class="sT" x="335" y="64" text-anchor="middle">layer 3</text><text class="sS" x="335" y="154" text-anchor="middle">parts</text>
+<line class="sLm" x1="278" y1="105" x2="298" y2="105" marker-end="url(#ahm)"/>
+<rect class="sB" x="390" y="44" width="70" height="122" rx="8"/><text class="sT" x="425" y="64" text-anchor="middle">layer 4</text><text class="sS" x="425" y="154" text-anchor="middle">objects</text>
+<line class="sLm" x1="368" y1="105" x2="388" y2="105" marker-end="url(#ahm)"/>
+<line class="sLm" x1="462" y1="105" x2="482" y2="105" marker-end="url(#ahm)"/>
+<text class="sS" x="255" y="188" text-anchor="middle">low-level features ← reused from model A → high-level</text>
+<g data-s="1-1"><rect class="sB" x="486" y="60" width="96" height="90" rx="8"/><text class="sT" x="534" y="92" text-anchor="middle">head A</text><text class="sS" x="534" y="110" text-anchor="middle">10 classes</text><text class="sS" x="534" y="126" text-anchor="middle">(task A)</text><text class="sS" x="352" y="222" text-anchor="middle">model A, fully trained on a big dataset</text></g>
+<g data-s="2-3"><rect class="sG" x="486" y="60" width="96" height="90" rx="8"/><text class="sT" x="534" y="92" text-anchor="middle">new head B</text><text class="sS" x="534" y="110" text-anchor="middle">Linear(100, 1)</text><text class="sGt" x="534" y="126" text-anchor="middle">lr 1e-3</text></g>
+<g data-s="2-3"><rect class="sN" x="126" y="82" width="58" height="46" rx="6"/><text class="sS" x="155" y="102" text-anchor="middle">frozen</text><text class="sS" x="155" y="118" text-anchor="middle">no grad</text><rect class="sN" x="216" y="82" width="58" height="46" rx="6"/><text class="sS" x="245" y="102" text-anchor="middle">frozen</text><text class="sS" x="245" y="118" text-anchor="middle">no grad</text></g>
+<g data-s="2-2"><rect class="sN" x="306" y="82" width="58" height="46" rx="6"/><text class="sS" x="335" y="102" text-anchor="middle">frozen</text><text class="sS" x="335" y="118" text-anchor="middle">no grad</text><rect class="sN" x="396" y="82" width="58" height="46" rx="6"/><text class="sS" x="425" y="102" text-anchor="middle">frozen</text><text class="sS" x="425" y="118" text-anchor="middle">no grad</text><line class="sLr" x1="600" y1="205" x2="486" y2="205" marker-end="url(#ahr)"/><text class="sRt" x="612" y="209">gradients</text><text class="sS" x="352" y="232" text-anchor="middle">only the head learns, so its random errors cannot damage the body</text></g>
+<g data-s="3-3"><rect class="sG" x="306" y="82" width="58" height="46" rx="6"/><text class="sGt" x="335" y="102" text-anchor="middle">lr</text><text class="sGt" x="335" y="118" text-anchor="middle">1e-4</text><rect class="sG" x="396" y="82" width="58" height="46" rx="6"/><text class="sGt" x="425" y="102" text-anchor="middle">lr</text><text class="sGt" x="425" y="118" text-anchor="middle">1e-4</text><line class="sLr" x1="600" y1="205" x2="300" y2="205" marker-end="url(#ahr)"/><text class="sRt" x="612" y="209">gradients</text><text class="sS" x="352" y="232" text-anchor="middle">top layers fine-tune 10× slower than the head; edges stay frozen</text></g>
+</svg><ol class="dia-steps">
+<li>Model A was trained on a large, related task. Its early layers detect generic features; its last layers are specific to task A.</li>
+<li>Replace the output layer with a new head and freeze the reused layers (requires_grad = False). Train a few epochs: gradients stop at the head.</li>
+<li>Unfreeze the top layers and give them a lower learning rate than the head (parameter groups). With more labelled data, unfreeze further down.</li>
+</ol><figcaption>The transfer-learning recipe as three training phases: which weights receive gradients, and at what learning rate.</figcaption></figure>
 
 ```python
 import copy
@@ -235,6 +356,22 @@ Plain SGD crawls along gentle slopes and zig-zags in ravines. The upgrades:
 | AdaMax | Adam with the ℓ∞ norm instead of ℓ₂ | — | Sometimes more stable |
 | NAdam | Adam + Nesterov | — | Often slightly faster than Adam |
 | **AdamW** (Loshchilov & Hutter 2017) | **Decoupled weight decay** | θ ← θ − η(adam_step + λθ) | ℓ₂ ≠ weight decay under Adam. AdamW does it right. **The default for transformers** |
+
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Optimiser paths on a long narrow valley: plain SGD zig-zags across it, momentum accelerates along it, and Adam rescales each direction to head more directly to the minimum">
+<ellipse class="sLm" cx="360" cy="120" rx="132" ry="20" fill="none" opacity=".6"/>
+<ellipse class="sLm" cx="360" cy="120" rx="240" ry="37" fill="none" opacity=".6"/>
+<ellipse class="sLm" cx="360" cy="120" rx="340" ry="52" fill="none" opacity=".6"/>
+<ellipse class="sLm" cx="360" cy="120" rx="481" ry="74" fill="none" opacity=".6"/>
+<ellipse class="sLm" cx="360" cy="120" rx="589" ry="90" fill="none" opacity=".6"/>
+<polyline class="sLr" points="54.0,47.2 59.1,169.5 64.2,86.3 69.2,142.9 74.1,104.4 78.9,130.6 83.6,112.8 88.2,124.9 92.8,116.7 97.3,122.3 101.7,118.5 106.0,121.0 110.3,119.3 114.5,120.5 118.6,119.7 122.7,120.2 126.7,119.8 130.6,120.1 134.4,119.9 138.2,120.0 141.9,120.0 145.6,120.0 149.2,120.0 152.8,120.0 156.2,120.0 159.7,120.0 163.0,120.0 166.3,120.0 169.6,120.0 172.8,120.0 175.9,120.0 179.0,120.0 182.1,120.0 185.1,120.0 188.0,120.0 190.9,120.0 193.7,120.0 196.5,120.0 199.3,120.0 202.0,120.0 204.6,120.0" fill="none" stroke-width="2"/>
+<text class="sRt" x="40" y="200">SGD: zig-zags across the ravine</text>
+<polyline class="sLw" points="54.0,47.2 55.2,76.3 57.5,120.0 60.8,159.3 65.0,179.0 69.9,173.1 75.5,146.5 81.7,112.0 88.4,84.2 95.5,73.4 102.9,82.4 110.6,105.5 118.6,132.1 126.7,151.2 134.9,155.9 143.3,145.8 151.6,126.4 160.0,106.3 168.3,93.8 176.5,93.0 184.7,103.0 192.7,118.9 200.6,133.6 208.4,141.4 216.0,139.9 223.4,130.5 230.6,117.9 237.6,107.4 244.4,103.0 251.0,105.8 257.3,114.0 263.5,123.8 269.4,131.1 275.0,133.2 280.5,129.8 285.7,122.9 290.7,115.4 295.5,110.6 300.0,110.0 304.4,113.4 308.5,119.2" fill="none" stroke-width="2"/>
+<text class="sWt" x="40" y="218">momentum: builds speed along it</text>
+<polyline class="sLg" points="54.0,47.2 69.3,70.6 84.6,93.4 99.8,114.5 115.0,132.6 130.0,146.1 145.0,153.9 159.8,156.4 174.5,154.6 189.0,149.6 203.2,142.4 217.2,134.0 230.9,125.1 244.3,116.7 257.4,109.4 270.0,103.8 282.2,100.3 293.9,99.0 305.1,99.8 315.8,102.4 326.0,106.4 335.5,111.2 344.4,116.5 352.6,121.6 360.2,126.1 367.2,129.6 373.4,131.8 378.9,132.7 383.8,132.2 387.9,130.5 391.4,127.9 394.3,124.8 396.5,121.4 398.1,118.2 399.2,115.4 399.7,113.4 399.8,112.3 399.3,112.1 398.5,112.9 397.3,114.3 395.8,116.3" fill="none" stroke-width="2"/>
+<text class="sGt" x="40" y="236">Adam: rescales each direction</text>
+<circle class="sP" cx="54" cy="47.2" r="5"/><circle class="sPg" cx="360" cy="120" r="5"/><text class="sC" x="368" y="112">minimum</text>
+<text class="sC" x="680" y="236" text-anchor="end">40 steps each, simulated</text>
+</svg><figcaption>Why better optimisers exist: the loss surface is a ravine, steep one way and flat the other. These paths are computed, not drawn.</figcaption></figure>
 
 Key nuances:
 - **Why the bias correction?** m and s start at 0, so early estimates are biased toward
@@ -397,6 +534,26 @@ Plus: **reuse a pretrained network** if one exists; unsupervised pretraining if 
 
 1B parameters in fp32 = **4 GB** for the weights alone. Training with Adam adds 2 states per parameter (+8 GB), plus gradients (+4 GB), plus the activations. So a 7B model needs ≈ 7 × 16 = **112 GB** just for weights, gradients and Adam states in fp32, before any activations. That is why precision matters.
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Memory for a 7-billion-parameter model: 112 gigabytes to train in fp32 with Adam, 14 for bf16 inference, 7 for int8 and 3.5 for 4-bit NF4, against 24 and 80 gigabyte GPUs">
+<text class="sC" x="150" y="52" text-anchor="end">train, fp32 + Adam</text>
+<rect class="sB" x="160" y="34" width="117.6" height="26" rx="3"/><text class="sC" x="218.8" y="52" text-anchor="middle">weights 28 GB</text>
+<rect class="sV" x="277.6" y="34" width="117.6" height="26" rx="3"/><text class="sC" x="336.4" y="52" text-anchor="middle">gradients 28 GB</text>
+<rect class="sW" x="395.2" y="34" width="235.2" height="26" rx="3"/><text class="sC" x="512.8" y="52" text-anchor="middle">Adam m, v 56 GB</text>
+<text class="sT" x="636.4" y="52">112 GB</text>
+<text class="sC" x="150" y="92" text-anchor="end">inference, bf16</text>
+<rect class="sB" x="160" y="74" width="58.8" height="26" rx="3"/>
+<text class="sT" x="224.8" y="92">14 GB</text>
+<text class="sC" x="150" y="132" text-anchor="end">inference, int8</text>
+<rect class="sB" x="160" y="114" width="29.4" height="26" rx="3"/>
+<text class="sT" x="195.4" y="132">7 GB</text>
+<text class="sC" x="150" y="172" text-anchor="end">inference, NF4</text>
+<rect class="sG" x="160" y="154" width="14.7" height="26" rx="3"/>
+<text class="sT" x="180.7" y="172">3.5 GB</text>
+<line class="sLr" x1="260.8" y1="26" x2="260.8" y2="196" stroke-dasharray="5 4"/><text class="sRt" x="264.8" y="206">24 GB gaming GPU</text>
+<line class="sLr" x1="496" y1="26" x2="496" y2="196" stroke-dasharray="5 4"/><text class="sRt" x="500" y="206">80 GB H100</text>
+<text class="sS" x="360" y="232" text-anchor="middle">activations and the KV cache come on top; this is why 7B models are fine-tuned with LoRA/QLoRA, not full fp32 Adam</text>
+</svg><figcaption>Bytes per parameter decide which GPU a model fits on. Computed for 7B parameters, weights and optimiser state only.</figcaption></figure>
+
 ### Number formats
 
 | Format | Bits (sign/exp/fraction) | Range | Use |
@@ -408,6 +565,91 @@ Plus: **reuse a pretrained network** if one exists; unsupervised pretraining if 
 | int8 | integers | −128…127 | Quantised inference |
 | int4 / NF4 | 4 bits (2 per byte) | 16 levels | LLM inference, QLoRA |
 | Ternary | {−1, 0, +1}, 5 per byte (3⁵ = 243 < 256), ~1.6 bits | — | Research (BitNet-style models) |
+
+<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Bit layouts of fp32, fp16, bf16 and fp8: bf16 keeps the 8 exponent bits of fp32 with only 7 fraction bits, while fp16 has 5 exponent bits and 10 fraction bits; the value 123.045 rounds to 123 in bf16 and 123.0625 in fp16">
+<text class="sRt" x="14" y="20">sign</text><text class="sWt" x="60" y="20">exponent: range</text><text class="sGt" x="190" y="20">fraction: precision</text>
+<text class="sT" x="14" y="52">fp32</text>
+<rect class="sR" x="98" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="111" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="124" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="137" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="150" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="163" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="176" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="189" y="34" width="13" height="26" rx="2"/>
+<rect class="sW" x="202" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="215" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="228" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="241" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="254" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="267" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="280" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="293" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="306" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="319" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="332" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="345" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="358" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="371" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="384" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="397" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="410" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="423" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="436" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="449" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="462" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="475" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="488" y="34" width="13" height="26" rx="2"/>
+<rect class="sG" x="501" y="34" width="13" height="26" rx="2"/>
+<text class="sC" x="522" y="46">max 3.4e+38</text><text class="sS" x="522" y="60">123.045 → 123.045</text>
+<text class="sT" x="14" y="96">fp16</text>
+<rect class="sR" x="98" y="78" width="13" height="26" rx="2"/>
+<rect class="sW" x="111" y="78" width="13" height="26" rx="2"/>
+<rect class="sW" x="124" y="78" width="13" height="26" rx="2"/>
+<rect class="sW" x="137" y="78" width="13" height="26" rx="2"/>
+<rect class="sW" x="150" y="78" width="13" height="26" rx="2"/>
+<rect class="sW" x="163" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="176" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="189" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="202" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="215" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="228" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="241" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="254" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="267" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="280" y="78" width="13" height="26" rx="2"/>
+<rect class="sG" x="293" y="78" width="13" height="26" rx="2"/>
+<text class="sC" x="314" y="90">max 65,504</text><text class="sS" x="314" y="104">123.045 → 123.0625</text>
+<text class="sT" x="14" y="140">bf16</text>
+<rect class="sR" x="98" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="111" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="124" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="137" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="150" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="163" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="176" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="189" y="122" width="13" height="26" rx="2"/>
+<rect class="sW" x="202" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="215" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="228" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="241" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="254" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="267" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="280" y="122" width="13" height="26" rx="2"/>
+<rect class="sG" x="293" y="122" width="13" height="26" rx="2"/>
+<text class="sC" x="314" y="134">max 3.4e+38</text><text class="sS" x="314" y="148">123.045 → 123</text>
+<text class="sT" x="14" y="184">fp8 E4M3</text>
+<rect class="sR" x="98" y="166" width="13" height="26" rx="2"/>
+<rect class="sW" x="111" y="166" width="13" height="26" rx="2"/>
+<rect class="sW" x="124" y="166" width="13" height="26" rx="2"/>
+<rect class="sW" x="137" y="166" width="13" height="26" rx="2"/>
+<rect class="sW" x="150" y="166" width="13" height="26" rx="2"/>
+<rect class="sG" x="163" y="166" width="13" height="26" rx="2"/>
+<rect class="sG" x="176" y="166" width="13" height="26" rx="2"/>
+<rect class="sG" x="189" y="166" width="13" height="26" rx="2"/>
+<text class="sC" x="210" y="178">max 448</text><text class="sS" x="210" y="192">123.045 → 120</text>
+<text class="sS" x="360" y="222" text-anchor="middle">bf16 keeps fp32's 8 exponent bits (same range, no loss scaling) and pays with precision; fp16 does the opposite</text>
+</svg><figcaption>Floating-point formats drawn to scale, one box per bit. Exponent bits buy range, fraction bits buy precision. Computed.</figcaption></figure>
 
 **fp16 vs bf16 trade-off:** fp16 **underflows** tiny gradients (< 6e-8 → 0) and **overflows** above 65,504 (→ inf → NaN). bf16 has fp32's range, but only 7 fraction bits, so tiny updates to large weights vanish: 123 + 0.045 → 123 in bf16, but 123.0625 in fp16.
 
@@ -459,6 +701,46 @@ model = AutoModelForCausalLM.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0
                                              device_map="auto", quantization_config=bnb)
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Sixteen 4-bit levels placed uniformly across the weight range versus at quantiles of a normal distribution, which crowds levels near zero where most weights lie">
+<polyline class="sLv" points="120.0,108.0 124.8,107.7 129.5,107.5 134.2,107.2 139.0,106.9 143.8,106.5 148.5,106.1 153.2,105.7 158.0,105.3 162.8,104.8 167.5,104.3 172.2,103.7 177.0,103.1 181.8,102.5 186.5,101.8 191.2,101.1 196.0,100.3 200.8,99.5 205.5,98.6 210.2,97.7 215.0,96.7 219.8,95.7 224.5,94.6 229.2,93.5 234.0,92.3 238.8,91.1 243.5,89.8 248.2,88.5 253.0,87.1 257.8,85.7 262.5,84.3 267.2,82.8 272.0,81.3 276.8,79.8 281.5,78.3 286.2,76.7 291.0,75.2 295.8,73.6 300.5,72.0 305.2,70.4 310.0,68.9 314.8,67.4 319.5,65.9 324.2,64.4 329.0,62.9 333.8,61.6 338.5,60.2 343.2,58.9 348.0,57.7 352.8,56.6 357.5,55.5 362.2,54.5 367.0,53.6 371.8,52.8 376.5,52.1 381.2,51.5 386.0,51.1 390.8,50.7 395.5,50.4 400.2,50.2 405.0,50.2 409.8,50.2 414.5,50.4 419.2,50.7 424.0,51.1 428.8,51.5 433.5,52.1 438.2,52.8 443.0,53.6 447.8,54.5 452.5,55.5 457.2,56.6 462.0,57.7 466.8,58.9 471.5,60.2 476.2,61.6 481.0,62.9 485.8,64.4 490.5,65.9 495.2,67.4 500.0,68.9 504.8,70.4 509.5,72.0 514.2,73.6 519.0,75.2 523.8,76.7 528.5,78.3 533.2,79.8 538.0,81.3 542.8,82.8 547.5,84.3 552.2,85.7 557.0,87.1 561.8,88.5 566.5,89.8 571.2,91.1 576.0,92.3 580.8,93.5 585.5,94.6 590.2,95.7 595.0,96.7 599.8,97.7 604.5,98.6 609.2,99.5 614.0,100.3 618.8,101.1 623.5,101.8 628.2,102.5 633.0,103.1 637.8,103.7 642.5,104.3 647.2,104.8 652.0,105.3 656.8,105.7 661.5,106.1 666.2,106.5 671.0,106.9 675.8,107.2 680.5,107.5 685.2,107.7 690.0,108.0"/><text class="sC" x="405" y="40" text-anchor="middle">weights ~ normal: most near zero</text>
+<line class="sLm" x1="120" y1="110" x2="690" y2="110"/>
+<text class="sM" x="14" y="146">uniform int4</text><text class="sM" x="14" y="196">NF4-style</text>
+<line class="sLw" x1="120" y1="132" x2="120" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="158" y1="132" x2="158" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="196" y1="132" x2="196" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="234" y1="132" x2="234" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="272" y1="132" x2="272" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="310" y1="132" x2="310" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="348" y1="132" x2="348" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="386" y1="132" x2="386" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="424" y1="132" x2="424" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="462" y1="132" x2="462" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="500" y1="132" x2="500" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="538" y1="132" x2="538" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="576" y1="132" x2="576" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="614" y1="132" x2="614" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="652" y1="132" x2="652" y2="158" style="stroke-width:2.2"/>
+<line class="sLw" x1="690" y1="132" x2="690" y2="158" style="stroke-width:2.2"/>
+<line class="sLg" x1="120" y1="182" x2="120" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="204.294" y1="182" x2="204.294" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="251.373" y1="182" x2="251.373" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="286.962" y1="182" x2="286.962" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="316.981" y1="182" x2="316.981" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="343.875" y1="182" x2="343.875" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="368.959" y1="182" x2="368.959" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="393.086" y1="182" x2="393.086" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="416.914" y1="182" x2="416.914" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="441.041" y1="182" x2="441.041" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="466.125" y1="182" x2="466.125" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="493.019" y1="182" x2="493.019" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="523.038" y1="182" x2="523.038" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="558.627" y1="182" x2="558.627" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="605.706" y1="182" x2="605.706" y2="208" style="stroke-width:2.2"/>
+<line class="sLg" x1="690" y1="182" x2="690" y2="208" style="stroke-width:2.2"/>
+<text class="sS" x="14" y="162">equal spacing</text><text class="sS" x="14" y="212">dense near 0</text>
+<text class="sS" x="360" y="232" text-anchor="middle">16 levels either way; NF4 spends them where the weights actually are</text>
+</svg><figcaption>Why NF4 beats plain int4 for LLM weights: same 4 bits, levels placed at normal quantiles. Computed.</figcaption></figure>
+
 **QLoRA** (Dettmers et al., 2023) = NF4 frozen base model + **LoRA** adapters trained in 16-bit + activation checkpointing + **paged optimisers** (CPU↔GPU paging for memory spikes) + **double quantisation**. It fine-tuned a **65B model on a single 48 GB GPU**, and it is how most individuals and small teams fine-tune LLMs today.
 
 **Other compression tools** (Géron's list):
@@ -494,6 +776,28 @@ Take f(x, y) = x²y + y + 2, with ∂f/∂x = 2xy and ∂f/∂y = x² + 1. At (3
 **Dual numbers:** h(a + bε) = h(a) + b·h′(a)·ε, so a single evaluation gives the value *and* the derivative.
 
 **Reverse mode, step by step:** ∂f/∂n₇ = 1 at the output. Each node multiplies the incoming gradient by its local derivative (∂f/∂nᵢ = ∂f/∂nⱼ · ∂nⱼ/∂nᵢ) and passes it down, summing over paths. PyTorch builds the graph **dynamically** during the forward pass (each tensor's `grad_fn`), which is why loops and `if` statements just work.
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 244" role="img" aria-label="Reverse-mode autodiff on f equals x squared y plus y plus 2 at x 3, y 4: the forward pass computes 42, the backward pass gives df/dx 24 and df/dy 10">
+<line class="sLm" x1="90" y1="60" x2="176" y2="60" marker-end="url(#ahm)"/>
+<line class="sLm" x1="240" y1="60" x2="326" y2="110" marker-end="url(#ahm)"/>
+<line class="sLm" x1="90" y1="180" x2="326" y2="110" marker-end="url(#ahm)"/>
+<line class="sLm" x1="390" y1="110" x2="476" y2="140" marker-end="url(#ahm)"/>
+<line class="sLm" x1="90" y1="180" x2="476" y2="140" marker-end="url(#ahm)"/>
+<line class="sLm" x1="540" y1="140" x2="616" y2="140" marker-end="url(#ahm)"/>
+<circle class="sB" cx="60" cy="60" r="30"/><text class="sT" x="60" y="65" text-anchor="middle">x</text>
+<circle class="sB" cx="60" cy="180" r="30"/><text class="sT" x="60" y="185" text-anchor="middle">y</text>
+<circle class="sV" cx="210" cy="60" r="30"/><text class="sT" x="210" y="65" text-anchor="middle">x²</text>
+<circle class="sV" cx="360" cy="110" r="30"/><text class="sT" x="360" y="115" text-anchor="middle">×</text>
+<circle class="sV" cx="510" cy="140" r="30"/><text class="sT" x="510" y="145" text-anchor="middle">+</text>
+<circle class="sA" cx="650" cy="140" r="30"/><text class="sT" x="650" y="145" text-anchor="middle">f</text>
+<g data-s="1-1"><text class="sGt" x="60" y="22" text-anchor="middle">= 3</text><text class="sGt" x="60" y="142" text-anchor="middle">= 4</text><text class="sGt" x="210" y="22" text-anchor="middle">= 9</text><text class="sGt" x="360" y="72" text-anchor="middle">= 36</text><text class="sGt" x="510" y="102" text-anchor="middle">= 40</text><text class="sGt" x="650" y="102" text-anchor="middle">= 42</text><text class="sT" x="360" y="232" text-anchor="middle">forward pass at (3, 4): compute and store every node's value</text></g>
+<g data-s="2-2"><text class="sRt" x="360" y="158" text-anchor="middle">∂f = 1</text><text class="sRt" x="510" y="188" text-anchor="middle">∂f = 1</text><text class="sRt" x="650" y="188" text-anchor="middle">∂f = 1</text><text class="sT" x="360" y="232" text-anchor="middle">backward: start at ∂f/∂f = 1; through + the gradient passes unchanged</text></g>
+<g data-s="3-3"><text class="sRt" x="60" y="108" text-anchor="middle">∂f = 24 (= 2x · 4)</text><text class="sRt" x="60" y="228" text-anchor="middle">∂f = 10 (= x² + 1)</text><text class="sRt" x="210" y="108" text-anchor="middle">∂f = 4 (= y)</text><text class="sRt" x="360" y="158" text-anchor="middle">∂f = 1</text><text class="sRt" x="510" y="188" text-anchor="middle">∂f = 1</text><text class="sRt" x="650" y="188" text-anchor="middle">∂f = 1</text><text class="sT" x="360" y="232" text-anchor="middle">through × multiply by the other input; y collects gradient from two paths (sum)</text></g>
+</svg><ol class="dia-steps">
+<li>Forward: evaluate the graph node by node and keep every intermediate value. f(3, 4) = 42.</li>
+<li>Backward: the output's gradient is 1. An addition node passes the incoming gradient to each input unchanged.</li>
+<li>A multiplication node multiplies the incoming gradient by the <b>other</b> input's stored value. y feeds two nodes, so its gradients add: 9 + 1 = 10. And x gets 4 × 2x = 24. One backward pass, every partial derivative.</li>
+</ol><figcaption>This is what loss.backward() does, for millions of parameters, in one pass.</figcaption></figure>
 
 **Exercise that makes this click:** build a tiny autodiff engine (a `Value` class with `+`, `*`, `tanh` and a `backward()` doing a topological sort). Andrej Karpathy's **micrograd** video walks through exactly this in about 2 hours. It is one of the best learning investments in the field.
 

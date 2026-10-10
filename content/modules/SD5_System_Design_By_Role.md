@@ -22,6 +22,24 @@ Every track now gets a system-design round, but it looks different in each. A fr
 
 The backend version, with four worked designs, is [[B12]]. The sections below adapt it.
 
+<figure class="dia"><svg viewBox="0 0 720 122" role="img" aria-label="Time budget for a 45-minute system design round across the seven framework steps">
+<rect class="sA" x="20" y="34" width="103.778" height="40" rx="4"/><text class="sT" x="72.8889" y="59" text-anchor="middle">7′</text>
+<text class="sS" x="72.8889" y="94" text-anchor="middle">Requirements</text>
+<rect class="sB" x="125.778" y="34" width="58.4444" height="40" rx="4"/><text class="sT" x="156" y="59" text-anchor="middle">4′</text>
+<text class="sS" x="156" y="112" text-anchor="middle">Estimates</text>
+<rect class="sB" x="186.222" y="34" width="58.4444" height="40" rx="4"/><text class="sT" x="216.444" y="59" text-anchor="middle">4′</text>
+<text class="sS" x="216.444" y="94" text-anchor="middle">Interfaces</text>
+<rect class="sB" x="246.667" y="34" width="73.5556" height="40" rx="4"/><text class="sT" x="284.444" y="59" text-anchor="middle">5′</text>
+<text class="sS" x="284.444" y="112" text-anchor="middle">Data</text>
+<rect class="sG" x="322.222" y="34" width="149.111" height="40" rx="4"/><text class="sT" x="397.778" y="59" text-anchor="middle">10′</text>
+<text class="sS" x="397.778" y="94" text-anchor="middle">High-level design</text>
+<rect class="sW" x="473.333" y="34" width="194.444" height="40" rx="4"/><text class="sT" x="571.556" y="59" text-anchor="middle">13′</text>
+<text class="sS" x="571.556" y="112" text-anchor="middle">Deep dives</text>
+<rect class="sV" x="669.778" y="34" width="28.2222" height="40" rx="4"/><text class="sT" x="684.889" y="59" text-anchor="middle">2′</text>
+<text class="sS" x="684.889" y="94" text-anchor="middle">Wrap-up</text>
+<text class="sT" x="20" y="22">A 45-minute round</text>
+</svg><figcaption>Where the minutes go. Most of the score is earned in the high-level design and the deep dives, but only if the requirements made them the right ones.</figcaption></figure>
+
 > [!say]
 > "I'll start with requirements and rough scale, because they decide the design. Then the interface and data, a simple high-level design, and we'll go deep on whichever part is hardest. I'll call out trade-offs and failure modes as I go."
 
@@ -45,6 +63,31 @@ Frontend rounds design the **client**: how it is structured, how it gets and cac
 - **Requirements:** suggestions as the user types, in Arabic and English, within ~150 ms of a pause; keyboard and screen-reader accessible; works on slow connections.
 - **Interface:** `GET /suggest?q=lap&lang=ar&limit=8` → `[{id, label, type, url}]`.
 - **Client design:** **debounce** keystrokes (~200–300 ms); **cancel** in-flight requests when the query changes (`AbortController`) so an old slow response can't overwrite a newer one; cache results per query in memory (an LRU of the last ~50 queries); show cached results instantly for a prefix the user already typed.
+
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Timeline: without debounce six requests race and a slow old one overwrites the newest; with debounce and cancellation one request is sent after typing pauses">
+<text class="sC" x="20" y="22">keystrokes</text>
+<rect class="sB" x="106" y="28" width="50" height="20" rx="4"/><text class="sM" x="131" y="42" text-anchor="middle">l</text>
+<rect class="sB" x="155.714" y="28" width="50" height="20" rx="4"/><text class="sM" x="180.714" y="42" text-anchor="middle">la</text>
+<rect class="sB" x="205.429" y="28" width="50" height="20" rx="4"/><text class="sM" x="230.429" y="42" text-anchor="middle">lap</text>
+<rect class="sB" x="255.143" y="28" width="50" height="20" rx="4"/><text class="sM" x="280.143" y="42" text-anchor="middle">lapt</text>
+<rect class="sB" x="304.857" y="28" width="50" height="20" rx="4"/><text class="sM" x="329.857" y="42" text-anchor="middle">lapto</text>
+<rect class="sB" x="354.571" y="28" width="50" height="20" rx="4"/><text class="sM" x="379.571" y="42" text-anchor="middle">laptop</text>
+<text class="sT" x="20" y="82">no debounce</text><text class="sRt" x="20" y="98">6 requests</text>
+<line class="sLm" x1="110.0" y1="64" x2="234.3" y2="64" marker-end="url(#ahm)"/>
+<line class="sLm" x1="159.7" y1="74" x2="267.4" y2="74" marker-end="url(#ahm)"/>
+<line class="sLr" x1="209.4" y1="84" x2="582.3" y2="84" marker-end="url(#ahr)"/>
+<line class="sLm" x1="259.1" y1="94" x2="375.1" y2="94" marker-end="url(#ahm)"/>
+<line class="sLm" x1="308.9" y1="104" x2="408.3" y2="104" marker-end="url(#ahm)"/>
+<line class="sLm" x1="358.6" y1="114" x2="449.7" y2="114" marker-end="url(#ahm)"/>
+<text class="sRt" x="588.286" y="88">"lap" answers last and</text><text class="sRt" x="588.286" y="104">overwrites "laptop"</text>
+<text class="sT" x="20" y="160">debounce 250 ms</text><text class="sT" x="20" y="176">+ AbortController</text>
+<line class="sLg" x1="462.1" y1="166" x2="553.3" y2="166" marker-end="url(#ahg)"/><text class="sGt" x="553.286" y="156" text-anchor="end">one request for "laptop", after the pause</text>
+<rect class="sV" x="404.571" y="160" width="57.5714" height="12" rx="3" opacity=".6"/><text class="sC" x="433.357" y="196" text-anchor="middle">quiet period</text>
+<text class="sC" x="110" y="222" text-anchor="middle">0 ms</text>
+<text class="sC" x="317.143" y="222" text-anchor="middle">500 ms</text>
+<text class="sC" x="524.286" y="222" text-anchor="middle">1000 ms</text>
+</svg><figcaption>Debounce sends fewer requests; cancellation makes sure only the newest answer can ever be shown.</figcaption></figure>
+
 - **Server side (the part to mention, not design fully):** a prefix index (search engine or an in-memory trie of popular queries), results cached at the CDN for very common prefixes.
 - **Accessibility:** the ARIA combobox pattern, arrow keys and Enter, `aria-activedescendant`, announcing the number of results ([[F1]]).
 - **Arabic specifics:** normalise alef and hamza variants and taa marbuta, ignore diacritics, handle right-to-left layout and mixed-direction text.
@@ -69,6 +112,19 @@ source systems (POS, app, CRM, ERP)
    → semantic layer (shared metric definitions: "net revenue", "active customer")
    → BI tool (Power BI, Tableau, Looker) → dashboards, alerts, exports
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 134" role="img" aria-label="Analytics stack from source systems through ingestion, warehouse layers and a semantic layer to the BI tool">
+<rect class="sB" x="10" y="40" width="126" height="52" rx="8"/><text class="sT" x="73" y="64" text-anchor="middle">sources</text><text class="sC" x="73" y="80" text-anchor="middle">POS · app · CRM</text>
+<line class="sLm" x1="136" y1="66" x2="150" y2="66" marker-end="url(#ahm)"/>
+<rect class="sB" x="152" y="40" width="126" height="52" rx="8"/><text class="sT" x="215" y="64" text-anchor="middle">ingestion</text><text class="sC" x="215" y="80" text-anchor="middle">batch · CDC</text>
+<line class="sLm" x1="278" y1="66" x2="292" y2="66" marker-end="url(#ahm)"/>
+<rect class="sA" x="294" y="40" width="126" height="52" rx="8"/><text class="sT" x="357" y="64" text-anchor="middle">warehouse</text><text class="sC" x="357" y="80" text-anchor="middle">raw → clean → star</text>
+<line class="sLm" x1="420" y1="66" x2="434" y2="66" marker-end="url(#ahm)"/>
+<rect class="sG" x="436" y="40" width="126" height="52" rx="8"/><text class="sT" x="499" y="64" text-anchor="middle">semantic layer</text><text class="sC" x="499" y="80" text-anchor="middle">one "net revenue"</text>
+<line class="sLm" x1="562" y1="66" x2="576" y2="66" marker-end="url(#ahm)"/>
+<rect class="sV" x="578" y="40" width="126" height="52" rx="8"/><text class="sT" x="641" y="64" text-anchor="middle">BI tool</text><text class="sC" x="641" y="80" text-anchor="middle">dashboards</text>
+<text class="sS" x="360" y="122" text-anchor="middle">freshness is set by the slowest step; correctness by the semantic layer; speed by the model and the BI storage mode</text>
+</svg><figcaption>The path data takes to a dashboard. "Why is this number wrong or late?" is answered by walking it from right to left.</figcaption></figure>
 
 **Decisions an analyst should be able to defend:**
 
@@ -113,6 +169,22 @@ Data-engineering rounds ask you to design a pipeline: from where to where, how o
 **Worked: a ride-hailing trips pipeline for Cairo.** Trip events stream from the apps (requested, accepted, started, ended, paid) at a few thousand per second at peak. Operations wants live supply-and-demand by district every minute; finance wants exact daily revenue by morning.
 
 - **Two consumers, two latencies, one source of truth:** events go to a **log** (Kafka or Event Hubs). A **streaming job** computes per-district counts in one-minute windows with a watermark for late events, into a low-latency store behind the ops dashboard. The same events land in **bronze** files; a nightly batch builds the **gold** `fact_trip` and revenue tables with exact, deduplicated, reconciled numbers.
+
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: trip events flow into a log; a fast streaming path feeds a live operations map every minute while a slow batch path builds exact finance tables overnight">
+<rect class="sB" x="10" y="92" width="100" height="50" rx="8"/><text class="sT" x="60" y="115" text-anchor="middle">rider &amp; driver</text><text class="sC" x="60" y="131" text-anchor="middle">apps</text>
+<rect class="sW" x="150" y="92" width="100" height="50" rx="8"/><text class="sT" x="200" y="115" text-anchor="middle">event log</text><text class="sC" x="200" y="131" text-anchor="middle">Kafka</text>
+<rect class="sA" x="300" y="30" width="140" height="50" rx="8"/><text class="sT" x="370" y="53" text-anchor="middle">streaming job</text><text class="sC" x="370" y="69" text-anchor="middle">1-min windows</text><rect class="sA" x="490" y="30" width="120" height="50" rx="8"/><text class="sT" x="550" y="60" text-anchor="middle">live store</text><rect class="sG" x="640" y="30" width="76" height="50" rx="8"/><text class="sT" x="678" y="53" text-anchor="middle">ops</text><text class="sC" x="678" y="69" text-anchor="middle">map</text>
+<rect class="sB" x="300" y="154" width="140" height="50" rx="8"/><text class="sT" x="370" y="177" text-anchor="middle">bronze files</text><text class="sC" x="370" y="193" text-anchor="middle">every raw event</text><rect class="sV" x="490" y="154" width="120" height="50" rx="8"/><text class="sT" x="550" y="177" text-anchor="middle">nightly batch</text><text class="sC" x="550" y="193" text-anchor="middle">dedupe · reconcile</text><rect class="sG" x="640" y="154" width="76" height="50" rx="8"/><text class="sT" x="678" y="177" text-anchor="middle">finance</text><text class="sC" x="678" y="193" text-anchor="middle">gold</text>
+<line class="sL" x1="110" y1="117" x2="146" y2="117" marker-end="url(#ah)"/>
+<line class="sL" x1="250" y1="108" x2="296" y2="60" marker-end="url(#ah)"/><line class="sL" x1="440" y1="55" x2="486" y2="55" marker-end="url(#ah)"/><line class="sL" x1="610" y1="55" x2="636" y2="55" marker-end="url(#ah)"/>
+<line class="sL" x1="250" y1="126" x2="296" y2="176" marker-end="url(#ah)"/><line class="sL" x1="440" y1="179" x2="486" y2="179" marker-end="url(#ah)"/><line class="sL" x1="610" y1="179" x2="636" y2="179" marker-end="url(#ah)"/>
+<circle class="sP" r="5"><animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M110 117 H200 L300 55 H678"/></circle>
+<circle class="sP" r="5"><animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M110 117 H200 L300 55 H678"/></circle>
+<circle class="sP" r="5"><animateMotion dur="3s" begin="2s" repeatCount="indefinite" path="M110 117 H200 L300 55 H678"/></circle>
+<circle class="sPv" r="5"><animateMotion dur="9s" repeatCount="indefinite" path="M110 117 H200 L300 179 H678"/></circle>
+<text class="sC" x="370" y="104" text-anchor="middle">seconds: approximate, live</text><text class="sC" x="370" y="132" text-anchor="middle">next morning: exact</text>
+</svg><figcaption>One source of truth, two latencies. The streaming path is fast and approximate; the batch path is slow and exact, and finance only trusts the second.</figcaption></figure>
+
 - **Deduplication:** each event carries a unique ID; the batch layer deduplicates on it; finance reconciles against the payment provider's settlement file.
 - **Failure handling:** a dead-letter topic for malformed events, alerting on lag and on a sudden drop in event volume (often an app release bug, not a quiet day).
 
@@ -129,6 +201,24 @@ The full answer structure is in [[DS9.2]] and production details in [[DS8]]. In 
 
 **Contrast two designs in one breath:** *telecom churn* is batch: score all subscribers weekly, push the top-risk list to the retention team's CRM, measure with a holdout group. *Card fraud* is online: score each transaction in under ~100 ms inside the payment flow, with features from a fast store (recent transaction counts per card), a rules fallback if the model service is down, and human review for borderline scores.
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Batch scoring writes weekly churn scores to a table for the CRM; online scoring calls a model API with fresh features during each payment">
+<text class="sT" x="20" y="24">Batch: churn</text>
+<rect class="sB" x="20" y="34" width="150" height="46" rx="8"/><text class="sT" x="95" y="55" text-anchor="middle">warehouse</text><text class="sC" x="95" y="71" text-anchor="middle">all subscribers</text>
+<line class="sLm" x1="170" y1="57" x2="190" y2="57" marker-end="url(#ahm)"/>
+<rect class="sA" x="192" y="34" width="150" height="46" rx="8"/><text class="sT" x="267" y="55" text-anchor="middle">weekly job</text><text class="sC" x="267" y="71" text-anchor="middle">score everyone</text>
+<line class="sLm" x1="342" y1="57" x2="362" y2="57" marker-end="url(#ahm)"/>
+<rect class="sG" x="364" y="34" width="150" height="46" rx="8"/><text class="sT" x="439" y="55" text-anchor="middle">scores table</text><text class="sC" x="439" y="71" text-anchor="middle">risk per customer</text>
+<line class="sLm" x1="514" y1="57" x2="534" y2="57" marker-end="url(#ahm)"/>
+<rect class="sV" x="536" y="34" width="150" height="46" rx="8"/><text class="sT" x="611" y="55" text-anchor="middle">CRM</text><text class="sC" x="611" y="71" text-anchor="middle">retention calls</text>
+<text class="sT" x="20" y="122">Online: card fraud</text>
+<rect class="sB" x="20" y="132" width="150" height="46" rx="8"/><text class="sT" x="95" y="153" text-anchor="middle">payment</text><text class="sC" x="95" y="169" text-anchor="middle">in flight</text>
+<rect class="sA" x="192" y="132" width="150" height="46" rx="8"/><text class="sT" x="267" y="153" text-anchor="middle">model API</text><text class="sC" x="267" y="169" text-anchor="middle">&lt; 100 ms</text>
+<rect class="sG" x="364" y="132" width="150" height="46" rx="8"/><text class="sT" x="439" y="153" text-anchor="middle">feature store</text><text class="sC" x="439" y="169" text-anchor="middle">recent counts</text>
+<rect class="sV" x="536" y="132" width="150" height="46" rx="8"/><text class="sT" x="611" y="153" text-anchor="middle">decision</text><text class="sC" x="611" y="169" text-anchor="middle">approve · review</text>
+<line class="sLm" x1="170" y1="155" x2="190" y2="155" marker-end="url(#ahm)"/><line class="sLm" x1="340" y1="150" x2="362" y2="150" marker-end="url(#ahm)"/><line class="sLm" x1="362" y1="162" x2="342" y2="162" marker-end="url(#ahm)"/><path class="sLm" d="M265 178 v18 h366 v-18" marker-end="url(#ahm)"/>
+<text class="sC" x="448" y="216" text-anchor="middle">rules fallback if the model is down</text>
+</svg><figcaption>Batch when the decision can wait; online when it can't. The online path needs a feature store, a latency budget and a fallback.</figcaption></figure>
+
 ## SD5.7 AI engineer: LLM and RAG application design 🟡 ⭐
 
 LLM applications add new requirements to every system-design rule: **quality is probabilistic, latency is seconds rather than milliseconds, and cost scales with tokens**. The model background is in [[AI21]]; RAG in [[AI21.7]]; productionisation in [[AI16.6]].
@@ -142,7 +232,7 @@ LLM applications add new requirements to every system-design rule: **quality is 
 
 **A reference architecture:**
 
-<figure class="dia"><svg viewBox="0 0 760 250" role="img" aria-label="LLM application architecture: client, API with guardrails, retrieval over vector index, LLM gateway with routing and caching, providers, evaluation and observability">
+<figure class="dia anim"><svg viewBox="0 0 760 250" role="img" aria-label="Animation: a question goes to the API, retrieves passages from the index, then goes through the gateway to a model and streams back. Components: client, API with guardrails, retrieval over vector index, LLM gateway with routing and caching, providers, evaluation and observability">
 <rect class="sB" x="10" y="100" width="80" height="44" rx="8"/><text class="sT" x="50" y="126" text-anchor="middle">Client</text>
 <rect class="sA" x="120" y="88" width="120" height="68" rx="8"/><text class="sT" x="180" y="112" text-anchor="middle">App API</text><text class="sS" x="180" y="128" text-anchor="middle">auth · guardrails</text><text class="sS" x="180" y="142" text-anchor="middle">prompt versions</text>
 <rect class="sG" x="280" y="20" width="130" height="50" rx="8"/><text class="sT" x="345" y="42" text-anchor="middle">Retrieval</text><text class="sS" x="345" y="58" text-anchor="middle">hybrid search + rerank</text>
@@ -155,6 +245,7 @@ LLM applications add new requirements to every system-design rule: **quality is 
 <rect class="sW" x="610" y="20" width="140" height="50" rx="8"/><text class="sT" x="680" y="42" text-anchor="middle">Ingestion</text><text class="sS" x="680" y="58" text-anchor="middle">parse · chunk · embed</text>
 <line class="sL" x1="90" y1="122" x2="120" y2="122"/><line class="sL" x1="240" y1="110" x2="280" y2="50"/><line class="sL" x1="410" y1="45" x2="450" y2="45"/><line class="sL" x1="240" y1="125" x2="280" y2="128"/>
 <line class="sL" x1="410" y1="120" x2="450" y2="109"/><line class="sL" x1="410" y1="136" x2="450" y2="149"/><line class="sD" x1="240" y1="145" x2="280" y2="205"/><line class="sD" x1="610" y1="45" x2="570" y2="45"/><line class="sD" x1="570" y1="128" x2="610" y2="128"/>
+<circle class="sP" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M90 122 H180 L280 50 H450 H280 L180 122 L280 128 L450 109 L280 128 L180 122 H90"/></circle>
 </svg><figcaption>Retrieval grounds the answer in your documents; the gateway controls which model is used, caches, enforces budgets and logs every call for evaluation and cost tracking.</figcaption></figure>
 
 **Deep dives an interviewer will push on:**
@@ -204,6 +295,27 @@ Network rounds ask you to design for **availability and performance at the infra
 - **Requirements:** clinical systems (the HIS, lab and radiology results, the pharmacy) must stay up 24/7; patient Wi-Fi must never reach clinical systems; medical devices often run old operating systems that can't be patched.
 - **Segmentation:** separate VLANs and firewall zones for clinical workstations, servers, medical devices, staff Wi-Fi, guest Wi-Fi and management; deny by default between zones, allow only named flows (device → PACS on its port) ([[N7]]).
 - **Redundancy:** dual core switches, dual uplinks from every closet, HSRP/VRRP gateways, a firewall pair, two ISPs, UPS on every closet switch; the server room's critical systems replicated to a second room or site.
+
+<figure class="dia"><svg viewBox="0 0 720 284" role="img" aria-label="Redundant hospital network: two ISPs, a firewall pair, two core switches with a shared virtual gateway, and every closet switch dual-homed to both cores">
+<rect class="sB" x="150" y="10" width="120" height="34" rx="8"/><text class="sT" x="210" y="32" text-anchor="middle">ISP 1</text><rect class="sB" x="450" y="10" width="120" height="34" rx="8"/><text class="sT" x="510" y="32" text-anchor="middle">ISP 2</text>
+<rect class="sR" x="210" y="66" width="130" height="38" rx="8"/><text class="sT" x="275" y="83" text-anchor="middle">firewall A</text><text class="sC" x="275" y="99" text-anchor="middle">active</text><rect class="sR" x="380" y="66" width="130" height="38" rx="8"/><text class="sT" x="445" y="83" text-anchor="middle">firewall B</text><text class="sC" x="445" y="99" text-anchor="middle">standby</text>
+<line class="sD" x1="340" y1="85" x2="380" y2="85"/><text class="sC" x="360" y="120" text-anchor="middle">state sync</text>
+<line class="sLm" x1="210" y1="44" x2="250" y2="64"/><line class="sLm" x1="510" y1="44" x2="470" y2="64"/><line class="sLm" x1="270" y1="44" x2="430" y2="64" opacity=".4"/><line class="sLm" x1="450" y1="44" x2="290" y2="64" opacity=".4"/>
+<rect class="sA" x="210" y="132" width="130" height="38" rx="8"/><text class="sT" x="275" y="149" text-anchor="middle">core switch 1</text><text class="sC" x="275" y="165" text-anchor="middle">VRRP gateway</text><rect class="sA" x="380" y="132" width="130" height="38" rx="8"/><text class="sT" x="445" y="149" text-anchor="middle">core switch 2</text><text class="sC" x="445" y="165" text-anchor="middle">VRRP gateway</text>
+<line class="sLm" x1="275" y1="104" x2="275" y2="130"/><line class="sLm" x1="445" y1="104" x2="445" y2="130"/><line class="sLm" x1="275" y1="104" x2="445" y2="130" opacity=".4"/><line class="sLm" x1="445" y1="104" x2="275" y2="130" opacity=".4"/>
+<line class="sLm" x1="340" y1="151" x2="380" y2="151" style="stroke-width:3"/>
+<rect class="sB" x="40" y="202" width="130" height="36" rx="8"/><text class="sT" x="105" y="218" text-anchor="middle">ward A closet</text><text class="sC" x="105" y="234" text-anchor="middle">access switch</text>
+<line class="sLg" x1="90" y1="202" x2="275" y2="170"/><line class="sLg" x1="120" y1="202" x2="445" y2="170"/>
+<rect class="sB" x="200" y="202" width="130" height="36" rx="8"/><text class="sT" x="265" y="218" text-anchor="middle">ward B closet</text><text class="sC" x="265" y="234" text-anchor="middle">access switch</text>
+<line class="sLg" x1="250" y1="202" x2="275" y2="170"/><line class="sLg" x1="280" y1="202" x2="445" y2="170"/>
+<rect class="sB" x="360" y="202" width="130" height="36" rx="8"/><text class="sT" x="425" y="218" text-anchor="middle">radiology closet</text><text class="sC" x="425" y="234" text-anchor="middle">access switch</text>
+<line class="sLg" x1="410" y1="202" x2="275" y2="170"/><line class="sLg" x1="440" y1="202" x2="445" y2="170"/>
+<rect class="sB" x="520" y="202" width="130" height="36" rx="8"/><text class="sT" x="585" y="218" text-anchor="middle">admin closet</text><text class="sC" x="585" y="234" text-anchor="middle">access switch</text>
+<line class="sLg" x1="570" y1="202" x2="275" y2="170"/><line class="sLg" x1="600" y1="202" x2="445" y2="170"/>
+<text class="sC" x="360" y="258" text-anchor="middle">VLANs: clinical · servers · devices · staff Wi-Fi · guest Wi-Fi · management</text>
+<text class="sC" x="360" y="274" text-anchor="middle">deny by default between them</text>
+</svg><figcaption>No single box or cable takes the hospital offline: two ISPs, a firewall pair, two cores sharing a virtual gateway, and two uplinks from every closet (green).</figcaption></figure>
+
 - **Wi-Fi:** WPA2/WPA3-Enterprise with 802.1X for staff, a captive portal on an isolated guest network, coverage surveys for wards ([[N6]]).
 - **Monitoring and operations:** SNMP and flow monitoring with alerts on link and device health, centralised syslog, configuration backups, and a tested runbook for "core switch down" ([[N8]], [[N13]]).
 

@@ -8,6 +8,25 @@ Your own audit is blunt: FinSight has few tests, and CS Visualizer is the one pr
 > **Most asked:** *How do you test a service that uses the database?* · *Unit vs integration tests?* · *What do you mock?* · *How do you test an API end to end?* · *How do you test code that depends on the current time?* · *What's your testing strategy?*
 > **Time budget:** 3 hours, plus the lab.
 
+## B10.0 Foundations: seams and determinism 🟢
+
+An automated test runs your code with known inputs and checks the result. Two properties decide whether backend code can be tested well at all:
+
+- **Seams.** A seam is a place where a test can substitute what's on the other side: an interface passed to a constructor, an injected `TimeProvider`, a configurable base URL. Code that news up its own `HttpClient`, reads `DateTime.UtcNow` or calls a static SMTP helper has no seams, so its tests must hit the real world.
+- **Determinism.** A test must give the same answer every run. The usual sources of randomness are the **clock**, **random numbers and GUIDs**, the **network** and third-party services, **shared data** left by other tests, **test order**, and **concurrency**. Each one needs a deliberate control: a fake clock, seeded randomness, faked edges, a reset database, independent tests.
+
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="A service under test with four seams: an interface for the forecasting model, the TimeProvider, an email sender and the database context">
+<rect class="sA" x="270" y="86" width="180" height="60" rx="8"/><text class="sT" x="360" y="114" text-anchor="middle">ForecastService</text><text class="sC" x="360" y="130" text-anchor="middle">logic under test</text>
+<rect class="sV" x="20" y="20" width="200" height="50" rx="8"/><text class="sT" x="120" y="43" text-anchor="middle">IForecastModel</text><text class="sC" x="120" y="59" text-anchor="middle">real: TimeGPT · test: fake</text>
+<rect class="sV" x="500" y="20" width="200" height="50" rx="8"/><text class="sT" x="600" y="43" text-anchor="middle">TimeProvider</text><text class="sC" x="600" y="59" text-anchor="middle">test: FakeTimeProvider</text>
+<rect class="sV" x="20" y="164" width="200" height="50" rx="8"/><text class="sT" x="120" y="187" text-anchor="middle">IEmailSender</text><text class="sC" x="120" y="203" text-anchor="middle">real: SMTP · test: spy</text>
+<rect class="sG" x="500" y="164" width="200" height="50" rx="8"/><text class="sT" x="600" y="187" text-anchor="middle">AppDbContext</text><text class="sC" x="600" y="203" text-anchor="middle">real DB in a container</text>
+<line class="sLm" x1="270" y1="100" x2="222" y2="54" marker-end="url(#ahm)"/><line class="sLm" x1="450" y1="100" x2="498" y2="54" marker-end="url(#ahm)"/><line class="sLm" x1="270" y1="132" x2="222" y2="180" marker-end="url(#ahm)"/><line class="sLm" x1="450" y1="132" x2="498" y2="180" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="236" text-anchor="middle">every dependency arrives through the constructor, so a test can choose what sits at the other end</text>
+</svg><figcaption>Seams. Code is testable when everything it can't control (time, other systems, I/O) comes in from outside.</figcaption></figure>
+
+The rest of this module is about choosing which seams to fake (the edges you don't own) and which to keep real (your code and, crucially, the database engine).
+
 ## B10.1 A testing strategy you can explain 🟢 ⭐
 
 | Level | What it covers | Speed | .NET tools |
@@ -60,6 +79,20 @@ public class InvoiceTests
 | `IClassFixture<T>` | Share an expensive object (a test server, a container) across the tests **in one class** |
 | `[Collection]` + `ICollectionFixture<T>` | Share it across **several classes**; tests in one collection don't run in parallel |
 
+<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="xUnit lifecycle: a collection fixture such as a database container is created once for several test classes, a class fixture such as a web application factory once per class, and a new test class instance is constructed and disposed for every single test">
+<rect class="sN" x="14" y="26" width="692" height="186" rx="10" style="fill:none;stroke-dasharray:5 4"/><text class="sM" x="26" y="44">collection "Database": ICollectionFixture&lt;PostgresContainer&gt;, created once for both classes</text>
+<rect class="sB" x="30" y="56" width="320" height="140" rx="8" opacity=".5"/><text class="sT" x="42" y="74">InvoiceTests : IClassFixture&lt;ApiFactory&gt;</text>
+<rect class="sA" x="42" y="84" width="296" height="26" rx="5"/><text class="sC" x="190" y="102" text-anchor="middle">ApiFactory: built once for this class</text>
+<rect class="sN" x="42" y="120" width="296" height="20" rx="4"/><text class="sS" x="52" y="134">new InvoiceTests()</text><text class="sS" x="190" y="134" text-anchor="middle">→</text><text class="sC" x="206" y="134">Fact A</text><text class="sS" x="330" y="134" text-anchor="end">Dispose</text>
+<rect class="sN" x="42" y="144" width="296" height="20" rx="4"/><text class="sS" x="52" y="158">new InvoiceTests()</text><text class="sS" x="190" y="158" text-anchor="middle">→</text><text class="sC" x="206" y="158">Fact B</text><text class="sS" x="330" y="158" text-anchor="end">Dispose</text>
+<rect class="sN" x="42" y="168" width="296" height="20" rx="4"/><text class="sS" x="52" y="182">new InvoiceTests()</text><text class="sS" x="190" y="182" text-anchor="middle">→</text><text class="sC" x="206" y="182">Theory × 3</text><text class="sS" x="330" y="182" text-anchor="end">Dispose</text>
+<rect class="sB" x="370" y="56" width="320" height="140" rx="8" opacity=".5"/><text class="sT" x="382" y="74">PaymentTests : IClassFixture&lt;ApiFactory&gt;</text>
+<rect class="sA" x="382" y="84" width="296" height="26" rx="5"/><text class="sC" x="530" y="102" text-anchor="middle">ApiFactory: built once for this class</text>
+<rect class="sN" x="382" y="120" width="296" height="20" rx="4"/><text class="sS" x="392" y="134">new PaymentTests()</text><text class="sS" x="530" y="134" text-anchor="middle">→</text><text class="sC" x="546" y="134">Fact C</text><text class="sS" x="670" y="134" text-anchor="end">Dispose</text>
+<rect class="sN" x="382" y="144" width="296" height="20" rx="4"/><text class="sS" x="392" y="158">new PaymentTests()</text><text class="sS" x="530" y="158" text-anchor="middle">→</text><text class="sC" x="546" y="158">Fact D</text><text class="sS" x="670" y="158" text-anchor="end">Dispose</text>
+<text class="sS" x="360" y="230" text-anchor="middle">a fresh class instance per test keeps tests independent; fixtures exist for the expensive things you deliberately share</text>
+</svg><figcaption>Three lifetimes in xUnit: per test (constructor), per class (IClassFixture), per collection (ICollectionFixture).</figcaption></figure>
+
 **Naming:** say the behaviour, e.g. `ApplyPayment_rejects_overpayment`, or `Method_Scenario_ExpectedResult`.
 
 **Frameworks and libraries in 2026:** **xUnit** (v3 released in 2025) is the most common in new .NET projects, with **NUnit** and **MSTest** also widely used. For assertions, built-in `Assert` or **Shouldly** are free choices. **FluentAssertions moved to a paid commercial licence with version 8 (January 2025)**, and the community fork **AwesomeAssertions** continues under the original open licence, so check which one a codebase uses.
@@ -90,6 +123,18 @@ await email.Received(1).SendAsync(Arg.Is<Email>(e => e.Subject.Contains("forecas
 ## B10.4 Integration tests with WebApplicationFactory 🟡 ⭐
 
 `WebApplicationFactory<TEntryPoint>` boots your **real** app (its `Program`, middleware, DI, routing, filters, serialisation) in memory and gives you an `HttpClient` to call it. No network or deployment needed.
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="An integration test calls the real application in memory through an HttpClient; the app runs its real pipeline and EF Core against a containerised SQL Server, with only external edges replaced">
+<rect class="sB" x="14" y="90" width="120" height="50" rx="8"/><text class="sT" x="74" y="113" text-anchor="middle">xUnit test</text><text class="sC" x="74" y="129" text-anchor="middle">HttpClient</text><line class="sL" x1="134" y1="115" x2="166" y2="115" marker-end="url(#ah)"/>
+<rect class="sN" x="170" y="20" width="360" height="200" rx="12"/><text class="sC" x="350" y="40" text-anchor="middle">your real app, in memory (TestServer)</text>
+<rect class="sA" x="186" y="52" width="328" height="32" rx="6"/><text class="sC" x="350" y="73" text-anchor="middle">middleware: errors, auth, CORS</text>
+<rect class="sA" x="186" y="92" width="328" height="32" rx="6"/><text class="sC" x="350" y="113" text-anchor="middle">routing · binding · validation</text>
+<rect class="sA" x="186" y="132" width="328" height="32" rx="6"/><text class="sC" x="350" y="153" text-anchor="middle">your services + DI</text>
+<rect class="sG" x="186" y="172" width="328" height="32" rx="6"/><text class="sC" x="350" y="193" text-anchor="middle">EF Core + real migrations</text>
+<line class="sLg" x1="514" y1="196" x2="566" y2="196" marker-end="url(#ahg)"/><rect class="sG" x="570" y="172" width="136" height="48" rx="8"/><text class="sT" x="638" y="194" text-anchor="middle">SQL Server</text><text class="sC" x="638" y="210" text-anchor="middle">Testcontainers</text>
+<rect class="sV" x="570" y="30" width="136" height="120" rx="8"/><text class="sT" x="638" y="50" text-anchor="middle">replaced edges</text><text class="sC" x="638" y="74" text-anchor="middle">fake IForecastModel</text><text class="sC" x="638" y="94" text-anchor="middle">test auth handler</text><text class="sC" x="638" y="114" text-anchor="middle">spy email sender</text><text class="sC" x="638" y="134" text-anchor="middle">FakeTimeProvider</text>
+<line class="sLw" x1="514" y1="110" x2="566" y2="90" marker-end="url(#ahw)"/>
+</svg><figcaption>What an integration test exercises: everything you wrote, end to end, against the real database engine. Only the edges you don't own are swapped.</figcaption></figure>
 
 ```csharp
 public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
@@ -153,9 +198,34 @@ Why not the alternatives: EF's **InMemory** provider isn't relational and lets b
 
 **Keeping tests independent:** reset data between tests. **Respawn** deletes all rows (in foreign-key order) quickly without dropping the schema; alternatives are a transaction rolled back per test, or a fresh database per test class.
 
+<figure class="dia steps"><svg viewBox="0 0 720 160" role="img" aria-label="Integration test lifecycle: start a database container once, apply migrations, run a test, reset data with Respawn, run the next test, then dispose of the container">
+<g data-s="1"><rect class="sB" x="14" y="40" width="126" height="50" rx="8"/><text class="sT" x="77" y="63" text-anchor="middle">start container</text><text class="sC" x="77" y="79" text-anchor="middle">once per class</text><line class="sLm" x1="140" y1="65" x2="152" y2="65" marker-end="url(#ahm)"/></g>
+<g data-s="2"><rect class="sV" x="154" y="40" width="126" height="50" rx="8"/><text class="sT" x="217" y="63" text-anchor="middle">migrate</text><text class="sC" x="217" y="79" text-anchor="middle">real schema</text><line class="sLm" x1="280" y1="65" x2="292" y2="65" marker-end="url(#ahm)"/></g>
+<g data-s="3"><rect class="sA" x="294" y="40" width="126" height="50" rx="8"/><text class="sT" x="357" y="63" text-anchor="middle">test 1</text><text class="sC" x="357" y="79" text-anchor="middle">seeds own data</text><line class="sLm" x1="420" y1="65" x2="432" y2="65" marker-end="url(#ahm)"/></g>
+<g data-s="4"><rect class="sW" x="434" y="40" width="126" height="50" rx="8"/><text class="sT" x="497" y="63" text-anchor="middle">Respawn</text><text class="sC" x="497" y="79" text-anchor="middle">delete all rows</text><line class="sLm" x1="560" y1="65" x2="572" y2="65" marker-end="url(#ahm)"/></g>
+<g data-s="5"><rect class="sA" x="574" y="40" width="126" height="50" rx="8"/><text class="sT" x="637" y="63" text-anchor="middle">test 2</text><text class="sC" x="637" y="79" text-anchor="middle">clean slate</text></g>
+<g data-s="6"><rect class="sR" x="14" y="112" width="692" height="34" rx="8" opacity=".85"/><text class="sC" x="360" y="133" text-anchor="middle">dispose: the container and everything in it disappear</text></g>
+</svg><ol class="dia-steps">
+<li>An <code>IClassFixture</code> starts a SQL Server (or PostgreSQL) container once for the whole test class: a few seconds.</li>
+<li>Apply the real migrations, so the schema is exactly production's.</li>
+<li>Each test seeds only the data it needs, then exercises the API.</li>
+<li>Between tests, Respawn deletes all rows in foreign-key order, which is much faster than recreating the database.</li>
+<li>The next test starts from a clean, known state, so tests can run in any order.</li>
+<li>At the end, the container is thrown away. Nothing is shared with other runs or developers.</li>
+</ol><figcaption>Fast, isolated integration tests against a real database engine.</figcaption></figure>
+
 ## B10.6 Tests that prove security properties 🟡 ⭐
 
 These are the integration tests reviewers love, because they prove the things that matter most:
+
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Tenant isolation test: company A creates an invoice; company B requests it by ID and must receive 404">
+<text class="sT" x="100" y="22" text-anchor="middle">client as company A</text><line class="sD" x1="100" y1="32" x2="100" y2="170"/>
+<text class="sT" x="360" y="22" text-anchor="middle">API + database</text><line class="sD" x1="360" y1="32" x2="360" y2="170"/>
+<text class="sT" x="620" y="22" text-anchor="middle">client as company B</text><line class="sD" x1="620" y1="32" x2="620" y2="170"/>
+<line class="sL" x1="100" y1="50" x2="356" y2="58" marker-end="url(#ah)"/><text class="sC" x="230" y="46" text-anchor="middle">POST invoice</text><line class="sLg" x1="356" y1="70" x2="104" y2="78" marker-end="url(#ahg)"/><text class="sGt" x="230" y="92" text-anchor="middle">201 · id 7</text>
+<line class="sL" x1="620" y1="110" x2="364" y2="118" marker-end="url(#ah)"/><text class="sM" x="490" y="106" text-anchor="middle">GET /invoices/7</text><line class="sLg" x1="364" y1="130" x2="616" y2="138" marker-end="url(#ahg)"/><text class="sGt" x="490" y="152" text-anchor="middle">404: not even revealed</text>
+<text class="sS" x="360" y="196" text-anchor="middle">Assert.Equal(HttpStatusCode.NotFound, res.StatusCode): proves the filter works, on every endpoint, forever</text>
+</svg><figcaption>The test that turns "we use global query filters" into evidence.</figcaption></figure>
 
 ```csharp
 [Fact]
@@ -214,6 +284,14 @@ var invoice = new InvoiceBuilder().ForCompany("c-1").WithAmount(900).Overdue(day
 
 - **Coverlet** collects coverage in `dotnet test` (`--collect:"XPlat Code Coverage"`); **ReportGenerator** turns it into HTML. Use it to find **untested critical code**, not as a target to game ([[F10.9]]).
 - **Stryker.NET** mutation testing tells you whether tests actually detect changes in logic.
+
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Mutation testing changes a greater-than into greater-or-equal; if a test then fails the mutant is killed, and if all tests pass it survived, revealing a missing edge-case test">
+<rect class="sB" x="14" y="30" width="330" height="90" rx="8"/><text class="sM" x="30" y="50">original</text><text class="sC" x="30" y="74" xml:space="preserve" style="white-space:pre">if (Paid + p.Amount &gt; Total)</text><text class="sC" x="30" y="96" xml:space="preserve" style="white-space:pre">    throw new InvalidOperationException();</text>
+<rect class="sW" x="376" y="30" width="330" height="90" rx="8"/><text class="sM" x="392" y="50">mutant: &gt; becomes &gt;=</text><text class="sC" x="392" y="74" xml:space="preserve" style="white-space:pre">if (Paid + p.Amount &gt;= Total)</text><text class="sC" x="392" y="96" xml:space="preserve" style="white-space:pre">    throw new InvalidOperationException();</text>
+<rect class="sG" x="14" y="140" width="330" height="60" rx="8"/><text class="sC" x="179" y="164" text-anchor="middle">a test pays exactly the total → now throws</text><text class="sGt" x="179" y="184" text-anchor="middle">test fails → mutant KILLED ✓</text>
+<rect class="sR" x="376" y="140" width="330" height="60" rx="8" opacity=".85"/><text class="sC" x="541" y="164" text-anchor="middle">no test pays exactly the total</text><text class="sC" x="541" y="184" text-anchor="middle">all green → mutant SURVIVED ✗</text>
+</svg><figcaption>Mutation testing grades the tests, not the code. A surviving mutant is an edge case nobody checked.</figcaption></figure>
+
 - In CI: run unit tests on every push; run integration tests (with Docker available on the runner, as GitHub's Ubuntu runners have) on every pull request; publish results and coverage; fail the build on test failure, not on a coverage percentage alone.
 
 **TDD** (red, green, refactor) works especially well for domain rules and parsers, like CS Visualizer's interpreter: write the failing case first, then the code. Know the cycle and where you've used it, or would.

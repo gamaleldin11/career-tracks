@@ -99,6 +99,11 @@ This looks like NumPy but there is a crucial difference: **Pandas aligns on the 
 
 That is a feature — it means you can add "sales by region" to "costs by region" without sorting anything first — and it is a trap, because a silent index mismatch produces silent `NaN`s rather than an error. If a computation mysteriously fills with `NaN`, index alignment is the first suspect.
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Adding two pandas Series aligns them by index label: Giza and Alex add up, while Cairo and Luxor, present on only one side, become NaN">
+<text class="sM" x="90" y="22" text-anchor="middle">sales</text><rect class="sN" x="20" y="32" width="60" height="26" rx="0"/><text class="sT" x="50" y="50" text-anchor="middle">Cairo</text><rect class="sB" x="80" y="32" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="120" y="50" text-anchor="middle">120</text><rect class="sN" x="20" y="62" width="60" height="26" rx="0"/><text class="sT" x="50" y="80" text-anchor="middle">Giza</text><rect class="sB" x="80" y="62" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="120" y="80" text-anchor="middle">80</text><rect class="sN" x="20" y="92" width="60" height="26" rx="0"/><text class="sT" x="50" y="110" text-anchor="middle">Alex</text><rect class="sB" x="80" y="92" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="120" y="110" text-anchor="middle">60</text><text class="sT" x="186" y="80" text-anchor="middle">+</text><text class="sM" x="280" y="22" text-anchor="middle">costs</text><rect class="sN" x="210" y="32" width="60" height="26" rx="0"/><text class="sT" x="240" y="50" text-anchor="middle">Giza</text><rect class="sV" x="270" y="32" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="310" y="50" text-anchor="middle">30</text><rect class="sN" x="210" y="62" width="60" height="26" rx="0"/><text class="sT" x="240" y="80" text-anchor="middle">Alex</text><rect class="sV" x="270" y="62" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="310" y="80" text-anchor="middle">20</text><rect class="sN" x="210" y="92" width="60" height="26" rx="0"/><text class="sT" x="240" y="110" text-anchor="middle">Luxor</text><rect class="sV" x="270" y="92" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="310" y="110" text-anchor="middle">10</text><text class="sT" x="376" y="80" text-anchor="middle">=</text><text class="sM" x="470" y="22" text-anchor="middle">sales + costs</text><rect class="sN" x="400" y="32" width="60" height="26" rx="0"/><text class="sT" x="430" y="50" text-anchor="middle">Alex</text><rect class="sG" x="460" y="32" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="500" y="50" text-anchor="middle">80</text><rect class="sN" x="400" y="62" width="60" height="26" rx="0"/><text class="sT" x="430" y="80" text-anchor="middle">Cairo</text><rect class="sR" x="460" y="62" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="500" y="80" text-anchor="middle">NaN</text><rect class="sN" x="400" y="92" width="60" height="26" rx="0"/><text class="sT" x="430" y="110" text-anchor="middle">Giza</text><rect class="sG" x="460" y="92" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="500" y="110" text-anchor="middle">110</text><rect class="sN" x="400" y="122" width="60" height="26" rx="0"/><text class="sT" x="430" y="140" text-anchor="middle">Luxor</text><rect class="sR" x="460" y="122" width="80" height="26" rx="0" opacity=".55"/><text class="sC" x="500" y="140" text-anchor="middle">NaN</text>
+<text class="sC" x="560" y="170" text-anchor="middle">matched by label, not by position;</text><text class="sRt" x="560" y="188" text-anchor="middle">a label on one side only → NaN</text><text class="sGt" x="560" y="214" text-anchor="middle">sales.add(costs, fill_value=0) avoids it</text>
+</svg><figcaption>Pandas lines rows up by label before doing arithmetic. Powerful, and the reason unexpected NaNs appear.</figcaption></figure>
+
 ### Dates as an index
 
 ```python
@@ -148,6 +153,45 @@ df3 = pd.DataFrame(d_new, index=[0, 1])          # from dict: keys become COLUMN
 ```
 
 A DataFrame is a dict of Series that share an index. Note the asymmetry with Series: for a Series, dict keys become the *index*; for a DataFrame, dict keys become the *columns*.
+
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="The DataFrame from the code above: a column index W to Z, a row index a to e, and a 5 by 4 grid of values; selecting W with single brackets gives a Series, with double brackets a DataFrame">
+<text class="sM" x="230" y="22" text-anchor="middle">df.columns: Index(['W', 'X', 'Y', 'Z'])</text>
+<rect class="sA" x="90" y="34" width="68" height="22" rx="3"/><text class="sT" x="125" y="50" text-anchor="middle">W</text>
+<rect class="sA" x="160" y="34" width="68" height="22" rx="3"/><text class="sT" x="195" y="50" text-anchor="middle">X</text>
+<rect class="sA" x="230" y="34" width="68" height="22" rx="3"/><text class="sT" x="265" y="50" text-anchor="middle">Y</text>
+<rect class="sA" x="300" y="34" width="68" height="22" rx="3"/><text class="sT" x="335" y="50" text-anchor="middle">Z</text>
+<rect class="sV" x="50" y="58" width="36" height="22" rx="3"/><text class="sT" x="68" y="74" text-anchor="middle">a</text>
+<rect class="sG" x="90" y="58" width="68" height="22" rx="2" opacity=".6"/><text class="sS" x="125" y="74" text-anchor="middle">2.71</text>
+<rect class="sN" x="160" y="58" width="68" height="22" rx="2"/><text class="sS" x="195" y="74" text-anchor="middle">0.63</text>
+<rect class="sN" x="230" y="58" width="68" height="22" rx="2"/><text class="sS" x="265" y="74" text-anchor="middle">0.91</text>
+<rect class="sN" x="300" y="58" width="68" height="22" rx="2"/><text class="sS" x="335" y="74" text-anchor="middle">0.50</text>
+<rect class="sV" x="50" y="82" width="36" height="22" rx="3"/><text class="sT" x="68" y="98" text-anchor="middle">b</text>
+<rect class="sG" x="90" y="82" width="68" height="22" rx="2" opacity=".6"/><text class="sS" x="125" y="98" text-anchor="middle">0.65</text>
+<rect class="sN" x="160" y="82" width="68" height="22" rx="2"/><text class="sS" x="195" y="98" text-anchor="middle">-0.32</text>
+<rect class="sN" x="230" y="82" width="68" height="22" rx="2"/><text class="sS" x="265" y="98" text-anchor="middle">-0.85</text>
+<rect class="sN" x="300" y="82" width="68" height="22" rx="2"/><text class="sS" x="335" y="98" text-anchor="middle">0.61</text>
+<rect class="sV" x="50" y="106" width="36" height="22" rx="3"/><text class="sT" x="68" y="122" text-anchor="middle">c</text>
+<rect class="sG" x="90" y="106" width="68" height="22" rx="2" opacity=".6"/><text class="sS" x="125" y="122" text-anchor="middle">-2.02</text>
+<rect class="sN" x="160" y="106" width="68" height="22" rx="2"/><text class="sS" x="195" y="122" text-anchor="middle">0.74</text>
+<rect class="sN" x="230" y="106" width="68" height="22" rx="2"/><text class="sS" x="265" y="122" text-anchor="middle">0.53</text>
+<rect class="sN" x="300" y="106" width="68" height="22" rx="2"/><text class="sS" x="335" y="122" text-anchor="middle">-0.59</text>
+<rect class="sV" x="50" y="130" width="36" height="22" rx="3"/><text class="sT" x="68" y="146" text-anchor="middle">d</text>
+<rect class="sG" x="90" y="130" width="68" height="22" rx="2" opacity=".6"/><text class="sS" x="125" y="146" text-anchor="middle">0.19</text>
+<rect class="sN" x="160" y="130" width="68" height="22" rx="2"/><text class="sS" x="195" y="146" text-anchor="middle">-0.76</text>
+<rect class="sN" x="230" y="130" width="68" height="22" rx="2"/><text class="sS" x="265" y="146" text-anchor="middle">-0.93</text>
+<rect class="sN" x="300" y="130" width="68" height="22" rx="2"/><text class="sS" x="335" y="146" text-anchor="middle">0.96</text>
+<rect class="sV" x="50" y="154" width="36" height="22" rx="3"/><text class="sT" x="68" y="170" text-anchor="middle">e</text>
+<rect class="sG" x="90" y="154" width="68" height="22" rx="2" opacity=".6"/><text class="sS" x="125" y="170" text-anchor="middle">0.19</text>
+<rect class="sN" x="160" y="154" width="68" height="22" rx="2"/><text class="sS" x="195" y="170" text-anchor="middle">1.98</text>
+<rect class="sN" x="230" y="154" width="68" height="22" rx="2"/><text class="sS" x="265" y="170" text-anchor="middle">2.61</text>
+<rect class="sN" x="300" y="154" width="68" height="22" rx="2"/><text class="sS" x="335" y="170" text-anchor="middle">0.68</text>
+<text class="sM" x="68" y="196" text-anchor="middle">df.index</text>
+<text class="sS" x="230" y="196" text-anchor="middle">df.values: a 5×4 float64 NumPy array</text>
+<line class="sLg" x1="376" y1="108" x2="420" y2="108" marker-end="url(#ahg)"/>
+<rect class="sN" x="424" y="40" width="282" height="64" rx="8"/><text class="sS" x="436" y="64" xml:space="preserve" style="white-space:pre">df['W']       → Series (5,)</text><text class="sS" x="436" y="86" xml:space="preserve" style="white-space:pre">df[['W', 'Z']] → DataFrame (5, 2)</text>
+<rect class="sN" x="424" y="116" width="282" height="64" rx="8"/><text class="sC" x="565" y="140" text-anchor="middle">each column is a Series sharing</text><text class="sC" x="565" y="158" text-anchor="middle">the same index (a dict of Series)</text>
+<text class="sS" x="360" y="220" text-anchor="middle">single brackets give a 1-D Series, double brackets a 2-D DataFrame: scikit-learn wants df[['col']]</text>
+</svg><figcaption>Anatomy of the DataFrame created above (seed 101), with its real values: index, columns, values, and one column as a Series.</figcaption></figure>
 
 ### Selecting columns
 
@@ -213,6 +257,31 @@ df.iloc[1:6]           # positional slice — stop EXCLUSIVE (Python convention)
 | Works when index is 0,1,2… | Yes, but means *label* 0 | Yes, means *position* 0 |
 
 The inclusive/exclusive asymmetry is deliberate and catches everyone: `df.loc['a':'c']` includes `'c'`, but `df.iloc[0:3]` stops at position 2. The reasoning is that with labels you often do not know what comes after `'c'`, so excluding it would be unusable.
+
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="loc selects by label and includes the end label, iloc selects by position and excludes the end, so loc a to c and iloc 0 to 3 both return three rows">
+<text class="sM" x="130" y="16" text-anchor="middle">df.loc['a':'c']</text><text class="sC" x="130" y="32" text-anchor="middle">labels, end included</text>
+<text class="sC" x="34" y="61" text-anchor="middle">0</text><rect class="sN" x="50" y="42" width="40" height="26" rx="0"/><text class="sT" x="70" y="61" text-anchor="middle">a</text><rect class="sA" x="90" y="42" width="140" height="26" rx="0"/>
+<text class="sC" x="34" y="91" text-anchor="middle">1</text><rect class="sN" x="50" y="72" width="40" height="26" rx="0"/><text class="sT" x="70" y="91" text-anchor="middle">b</text><rect class="sA" x="90" y="72" width="140" height="26" rx="0"/>
+<text class="sC" x="34" y="121" text-anchor="middle">2</text><rect class="sN" x="50" y="102" width="40" height="26" rx="0"/><text class="sT" x="70" y="121" text-anchor="middle">c</text><rect class="sA" x="90" y="102" width="140" height="26" rx="0"/>
+<text class="sC" x="34" y="151" text-anchor="middle">3</text><rect class="sN" x="50" y="132" width="40" height="26" rx="0"/><text class="sT" x="70" y="151" text-anchor="middle">d</text><rect class="sB" x="90" y="132" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sC" x="34" y="181" text-anchor="middle">4</text><rect class="sN" x="50" y="162" width="40" height="26" rx="0"/><text class="sT" x="70" y="181" text-anchor="middle">e</text><rect class="sB" x="90" y="162" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sGt" x="130" y="204" text-anchor="middle">3 rows</text>
+<text class="sM" x="366" y="16" text-anchor="middle">df.iloc[0:3]</text><text class="sC" x="366" y="32" text-anchor="middle">positions, end excluded</text>
+<text class="sC" x="270" y="61" text-anchor="middle">0</text><rect class="sN" x="286" y="42" width="40" height="26" rx="0"/><text class="sT" x="306" y="61" text-anchor="middle">a</text><rect class="sA" x="326" y="42" width="140" height="26" rx="0"/>
+<text class="sC" x="270" y="91" text-anchor="middle">1</text><rect class="sN" x="286" y="72" width="40" height="26" rx="0"/><text class="sT" x="306" y="91" text-anchor="middle">b</text><rect class="sA" x="326" y="72" width="140" height="26" rx="0"/>
+<text class="sC" x="270" y="121" text-anchor="middle">2</text><rect class="sN" x="286" y="102" width="40" height="26" rx="0"/><text class="sT" x="306" y="121" text-anchor="middle">c</text><rect class="sA" x="326" y="102" width="140" height="26" rx="0"/>
+<text class="sC" x="270" y="151" text-anchor="middle">3</text><rect class="sN" x="286" y="132" width="40" height="26" rx="0"/><text class="sT" x="306" y="151" text-anchor="middle">d</text><rect class="sB" x="326" y="132" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sC" x="270" y="181" text-anchor="middle">4</text><rect class="sN" x="286" y="162" width="40" height="26" rx="0"/><text class="sT" x="306" y="181" text-anchor="middle">e</text><rect class="sB" x="326" y="162" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sGt" x="366" y="204" text-anchor="middle">3 rows</text>
+<text class="sM" x="602" y="16" text-anchor="middle">loc['a':'b'] · iloc[0:2]</text><text class="sC" x="602" y="32" text-anchor="middle">the same two rows</text>
+<text class="sC" x="506" y="61" text-anchor="middle">0</text><rect class="sN" x="522" y="42" width="40" height="26" rx="0"/><text class="sT" x="542" y="61" text-anchor="middle">a</text><rect class="sA" x="562" y="42" width="140" height="26" rx="0"/>
+<text class="sC" x="506" y="91" text-anchor="middle">1</text><rect class="sN" x="522" y="72" width="40" height="26" rx="0"/><text class="sT" x="542" y="91" text-anchor="middle">b</text><rect class="sA" x="562" y="72" width="140" height="26" rx="0"/>
+<text class="sC" x="506" y="121" text-anchor="middle">2</text><rect class="sN" x="522" y="102" width="40" height="26" rx="0"/><text class="sT" x="542" y="121" text-anchor="middle">c</text><rect class="sB" x="562" y="102" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sC" x="506" y="151" text-anchor="middle">3</text><rect class="sN" x="522" y="132" width="40" height="26" rx="0"/><text class="sT" x="542" y="151" text-anchor="middle">d</text><rect class="sB" x="562" y="132" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sC" x="506" y="181" text-anchor="middle">4</text><rect class="sN" x="522" y="162" width="40" height="26" rx="0"/><text class="sT" x="542" y="181" text-anchor="middle">e</text><rect class="sB" x="562" y="162" width="140" height="26" rx="0" opacity=".35"/>
+<text class="sGt" x="602" y="204" text-anchor="middle">2 rows each</text>
+<text class="sC" x="360" y="226" text-anchor="middle">small grey numbers: positions · bold letters: labels</text>
+</svg><figcaption>loc speaks labels and includes the end; iloc speaks positions and excludes it, like Python slicing.</figcaption></figure>
 
 ### Selecting rows and columns together
 
@@ -320,6 +389,28 @@ for col in df.columns:
 
 The loop above — `value_counts` over every column — is a compact profiling idiom.
 
+<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="A five-row CSV where one height reads 180cm: dtypes shows height as object, so describe lists only weight and height disappears; value_counts on city shows 3 of 5 rows until dropna=False reveals 2 missing values">
+<text class="sM" x="14" y="22">read_csv of 5 rows: one height typed "180cm", two cities blank</text>
+<text class="sT" x="14" y="46">df.dtypes</text>
+<rect class="sN" x="14" y="54" width="210" height="20" rx="3"/><text class="sS" x="22" y="68" xml:space="preserve" style="white-space:pre">name        object</text>
+<rect class="sR" x="14" y="78" width="210" height="20" rx="3" opacity=".6"/><text class="sS" x="22" y="92" xml:space="preserve" style="white-space:pre">height(cm)  object</text>
+<rect class="sN" x="14" y="102" width="210" height="20" rx="3"/><text class="sS" x="22" y="116" xml:space="preserve" style="white-space:pre">weight      int64</text>
+<rect class="sN" x="14" y="126" width="210" height="20" rx="3"/><text class="sS" x="22" y="140" xml:space="preserve" style="white-space:pre">city        object</text>
+<text class="sT" x="250" y="46">df.describe() columns</text>
+<rect class="sG" x="250" y="54" width="150" height="20" rx="3" opacity=".6"/><text class="sS" x="258" y="68" xml:space="preserve" style="white-space:pre">weight</text>
+<text class="sRt" x="250" y="96">height(cm) silently missing:</text><text class="sRt" x="250" y="112">one bad value made it text</text>
+<text class="sT" x="440" y="46">city value_counts()</text>
+<text class="sS" x="440" y="68" xml:space="preserve" style="white-space:pre">Cairo  2</text>
+<text class="sS" x="440" y="88" xml:space="preserve" style="white-space:pre">Giza   1</text>
+<text class="sRt" x="440" y="112">total 3 of 5 rows</text>
+<text class="sT" x="590" y="46">dropna=False</text>
+<text class="sS" x="590" y="68" xml:space="preserve" style="white-space:pre">Cairo  2</text>
+<text class="sGt" x="590" y="88" xml:space="preserve" style="white-space:pre">NaN    2</text>
+<text class="sS" x="590" y="108" xml:space="preserve" style="white-space:pre">Giza   1</text>
+<text class="sGt" x="590" y="132">total 5: nothing hidden</text>
+<text class="sS" x="360" y="178" text-anchor="middle">the default views hide exactly the problems you are looking for: check dtypes, and count NaN explicitly</text>
+</svg><figcaption>Two default views that hide problems, computed with pandas: describe() skips text columns, value_counts() skips NaN.</figcaption></figure>
+
 ### Statistics
 
 ```python
@@ -379,7 +470,424 @@ df1.strings = df1.strings.astype('category')
 
 **`dayfirst=True`** resolves the `03/04/2025` ambiguity in favour of the European reading (3 April, not 4 March). Get this wrong and you silently corrupt up to 12/31 of your dates.
 
+<figure class="dia"><svg viewBox="0 0 720 282" role="img" aria-label="A calendar of every date in 2025: the 132 dates with a day of 12 or less, other than those where day equals month, parse to a different date depending on dayfirst; dates with a day above 12 are unambiguous">
+<rect class="sG" x="70" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="50" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="50" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="65" width="17" height="13" rx="2"/>
+<rect class="sG" x="89" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="65" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="65" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="80" width="17" height="13" rx="2"/>
+<rect class="sG" x="108" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="80" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="80" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="95" width="17" height="13" rx="2"/>
+<rect class="sG" x="127" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="95" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="95" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="110" width="17" height="13" rx="2"/>
+<rect class="sG" x="146" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="110" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="110" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="125" width="17" height="13" rx="2"/>
+<rect class="sG" x="165" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="125" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="125" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="140" width="17" height="13" rx="2"/>
+<rect class="sG" x="184" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="140" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="140" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="155" width="17" height="13" rx="2"/>
+<rect class="sG" x="203" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="155" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="155" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="170" width="17" height="13" rx="2"/>
+<rect class="sG" x="222" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="170" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="170" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="185" width="17" height="13" rx="2"/>
+<rect class="sG" x="241" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="185" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="185" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="200" width="17" height="13" rx="2"/>
+<rect class="sG" x="260" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="279" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="200" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="200" width="17" height="13" rx="2"/>
+<rect class="sR" x="70" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="89" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="108" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="127" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="146" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="165" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="184" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="203" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="222" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="241" y="215" width="17" height="13" rx="2"/>
+<rect class="sR" x="260" y="215" width="17" height="13" rx="2"/>
+<rect class="sG" x="279" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="298" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="317" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="336" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="355" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="374" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="393" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="412" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="431" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="450" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="469" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="488" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="507" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="526" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="545" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="564" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="583" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="602" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="621" y="215" width="17" height="13" rx="2"/>
+<rect class="sN" x="640" y="215" width="17" height="13" rx="2"/>
+<text class="sS" x="64" y="60" text-anchor="end">Jan</text>
+<text class="sS" x="64" y="75" text-anchor="end">Feb</text>
+<text class="sS" x="64" y="90" text-anchor="end">Mar</text>
+<text class="sS" x="64" y="105" text-anchor="end">Apr</text>
+<text class="sS" x="64" y="120" text-anchor="end">May</text>
+<text class="sS" x="64" y="135" text-anchor="end">Jun</text>
+<text class="sS" x="64" y="150" text-anchor="end">Jul</text>
+<text class="sS" x="64" y="165" text-anchor="end">Aug</text>
+<text class="sS" x="64" y="180" text-anchor="end">Sep</text>
+<text class="sS" x="64" y="195" text-anchor="end">Oct</text>
+<text class="sS" x="64" y="210" text-anchor="end">Nov</text>
+<text class="sS" x="64" y="225" text-anchor="end">Dec</text>
+<text class="sS" x="78" y="44" text-anchor="middle">1</text>
+<text class="sS" x="154" y="44" text-anchor="middle">5</text>
+<text class="sS" x="249" y="44" text-anchor="middle">10</text>
+<text class="sS" x="287" y="44" text-anchor="middle">12</text>
+<text class="sS" x="344" y="44" text-anchor="middle">15</text>
+<text class="sS" x="439" y="44" text-anchor="middle">20</text>
+<text class="sS" x="534" y="44" text-anchor="middle">25</text>
+<text class="sS" x="648" y="44" text-anchor="middle">31</text>
+<line class="sLr" x1="297" y1="48" x2="297" y2="230" stroke-dasharray="4 3"/>
+<text class="sM" x="14" y="16">every 2025 date: red ones read differently day-first vs month-first (132 of 365, 36%)</text>
+<text class="sRt" x="184" y="248" text-anchor="middle">day ≤ 12: ambiguous</text><text class="sC" x="469" y="248" text-anchor="middle">day &gt; 12: only one reading parses</text>
+<text class="sS" x="360" y="270" text-anchor="middle">green diagonal (1 Jan, 2 Feb, …) reads the same both ways; '03/04/2025' is 3 April with dayfirst=True, 4 March without</text>
+</svg><figcaption>Why dayfirst matters: more than a third of all dates are silently ambiguous, and nothing errors. Computed.</figcaption></figure>
+
 **`astype('category')`** is a real optimisation, not a formality. A category column stores integer codes plus one dictionary of levels. On a column with 1,000,000 rows and 5 distinct values, this can cut memory by an order of magnitude. The Supermarket notebook applies it systematically:
+
+<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="A million-row column of five city names: stored as object it holds one Python string per row and takes about 55 megabytes; as category it holds one-byte codes plus five levels and takes about 1 megabyte">
+<text class="sM" x="14" y="22">1,000,000 rows, 5 cities: memory_usage(deep=True)</text>
+<text class="sT" x="14" y="56">object</text><text class="sS" x="14" y="72">one Python str per row</text>
+<rect class="sN" x="170" y="42" width="68" height="26" rx="4"/><text class="sC" x="204" y="59" text-anchor="middle">'Cairo'</text>
+<rect class="sN" x="244" y="42" width="68" height="26" rx="4"/><text class="sC" x="278" y="59" text-anchor="middle">'Giza'</text>
+<rect class="sN" x="318" y="42" width="68" height="26" rx="4"/><text class="sC" x="352" y="59" text-anchor="middle">'Cairo'</text>
+<rect class="sN" x="392" y="42" width="68" height="26" rx="4"/><text class="sC" x="426" y="59" text-anchor="middle">'Aswan'</text>
+<rect class="sN" x="466" y="42" width="68" height="26" rx="4"/><text class="sC" x="500" y="59" text-anchor="middle">'Giza'</text>
+<text class="sT" x="546" y="59" text-anchor="middle">…</text><text class="sRt" x="706" y="60" text-anchor="end">55.4 MB</text>
+<text class="sT" x="14" y="126">category</text><text class="sS" x="14" y="142">int8 codes + 5 levels</text>
+<rect class="sG" x="170" y="112" width="68" height="26" rx="4"/><text class="sC" x="204" y="129" text-anchor="middle">0</text>
+<rect class="sG" x="244" y="112" width="68" height="26" rx="4"/><text class="sC" x="278" y="129" text-anchor="middle">2</text>
+<rect class="sG" x="318" y="112" width="68" height="26" rx="4"/><text class="sC" x="352" y="129" text-anchor="middle">0</text>
+<rect class="sG" x="392" y="112" width="68" height="26" rx="4"/><text class="sC" x="426" y="129" text-anchor="middle">4</text>
+<rect class="sG" x="466" y="112" width="68" height="26" rx="4"/><text class="sC" x="500" y="129" text-anchor="middle">2</text>
+<text class="sT" x="546" y="129" text-anchor="middle">…</text><text class="sGt" x="706" y="130" text-anchor="end">1.0 MB</text>
+<rect class="sB" x="170" y="160" width="76" height="24" rx="4"/><text class="sS" x="208" y="176" text-anchor="middle">0: Alexandria</text>
+<rect class="sB" x="250" y="160" width="76" height="24" rx="4"/><text class="sS" x="288" y="176" text-anchor="middle">1: Aswan</text>
+<rect class="sB" x="330" y="160" width="76" height="24" rx="4"/><text class="sS" x="368" y="176" text-anchor="middle">2: Cairo</text>
+<rect class="sB" x="410" y="160" width="76" height="24" rx="4"/><text class="sS" x="448" y="176" text-anchor="middle">3: Giza</text>
+<rect class="sB" x="490" y="160" width="76" height="24" rx="4"/><text class="sS" x="528" y="176" text-anchor="middle">4: Mansoura</text>
+<text class="sC" x="578" y="176">← stored once</text>
+<text class="sGt" x="360" y="210" text-anchor="middle">55× smaller, and group-bys and comparisons run on small integers</text>
+</svg><figcaption>astype("category") is a real optimisation: integer codes per row, the text stored once. Measured with pandas.</figcaption></figure>
 
 ```python
 conv_to_cat = [col for col in obj_cols if df[col].nunique(dropna=True) <= 20]
@@ -458,6 +966,21 @@ The parameters worth knowing before you need them:
 **`na_values` deserves emphasis.** The Part 4 notebook demonstrates it as a two-step discovery: read normally, notice that everything is `object` dtype, realise the file uses `'?'` for missing, re-read with `na_values=['N/A','no','?']`, and watch the dtypes become numeric. That is the actual workflow.
 
 **`to_csv(index=False)`** — the missing `index=False` is what produced the `Unnamed: 0` column in the Excel file above. Always pass it unless the index is meaningful.
+
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Half a million orders saved as CSV and as Parquet: the Parquet file is several times smaller, reads faster, reads a single column much faster, and keeps the date column typed, while CSV returns it as text">
+<text class="sM" x="14" y="22">500,000 orders × 4 columns, measured on this machine</text>
+<text class="sT" x="150" y="62" text-anchor="end">file size</text>
+<rect class="sW" x="160" y="40" width="360" height="16" rx="3" opacity=".75"/><text class="sC" x="526" y="53">CSV 16.3 MB</text>
+<rect class="sG" x="160" y="60" width="98.0348" height="16" rx="3" opacity=".75"/><text class="sC" x="264.035" y="73">Parquet 4.4 MB</text>
+<text class="sT" x="150" y="114" text-anchor="end">read all columns</text>
+<rect class="sW" x="160" y="92" width="360" height="16" rx="3" opacity=".75"/><text class="sC" x="526" y="105">CSV 142 ms</text>
+<rect class="sG" x="160" y="112" width="25.9586" height="16" rx="3" opacity=".75"/><text class="sC" x="191.959" y="125">Parquet 10 ms</text>
+<text class="sT" x="150" y="166" text-anchor="end">read one column</text>
+<rect class="sW" x="160" y="144" width="360" height="16" rx="3" opacity=".75"/><text class="sC" x="526" y="157">CSV 88 ms</text>
+<rect class="sG" x="160" y="164" width="21.3957" height="16" rx="3" opacity=".75"/><text class="sC" x="187.396" y="177">Parquet 5 ms</text>
+<text class="sC" x="160" y="206">order_date comes back as: CSV → object, Parquet → datetime64[ns]</text>
+<text class="sS" x="360" y="228" text-anchor="middle">Parquet is columnar, compressed and typed: smaller files, column pruning, and dtypes that survive the round trip</text>
+</svg><figcaption>CSV vs Parquet on the same DataFrame, measured with pandas and pyarrow. Exact numbers vary by machine.</figcaption></figure>
 
 ### SQL
 
@@ -567,6 +1090,17 @@ df['area'] = df['radius'].apply(lambda r: 3.14 * r**2)   # slow
 df['area'] = 3.14 * df['radius'] ** 2                    # fast — vectorised
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Timing the same calculation on 200,000 rows: vectorised arithmetic took 0.8 milliseconds, Series.apply with a lambda about 34 times longer, and DataFrame.apply with axis=1 about 565 times longer">
+<text class="sM" x="14" y="22">the same area column on 200,000 rows, timed on this machine (best of 3)</text>
+<text class="sS" x="14" y="54" xml:space="preserve" style="white-space:pre">3.14 * df["radius"] ** 2</text>
+<rect class="sG" x="14" y="60" width="111.933" height="18" rx="3" opacity=".75"/><text class="sT" x="131.933" y="74">0.8 ms</text>
+<text class="sS" x="14" y="110" xml:space="preserve" style="white-space:pre">df["radius"].apply(lambda r: 3.14 * r**2)</text>
+<rect class="sW" x="14" y="116" width="283.46" height="18" rx="3" opacity=".75"/><text class="sT" x="303.46" y="130">28.5 ms   (34× slower)</text>
+<text class="sS" x="14" y="166" xml:space="preserve" style="white-space:pre">df.apply(lambda row: 3.14 * row["radius"]**2, axis=1)</text>
+<rect class="sR" x="14" y="172" width="420" height="18" rx="3" opacity=".75"/><text class="sT" x="440" y="186">472.6 ms   (565× slower)</text>
+<text class="sS" x="360" y="218" text-anchor="middle">bars on a log scale; apply calls a Python function per value, axis=1 also builds a Series per row</text>
+</svg><figcaption>Why apply is a last resort: measured with timeit on 200,000 rows. Exact numbers vary by machine; the ratios do not.</figcaption></figure>
+
 **Reach for `apply` only when there is no vectorised form** — genuinely irregular string parsing, or row-wise logic that cannot be expressed as column arithmetic. Before writing `apply`, check for:
 
 - `.str` accessor: `.str.lower()`, `.str.contains()`, `.str.split()`, `.str.replace()`
@@ -664,6 +1198,51 @@ This *is* SQL `JOIN`, with the same four semantics:
 | `'left'` | All of left; NaN where right has no match |
 | `'right'` | All of right |
 | `'outer'` | Union of keys; NaN on both sides where unmatched |
+
+<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="The four merge types on left keys k1 to k3 and right keys k2 to k4: inner keeps k2 and k3, left keeps k1 to k3, right keeps k2 to k4, outer keeps all four with NaN where a side has no match">
+<text class="sM" x="94" y="22" text-anchor="middle">how='inner'</text>
+<rect class="sN" x="14" y="34" width="50" height="24" rx="0"/><text class="sT" x="39" y="51" text-anchor="middle">k2</text>
+<rect class="sB" x="64" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="89" y="51" text-anchor="middle">B</text>
+<rect class="sV" x="114" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="139" y="51" text-anchor="middle">x</text>
+<rect class="sN" x="14" y="62" width="50" height="24" rx="0"/><text class="sT" x="39" y="79" text-anchor="middle">k3</text>
+<rect class="sB" x="64" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="89" y="79" text-anchor="middle">C</text>
+<rect class="sV" x="114" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="139" y="79" text-anchor="middle">y</text>
+<text class="sM" x="270" y="22" text-anchor="middle">how='left'</text>
+<rect class="sN" x="190" y="34" width="50" height="24" rx="0"/><text class="sT" x="215" y="51" text-anchor="middle">k1</text>
+<rect class="sB" x="240" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="265" y="51" text-anchor="middle">A</text>
+<rect class="sR" x="290" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="315" y="51" text-anchor="middle">NaN</text>
+<rect class="sN" x="190" y="62" width="50" height="24" rx="0"/><text class="sT" x="215" y="79" text-anchor="middle">k2</text>
+<rect class="sB" x="240" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="265" y="79" text-anchor="middle">B</text>
+<rect class="sV" x="290" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="315" y="79" text-anchor="middle">x</text>
+<rect class="sN" x="190" y="90" width="50" height="24" rx="0"/><text class="sT" x="215" y="107" text-anchor="middle">k3</text>
+<rect class="sB" x="240" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="265" y="107" text-anchor="middle">C</text>
+<rect class="sV" x="290" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="315" y="107" text-anchor="middle">y</text>
+<text class="sM" x="446" y="22" text-anchor="middle">how='right'</text>
+<rect class="sN" x="366" y="34" width="50" height="24" rx="0"/><text class="sT" x="391" y="51" text-anchor="middle">k2</text>
+<rect class="sB" x="416" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="441" y="51" text-anchor="middle">B</text>
+<rect class="sV" x="466" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="491" y="51" text-anchor="middle">x</text>
+<rect class="sN" x="366" y="62" width="50" height="24" rx="0"/><text class="sT" x="391" y="79" text-anchor="middle">k3</text>
+<rect class="sB" x="416" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="441" y="79" text-anchor="middle">C</text>
+<rect class="sV" x="466" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="491" y="79" text-anchor="middle">y</text>
+<rect class="sN" x="366" y="90" width="50" height="24" rx="0"/><text class="sT" x="391" y="107" text-anchor="middle">k4</text>
+<rect class="sR" x="416" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="441" y="107" text-anchor="middle">NaN</text>
+<rect class="sV" x="466" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="491" y="107" text-anchor="middle">z</text>
+<text class="sM" x="622" y="22" text-anchor="middle">how='outer'</text>
+<rect class="sN" x="542" y="34" width="50" height="24" rx="0"/><text class="sT" x="567" y="51" text-anchor="middle">k1</text>
+<rect class="sB" x="592" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="617" y="51" text-anchor="middle">A</text>
+<rect class="sR" x="642" y="34" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="667" y="51" text-anchor="middle">NaN</text>
+<rect class="sN" x="542" y="62" width="50" height="24" rx="0"/><text class="sT" x="567" y="79" text-anchor="middle">k2</text>
+<rect class="sB" x="592" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="617" y="79" text-anchor="middle">B</text>
+<rect class="sV" x="642" y="62" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="667" y="79" text-anchor="middle">x</text>
+<rect class="sN" x="542" y="90" width="50" height="24" rx="0"/><text class="sT" x="567" y="107" text-anchor="middle">k3</text>
+<rect class="sB" x="592" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="617" y="107" text-anchor="middle">C</text>
+<rect class="sV" x="642" y="90" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="667" y="107" text-anchor="middle">y</text>
+<rect class="sN" x="542" y="118" width="50" height="24" rx="0"/><text class="sT" x="567" y="135" text-anchor="middle">k4</text>
+<rect class="sR" x="592" y="118" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="617" y="135" text-anchor="middle">NaN</text>
+<rect class="sV" x="642" y="118" width="50" height="24" rx="0" opacity=".55"/><text class="sC" x="667" y="135" text-anchor="middle">z</text>
+<text class="sC" x="360" y="170" text-anchor="middle">left keys k1 k2 k3 · right keys k2 k3 k4</text>
+<text class="sS" x="360" y="192" text-anchor="middle">validate="one_to_one" and indicator=True catch surprises before they spread</text>
+</svg><figcaption>merge is SQL JOIN: which keys survive, and where NaN fills the gaps.</figcaption></figure>
 
 Two things to watch that the notebook does not raise:
 

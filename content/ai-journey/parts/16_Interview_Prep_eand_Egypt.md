@@ -154,6 +154,70 @@ Your course plus this add-on targets the **top of entry, bottom of mid**. The ca
 | **Take rate / conversion** | Accepted offers / offers made |
 | **Blended vs segment ARPU** | Always ask which, because mix changes move blended ARPU |
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Customer lifetime value as the sum of expected monthly margins of 60 pounds shrinking with 96 percent retention: about 1,440 pounds, 1,152 with 1 percent monthly discounting, and 1,940 if churn falls to 3 percent">
+<text class="sM" x="14" y="20">expected margin in month t = 60 EGP × rᵗ, where r is monthly retention</text>
+<rect class="sA" x="14" y="32" width="12" height="10" rx="2"/><text class="sC" x="32" y="41">churn 4%</text><rect class="sG" x="110" y="32" width="12" height="10" rx="2"/><text class="sC" x="128" y="41">churn 4%, discounted 1%/month</text>
+<line class="sLv" x1="330" y1="37" x2="352" y2="37"/><text class="sC" x="358" y="41">churn 3%</text>
+<rect class="sA" x="51" y="70.4" width="9" height="105.6" rx="1" opacity=".55"/><rect class="sG" x="53" y="71.4455" width="5" height="104.554" rx="1"/>
+<rect class="sA" x="62" y="74.624" width="9" height="101.376" rx="1" opacity=".55"/><rect class="sG" x="64" y="76.6215" width="5" height="99.3785" rx="1"/>
+<rect class="sA" x="73" y="78.679" width="9" height="97.321" rx="1" opacity=".55"/><rect class="sG" x="75" y="81.5412" width="5" height="94.4588" rx="1"/>
+<rect class="sA" x="84" y="82.5719" width="9" height="93.4281" rx="1" opacity=".55"/><rect class="sG" x="86" y="86.2174" width="5" height="89.7826" rx="1"/>
+<rect class="sA" x="95" y="86.309" width="9" height="89.691" rx="1" opacity=".55"/><rect class="sG" x="97" y="90.6621" width="5" height="85.3379" rx="1"/>
+<rect class="sA" x="106" y="89.8966" width="9" height="86.1034" rx="1" opacity=".55"/><rect class="sG" x="108" y="94.8867" width="5" height="81.1133" rx="1"/>
+<rect class="sA" x="117" y="93.3408" width="9" height="82.6592" rx="1" opacity=".55"/><rect class="sG" x="119" y="98.9023" width="5" height="77.0977" rx="1"/>
+<rect class="sA" x="128" y="96.6471" width="9" height="79.3529" rx="1" opacity=".55"/><rect class="sG" x="130" y="102.719" width="5" height="73.281" rx="1"/>
+<rect class="sA" x="139" y="99.8213" width="9" height="76.1787" rx="1" opacity=".55"/><rect class="sG" x="141" y="106.347" width="5" height="69.6533" rx="1"/>
+<rect class="sA" x="150" y="102.868" width="9" height="73.1316" rx="1" opacity=".55"/><rect class="sG" x="152" y="109.795" width="5" height="66.2051" rx="1"/>
+<rect class="sA" x="161" y="105.794" width="9" height="70.2063" rx="1" opacity=".55"/><rect class="sG" x="163" y="113.072" width="5" height="62.9276" rx="1"/>
+<rect class="sA" x="172" y="108.602" width="9" height="67.3981" rx="1" opacity=".55"/><rect class="sG" x="174" y="116.188" width="5" height="59.8124" rx="1"/>
+<rect class="sA" x="183" y="111.298" width="9" height="64.7022" rx="1" opacity=".55"/><rect class="sG" x="185" y="119.149" width="5" height="56.8514" rx="1"/>
+<rect class="sA" x="194" y="113.886" width="9" height="62.1141" rx="1" opacity=".55"/><rect class="sG" x="196" y="121.963" width="5" height="54.0369" rx="1"/>
+<rect class="sA" x="205" y="116.37" width="9" height="59.6295" rx="1" opacity=".55"/><rect class="sG" x="207" y="124.638" width="5" height="51.3618" rx="1"/>
+<rect class="sA" x="216" y="118.756" width="9" height="57.2443" rx="1" opacity=".55"/><rect class="sG" x="218" y="127.181" width="5" height="48.8192" rx="1"/>
+<rect class="sA" x="227" y="121.045" width="9" height="54.9545" rx="1" opacity=".55"/><rect class="sG" x="229" y="129.598" width="5" height="46.4024" rx="1"/>
+<rect class="sA" x="238" y="123.244" width="9" height="52.7564" rx="1" opacity=".55"/><rect class="sG" x="240" y="131.895" width="5" height="44.1052" rx="1"/>
+<rect class="sA" x="249" y="125.354" width="9" height="50.6461" rx="1" opacity=".55"/><rect class="sG" x="251" y="134.078" width="5" height="41.9218" rx="1"/>
+<rect class="sA" x="260" y="127.38" width="9" height="48.6203" rx="1" opacity=".55"/><rect class="sG" x="262" y="136.154" width="5" height="39.8465" rx="1"/>
+<rect class="sA" x="271" y="129.325" width="9" height="46.6755" rx="1" opacity=".55"/><rect class="sG" x="273" y="138.126" width="5" height="37.8739" rx="1"/>
+<rect class="sA" x="282" y="131.192" width="9" height="44.8084" rx="1" opacity=".55"/><rect class="sG" x="284" y="140.001" width="5" height="35.9989" rx="1"/>
+<rect class="sA" x="293" y="132.984" width="9" height="43.0161" rx="1" opacity=".55"/><rect class="sG" x="295" y="141.783" width="5" height="34.2168" rx="1"/>
+<rect class="sA" x="304" y="134.705" width="9" height="41.2955" rx="1" opacity=".55"/><rect class="sG" x="306" y="143.477" width="5" height="32.5229" rx="1"/>
+<rect class="sA" x="315" y="136.356" width="9" height="39.6436" rx="1" opacity=".55"/><rect class="sG" x="317" y="145.087" width="5" height="30.9129" rx="1"/>
+<rect class="sA" x="326" y="137.942" width="9" height="38.0579" rx="1" opacity=".55"/><rect class="sG" x="328" y="146.617" width="5" height="29.3825" rx="1"/>
+<rect class="sA" x="337" y="139.464" width="9" height="36.5356" rx="1" opacity=".55"/><rect class="sG" x="339" y="148.072" width="5" height="27.9279" rx="1"/>
+<rect class="sA" x="348" y="140.926" width="9" height="35.0742" rx="1" opacity=".55"/><rect class="sG" x="350" y="149.455" width="5" height="26.5454" rx="1"/>
+<rect class="sA" x="359" y="142.329" width="9" height="33.6712" rx="1" opacity=".55"/><rect class="sG" x="361" y="150.769" width="5" height="25.2312" rx="1"/>
+<rect class="sA" x="370" y="143.676" width="9" height="32.3243" rx="1" opacity=".55"/><rect class="sG" x="372" y="152.018" width="5" height="23.9822" rx="1"/>
+<rect class="sA" x="381" y="144.969" width="9" height="31.0314" rx="1" opacity=".55"/><rect class="sG" x="383" y="153.205" width="5" height="22.7949" rx="1"/>
+<rect class="sA" x="392" y="146.21" width="9" height="29.7901" rx="1" opacity=".55"/><rect class="sG" x="394" y="154.334" width="5" height="21.6665" rx="1"/>
+<rect class="sA" x="403" y="147.401" width="9" height="28.5985" rx="1" opacity=".55"/><rect class="sG" x="405" y="155.406" width="5" height="20.5939" rx="1"/>
+<rect class="sA" x="414" y="148.545" width="9" height="27.4546" rx="1" opacity=".55"/><rect class="sG" x="416" y="156.426" width="5" height="19.5744" rx="1"/>
+<rect class="sA" x="425" y="149.644" width="9" height="26.3564" rx="1" opacity=".55"/><rect class="sG" x="427" y="157.395" width="5" height="18.6053" rx="1"/>
+<rect class="sA" x="436" y="150.698" width="9" height="25.3021" rx="1" opacity=".55"/><rect class="sG" x="438" y="158.316" width="5" height="17.6843" rx="1"/>
+<rect class="sA" x="447" y="151.71" width="9" height="24.29" rx="1" opacity=".55"/><rect class="sG" x="449" y="159.191" width="5" height="16.8088" rx="1"/>
+<rect class="sA" x="458" y="152.682" width="9" height="23.3184" rx="1" opacity=".55"/><rect class="sG" x="460" y="160.023" width="5" height="15.9767" rx="1"/>
+<rect class="sA" x="469" y="153.614" width="9" height="22.3857" rx="1" opacity=".55"/><rect class="sG" x="471" y="160.814" width="5" height="15.1858" rx="1"/>
+<rect class="sA" x="480" y="154.51" width="9" height="21.4903" rx="1" opacity=".55"/><rect class="sG" x="482" y="161.566" width="5" height="14.434" rx="1"/>
+<rect class="sA" x="491" y="155.369" width="9" height="20.6307" rx="1" opacity=".55"/><rect class="sG" x="493" y="162.281" width="5" height="13.7195" rx="1"/>
+<rect class="sA" x="502" y="156.195" width="9" height="19.8054" rx="1" opacity=".55"/><rect class="sG" x="504" y="162.96" width="5" height="13.0403" rx="1"/>
+<rect class="sA" x="513" y="156.987" width="9" height="19.0132" rx="1" opacity=".55"/><rect class="sG" x="515" y="163.605" width="5" height="12.3947" rx="1"/>
+<rect class="sA" x="524" y="157.747" width="9" height="18.2527" rx="1" opacity=".55"/><rect class="sG" x="526" y="164.219" width="5" height="11.7811" rx="1"/>
+<rect class="sA" x="535" y="158.477" width="9" height="17.5226" rx="1" opacity=".55"/><rect class="sG" x="537" y="164.802" width="5" height="11.1979" rx="1"/>
+<rect class="sA" x="546" y="159.178" width="9" height="16.8217" rx="1" opacity=".55"/><rect class="sG" x="548" y="165.356" width="5" height="10.6435" rx="1"/>
+<rect class="sA" x="557" y="159.851" width="9" height="16.1488" rx="1" opacity=".55"/><rect class="sG" x="559" y="165.883" width="5" height="10.1166" rx="1"/>
+<rect class="sA" x="568" y="160.497" width="9" height="15.5029" rx="1" opacity=".55"/><rect class="sG" x="570" y="166.384" width="5" height="9.61581" rx="1"/>
+<polyline class="sLv" points="56,69.3 67,72.5 78,75.6 89,78.6 100,81.5 111,84.4 122,87.1 133,89.8 144,92.4 155,94.9 166,97.3 177,99.7 188,102.0 199,104.2 210,106.3 221,108.4 232,110.5 243,112.4 254,114.3 265,116.2 276,118.0 287,119.7 298,121.4 309,123.0 320,124.6 331,126.2 342,127.7 353,129.1 364,130.5 375,131.9 386,133.2 397,134.5 408,135.7 419,136.9 430,138.1 441,139.3 452,140.4 463,141.4 474,142.5 485,143.5 496,144.4 507,145.4 518,146.3 529,147.2 540,148.1 551,148.9 562,149.7 573,150.5"/>
+<line class="sLm" x1="40" y1="176" x2="590" y2="176"/>
+<text class="sS" x="56" y="190" text-anchor="middle">m1</text>
+<text class="sS" x="177" y="190" text-anchor="middle">m12</text>
+<text class="sS" x="309" y="190" text-anchor="middle">m24</text>
+<text class="sS" x="441" y="190" text-anchor="middle">m36</text>
+<text class="sS" x="573" y="190" text-anchor="middle">m48</text>
+<rect class="sN" x="600" y="56" width="112" height="104" rx="8"/><text class="sT" x="656" y="76" text-anchor="middle">CLV (sum)</text><text class="sC" x="656" y="98" text-anchor="middle">1,440 EGP</text><text class="sGt" x="656" y="118" text-anchor="middle">1,152 discounted</text><text class="sC" x="656" y="140" text-anchor="middle">1,940 at 3%</text>
+<text class="sGt" x="360" y="212" text-anchor="middle">one point less churn: 1,440 → 1,940 EGP, +35% lifetime value per subscriber</text>
+<text class="sS" x="360" y="232" text-anchor="middle">the closed forms: margin × r / (1 − r) undiscounted, margin × r / (1 + d − r) discounted; margin / churn = 1,500 is the quick version</text>
+</svg><figcaption>CLV is an area: each bar is next month's margin times the chance the subscriber is still there. Lower churn makes the tail far longer. Computed.</figcaption></figure>
+
 ### Network KPIs
 
 | KPI | Meaning |
@@ -198,6 +262,38 @@ For every use case: **problem framing → target → key features → model → 
 - **Model:** logistic regression baseline → **LightGBM / HistGradientBoosting** (Part 8B). Calibrate (Part 8 §8.12.7).
 - **Metrics:** PR-AUC, **lift and precision in the top decile/k**, recall at budget, calibration (Part 8 §8.14).
 - **Value:** retention campaign ROI (Part 8 §8.15). Better still, **uplift modelling** (target the persuadables) validated by an A/B test (Part 15 §15.7).
+
+<figure class="dia steps"><svg viewBox="0 0 720 226" role="img" aria-label="Churn snapshot design on a monthly timeline: features from the three months before a cut-off, a short gap, then a two-month label window; several past snapshots are stacked for training and today's snapshot is scored">
+<text class="sM" x="127" y="24" text-anchor="middle">Jan</text>
+<line class="sLm" x1="96" y1="30" x2="96" y2="34"/>
+<text class="sM" x="189" y="24" text-anchor="middle">Feb</text>
+<line class="sLm" x1="158" y1="30" x2="158" y2="34"/>
+<text class="sM" x="251" y="24" text-anchor="middle">Mar</text>
+<line class="sLm" x1="220" y1="30" x2="220" y2="34"/>
+<text class="sM" x="313" y="24" text-anchor="middle">Apr</text>
+<line class="sLm" x1="282" y1="30" x2="282" y2="34"/>
+<text class="sM" x="375" y="24" text-anchor="middle">May</text>
+<line class="sLm" x1="344" y1="30" x2="344" y2="34"/>
+<text class="sM" x="437" y="24" text-anchor="middle">Jun</text>
+<line class="sLm" x1="406" y1="30" x2="406" y2="34"/>
+<text class="sM" x="499" y="24" text-anchor="middle">Jul</text>
+<line class="sLm" x1="468" y1="30" x2="468" y2="34"/>
+<text class="sM" x="561" y="24" text-anchor="middle">Aug</text>
+<line class="sLm" x1="530" y1="30" x2="530" y2="34"/>
+<line class="sLm" x1="96" y1="32" x2="592" y2="32"/>
+<g data-s="1"><text class="sC" x="88" y="76" text-anchor="end">snapshot Mar</text><rect class="sB" x="96" y="60" width="186" height="24" rx="4"/><text class="sC" x="189" y="76" text-anchor="middle">features</text><rect class="sA" x="297" y="60" width="124" height="24" rx="4"/><text class="sC" x="359" y="76" text-anchor="middle">label: churned?</text></g>
+<g data-s="3"><text class="sC" x="88" y="108" text-anchor="end">snapshot Apr</text><rect class="sB" x="158" y="92" width="186" height="24" rx="4"/><text class="sC" x="251" y="108" text-anchor="middle">features</text><rect class="sA" x="359" y="92" width="124" height="24" rx="4"/><text class="sC" x="421" y="108" text-anchor="middle">label: churned?</text></g>
+<g data-s="3"><text class="sC" x="88" y="140" text-anchor="end">snapshot May</text><rect class="sB" x="220" y="124" width="186" height="24" rx="4"/><text class="sC" x="313" y="140" text-anchor="middle">features</text><rect class="sA" x="421" y="124" width="124" height="24" rx="4"/><text class="sC" x="483" y="140" text-anchor="middle">label: churned?</text></g>
+<g data-s="2"><line class="sLr" x1="282" y1="42" x2="282" y2="88"/><line class="sLr" x1="297" y1="42" x2="297" y2="88"/><text class="sRt" x="303" y="50">gap</text></g>
+<g data-s="4"><text class="sGt" x="88" y="172" text-anchor="end">today: score</text><rect class="sB" x="406" y="156" width="186" height="24" rx="4"/><text class="sC" x="499" y="172" text-anchor="middle">features</text><rect class="sN" x="598" y="156" width="112" height="24" rx="4" stroke-dasharray="4 3"/><text class="sC" x="654" y="172" text-anchor="middle">label unknown</text><line class="sLg" x1="592" y1="38" x2="592" y2="190"/><text class="sGt" x="598" y="52">now</text></g>
+<text class="sS" x="360" y="214" text-anchor="middle">features stop at the cut-off; the label is counted only after it; training stacks past snapshots, scoring uses today's</text>
+</svg><ol class="dia-steps">
+<li>One snapshot: features use only the three months <b>up to</b> the cut-off date T; the label (no recharge and no usage) is counted in the window <b>after</b> T.</li>
+<li>A small gap between T and the label window mirrors real life: scoring and calling customers takes days, so the model must predict churn that has not already started.</li>
+<li>Training stacks several monthly snapshots, so seasonality is covered and every row is a (customer, month) pair. Validate on the latest complete snapshot, never on random rows.</li>
+<li>Today's snapshot has features but no label yet: that is the set the deployed model scores. Its label window ends in the future.</li>
+</ol><figcaption>Snapshot design for churn: the single biggest defence against leakage in telecom models.</figcaption></figure>
+
 - **Traps:** leakage (e.g. a "deactivation reason" or "port-out request" feature), random splits on snapshot data, and class imbalance that distorts probabilities.
 
 ### 2. Next Best Offer / propensity to buy
@@ -285,6 +381,18 @@ Part 14 flagged time series as a course gap. The minimum you need for interviews
 
 A model that doesn't beat the seasonal naive **adds nothing**. Part 14 made this point about FinSight's TimeGPT.
 
+<figure class="dia"><svg viewBox="0 0 720 264" role="img" aria-label="Eight weeks of daily traffic with a weekly pattern, then a 14-day forecast: the naive forecast repeats the last value and misses the weekly peaks, while the seasonal naive repeats last week and tracks them with a much lower error">
+<polyline class="sL" points="40.0,176.0 48.9,158.2 57.7,143.3 66.6,138.3 75.4,118.9 84.3,69.6 93.1,102.0 102.0,173.4 110.9,141.2 119.7,127.7 128.6,136.9 137.4,133.1 146.3,74.7 155.1,84.4 164.0,164.0 172.9,156.2 181.7,137.3 190.6,144.5 199.4,126.4 208.3,68.9 217.1,98.2 226.0,159.1 234.9,142.0 243.7,138.4 252.6,131.0 261.4,113.7 270.3,74.6 279.1,92.5 288.0,167.4 296.9,140.3 305.7,140.8 314.6,131.3 323.4,117.3 332.3,62.7 341.1,95.6 350.0,160.9 358.9,144.3 367.7,138.8 376.6,127.4 385.4,122.4 394.3,49.9 403.1,80.8 412.0,169.6 420.9,132.3 429.7,134.6 438.6,126.3 447.4,111.8 456.3,69.6 465.1,85.0 474.0,155.0 482.9,125.0 491.7,132.7 500.6,118.9 509.4,117.4 518.3,55.5 527.1,86.8" style="stroke-width:1.8"/>
+<polyline class="sLm" points="536.0,140.5 544.9,125.3 553.7,104.9 562.6,117.1 571.4,101.3 580.3,44.9 589.1,82.7 598.0,148.7 606.9,117.4 615.7,122.3 624.6,117.8 633.4,104.9 642.3,44.0 651.1,78.6" style="stroke-width:1.8;stroke-dasharray:3 3"/>
+<polyline class="sLr" points="536.0,86.8 544.9,86.8 553.7,86.8 562.6,86.8 571.4,86.8 580.3,86.8 589.1,86.8 598.0,86.8 606.9,86.8 615.7,86.8 624.6,86.8 633.4,86.8 642.3,86.8 651.1,86.8" style="stroke-width:2.2"/>
+<polyline class="sLg" points="536.0,155.0 544.9,125.0 553.7,132.7 562.6,118.9 571.4,117.4 580.3,55.5 589.1,86.8 598.0,155.0 606.9,125.0 615.7,132.7 624.6,118.9 633.4,117.4 642.3,55.5 651.1,86.8" style="stroke-width:2.2"/>
+<line class="sD" x1="536" y1="26" x2="536" y2="196"/><text class="sS" x="532" y="24" text-anchor="end">forecast from here</text>
+<line class="sLm" x1="40" y1="196" x2="660" y2="196"/>
+<text class="sS" x="288" y="212" text-anchor="middle">8 weeks of daily traffic (history)</text><text class="sS" x="598" y="212" text-anchor="middle">next 14 days</text>
+<text class="sRt" x="40" y="232">naive (last value): MAE 4.4</text><text class="sGt" x="300" y="232">seasonal naive (last week): MAE 1.4</text><text class="sS" x="660" y="232" text-anchor="end">MASE 0.33</text>
+<text class="sS" x="360" y="252" text-anchor="middle">any model must beat the seasonal naive on a backtest before it earns a place in production</text>
+</svg><figcaption>The two baselines, computed on a simulated series: with weekly seasonality, "same day last week" is already hard to beat.</figcaption></figure>
+
 **Model families:**
 
 | Family | Examples | When |
@@ -301,6 +409,20 @@ A model that doesn't beat the seasonal naive **adds nothing**. Part 14 made this
 **Metrics:** MAE, RMSE, **MAPE** (breaks near zero, asymmetric), **WAPE** (Σ|e|/Σ|y|, business-friendly), **MASE** (scaled by the in-sample naive error: < 1 means the model beats naive), plus **prediction-interval coverage** (do 90% intervals contain ~90% of the actuals?).
 
 **Lag-feature leakage:** a rolling mean must use only the *past* (`shift(1)` before `rolling`). The value being predicted must never appear in its own features.
+
+<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="A rolling three-day mean computed without shift includes the value being predicted on day 7; shifting by one first averages days 4 to 6 only, which is what is known at prediction time">
+<rect class="sB" x="40" y="30" width="84" height="30" rx="5"/><text class="sC" x="82" y="50" text-anchor="middle">day 1: 12</text>
+<rect class="sB" x="132" y="30" width="84" height="30" rx="5"/><text class="sC" x="174" y="50" text-anchor="middle">day 2: 15</text>
+<rect class="sB" x="224" y="30" width="84" height="30" rx="5"/><text class="sC" x="266" y="50" text-anchor="middle">day 3: 11</text>
+<rect class="sB" x="316" y="30" width="84" height="30" rx="5"/><text class="sC" x="358" y="50" text-anchor="middle">day 4: 18</text>
+<rect class="sB" x="408" y="30" width="84" height="30" rx="5"/><text class="sC" x="450" y="50" text-anchor="middle">day 5: 20</text>
+<rect class="sB" x="500" y="30" width="84" height="30" rx="5"/><text class="sC" x="542" y="50" text-anchor="middle">day 6: 14</text>
+<rect class="sA" x="592" y="30" width="84" height="30" rx="5"/><text class="sC" x="634" y="50" text-anchor="middle">day 7: 30</text>
+<text class="sWt" x="634" y="76" text-anchor="middle">target (to predict)</text>
+<rect class="sR" x="405" y="92" width="274" height="30" rx="6" style="fill:none;stroke-width:2"/><text class="sRt" x="408" y="112">rolling(3).mean() = 21.3</text><text class="sC" x="40" y="112">without shift:</text>
+<rect class="sG" x="313" y="136" width="274" height="30" rx="6" style="fill:none;stroke-width:2"/><text class="sGt" x="316" y="156">shift(1).rolling(3).mean() = 17.3</text><text class="sC" x="40" y="156">with shift(1):</text>
+<text class="sS" x="360" y="192" text-anchor="middle">the leaky feature contains day 7's own 30, so offline scores look great and production collapses</text>
+</svg><figcaption>Lag-feature leakage in one row of numbers: shift first, then roll.</figcaption></figure>
 
 ```python
 df = df.sort_values(["cell_id", "hour_ts"])
@@ -329,6 +451,48 @@ When given an open question such as *"How would you reduce churn?"* or *"Build a
 6. **Metric linked to value:** precision@k and lift for a budgeted campaign; expected profit; guardrails.
 7. **Deployment and monitoring:** batch scoring (monthly or daily) vs real-time API; feature pipeline; drift (PSI) and performance monitoring; retraining cadence; rollback.
 8. **Measure the real impact:** an A/B test or holdout group (Part 15 §15.7). Iterate.
+
+<figure class="dia anim"><svg viewBox="0 0 720 376" role="img" aria-label="The eight-step case framework as a loop, highlighted one step at a time: objective, target, data and features, baseline, model and validation, metric tied to value, deployment and monitoring, and measuring impact, each annotated with the churn example; a panel below lists the risks to close with">
+<line class="sLm" x1="190" y1="42" x2="283" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="435" y1="42" x2="528" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="605" y1="64" x2="635" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="635" y1="164" x2="605" y2="218" marker-end="url(#ahm)"/>
+<line class="sLm" x1="530" y1="242" x2="437" y2="242" marker-end="url(#ahm)"/>
+<line class="sLm" x1="285" y1="242" x2="192" y2="242" marker-end="url(#ahm)"/>
+<line class="sLm" x1="115" y1="220" x2="85" y2="166" marker-end="url(#ahm)"/>
+<line class="sLm" x1="85" y1="120" x2="115" y2="66" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="136" text-anchor="middle">measure, learn, and start again</text><text class="sS" x="360" y="154" text-anchor="middle">from a sharper objective</text>
+<rect class="sN" x="40" y="20" width="150" height="44" rx="8"/>
+<rect class="sG" x="40" y="20" width="150" height="44" rx="8" opacity="1"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="1;0" keyTimes="0;0.1250"/></rect>
+<text class="sT" x="115" y="39" text-anchor="middle">1 objective</text><text class="sS" x="115" y="55" text-anchor="middle">retained margin, 20k calls</text>
+<rect class="sN" x="285" y="20" width="150" height="44" rx="8"/>
+<rect class="sG" x="285" y="20" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.1250;0.2500"/></rect>
+<text class="sT" x="360" y="39" text-anchor="middle">2 target</text><text class="sS" x="360" y="55" text-anchor="middle">no recharge 60 days</text>
+<rect class="sN" x="530" y="20" width="150" height="44" rx="8"/>
+<rect class="sG" x="530" y="20" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.2500;0.3750"/></rect>
+<text class="sT" x="605" y="39" text-anchor="middle">3 data, features</text><text class="sS" x="605" y="55" text-anchor="middle">as of the snapshot</text>
+<rect class="sN" x="560" y="120" width="150" height="44" rx="8"/>
+<rect class="sG" x="560" y="120" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.3750;0.5000"/></rect>
+<text class="sT" x="635" y="139" text-anchor="middle">4 baseline</text><text class="sS" x="635" y="155" text-anchor="middle">rule: 21 days idle</text>
+<rect class="sN" x="530" y="220" width="150" height="44" rx="8"/>
+<rect class="sG" x="530" y="220" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.5000;0.6250"/></rect>
+<text class="sT" x="605" y="239" text-anchor="middle">5 model, validation</text><text class="sS" x="605" y="255" text-anchor="middle">temporal split, calibrate</text>
+<rect class="sN" x="285" y="220" width="150" height="44" rx="8"/>
+<rect class="sG" x="285" y="220" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.6250;0.7500"/></rect>
+<text class="sT" x="360" y="239" text-anchor="middle">6 metric = value</text><text class="sS" x="360" y="255" text-anchor="middle">lift in the top 20k</text>
+<rect class="sN" x="40" y="220" width="150" height="44" rx="8"/>
+<rect class="sG" x="40" y="220" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.7500;0.8750"/></rect>
+<text class="sT" x="115" y="239" text-anchor="middle">7 deploy, monitor</text><text class="sS" x="115" y="255" text-anchor="middle">monthly batch, PSI</text>
+<rect class="sN" x="10" y="120" width="150" height="44" rx="8"/>
+<rect class="sG" x="10" y="120" width="150" height="44" rx="8" opacity="0"><animate attributeName="opacity" dur="16.0s" repeatCount="indefinite" calcMode="discrete" values="0;1;0" keyTimes="0;0.8750;1.0000"/></rect>
+<text class="sT" x="85" y="139" text-anchor="middle">8 measure impact</text><text class="sS" x="85" y="155" text-anchor="middle">10% no-call control</text>
+<rect class="sN" x="14" y="284" width="692" height="84" rx="8" opacity=".5"/><text class="sT" x="24" y="304">close with the risks:</text>
+<text class="sS" x="24" y="326">• leakage from post-snapshot fields</text>
+<text class="sS" x="370" y="326">• feedback loops: retained users stop looking like churners</text>
+<text class="sS" x="24" y="344">• privacy: anonymised IDs only</text>
+<text class="sS" x="370" y="344">• fairness across regions and plans</text>
+<text class="sS" x="24" y="362">• agent capacity and adoption</text>
+</svg><figcaption>The framework as a loop, annotated with the retention example below: impact measurement feeds the next objective.</figcaption></figure>
 
 **Close with risks:** privacy, fairness, feedback loops (the model changes the data it will later be trained on: retained customers no longer churn, so labels shift), and stakeholder adoption.
 
@@ -386,6 +550,33 @@ def predict(s: Subscriber):
     p = float(pipe.predict_proba(X)[0, 1])
     return {"churn_probability": round(p, 4), "model_version": "2026-09"}
 ```
+
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Two deployment patterns: batch scoring, where a nightly scheduler builds features, the pipeline scores every subscriber and writes a scores table that the campaign tool reads; and a real-time API, where an app request passes through the API gateway to a FastAPI service with the pipeline loaded once, which returns a churn probability; both lanes are monitored for drift and latency">
+<text class="sT" x="14" y="22">1  batch scoring: nightly, everyone at once</text>
+<rect class="sN" x="14" y="32" width="128" height="48" rx="8"/><text class="sT" x="78" y="54" text-anchor="middle">scheduler</text><text class="sS" x="78" y="70" text-anchor="middle">Airflow / cron 02:00</text>
+<rect class="sB" x="152" y="32" width="128" height="48" rx="8"/><text class="sT" x="216" y="54" text-anchor="middle">features</text><text class="sS" x="216" y="70" text-anchor="middle">SQL / Spark</text>
+<rect class="sG" x="290" y="32" width="128" height="48" rx="8"/><text class="sT" x="354" y="54" text-anchor="middle">pipe.predict</text><text class="sS" x="354" y="70" text-anchor="middle">all subscribers</text>
+<rect class="sA" x="428" y="32" width="128" height="48" rx="8"/><text class="sT" x="492" y="54" text-anchor="middle">scores table</text><text class="sS" x="492" y="70" text-anchor="middle">msisdn, p, version</text>
+<rect class="sV" x="566" y="32" width="128" height="48" rx="8"/><text class="sT" x="630" y="54" text-anchor="middle">campaign tool</text><text class="sS" x="630" y="70" text-anchor="middle">reads top-N</text>
+<line class="sLm" x1="144" y1="56" x2="150" y2="56" marker-end="url(#ahm)"/>
+<line class="sLm" x1="282" y1="56" x2="288" y2="56" marker-end="url(#ahm)"/>
+<line class="sLm" x1="420" y1="56" x2="426" y2="56" marker-end="url(#ahm)"/>
+<line class="sLm" x1="558" y1="56" x2="564" y2="56" marker-end="url(#ahm)"/>
+<circle class="sPg" r="5"><animateMotion dur="3.2s" repeatCount="indefinite" path="M 142 56 L 290 56 L 420 56 L 566 56"/></circle>
+<text class="sS" x="360" y="100" text-anchor="middle">simple, cheap, auditable: a bad score can be traced to a row and a model version</text>
+<text class="sT" x="14" y="132">2  real-time API: one request, one answer, in milliseconds</text>
+<rect class="sN" x="14" y="142" width="150" height="48" rx="8"/><text class="sT" x="89" y="164" text-anchor="middle">app / ASP.NET</text><text class="sS" x="89" y="180" text-anchor="middle">at recharge</text>
+<rect class="sB" x="172" y="142" width="150" height="48" rx="8"/><text class="sT" x="247" y="164" text-anchor="middle">API gateway</text><text class="sS" x="247" y="180" text-anchor="middle">auth, rate limit</text>
+<rect class="sG" x="330" y="142" width="150" height="48" rx="8"/><text class="sT" x="405" y="164" text-anchor="middle">FastAPI /predict</text><text class="sS" x="405" y="180" text-anchor="middle">pipe loaded once</text>
+<rect class="sA" x="510" y="142" width="150" height="48" rx="8"/><text class="sT" x="585" y="164" text-anchor="middle">response</text><text class="sS" x="585" y="180" text-anchor="middle">{"churn_probability"}</text>
+<line class="sLm" x1="166" y1="160" x2="170" y2="160" marker-end="url(#ahm)"/>
+<line class="sLm" x1="324" y1="160" x2="328" y2="160" marker-end="url(#ahm)"/>
+<line class="sLm" x1="482" y1="160" x2="508" y2="160" marker-end="url(#ahm)"/>
+<circle class="sPw" r="5"><animateMotion dur="1.6s" repeatCount="indefinite" path="M 164 160 L 330 160 L 510 160"/></circle>
+<line class="sLg" x1="510" y1="178" x2="164" y2="178" marker-end="url(#ahg)" stroke-dasharray="4 3"/>
+<text class="sS" x="360" y="212" text-anchor="middle">same Pipeline object as training: the features are transformed identically in both lanes</text>
+<rect class="sN" x="14" y="224" width="692" height="30" rx="6"/><text class="sS" x="360" y="244" text-anchor="middle">monitor both: input drift (PSI, new categories) · score drift · accuracy once labels arrive · latency</text>
+</svg><figcaption>Batch versus real-time serving of the same saved pipeline. Most telecom marketing uses the first lane; fraud and offers at recharge need the second.</figcaption></figure>
 
 Package it with Docker, pin versions (`requirements.txt`), and put it behind the existing API gateway. An ASP.NET service can call it over REST, or load an **ONNX** export directly (Part 11 §11.15).
 
@@ -446,6 +637,30 @@ snap = pd.Timestamp("2026-06-30")
 last = df[df.date <= snap].groupby("msisdn")["date"].max()
 recency_days = (snap - last).dt.days
 ```
+
+<figure class="dia steps"><svg viewBox="0 0 720 220" role="img" aria-label="A six-row frame of governorates and revenue: groupby sum collapses it to three rows; groupby transform sum keeps six rows, each with its governorate total, so the share of the governorate can be computed; groupby rank numbers rows within each governorate">
+<text class="sM" x="14" y="24">df</text>
+<text class="sT" x="70" y="42" text-anchor="middle">governorate</text>
+<text class="sT" x="170" y="42" text-anchor="middle">revenue</text>
+<rect class="sB" x="14" y="52" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="68" text-anchor="middle">Cairo</text><text class="sS" x="170" y="68" text-anchor="middle">120</text>
+<rect class="sV" x="14" y="76" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="92" text-anchor="middle">Giza</text><text class="sS" x="170" y="92" text-anchor="middle">80</text>
+<rect class="sB" x="14" y="100" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="116" text-anchor="middle">Cairo</text><text class="sS" x="170" y="116" text-anchor="middle">60</text>
+<rect class="sA" x="14" y="124" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="140" text-anchor="middle">Alex</text><text class="sS" x="170" y="140" text-anchor="middle">50</text>
+<rect class="sV" x="14" y="148" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="164" text-anchor="middle">Giza</text><text class="sS" x="170" y="164" text-anchor="middle">40</text>
+<rect class="sB" x="14" y="172" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="70" y="188" text-anchor="middle">Cairo</text><text class="sS" x="170" y="188" text-anchor="middle">20</text>
+<g data-s="2-2"><text class="sS" x="270" y="24" xml:space="preserve" style="white-space:pre">df.groupby("governorate")["revenue"].sum()</text><text class="sT" x="330" y="42" text-anchor="middle">governorate</text><text class="sT" x="430" y="42" text-anchor="middle">revenue</text><rect class="sA" x="270" y="52" width="210" height="44" rx="4" opacity=".45"/><text class="sT" x="330" y="79" text-anchor="middle">Alex</text><text class="sT" x="430" y="79" text-anchor="middle">50</text><rect class="sB" x="270" y="100" width="210" height="44" rx="4" opacity=".45"/><text class="sT" x="330" y="127" text-anchor="middle">Cairo</text><text class="sT" x="430" y="127" text-anchor="middle">200</text><rect class="sV" x="270" y="148" width="210" height="44" rx="4" opacity=".45"/><text class="sT" x="330" y="175" text-anchor="middle">Giza</text><text class="sT" x="430" y="175" text-anchor="middle">120</text><text class="sWt" x="375" y="214" text-anchor="middle">6 rows → 3: one row per group</text></g>
+<g data-s="3-3"><text class="sS" x="270" y="24" xml:space="preserve" style="white-space:pre">.transform("sum")  →  same index as df</text><text class="sT" x="320" y="42" text-anchor="middle">gov_total</text><text class="sT" x="420" y="42" text-anchor="middle">share_of_gov</text><rect class="sB" x="270" y="52" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="68" text-anchor="middle">200</text><text class="sGt" x="420" y="68" text-anchor="middle">60%</text><line class="sLm" x1="226" y1="62" x2="266" y2="62" marker-end="url(#ahm)" opacity=".5"/><rect class="sV" x="270" y="76" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="92" text-anchor="middle">120</text><text class="sGt" x="420" y="92" text-anchor="middle">67%</text><line class="sLm" x1="226" y1="86" x2="266" y2="86" marker-end="url(#ahm)" opacity=".5"/><rect class="sB" x="270" y="100" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="116" text-anchor="middle">200</text><text class="sGt" x="420" y="116" text-anchor="middle">30%</text><line class="sLm" x1="226" y1="110" x2="266" y2="110" marker-end="url(#ahm)" opacity=".5"/><rect class="sA" x="270" y="124" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="140" text-anchor="middle">50</text><text class="sGt" x="420" y="140" text-anchor="middle">100%</text><line class="sLm" x1="226" y1="134" x2="266" y2="134" marker-end="url(#ahm)" opacity=".5"/><rect class="sV" x="270" y="148" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="164" text-anchor="middle">120</text><text class="sGt" x="420" y="164" text-anchor="middle">33%</text><line class="sLm" x1="226" y1="158" x2="266" y2="158" marker-end="url(#ahm)" opacity=".5"/><rect class="sB" x="270" y="172" width="210" height="21" rx="4" opacity=".45"/><text class="sS" x="320" y="188" text-anchor="middle">200</text><text class="sGt" x="420" y="188" text-anchor="middle">10%</text><line class="sLm" x1="226" y1="182" x2="266" y2="182" marker-end="url(#ahm)" opacity=".5"/><text class="sGt" x="375" y="214" text-anchor="middle">every row keeps its place: divide row-wise</text></g>
+<g data-s="4-4"><text class="sS" x="270" y="24" xml:space="preserve" style="white-space:pre">.rank(ascending=False, method="dense")</text><text class="sT" x="320" y="42" text-anchor="middle">rank_in_gov</text><rect class="sB" x="270" y="52" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="68" text-anchor="middle">1</text><rect class="sV" x="270" y="76" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="92" text-anchor="middle">1</text><rect class="sB" x="270" y="100" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="116" text-anchor="middle">2</text><rect class="sA" x="270" y="124" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="140" text-anchor="middle">1</text><rect class="sV" x="270" y="148" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="164" text-anchor="middle">2</text><rect class="sB" x="270" y="172" width="100" height="21" rx="4" opacity=".45"/><text class="sT" x="320" y="188" text-anchor="middle">3</text><text class="sGt" x="375" y="214" text-anchor="middle">ranks restart inside each group</text></g>
+<rect class="sN" x="510" y="52" width="196" height="140" rx="8"/><text class="sT" x="608" y="74" text-anchor="middle">SQL equivalent</text>
+<g data-s="2-2"><text class="sS" x="520" y="100" xml:space="preserve" style="white-space:pre">GROUP BY governorate</text></g>
+<g data-s="3-3"><text class="sS" x="520" y="100" xml:space="preserve" style="white-space:pre">SUM(revenue) OVER</text><text class="sS" x="520" y="118" xml:space="preserve" style="white-space:pre">  (PARTITION BY gov)</text></g>
+<g data-s="4-4"><text class="sS" x="520" y="100" xml:space="preserve" style="white-space:pre">DENSE_RANK() OVER</text><text class="sS" x="520" y="118" xml:space="preserve" style="white-space:pre">  (PARTITION BY gov</text><text class="sS" x="520" y="136" xml:space="preserve" style="white-space:pre">   ORDER BY revenue DESC)</text></g>
+</svg><ol class="dia-steps">
+<li>Six rows, three governorates.</li>
+<li>agg (or sum) collapses each group to one row: the shape of GROUP BY.</li>
+<li>transform computes the same group sum but returns it aligned to the original rows, so share_of_gov is a plain row-wise division: a window function.</li>
+<li>rank within groups numbers rows inside each governorate, like DENSE_RANK() OVER (PARTITION BY …).</li>
+</ol><figcaption>agg versus transform versus rank on the same six rows (computed with pandas), with the SQL each one corresponds to.</figcaption></figure>
 
 Also be ready for plain-Python questions: string manipulation, dictionaries and counting (`collections.Counter`), list comprehensions (Part 1), writing a function with tests in mind, time complexity of your solution, and implementing a metric (precision/recall, RMSE) or a simple algorithm (k-means step, gradient descent) from scratch with NumPy (Part 7 §7.14 has the GD code).
 
@@ -621,6 +836,44 @@ Each answer is laid out the way you should *say* it: a one-line headline, then a
 
 **Next steps:** audit features with a temporal backtest → confirm the campaign actually ran → design an uplift test with a holdout.
 
+<figure class="dia"><svg viewBox="0 0 720 280" role="img" aria-label="Customers in ten risk deciles: churn risk falls from 62 percent in decile 1 to 2 percent in decile 10, while the churn an offer prevents peaks at 9 percent in decile 3 and is only 2 percent in decile 1">
+<text class="sM" x="706" y="60" text-anchor="end">churn risk without an offer</text><text class="sM" x="706" y="156" text-anchor="end">uplift: churn the offer prevents</text>
+<rect class="sR" x="70" y="41.6" width="36" height="74.4" rx="2" opacity=".8"/><text class="sS" x="88" y="37.6" text-anchor="middle">62%</text>
+<rect class="sG" x="70" y="198" width="36" height="12" rx="2"/><text class="sS" x="88" y="194" text-anchor="middle">+2%</text>
+<text class="sC" x="88" y="128" text-anchor="middle">d1</text>
+<rect class="sR" x="130" y="68" width="36" height="48" rx="2" opacity=".8"/><text class="sS" x="148" y="64" text-anchor="middle">40%</text>
+<rect class="sG" x="130" y="174" width="36" height="36" rx="2"/><text class="sS" x="148" y="170" text-anchor="middle">+6%</text>
+<text class="sC" x="148" y="128" text-anchor="middle">d2</text>
+<rect class="sR" x="190" y="82.4" width="36" height="33.6" rx="2" opacity=".8"/><text class="sS" x="208" y="78.4" text-anchor="middle">28%</text>
+<rect class="sG" x="190" y="156" width="36" height="54" rx="2"/><text class="sS" x="208" y="152" text-anchor="middle">+9%</text>
+<text class="sC" x="208" y="128" text-anchor="middle">d3</text>
+<rect class="sR" x="250" y="92" width="36" height="24" rx="2" opacity=".8"/><text class="sS" x="268" y="88" text-anchor="middle">20%</text>
+<rect class="sG" x="250" y="162" width="36" height="48" rx="2"/><text class="sS" x="268" y="158" text-anchor="middle">+8%</text>
+<text class="sC" x="268" y="128" text-anchor="middle">d4</text>
+<rect class="sR" x="310" y="99.2" width="36" height="16.8" rx="2" opacity=".8"/><text class="sS" x="328" y="95.2" text-anchor="middle">14%</text>
+<rect class="sG" x="310" y="174" width="36" height="36" rx="2"/><text class="sS" x="328" y="170" text-anchor="middle">+6%</text>
+<text class="sC" x="328" y="128" text-anchor="middle">d5</text>
+<rect class="sR" x="370" y="104" width="36" height="12" rx="2" opacity=".8"/><text class="sS" x="388" y="100" text-anchor="middle">10%</text>
+<rect class="sG" x="370" y="186" width="36" height="24" rx="2"/><text class="sS" x="388" y="182" text-anchor="middle">+4%</text>
+<text class="sC" x="388" y="128" text-anchor="middle">d6</text>
+<rect class="sR" x="430" y="107.6" width="36" height="8.4" rx="2" opacity=".8"/><text class="sS" x="448" y="103.6" text-anchor="middle">7%</text>
+<rect class="sG" x="430" y="198" width="36" height="12" rx="2"/><text class="sS" x="448" y="194" text-anchor="middle">+2%</text>
+<text class="sC" x="448" y="128" text-anchor="middle">d7</text>
+<rect class="sR" x="490" y="110" width="36" height="6" rx="2" opacity=".8"/><text class="sS" x="508" y="106" text-anchor="middle">5%</text>
+<rect class="sG" x="490" y="204" width="36" height="6" rx="2"/><text class="sS" x="508" y="200" text-anchor="middle">+1%</text>
+<text class="sC" x="508" y="128" text-anchor="middle">d8</text>
+<rect class="sR" x="550" y="112.4" width="36" height="3.6" rx="2" opacity=".8"/><text class="sS" x="568" y="108.4" text-anchor="middle">3%</text>
+<rect class="sG" x="550" y="210" width="36" height="1" rx="2"/><text class="sS" x="568" y="206" text-anchor="middle">0%</text>
+<text class="sC" x="568" y="128" text-anchor="middle">d9</text>
+<rect class="sR" x="610" y="113.6" width="36" height="2.4" rx="2" opacity=".8"/><text class="sS" x="628" y="109.6" text-anchor="middle">2%</text>
+<rect class="sG" x="610" y="210" width="36" height="6" rx="2"/><text class="sS" x="628" y="226" text-anchor="middle">-1%</text>
+<text class="sC" x="628" y="128" text-anchor="middle">d10</text>
+<line class="sLm" x1="60" y1="116" x2="666" y2="116"/><line class="sLm" x1="60" y1="210" x2="666" y2="210"/>
+<rect class="sR" x="64" y="26" width="48" height="196" rx="6" style="fill:none" stroke-dasharray="5 3"/><rect class="sG" x="184" y="26" width="48" height="196" rx="6" style="fill:none" stroke-dasharray="5 3"/>
+<text class="sGt" x="360" y="250" text-anchor="middle">20,000 calls to decile 1 (highest risk) save 400 customers; the same calls to decile 3 save 1,800</text>
+<text class="sS" x="360" y="268" text-anchor="middle">the riskiest customers are often lost causes; uplift peaks in the middle (illustrative numbers)</text>
+</svg><figcaption>Why a 0.92-AUC risk model can drive a campaign that changes nothing: risk ranks who will leave, uplift ranks who an offer will keep.</figcaption></figure>
+
 ### Q2 🟢 ⭐ "Explain gradient boosting to a product manager, then to a data scientist."
 
 > [!question] 🎯 What the interviewer is testing
@@ -674,6 +927,83 @@ Each answer is laid out the way you should *say* it: a one-line headline, then a
 ## 16.11 A 4-week study plan using this course 🟢
 
 Assumes ~2–3 focused hours a day. Adjust to your interview date.
+
+<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="The study plan as a calendar: week 1 covers ML basics, preprocessing, SQL, pandas and statistics; week 2 supervised learning, thresholds and calibration, boosting with SHAP and exercises; week 3 clustering, PyTorch, A/B test design and time series; week 4 use cases, recorded case answers, a FastAPI and Docker deployment, STAR stories, rapid-fire questions, a mock interview and a rest day; optional weeks 5 and 6 cover deep learning, forecasting, Arabic BERT and RAG, vision, generative models and reinforcement learning, state of the art, and more mock questions">
+<text class="sS" x="134" y="22" text-anchor="middle">day 1</text>
+<text class="sS" x="194" y="22" text-anchor="middle">day 2</text>
+<text class="sS" x="254" y="22" text-anchor="middle">day 3</text>
+<text class="sS" x="314" y="22" text-anchor="middle">day 4</text>
+<text class="sS" x="374" y="22" text-anchor="middle">day 5</text>
+<text class="sS" x="434" y="22" text-anchor="middle">day 6</text>
+<text class="sS" x="494" y="22" text-anchor="middle">day 7</text>
+<text class="sS" x="554" y="22" text-anchor="middle">day 8</text>
+<text class="sS" x="614" y="22" text-anchor="middle">day 9</text>
+<text class="sS" x="674" y="22" text-anchor="middle">day 10</text>
+<text class="sT" x="14" y="48">week 1</text><text class="sS" x="14" y="63">foundations</text>
+<rect class="sB" x="105" y="32" width="117" height="36" rx="5"/>
+<text class="sS" x="164" y="54" text-anchor="middle">ML basics</text>
+<rect class="sB" x="225" y="32" width="57" height="36" rx="5"/>
+<text class="sS" x="254" y="47" text-anchor="middle">pre-</text><text class="sS" x="254" y="61" text-anchor="middle">process</text>
+<rect class="sB" x="285" y="32" width="57" height="36" rx="5"/>
+<text class="sS" x="314" y="54" text-anchor="middle">SQL</text>
+<rect class="sB" x="345" y="32" width="57" height="36" rx="5"/>
+<text class="sS" x="374" y="54" text-anchor="middle">pandas</text>
+<rect class="sA" x="405" y="32" width="117" height="36" rx="5"/>
+<text class="sS" x="464" y="47" text-anchor="middle">statistics</text><text class="sS" x="464" y="61" text-anchor="middle">puzzles</text>
+<text class="sT" x="14" y="92">week 2</text><text class="sS" x="14" y="107">supervised</text>
+<rect class="sG" x="105" y="76" width="57" height="36" rx="5"/>
+<text class="sS" x="134" y="91" text-anchor="middle">GD in</text><text class="sS" x="134" y="105" text-anchor="middle">NumPy</text>
+<rect class="sG" x="165" y="76" width="117" height="36" rx="5"/>
+<text class="sS" x="224" y="91" text-anchor="middle">threshold, PR,</text><text class="sS" x="224" y="105" text-anchor="middle">calibration</text>
+<rect class="sG" x="285" y="76" width="117" height="36" rx="5"/>
+<text class="sS" x="344" y="91" text-anchor="middle">boosting</text><text class="sS" x="344" y="105" text-anchor="middle">+ SHAP</text>
+<rect class="sG" x="405" y="76" width="117" height="36" rx="5"/>
+<text class="sS" x="464" y="91" text-anchor="middle">Géron</text><text class="sS" x="464" y="105" text-anchor="middle">exercises</text>
+<text class="sT" x="14" y="136">week 3</text><text class="sS" x="14" y="151">beyond</text>
+<rect class="sV" x="105" y="120" width="117" height="36" rx="5"/>
+<text class="sS" x="164" y="135" text-anchor="middle">clustering</text><text class="sS" x="164" y="149" text-anchor="middle">segments</text>
+<rect class="sV" x="225" y="120" width="117" height="36" rx="5"/>
+<text class="sS" x="284" y="135" text-anchor="middle">PyTorch</text><text class="sS" x="284" y="149" text-anchor="middle">MLP vs GBM</text>
+<rect class="sA" x="345" y="120" width="117" height="36" rx="5"/>
+<text class="sS" x="404" y="135" text-anchor="middle">A/B test</text><text class="sS" x="404" y="149" text-anchor="middle">design</text>
+<rect class="sA" x="465" y="120" width="57" height="36" rx="5"/>
+<text class="sS" x="494" y="135" text-anchor="middle">time</text><text class="sS" x="494" y="149" text-anchor="middle">series</text>
+<text class="sT" x="14" y="180">week 4</text><text class="sS" x="14" y="195">interview</text>
+<rect class="sW" x="105" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="134" y="179" text-anchor="middle">use</text><text class="sS" x="134" y="193" text-anchor="middle">cases</text>
+<rect class="sW" x="165" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="194" y="179" text-anchor="middle">record</text><text class="sS" x="194" y="193" text-anchor="middle">cases</text>
+<rect class="sW" x="225" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="254" y="179" text-anchor="middle">FastAPI</text><text class="sS" x="254" y="193" text-anchor="middle">Docker</text>
+<rect class="sW" x="285" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="314" y="179" text-anchor="middle">STAR</text><text class="sS" x="314" y="193" text-anchor="middle">stories</text>
+<rect class="sW" x="345" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="374" y="179" text-anchor="middle">rapid-</text><text class="sS" x="374" y="193" text-anchor="middle">fire</text>
+<rect class="sW" x="405" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="434" y="179" text-anchor="middle">mock</text><text class="sS" x="434" y="193" text-anchor="middle">interview</text>
+<rect class="sN" x="465" y="164" width="57" height="36" rx="5"/>
+<text class="sS" x="494" y="186" text-anchor="middle">rest</text>
+<text class="sT" x="14" y="224">weeks 5–6</text><text class="sS" x="14" y="239">optional</text>
+<rect class="sV" x="105" y="208" width="117" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="164" y="223" text-anchor="middle">training</text><text class="sS" x="164" y="237" text-anchor="middle">deep nets</text>
+<rect class="sV" x="225" y="208" width="57" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="254" y="223" text-anchor="middle">fore-</text><text class="sS" x="254" y="237" text-anchor="middle">casting</text>
+<rect class="sV" x="285" y="208" width="117" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="344" y="223" text-anchor="middle">Arabic BERT</text><text class="sS" x="344" y="237" text-anchor="middle">+ RAG bot</text>
+<rect class="sV" x="405" y="208" width="57" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="434" y="223" text-anchor="middle">CNN, ViT</text><text class="sS" x="434" y="237" text-anchor="middle">CLIP</text>
+<rect class="sV" x="465" y="208" width="57" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="494" y="223" text-anchor="middle">GenAI, RL</text><text class="sS" x="494" y="237" text-anchor="middle">bandits</text>
+<rect class="sV" x="525" y="208" width="57" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="554" y="223" text-anchor="middle">SOTA</text><text class="sS" x="554" y="237" text-anchor="middle">points</text>
+<rect class="sW" x="585" y="208" width="117" height="36" rx="5" style="stroke-dasharray:4 3"/>
+<text class="sS" x="644" y="223" text-anchor="middle">questions</text><text class="sS" x="644" y="237" text-anchor="middle">61–90 + mock</text>
+<rect class="sB" x="20" y="254" width="14" height="12" rx="3"/><text class="sS" x="40" y="264">data foundations</text>
+<rect class="sA" x="143.6" y="254" width="14" height="12" rx="3"/><text class="sS" x="163.6" y="264">stats &amp; experiments</text>
+<rect class="sG" x="284" y="254" width="14" height="12" rx="3"/><text class="sS" x="304" y="264">supervised ML</text>
+<rect class="sV" x="390.8" y="254" width="14" height="12" rx="3"/><text class="sS" x="410.8" y="264">unsupervised &amp; deep learning</text>
+<rect class="sW" x="581.6" y="254" width="14" height="12" rx="3"/><text class="sS" x="601.6" y="264">interview</text>
+</svg><figcaption>The plan below at a glance, assuming 2–3 focused hours a day. Dashed: the optional deep-learning extension for mid-level and AI-flavoured roles.</figcaption></figure>
 
 **Week 1 — Foundations and data (the part most interviews test first)**
 - Day 1–2: Part 6 (all, including §6.8–6.13). Answer §6.13 out loud.

@@ -31,6 +31,17 @@
   <aside class="toc" id="toc" aria-label="On this page"><h4>On this page</h4><div id="tocBody"></div></aside>
 </div>
 
+<!-- Arrowheads for every diagram: marker-end="url(#ah)". Defined once here, because a
+     marker inside a hidden module (display:none) would not render anywhere. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--accent)"/></marker>
+  <marker id="ahm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--ink-3)"/></marker>
+  <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--entry)"/></marker>
+  <marker id="ahw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--mid)"/></marker>
+  <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--senior)"/></marker>
+  <marker id="ahv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--sota-line)"/></marker>
+</defs></svg>
+
 <script id="search-data" type="application/json">{{SEARCH}}</script>
 <script id="course-data" type="application/json">{{DATA}}</script>
 <script>
@@ -353,6 +364,93 @@
     const ds = $$("details", box), open = ds.some(d => !d.open);
     ds.forEach(d => d.open = open);
     b.textContent = open ? "Hide all answers" : "Show all answers";
+  });
+
+  /* ---------- animated and step-through diagrams ---------- */
+  // <figure class="dia anim">  loops on its own (SMIL <animate*> and CSS .aFlow/.aPulse);
+  //                            gets a pause button, starts paused for reduced motion,
+  //                            and idles while scrolled out of view.
+  // <figure class="dia steps"> elements carry data-s="3" (appears at step 3) or
+  //                            data-s="2-4" (only steps 2–4); <ol class="dia-steps">
+  //                            holds one line of narration per step. Starts as the full
+  //                            diagram; Play / Next walk through it.
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const smil = (svg, on) => { try { on ? svg.unpauseAnimations() : svg.pauseAnimations(); } catch (e) {} };
+  const seen = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(en => {
+    const fig = en.target, svg = $("svg", fig);
+    fig.classList.toggle("offscreen", !en.isIntersecting);
+    if (fig.classList.contains("anim")) smil(svg, en.isIntersecting && !fig.classList.contains("paused"));
+  })) : null;
+  $$("figure.dia.anim").forEach(fig => {
+    const svg = $("svg", fig); if (!svg) return;
+    const b = document.createElement("button"); b.type = "button";
+    const wrap = document.createElement("div");
+    const set = paused => {
+      fig.classList.toggle("paused", paused); fig.classList.toggle("playing", !paused); smil(svg, !paused);
+      b.textContent = paused ? "▶ Play animation" : "⏸ Pause";
+      b.setAttribute("aria-label", paused ? "Play the animation" : "Pause the animation");
+    };
+    b.addEventListener("click", () => set(!fig.classList.contains("paused")));
+    wrap.className = "dia-ctl dia-pause"; wrap.appendChild(b); fig.appendChild(wrap);
+    set(reduceMotion);
+    // data-rest="9": when it starts paused, show the frame at 9 s (a finished picture), not an empty t = 0
+    if (reduceMotion && fig.dataset.rest) { try { svg.setCurrentTime(+fig.dataset.rest); } catch (e) {} }
+    if (seen) seen.observe(fig);
+  });
+  $$("figure.dia.steps").forEach(fig => {
+    const svg = $("svg", fig); if (!svg) return;
+    const parts = $$("[data-s]", svg).map(el => {
+      const m = el.getAttribute("data-s").match(/^(\d+)(?:-(\d+))?$/) || [0, 1];
+      return { el, a: +m[1], b: m[2] ? +m[2] : Infinity };
+    });
+    const notes = $$("ol.dia-steps > li", fig);
+    notes.forEach((li, i) => li.setAttribute("data-n", (i + 1) + "/" + notes.length));
+    const N = Math.max(notes.length, ...parts.map(p => p.a));
+    // data-start="1": the steps replace each other, so "everything at once" would be a jumble
+    const start = Math.min(N, +(fig.dataset.start || 0));
+    let k = 0, timer = null;
+    const ctl = document.createElement("div"); ctl.className = "dia-ctl";
+    ctl.innerHTML = '<button type="button" class="primary" data-a="play"></button><button type="button" data-a="prev" aria-label="Previous step">◀</button>' +
+      '<span class="count" aria-live="polite"></span><button type="button" data-a="next" aria-label="Next step">▶</button><span class="grow"></span><button type="button" data-a="all">Show everything</button>';
+    const list = $("ol.dia-steps", fig);
+    svg.after(ctl); // above the narration, so the buttons stay put while it changes height
+    if (list) list.setAttribute("aria-live", "polite");
+    const btn = a => $('[data-a="' + a + '"]', ctl);
+    function go(n) {
+      k = Math.max(0, Math.min(N, n));
+      fig.classList.toggle("stepping", k > 0);
+      parts.forEach(p => {
+        // the overview (k = 0) is the finished picture: everything that persists, plus the
+        // ranged parts (data-s="2-4") still showing at the last step, not every state at once
+        const vis = k === 0 ? p.b >= N : (k >= p.a && k <= p.b);
+        // future parts that will stay once shown are previewed faintly ("off"); parts with an
+        // end step replace each other, so they're hidden until their turn ("gone")
+        const later = k > 0 && !vis && k < p.a;
+        p.el.classList.toggle("off", later && p.b === Infinity);
+        p.el.classList.toggle("gone", !vis && !(later && p.b === Infinity));
+        p.el.classList.toggle("now", k > 0 && p.a === k);
+        if (k > 0 && p.a === k && !reduceMotion) $$("animate,animateMotion,animateTransform", p.el).forEach(an => { try { an.beginElement(); } catch (e) {} });
+      });
+      notes.forEach((li, i) => li.classList.toggle("now", i === k - 1));
+      $(".count", ctl).textContent = k ? "Step " + k + " of " + N : N + " steps";
+      btn("prev").disabled = k <= 1; btn("next").disabled = k >= N; btn("all").hidden = k === 0 || start > 0;
+      btn("play").textContent = timer ? "⏸ Pause" : (k >= N ? "↺ Replay" : (k > start ? "▶ Continue" : "▶ Walk through it"));
+    }
+    function stop() { clearInterval(timer); timer = null; }
+    function play() {
+      if (k >= N) go(0);
+      else if (start && k === start) go(0); // a fresh start replays step 1 too
+      go(k + 1);
+      timer = setInterval(() => { if (k >= N) { stop(); go(k); } else go(k + 1); }, +(fig.dataset.ms || 3200));
+      go(k);
+    }
+    ctl.addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      const a = b.dataset.a;
+      if (a === "play") { if (timer) { stop(); go(k); } else play(); }
+      else { stop(); go(a === "next" ? k + 1 : a === "prev" ? k - 1 : 0); }
+    });
+    go(start);
   });
 
   /* ---------- mobile nav ---------- */

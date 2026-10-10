@@ -8,6 +8,30 @@ Python is the glue language of data engineering: API ingestion jobs, file proces
 > **Most asked:** *How would you ingest data from a REST API?* · *How do you handle rate limits and failures?* · *Why Parquet?* · *Process a file bigger than memory* · *How do you test a pipeline?* · *pandas vs Spark?*
 > **Time budget:** 3.5 hours.
 
+## DE4.0 Foundations: a pipeline is a program with edges 🟢
+
+A data pipeline is ordinary software: it **reads** from somewhere, **checks** what it read, **transforms** it and **writes** it somewhere else. What makes pipeline code hard isn't the transformations; it's the edges, where networks fail, files are malformed and writes happen twice.
+
+The habit that helps most is to keep **I/O at the edges** and **logic in the middle**. Reading and writing live in thin functions; validation and transformation are **pure functions** (data in, data out, nothing else touched), driven by a **run date** parameter so the same code serves today's run, a rerun and a backfill.
+
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: a pipeline of extract, land raw, validate, transform and load, with validation and transformation as pure functions in the middle, I/O at the edges, and a date parameter driving each run">
+<rect class="sB" x="14" y="60" width="124" height="56" rx="8"/><text class="sT" x="76" y="86" text-anchor="middle">extract</text><text class="sC" x="76" y="102" text-anchor="middle">API · DB · files</text>
+<line class="sLm" x1="138" y1="88" x2="152" y2="88" marker-end="url(#ahm)"/>
+<rect class="sW" x="154" y="60" width="124" height="56" rx="8"/><text class="sT" x="216" y="86" text-anchor="middle">land raw</text><text class="sC" x="216" y="102" text-anchor="middle">bronze JSONL</text>
+<line class="sLm" x1="278" y1="88" x2="292" y2="88" marker-end="url(#ahm)"/>
+<rect class="sV" x="294" y="60" width="124" height="56" rx="8"/><text class="sT" x="356" y="86" text-anchor="middle">validate</text><text class="sC" x="356" y="102" text-anchor="middle">schema checks</text>
+<line class="sLm" x1="418" y1="88" x2="432" y2="88" marker-end="url(#ahm)"/>
+<rect class="sA" x="434" y="60" width="124" height="56" rx="8"/><text class="sT" x="496" y="86" text-anchor="middle">transform</text><text class="sC" x="496" y="102" text-anchor="middle">pure function</text>
+<line class="sLm" x1="558" y1="88" x2="572" y2="88" marker-end="url(#ahm)"/>
+<rect class="sG" x="574" y="60" width="124" height="56" rx="8"/><text class="sT" x="636" y="86" text-anchor="middle">load</text><text class="sC" x="636" y="102" text-anchor="middle">staging → MERGE</text>
+<rect class="sN" x="290" y="40" width="260" height="96" rx="10" style="fill:none" stroke-dasharray="6 4"/><text class="sGt" x="420" y="34" text-anchor="middle">pure: easy to unit-test</text>
+<text class="sC" x="80" y="150" text-anchor="middle">I/O edge</text><text class="sC" x="220" y="150" text-anchor="middle">I/O edge</text><text class="sC" x="640" y="150" text-anchor="middle">I/O edge</text>
+<rect class="sW" x="240" y="172" width="240" height="36" rx="18" opacity=".7"/><text class="sC" x="256" y="195" xml:space="preserve" style="white-space:pre">run --date 2026-10-08</text>
+<line class="sLw" x1="360" y1="172" x2="360" y2="140" marker-end="url(#ahw)"/>
+<text class="sC" x="492" y="194">today, a rerun or a backfill</text>
+<circle class="sP" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M76 88 H640"/></circle>
+</svg><figcaption>Keep I/O at the edges and logic in the middle. The middle is where bugs hide, and pure functions are where tests are cheap.</figcaption></figure>
+
 ## DE4.1 Write pipelines like software 🟢 ⭐
 
 ```text
@@ -82,6 +106,28 @@ What makes this production-grade:
 - **Raw landing** in bronze as **JSON Lines** with lineage metadata (`_run_id`, `_ingested_at`), before any transformation, so you can always reprocess.
 - `ensure_ascii=False` keeps Arabic text readable in the files.
 
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Retries with exponential backoff: a 503, a 429 and a timeout are retried after waits of about one, two and four seconds with random jitter, and the fourth attempt succeeds">
+<line class="sLm" x1="60" y1="120" x2="662" y2="120" marker-end="url(#ahm)"/>
+<text class="sC" x="60" y="140" text-anchor="middle">0 s</text>
+<text class="sC" x="130" y="140" text-anchor="middle">1 s</text>
+<text class="sC" x="200" y="140" text-anchor="middle">2 s</text>
+<text class="sC" x="270" y="140" text-anchor="middle">3 s</text>
+<text class="sC" x="340" y="140" text-anchor="middle">4 s</text>
+<text class="sC" x="410" y="140" text-anchor="middle">5 s</text>
+<text class="sC" x="480" y="140" text-anchor="middle">6 s</text>
+<text class="sC" x="550" y="140" text-anchor="middle">7 s</text>
+<text class="sC" x="620" y="140" text-anchor="middle">8 s</text>
+<circle class="sPr" cx="60" cy="120" r="8"/><text class="sRt" x="60" y="100" text-anchor="middle">try 1: 503</text>
+<circle class="sPr" cx="144" cy="120" r="8"/><text class="sRt" x="144" y="100" text-anchor="middle">try 2: 429</text>
+<circle class="sPr" cx="291" cy="120" r="8"/><text class="sRt" x="291" y="100" text-anchor="middle">try 3: timeout</text>
+<circle class="sPg" cx="592" cy="120" r="8"/><text class="sGt" x="592" y="100" text-anchor="middle">try 4: 200 ✓</text>
+<path class="sLw" d="M70 158 Q 102 180 134 158" fill="none" marker-end="url(#ahw)"/><text class="sWt" x="102" y="196" text-anchor="middle">wait 1 s + jitter</text>
+<path class="sLw" d="M154 158 Q 218 180 281 158" fill="none" marker-end="url(#ahw)"/><text class="sWt" x="217.5" y="196" text-anchor="middle">2 s + jitter</text>
+<path class="sLw" d="M301 158 Q 442 180 582 158" fill="none" marker-end="url(#ahw)"/><text class="sWt" x="441.5" y="196" text-anchor="middle">4 s + jitter</text>
+<text class="sS" x="360" y="30" text-anchor="middle">retry only transient errors (network, 429, 5xx); honour Retry-After; cap the attempts</text>
+<text class="sC" x="360" y="54" text-anchor="middle">a 400 or 401 is a bug or a config error: retrying it just wastes the rate limit</text>
+</svg><figcaption>Exponential backoff gives the server room to recover; jitter stops a thousand clients from retrying in lockstep.</figcaption></figure>
+
 > [!term] JSON Lines (NDJSON)
 > One JSON object per line. It can be appended to and streamed line by line, unlike one giant JSON array, which must be parsed whole. The standard landing format for API and event data.
 
@@ -104,6 +150,24 @@ df = pd.read_csv("export.csv", encoding="utf-8-sig", dtype={"phone": "string", "
 > [!term] Parquet
 > A **columnar**, compressed, binary file format with a schema stored inside. Files are typically 5–10× smaller than CSV, keep data types exact (no guessing dates or leading zeros), and let engines read only the needed columns and skip row groups using stored min/max statistics. It's the storage format underneath Delta Lake and Iceberg ([[DE5]]).
 
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Anatomy of a Parquet file: row groups containing column chunks, and a footer with the schema and min and max statistics that let readers skip data">
+<rect class="sN" x="14" y="20" width="380" height="200" rx="10"/><text class="sT" x="204" y="40" text-anchor="middle">orders.parquet</text>
+<rect class="sB" x="30" y="52" width="348" height="60" rx="6" opacity=".5"/><text class="sC" x="40" y="66">row group 1</text>
+<rect class="sA" x="40" y="74" width="78" height="30" rx="4"/><text class="sC" x="79" y="94" text-anchor="middle">order_id</text>
+<rect class="sV" x="124" y="74" width="78" height="30" rx="4"/><text class="sC" x="163" y="94" text-anchor="middle">date</text>
+<rect class="sW" x="208" y="74" width="78" height="30" rx="4"/><text class="sC" x="247" y="94" text-anchor="middle">city</text>
+<rect class="sG" x="292" y="74" width="78" height="30" rx="4"/><text class="sC" x="331" y="94" text-anchor="middle">amount</text>
+<rect class="sB" x="30" y="122" width="348" height="60" rx="6" opacity=".5"/><text class="sC" x="40" y="136">row group 2</text>
+<rect class="sA" x="40" y="144" width="78" height="30" rx="4"/><text class="sC" x="79" y="164" text-anchor="middle">order_id</text>
+<rect class="sV" x="124" y="144" width="78" height="30" rx="4"/><text class="sC" x="163" y="164" text-anchor="middle">date</text>
+<rect class="sW" x="208" y="144" width="78" height="30" rx="4"/><text class="sC" x="247" y="164" text-anchor="middle">city</text>
+<rect class="sG" x="292" y="144" width="78" height="30" rx="4"/><text class="sC" x="331" y="164" text-anchor="middle">amount</text>
+<rect class="sV" x="30" y="192" width="348" height="22" rx="4"/><text class="sC" x="204" y="208" text-anchor="middle">footer: schema · per-chunk min / max / nulls</text>
+<text class="sC" x="420" y="50">a reader asking for</text><text class="sC" x="420" y="70" xml:space="preserve" style="white-space:pre">SUM(amount) WHERE date &gt;= '2026-10-01'</text>
+<text class="sC" x="420" y="100">1. reads the footer first</text><text class="sC" x="420" y="122">2. skips row groups whose date</text><text class="sC" x="420" y="140">   max is too old</text><text class="sC" x="420" y="162">3. reads only 2 column chunks</text>
+<text class="sRt" x="420" y="196">CSV: read every byte, guess every type</text>
+</svg><figcaption>Parquet is columnar inside, typed, compressed and self-describing. Readers skip both columns and row groups they don't need.</figcaption></figure>
+
 ```python
 import pyarrow as pa, pyarrow.parquet as pq, pyarrow.dataset as ds
 table = pa.Table.from_pandas(df, preserve_index=False)
@@ -117,6 +181,23 @@ subset = dataset.to_table(columns=["order_id", "amount"], filter=ds.field("order
 **Apache Arrow** is the in-memory columnar standard shared by pandas (with the Arrow backend), Polars, DuckDB and Spark, so data moves between them with little or no copying.
 
 ## DE4.4 Choosing the processing engine 🟢 🟡 ⭐
+
+<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="Processing tools by data size on a log scale from 1 MB to 10 TB: pandas up to a few GB, Polars and DuckDB to hundreds of GB on one machine, PySpark from tens of GB to terabytes, warehouse SQL across the range">
+<line class="sLm" x1="60" y1="150" x2="670" y2="150" marker-end="url(#ahm)"/>
+<line class="sLm" x1="60" y1="146" x2="60" y2="154"/><text class="sC" x="60" y="170" text-anchor="middle">1 MB</text>
+<line class="sLm" x1="146" y1="146" x2="146" y2="154"/><text class="sC" x="146" y="170" text-anchor="middle">10 MB</text>
+<line class="sLm" x1="232" y1="146" x2="232" y2="154"/><text class="sC" x="232" y="170" text-anchor="middle">100 MB</text>
+<line class="sLm" x1="318" y1="146" x2="318" y2="154"/><text class="sC" x="318" y="170" text-anchor="middle">1 GB</text>
+<line class="sLm" x1="404" y1="146" x2="404" y2="154"/><text class="sC" x="404" y="170" text-anchor="middle">10 GB</text>
+<line class="sLm" x1="490" y1="146" x2="490" y2="154"/><text class="sC" x="490" y="170" text-anchor="middle">100 GB</text>
+<line class="sLm" x1="576" y1="146" x2="576" y2="154"/><text class="sC" x="576" y="170" text-anchor="middle">1 TB</text>
+<line class="sLm" x1="662" y1="146" x2="662" y2="154"/><text class="sC" x="662" y="170" text-anchor="middle">10 TB</text>
+<rect class="sB" x="60" y="30" width="301" height="24" rx="12"/><text class="sT" x="210.5" y="47" text-anchor="middle">pandas</text>
+<rect class="sA" x="189" y="62" width="326.8" height="24" rx="12"/><text class="sT" x="352.4" y="79" text-anchor="middle">Polars · DuckDB (one machine)</text>
+<rect class="sV" x="404" y="94" width="258" height="24" rx="12"/><text class="sT" x="533" y="111" text-anchor="middle">PySpark (a cluster)</text>
+<rect class="sG" x="232" y="122" width="430" height="24" rx="12"/><text class="sT" x="447" y="139" text-anchor="middle">dbt + warehouse SQL</text>
+<text class="sS" x="360" y="200" text-anchor="middle">use the smallest tool that fits: a cluster has a fixed cost in start-up time, money and complexity</text>
+</svg><figcaption>Approximate, overlapping ranges. A modern laptop with DuckDB handles far more than most people expect.</figcaption></figure>
 
 | Data size and shape | Choose | Why |
 |---|---|---|
@@ -176,6 +257,15 @@ orders_schema.validate(df, lazy=True)       # lazy=True reports every failure at
 
 Decide per check whether a failure **stops** the pipeline (a broken primary key) or **quarantines** bad rows to an error table and continues (one malformed record out of a million) ([[DE9]]).
 
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Validation routes valid rows to the silver table, isolated malformed rows to a quarantine table with reasons, and stops the run with an alert when a check like duplicate keys shows the whole batch is wrong">
+<rect class="sB" x="14" y="70" width="120" height="50" rx="8"/><text class="sT" x="74" y="93" text-anchor="middle">batch</text><text class="sC" x="74" y="109" text-anchor="middle">1,000,000 rows</text>
+<line class="sL" x1="134" y1="95" x2="186" y2="95" marker-end="url(#ah)"/><rect class="sV" x="190" y="62" width="150" height="66" rx="8"/><text class="sT" x="265" y="93" text-anchor="middle">validate</text><text class="sC" x="265" y="109" text-anchor="middle">pandera / Pydantic</text>
+<line class="sLg" x1="340" y1="80" x2="420" y2="44" marker-end="url(#ahg)"/><rect class="sG" x="424" y="20" width="282" height="46" rx="8"/><text class="sT" x="565" y="41" text-anchor="middle">silver table</text><text class="sC" x="565" y="57" text-anchor="middle">999,998 valid rows</text>
+<line class="sLw" x1="340" y1="95" x2="420" y2="95" marker-end="url(#ahw)"/><rect class="sW" x="424" y="72" width="282" height="46" rx="8"/><text class="sT" x="565" y="93" text-anchor="middle">quarantine table</text><text class="sC" x="565" y="109" text-anchor="middle">2 malformed rows + the reason</text>
+<line class="sLr" x1="340" y1="110" x2="420" y2="146" marker-end="url(#ahr)"/><rect class="sR" x="424" y="124" width="282" height="46" rx="8"/><text class="sT" x="565" y="145" text-anchor="middle">stop the run, alert</text><text class="sC" x="565" y="161" text-anchor="middle">duplicate primary keys: the batch is wrong</text>
+<text class="sS" x="360" y="196" text-anchor="middle">decide per check: is one bad row a fact about that row, or about the whole batch?</text>
+</svg><figcaption>Quarantine isolated bad rows; stop on anything that means the batch itself is broken.</figcaption></figure>
+
 ## DE4.8 Testing pipelines 🟢 🟡 ⭐
 
 | Test | What | How |
@@ -204,6 +294,19 @@ def test_dedupe_keeps_latest_version():
 - **I/O-bound work** (many API calls, many files): threads (`concurrent.futures.ThreadPoolExecutor`) or `asyncio` with `httpx.AsyncClient`, with a concurrency limit to respect rate limits.
 - **CPU-bound work in pure Python:** `multiprocessing` or `ProcessPoolExecutor`, because of the **GIL** (global interpreter lock), which lets only one thread run Python bytecode at a time in the standard build. (Python 3.13 introduced an optional **free-threaded** build without the GIL, and 3.14 made it officially supported; libraries are still catching up.) Usually, the better fix is **vectorised** code (Polars, DuckDB, NumPy) that runs outside the interpreter.
 - Profile before optimising (`cProfile`, `py-spy`).
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Threads help I/O-bound work because their waits overlap, but CPU-bound Python threads run one at a time under the GIL, while separate processes run in parallel">
+<text class="sM" x="14" y="20">I/O-bound (API calls) with 4 threads: waiting overlaps</text>
+<text class="sC" x="150" y="45" text-anchor="end">thread 1</text><rect class="sA" x="160" y="30" width="13" height="22" rx="3"/><rect class="sN" x="175" y="30" width="148" height="22" rx="3"/><rect class="sA" x="325" y="30" width="13" height="22" rx="3"/>
+<text class="sC" x="150" y="71" text-anchor="end">thread 2</text><rect class="sA" x="175" y="56" width="13" height="22" rx="3"/><rect class="sN" x="190" y="56" width="148" height="22" rx="3"/><rect class="sA" x="340" y="56" width="13" height="22" rx="3"/>
+<text class="sC" x="150" y="97" text-anchor="end">thread 3</text><rect class="sA" x="190" y="82" width="13" height="22" rx="3"/><rect class="sN" x="205" y="82" width="148" height="22" rx="3"/><rect class="sA" x="355" y="82" width="13" height="22" rx="3"/>
+<text class="sC" x="150" y="123" text-anchor="end">thread 4</text><rect class="sA" x="205" y="108" width="13" height="22" rx="3"/><rect class="sN" x="220" y="108" width="148" height="22" rx="3"/><rect class="sA" x="370" y="108" width="13" height="22" rx="3"/>
+<text class="sM" x="14" y="150">CPU-bound Python: threads take turns (GIL) · processes run in parallel</text>
+<text class="sC" x="150" y="175" text-anchor="end">4 threads</text><rect class="sR" x="160" y="160" width="98" height="22" rx="3"/><rect class="sR" x="260" y="160" width="98" height="22" rx="3"/><rect class="sR" x="360" y="160" width="98" height="22" rx="3"/><rect class="sR" x="460" y="160" width="98" height="22" rx="3"/>
+<text class="sC" x="150" y="203" text-anchor="end">process 1</text><rect class="sG" x="160" y="188" width="98" height="22" rx="3"/><text class="sC" x="150" y="227" text-anchor="end">process 2</text><rect class="sG" x="160" y="212" width="98" height="22" rx="3"/>
+<text class="sGt" x="560" y="200">work done in a quarter</text><text class="sGt" x="560" y="218">of the time (4 cores)</text>
+<text class="sC" x="430" y="70">grey = waiting on the network</text><text class="sC" x="430" y="88">blue = running Python</text>
+</svg><figcaption>Threads (or asyncio) for waiting; processes for computing. Libraries like NumPy, Polars and DuckDB release the GIL internally.</figcaption></figure>
 
 > [!lab] Rewrite FinSight's aggregation in Python (from your gaps file)
 > Build `finsight-pipeline`: extract transactions from FinSight's SQL Server (incremental by `updated_at` with a lookback) into JSON Lines or Parquet in a `bronze/` folder; validate with pandera; aggregate per company per day with gap-filling (`resample("D")`) into `gold/daily_aggregates/` partitioned by date with partition overwrite; load into PostgreSQL with `COPY` and `MERGE`; pytest unit tests plus one Testcontainers integration test; a CLI `--date` parameter. In [[DE7]] you'll orchestrate it with Airflow. This turns "C# developer who touched data" into "data engineer".

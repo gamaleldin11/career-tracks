@@ -228,6 +228,51 @@ figcaption{font-family:var(--sans);font-size:13.5px;color:var(--ink-2);margin-to
 .sS{font:12px var(--sans);fill:var(--ink-2)}
 .sM{font:500 11.5px var(--mono);fill:var(--accent)}
 .sF{fill:var(--accent)}
+.sX{font:600 15px var(--sans);fill:var(--ink)}
+.sC{font:11px var(--mono);fill:var(--ink-2)}
+.sGt{font:600 12px var(--sans);fill:var(--entry)} .sWt{font:600 12px var(--sans);fill:var(--mid)} .sRt{font:600 12px var(--sans);fill:var(--senior)}
+.sLg{stroke:var(--entry);stroke-width:1.8;fill:none} .sLw{stroke:var(--mid);stroke-width:1.8;fill:none} .sLr{stroke:var(--senior);stroke-width:1.8;fill:none}
+.sLm{stroke:var(--ink-3);stroke-width:1.4;fill:none}
+.sLv{stroke:var(--sota-line);stroke-width:1.8;fill:none}
+.sFm{fill:var(--ink-3)} .sFg{fill:var(--entry)} .sFw{fill:var(--mid)} .sFr{fill:var(--senior)} .sFs{fill:var(--surface)}
+.sV{fill:var(--sota-bg);stroke:var(--sota-line);stroke-width:1.4}
+.sP{fill:var(--accent)} .sPg{fill:var(--entry)} .sPw{fill:var(--mid)} .sPr{fill:var(--senior)} .sPv{fill:var(--sota-line)}
+/* ambient motion: "flow" edges march in their drawing direction, "pulse" breathes */
+.aFlow{stroke-dasharray:7 6;animation:aFlow .9s linear infinite}
+.aFlowS{stroke-dasharray:7 6;animation:aFlow 2.2s linear infinite}
+@keyframes aFlow{to{stroke-dashoffset:-13}}
+.aPulse{animation:aPulse 2.4s ease-in-out infinite}
+@keyframes aPulse{50%{opacity:.35}}
+.aSpin{transform-box:fill-box;transform-origin:center;animation:aSpin 6s linear infinite}
+@keyframes aSpin{to{transform:rotate(360deg)}}
+figure.dia.paused svg *,figure.dia.offscreen svg *{animation-play-state:paused!important}
+/* controls added by the page script; without it, the figure is a static diagram */
+.dia-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 2px;font-family:var(--sans);font-size:12.5px}
+.dia-ctl button{border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);border-radius:999px;padding:4px 11px;cursor:pointer;font-size:12.5px;font-weight:500;line-height:1.4}
+.dia-ctl button:hover{border-color:var(--accent);color:var(--ink)}
+.dia-ctl button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.dia-ctl button:disabled{opacity:.45;cursor:default}
+.dia-ctl .count{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);min-width:74px;text-align:center}
+.dia-ctl .grow{flex:1}
+figure.dia{position:relative}
+figure.dia .dia-pause{position:absolute;top:8px;right:8px;margin:0;z-index:1}
+figure.dia.anim{padding-top:40px} /* room for the pause button above the drawing */
+/* step-through diagrams: data-s="3" appears at step 3; data-s="2-4" shows for steps 2 to 4 */
+figure.dia [data-s]{transition:opacity .35s ease}
+figure.dia.stepping [data-s].off{opacity:.08}
+figure.dia.stepping [data-s].gone{opacity:0}
+figure.dia.stepping [data-s].now{filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 55%,transparent))}
+figure.dia .pk{display:none}
+figure.dia.stepping .pk.now{display:inline}
+ol.dia-steps{font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-2);margin:12px 0 4px;padding-left:1.6em;max-width:68ch}
+ol.dia-steps li{margin:3px 0;padding-left:2px}
+ol.dia-steps li::marker{font-family:var(--mono);font-size:12px;color:var(--accent)}
+figure.dia.stepping ol.dia-steps{list-style:none;padding:10px 14px;background:var(--accent-soft);border-radius:10px;min-height:3.2em;color:var(--ink)}
+figure.dia.stepping ol.dia-steps li{display:none;margin:0;padding:0}
+figure.dia.stepping ol.dia-steps li.now{display:block;animation:stepIn .3s ease-out}
+figure.dia.stepping ol.dia-steps li.now::before{content:attr(data-n);font:600 11.5px var(--mono);color:var(--accent);margin-right:8px}
+@keyframes stepIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media (max-width:560px){figure.dia{padding:12px 10px 6px}figure.dia>svg{min-width:520px}}
 
 /* flash cards */
 .deck{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin:18px 0}
@@ -359,8 +404,8 @@ a.xref{text-decoration:none;border-bottom:1px dotted var(--accent);font-family:v
   pre.code{font-size:12.5px}
 }
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*:not(svg *){animation:none!important;transition:none!important}figure.dia:not(.playing) svg *{animation:none!important}}
 .part:not([hidden]){animation:partIn .28s ease-out}
 @keyframes partIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media print{.topbar,.sidebar,.toc,.pager,.part-actions,.copy{display:none!important}.app{display:block}.part[hidden]{display:block!important}}
+@media print{.topbar,.sidebar,.toc,.pager,.part-actions,.copy,.dia-ctl,.dia-pause{display:none!important}.app{display:block}.part[hidden]{display:block!important}}
 </style>

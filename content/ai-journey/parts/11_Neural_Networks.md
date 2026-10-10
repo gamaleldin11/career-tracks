@@ -150,6 +150,22 @@ X_train, X_val, y_train, y_val = train_test_split(
 
 70 / 15 / 15, with `stratify` at both levels. The `0.1765` is deliberate: 0.1765 × 0.85 ≈ 0.15 of the original.
 
+<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="Splitting 10,000 rows 70 / 15 / 15: the first split seals 1,500 test rows, the second takes 17.65 percent of the remaining 8,500, which is 1,500 validation rows, leaving 7,000 for training">
+<text class="sM" x="14" y="22">Churn_Modelling: 10,000 rows</text>
+<rect class="sN" x="30" y="30" width="660" height="30" rx="4"/><text class="sC" x="360" y="50" text-anchor="middle">all rows</text>
+<text class="sS" x="14" y="84">split 1: test_size=0.15</text>
+<rect class="sB" x="30" y="92" width="561" height="30" rx="4"/><text class="sC" x="310.5" y="112" text-anchor="middle">train + val  8,500</text>
+<rect class="sR" x="591" y="92" width="99" height="30" rx="4" opacity=".7"/><text class="sT" x="640.5" y="112" text-anchor="middle">test 1,500</text>
+<text class="sS" x="14" y="146">split 2 on the 8,500: test_size=0.1765</text>
+<rect class="sG" x="30" y="154" width="462" height="30" rx="4" opacity=".7"/><text class="sT" x="261" y="174" text-anchor="middle">train 7,000 (70%)</text>
+<rect class="sW" x="492" y="154" width="99" height="30" rx="4" opacity=".7"/><text class="sT" x="541.5" y="174" text-anchor="middle">val 1,500</text>
+<rect class="sR" x="591" y="154" width="99" height="30" rx="4" opacity=".35"/><text class="sS" x="640.5" y="174" text-anchor="middle">sealed</text>
+<text class="sGt" x="261" y="204" text-anchor="middle">fits the weights, every batch</text>
+<text class="sWt" x="541.5" y="204" text-anchor="middle">every epoch</text><text class="sWt" x="541.5" y="220" text-anchor="middle">early stopping</text>
+<text class="sRt" x="640.5" y="204" text-anchor="middle">once, at the end</text>
+<text class="sS" x="360" y="240" text-anchor="middle">0.1765 × 8,500 ≈ 1,500: the second split takes 15% of the original from what is left; stratify=y at both levels</text>
+</svg><figcaption>The three-way split behind §11.2, computed: who touches which set, and how often.</figcaption></figure>
+
 **Why three sets here, when the other notebooks used two?** Because neural networks need a validation set *during* training — for early stopping and for watching the loss curves. That set is consulted every epoch, so it cannot also serve as the final honest estimate. The test set stays sealed until the end. See §4.5.
 
 ### Fit on train only
@@ -255,6 +271,20 @@ A `Dense(64)` layer computes:
 
 > **output = activation(W·x + b)**
 
+<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="One neuron: three inputs multiplied by weights, summed with a bias, passed through ReLU to give the output">
+<rect class="sB" x="14" y="34" width="130" height="40" rx="6"/><text class="sC" x="79" y="51" text-anchor="middle">tenure</text><text class="sT" x="79" y="67" text-anchor="middle">x = 0.8</text>
+<line class="sLm" x1="144" y1="54" x2="296" y2="110" marker-end="url(#ahm)"/><text class="sWt" x="214" y="75.2" text-anchor="middle">w = -0.6</text>
+<rect class="sB" x="14" y="94" width="130" height="40" rx="6"/><text class="sC" x="79" y="111" text-anchor="middle">complaints</text><text class="sT" x="79" y="127" text-anchor="middle">x = 2.0</text>
+<line class="sLm" x1="144" y1="114" x2="296" y2="110" marker-end="url(#ahm)"/><text class="sWt" x="214" y="108.2" text-anchor="middle">w = 0.9</text>
+<rect class="sB" x="14" y="154" width="130" height="40" rx="6"/><text class="sC" x="79" y="171" text-anchor="middle">spend</text><text class="sT" x="79" y="187" text-anchor="middle">x = -0.5</text>
+<line class="sLm" x1="144" y1="174" x2="296" y2="110" marker-end="url(#ahm)"/><text class="sWt" x="214" y="141.2" text-anchor="middle">w = 0.4</text>
+<rect class="sV" x="300" y="80" width="120" height="60" rx="30"/><text class="sT" x="360" y="106" text-anchor="middle">Σ wx + b</text><text class="sC" x="360" y="124" text-anchor="middle">z = 0.82</text>
+<text class="sWt" x="360" y="162" text-anchor="middle">b = -0.3</text>
+<line class="sL" x1="420" y1="110" x2="466" y2="110" marker-end="url(#ah)"/><rect class="sA" x="470" y="86" width="110" height="48" rx="8"/><text class="sT" x="525" y="108" text-anchor="middle">ReLU</text><text class="sC" x="525" y="124" text-anchor="middle">max(0, z)</text>
+<line class="sL" x1="580" y1="110" x2="616" y2="110" marker-end="url(#ah)"/><rect class="sG" x="620" y="86" width="86" height="48" rx="8"/><text class="sT" x="663" y="115" text-anchor="middle">0.82</text>
+<text class="sS" x="360" y="212" text-anchor="middle">a Dense(64) layer is 64 of these side by side: one weight row each, all computed as one matrix product</text>
+</svg><figcaption>One neuron, with numbers: 0.8×(−0.6) + 2.0×0.9 + (−0.5)×0.4 − 0.3 = 0.82, and ReLU keeps it.</figcaption></figure>
+
 where `W` is a `(input_dim, 64)` weight matrix and `b` a length-64 bias vector. That is 64 dot products — §2.8 again, at scale. Every "neuron" is one row of `W` producing one number.
 
 The parameter count for this network, given say 12 input features after encoding:
@@ -305,6 +335,13 @@ keras.layers.Dropout(0.25)
 During **training only**, randomly set 25% of the layer's outputs to zero on each forward pass. At inference, nothing is dropped (activations are scaled to compensate).
 
 **Why this regularises.** The network cannot rely on any single neuron always being present, so it must learn redundant, distributed representations. It is also interpretable as training an exponentially large ensemble of sub-networks that share weights and averaging them at test time.
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Dropout: on each training step a different random subset of hidden units is switched off; at inference every unit is used">
+<text class="sM" x="114" y="22" text-anchor="middle">training step 1</text><circle class="sB" cx="44" cy="46" r="10"/><circle class="sB" cx="44" cy="76" r="10"/><circle class="sB" cx="44" cy="106" r="10"/><circle class="sB" cx="44" cy="136" r="10"/><circle class="sB" cx="44" cy="166" r="10"/><circle class="sB" cx="44" cy="196" r="10"/><circle class="sV" cx="184" cy="46" r="10"/><line class="sLm" x1="54" y1="46" x2="174" y2="46" opacity=".35"/><line class="sLm" x1="54" y1="76" x2="174" y2="46" opacity=".35"/><line class="sLm" x1="54" y1="106" x2="174" y2="46" opacity=".35"/><line class="sLm" x1="54" y1="136" x2="174" y2="46" opacity=".35"/><line class="sLm" x1="54" y1="166" x2="174" y2="46" opacity=".35"/><line class="sLm" x1="54" y1="196" x2="174" y2="46" opacity=".35"/><circle class="sN" cx="184" cy="76" r="10"/><text class="sRt" x="184" y="81" text-anchor="middle">×</text><circle class="sV" cx="184" cy="106" r="10"/><line class="sLm" x1="54" y1="46" x2="174" y2="106" opacity=".35"/><line class="sLm" x1="54" y1="76" x2="174" y2="106" opacity=".35"/><line class="sLm" x1="54" y1="106" x2="174" y2="106" opacity=".35"/><line class="sLm" x1="54" y1="136" x2="174" y2="106" opacity=".35"/><line class="sLm" x1="54" y1="166" x2="174" y2="106" opacity=".35"/><line class="sLm" x1="54" y1="196" x2="174" y2="106" opacity=".35"/><circle class="sV" cx="184" cy="136" r="10"/><line class="sLm" x1="54" y1="46" x2="174" y2="136" opacity=".35"/><line class="sLm" x1="54" y1="76" x2="174" y2="136" opacity=".35"/><line class="sLm" x1="54" y1="106" x2="174" y2="136" opacity=".35"/><line class="sLm" x1="54" y1="136" x2="174" y2="136" opacity=".35"/><line class="sLm" x1="54" y1="166" x2="174" y2="136" opacity=".35"/><line class="sLm" x1="54" y1="196" x2="174" y2="136" opacity=".35"/><circle class="sN" cx="184" cy="166" r="10"/><text class="sRt" x="184" y="171" text-anchor="middle">×</text><circle class="sV" cx="184" cy="196" r="10"/><line class="sLm" x1="54" y1="46" x2="174" y2="196" opacity=".35"/><line class="sLm" x1="54" y1="76" x2="174" y2="196" opacity=".35"/><line class="sLm" x1="54" y1="106" x2="174" y2="196" opacity=".35"/><line class="sLm" x1="54" y1="136" x2="174" y2="196" opacity=".35"/><line class="sLm" x1="54" y1="166" x2="174" y2="196" opacity=".35"/><line class="sLm" x1="54" y1="196" x2="174" y2="196" opacity=".35"/>
+<text class="sM" x="350" y="22" text-anchor="middle">training step 2</text><circle class="sB" cx="280" cy="46" r="10"/><circle class="sB" cx="280" cy="76" r="10"/><circle class="sB" cx="280" cy="106" r="10"/><circle class="sB" cx="280" cy="136" r="10"/><circle class="sB" cx="280" cy="166" r="10"/><circle class="sB" cx="280" cy="196" r="10"/><circle class="sN" cx="420" cy="46" r="10"/><text class="sRt" x="420" y="51" text-anchor="middle">×</text><circle class="sV" cx="420" cy="76" r="10"/><line class="sLm" x1="290" y1="46" x2="410" y2="76" opacity=".35"/><line class="sLm" x1="290" y1="76" x2="410" y2="76" opacity=".35"/><line class="sLm" x1="290" y1="106" x2="410" y2="76" opacity=".35"/><line class="sLm" x1="290" y1="136" x2="410" y2="76" opacity=".35"/><line class="sLm" x1="290" y1="166" x2="410" y2="76" opacity=".35"/><line class="sLm" x1="290" y1="196" x2="410" y2="76" opacity=".35"/><circle class="sV" cx="420" cy="106" r="10"/><line class="sLm" x1="290" y1="46" x2="410" y2="106" opacity=".35"/><line class="sLm" x1="290" y1="76" x2="410" y2="106" opacity=".35"/><line class="sLm" x1="290" y1="106" x2="410" y2="106" opacity=".35"/><line class="sLm" x1="290" y1="136" x2="410" y2="106" opacity=".35"/><line class="sLm" x1="290" y1="166" x2="410" y2="106" opacity=".35"/><line class="sLm" x1="290" y1="196" x2="410" y2="106" opacity=".35"/><circle class="sN" cx="420" cy="136" r="10"/><text class="sRt" x="420" y="141" text-anchor="middle">×</text><circle class="sV" cx="420" cy="166" r="10"/><line class="sLm" x1="290" y1="46" x2="410" y2="166" opacity=".35"/><line class="sLm" x1="290" y1="76" x2="410" y2="166" opacity=".35"/><line class="sLm" x1="290" y1="106" x2="410" y2="166" opacity=".35"/><line class="sLm" x1="290" y1="136" x2="410" y2="166" opacity=".35"/><line class="sLm" x1="290" y1="166" x2="410" y2="166" opacity=".35"/><line class="sLm" x1="290" y1="196" x2="410" y2="166" opacity=".35"/><circle class="sV" cx="420" cy="196" r="10"/><line class="sLm" x1="290" y1="46" x2="410" y2="196" opacity=".35"/><line class="sLm" x1="290" y1="76" x2="410" y2="196" opacity=".35"/><line class="sLm" x1="290" y1="106" x2="410" y2="196" opacity=".35"/><line class="sLm" x1="290" y1="136" x2="410" y2="196" opacity=".35"/><line class="sLm" x1="290" y1="166" x2="410" y2="196" opacity=".35"/><line class="sLm" x1="290" y1="196" x2="410" y2="196" opacity=".35"/>
+<text class="sM" x="586" y="22" text-anchor="middle">inference: all on</text><circle class="sB" cx="516" cy="46" r="10"/><circle class="sB" cx="516" cy="76" r="10"/><circle class="sB" cx="516" cy="106" r="10"/><circle class="sB" cx="516" cy="136" r="10"/><circle class="sB" cx="516" cy="166" r="10"/><circle class="sB" cx="516" cy="196" r="10"/><circle class="sV" cx="656" cy="46" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="46" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="46" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="46" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="46" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="46" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="46" opacity=".35"/><circle class="sV" cx="656" cy="76" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="76" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="76" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="76" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="76" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="76" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="76" opacity=".35"/><circle class="sV" cx="656" cy="106" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="106" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="106" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="106" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="106" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="106" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="106" opacity=".35"/><circle class="sV" cx="656" cy="136" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="136" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="136" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="136" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="136" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="136" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="136" opacity=".35"/><circle class="sV" cx="656" cy="166" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="166" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="166" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="166" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="166" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="166" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="166" opacity=".35"/><circle class="sV" cx="656" cy="196" r="10"/><line class="sLm" x1="526" y1="46" x2="646" y2="196" opacity=".35"/><line class="sLm" x1="526" y1="76" x2="646" y2="196" opacity=".35"/><line class="sLm" x1="526" y1="106" x2="646" y2="196" opacity=".35"/><line class="sLm" x1="526" y1="136" x2="646" y2="196" opacity=".35"/><line class="sLm" x1="526" y1="166" x2="646" y2="196" opacity=".35"/><line class="sLm" x1="526" y1="196" x2="646" y2="196" opacity=".35"/>
+<text class="sS" x="360" y="232" text-anchor="middle">a different 25–50% of units switched off on every training step; none switched off at prediction time</text>
+</svg><figcaption>Dropout forces redundancy: no unit can count on any particular neighbour being there.</figcaption></figure>
 
 Typical rates: 0.2–0.5. Higher for large networks on small data. The 0.25 here is conservative and appropriate for a 3,000-parameter model on 10,000 rows.
 
@@ -384,6 +421,15 @@ Each argument:
 
 `restore_best_weights=True` is the one people forget, and without it early stopping does half its job.
 
+<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="Early stopping: training loss keeps falling while validation loss reaches a minimum and rises; training stops after seven epochs without improvement and the best weights are restored">
+<line class="sLm" x1="70" y1="200" x2="678" y2="200" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="200" x2="70" y2="18" marker-end="url(#ahm)"/>
+<polyline class="sL" points="70.0,18.0 82.0,30.9 94.0,42.7 106.0,53.7 118.0,63.7 130.0,72.9 142.0,81.4 154.0,89.2 166.0,96.4 178.0,103.1 190.0,109.1 202.0,114.7 214.0,119.9 226.0,124.6 238.0,129.0 250.0,133.0 262.0,136.7 274.0,140.1 286.0,143.2 298.0,146.1 310.0,148.8 322.0,151.2 334.0,153.4 346.0,155.5 358.0,157.4 370.0,159.1 382.0,160.7 394.0,162.2 406.0,163.6 418.0,164.8 430.0,166.0 442.0,167.0 454.0,168.0 466.0,168.9 478.0,169.7 490.0,170.5 502.0,171.2 514.0,171.8 526.0,172.4 538.0,172.9 550.0,173.4 562.0,173.9 574.0,174.3 586.0,174.7 598.0,175.1 610.0,175.4 622.0,175.7 634.0,176.0 646.0,176.2 658.0,176.5 670.0,176.7" fill="none" stroke-width="2.5"/><polyline class="sLr" points="70.0,12.8 82.0,25.7 94.0,37.5 106.0,48.5 118.0,58.5 130.0,67.7 142.0,76.2 154.0,84.0 166.0,91.2 178.0,97.9 190.0,103.9 202.0,109.5 214.0,114.7 226.0,119.4 238.0,123.8 250.0,127.8 262.0,131.5 274.0,134.9 286.0,138.0 298.0,140.9 310.0,143.6 322.0,146.0 334.0,148.1 346.0,150.1 358.0,151.8 370.0,153.3 382.0,154.7 394.0,155.9 406.0,156.9 418.0,157.7 430.0,158.4 442.0,159.0 454.0,159.4 466.0,159.7 478.0,159.9 490.0,160.0 502.0,160.0 514.0,159.9 526.0,159.6 538.0,159.3 550.0,158.9 562.0,158.4 574.0,157.8 586.0,157.1 598.0,156.4 610.0,155.6 622.0,154.7 634.0,153.7 646.0,152.7 658.0,151.6 670.0,150.4" fill="none" stroke-width="2.5"/>
+<line class="sLg" x1="490" y1="200" x2="490" y2="34" stroke-dasharray="5 4"/><text class="sGt" x="490" y="28" text-anchor="middle">best epoch 35: weights restored</text>
+<rect class="sW" x="490" y="44" width="84" height="156" rx="0" opacity=".18"/><text class="sWt" x="532" y="190.8" text-anchor="middle">patience 7</text>
+<text class="sC" x="658" y="192.701" text-anchor="end">training loss</text><text class="sRt" x="658" y="142.441" text-anchor="end">validation loss</text>
+<text class="sC" x="370" y="218" text-anchor="middle">epochs</text>
+</svg><figcaption>Early stopping watches the validation curve, waits out the patience window, then rolls back to the best epoch.</figcaption></figure>
+
 🐛 The code comment says `# 'min' because we want to minimize loss` while the argument is `mode='max'`. The code is right — you maximise AUC — and the comment is a leftover from a version that monitored loss. Worth noting, since a stale comment is worse than none.
 
 ### TensorBoard
@@ -446,6 +492,26 @@ Confusion Matrix: [[1153   41]
    macro avg       0.83      0.72      0.75      1500
 weighted avg       0.86      0.87      0.85      1500
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 266" role="img" aria-label="The churn model's confusion matrix: 1,153 true negatives, 41 false positives, 161 missed churners and 145 caught, so recall is 0.47; a threshold sweep simulated at the same AUC and class balance shows recall rising to about 0.75 when the threshold is lowered, at the cost of precision">
+<text class="sS" x="128" y="24" text-anchor="middle">predicted</text><text class="sS" x="89" y="42" text-anchor="middle">stay</text><text class="sS" x="167" y="42" text-anchor="middle">churn</text>
+<text class="sS" x="42" y="93" text-anchor="end">stay</text><text class="sS" x="42" y="171" text-anchor="end">churn</text>
+<rect class="sB" x="50" y="50" width="74" height="74" rx="6" opacity=".7"/><text class="sT" x="87" y="85" text-anchor="middle">1,153</text><text class="sS" x="87" y="103" text-anchor="middle">TN</text>
+<rect class="sW" x="128" y="50" width="74" height="74" rx="6" opacity=".7"/><text class="sT" x="165" y="85" text-anchor="middle">41</text><text class="sS" x="165" y="103" text-anchor="middle">FP</text>
+<rect class="sR" x="50" y="128" width="74" height="74" rx="6" opacity=".7"/><text class="sT" x="87" y="163" text-anchor="middle">161</text><text class="sS" x="87" y="181" text-anchor="middle">FN</text>
+<rect class="sG" x="128" y="128" width="74" height="74" rx="6" opacity=".7"/><text class="sT" x="165" y="163" text-anchor="middle">145</text><text class="sS" x="165" y="181" text-anchor="middle">TP</text>
+<text class="sRt" x="128" y="224" text-anchor="middle">recall 0.47 · precision 0.78</text>
+<text class="sS" x="128" y="240" text-anchor="middle">accuracy 0.87 vs baseline 0.796</text>
+<line class="sLm" x1="300" y1="200" x2="680" y2="200"/><line class="sLm" x1="300" y1="200" x2="300" y2="34"/>
+<polyline class="sLg" points="300.0,40.5 301.5,40.5 303.0,40.5 304.6,41.0 306.1,41.0 307.6,41.0 309.1,41.0 310.6,41.0 312.2,41.0 313.7,41.0 315.2,41.0 316.7,41.0 318.2,41.0 319.8,41.0 321.3,41.0 322.8,41.0 324.3,41.0 325.8,41.0 327.4,41.6 328.9,41.6 330.4,42.1 331.9,42.1 333.4,42.1 335.0,42.1 336.5,42.1 338.0,42.1 339.5,42.1 341.0,43.1 342.6,43.1 344.1,43.1 345.6,43.1 347.1,43.1 348.6,43.1 350.2,43.1 351.7,43.1 353.2,43.1 354.7,43.7 356.2,43.7 357.8,43.7 359.3,43.7 360.8,43.7 362.3,43.7 363.8,44.2 365.4,44.2 366.9,44.7 368.4,44.7 369.9,44.7 371.4,44.7 373.0,44.7 374.5,44.7 376.0,44.7 377.5,44.7 379.0,44.7 380.6,45.2 382.1,45.8 383.6,45.8 385.1,45.8 386.6,45.8 388.2,45.8 389.7,45.8 391.2,47.3 392.7,47.3 394.2,47.3 395.8,47.8 397.3,48.4 398.8,48.4 400.3,48.4 401.8,48.9 403.4,49.4 404.9,49.9 406.4,49.9 407.9,49.9 409.4,50.5 411.0,51.0 412.5,51.5 414.0,51.5 415.5,51.5 417.0,51.5 418.6,52.0 420.1,53.1 421.6,53.1 423.1,53.1 424.6,53.6 426.2,54.6 427.7,55.7 429.2,55.7 430.7,55.7 432.2,56.2 433.8,56.7 435.3,58.3 436.8,58.8 438.3,59.9 439.8,60.9 441.4,60.9 442.9,62.0 444.4,62.5 445.9,64.1 447.4,65.1 449.0,65.6 450.5,66.1 452.0,67.2 453.5,67.7 455.0,68.2 456.6,69.8 458.1,70.3 459.6,70.3 461.1,70.8 462.6,71.4 464.2,71.9 465.7,72.4 467.2,72.9 468.7,73.5 470.2,74.5 471.8,75.6 473.3,76.6 474.8,77.1 476.3,78.2 477.8,79.2 479.4,79.7 480.9,80.8 482.4,82.4 483.9,83.9 485.4,85.0 487.0,85.5 488.5,87.1 490.0,87.6 491.5,89.2 493.0,91.2 494.6,92.8 496.1,93.9 497.6,94.4 499.1,94.4 500.6,95.4 502.2,95.9 503.7,97.0 505.2,99.1 506.7,99.6 508.2,101.2 509.8,102.7 511.3,104.3 512.8,105.4 514.3,105.4 515.8,106.4 517.4,106.4 518.9,108.0 520.4,109.0 521.9,109.5 523.4,111.1 525.0,112.2 526.5,113.2 528.0,114.2 529.5,114.8 531.0,115.3 532.6,116.9 534.1,116.9 535.6,117.9 537.1,120.5 538.6,120.5 540.2,121.6 541.7,122.6 543.2,123.1 544.7,124.2 546.2,125.2 547.8,125.2 549.3,127.8 550.8,128.4 552.3,130.5 553.8,131.5 555.4,132.0 556.9,133.6 558.4,134.6 559.9,137.3 561.4,137.8 563.0,139.3 564.5,140.4 566.0,141.4 567.5,143.5 569.0,144.6 570.6,146.1 572.1,146.1 573.6,149.3 575.1,149.8 576.6,151.9 578.2,152.4 579.7,152.4 581.2,154.0 582.7,155.6 584.2,155.6 585.8,156.1 587.3,158.2 588.8,158.2 590.3,159.2 591.8,159.2 593.4,160.3 594.9,160.8 596.4,162.4 597.9,163.4 599.4,163.9 601.0,164.4 602.5,165.5 604.0,166.0 605.5,167.6 607.0,169.2 608.6,169.2 610.1,169.2 611.6,170.7 613.1,172.3 614.6,172.8 616.2,174.9 617.7,175.9 619.2,176.5 620.7,177.5 622.2,177.5 623.8,178.0 625.3,178.0 626.8,178.6 628.3,178.6 629.8,179.1 631.4,179.1 632.9,179.1 634.4,179.6 635.9,179.6 637.4,179.6 639.0,181.2 640.5,181.7 642.0,181.7 643.5,182.2 645.0,184.3 646.6,184.3 648.1,184.8 649.6,186.9 651.1,188.5 652.6,188.5 654.2,188.5 655.7,188.5 657.2,188.5 658.7,189.5 660.2,190.1 661.8,191.1 663.3,191.6 664.8,193.2 666.3,193.2 667.8,193.2 669.4,193.7 670.9,193.7 672.4,194.2 673.9,194.2 675.4,194.8 677.0,195.3 678.5,195.3" style="stroke-width:2.2"/>
+<polyline class="sLv" points="300.0,165.6 301.5,165.5 303.0,165.5 304.6,165.5 306.1,165.4 307.6,165.3 309.1,165.3 310.6,165.2 312.2,165.0 313.7,164.9 315.2,164.7 316.7,164.6 318.2,164.6 319.8,164.5 321.3,164.3 322.8,164.3 324.3,164.1 325.8,163.9 327.4,163.8 328.9,163.6 330.4,163.6 331.9,163.5 333.4,163.3 335.0,163.2 336.5,163.0 338.0,162.8 339.5,162.6 341.0,162.6 342.6,162.5 344.1,162.4 345.6,162.2 347.1,161.9 348.6,161.7 350.2,161.5 351.7,161.2 353.2,161.0 354.7,160.9 356.2,160.9 357.8,160.6 359.3,160.3 360.8,160.1 362.3,159.9 363.8,159.8 365.4,159.7 366.9,159.5 368.4,159.1 369.9,158.9 371.4,158.6 373.0,158.4 374.5,158.1 376.0,157.8 377.5,157.5 379.0,157.3 380.6,157.0 382.1,156.8 383.6,156.4 385.1,156.1 386.6,155.4 388.2,155.2 389.7,154.7 391.2,154.7 392.7,154.3 394.2,153.9 395.8,153.6 397.3,153.3 398.8,152.9 400.3,152.4 401.8,152.3 403.4,151.7 404.9,151.3 406.4,150.7 407.9,150.1 409.4,149.8 411.0,149.1 412.5,148.7 414.0,148.0 415.5,147.2 417.0,146.7 418.6,146.7 420.1,146.2 421.6,145.8 423.1,145.3 424.6,144.6 426.2,144.1 427.7,143.7 429.2,143.0 430.7,142.3 432.2,142.1 433.8,141.9 435.3,142.0 436.8,141.7 438.3,140.8 439.8,140.7 441.4,140.1 442.9,139.6 444.4,138.9 445.9,138.6 447.4,138.0 449.0,137.3 450.5,136.6 452.0,136.1 453.5,135.7 455.0,135.0 456.6,134.7 458.1,134.2 459.6,132.9 461.1,132.1 462.6,131.9 464.2,130.6 465.7,129.8 467.2,128.8 468.7,127.6 470.2,127.0 471.8,126.6 473.3,125.7 474.8,124.5 476.3,123.8 477.8,121.5 479.4,120.7 480.9,120.7 482.4,119.8 483.9,118.5 485.4,118.5 487.0,117.4 488.5,116.5 490.0,115.9 491.5,115.8 493.0,115.5 494.6,114.8 496.1,114.5 497.6,113.1 499.1,112.2 500.6,110.6 502.2,109.5 503.7,107.8 505.2,107.5 506.7,105.8 508.2,103.7 509.8,102.1 511.3,99.4 512.8,98.4 514.3,96.6 515.8,95.5 517.4,93.5 518.9,92.5 520.4,92.5 521.9,92.3 523.4,90.3 525.0,89.4 526.5,88.9 528.0,89.3 529.5,87.6 531.0,87.3 532.6,86.9 534.1,85.4 535.6,83.2 537.1,83.1 538.6,82.5 540.2,81.8 541.7,80.4 543.2,80.0 544.7,78.5 546.2,78.3 547.8,77.0 549.3,75.3 550.8,74.0 552.3,71.8 553.8,69.8 555.4,69.2 556.9,68.1 558.4,66.7 559.9,66.7 561.4,66.9 563.0,66.5 564.5,64.9 566.0,63.2 567.5,61.8 569.0,62.1 570.6,61.5 572.1,61.5 573.6,62.7 575.1,60.4 576.6,61.1 578.2,61.3 579.7,60.0 581.2,57.8 582.7,58.3 584.2,58.3 585.8,58.5 587.3,57.8 588.8,57.8 590.3,58.2 591.8,58.2 593.4,56.9 594.9,55.4 596.4,54.2 597.9,54.5 599.4,54.7 601.0,54.9 602.5,53.3 604.0,53.5 605.5,54.1 607.0,50.2 608.6,50.2 610.1,50.2 611.6,50.7 613.1,51.2 614.6,51.4 616.2,52.3 617.7,49.8 619.2,50.0 620.7,50.4 622.2,43.6 623.8,43.7 625.3,43.7 626.8,43.8 628.3,43.8 629.8,43.9 631.4,40.0 632.9,40.0 634.4,40.0 635.9,40.0 637.4,40.0 639.0,40.0 640.5,40.0 642.0,40.0 643.5,40.0 645.0,40.0 646.6,40.0 648.1,40.0 649.6,40.0 651.1,40.0 652.6,40.0 654.2,40.0 655.7,40.0 657.2,40.0 658.7,40.0 660.2,40.0 661.8,40.0 663.3,40.0 664.8,40.0 666.3,40.0 667.8,40.0 669.4,40.0 670.9,40.0 672.4,40.0 673.9,40.0 675.4,40.0 677.0,40.0 678.5,40.0" style="stroke-width:2.2"/>
+<line class="sLg" x1="520" y1="20" x2="540" y2="20"/><text class="sGt" x="546" y="24">recall</text><line class="sLv" x1="600" y1="20" x2="620" y2="20"/><text class="sC" x="626" y="24">precision</text>
+<line class="sD" x1="544.72" y1="34" x2="544.72" y2="200"/><circle class="sPg" cx="544.7" cy="124.2" r="4.5"/><circle class="sPv" cx="544.7" cy="78.5" r="4.5"/>
+<text class="sRt" x="544.72" y="216" text-anchor="middle">today: R 0.47 · P 0.76</text>
+<line class="sD" x1="479.36" y1="34" x2="479.36" y2="200"/><circle class="sPg" cx="479.4" cy="79.7" r="4.5"/><circle class="sPv" cx="479.4" cy="120.7" r="4.5"/>
+<text class="sGt" x="479.36" y="232" text-anchor="middle">lowered: R 0.75 · P 0.50</text>
+<text class="sS" x="490" y="254" text-anchor="middle">threshold on the model score → (lower = flag more customers)</text>
+</svg><figcaption>Left: the reported results. Right: the same AUC (0.86) and class balance, simulated, to show what moving the threshold buys. No retraining needed.</figcaption></figure>
 
 **Read this properly, because it is a textbook case.**
 
@@ -564,6 +630,24 @@ The + b is **broadcast** to every row (Part 2 §2.9). φ is the activation funct
 
 **Stack perceptrons and XOR becomes solvable.** That is the **multilayer perceptron (MLP)**: an input layer, one or more **hidden layers**, and an output layer. The signal only flows forward, so it is a **feed-forward neural network (FNN)**. With many hidden layers it is a **deep neural network (DNN)**.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="XOR: the two classes sit on opposite corners, so no single straight line separates them; two hidden units draw two lines and the output combines them">
+<text class="sRt" x="170" y="24" text-anchor="middle">one line can't separate XOR</text>
+<rect class="sN" x="60" y="36" width="220" height="194" rx="6"/>
+<circle class="sPr" cx="80" cy="210" r="10"/><text class="sX" x="80" y="215" text-anchor="middle">0</text>
+<circle class="sPr" cx="260" cy="50" r="10"/><text class="sX" x="260" y="55" text-anchor="middle">0</text>
+<circle class="sPg" cx="80" cy="50" r="10"/><text class="sX" x="80" y="55" text-anchor="middle">1</text>
+<circle class="sPg" cx="260" cy="210" r="10"/><text class="sX" x="260" y="215" text-anchor="middle">1</text>
+<line class="sLw" x1="62" y1="114" x2="278" y2="66" stroke-dasharray="6 4"/><text class="sRt" x="170" y="128" text-anchor="middle">?</text>
+<text class="sGt" x="530" y="24" text-anchor="middle">two hidden units: two lines, then combine</text>
+<rect class="sN" x="420" y="36" width="220" height="194" rx="6"/>
+<circle class="sPr" cx="440" cy="210" r="10"/><text class="sX" x="440" y="215" text-anchor="middle">0</text>
+<circle class="sPr" cx="620" cy="50" r="10"/><text class="sX" x="620" y="55" text-anchor="middle">0</text>
+<circle class="sPg" cx="440" cy="50" r="10"/><text class="sX" x="440" y="55" text-anchor="middle">1</text>
+<circle class="sPg" cx="620" cy="210" r="10"/><text class="sX" x="620" y="215" text-anchor="middle">1</text>
+<line class="sLg" x1="422" y1="114" x2="548" y2="226" stroke-width="2"/><line class="sLg" x1="512" y1="34" x2="638" y2="146" stroke-width="2"/>
+<text class="sGt" x="530" y="128" text-anchor="middle">green between the lines</text>
+</svg><figcaption>The reason hidden layers exist: each neuron draws one boundary, and the next layer combines boundaries into shapes no single line can make.</figcaption></figure>
+
 ### Backpropagation, precisely
 
 Géron's definition: **backpropagation = reverse-mode autodiff + gradient descent.**
@@ -578,6 +662,32 @@ For each mini-batch:
 Géron's analogy: shooting a basketball. Throw (forward), see it miss right (error), reason back from the arm to the torso to the feet about how to adjust (backward), adjust (GD step).
 
 **Reverse-mode autodiff** is efficient when there are *many inputs* (millions of parameters) and *few outputs* (one loss). That is exactly the neural-network case.
+
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 262" role="img" aria-label="Backpropagation on a two-input, two-hidden, one-output network with real numbers: the forward pass, the loss, gradients for the output weights, gradients propagated to the first layer, and the update that raises the prediction">
+<line class="sLm" x1="106" y1="70" x2="304" y2="70"/>
+<line class="sLm" x1="106" y1="70" x2="304" y2="170"/>
+<line class="sLm" x1="356" y1="70" x2="552" y2="120"/>
+<line class="sLm" x1="106" y1="170" x2="304" y2="70"/>
+<line class="sLm" x1="106" y1="170" x2="304" y2="170"/>
+<line class="sLm" x1="356" y1="170" x2="552" y2="120"/>
+<circle class="sB" cx="80" cy="70" r="26"/><text class="sT" x="80" y="75" text-anchor="middle">x₁</text><text class="sC" x="80" y="116" text-anchor="middle">x₁ = 1.0</text>
+<circle class="sB" cx="80" cy="170" r="26"/><text class="sT" x="80" y="175" text-anchor="middle">x₂</text><text class="sC" x="80" y="216" text-anchor="middle">x₂ = 0.5</text>
+<circle class="sV" cx="330" cy="70" r="26"/><text class="sT" x="330" y="75" text-anchor="middle">h1</text>
+<circle class="sV" cx="330" cy="170" r="26"/><text class="sT" x="330" y="175" text-anchor="middle">h2</text>
+<circle class="sA" cx="580" cy="120" r="28"/><text class="sT" x="580" y="125" text-anchor="middle">ŷ</text>
+<text class="sM" x="205" y="52" text-anchor="middle">W1</text><text class="sM" x="455" y="82" text-anchor="middle">w2</text>
+<g data-s="1-1"><text class="sGt" x="330" y="34" text-anchor="middle">h1 = ReLU(0.30) = 0.30</text><text class="sGt" x="330" y="222" text-anchor="middle">h2 = ReLU(0.70) = 0.70</text><text class="sGt" x="580" y="76" text-anchor="middle">ŷ = σ(-0.07) = 0.483</text><text class="sT" x="360" y="250" text-anchor="middle">forward pass: compute and remember every intermediate value</text></g>
+<g data-s="2-2"><text class="sC" x="580" y="76" text-anchor="middle">ŷ = 0.483, target y = 1</text><text class="sRt" x="580" y="176" text-anchor="middle">loss = −log ŷ = 0.729</text><text class="sT" x="360" y="250" text-anchor="middle">loss: how wrong was the prediction?</text></g>
+<g data-s="3-3"><text class="sRt" x="580" y="176" text-anchor="middle">∂L/∂z = ŷ − y = -0.517</text><text class="sRt" x="455" y="102" text-anchor="middle">∂L/∂w2 = (-0.155, -0.362)</text><text class="sT" x="360" y="250" text-anchor="middle">backward: the output error gives each w2 its gradient (error × input)</text></g>
+<g data-s="4-4"><text class="sRt" x="330" y="34" text-anchor="middle">∂h1 = -0.310</text><text class="sRt" x="330" y="222" text-anchor="middle">∂h2 = 0.259</text><text class="sRt" x="205" y="120" text-anchor="middle">chain rule: error × w2 × ReLU′</text><text class="sT" x="360" y="250" text-anchor="middle">propagate the error back through w2 and the ReLUs to get W1's gradients</text></g>
+<g data-s="5-5"><text class="sGt" x="455" y="102" text-anchor="middle">w2 → (0.68, -0.32)</text><text class="sGt" x="205" y="120" text-anchor="middle">W1 row 1 → (0.56, 0.17)</text><text class="sGt" x="580" y="176" text-anchor="middle">new ŷ = 0.565 (was 0.483)</text><text class="sT" x="360" y="250" text-anchor="middle">step: w ← w − 0.5 × gradient. One step closer to y = 1</text></g>
+</svg><ol class="dia-steps">
+<li><b>Forward pass.</b> Inputs (1.0, 0.5) flow through W1 and ReLU to the hidden units, then through w2 and a sigmoid: ŷ = 0.483. Every intermediate value is kept.</li>
+<li><b>Loss.</b> The target is 1, so binary cross-entropy is −log ŷ = 0.729.</li>
+<li><b>Backward, last layer.</b> For sigmoid + cross-entropy, ∂L/∂z is simply ŷ − y = -0.517. Each output weight's gradient is that error times the hidden value feeding it.</li>
+<li><b>Backward, first layer.</b> The chain rule sends the error back through w2 and through each ReLU's derivative (1 if it was active, 0 if not), giving W1's gradients. This reuse of the forward values is why it's efficient.</li>
+<li><b>Update.</b> Gradient descent moves every weight a little against its gradient (learning rate 0.5). Running the forward pass again gives ŷ = 0.565: closer to the target. Training repeats this millions of times.</li>
+</ol><figcaption>Backpropagation, with every number computed for this figure. Frameworks do exactly this, automatically, for millions of weights.</figcaption></figure>
 
 **Two design facts that made backprop work:**
 - **Random initialisation is mandatory.** With all-zero weights, every neuron in a layer computes the same thing and receives the same gradient, so they stay identical forever: a layer of 100 neurons acts like one. Random weights **break the symmetry**.
@@ -704,6 +814,31 @@ with torch.no_grad():                        # don't record the update itself
 x.grad.zero_()                               # !!! gradients ACCUMULATE otherwise
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 228" role="img" aria-label="Autograd on f equals x squared: the forward pass records a PowBackward0 node; backward gives x.grad of 10; the update under no_grad moves x to 4; a second backward without zeroing adds 8 to the stale 10, giving 18 instead of 8">
+<rect class="sB" x="30" y="64" width="130" height="56" rx="8"/><text class="sT" x="95" y="86" text-anchor="middle">x  (leaf)</text><text class="sS" x="95" y="104" text-anchor="middle">requires_grad=True</text>
+<g data-s="1-2"><text class="sT" x="95" y="140" text-anchor="middle">x = 5.0</text></g>
+<g data-s="3-4"><text class="sGt" x="95" y="140" text-anchor="middle">x = 4.0</text></g>
+<line class="sL" x1="162" y1="92" x2="226" y2="92" marker-end="url(#ah)"/><rect class="sV" x="230" y="66" width="140" height="52" rx="26"/><text class="sT" x="300" y="88" text-anchor="middle">PowBackward0</text><text class="sS" x="300" y="106" text-anchor="middle">saved: x</text>
+<line class="sL" x1="372" y1="92" x2="436" y2="92" marker-end="url(#ah)"/><rect class="sA" x="440" y="64" width="90" height="56" rx="8"/><text class="sT" x="485" y="86" text-anchor="middle">f</text><text class="sS" x="485" y="104" text-anchor="middle">grad_fn set</text>
+<g data-s="1-3"><text class="sT" x="485" y="140" text-anchor="middle">f = 25</text></g>
+<g data-s="4-4"><text class="sT" x="485" y="140" text-anchor="middle">f = 16</text></g>
+<g data-s="2-2"><line class="sLr" x1="470" y1="172" x2="312" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="392" y="166" text-anchor="middle">∂f/∂f = 1</text><line class="sLr" x1="288" y1="172" x2="112" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="200" y="166" text-anchor="middle">× 2x = 10</text></g>
+<g data-s="4-4"><line class="sLr" x1="470" y1="172" x2="312" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="392" y="166" text-anchor="middle">∂f/∂f = 1</text><line class="sLr" x1="288" y1="172" x2="112" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="200" y="166" text-anchor="middle">× 2x = 8</text></g>
+<rect class="sN" x="556" y="50" width="150" height="110" rx="8"/><text class="sT" x="631" y="72" text-anchor="middle">x.grad</text>
+<g data-s="1-1"><text class="sS" x="631" y="108" text-anchor="middle">None</text></g>
+<g data-s="2-3"><text class="sGt" x="631" y="108" text-anchor="middle">10</text></g>
+<g data-s="4-4"><text class="sRt" x="631" y="102" text-anchor="middle">10 + 8 = 18</text><text class="sS" x="631" y="124" text-anchor="middle">should be 8</text><text class="sS" x="631" y="142" text-anchor="middle">gradients accumulate</text></g>
+<g data-s="1-1"><text class="sC" x="30" y="212" xml:space="preserve" style="white-space:pre">f = x ** 2                # forward: the graph is recorded</text></g>
+<g data-s="2-2"><text class="sC" x="30" y="212" xml:space="preserve" style="white-space:pre">f.backward()              # walk the graph backwards</text></g>
+<g data-s="3-3"><text class="sC" x="30" y="212" xml:space="preserve" style="white-space:pre">with torch.no_grad(): x -= 0.1 * x.grad   # no graph</text></g>
+<g data-s="4-4"><text class="sC" x="30" y="212" xml:space="preserve" style="white-space:pre">f = x ** 2; f.backward()  # forgot x.grad.zero_()</text></g>
+</svg><ol class="dia-steps">
+<li>Forward pass: every operation on a tensor with requires_grad records a node. f = 25 and f.grad_fn is PowBackward0, which saved x for later.</li>
+<li>backward() walks the recorded graph from f to the leaves, multiplying local derivatives: df/dx = 2x = 10, stored in x.grad.</li>
+<li>The update runs inside torch.no_grad(), so it is not recorded. x becomes 4.0; x.grad still holds 10.</li>
+<li>The next forward and backward add the new gradient (8) to the old one: x.grad = 18. Call zero_grad() (or x.grad.zero_()) before every backward.</li>
+</ol><figcaption>The autograd example above, run in PyTorch step by step, including what happens when you forget to zero the gradient.</figcaption></figure>
+
 - The graph is rebuilt on **every forward pass**, which is why dynamic models with loops and conditionals work.
 - ⚠️ **`backward()` accumulates into `.grad`.** Forgetting `zero_grad()` produces silently wrong updates, sometimes NaNs, and no error message.
 - Three ways to compute without autograd: a `torch.no_grad()` context, `tensor.detach()` (a new tensor sharing memory, outside the graph), or tensors that never had `requires_grad=True`. Use `torch.inference_mode()` for pure inference.
@@ -799,6 +934,39 @@ def train(model, optimizer, criterion, train_loader, n_epochs):
 
 **The five-line heart of every PyTorch training loop.** Recite it in interviews: **forward → loss → `backward()` → `step()` → `zero_grad()`.**
 
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: the PyTorch training loop for each mini-batch: forward pass, loss, backward to fill gradients, optimizer step to update parameters, zero the gradients, then the next batch">
+<rect class="sB" x="70" y="60" width="160" height="56" rx="8"/><text class="sT" x="150" y="84" text-anchor="middle">forward</text><text class="sS" x="82" y="104" xml:space="preserve" style="white-space:pre">y_pred = model(X)</text>
+<rect class="sW" x="290" y="60" width="160" height="56" rx="8"/><text class="sT" x="370" y="84" text-anchor="middle">loss</text><text class="sS" x="302" y="104" xml:space="preserve" style="white-space:pre">criterion(y_pred, y)</text>
+<rect class="sV" x="510" y="60" width="160" height="56" rx="8"/><text class="sT" x="590" y="84" text-anchor="middle">backward</text><text class="sS" x="522" y="104" xml:space="preserve" style="white-space:pre">loss.backward()</text>
+<rect class="sG" x="510" y="160" width="160" height="56" rx="8"/><text class="sT" x="590" y="184" text-anchor="middle">step</text><text class="sS" x="522" y="204" xml:space="preserve" style="white-space:pre">optimizer.step()</text>
+<rect class="sN" x="290" y="160" width="160" height="56" rx="8"/><text class="sT" x="370" y="184" text-anchor="middle">zero_grad</text><text class="sS" x="302" y="204" xml:space="preserve" style="white-space:pre">optimizer.zero_grad()</text>
+<line class="sL" x1="230" y1="88" x2="286" y2="88" marker-end="url(#ah)"/><line class="sL" x1="450" y1="88" x2="506" y2="88" marker-end="url(#ah)"/><line class="sL" x1="590" y1="116" x2="590" y2="156" marker-end="url(#ah)"/><line class="sL" x1="510" y1="188" x2="454" y2="188" marker-end="url(#ah)"/>
+<path class="sL" d="M 290 188 H 150 V 120" marker-end="url(#ah)"/>
+<text class="sS" x="150" y="152" text-anchor="end">next batch</text>
+<text class="sS" x="378" y="40" text-anchor="middle">scalar</text><text class="sS" x="598" y="40" text-anchor="middle">.grad filled on every parameter</text><text class="sS" x="678" y="140" text-anchor="end">θ ← θ − η·grad</text>
+<text class="sS" x="370" y="238" text-anchor="middle">grads accumulate by design, so zero them every batch; with torch.no_grad() at evaluation time, none of this graph is built</text>
+<circle class="sP" r="5"><animateMotion dur="5s" repeatCount="indefinite" path="M 150 88 H 590 V 188 H 150 V 88"/></circle>
+<rect class="sA" x="14" y="60" width="46" height="56" rx="8"/><text class="sC" x="37" y="84" text-anchor="middle">X, y</text><text class="sS" x="37" y="102" text-anchor="middle">batch</text><line class="sL" x1="60" y1="88" x2="66" y2="88" marker-end="url(#ah)"/>
+</svg><figcaption>The five-line heart of every PyTorch training loop, drawn as the cycle it is.</figcaption></figure>
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="A batch of 32 rows with 8 features flows through Linear 8 to 50, Linear 50 to 40 and Linear 40 to 1, changing shape from 32 by 8 to 32 by 50, 32 by 40 and 32 by 1, with 2,531 parameters in total">
+<rect class="sA" x="54" y="129.6" width="80" height="40.8" rx="6"/><text class="sC" x="94" y="155" text-anchor="middle">(32, 8)</text>
+<text class="sT" x="94" y="22" text-anchor="middle">input</text>
+<rect class="sB" x="230" y="75" width="80" height="150" rx="6"/><text class="sC" x="270" y="155" text-anchor="middle">(32, 50)</text>
+<text class="sT" x="270" y="22" text-anchor="middle">Linear(8, 50) + ReLU</text>
+<text class="sS" x="270" y="40" text-anchor="middle">8×50 + 50 = 450 params</text>
+<line class="sLm" x1="134" y1="150" x2="226" y2="150" marker-end="url(#ahm)"/>
+<rect class="sB" x="406" y="88" width="80" height="124" rx="6"/><text class="sC" x="446" y="155" text-anchor="middle">(32, 40)</text>
+<text class="sT" x="446" y="22" text-anchor="middle">Linear(50, 40) + ReLU</text>
+<text class="sS" x="446" y="40" text-anchor="middle">50×40 + 40 = 2,040 params</text>
+<line class="sLm" x1="310" y1="150" x2="402" y2="150" marker-end="url(#ahm)"/>
+<rect class="sB" x="582" y="138.7" width="80" height="22.6" rx="6"/><text class="sC" x="622" y="155" text-anchor="middle">(32, 1)</text>
+<text class="sT" x="622" y="22" text-anchor="middle">Linear(40, 1)</text>
+<text class="sS" x="622" y="40" text-anchor="middle">40×1 + 1 = 41 params</text>
+<line class="sLm" x1="486" y1="150" x2="578" y2="150" marker-end="url(#ahm)"/>
+<text class="sGt" x="360" y="232" text-anchor="middle">total 2,531 trainable parameters; the batch size 32 passes through untouched, only the last dimension changes</text>
+</svg><figcaption>Read a Sequential as shapes: each layer's input size must equal the previous output size. Parameter counts computed for 8 input features (California housing).</figcaption></figure>
+
 Speed-ups:
 - `pin_memory=True` (page-locked RAM enables direct GPU transfers).
 - `num_workers>0` (prefetch the next batches on the CPU while the GPU computes; `persistent_workers=True` on Windows, where spawning workers is slow).
@@ -856,6 +1024,23 @@ y_pred, y_pred_aux = model(X_wide=xw, X_deep=xd)
 loss = 0.8 * criterion(y_pred, y) + 0.2 * criterion(y_pred_aux, y)   # the weights are a hyperparameter
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Wide and Deep: the deep input passes through two linear and ReLU layers, the wide input skips them, both are concatenated into the main output, and an auxiliary output reads the deep features alone; the loss is a weighted sum of both outputs">
+<rect class="sA" x="14" y="30" width="120" height="44" rx="8"/><text class="sT" x="74" y="50" text-anchor="middle">X_wide</text><text class="sC" x="74" y="66" text-anchor="middle">(batch, 8)</text>
+<rect class="sB" x="14" y="150" width="120" height="44" rx="8"/><text class="sT" x="74" y="170" text-anchor="middle">X_deep</text><text class="sC" x="74" y="186" text-anchor="middle">(batch, 8)</text>
+<rect class="sB" x="170" y="150" width="120" height="44" rx="8"/><text class="sT" x="230" y="170" text-anchor="middle">Linear + ReLU</text><text class="sC" x="230" y="186" text-anchor="middle">8 → 50</text>
+<rect class="sB" x="320" y="150" width="120" height="44" rx="8"/><text class="sT" x="380" y="170" text-anchor="middle">Linear + ReLU</text><text class="sC" x="380" y="186" text-anchor="middle">50 → 40</text>
+<line class="sL" x1="134" y1="172" x2="166" y2="172" marker-end="url(#ah)"/><line class="sL" x1="290" y1="172" x2="316" y2="172" marker-end="url(#ah)"/>
+<rect class="sN" x="470" y="84" width="110" height="44" rx="8"/><text class="sT" x="525" y="104" text-anchor="middle">concat</text><text class="sC" x="525" y="120" text-anchor="middle">(batch, 48)</text>
+<path class="sL" d="M 134 52 H 520 V 80" fill="none" marker-end="url(#ah)"/><text class="sS" x="330" y="44" text-anchor="middle">wide path: raw features skip the stack</text>
+<line class="sL" x1="440" y1="164" x2="500" y2="132" marker-end="url(#ah)"/>
+<rect class="sG" x="606" y="84" width="100" height="44" rx="8"/><text class="sT" x="656" y="104" text-anchor="middle">output</text><text class="sC" x="656" y="120" text-anchor="middle">48 → 1</text>
+<line class="sL" x1="580" y1="106" x2="602" y2="106" marker-end="url(#ah)"/>
+<rect class="sW" x="606" y="160" width="100" height="44" rx="8"/><text class="sT" x="656" y="180" text-anchor="middle">aux output</text><text class="sC" x="656" y="196" text-anchor="middle">40 → 1</text>
+<line class="sLw" x1="440" y1="180" x2="602" y2="182" marker-end="url(#ahw)"/>
+<text class="sGt" x="560" y="226" text-anchor="middle">loss = 0.8 · loss(output) + 0.2 · loss(aux)</text>
+<text class="sS" x="220" y="226" text-anchor="middle">parameters: 2,580</text>
+</svg><figcaption>The WideAndDeep module above as a graph, with tensor shapes for 8 input features. The auxiliary head forces the deep stack to be useful on its own.</figcaption></figure>
+
 - **Multiple inputs:** return several tensors from the Dataset (`for *X_inputs, y in loader: model(*X_inputs)`), or better, a **dict of named inputs** from a custom `Dataset` with `__len__` and `__getitem__`, then call `model(**inputs)`. That prevents order mix-ups.
 - **Multiple outputs, and why:** the task needs it (locate *and* classify an object); **multitask learning** (one network, several related tasks, shared features); or an **auxiliary output for regularisation** (the deep stack must be useful on its own).
 - Use `nn.ModuleList` / `nn.ModuleDict` (and `nn.ParameterList`/`Dict`) for variable numbers of submodules. A plain Python list hides them from `parameters()`, so they would never train.
@@ -901,6 +1086,32 @@ xentropy = nn.CrossEntropyLoss()                    # takes LOGITS + class indic
 
 **Why no softmax in the model?** Computing cross-entropy straight from logits skips exponentials and logs that cancel out, and is more numerically stable (the **log-sum-exp** trick). The price is that you must apply softmax or sigmoid yourself when you want probabilities.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Logits 2, 0.5 and minus 1 become softmax probabilities 0.786, 0.175 and 0.039; with true class 0 the cross-entropy loss is 0.241, the same as logsumexp minus the true logit. A naive softmax of logits 1000 and 999 in float32 overflows to NaN, while subtracting the maximum first gives 0.731 and 0.269">
+<text class="sM" x="14" y="18">one example, true class = 0</text>
+<text class="sC" x="70" y="58" text-anchor="end">class 0</text>
+<rect class="sB" x="80" y="40" width="90" height="26" rx="4"/><text class="sC" x="125" y="58" text-anchor="middle">z = 2</text>
+<line class="sLm" x1="170" y1="53" x2="196" y2="53" marker-end="url(#ahm)"/>
+<rect class="sG" x="200" y="44" width="94.2716" height="18" rx="3"/><text class="sC" x="300.272" y="58">p = 0.786</text>
+<text class="sC" x="70" y="92" text-anchor="end">class 1</text>
+<rect class="sB" x="80" y="74" width="90" height="26" rx="4"/><text class="sC" x="125" y="92" text-anchor="middle">z = 0.5</text>
+<line class="sLm" x1="170" y1="87" x2="196" y2="87" marker-end="url(#ahm)"/>
+<rect class="sN" x="200" y="78" width="21.0348" height="18" rx="3"/><text class="sC" x="227.035" y="92">p = 0.175</text>
+<text class="sC" x="70" y="126" text-anchor="end">class 2</text>
+<rect class="sB" x="80" y="108" width="90" height="26" rx="4"/><text class="sC" x="125" y="126" text-anchor="middle">z = -1</text>
+<line class="sLm" x1="170" y1="121" x2="196" y2="121" marker-end="url(#ahm)"/>
+<rect class="sN" x="200" y="112" width="4.69351" height="18" rx="3"/><text class="sC" x="210.694" y="126">p = 0.039</text>
+<text class="sS" x="125" y="36" text-anchor="middle">logits</text><text class="sS" x="260" y="36" text-anchor="middle">softmax</text>
+<text class="sGt" x="14" y="160">CrossEntropyLoss = −log p₀ = 0.241</text>
+<text class="sC" x="14" y="180">= logsumexp(z) − z₀ = 2.241 − 2</text><text class="sS" x="14" y="198">computed straight from the logits</text>
+<rect class="sN" x="390" y="30" width="316" height="176" rx="8"/><text class="sT" x="548" y="52" text-anchor="middle">logits [1000, 999] in float32</text>
+<text class="sS" x="402" y="82" xml:space="preserve" style="white-space:pre">exp(z) / exp(z).sum()</text><text class="sRt" x="694" y="82" text-anchor="end">→ nan, nan</text>
+<text class="sS" x="402" y="100">exp(1000) overflows to inf; inf / inf = nan</text>
+<text class="sS" x="402" y="134" xml:space="preserve" style="white-space:pre">exp(z − max z) / sum</text><text class="sGt" x="694" y="134" text-anchor="end">→ 0.731, 0.269</text>
+<text class="sS" x="402" y="152">the log-sum-exp shift: same answer, no overflow</text>
+<text class="sS" x="402" y="180">class weights for 900 / 700 / 400 rows:</text><text class="sC" x="402" y="196">0.2205, 0.2835, 0.4961</text>
+<text class="sS" x="360" y="228" text-anchor="middle">so the model ends in plain Linear (logits) and the loss does softmax + log + NLL in one stable step</text>
+</svg><figcaption>Why CrossEntropyLoss wants raw logits: the maths is the same, the numerics are not. Computed with NumPy.</figcaption></figure>
+
 **Imbalanced classes:** `nn.CrossEntropyLoss(weight=torch.tensor([...]))`. Géron's example with classes of 900/700/400: weights ∝ 2000/900, 2000/700, 2000/400, normalised to **[0.2205, 0.2835, 0.4961]**. For binary: `nn.BCEWithLogitsLoss(pos_weight=torch.tensor([neg/pos]))`.
 
 **Top-k predictions:** `torch.topk(logits, k=4, dim=1)`, then softmax on the values.
@@ -943,8 +1154,139 @@ study.best_params, study.best_value
 ```
 
 - **`log=True`** for scale-type hyperparameters (learning rate, regularisation). A uniform distribution would almost never try tiny values.
+
+<figure class="dia"><svg viewBox="0 0 720 188" role="img" aria-label="Forty learning rates sampled between 1e-5 and 1e-1: uniform sampling puts nearly all of them between 1e-2 and 1e-1, while log-uniform sampling spreads them evenly across the four decades">
+<text class="sT" x="70" y="54" text-anchor="end">uniform</text><line class="sLm" x1="80" y1="50" x2="640" y2="50"/>
+<circle class="sPw" cx="612.6" cy="54.1" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="560.4" cy="50.0" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="445.9" cy="50.5" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="390.9" cy="54.6" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="627.4" cy="48.6" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="634.5" cy="53.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="609.6" cy="53.4" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="620.8" cy="56.9" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="602.9" cy="43.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="635.9" cy="53.7" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="627.6" cy="56.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="283.4" cy="57.5" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="630.6" cy="42.2" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="433.8" cy="55.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="620.8" cy="57.7" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="534.3" cy="57.3" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="631.1" cy="44.4" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="602.7" cy="57.6" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="566.8" cy="56.2" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="587.7" cy="55.2" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="423.5" cy="49.7" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="513.3" cy="45.7" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="615.7" cy="54.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="613.5" cy="56.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="610.5" cy="46.3" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="581.8" cy="50.6" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="639.8" cy="49.1" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="638.8" cy="56.9" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="617.0" cy="42.6" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="613.9" cy="53.7" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="617.3" cy="51.8" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="582.6" cy="42.5" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="518.3" cy="53.5" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="620.2" cy="42.3" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="600.9" cy="54.1" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="568.9" cy="50.2" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="596.1" cy="56.9" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="632.9" cy="43.1" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="635.9" cy="55.5" r="3.5" opacity=".8"/>
+<circle class="sPw" cx="577.5" cy="43.1" r="3.5" opacity=".8"/>
+<text class="sRt" x="706" y="54" text-anchor="end">2% below 1e-3</text>
+<text class="sT" x="70" y="114" text-anchor="end">log=True</text><line class="sLm" x1="80" y1="110" x2="640" y2="110"/>
+<circle class="sPg" cx="400.1" cy="107.5" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="260.2" cy="108.9" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="412.8" cy="117.5" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="269.2" cy="111.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="299.3" cy="106.1" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="578.6" cy="105.9" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="207.2" cy="116.2" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="429.0" cy="105.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="127.0" cy="104.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="546.3" cy="106.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="520.8" cy="111.4" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="214.0" cy="110.9" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="570.8" cy="115.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="112.8" cy="111.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="268.2" cy="106.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="164.2" cy="108.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="332.2" cy="115.1" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="525.9" cy="112.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="209.2" cy="117.3" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="109.1" cy="107.9" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="306.5" cy="110.8" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="191.2" cy="111.5" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="130.8" cy="115.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="405.0" cy="104.3" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="247.3" cy="108.5" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="456.3" cy="116.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="191.7" cy="102.7" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="607.6" cy="115.2" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="284.5" cy="108.6" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="139.1" cy="115.3" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="432.3" cy="102.2" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="599.2" cy="107.8" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="326.6" cy="103.3" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="614.6" cy="112.4" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="359.9" cy="106.4" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="318.1" cy="113.2" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="427.3" cy="117.1" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="637.3" cy="104.0" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="611.4" cy="115.8" r="3.5" opacity=".8"/>
+<circle class="sPg" cx="337.6" cy="103.0" r="3.5" opacity=".8"/>
+<text class="sGt" x="706" y="114" text-anchor="end">57% below 1e-3</text>
+<text class="sS" x="80" y="150" text-anchor="middle">1e-5</text><line class="sLm" x1="80" y1="36" x2="80" y2="140" opacity=".2"/>
+<text class="sS" x="220" y="150" text-anchor="middle">1e-4</text><line class="sLm" x1="220" y1="36" x2="220" y2="140" opacity=".2"/>
+<text class="sS" x="360" y="150" text-anchor="middle">1e-3</text><line class="sLm" x1="360" y1="36" x2="360" y2="140" opacity=".2"/>
+<text class="sS" x="500" y="150" text-anchor="middle">1e-2</text><line class="sLm" x1="500" y1="36" x2="500" y2="140" opacity=".2"/>
+<text class="sS" x="640" y="150" text-anchor="middle">1e-1</text><line class="sLm" x1="640" y1="36" x2="640" y2="140" opacity=".2"/>
+<text class="sM" x="360" y="22" text-anchor="middle">40 sampled learning rates on a log axis</text>
+<text class="sS" x="360" y="176" text-anchor="middle">uniform sampling spends almost every trial in the top decade; log=True gives each decade equal attention</text>
+</svg><figcaption>Why suggest_float(..., log=True) for learning rates: the interesting range spans orders of magnitude. Sampled with NumPy.</figcaption></figure>
+
 - **TPE** (Tree-structured Parzen Estimator) is *sequential model-based optimisation*: it starts random, then concentrates on promising regions. It beats random search for the same budget.
 - **Pruning** (`MedianPruner`): stop trials performing below the median of earlier trials at the same epoch. That saves much of the compute.
+
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Twelve simulated training curves with median pruning: after the first five trials, any trial whose validation accuracy falls below the median of earlier trials at the same epoch is stopped, saving a large share of epochs while the best trial still runs to completion">
+<line class="sLm" x1="70" y1="190" x2="520" y2="190"/><line class="sLm" x1="70" y1="190" x2="70" y2="24"/>
+<text class="sS" x="64" y="155.905" text-anchor="end">0.6</text>
+<text class="sS" x="64" y="117.81" text-anchor="end">0.7</text>
+<text class="sS" x="64" y="79.7143" text-anchor="end">0.8</text>
+<text class="sS" x="64" y="41.619" text-anchor="end">0.9</text>
+<text class="sS" x="70" y="206" text-anchor="middle">epoch 1</text>
+<text class="sS" x="265.556" y="206" text-anchor="middle">epoch 5</text>
+<text class="sS" x="510" y="206" text-anchor="middle">epoch 10</text>
+<polyline class="sL" points="70.0,163.1 118.9,143.2 167.8,127.7 216.7,124.6 265.6,119.0 314.4,112.5 363.3,114.3 412.2,111.3 461.1,107.5 510.0,107.5" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sL" points="70.0,155.3 118.9,132.1 167.8,126.3 216.7,108.7 265.6,107.6 314.4,105.7 363.3,99.0 412.2,96.6 461.1,98.3 510.0,99.2" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sLg" points="70.0,135.3 118.9,102.5 167.8,79.4 216.7,69.0 265.6,63.1 314.4,56.7 363.3,57.1 412.2,57.2 461.1,52.8 510.0,52.3" style="stroke-width:2.6" opacity="1"/>
+<polyline class="sL" points="70.0,137.1 118.9,108.7 167.8,89.8 216.7,86.8 265.6,74.4 314.4,71.9 363.3,75.2 412.2,70.4 461.1,72.3 510.0,68.1" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sL" points="70.0,170.1 118.9,150.2 167.8,134.2 216.7,124.6 265.6,126.1 314.4,118.0 363.3,113.1 412.2,113.1 461.1,106.6 510.0,111.9" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sL" points="70.0,147.8 118.9,125.3 167.8,103.7 216.7,97.1 265.6,91.7 314.4,91.0 363.3,80.8 412.2,81.5 461.1,80.6 510.0,79.1" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sL" points="70.0,145.3 118.9,120.8 167.8,104.8 216.7,94.8 265.6,83.7 314.4,86.5 363.3,82.2 412.2,80.2 461.1,78.1 510.0,76.8" style="stroke-width:1.4" opacity="1"/>
+<polyline class="sLr" points="70.0,166.6" style="stroke-width:1.4" opacity="0.8"/>
+<circle class="sPr" cx="70.0" cy="166.6" r="3.5"/>
+<polyline class="sLr" points="70.0,162.5" style="stroke-width:1.4" opacity="0.8"/>
+<circle class="sPr" cx="70.0" cy="162.5" r="3.5"/>
+<polyline class="sLr" points="70.0,153.5 118.9,130.0" style="stroke-width:1.4" opacity="0.8"/>
+<circle class="sPr" cx="118.9" cy="130.0" r="3.5"/>
+<polyline class="sLr" points="70.0,153.7 118.9,136.6" style="stroke-width:1.4" opacity="0.8"/>
+<circle class="sPr" cx="118.9" cy="136.6" r="3.5"/>
+<polyline class="sLr" points="70.0,151.6 118.9,129.2 167.8,114.4" style="stroke-width:1.4" opacity="0.8"/>
+<circle class="sPr" cx="167.8" cy="114.4" r="3.5"/>
+<rect class="sN" x="540" y="40" width="166" height="140" rx="8"/>
+<text class="sT" x="623" y="62" text-anchor="middle">12 trials, 10 epochs each</text>
+<text class="sRt" x="623" y="88" text-anchor="middle">5 pruned early (red)</text>
+<text class="sC" x="623" y="108" text-anchor="middle">79 of 120 epochs run</text>
+<text class="sGt" x="623" y="128" text-anchor="middle">34% of compute saved</text>
+<text class="sGt" x="623" y="160" text-anchor="middle">best trial kept (green)</text>
+<text class="sS" x="360" y="226" text-anchor="middle">validation accuracy per epoch; from trial 6 on, a trial below the median of earlier trials is stopped</text>
+</svg><figcaption>MedianPruner on simulated learning curves: weak trials stop early and the compute goes to promising ones.</figcaption></figure>
+
 - **Parallel and persistent:** `create_study(storage="sqlite:///optuna.db", study_name="churn", load_if_exists=True)`, then run the same script on several machines, each with a different seed.
 - After tuning, **retrain on train + validation** and evaluate once on test.
 - Use the same Optuna pattern for **LightGBM and XGBoost** (Part 8B).
@@ -970,6 +1312,24 @@ new_model = ImageClassifier(**data["model_hyperparameters"])
 new_model.load_state_dict(data["model_state_dict"])
 new_model.eval()                                       # !!! before inference
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="The state_dict of an ImageClassifier with layers 784 to 300 to 100 to 10: six named tensors, weights and biases of three linear layers, about 266 thousand parameters, saved as roughly a megabyte of float32 data alongside the hyperparameters needed to rebuild the model">
+<text class="sM" x="14" y="22">model.state_dict() for ImageClassifier(784, 300, 100, 10)</text>
+<rect class="sN" x="14" y="32" width="420" height="22" rx="0"/><text class="sT" x="24" y="47">key</text><text class="sT" x="270" y="47">shape</text><text class="sT" x="424" y="47" text-anchor="end">values</text>
+<rect class="sB" x="14" y="54" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="69" xml:space="preserve" style="white-space:pre">mlp.1.weight</text><text class="sS" x="270" y="69" xml:space="preserve" style="white-space:pre">[300, 784]</text><text class="sS" x="424" y="69" text-anchor="end">235,200</text>
+<rect class="sA" x="14" y="76" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="91" xml:space="preserve" style="white-space:pre">mlp.1.bias</text><text class="sS" x="270" y="91" xml:space="preserve" style="white-space:pre">[300]</text><text class="sS" x="424" y="91" text-anchor="end">300</text>
+<rect class="sB" x="14" y="98" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="113" xml:space="preserve" style="white-space:pre">mlp.3.weight</text><text class="sS" x="270" y="113" xml:space="preserve" style="white-space:pre">[100, 300]</text><text class="sS" x="424" y="113" text-anchor="end">30,000</text>
+<rect class="sA" x="14" y="120" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="135" xml:space="preserve" style="white-space:pre">mlp.3.bias</text><text class="sS" x="270" y="135" xml:space="preserve" style="white-space:pre">[100]</text><text class="sS" x="424" y="135" text-anchor="end">100</text>
+<rect class="sB" x="14" y="142" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="157" xml:space="preserve" style="white-space:pre">mlp.5.weight</text><text class="sS" x="270" y="157" xml:space="preserve" style="white-space:pre">[10, 100]</text><text class="sS" x="424" y="157" text-anchor="end">1,000</text>
+<rect class="sA" x="14" y="164" width="420" height="22" rx="0" opacity=".5"/><text class="sS" x="24" y="179" xml:space="preserve" style="white-space:pre">mlp.5.bias</text><text class="sS" x="270" y="179" xml:space="preserve" style="white-space:pre">[10]</text><text class="sS" x="424" y="179" text-anchor="end">10</text>
+<text class="sT" x="424" y="204" text-anchor="end">total 266,610 parameters</text>
+<rect class="sN" x="460" y="40" width="246" height="150" rx="8"/>
+<text class="sC" x="583" y="62" text-anchor="middle">torch.save({...}, "model.pt")</text>
+<text class="sGt" x="583" y="86" text-anchor="middle">1,044 KB on disk (float32)</text>
+<text class="sS" x="583" y="114" text-anchor="middle">just named tensors + a dict of</text><text class="sS" x="583" y="130" text-anchor="middle">hyperparameters: safe to load</text><text class="sS" x="583" y="146" text-anchor="middle">with weights_only=True</text>
+<text class="sS" x="583" y="166" text-anchor="middle">keys skip 0, 2, 4: Flatten and ReLU</text><text class="sS" x="583" y="182" text-anchor="middle">own no parameters</text>
+<text class="sS" x="360" y="232" text-anchor="middle">rebuild the class from the hyperparameters, then load_state_dict: no pickled code ever runs</text>
+</svg><figcaption>What the recommended save actually writes, from a real PyTorch model: parameter tensors by name, nothing executable.</figcaption></figure>
 
 - **Why not pickle the whole model?** Pickle can **execute arbitrary code on load** (the same warning as `joblib` in Part 7 §7.12). It is also brittle across Python versions and folder layouts. `state_dict` (parameters plus **buffers**, e.g. batch-norm running statistics) with `weights_only=True` is data only.
 - To **resume training**, also save the optimizer's `state_dict`, the epoch and the loss history.

@@ -152,6 +152,29 @@ The course covers ROC-AUC only. Under heavy imbalance, PR-AUC / average precisio
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 278" role="img" aria-label="The sixteen gaps from the original course grouped into three tiers, each pointing to the part of this course or the handbook module that now covers it">
+<rect class="sR" x="14" y="14" width="220" height="30" rx="6"/><text class="sT" x="124" y="34" text-anchor="middle">Tier 1: fill first</text>
+<rect class="sN" x="14" y="54" width="220" height="28" rx="5"/><text class="sC" x="24" y="73">gradient boosting</text><text class="sGt" x="224" y="73" text-anchor="end">→ 8B</text>
+<rect class="sN" x="14" y="86" width="220" height="28" rx="5"/><text class="sC" x="24" y="105">regularisation</text><text class="sGt" x="224" y="105" text-anchor="end">→ 7</text>
+<rect class="sN" x="14" y="118" width="220" height="28" rx="5"/><text class="sC" x="24" y="137">time series</text><text class="sGt" x="224" y="137" text-anchor="end">→ 19</text>
+<rect class="sN" x="14" y="150" width="220" height="28" rx="5"/><text class="sC" x="24" y="169">deployment, MLOps</text><text class="sGt" x="224" y="169" text-anchor="end">→ DS8</text>
+<rect class="sW" x="250" y="14" width="220" height="30" rx="6"/><text class="sT" x="360" y="34" text-anchor="middle">Tier 2: fill next</text>
+<rect class="sN" x="250" y="54" width="220" height="28" rx="5"/><text class="sC" x="260" y="73">statistical inference</text><text class="sGt" x="460" y="73" text-anchor="end">→ 15</text>
+<rect class="sN" x="250" y="86" width="220" height="28" rx="5"/><text class="sC" x="260" y="105">CV variants</text><text class="sGt" x="460" y="105" text-anchor="end">→ 6</text>
+<rect class="sN" x="250" y="118" width="220" height="28" rx="5"/><text class="sC" x="260" y="137">feature selection</text><text class="sGt" x="460" y="137" text-anchor="end">→ DS2</text>
+<rect class="sN" x="250" y="150" width="220" height="28" rx="5"/><text class="sC" x="260" y="169">calibration</text><text class="sGt" x="460" y="169" text-anchor="end">→ 8</text>
+<rect class="sN" x="250" y="182" width="220" height="28" rx="5"/><text class="sC" x="260" y="201">PR curves</text><text class="sGt" x="460" y="201" text-anchor="end">→ 8</text>
+<rect class="sN" x="250" y="214" width="220" height="28" rx="5"/><text class="sC" x="260" y="233">experiment tracking</text><text class="sGt" x="460" y="233" text-anchor="end">→ DS8</text>
+<rect class="sB" x="486" y="14" width="220" height="30" rx="6"/><text class="sT" x="596" y="34" text-anchor="middle">Tier 3: know they exist</text>
+<rect class="sN" x="486" y="54" width="220" height="28" rx="5"/><text class="sC" x="496" y="73">modern NLP, RAG</text><text class="sGt" x="696" y="73" text-anchor="end">→ 20–21</text>
+<rect class="sN" x="486" y="86" width="220" height="28" rx="5"/><text class="sC" x="496" y="105">deep learning breadth</text><text class="sGt" x="696" y="105" text-anchor="end">→ 17–22</text>
+<rect class="sN" x="486" y="118" width="220" height="28" rx="5"/><text class="sC" x="496" y="137">causal inference</text><text class="sGt" x="696" y="137" text-anchor="end">→ DS5</text>
+<rect class="sN" x="486" y="150" width="220" height="28" rx="5"/><text class="sC" x="496" y="169">fairness</text><text class="sGt" x="696" y="169" text-anchor="end">→ DS4</text>
+<rect class="sN" x="486" y="182" width="220" height="28" rx="5"/><text class="sC" x="496" y="201">big-data tools</text><text class="sGt" x="696" y="201" text-anchor="end">→ DE5–DE6</text>
+<rect class="sN" x="486" y="214" width="220" height="28" rx="5"/><text class="sC" x="496" y="233">recsys, anomalies, RL</text><text class="sGt" x="696" y="233" text-anchor="end">→ 9, 24</text>
+<text class="sS" x="360" y="266" text-anchor="middle">numbers are parts of this course; DS and DE are handbook modules: every original gap is now covered</text>
+</svg><figcaption>The gap list as a study map: each gap points to where it is now taught.</figcaption></figure>
+
 ## 14.3 Errors and rough edges in the source notebooks
 
 Worth fixing if you re-run them, and worth being able to spot in general:

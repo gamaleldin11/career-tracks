@@ -8,6 +8,27 @@ A pipeline is many steps that must run in the right order, on time, with retries
 > **Most asked:** *What is a DAG?* · *How do you make tasks idempotent?* · *How do backfills work?* · *What's the logical date?* · *How do you pass data between tasks?* · *What does dbt do?* · *Incremental models?* · *dbt snapshots?* · *Airflow vs Data Factory?*
 > **Time budget:** 4 hours, with Airflow (`pip install apache-airflow` or the Astro CLI) and dbt (`pip install dbt-duckdb`) running locally.
 
+## DE7.0 Foundations: a graph and a calendar 🟢
+
+Running a data platform means running many small jobs in the right order, at the right time, forever. Two separate ideas organise that:
+
+- **Dependencies**: what must finish before what. Draw jobs as nodes and "must finish first" as arrows, and you get a **DAG** (directed acyclic graph). Anything without a path between it can run in parallel.
+- **Time**: which slice of data each run is responsible for. A daily pipeline doesn't process "today"; each run owns a fixed **data interval**, so it can be rerun for any past day with the same result.
+
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: an orchestrated DAG where two extracts run in parallel, then validation, a dbt build and publishing an asset, which notifies and triggers a downstream ML features DAG">
+<rect class="sB" x="14" y="30" width="150" height="46" rx="8"/><text class="sT" x="89" y="51" text-anchor="middle">extract_orders</text><text class="sC" x="89" y="67" text-anchor="middle">API → bronze</text><rect class="sB" x="14" y="120" width="150" height="46" rx="8"/><text class="sT" x="89" y="141" text-anchor="middle">extract_customers</text><text class="sC" x="89" y="157" text-anchor="middle">DB → bronze</text>
+<line class="sLm" x1="164" y1="53" x2="196" y2="90" marker-end="url(#ahm)"/><line class="sLm" x1="164" y1="143" x2="196" y2="106" marker-end="url(#ahm)"/>
+<rect class="sV" x="200" y="75" width="120" height="46" rx="8"/><text class="sT" x="260" y="96" text-anchor="middle">validate</text><text class="sC" x="260" y="112" text-anchor="middle">schema · counts</text>
+<line class="sLm" x1="320" y1="98" x2="352" y2="98" marker-end="url(#ahm)"/><rect class="sA" x="356" y="75" width="120" height="46" rx="8"/><text class="sT" x="416" y="96" text-anchor="middle">dbt build</text><text class="sC" x="416" y="112" text-anchor="middle">models + tests</text>
+<line class="sLm" x1="476" y1="98" x2="508" y2="98" marker-end="url(#ahm)"/><rect class="sG" x="512" y="75" width="120" height="46" rx="8"/><text class="sT" x="572" y="96" text-anchor="middle">publish</text><text class="sC" x="572" y="112" text-anchor="middle">asset updated</text>
+<line class="sLw" x1="572" y1="121" x2="572" y2="150" marker-end="url(#ahw)" stroke-dasharray="5 4"/><rect class="sW" x="500" y="152" width="206" height="40" rx="8"/><text class="sT" x="603" y="170" text-anchor="middle">ML features DAG</text><text class="sC" x="603" y="186" text-anchor="middle">scheduled on that asset</text>
+<line class="sLm" x1="632" y1="98" x2="660" y2="98" marker-end="url(#ahm)"/><rect class="sN" x="662" y="80" width="44" height="36" rx="8"/><text class="sT" x="684" y="103" text-anchor="middle">✉</text>
+<text class="sC" x="90" y="196" text-anchor="middle">parallel: no dependency</text><text class="sC" x="300" y="196" text-anchor="middle">retries · timeouts · alerts on each task</text>
+<circle class="sP" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M164 53 L200 90 H632"/></circle><circle class="sPg" r="5"><animateMotion dur="4s" begin="0.4s" repeatCount="indefinite" path="M164 143 L200 106 H632"/></circle>
+</svg><figcaption>Dependencies decide order and parallelism; the orchestrator adds the schedule, retries, alerts and history.</figcaption></figure>
+
+Orchestrators (Airflow, Dagster, Data Factory) manage both: they schedule runs per interval, follow the graph, retry failures and keep the history. dbt manages a graph of its own inside the warehouse: the dependencies between SQL models.
+
 ## DE7.1 What an orchestrator does 🟢 ⭐
 
 > [!term] DAG (directed acyclic graph)
@@ -67,6 +88,24 @@ daily_orders()
 > [!mistake] Using "now" inside tasks
 > `datetime.now()` in a task makes a rerun of last Tuesday load today's data. Always use the run's **data interval** (`data_interval_start`/`end`, or `ds` for the date) so reruns and backfills are correct.
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Daily DAG runs each own one data interval: the run for 1 October covers midnight to midnight and starts just after; a rerun days later processes the same interval">
+<line class="sLm" x1="60" y1="150" x2="668" y2="150" marker-end="url(#ahm)"/>
+<line class="sLm" x1="60" y1="146" x2="60" y2="154"/><text class="sC" x="60" y="170" text-anchor="middle">1 Oct 00:00</text>
+<line class="sLm" x1="210" y1="146" x2="210" y2="154"/><text class="sC" x="210" y="170" text-anchor="middle">2 Oct 00:00</text>
+<line class="sLm" x1="360" y1="146" x2="360" y2="154"/><text class="sC" x="360" y="170" text-anchor="middle">3 Oct 00:00</text>
+<line class="sLm" x1="510" y1="146" x2="510" y2="154"/><text class="sC" x="510" y="170" text-anchor="middle">4 Oct 00:00</text>
+<line class="sLm" x1="660" y1="146" x2="660" y2="154"/><text class="sC" x="660" y="170" text-anchor="middle">5 Oct 00:00</text>
+<rect class="sA" x="63" y="100" width="144" height="26" rx="4" opacity=".7"/><text class="sC" x="135" y="118" text-anchor="middle">interval for 1 Oct</text>
+<circle class="sPv" cx="222" cy="76" r="7"/><line class="sLm" x1="222" y1="83" x2="180" y2="100" marker-end="url(#ahm)"/>
+<rect class="sA" x="213" y="100" width="144" height="26" rx="4" opacity=".7"/><text class="sC" x="285" y="118" text-anchor="middle">interval for 2 Oct</text>
+<circle class="sPv" cx="372" cy="76" r="7"/><line class="sLm" x1="372" y1="83" x2="330" y2="100" marker-end="url(#ahm)"/>
+<rect class="sA" x="363" y="100" width="144" height="26" rx="4" opacity=".7"/><text class="sC" x="435" y="118" text-anchor="middle">interval for 3 Oct</text>
+<circle class="sPv" cx="522" cy="76" r="7"/><line class="sLm" x1="522" y1="83" x2="480" y2="100" marker-end="url(#ahm)"/>
+<text class="sC" x="222" y="60">run for 1 Oct starts 2 Oct 00:05</text>
+<rect class="sG" x="63" y="186" width="380" height="24" rx="4"/><text class="sC" x="253" y="203" text-anchor="middle">rerun of 1 Oct, on 4 Oct: same interval, same result</text><line class="sLg" x1="135" y1="186" x2="135" y2="130" marker-end="url(#ahg)"/>
+<text class="sM" x="60" y="30">every task reads data_interval_start / end, never now()</text>
+</svg><figcaption>A run is responsible for a data interval, not for "today". That single rule makes reruns and backfills correct.</figcaption></figure>
+
 > [!mistake] Passing data through XCom
 > XCom is stored in Airflow's metadata database and meant for small values. Write data to storage (a lake path, a staging table) and pass the **reference**.
 
@@ -77,6 +116,24 @@ Every task should be **idempotent**: running it twice for the same interval give
 - **Retries** are safe.
 - **Backfills** (running the DAG for past intervals, after a bug fix or a new column) are safe. In Airflow 3, backfills run through the scheduler and can be launched from the UI or CLI (`airflow backfill create --dag-id daily_orders --from-date 2026-09-01 --to-date 2026-09-30`).
 - **`catchup`** controls whether the scheduler automatically creates runs for missed intervals since `start_date`; it now **defaults to `False`** in Airflow 3, so set it deliberately.
+
+<figure class="dia"><svg viewBox="0 0 720 176" role="img" aria-label="Ten daily runs where days four to six wrote wrong totals; after the bug fix, a backfill reruns those three intervals and overwrites them correctly">
+<rect class="sG" x="30" y="40" width="58" height="40" rx="6"/><text class="sC" x="59" y="64" text-anchor="middle">day 1</text>
+<rect class="sG" x="96" y="40" width="58" height="40" rx="6"/><text class="sC" x="125" y="64" text-anchor="middle">day 2</text>
+<rect class="sG" x="162" y="40" width="58" height="40" rx="6"/><text class="sC" x="191" y="64" text-anchor="middle">day 3</text>
+<rect class="sR" x="228" y="40" width="58" height="40" rx="6" opacity=".85"/><text class="sC" x="257" y="64" text-anchor="middle">day 4</text>
+<rect class="sG" x="228" y="120" width="58" height="40" rx="6"/><text class="sC" x="257" y="144" text-anchor="middle">fixed</text><line class="sLg" x1="257" y1="82" x2="257" y2="118" marker-end="url(#ahg)"/>
+<rect class="sR" x="294" y="40" width="58" height="40" rx="6" opacity=".85"/><text class="sC" x="323" y="64" text-anchor="middle">day 5</text>
+<rect class="sG" x="294" y="120" width="58" height="40" rx="6"/><text class="sC" x="323" y="144" text-anchor="middle">fixed</text><line class="sLg" x1="323" y1="82" x2="323" y2="118" marker-end="url(#ahg)"/>
+<rect class="sR" x="360" y="40" width="58" height="40" rx="6" opacity=".85"/><text class="sC" x="389" y="64" text-anchor="middle">day 6</text>
+<rect class="sG" x="360" y="120" width="58" height="40" rx="6"/><text class="sC" x="389" y="144" text-anchor="middle">fixed</text><line class="sLg" x1="389" y1="82" x2="389" y2="118" marker-end="url(#ahg)"/>
+<rect class="sG" x="426" y="40" width="58" height="40" rx="6"/><text class="sC" x="455" y="64" text-anchor="middle">day 7</text>
+<rect class="sG" x="492" y="40" width="58" height="40" rx="6"/><text class="sC" x="521" y="64" text-anchor="middle">day 8</text>
+<rect class="sG" x="558" y="40" width="58" height="40" rx="6"/><text class="sC" x="587" y="64" text-anchor="middle">day 9</text>
+<rect class="sG" x="624" y="40" width="58" height="40" rx="6"/><text class="sC" x="653" y="64" text-anchor="middle">day 10</text>
+<text class="sC" x="30" y="28">production runs (days 4–6 wrote wrong totals: a bug in the discount logic)</text>
+<text class="sGt" x="436" y="140">← backfill days 4–6 after the fix:</text><text class="sGt" x="436" y="158">idempotent tasks overwrite them</text>
+</svg><figcaption>A backfill is just more runs for past intervals. It is only safe because each task is idempotent.</figcaption></figure>
 
 **Other scheduling tools:** **sensors** wait for a condition (a file arrives, another DAG's task succeeds), and **deferrable** operators free the worker while waiting. **Asset-aware scheduling** (`schedule=[ORDERS_GOLD]`) runs the downstream DAG when the upstream asset is updated, instead of guessing times. Pools and `max_active_runs` limit concurrency against fragile sources.
 
@@ -139,6 +196,33 @@ models:
 | `ephemeral` | Nothing; inlined as a CTE | Reusable logic without a table |
 | `materialized_view` | A warehouse-managed materialised view | Where supported |
 
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Rows read per daily dbt run for a two-million-row fact table: a table materialisation rereads everything each day, while an incremental model with a three-day lookback reads about eighty thousand rows">
+<text class="sM" x="14" y="22">rows read per daily run, fact table of 2M rows growing 20,000 a day (3-day lookback)</text>
+<text class="sC" x="60" y="50" text-anchor="end">day 1</text>
+<rect class="sW" x="70" y="36" width="217.103" height="9" rx="2"/><rect class="sG" x="70" y="46" width="8.59813" height="9" rx="2"/>
+<text class="sWt" x="293.103" y="44">table: 2.02M</text><text class="sGt" x="84.5981" y="55">incremental: 80,000</text>
+<text class="sC" x="60" y="76" text-anchor="end">day 2</text>
+<rect class="sW" x="70" y="62" width="219.252" height="9" rx="2"/><rect class="sG" x="70" y="72" width="8.59813" height="9" rx="2"/>
+<text class="sC" x="60" y="102" text-anchor="end">day 3</text>
+<rect class="sW" x="70" y="88" width="221.402" height="9" rx="2"/><rect class="sG" x="70" y="98" width="8.59813" height="9" rx="2"/>
+<text class="sC" x="60" y="128" text-anchor="end">day 4</text>
+<rect class="sW" x="70" y="114" width="223.551" height="9" rx="2"/><rect class="sG" x="70" y="124" width="8.59813" height="9" rx="2"/>
+<text class="sC" x="60" y="154" text-anchor="end">day 5</text>
+<rect class="sW" x="70" y="140" width="225.701" height="9" rx="2"/><rect class="sG" x="70" y="150" width="8.59813" height="9" rx="2"/>
+<text class="sC" x="60" y="180" text-anchor="end">day 6</text>
+<rect class="sW" x="70" y="166" width="227.85" height="9" rx="2"/><rect class="sG" x="70" y="176" width="8.59813" height="9" rx="2"/>
+<text class="sC" x="60" y="206" text-anchor="end">day 7</text>
+<rect class="sW" x="70" y="192" width="230" height="9" rx="2"/><rect class="sG" x="70" y="202" width="8.59813" height="9" rx="2"/>
+<text class="sWt" x="306" y="200">table: 2.14M</text><text class="sGt" x="84.5981" y="211">incremental: 80,000</text>
+<rect class="sN" x="430" y="40" width="276" height="150" rx="8"/>
+<text class="sT" x="568" y="62" text-anchor="middle">per week</text>
+<text class="sWt" x="444" y="88">table rebuilds: 14.6M rows</text>
+<text class="sGt" x="444" y="110">incremental merges: 560k rows</text>
+<text class="sC" x="444" y="138">26× less work, but you now own</text>
+<text class="sC" x="444" y="156">late data (the lookback), merges</text><text class="sC" x="444" y="174">and occasional --full-refresh</text>
+<text class="sS" x="360" y="232" text-anchor="middle">start with table; switch a model to incremental when its rebuild time or cost starts to hurt</text>
+</svg><figcaption>table vs incremental, computed for a growing fact table: the incremental model trades simplicity for a large cut in work.</figcaption></figure>
+
 ### Tests, snapshots and more 🟡 ⭐
 
 - **Data tests:** generic (`unique`, `not_null`, `accepted_values`, `relationships`, plus packages like `dbt_utils` and `dbt-expectations`) and singular (any SQL that returns failing rows).
@@ -149,6 +233,31 @@ models:
 - **`dbt build`** runs models, tests, snapshots and seeds in DAG order; **state selection** (`--select state:modified+`) builds only what changed and its descendants in CI ("slim CI").
 
 **Project structure** (dbt Labs' recommendation): `staging/` (one model per source table, light cleaning) → `intermediate/` (joins and business logic) → `marts/` (facts and dimensions for consumers), which maps neatly onto bronze → silver → gold ([[DE1.3]]).
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="dbt lineage: raw sources feed staging models, which feed an intermediate model and marts for orders and customers, which feed a sales dashboard exposure; tests run on key models">
+<text class="sM" x="84" y="22" text-anchor="middle">sources</text>
+<rect class="sN" x="14" y="40" width="140" height="40" rx="6"/><text class="sC" x="84" y="65" text-anchor="middle">raw.orders</text>
+<rect class="sN" x="14" y="110" width="140" height="40" rx="6"/><text class="sC" x="84" y="135" text-anchor="middle">raw.customers</text>
+<text class="sM" x="244" y="22" text-anchor="middle">staging</text>
+<rect class="sB" x="174" y="40" width="140" height="40" rx="6"/><text class="sC" x="244" y="65" text-anchor="middle">stg_orders</text>
+<rect class="sB" x="174" y="110" width="140" height="40" rx="6"/><text class="sC" x="244" y="135" text-anchor="middle">stg_customers</text>
+<text class="sM" x="404" y="22" text-anchor="middle">intermediate</text>
+<rect class="sV" x="334" y="75" width="140" height="40" rx="6"/><text class="sC" x="404" y="100" text-anchor="middle">int_orders_enriched</text>
+<text class="sM" x="564" y="22" text-anchor="middle">marts</text>
+<rect class="sA" x="494" y="40" width="140" height="40" rx="6"/><text class="sC" x="564" y="65" text-anchor="middle">fct_orders</text>
+<rect class="sA" x="494" y="110" width="140" height="40" rx="6"/><text class="sC" x="564" y="135" text-anchor="middle">dim_customer</text>
+<line class="sLm" x1="154" y1="60" x2="172" y2="60" marker-end="url(#ahm)"/>
+<line class="sLm" x1="154" y1="130" x2="172" y2="130" marker-end="url(#ahm)"/>
+<line class="sLm" x1="314" y1="60" x2="332" y2="95" marker-end="url(#ahm)"/>
+<line class="sLm" x1="314" y1="130" x2="332" y2="95" marker-end="url(#ahm)"/>
+<line class="sLm" x1="474" y1="95" x2="492" y2="60" marker-end="url(#ahm)"/>
+<line class="sLm" x1="314" y1="130" x2="492" y2="130" marker-end="url(#ahm)"/>
+<circle class="sPg" cx="308" cy="46" r="5"/>
+<circle class="sPg" cx="628" cy="46" r="5"/>
+<circle class="sPg" cx="628" cy="116" r="5"/>
+<rect class="sW" x="500" y="170" width="206" height="40" rx="8"/><text class="sT" x="603" y="195" text-anchor="middle">exposure: sales dashboard</text><line class="sLw" x1="570" y1="150" x2="590" y2="168" marker-end="url(#ahw)"/>
+<text class="sC" x="14" y="200">arrows come from ref() and source(): dbt builds the graph from the SQL</text><text class="sGt" x="14" y="218">green dots: tests that run with dbt build</text>
+</svg><figcaption>A dbt project is a DAG of SELECT statements. ref() is both the dependency and the documentation of lineage.</figcaption></figure>
 
 > [!sota] dbt in 2026
 > **Fivetran and dbt Labs completed their merger on 1 June 2026**, and **dbt Core v2.0** (alpha) open-sources the **Fusion engine**, a Rust rewrite that parses and understands SQL (faster parsing, live error detection, richer column-level lineage, state-aware builds) under the Apache 2.0 licence. dbt Core 1.x remains widely used; **dbt Cloud** is the managed offering.

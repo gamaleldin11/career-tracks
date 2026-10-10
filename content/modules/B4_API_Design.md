@@ -8,6 +8,35 @@ Building an endpoint is easy; designing an API that other teams, mobile apps and
 > **Most asked:** *What makes an API RESTful?* · *How do you paginate?* · *How do you version an API?* · *How do you make POST safe to retry?* · *How do you stop two users overwriting each other's changes?* · *REST vs GraphQL vs gRPC?*
 > **Time budget:** 3 hours.
 
+## B4.0 Foundations: what an API contract is 🟢
+
+An **API** (application programming interface) is how one program uses another. For a web API, the **contract** is everything a client relies on: the URLs and methods, the request and response shapes, the status codes and error format, authentication, limits and versions.
+
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Several consumers with their own release schedules depend on one API contract; the implementation behind it can change freely">
+<rect class="sB" x="16" y="24" width="170" height="50" rx="8"/><text class="sT" x="101" y="47" text-anchor="middle">Angular app</text><text class="sC" x="101" y="63" text-anchor="middle">deploys with you</text>
+<line class="sLm" x1="186" y1="49" x2="256" y2="115" marker-end="url(#ahm)"/>
+<rect class="sB" x="16" y="90" width="170" height="50" rx="8"/><text class="sT" x="101" y="113" text-anchor="middle">Android app v3.2</text><text class="sC" x="101" y="129" text-anchor="middle">users update… eventually</text>
+<line class="sLm" x1="186" y1="115" x2="256" y2="115" marker-end="url(#ahm)"/>
+<rect class="sB" x="16" y="156" width="170" height="50" rx="8"/><text class="sT" x="101" y="179" text-anchor="middle">partner ERP</text><text class="sC" x="101" y="195" text-anchor="middle">their own schedule</text>
+<line class="sLm" x1="186" y1="181" x2="256" y2="115" marker-end="url(#ahm)"/>
+<rect class="sV" x="260" y="30" width="200" height="170" rx="12"/><text class="sT" x="360" y="54" text-anchor="middle">the contract</text>
+<text class="sC" x="360" y="82" text-anchor="middle">URLs and methods</text>
+<text class="sC" x="360" y="104" text-anchor="middle">request / response shapes</text>
+<text class="sC" x="360" y="126" text-anchor="middle">status codes, error format</text>
+<text class="sC" x="360" y="148" text-anchor="middle">auth, limits, versions</text>
+<text class="sM" x="360" y="184" text-anchor="middle">written down: OpenAPI</text>
+<line class="sLm" x1="460" y1="115" x2="530" y2="115" marker-end="url(#ahm)"/><rect class="sA" x="534" y="88" width="170" height="54" rx="8"/><text class="sT" x="619" y="113" text-anchor="middle">your API</text><text class="sC" x="619" y="129" text-anchor="middle">free to change inside</text>
+<text class="sS" x="360" y="226" text-anchor="middle">you can change anything behind the contract; changing the contract breaks people you can't see</text>
+</svg><figcaption>An API is a promise to consumers you don't control. The implementation is yours; the contract is shared.</figcaption></figure>
+
+Three facts shape every rule in this module:
+
+- **You don't control your consumers.** A mobile app version stays installed for months; a partner's integration changes on their schedule. Anything you remove or rename breaks someone you may not know exists.
+- **The network is between you.** Every call can be slow, fail half-way or be retried, so the contract must say what's safe to repeat ([[B4.4]]).
+- **JSON is the common language, and it has gaps.** It has only strings, numbers, booleans, null, arrays and objects: no dates and no decimal type. Conventions fill the gaps: ISO 8601 strings for dates, decimal strings or integer minor units for money, strings for enums ([[B4.2]]).
+
+**Resource and representation.** The *resource* is the thing (invoice 7); a *representation* is one way of showing it (JSON today, maybe CSV or PDF tomorrow). Clients work with representations; the resource lives on the server.
+
 ## B4.1 What REST actually means 🟢 ⭐
 
 REST (Roy Fielding, 2000) is an architectural style. In practice, "RESTful" HTTP APIs mean:
@@ -59,6 +88,13 @@ REST (Roy Fielding, 2000) is an architectural style. In practice, "RESTful" HTTP
 
 The cursor is an **opaque**, encoded position (the last row's sort key and ID). Clients pass it back; they never construct it. **Always cap** the page size on the server.
 
+<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="OFFSET pagination makes the database read and discard ten thousand rows to return page 501; keyset pagination seeks directly to the cursor through the index">
+<text class="sT" x="20" y="22">rows the database reads to return page 501 (20 rows each)</text>
+<text class="sM" x="160" y="58" text-anchor="end">OFFSET 10000</text><rect class="sR" x="170" y="44" width="520" height="22" rx="3" opacity=".55"/><text class="sC" x="430" y="59" text-anchor="middle">read and thrown away: 10,000 rows</text><rect class="sG" x="688" y="44" width="12" height="22" rx="2"/>
+<text class="sM" x="160" y="108" text-anchor="end">keyset (after cursor)</text><path class="sLg" d="M170.0 105 C326.0 80 534.0 80 686.0 100" marker-end="url(#ahg)"/><rect class="sG" x="688" y="94" width="12" height="22" rx="2"/><text class="sGt" x="430" y="130" text-anchor="middle">index seek straight to (dueDate, id) &gt; cursor, then read 20</text>
+<text class="sS" x="360" y="160" text-anchor="middle">page 1 costs the same either way; page 501 costs 500× more with OFFSET</text>
+</svg><figcaption>Why deep offset pages get slow and keyset pages don't.</figcaption></figure>
+
 > [!say]
 > "Offset pagination is simple and supports page numbers, but deep pages get slow because the database still walks the skipped rows, and inserts shift items between pages. For large or changing data I use keyset pagination: the cursor encodes the last row's sort key and ID, and the next query seeks past it using an index, so every page costs the same."
 
@@ -108,6 +144,21 @@ In EF Core, a `rowversion` column (SQL Server) or an `xmin`/version column (Post
 
 **Pessimistic concurrency** (locking the row while someone edits) is rarely right for web apps: users leave tabs open for hours.
 
+<figure class="dia steps"><svg viewBox="0 0 720 266" role="img" aria-label="Optimistic concurrency with ETags: both users read version 1, A saves first and creates version 2, B's save based on version 1 is rejected with 412">
+<text class="sT" x="90" y="22" text-anchor="middle">Accountant A</text><line class="sD" x1="90" y1="32" x2="90" y2="262"/>
+<text class="sT" x="360" y="22" text-anchor="middle">API (invoice 7)</text><line class="sD" x1="360" y1="32" x2="360" y2="262"/>
+<text class="sT" x="630" y="22" text-anchor="middle">Accountant B</text><line class="sD" x1="630" y1="32" x2="630" y2="262"/>
+<g data-s="1"><line class="sLg" x1="356" y1="52" x2="94" y2="60" marker-end="url(#ahg)"/><text class="sC" x="225" y="50" text-anchor="middle">GET → ETag "v1"</text><line class="sLg" x1="364" y1="52" x2="626" y2="60" marker-end="url(#ahg)"/><text class="sC" x="495" y="50" text-anchor="middle">GET → ETag "v1"</text></g>
+<g data-s="2"><line class="sL" x1="90" y1="96" x2="356" y2="106" marker-end="url(#ah)"/><text class="sM" x="225" y="92" text-anchor="middle">PUT If-Match: "v1"</text><line class="sLg" x1="356" y1="118" x2="94" y2="126" marker-end="url(#ahg)"/><text class="sGt" x="225" y="138" text-anchor="middle">204 · ETag "v2"</text><rect class="sG" x="300" y="102" width="120" height="24" rx="6"/><text class="sC" x="360" y="118" text-anchor="middle">now v2</text></g>
+<g data-s="3"><line class="sL" x1="630" y1="156" x2="364" y2="166" marker-end="url(#ah)"/><text class="sM" x="495" y="152" text-anchor="middle">PUT If-Match: "v1"</text><line class="sLr" x1="364" y1="178" x2="626" y2="186" marker-end="url(#ahr)"/><text class="sRt" x="495" y="198" text-anchor="middle">412 Precondition Failed</text></g>
+<g data-s="4"><line class="sLm" x1="630" y1="220" x2="364" y2="226" marker-end="url(#ahm)"/><text class="sC" x="495" y="216" text-anchor="middle">reload, merge, retry with "v2"</text><text class="sGt" x="360" y="256" text-anchor="middle">A's change was not silently overwritten</text></g>
+</svg><ol class="dia-steps">
+<li>Both accountants open invoice 7. Each response carries the version they saw: ETag "v1".</li>
+<li>A saves first, sending <code>If-Match: "v1"</code>. The version still matches, so the update succeeds and the invoice becomes "v2".</li>
+<li>B saves, also based on "v1". The server checks <code>If-Match</code>, sees the current version is "v2", and refuses with 412 instead of overwriting A's work.</li>
+<li>B's client reloads the latest invoice, shows what changed, and lets B reapply their edit.</li>
+</ol><figcaption>Preventing the lost update. In EF Core the same check is a concurrency token in the UPDATE's WHERE clause.</figcaption></figure>
+
 ## B4.6 Versioning and evolving an API 🟢 🟡 ⭐
 
 **Backward-compatible (non-breaking) changes:** adding an endpoint, adding an **optional** request field, adding a response field (clients must ignore unknown fields), adding a new enum value *if* clients were told to expect unknown values.
@@ -145,12 +196,33 @@ GET  /api/v1/report-jobs/91     → 303 See Other, Location: /api/v1/reports/91.
 
 Or push completion over SignalR, SSE or a webhook instead of polling.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Long-running request: POST returns 202 with a job URL, the client polls the job, and finally gets a 303 redirect to the result">
+<text class="sT" x="100" y="22" text-anchor="middle">Client</text><line class="sD" x1="100" y1="32" x2="100" y2="232"/>
+<text class="sT" x="400" y="22" text-anchor="middle">API</text><line class="sD" x1="400" y1="32" x2="400" y2="232"/>
+<text class="sT" x="640" y="22" text-anchor="middle">Worker</text><line class="sD" x1="640" y1="32" x2="640" y2="232"/>
+<line class="sL" x1="100" y1="48" x2="396" y2="54" marker-end="url(#ah)"/><text class="sM" x="250" y="44" text-anchor="middle">POST /reports</text>
+<line class="sLw" x1="404" y1="60" x2="636" y2="66" marker-end="url(#ahw)"/><text class="sC" x="520" y="56" text-anchor="middle">enqueue job 91</text>
+<line class="sLg" x1="396" y1="76" x2="104" y2="82" marker-end="url(#ahg)"/><text class="sGt" x="250" y="96" text-anchor="middle">202 Accepted · Location: /report-jobs/91</text>
+<line class="sL" x1="100" y1="120" x2="396" y2="124" marker-end="url(#ah)"/><text class="sM" x="250" y="116" text-anchor="middle">GET /report-jobs/91</text><line class="sLg" x1="396" y1="132" x2="104" y2="136" marker-end="url(#ahg)"/><text class="sC" x="250" y="150" text-anchor="middle">200 {status: "running", progress: 40}</text>
+<rect class="sW" x="600" y="80" width="80" height="90" rx="6"/><text class="sC" x="640" y="128" text-anchor="middle">working</text>
+<line class="sL" x1="100" y1="180" x2="396" y2="184" marker-end="url(#ah)"/><text class="sM" x="250" y="176" text-anchor="middle">GET /report-jobs/91</text><line class="sLg" x1="396" y1="192" x2="104" y2="196" marker-end="url(#ahg)"/><text class="sGt" x="250" y="214" text-anchor="middle">303 See Other → /reports/91.pdf</text>
+</svg><figcaption>The 202 pattern. The request returns in milliseconds; the work happens elsewhere; the client checks back (or is told by a webhook or SignalR).</figcaption></figure>
+
 **Webhooks** (your API calls the client's URL when something happens):
 
 - **Sign** each payload (an HMAC of the body with a shared secret, in a header) so receivers can verify it came from you, and include a timestamp to stop replays.
 - **Retry** with exponential backoff on failure; receivers must be **idempotent**, because duplicates will happen.
 - Send an **event ID** and type; keep payloads small (or send IDs and let them fetch).
 - Give a way to see deliveries and replay them.
+
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Webhook signing: the payload and a timestamp are signed with an HMAC using a shared secret; the receiver recomputes and compares">
+<rect class="sB" x="16" y="40" width="150" height="50" rx="8"/><text class="sT" x="91" y="63" text-anchor="middle">event payload</text><text class="sC" x="91" y="79" text-anchor="middle">invoice.paid</text><text class="sX" x="186" y="70" text-anchor="middle">+</text><rect class="sR" x="200" y="40" width="130" height="50" rx="8"/><text class="sT" x="265" y="63" text-anchor="middle">shared secret</text><text class="sC" x="265" y="79" text-anchor="middle">never sent</text>
+<text class="sX" x="186" y="120" text-anchor="middle">+</text><rect class="sB" x="200" y="100" width="130" height="40" rx="8"/><text class="sT" x="265" y="125" text-anchor="middle">timestamp</text>
+<line class="sLm" x1="330" y1="80" x2="366" y2="80" marker-end="url(#ahm)"/><rect class="sV" x="370" y="54" width="130" height="50" rx="8"/><text class="sT" x="435" y="84" text-anchor="middle">HMAC-SHA256</text>
+<line class="sLm" x1="500" y1="80" x2="536" y2="80" marker-end="url(#ahm)"/><rect class="sG" x="540" y="50" width="168" height="60" rx="8"/><text class="sC" x="624" y="72" text-anchor="middle">header:</text><text class="sC" x="624" y="92" text-anchor="middle">X-Signature: t=…,v1=9f2c…</text>
+<text class="sS" x="360" y="176" text-anchor="middle">Receiver: recompute the HMAC over the raw body with the same secret, compare in constant time,</text>
+<text class="sS" x="360" y="196" text-anchor="middle">reject old timestamps (replays), and process each event ID once (deliveries repeat).</text>
+</svg><figcaption>Signed webhooks. The signature proves who sent it and that nobody changed it; the timestamp and event ID stop replays and duplicates.</figcaption></figure>
 
 ## B4.9 Other recurring design questions 🟡
 
@@ -170,6 +242,17 @@ Or push completion over SignalR, SSE or a webhook instead of polling.
 | Strengths | Universal, cacheable, simple, every tool supports it | Fast, strongly typed, **streaming** (client, server, bidirectional), deadlines and cancellation | Clients fetch **exactly the fields** they need from many resources in one request |
 | Weaknesses | Over- or under-fetching on complex screens | Browsers need gRPC-Web or JSON transcoding; harder to debug by eye | Caching is harder; servers must guard against expensive queries; **N+1** resolver problem |
 | Best for | Public and partner APIs, CRUD, most web backends | Internal service-to-service calls, high throughput, real-time streams | Front ends with many varied screens, mobile apps, aggregating several services |
+
+<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="A screen needing an invoice, its customer name and its last three payments takes three REST calls or one GraphQL query">
+<text class="sT" x="180" y="22" text-anchor="middle">REST: three round trips</text><text class="sT" x="540" y="22" text-anchor="middle">GraphQL: one query, exact fields</text>
+<rect class="sB" x="20" y="40" width="200" height="36" rx="6"/><text class="sM" x="120" y="62" text-anchor="middle">GET /invoices/7</text><text class="sC" x="234" y="62">whole invoice</text>
+<rect class="sB" x="20" y="90" width="200" height="36" rx="6"/><text class="sM" x="120" y="112" text-anchor="middle">GET /customers/31</text><text class="sC" x="234" y="112">whole customer</text>
+<rect class="sB" x="20" y="140" width="200" height="36" rx="6"/><text class="sM" x="120" y="162" text-anchor="middle">GET /invoices/7/payments</text><text class="sC" x="234" y="162">all payments</text>
+<text class="sWt" x="180" y="206" text-anchor="middle">3 × latency, plus fields the screen never shows</text>
+<line class="sD" x1="360" y1="12" x2="360" y2="214"/>
+<rect class="sV" x="380" y="36" width="320" height="150" rx="8"/><text class="sC" x="392" y="58" xml:space="preserve" style="white-space:pre">query {</text><text class="sC" x="392" y="77" xml:space="preserve" style="white-space:pre">  invoice(id: 7) {</text><text class="sC" x="392" y="96" xml:space="preserve" style="white-space:pre">    amount  status</text><text class="sC" x="392" y="115" xml:space="preserve" style="white-space:pre">    customer { name }</text><text class="sC" x="392" y="134" xml:space="preserve" style="white-space:pre">    payments(last: 3) { amount paidAt }</text><text class="sC" x="392" y="153" xml:space="preserve" style="white-space:pre">  }</text><text class="sC" x="392" y="172" xml:space="preserve" style="white-space:pre">}</text>
+<text class="sGt" x="540" y="206" text-anchor="middle">one round trip; the server must guard cost and N+1</text>
+</svg><figcaption>Over-fetching and under-fetching, the problem GraphQL solves. A BFF endpoint shaped for the screen solves it too, without a new technology ([[FS1]]).</figcaption></figure>
 
 > [!term] The N+1 problem (GraphQL and ORMs)
 > Fetching a list (1 query), then running one more query **per item** for related data (N queries). In GraphQL, resolvers for a nested field cause it; **DataLoader**-style batching collects the IDs and loads them in one query. In EF Core, the fix is eager loading or projection ([[B5]]).

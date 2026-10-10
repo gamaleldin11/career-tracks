@@ -6,7 +6,8 @@ Eight interview-preparation courses in one website: **Frontend, Backend, Full-St
 
 - **116 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
 - **System design on every track**: five shared modules (SD1–SD5) from fundamentals to scaling in production, choosing technologies, reliability patterns and role-specific design, placed in a *System design* stage on all eight paths.
-- **A self-test per track** (444 questions). Every wrong answer links to the section to reread.
+- **Over 700 diagrams** drawn as inline SVG (in the Markdown, the AI Journey parts and the Bootcamp page): static figures, ambient animations (pausable, and paused for readers who prefer reduced motion) and step-through figures with narration. Most modules open with an **X.0 Foundations** section that builds the background the rest of the module assumes.
+- **A self-test per track** (802 questions across the eight tracks). Every wrong answer links to the section to reread.
 - **Level filter** (Entry / Mid / Senior), full-text search, a site-wide glossary, dark and light themes, and per-module progress saved in the browser.
 - Facts in the six software and data tracks were checked against primary sources in October 2026; each module ends with its sources.
 
@@ -27,9 +28,12 @@ site/                         the code that turns content/ into a website
   template_body.html          page shell and browser code
   serve.js                    local preview server
   check-links.mjs             external-link checker
+  qa/                         diagram checks run in the browser (layout and step-figure overlaps)
 dist/                         build output (generated, not committed)
+docs/refinement-backlog.md    status of the diagram pass and what is left to do (not part of the site)
 vercel.json                   how Vercel builds and serves the site
 .github/workflows/build.yml   checks every push and pull request builds with no warnings
+.claude/launch.json           preview-server config for Claude Code (other .claude/ files stay local)
 ```
 
 ## Run it locally
@@ -69,6 +73,19 @@ The start page, sidebar, track picker, search, glossary and self-test page pick 
 | A table headed `\| Question \| Strong short answer \|` | Flash cards |
 | `[[F3]]` or `[[F3.2]]` | A link to a module or a section |
 | `![alt](figures/name.png)` then `*caption*` | A figure; put the image in `content/ai-journey/figures/` |
+| `<figure class="dia"><svg viewBox="0 0 720 …">…</svg><figcaption>…</figcaption></figure>` | An inline diagram that follows the theme. Shapes use classes such as `sB sA sG sW sR sV sN`, lines `sL sLg sLw sLr sLv sLm sD`, text `sT sC sM sS sGt sWt sRt`, arrowheads `marker-end="url(#ah)"` (`ahg ahw ahr ahv ahm`). No blank lines inside the figure, and a blank line after it |
+| `<figure class="dia anim">` | The same, animated (SMIL or the `aFlow` / `aPulse` classes): gets a pause button, starts paused for reduced motion, and idles off screen. `data-rest="4"` shows the frame at 4 s when paused |
+| `<figure class="dia steps">` with `data-s="3"` (from step 3 on) or `data-s="2-4"` (steps 2–4 only) on SVG elements, then `<ol class="dia-steps">` with one `<li>` per step | A step-through figure with Play, Previous and Next. Add `data-start="1"` when steps replace each other; the overview shows the finished state. Parts from step 3 on are previewed faintly before step 3, so a part that replaces earlier text should be ranged to the last step (`data-s="3-5"` in a five-step figure) |
+
+**Checking diagrams.** With `npm run dev` running, open the site and paste into the browser console:
+
+```
+await document.fonts.ready; window.__only = null;   // or ['F3', 'AI6'] for some modules
+eval(await (await fetch('/qa/measure.js')).text())   // text outside its viewBox, or overlapping text
+eval(await (await fetch('/qa/stepcheck.js')).text()) // overlaps at any step of a step-through figure
+```
+
+Both print an empty list or `"no problems"` when every diagram is clean. `serve.js` serves them from `site/qa/`; they are never part of the published build.
 
 The AI Journey and the Bootcamp keep their original formats and numbering; `site/sources.js` maps them (AI Journey §6.3 becomes §AI6.3; Bootcamp section 2.3 becomes §N2.3, its Level 2 deep dives count as Mid and Levels 3–4 as Senior). New material should be plain Markdown in `content/modules/`.
 

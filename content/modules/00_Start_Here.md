@@ -19,6 +19,18 @@ Pick a track above. The sidebar then shows that track's path in order, from the 
 | 5 | Finish each module with its **Interview drill** flash cards and **Key takeaways**. | Answer the card out loud before you reveal it. |
 | 6 | When the path is done, take the track's **Self-test** (sidebar, under Reference). | Every wrong answer links back to the section to reread. |
 
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: the study loop for each module: read the interview focus card, read the sections, say the answers aloud, do the try-it task, run the drill and takeaways, and take the self-test">
+<ellipse class="sLm" cx="360" cy="130" rx="250" ry="86" fill="none" stroke-dasharray="6 5"/>
+<rect class="sB" x="274" y="22" width="172" height="44" rx="8"/><text class="sT" x="360" y="42" text-anchor="middle">Interview focus card</text><text class="sC" x="360" y="58" text-anchor="middle">what you must do</text>
+<rect class="sA" x="490.506" y="65" width="172" height="44" rx="8"/><text class="sT" x="576.506" y="85" text-anchor="middle">read the sections</text><text class="sC" x="576.506" y="101" text-anchor="middle">diagrams, then text</text>
+<rect class="sV" x="490.506" y="151" width="172" height="44" rx="8"/><text class="sT" x="576.506" y="171" text-anchor="middle">say it aloud</text><text class="sC" x="576.506" y="187" text-anchor="middle">the Say-it boxes</text>
+<rect class="sG" x="274" y="194" width="172" height="44" rx="8"/><text class="sT" x="360" y="214" text-anchor="middle">try it</text><text class="sC" x="360" y="230" text-anchor="middle">20 minutes of doing</text>
+<rect class="sW" x="57.4936" y="151" width="172" height="44" rx="8"/><text class="sT" x="143.494" y="171" text-anchor="middle">drill + takeaways</text><text class="sC" x="143.494" y="187" text-anchor="middle">answer before revealing</text>
+<rect class="sR" x="57.4936" y="65" width="172" height="44" rx="8"/><text class="sT" x="143.494" y="85" text-anchor="middle">self-test</text><text class="sC" x="143.494" y="101" text-anchor="middle">wrong answers link back</text>
+<text class="sC" x="360" y="126" text-anchor="middle">one module,</text><text class="sT" x="360" y="144" text-anchor="middle">one loop</text>
+<circle class="sP" r="7"><animateMotion dur="9s" repeatCount="indefinite" path="M360 44 A250 86 0 0 1 360 216 A250 86 0 0 1 360 44"/></circle>
+</svg><figcaption>The loop that turns reading into interview answers. Speaking and doing are the steps people skip, and the ones that count.</figcaption></figure>
+
 **Badges used everywhere**
 
 | Badge | Meaning |
@@ -64,6 +76,28 @@ You can apply for more than one role, and the tracks share a lot. The table show
 
 **Overlaps, so you never study the same thing twice.** The shared modules (code **S1**–**S10** and **SD1**–**SD5**) appear on several paths. Full-stack reuses most of the frontend and backend modules and adds five of its own that join the two halves. The three data tracks share SQL, Python and statistics. The AI and network tracks are complete courses of their own; where they cover the same ground as a shared module (SQL in [[AI12]], statistics in [[AI15]], Linux in [[N11]]), either one will do.
 
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Eight career tracks sitting on shared system-design modules and shared foundation modules">
+<rect class="sN" x="14" y="200" width="692" height="40" rx="8"/><text class="sC" x="360" y="218" text-anchor="middle">shared foundations S1–S10: web, Git, SQL, DSA, Linux, statistics, Python, hiring, security, cloud</text><text class="sC" x="360" y="233" text-anchor="middle"></text>
+<rect class="sV" x="14" y="160" width="692" height="32" rx="8" opacity=".7"/><text class="sT" x="360" y="181" text-anchor="middle">system design SD1–SD5, on every path</text>
+<rect class="sA" x="14" y="30" width="81" height="120" rx="8"/><text class="sT" x="54" y="54" text-anchor="middle">frontend</text><text class="sT" x="54" y="70" text-anchor="middle"></text><text class="sC" x="54" y="136" text-anchor="middle">F1–F11</text>
+<line class="sLm" x1="54" y1="150" x2="54" y2="158"/>
+<rect class="sA" x="101" y="30" width="81" height="120" rx="8"/><text class="sT" x="141" y="54" text-anchor="middle">backend</text><text class="sT" x="141" y="70" text-anchor="middle"></text><text class="sC" x="141" y="136" text-anchor="middle">B1–B14</text>
+<line class="sLm" x1="141" y1="150" x2="141" y2="158"/>
+<rect class="sA" x="188" y="30" width="81" height="120" rx="8"/><text class="sT" x="228" y="54" text-anchor="middle">full-stack</text><text class="sT" x="228" y="70" text-anchor="middle"></text><text class="sC" x="228" y="136" text-anchor="middle">FS + F + B</text>
+<line class="sLm" x1="228" y1="150" x2="228" y2="158"/>
+<rect class="sG" x="275" y="30" width="81" height="120" rx="8"/><text class="sT" x="315" y="54" text-anchor="middle">data</text><text class="sT" x="315" y="70" text-anchor="middle">analyst</text><text class="sC" x="315" y="136" text-anchor="middle">DA1–DA7</text>
+<line class="sLm" x1="315" y1="150" x2="315" y2="158"/>
+<rect class="sG" x="362" y="30" width="81" height="120" rx="8"/><text class="sT" x="402" y="54" text-anchor="middle">data</text><text class="sT" x="402" y="70" text-anchor="middle">scientist</text><text class="sC" x="402" y="136" text-anchor="middle">DS1–DS9</text>
+<line class="sLm" x1="402" y1="150" x2="402" y2="158"/>
+<rect class="sG" x="449" y="30" width="81" height="120" rx="8"/><text class="sT" x="489" y="54" text-anchor="middle">data</text><text class="sT" x="489" y="70" text-anchor="middle">engineer</text><text class="sC" x="489" y="136" text-anchor="middle">DE1–DE10</text>
+<line class="sLm" x1="489" y1="150" x2="489" y2="158"/>
+<rect class="sW" x="536" y="30" width="81" height="120" rx="8"/><text class="sT" x="576" y="54" text-anchor="middle">AI</text><text class="sT" x="576" y="70" text-anchor="middle">engineer</text><text class="sC" x="576" y="136" text-anchor="middle">AI0–AI25</text>
+<line class="sLm" x1="576" y1="150" x2="576" y2="158"/>
+<rect class="sB" x="623" y="30" width="81" height="120" rx="8"/><text class="sT" x="663" y="54" text-anchor="middle">network</text><text class="sT" x="663" y="70" text-anchor="middle"></text><text class="sC" x="663" y="136" text-anchor="middle">bootcamp</text>
+<line class="sLm" x1="663" y1="150" x2="663" y2="158"/>
+<text class="sM" x="360" y="20" text-anchor="middle">eight paths, one shared base: a module done on one path counts on all of them</text>
+</svg><figcaption>The handbook's shape. Shared modules appear on several paths, so your progress carries across.</figcaption></figure>
+
 **Levels in the network track.** The bootcamp teaches in four depths. Its core sections count as 🟢 Entry, its *Level 2 deep dives* and command compendia as 🟡 Mid, and its *Level 3 expert corners* and *Level 4 state of the art* as 🔴 Senior, so the level buttons at the top work there too.
 
 > [!tip] If you can only prepare for one
@@ -88,6 +122,21 @@ The detail is in [[S8]]; this is the shape.
 3. **Coding or task.** A live problem (shared editor or a platform such as HackerRank or Codility), a **take-home task** (common in Egyptian startups, typically a small CRUD app or a data analysis with a few days to submit), or both.
 4. **Team or manager round.** Architecture of your past work, behavioural questions, "why us".
 5. **Offer.** Gross versus net salary, the social insurance deduction, the probation period (commonly three months), and benefits such as medical insurance. These are covered in [[S8]].
+
+<figure class="dia"><svg viewBox="0 0 720 142" role="img" aria-label="The usual hiring sequence in Egypt: application, HR call, technical screen, a coding task or take-home, a team round, and the offer">
+<rect class="sB" x="4" y="40" width="114" height="60" rx="8"/><text class="sT" x="61" y="64" text-anchor="middle">apply</text><text class="sC" x="61" y="84" text-anchor="middle">LinkedIn</text>
+<line class="sLm" x1="118" y1="70" x2="123" y2="70" marker-end="url(#ahm)"/>
+<rect class="sB" x="124" y="40" width="114" height="60" rx="8"/><text class="sT" x="181" y="64" text-anchor="middle">HR call</text><text class="sC" x="181" y="84" text-anchor="middle">English</text>
+<line class="sLm" x1="238" y1="70" x2="243" y2="70" marker-end="url(#ahm)"/>
+<rect class="sA" x="244" y="40" width="114" height="60" rx="8"/><text class="sT" x="301" y="64" text-anchor="middle">technical screen</text><text class="sC" x="301" y="84" text-anchor="middle">fundamentals</text>
+<line class="sLm" x1="358" y1="70" x2="363" y2="70" marker-end="url(#ahm)"/>
+<rect class="sV" x="364" y="40" width="114" height="60" rx="8"/><text class="sT" x="421" y="64" text-anchor="middle">task</text><text class="sC" x="421" y="84" text-anchor="middle">live or take-home</text>
+<line class="sLm" x1="478" y1="70" x2="483" y2="70" marker-end="url(#ahm)"/>
+<rect class="sG" x="484" y="40" width="114" height="60" rx="8"/><text class="sT" x="541" y="64" text-anchor="middle">team round</text><text class="sC" x="541" y="84" text-anchor="middle">design</text>
+<line class="sLm" x1="598" y1="70" x2="603" y2="70" marker-end="url(#ahm)"/>
+<rect class="sW" x="604" y="40" width="114" height="60" rx="8"/><text class="sT" x="661" y="64" text-anchor="middle">offer</text><text class="sC" x="661" y="84" text-anchor="middle">gross vs net</text>
+<text class="sS" x="360" y="130" text-anchor="middle">each module's Interview focus card targets the technical screen; S8 covers the rest</text>
+</svg><figcaption>The shape of most processes. Referrals skip the first queue; take-homes are common at startups.</figcaption></figure>
 
 Remote work for foreign companies is a real option for Egyptian engineers; those interviews follow the same shape but put more weight on written English and on asynchronous communication.
 
