@@ -3175,6 +3175,255 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <li><strong>Management went cloud-first</strong>: Intune + Autopilot for endpoints (GPO co-management during transition), <strong>Azure Arc</strong> projecting on-prem servers into cloud management, Windows Admin Center over MMC-era consoles. Identity: passkeys in Entra ID, Conditional Access as the policy brain, cloud Kerberos trust bridging both worlds.</li>
   <li><strong>Horizon</strong>: greenfield companies increasingly skip on-prem AD entirely (Entra-only + Intune); existing AD estates will run for a decade+ (apps depend on it) — which is why AD skills stay employable while the growth skill is the hybrid boundary; AI copilots are landing inside admin consoles (Intune, Sentinel) drafting queries, policies, and remediation scripts; and Kerberos/PKI go post-quantum on the same NIST timeline as everything else (RSA-2048 deprecated by 2030, gone by 2035).</li>
 </ul></div></section>
+<section class="mod" id="m18"><div class="eyebrow">Module 18 · Hardware</div>
+<h2>Servers, hardware &amp; Dell tools</h2>
+<p class="goal">The physical layer under every VM and every LUN: what is inside a rack server, how it boots, how power, memory and disks fail, and the Dell tools you use to see and fix all of it — iDRAC, Lifecycle Controller, OpenManage and SupportAssist. For a Dell-facing role, this module is where "I know the theory" becomes "I can support your servers".</p>
+
+<h3>18.1 Inside a rack server</h3>
+<p>A rack server is a PC built for 24/7 duty: <strong>everything that can fail is doubled and hot-swappable</strong> (power supplies, fans, disks), memory corrects its own errors, and a small independent computer — the <strong>BMC</strong> (Baseboard Management Controller; Dell calls theirs <strong>iDRAC</strong>) — watches the hardware and lets you manage it remotely even when the main system is off. Dell's server line is <strong>PowerEdge</strong>; the model name encodes the form: <code>R760</code> = <strong>R</strong>ack, <strong>7</strong> = mainstream class, <strong>6</strong> = 16th generation, <strong>0</strong> = Intel (<code>5</code> = AMD); <code>T</code> = tower, <code>MX</code> = modular blade chassis, <code>XR</code> = rugged edge.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="Top view of a 2U rack server with the lid off: hot-swap drive bays and a backplane at the front, a row of hot-swap fans, two CPU sockets each surrounded by DIMM slots, PCIe cards for the PERC RAID controller, the BOSS boot card and the network card, the iDRAC management controller, and at the rear the network ports, the dedicated iDRAC port and two redundant hot-swap power supplies; air flows from front to back">
+<text class="sM" x="14" y="20">2U rack server, top view (lid off)</text>
+<rect class="sN" x="14" y="30" width="692" height="230" rx="10"/>
+<rect class="sB" x="26" y="42" width="70" height="20" rx="3"/><rect class="sB" x="26" y="68" width="70" height="20" rx="3"/><rect class="sB" x="26" y="94" width="70" height="20" rx="3"/><rect class="sB" x="26" y="120" width="70" height="20" rx="3"/><rect class="sB" x="26" y="146" width="70" height="20" rx="3"/><rect class="sB" x="26" y="172" width="70" height="20" rx="3"/><rect class="sB" x="26" y="198" width="70" height="20" rx="3"/><rect class="sB" x="26" y="224" width="70" height="20" rx="3"/>
+<line class="sLv" x1="108" y1="40" x2="108" y2="250" style="stroke-width:3"/>
+<circle class="sA" cx="140" cy="62" r="13"/><circle class="sA" cx="140" cy="106" r="13"/><circle class="sA" cx="140" cy="150" r="13"/><circle class="sA" cx="140" cy="194" r="13"/><circle class="sA" cx="140" cy="238" r="13"/>
+<rect class="sG" x="190" y="42" width="8" height="56" rx="2"/><rect class="sG" x="203" y="42" width="8" height="56" rx="2"/><rect class="sG" x="216" y="42" width="8" height="56" rx="2"/><rect class="sG" x="229" y="42" width="8" height="56" rx="2"/><rect class="sG" x="242" y="42" width="8" height="56" rx="2"/><rect class="sG" x="255" y="42" width="8" height="56" rx="2"/>
+<rect class="sV" x="190" y="112" width="73" height="66" rx="6"/><text class="sT" x="226" y="150" text-anchor="middle">CPU 1</text>
+<rect class="sG" x="190" y="192" width="8" height="56" rx="2"/><rect class="sG" x="203" y="192" width="8" height="56" rx="2"/><rect class="sG" x="216" y="192" width="8" height="56" rx="2"/><rect class="sG" x="229" y="192" width="8" height="56" rx="2"/><rect class="sG" x="242" y="192" width="8" height="56" rx="2"/><rect class="sG" x="255" y="192" width="8" height="56" rx="2"/>
+<rect class="sG" x="300" y="42" width="8" height="56" rx="2"/><rect class="sG" x="313" y="42" width="8" height="56" rx="2"/><rect class="sG" x="326" y="42" width="8" height="56" rx="2"/><rect class="sG" x="339" y="42" width="8" height="56" rx="2"/><rect class="sG" x="352" y="42" width="8" height="56" rx="2"/><rect class="sG" x="365" y="42" width="8" height="56" rx="2"/>
+<rect class="sV" x="300" y="112" width="73" height="66" rx="6"/><text class="sT" x="336" y="150" text-anchor="middle">CPU 2</text>
+<rect class="sG" x="300" y="192" width="8" height="56" rx="2"/><rect class="sG" x="313" y="192" width="8" height="56" rx="2"/><rect class="sG" x="326" y="192" width="8" height="56" rx="2"/><rect class="sG" x="339" y="192" width="8" height="56" rx="2"/><rect class="sG" x="352" y="192" width="8" height="56" rx="2"/><rect class="sG" x="365" y="192" width="8" height="56" rx="2"/>
+<rect class="sW" x="420" y="42" width="140" height="40" rx="6"/><text class="sT" x="490" y="67" text-anchor="middle">PERC (RAID)</text>
+<rect class="sW" x="420" y="92" width="140" height="40" rx="6"/><text class="sT" x="490" y="117" text-anchor="middle">BOSS (M.2 boot)</text>
+<rect class="sB" x="420" y="142" width="140" height="40" rx="6"/><text class="sT" x="490" y="167" text-anchor="middle">NIC 25 GbE</text>
+<rect class="sR" x="420" y="196" width="140" height="52" rx="6"/><text class="sT" x="490" y="218" text-anchor="middle">iDRAC (BMC)</text><text class="sS" x="490" y="236" text-anchor="middle">on standby power</text>
+<rect class="sB" x="590" y="42" width="106" height="40" rx="6"/><text class="sT" x="643" y="67" text-anchor="middle">NIC ports</text>
+<rect class="sR" x="590" y="92" width="106" height="40" rx="6"/><text class="sT" x="643" y="117" text-anchor="middle">iDRAC port</text>
+<rect class="sA" x="590" y="150" width="106" height="44" rx="6"/><text class="sT" x="643" y="177" text-anchor="middle">PSU 1</text>
+<rect class="sA" x="590" y="204" width="106" height="44" rx="6"/><text class="sT" x="643" y="231" text-anchor="middle">PSU 2</text>
+<line class="sLr" x1="560" y1="214" x2="588" y2="122" marker-end="url(#ahr)"/>
+<line class="sLm" x1="560" y1="162" x2="588" y2="62" marker-end="url(#ahm)"/>
+<text class="sS" x="61" y="278" text-anchor="middle">hot-swap drives</text>
+<text class="sS" x="160" y="278" text-anchor="middle">fans</text>
+<text class="sS" x="281" y="278" text-anchor="middle">2 sockets + DIMM slots</text>
+<text class="sS" x="490" y="278" text-anchor="middle">PCIe cards + iDRAC</text>
+<text class="sS" x="643" y="278" text-anchor="middle">rear: ports, PSUs</text>
+<text class="sS" x="360" y="296" text-anchor="middle">cool air in at the front, hot air out the back: blanking panels in empty bays keep the airflow honest</text>
+</svg><figcaption>The parts you will name in a hardware ticket. Drives, fans and power supplies are <strong>hot-swappable</strong> (replace with the server running); CPUs and DIMMs are not. The backplane (purple line) connects the front drives to the PERC controller.</figcaption></figure>
+
+<div class="tw"><table>
+  <tr><th>Part</th><th>What it does</th><th>What you say about it</th></tr>
+  <tr><td><strong>CPU sockets</strong></td><td>1 or 2 processors; each owns its own memory channels (NUMA)</td><td>"A DIMM only works if its CPU is installed — slots belong to a socket."</td></tr>
+  <tr><td><strong>DIMMs</strong> (RDIMM, ECC)</td><td>Registered, error-correcting server memory</td><td>"Populate by the slot rules (A1, B1… white tabs first), identical DIMMs per channel, balanced across sockets."</td></tr>
+  <tr><td><strong>PERC</strong></td><td>PowerEdge RAID Controller: hardware RAID with a battery- or flash-backed cache</td><td>"Physical disks go in; the PERC presents <em>virtual disks</em> to the OS."</td></tr>
+  <tr><td><strong>HBA</strong></td><td>A controller that passes disks straight through, no RAID</td><td>"For vSAN, Ceph or ZFS — software that wants raw disks."</td></tr>
+  <tr><td><strong>BOSS</strong></td><td>Boot Optimized Storage Solution: two M.2 SSDs in RAID 1</td><td>"The hypervisor boots from BOSS so the front bays stay free for data."</td></tr>
+  <tr><td><strong>PSUs</strong></td><td>Two hot-swap power supplies, usually 1+1 redundant</td><td>"Each PSU on a different feed — A-side and B-side PDUs — or the redundancy is fake."</td></tr>
+  <tr><td><strong>NICs</strong></td><td>LOM / OCP mezzanine plus PCIe cards</td><td>"Team or bond two ports across two switches."</td></tr>
+  <tr><td><strong>iDRAC</strong></td><td>The BMC, with its own CPU, network port and firmware</td><td>"My out-of-band way in when the OS is dead" — 18.6.</td></tr>
+</table></div>
+
+<h3>18.2 BIOS, UEFI and POST — how a server boots</h3>
+<div class="term"><b class="t">BIOS vs UEFI</b><p>The <strong>firmware</strong> that runs before any operating system. Legacy <strong>BIOS</strong> (1980s design) boots from the first sector of an <strong>MBR</strong> disk — limited to 2 TB boot disks and four primary partitions. <strong>UEFI</strong> (Unified Extensible Firmware Interface) is its modern replacement: boots from a FAT32 <strong>EFI System Partition</strong> on a <strong>GPT</strong> disk, has no 2 TB limit, a graphical setup, network boot over HTTP(S), and <strong>Secure Boot</strong>. People still say "BIOS settings" for both. Every PowerEdge since 14th gen ships in UEFI mode.</p></div>
+<div class="term"><b class="t">POST</b><p><strong>Power-On Self-Test</strong>: the firmware checks and initialises the hardware — CPUs, <em>memory training</em>, PCIe devices and their option ROMs — before handing over to a boot loader. A server with 1 TB of RAM can spend <em>minutes</em> in POST; that is normal, not a hang. Desktops report POST failures with <em>beep codes</em>; servers use the front LCD/LED, and the iDRAC logs the exact error.</p></div>
+<div class="term"><b class="t">Secure Boot and TPM</b><p><strong>Secure Boot</strong> lets the firmware run only boot loaders and drivers signed by a trusted key, which blocks boot-level malware (bootkits). The <strong>TPM</strong> (Trusted Platform Module, a security chip) stores keys and measures each boot stage; BitLocker and Windows 11/Server 2025 rely on TPM 2.0. Classic gotcha: an unsigned third-party driver or an old OS image fails to boot once Secure Boot is turned on.</p></div>
+
+<figure class="dia steps"><svg viewBox="0 0 720 222" role="img" aria-label="The six stages of a server boot — power on, iDRAC on standby power, POST, UEFI firmware, the boot manager and the OS loader — each with the failure you see when that stage breaks and the first thing to check">
+<rect class="sA" x="14" y="30" width="104" height="58" rx="8"/><text class="sT" x="66" y="55" text-anchor="middle">Power</text><text class="sS" x="66" y="73" text-anchor="middle">AC → PSUs</text>
+<line class="sLm" x1="118" y1="59" x2="130" y2="59" marker-end="url(#ahm)"/>
+<rect class="sR" x="132" y="30" width="104" height="58" rx="8"/><text class="sT" x="184" y="55" text-anchor="middle">iDRAC up</text><text class="sS" x="184" y="73" text-anchor="middle">standby power</text>
+<line class="sLm" x1="236" y1="59" x2="248" y2="59" marker-end="url(#ahm)"/>
+<rect class="sV" x="250" y="30" width="104" height="58" rx="8"/><text class="sT" x="302" y="55" text-anchor="middle">POST</text><text class="sS" x="302" y="73" text-anchor="middle">CPU · RAM · PCIe</text>
+<line class="sLm" x1="354" y1="59" x2="366" y2="59" marker-end="url(#ahm)"/>
+<rect class="sB" x="368" y="30" width="104" height="58" rx="8"/><text class="sT" x="420" y="55" text-anchor="middle">UEFI</text><text class="sS" x="420" y="73" text-anchor="middle">Secure Boot</text>
+<line class="sLm" x1="472" y1="59" x2="484" y2="59" marker-end="url(#ahm)"/>
+<rect class="sB" x="486" y="30" width="104" height="58" rx="8"/><text class="sT" x="538" y="55" text-anchor="middle">Boot manager</text><text class="sS" x="538" y="73" text-anchor="middle">boot order</text>
+<line class="sLm" x1="590" y1="59" x2="602" y2="59" marker-end="url(#ahm)"/>
+<rect class="sG" x="604" y="30" width="104" height="58" rx="8"/><text class="sT" x="656" y="55" text-anchor="middle">OS loader</text><text class="sS" x="656" y="73" text-anchor="middle">GRUB · ESXi · Win</text>
+<rect class="sN" x="14" y="112" width="694" height="100" rx="8"/>
+<g data-s="1-1"><rect class="sR" x="11" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">Symptom: completely dead, no LEDs, fans silent</text><text class="sS" x="30" y="162">Check: PSU LEDs (green = OK, amber = fault), cable seated, PDU and breaker live,</text><text class="sS" x="30" y="182">both PSUs on different feeds. One amber PSU in a 1+1 pair = still running, open a case.</text></g>
+<g data-s="2-2"><rect class="sR" x="129" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">The iDRAC runs on standby power: it works while the host is off or hung</text><text class="sS" x="30" y="162">First move on any "server down" ticket: open the iDRAC, read the System Event Log and</text><text class="sS" x="30" y="182">the Lifecycle Log, and look at the virtual console — before you power-cycle anything.</text></g>
+<g data-s="3-3"><rect class="sR" x="247" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">Symptom: no POST, or stuck with an error on the LCD</text><text class="sS" x="30" y="162">Check: the LCD / SEL message (memory, CPU, PCIe). Reseat the named part; if unclear, strip to</text><text class="sS" x="30" y="182">minimum config (one CPU, one DIMM in A1, no extra cards) and add parts back one at a time.</text></g>
+<g data-s="4-4"><rect class="sR" x="365" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">Symptom: "Secure Boot violation", or a disk that booted yesterday is not offered</text><text class="sS" x="30" y="162">Check: boot mode — an OS installed in Legacy BIOS mode on an MBR disk will not boot in UEFI</text><text class="sS" x="30" y="182">mode, and vice versa. Secure Boot rejects unsigned loaders and drivers.</text></g>
+<g data-s="5-5"><rect class="sR" x="483" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">Symptom: "No boot device available" or it PXE-boots instead</text><text class="sS" x="30" y="162">Check: the boot order (F11 boot menu), whether the PERC virtual disk is online (not degraded</text><text class="sS" x="30" y="182">beyond repair, not "foreign"), and whether the BOSS card still sees both M.2 drives.</text></g>
+<g data-s="6-6"><rect class="sR" x="601" y="27" width="110" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="30" y="138">Symptom: grub rescue, INACCESSIBLE_BOOT_DEVICE, ESXi purple screen</text><text class="sS" x="30" y="162">Now it is an OS problem: a storage driver missing after a controller-mode change, a broken</text><text class="sS" x="30" y="182">boot config, or a kernel crash. Use the console, rescue media and the OS logs (Module 11/12).</text></g>
+</svg><ol class="dia-steps">
+<li>Power: the PSUs turn AC into the server's DC rails. No LEDs at all means a power problem, not a hardware fault inside the box.</li>
+<li>The iDRAC comes up first, on standby power, before anyone presses the power button. It is your eyes when nothing else works.</li>
+<li>POST initialises CPUs, trains memory and enumerates PCIe cards. Hardware faults show up here.</li>
+<li>UEFI firmware applies the boot mode and Secure Boot policy.</li>
+<li>The boot manager walks the boot order: BOSS, the PERC virtual disk, PXE, virtual media.</li>
+<li>The OS loader starts the operating system. From here on, failures are OS problems.</li>
+</ol><figcaption>Locate the stage first, then troubleshoot that stage. "Where in the boot did it stop?" is the hardware version of the OSI bottom-up method.</figcaption></figure>
+
+<p>Setup keys on a PowerEdge — worth memorising: <strong>F2</strong> System Setup (BIOS, iDRAC settings, device settings), <strong>F10</strong> Lifecycle Controller, <strong>F11</strong> one-time Boot Manager, <strong>F12</strong> PXE network boot. BIOS settings that come up in tickets: <strong>virtualization technology</strong> (Intel VT-x / AMD-V) must be on for any hypervisor; the <strong>system profile</strong> (Performance vs Performance-per-Watt) affects latency; the <strong>boot mode</strong> (UEFI vs BIOS); and a dead <strong>CMOS battery</strong> makes the clock drift and settings reset — which then breaks Kerberos logons (Module 12).</p>
+
+<h3>18.3 Power: PSUs, redundancy and feeds</h3>
+<ul>
+  <li><strong>1+1 redundant</strong>: either PSU alone can carry the full load, so one may fail with no outage. The server raises a <em>redundancy lost</em> alert — the job is still "replace it today", because the next failure is an outage.</li>
+  <li><strong>A/B feeds</strong>: PSU 1 to the A-side PDU, PSU 2 to the B-side, each on a different circuit or UPS. Both PSUs on one power strip survives a PSU failure but not a tripped breaker.</li>
+  <li><strong>PSU mismatch</strong>: two PSUs of different wattage or type raise a mismatch error. Replace like with like.</li>
+  <li><strong>Sizing</strong>: the label is maximum output; real draw is shown live in the iDRAC (watts, history, peak). <strong>Power capping</strong> in the iDRAC limits a server's draw to fit a rack's power budget.</li>
+  <li>Hot-swap: pull the failed PSU by its release tab with the server running. The LED on the new one should turn green within seconds.</li>
+</ul>
+
+<h3>18.4 Memory: ECC, error counts and population rules</h3>
+<p>Server memory is <strong>ECC</strong> (error-correcting code): each 64 bits of data carry extra check bits, so the memory controller <strong>corrects any single-bit error</strong> on the fly and <strong>detects multi-bit errors</strong>. Cosmic rays and ageing cells flip bits in every large fleet; ECC is why servers don't crash for it.</p>
+<div class="tw"><table>
+  <tr><th>Event</th><th>What happened</th><th>What you do</th></tr>
+  <tr><td><strong>Correctable error</strong> (single-bit)</td><td>Fixed transparently, logged</td><td>Nothing for one. A <strong>rising rate</strong> on one DIMM ("correctable error rate exceeded") means it is degrading: schedule a replacement.</td></tr>
+  <tr><td><strong>Uncorrectable error</strong> (multi-bit)</td><td>Data cannot be trusted; the OS usually halts (Windows bugcheck, Linux kernel panic, ESXi purple screen)</td><td>Read the SEL for the slot (e.g. DIMM B3), replace that DIMM, run diagnostics.</td></tr>
+  <tr><td><strong>Less memory than installed</strong></td><td>A DIMM disabled at POST, wrong slot, or its CPU missing</td><td>Check the iDRAC memory inventory and the population rules for that model.</td></tr>
+</table></div>
+<p>Population rules in one breath: fill slots in the order the lid diagram gives (A1, B1, A2, B2… white release tabs first), keep DIMMs identical within a channel, mirror the layout across both CPUs, and never mix RDIMM with LRDIMM. Get it wrong and the server either refuses to POST or runs with memory silently slower.</p>
+
+<h3>18.5 Disks, PERC and hardware RAID</h3>
+<p>The RAID levels themselves are in Module 9 (9.2). This is the server-side vocabulary for running them:</p>
+<ul>
+  <li><strong>Physical disk</strong> (PD) vs <strong>virtual disk</strong> (VD): you build a VD (say RAID 10 over four PDs) and the OS only ever sees the VD.</li>
+  <li>VD states: <strong>Online</strong> (healthy), <strong>Degraded</strong> (a member failed, data still served, <em>no redundancy left</em> in RAID 1/5), <strong>Rebuilding</strong>, <strong>Offline/Failed</strong> (too many members lost).</li>
+  <li><strong>Hot spare</strong>: an idle disk the PERC rebuilds onto automatically. <em>Global</em> spares serve any VD, <em>dedicated</em> spares one VD.</li>
+  <li><strong>Predictive failure</strong>: the disk's SMART counters (reallocated sectors, media errors) cross a threshold before it dies. Replace it then — a planned swap beats a degraded array.</li>
+  <li><strong>Foreign configuration</strong>: disks moved from another controller carry its RAID metadata. You <em>import</em> it (keep the data) or <em>clear</em> it (wipe) — clearing the wrong one is a classic way to destroy data.</li>
+  <li><strong>Controller cache</strong>: <em>write-back</em> (fast; protected by a battery or flash backup) vs <em>write-through</em> (safe, slow). A failed cache battery silently switches the PERC to write-through, and "the database got slow overnight" follows. See D9.3.</li>
+  <li>Replace a failed disk <strong>by its bay</strong> (the iDRAC and the blinking amber LED tell you which one). Never pull a healthy disk from a degraded RAID 5: that is two failures.</li>
+</ul>
+
+<h3>18.6 iDRAC — out-of-band management</h3>
+<p><strong>iDRAC</strong> (integrated Dell Remote Access Controller) is the BMC built into every PowerEdge: its own processor, firmware, web interface and — ideally — its own <strong>dedicated network port</strong> on a separate management network. <strong>Out-of-band</strong> means it does not depend on the server's OS, or on the server being powered on. iDRAC9 runs on 14th–16th generation servers; the 17th generation (2025) introduced iDRAC10.</p>
+
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: an administrator reaches a server two ways; the in-band path over the production network to RDP or SSH is dead because the operating system is hung, while the out-of-band path over a separate management network to the iDRAC keeps working and offers console, power control, logs and virtual media">
+<rect class="sB" x="14" y="88" width="120" height="56" rx="8"/><text class="sT" x="74" y="112" text-anchor="middle">Admin</text><text class="sS" x="74" y="130" text-anchor="middle">laptop / VPN</text>
+<rect class="sN" x="390" y="20" width="316" height="196" rx="10"/><text class="sM" x="404" y="40">PowerEdge server</text>
+<rect class="sR" x="420" y="54" width="150" height="58" rx="8"/><text class="sT" x="495" y="78" text-anchor="middle">Operating system</text><text class="sRt" x="495" y="98" text-anchor="middle">hung: no RDP / SSH</text>
+<rect class="sG" x="420" y="138" width="150" height="58" rx="8"/><text class="sT" x="495" y="162" text-anchor="middle">iDRAC</text><text class="sGt" x="495" y="182" text-anchor="middle">still answering</text>
+<text class="sS" x="638" y="148" text-anchor="middle">console</text><text class="sS" x="638" y="166" text-anchor="middle">power cycle</text><text class="sS" x="638" y="184" text-anchor="middle">SEL · media</text>
+<path class="sLr" d="M134 104 L230 104 L230 83 L418 83" style="fill:none" stroke-dasharray="6 5"/>
+<text class="sRt" x="320" y="72" text-anchor="middle">in-band: production LAN</text>
+<path class="sLg" d="M134 128 L230 128 L230 167 L418 167" style="fill:none"/>
+<text class="sGt" x="320" y="192" text-anchor="middle">out-of-band: mgmt VLAN</text>
+<circle class="sPg" r="6"><animateMotion dur="3s" repeatCount="indefinite" path="M134 128 L230 128 L230 167 L418 167"/></circle>
+<circle class="sPr" r="6"><animateMotion dur="3s" repeatCount="indefinite" keyPoints="0;0.8;0.8" keyTimes="0;0.6;1" calcMode="linear" path="M134 104 L230 104 L230 83 L418 83"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.6;0.62;1" dur="3s" repeatCount="indefinite"/></circle>
+</svg><figcaption>When the OS is down, in-band tools (RDP, SSH, agents) die with it. The iDRAC sits on its own network and standby power, so you can still see the screen, read the logs and power-cycle the box — from home, at 3 a.m.</figcaption></figure>
+
+<div class="tw"><table>
+  <tr><th>Feature</th><th>What it gives you</th></tr>
+  <tr><td><strong>Virtual console</strong> (HTML5 KVM)</td><td>The server's screen, keyboard and mouse in a browser — including BIOS setup and POST</td></tr>
+  <tr><td><strong>Virtual media</strong></td><td>Mount an ISO from your laptop or a share as if it were a DVD in the server: install an OS remotely</td></tr>
+  <tr><td><strong>Power control</strong></td><td>Power on/off, graceful shutdown, hard reset, power cycle</td></tr>
+  <tr><td><strong>System Event Log (SEL)</strong></td><td>Hardware events: PSU, fan, temperature, memory, CPU</td></tr>
+  <tr><td><strong>Lifecycle Log</strong></td><td>Everything else: configuration changes, firmware updates, disk and RAID events, who logged in</td></tr>
+  <tr><td><strong>Alerts</strong></td><td>Email, SNMP traps, syslog, Redfish events — so monitoring hears about a failed disk before a user does</td></tr>
+  <tr><td><strong>Firmware updates</strong></td><td>BIOS, iDRAC, PERC, NIC and disk firmware, applied as scheduled jobs</td></tr>
+  <tr><td><strong>Licensing</strong></td><td>Basic / Express / Enterprise / Datacenter tiers unlock features; remote console, virtual media and directory login need a higher tier on many models</td></tr>
+</table></div>
+<ul>
+  <li><strong>Getting in</strong>: the iDRAC IP is set in F2 → iDRAC Settings → Network, or on the front LCD. Out of the box it uses DHCP or the static default <code>192.168.0.120</code>. Credentials: older servers shipped with <code>root</code> / <code>calvin</code>; current ones ship a <strong>unique password printed on the pull-out information tag</strong>. Changing a default password is the first hardening step — and it is a security-interview answer.</li>
+  <li><strong>Security</strong>: the iDRAC is full control of the hardware, so it lives on an isolated management VLAN, never on the internet, with directory (AD/LDAP) login, role-based accounts and current firmware.</li>
+  <li><strong>The service tag</strong>: a 7-character ID on the server (and in the iDRAC) that Dell support uses for warranty, configuration and parts. Have it ready on every call.</li>
+</ul>
+
+<h3>18.7 Lifecycle Controller</h3>
+<p><strong>Lifecycle Controller</strong> (LC) is the embedded tool set inside the iDRAC, reached with <strong>F10</strong> at boot or remotely. It lets you do the jobs that used to need DVDs: <strong>deploy an OS</strong> (it injects the right drivers), <strong>update firmware</strong> from a Dell repository or USB, <strong>configure RAID</strong> and BIOS, <strong>run hardware diagnostics</strong>, export or import the full server configuration (a <em>Server Configuration Profile</em>, an XML or JSON file — the way to clone settings to 50 identical servers), and replace a part with automatic restore of its firmware and settings (<em>Part Replacement</em>).</p>
+
+<h3>18.8 OpenManage — the fleet view</h3>
+<p>iDRAC manages <em>one</em> server. <strong>OpenManage</strong> is Dell's family of tools for managing <em>many</em>:</p>
+<div class="tw"><table>
+  <tr><th>Tool</th><th>Scope</th><th>What it is for</th></tr>
+  <tr><td><strong>OpenManage Enterprise</strong> (OME)</td><td>The whole fleet; a virtual appliance you deploy</td><td>Discover every iDRAC, inventory, health dashboard, alert policies, firmware <strong>baselines and compliance</strong> ("which of my 200 servers run an old BIOS?"), template deployment, warranty status</td></tr>
+  <tr><td><strong>OME Modular</strong></td><td>MX blade chassis</td><td>The same, built into the chassis management</td></tr>
+  <tr><td><strong>iDRAC Service Module</strong> (iSM)</td><td>Agent inside the OS</td><td>Lets the iDRAC see OS details (hostname, OS-level NIC names), forwards logs, enables automatic OS-side log collection. The modern replacement for…</td></tr>
+  <tr><td><strong>OpenManage Server Administrator</strong> (OMSA)</td><td>Legacy in-OS agent</td><td>The older way to see hardware from inside Windows/Linux. Recognise the name; new deployments use iDRAC + iSM.</td></tr>
+  <tr><td><strong>Integrations</strong></td><td>Your existing consoles</td><td>OpenManage Integration for VMware vCenter (hardware health and firmware updates from vCenter, host by host with maintenance mode), Windows Admin Center and System Center extensions, Ansible collection <code>dellemc.openmanage</code>, Terraform provider</td></tr>
+  <tr><td><strong>OpenManage Mobile</strong></td><td>Phone app</td><td>Alerts and basic status on the go; Quick Sync to read a server over Bluetooth/NFC at the rack</td></tr>
+</table></div>
+
+<h3>18.9 SupportAssist — from failure to replacement part</h3>
+<p><strong>SupportAssist</strong> is Dell's automated support link. On a server it is built into the iDRAC: it detects a hardware fault, collects a <strong>TSR</strong> (Technical Support Report — a bundle of hardware inventory, logs, RAID controller logs and optionally OS logs), and, if the server is registered and under a ProSupport contract, <strong>opens a support case with Dell automatically</strong>, attaching the TSR. Across a whole site the connection to Dell runs through <strong>Secure Connect Gateway</strong> (the successor to SupportAssist Enterprise and Secure Remote Services), which also carries storage-array telemetry. Fleet health and predictions show up in <strong>CloudIQ</strong> (now part of Dell's AIOps service).</p>
+
+<figure class="dia steps"><svg viewBox="0 0 720 190" role="img" aria-label="How a failing disk becomes a replaced disk with SupportAssist: the disk reports a predictive failure, the iDRAC logs and alerts, SupportAssist collects a technical support report and opens a case through Secure Connect Gateway, Dell dispatches a part, and the engineer hot-swaps the disk and verifies the rebuild">
+<rect class="sW" x="14" y="40" width="124" height="58" rx="8"/><text class="sT" x="76" y="64" text-anchor="middle">Disk bay 4</text><text class="sS" x="76" y="82" text-anchor="middle">predictive failure</text>
+<line class="sLm" x1="138" y1="69" x2="154" y2="69" marker-end="url(#ahm)"/>
+<rect class="sR" x="156" y="40" width="124" height="58" rx="8"/><text class="sT" x="218" y="64" text-anchor="middle">iDRAC</text><text class="sS" x="218" y="82" text-anchor="middle">logs + alerts</text>
+<line class="sLm" x1="280" y1="69" x2="296" y2="69" marker-end="url(#ahm)"/>
+<rect class="sV" x="298" y="40" width="124" height="58" rx="8"/><text class="sT" x="360" y="64" text-anchor="middle">SupportAssist</text><text class="sS" x="360" y="82" text-anchor="middle">TSR + case</text>
+<line class="sLm" x1="422" y1="69" x2="438" y2="69" marker-end="url(#ahm)"/>
+<rect class="sB" x="440" y="40" width="124" height="58" rx="8"/><text class="sT" x="502" y="64" text-anchor="middle">Dell support</text><text class="sS" x="502" y="82" text-anchor="middle">part dispatched</text>
+<line class="sLm" x1="564" y1="69" x2="580" y2="69" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="40" width="124" height="58" rx="8"/><text class="sT" x="644" y="64" text-anchor="middle">You</text><text class="sS" x="644" y="82" text-anchor="middle">swap + verify</text>
+<rect class="sN" x="14" y="118" width="692" height="62" rx="8"/>
+<g data-s="1-1"><rect class="sR" x="11" y="37" width="130" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="144">SMART counters cross the threshold. The array is still Online: this is the cheap moment to act,</text><text class="sS" x="30" y="164">before the disk dies and leaves the virtual disk Degraded.</text></g>
+<g data-s="2-2"><rect class="sR" x="153" y="37" width="130" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="144">The PERC reports to the iDRAC: a Lifecycle Log entry, the bay LED blinks amber, and alerts go</text><text class="sS" x="30" y="164">out by email/SNMP to your monitoring. A ticket exists before any user notices.</text></g>
+<g data-s="3-3"><rect class="sR" x="295" y="37" width="130" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="144">SupportAssist collects the TSR and, through Secure Connect Gateway, opens a case under the</text><text class="sS" x="30" y="164">service tag. No phone call, no "please send us the logs".</text></g>
+<g data-s="4-4"><rect class="sR" x="437" y="37" width="130" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="144">Dell validates the logs and ships the part (next business day or 4-hour, depending on the</text><text class="sS" x="30" y="164">contract). You raise a change for the swap if the process requires it.</text></g>
+<g data-s="5-5"><rect class="sR" x="579" y="37" width="130" height="64" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="144">Hot-swap the disk in bay 4 (the blinking one), watch the rebuild to Online in the iDRAC,</text><text class="sS" x="30" y="164">confirm the alert clears, return the old part, close the ticket with the case number.</text></g>
+</svg><ol class="dia-steps">
+<li>The disk warns before it fails.</li>
+<li>The iDRAC records the event and alerts.</li>
+<li>SupportAssist gathers the evidence and opens the case.</li>
+<li>Dell ships the replacement under the warranty.</li>
+<li>The engineer replaces, verifies and closes the loop.</li>
+</ol><figcaption>The end-to-end flow a Dell-infrastructure engineer runs every week. Knowing each hand-off — and that the logs travel with the case — is what "experience with SupportAssist" means.</figcaption></figure>
+
+<h3>18.10 Hardware diagnostics — symptom to first suspect</h3>
+<div class="tw"><table>
+  <tr><th>Symptom</th><th>First suspect</th><th>Where you confirm it</th></tr>
+  <tr><td>No power at all</td><td>Feed, cable, PDU, both PSUs</td><td>PSU LEDs, PDU display, iDRAC power history</td></tr>
+  <tr><td>Powers on, no video, no POST</td><td>Memory or CPU seating, a bad DIMM, a new PCIe card</td><td>Front LCD, SEL; minimum-config test</td></tr>
+  <tr><td>Random reboots or crashes</td><td>Uncorrectable memory errors, overheating, PSU</td><td>SEL timestamps vs the crash times; OS crash dumps</td></tr>
+  <tr><td>Fans at full speed, thermal alerts</td><td>Blocked airflow, missing blanks, a failed fan, hot room</td><td>iDRAC temperatures (inlet vs exhaust), fan RPMs</td></tr>
+  <tr><td>Slow disk I/O after a quiet night</td><td>A degraded VD rebuilding, or a failed cache battery forcing write-through</td><td>PERC status in iDRAC / <code>perccli</code>, Lifecycle Log</td></tr>
+  <tr><td>Less RAM or fewer CPUs than ordered</td><td>DIMM disabled at POST, wrong slots, a CPU not detected</td><td>iDRAC hardware inventory vs the order</td></tr>
+  <tr><td>NIC link flaps</td><td>Cable/optic, switch port, firmware/driver mismatch</td><td>Switch counters (Module 8), iDRAC NIC status, driver versions</td></tr>
+</table></div>
+<p>The method is the same as Module 8: <strong>read the logs before touching anything</strong>, change one thing at a time, and prove the fix. Dell adds two habits: run the <strong>built-in diagnostics</strong> (Lifecycle Controller → Hardware Diagnostics, the ePSA pre-boot test) before asking for a part — support will ask for the result — and check that <strong>firmware and drivers match a validated baseline</strong>, because a large share of "hardware" faults are fixed by an update.</p>
+
+<div class="qhead"><h3>Interview questions — Module 18</h3><button data-qa="qa18">Show all answers</button></div>
+<div class="qa" id="qa18">
+<details><summary>What is iDRAC and why does it matter?</summary><div class="a"><p><strong>Model answer:</strong> "iDRAC is Dell's baseboard management controller — a small independent computer inside every PowerEdge with its own network port and standby power. It gives out-of-band management: I can see the virtual console, mount an ISO, power-cycle the server and read the hardware logs even when the OS is hung or the server is off. On any 'server down' ticket the iDRAC is my first stop — the System Event Log and the Lifecycle Log usually tell me whether it's hardware before I touch anything. It belongs on an isolated management VLAN with the default password changed."</p></div></details>
+<details><summary>A server won't boot. Walk me through it.</summary><div class="a"><p><strong>Model answer:</strong> "First I find where it stops. No LEDs at all is power: PSU LEDs, cables, the PDU. If it powers on, I open the iDRAC and read the SEL and the virtual console. Stuck in POST points at hardware — the LCD or SEL usually names the DIMM or CPU; if not, I strip to minimum config and add parts back. If POST completes but there's 'no boot device', I check the boot mode — UEFI versus legacy — the boot order, and whether the RAID virtual disk or the BOSS card is online. If the OS loader starts and then crashes, it's an OS problem — drivers, boot config — and I move to the OS logs. Each step I note what I checked, so an escalation to Dell includes the evidence."</p></div></details>
+<details><summary>What's the difference between BIOS and UEFI?</summary><div class="a"><p><strong>Model answer:</strong> "Both are the firmware that initialises hardware and starts the boot loader. Legacy BIOS boots from an MBR disk, which limits the boot disk to 2 TB. UEFI boots from an EFI partition on a GPT disk, has no such limit, supports network boot over HTTP and Secure Boot, which only runs signed loaders. The practical gotcha is boot mode: an OS installed in one mode won't boot if the server is switched to the other."</p></div></details>
+<details><summary>A memory error appears in the logs. Do you replace the DIMM?</summary><div class="a"><p><strong>Model answer:</strong> "It depends on the type. A single correctable ECC error was fixed in hardware — I note it and watch. If the correctable rate on one DIMM keeps climbing and the iDRAC flags it, the DIMM is degrading, so I schedule a replacement in a maintenance window. An uncorrectable error means the server likely crashed; I take the slot from the SEL, run diagnostics and replace that DIMM. In both cases I attach the logs to the Dell case."</p></div></details>
+<details><summary>One of the two power supplies shows amber. What's the impact and what do you do?</summary><div class="a"><p><strong>Model answer:</strong> "In a 1+1 configuration the server keeps running on the other PSU, so there's no outage — but redundancy is lost, and the next failure is an outage. I confirm in the iDRAC whether the PSU failed or just lost input — if it lost input it's the cable, PDU or circuit, not the PSU. If the PSU itself failed, I open a case with the service tag and hot-swap it when the part arrives. I also check that the two PSUs are on different feeds, because two PSUs on one strip isn't real redundancy."</p></div></details>
+<details><summary>What do OpenManage Enterprise and SupportAssist do?</summary><div class="a"><p><strong>Model answer:</strong> "OpenManage Enterprise is the one-to-many console: it discovers all the iDRACs, shows fleet health and inventory, and checks firmware against a baseline so I can update a cluster consistently. SupportAssist is the automated link to Dell support: when hardware fails, it collects a Technical Support Report and opens a case with Dell automatically, so the replacement part is often on its way before anyone calls. Across a site that link runs through Secure Connect Gateway."</p></div></details>
+<details><summary>A disk in a RAID 5 virtual disk failed. What do you do?</summary><div class="a"><p><strong>Model answer:</strong> "The virtual disk is now degraded with no redundancy left, so I treat it as urgent. I confirm the failed bay in the iDRAC — the amber LED matches — and check whether a hot spare already started a rebuild. I verify the backups are current before anything else, open the Dell case, and when the part arrives I hot-swap only that bay and watch the rebuild to Online. I never pull any other disk during this. Afterwards I'd raise whether large-disk RAID 5 should become RAID 6 or 10."</p></div></details>
+<details><summary>What is a TSR and when do you collect one?</summary><div class="a"><p><strong>Model answer:</strong> "A Technical Support Report: a SupportAssist collection from the iDRAC with the hardware inventory, the system and lifecycle logs, the RAID controller logs and optionally OS logs. Dell support asks for it on almost every hardware case, so I collect it as soon as I suspect hardware — from the iDRAC web UI or with <code>racadm techsupreport</code> — and attach it to the case."</p></div></details>
+</div>
+
+<div class="deep"><span class="dtag">Level 2 · Deep dive</span>
+<h3>D18.1 racadm, Redfish and IPMI — the iDRAC from the command line</h3>
+<p>Every iDRAC task can be scripted. Three interfaces, oldest to newest:</p>
+<pre><code><span class="c"># racadm: Dell's CLI (remote with -r, or locally in the OS / over SSH to the iDRAC)</span>
+racadm -r 10.0.99.21 -u admin -p '***' getsysinfo        <span class="c">← model, service tag, BIOS/iDRAC versions, power state</span>
+racadm -r 10.0.99.21 -u admin -p '***' getsel            <span class="c">← the System Event Log</span>
+racadm -r 10.0.99.21 -u admin -p '***' lclog view -n 20  <span class="c">← last 20 Lifecycle Log entries</span>
+racadm -r 10.0.99.21 -u admin -p '***' hwinventory       <span class="c">← every DIMM, disk, NIC, PSU with part numbers</span>
+racadm -r 10.0.99.21 -u admin -p '***' serveraction powercycle
+racadm -r 10.0.99.21 -u admin -p '***' techsupreport collect   <span class="c">← start a TSR (then techsupreport export)</span>
+racadm -r 10.0.99.21 -u admin -p '***' racreset          <span class="c">← reboot the iDRAC only: the host keeps running</span>
+
+<span class="c"># Redfish: the industry-standard REST API (DMTF) — JSON over HTTPS, the modern way</span>
+curl -sk -u admin:*** https://10.0.99.21/redfish/v1/Systems/System.Embedded.1 | jq '.PowerState, .Status.Health, .MemorySummary'
+
+<span class="c"># IPMI: the old cross-vendor standard (disable it if you don't need it)</span>
+ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
+<p>Talking point: <mark>"racadm reset of the iDRAC doesn't touch the host"</mark> — a hung iDRAC web UI is fixed with <code>racadm racreset</code> or by holding the system ID button for about 15 seconds, with zero impact on running VMs. Redfish is what Ansible's <code>dellemc.openmanage</code> modules, Terraform and OpenManage Enterprise use underneath.</p>
+</div>
+
+<div class="deep"><span class="dtag">Level 2 · Deep dive</span>
+<h3>D18.2 Firmware updates without an outage</h3>
+<ol>
+  <li><strong>Baseline</strong>: pick a validated Dell catalog (or the vendor-certified one for your hypervisor — vSAN in particular has a strict hardware compatibility list).</li>
+  <li><strong>Compliance report</strong> in OpenManage Enterprise: which servers are behind, on which components.</li>
+  <li><strong>Change request</strong>: firmware updates reboot hosts. Plan them like any change, with a rollback (the iDRAC keeps the previous firmware image for rollback).</li>
+  <li><strong>One host at a time</strong>: in a VMware cluster, enter maintenance mode (DRS moves the VMs away), update, reboot, verify health, exit, next host. vSphere Lifecycle Manager with the Dell hardware support manager automates this loop.</li>
+  <li><strong>Order matters</strong>: follow the release notes; typically iDRAC first, then BIOS, then controllers, NICs and disks.</li>
+  <li><strong>Verify</strong>: versions in the inventory, SEL clean, workloads back.</li>
+</ol>
+</div>
+</section>
+
 <section class="mod" id="m13"><div class="eyebrow">Module 13 · Operations</div>
 <h2>IT operations &amp; ITIL</h2>
 <p class="goal">The service-management vocabulary in the job description — "incidents and service requests within defined service levels" — decoded, plus how a delivery center actually runs.</p>

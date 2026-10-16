@@ -735,6 +735,15 @@ const FOUNDATIONS = {
     q('ITIL', 'The same VPN outage recurs every Monday. Besides restoring service each time, you open…', ['A service request', 'A problem record, to find and remove the root cause', 'A new incident category', 'A CMDB entry'], 1, 'Incident restores; problem finds the cause; a change deploys the fix.', 'N13.1'),
     q('ITIL', 'About how much downtime per year does 99.99% availability allow?', ['5 minutes', '53 minutes', '8 hours 46 minutes', '3.7 days'], 1, 'Each extra nine divides the budget by ten.', 'N13.2'),
   ],
+  N18: [
+    q('Hardware', 'A server’s OS is hung and RDP and SSH are dead. How do you still see its screen and power-cycle it?', ['Wait for a user to press the button', 'Through the iDRAC: out-of-band management on its own network and standby power', 'Through vCenter only', 'With ping -t'], 1, 'The BMC works independently of the OS, and even with the server powered off.', 'N18.6'),
+    q('Hardware', 'One of two 1+1 redundant PSUs shows amber. The impact is…', ['The server is down', 'No outage, but redundancy is lost: the next failure is an outage', 'Half the CPUs stop', 'The RAID degrades'], 1, 'Check whether it failed or only lost input (cable, PDU), then replace it promptly.', 'N18.3'),
+    q('Hardware', 'An OS installed on an MBR disk in Legacy BIOS mode stops booting after the server is switched to UEFI. Why?', ['UEFI is slower', 'UEFI boots from an EFI partition on GPT; the boot mode no longer matches the install', 'Secure Boot deleted the OS', 'The PERC failed'], 1, 'Match the boot mode to how the OS was installed.', 'N18.2'),
+    q('Hardware', 'ECC memory…', ['Prevents all crashes', 'Corrects single-bit errors and detects multi-bit errors', 'Doubles capacity', 'Is only for laptops'], 1, 'A rising correctable-error rate on one DIMM is the cue to replace it before an uncorrectable error crashes the host.', 'N18.4'),
+    q('Dell tools', 'Which tool finds the servers in a 200-node fleet that run an outdated BIOS?', ['iDRAC virtual console', 'OpenManage Enterprise firmware compliance against a baseline', 'racadm racreset', 'The F11 boot menu'], 1, 'iDRAC manages one server; OpenManage Enterprise manages the fleet.', 'N18.8'),
+    q('Dell tools', 'SupportAssist on a PowerEdge…', ['Replaces the OS', 'Collects a TSR and can open a Dell support case automatically when hardware fails', 'Is a RAID level', 'Is a backup tool'], 1, 'Across a site the connection runs through Secure Connect Gateway.', 'N18.9'),
+    q('Hardware', 'Disks moved from another server show up as a “foreign configuration”. Clearing it…', ['Imports the data', 'Wipes the RAID metadata, losing the data on those disks', 'Updates firmware', 'Is required for hot spares'], 1, 'Import keeps the data; clear destroys it. Check twice.', 'N18.5'),
+  ],
   S5: [
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
   ],

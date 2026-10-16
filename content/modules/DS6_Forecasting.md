@@ -213,6 +213,23 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 
 **Backtest with a rolling origin** ([[DS4.2]]): pick several forecast origins in the past; for each, train on data up to the origin, forecast the horizon, and score against what actually happened. Average across origins and horizons, and look at error **by horizon** (day 1 vs day 14).
 
+<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="A rolling-origin backtest on a synthetic daily series with trend and weekly seasonality, 40 origins and a 14-day horizon: the seasonal-naive error grows with the horizon, from about 6 on day 1 to about 9 by day 14, yet a ridge model on a local trend and weekday is worse at almost every horizon, with a MASE of about 1.3 against 1.1, so here the simple baseline wins">
+<line class="sLm" x1="70" y1="210" x2="470" y2="210"/><line class="sLm" x1="70" y1="210" x2="70" y2="30"/>
+<text class="sS" x="70" y="226" text-anchor="middle">day 1</text>
+<text class="sS" x="254.615" y="226" text-anchor="middle">day 7</text>
+<text class="sS" x="470" y="226" text-anchor="middle">day 14</text>
+<text class="sS" x="62" y="155.667" text-anchor="end">4</text><line class="sLm" x1="70" y1="151.667" x2="470" y2="151.667" opacity=".12"/>
+<text class="sS" x="62" y="97.3333" text-anchor="end">8</text><line class="sLm" x1="70" y1="93.3333" x2="470" y2="93.3333" opacity=".12"/>
+<text class="sS" x="62" y="39" text-anchor="end">12</text><line class="sLm" x1="70" y1="35" x2="470" y2="35" opacity=".12"/>
+<text class="sS" x="270" y="244" text-anchor="middle">forecast horizon</text><text class="sS" x="20" y="120" text-anchor="middle" transform="rotate(-90 20 120)">MAE across 40 origins</text>
+<polyline class="sLw" points="70.0,129.3 100.8,109.1 131.5,92.8 162.3,134.4 193.1,92.1 223.8,134.9 254.6,109.8 285.4,73.9 316.2,86.3 346.9,102.1 377.7,102.3 408.5,88.5 439.2,77.9 470.0,83.8" style="fill:none;stroke-width:2.4"/>
+<polyline class="sLg" points="70.0,89.5 100.8,68.9 131.5,69.9 162.3,96.1 193.1,86.8 223.8,101.4 254.6,90.1 285.4,57.8 316.2,66.8 346.9,63.4 377.7,78.7 408.5,79.7 439.2,76.7 470.0,83.5" style="fill:none;stroke-width:2.4"/>
+<rect class="sN" x="490" y="30" width="216" height="180" rx="8"/><text class="sT" x="598" y="52" text-anchor="middle">40 origins × 14-day horizon</text>
+<text class="sWt" x="598" y="84" text-anchor="middle">seasonal naive</text><text class="sS" x="598" y="102" text-anchor="middle">MAE 7.7 · MASE 1.08</text>
+<text class="sGt" x="598" y="124" text-anchor="middle">trend + weekday (ridge)</text><text class="sS" x="598" y="142" text-anchor="middle">MAE 9.3 · MASE 1.29</text>
+<text class="sWt" x="598" y="168" text-anchor="middle">the extra model loses here:</text><text class="sS" x="598" y="184" text-anchor="middle">keep the baseline and say so</text>
+</svg><figcaption>A rolling-origin backtest computed on synthetic daily data: error by horizon and MASE (below 1 beats the in-sample seasonal naive). A model that cannot beat the baseline does not ship.</figcaption></figure>
+
 | Metric | Use |
 |---|---|
 | **MAE** | Typical error in units |
