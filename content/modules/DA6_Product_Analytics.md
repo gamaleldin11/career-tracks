@@ -62,6 +62,23 @@ Product analytics runs on **events**: things users do, recorded with a timestamp
                   "city": "Giza", "app_version": "5.2.0", "platform": "android" } }
 ```
 
+<figure class="dia anim"><svg viewBox="0 0 720 184" role="img" aria-label="Animation: the event-tracking pipeline: the app records an order_completed event, a collector validates it against the tracking plan, it lands in a warehouse events table, models build sessions and funnels, and dashboards show conversion and retention; validation at the collector catches misspelt event names and missing properties early">
+<rect class="sB" x="14" y="40" width="128" height="56" rx="8"/><text class="sT" x="78" y="73" text-anchor="middle">App / web</text><text class="sS" x="78" y="116" text-anchor="middle">track("order_completed")</text>
+<line class="sLm" x1="142" y1="68" x2="154" y2="68" marker-end="url(#ahm)"/>
+<rect class="sA" x="156" y="40" width="128" height="56" rx="8"/><text class="sT" x="220" y="73" text-anchor="middle">Collector</text><text class="sS" x="220" y="116" text-anchor="middle">validate vs tracking plan</text>
+<line class="sLm" x1="284" y1="68" x2="296" y2="68" marker-end="url(#ahm)"/>
+<rect class="sV" x="298" y="40" width="128" height="56" rx="8"/><text class="sT" x="362" y="73" text-anchor="middle">Warehouse</text><text class="sS" x="362" y="116" text-anchor="middle">events table</text>
+<line class="sLm" x1="426" y1="68" x2="438" y2="68" marker-end="url(#ahm)"/>
+<rect class="sW" x="440" y="40" width="128" height="56" rx="8"/><text class="sT" x="504" y="73" text-anchor="middle">Models</text><text class="sS" x="504" y="116" text-anchor="middle">sessions, funnels</text>
+<line class="sLm" x1="568" y1="68" x2="580" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="40" width="128" height="56" rx="8"/><text class="sT" x="646" y="73" text-anchor="middle">Dashboards</text><text class="sS" x="646" y="116" text-anchor="middle">conversion, retention</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.280;1" path="M78 102 L654 102"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.280;0.282;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.580;1" path="M78 102 L654 102"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.580;0.582;1"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.880;1" path="M78 102 L654 102"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.880;0.882;1"/></circle>
+<rect class="sR" x="156" y="140" width="410" height="34" rx="6" opacity=".85"/><text class="sT" x="361" y="162" text-anchor="middle">a misspelt event name or missing property is caught here, not in Q3</text>
+<text class="sM" x="360" y="22" text-anchor="middle">from a tap in the app to a funnel chart</text>
+</svg><figcaption>Analytics quality is decided at the first two boxes: a tracking plan that names every event and property, and a collector that rejects what does not match.</figcaption></figure>
+
 > [!term] Tracking plan
 > The specification of every tracked event: its name, when exactly it fires, its properties and their types, and who owns it. Without one, teams end up with `OrderComplete`, `order_completed` and `purchase` meaning slightly different things, and every analysis starts with archaeology.
 

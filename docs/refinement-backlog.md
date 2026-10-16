@@ -36,7 +36,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ### Handbook sections still without a diagram (most valuable first)
 
-- **SQL and data:** DE3.1 loading patterns; DE4.1 and DE4.8; DA3.3; DA4.7; DA6.1 event tracking; DS5.1 counterfactuals.
+- **SQL and data:** DE4.1 and DE4.8; DA3.3; DA4.7.
 - **Backend:**
   - API and ASP.NET: B4.2.
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).

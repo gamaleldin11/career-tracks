@@ -57,6 +57,15 @@ So causal methods estimate effects for **groups**, by finding a comparison group
 > [!term] Potential outcomes (counterfactuals)
 > For each customer there are two outcomes: what happens **with** the treatment (Y₁) and **without** it (Y₀). The causal effect for that customer is Y₁ − Y₀. We only ever observe **one** of them, so the other is the **counterfactual**. Causal inference is about estimating the missing one credibly.
 
+<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="A simulation of 20,000 customers where a coupon truly raises the purchase rate by 4.4 points: comparing buyers with and without the coupon gives a naive 12.7 point effect because coupons went mostly to high-intent customers, 28.5 percent versus 15.8 percent; a randomised test estimates 4.5 points, close to the truth">
+<text class="sM" x="14" y="20">coupon effect on purchase rate, 20,000 simulated customers</text>
+<text class="sS" x="14" y="50">true effect (Y₁ − Y₀, known only in simulation)</text><rect class="sG" x="200" y="56" width="131.4" height="20" rx="3" opacity=".85"/><text class="sT" x="337.4" y="71">+4.4 pts</text>
+<text class="sS" x="14" y="96">naive: buyers with coupon − without</text><rect class="sR" x="200" y="102" width="381" height="20" rx="3" opacity=".85"/><text class="sT" x="587" y="117">+12.7 pts</text>
+<text class="sS" x="14" y="142">randomised A/B test estimate</text><rect class="sB" x="200" y="148" width="134.4" height="20" rx="3" opacity=".85"/><text class="sT" x="340.4" y="163">+4.5 pts</text>
+<text class="sS" x="360" y="186" text-anchor="middle">the coupon went mostly to high-intent customers: 28.5% vs 15.8% bought, but most would have bought anyway</text>
+<text class="sGt" x="360" y="206" text-anchor="middle">random assignment breaks the link between intent and treatment, so the estimate lands near the truth</text>
+</svg><figcaption>Simulated with NumPy: purchase intent drives both who gets the coupon and who buys. The naive comparison mixes the coupon’s effect with that selection; randomisation removes it.</figcaption></figure>
+
 | Quantity | Meaning |
 |---|---|
 | **ATE** (average treatment effect) | Average of Y₁ − Y₀ over everyone |
