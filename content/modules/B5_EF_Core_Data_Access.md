@@ -52,6 +52,18 @@ None of that removes the database. Every rule in this module is about seeing the
 > [!say]
 > "I default to EF Core for its productivity and migrations, write projections and no-tracking queries for reads, and drop to Dapper for a handful of hot or complex read queries, because I measured: EF Core was only a few percent slower but allocated nearly twice the memory. Many teams use both in the same app."
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="The BenchmarkDotNet comparison from your project: raw ADO.NET and Dapper ran at about the same speed while EF Core was about 6 percent slower; EF Core allocated about 1.9 times the memory">
+<text class="sM" x="180" y="22" text-anchor="middle">time per query (relative)</text>
+<text class="sM" x="540" y="22" text-anchor="middle">memory allocated (relative)</text>
+<text class="sT" x="80" y="61" text-anchor="end">ADO.NET</text><rect class="sB" x="90" y="40" width="209.091" height="30" rx="4" opacity=".85"/><text class="sC" x="305.091" y="60">1.00×</text>
+<rect class="sB" x="400" y="40" width="140" height="30" rx="4" opacity=".85"/><text class="sC" x="546" y="60">1.0×</text>
+<text class="sT" x="80" y="105" text-anchor="end">Dapper</text><rect class="sA" x="90" y="84" width="209.091" height="30" rx="4" opacity=".85"/><text class="sC" x="305.091" y="104">1.00×</text>
+<rect class="sA" x="400" y="84" width="140" height="30" rx="4" opacity=".85"/><text class="sC" x="546" y="104">1.0×</text>
+<text class="sT" x="80" y="149" text-anchor="end">EF Core</text><rect class="sV" x="90" y="128" width="221.636" height="30" rx="4" opacity=".85"/><text class="sC" x="317.636" y="148">1.06×</text>
+<rect class="sV" x="400" y="128" width="266" height="30" rx="4" opacity=".85"/><text class="sC" x="672" y="148">1.9×</text>
+<text class="sS" x="360" y="190" text-anchor="middle">the gap in speed is small; the gap in allocations is what shows up under load (more GC)</text>
+</svg><figcaption>Drawn from the benchmark results in the story above (relative to raw ADO.NET). Productivity usually wins; the hot paths are where Dapper earns its place.</figcaption></figure>
+
 ## B5.2 DbContext, change tracking and SaveChanges 🟢 ⭐
 
 > [!term] DbContext

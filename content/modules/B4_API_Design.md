@@ -174,6 +174,22 @@ In EF Core, a `rowversion` column (SQL Server) or an `xmin`/version column (Post
 
 In ASP.NET Core, the `Asp.Versioning.Http` / `Asp.Versioning.Mvc` packages implement all four.
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="An API version lifecycle over two years: v1 runs alone until v2 is released at month 6; both run side by side; v1 is announced as deprecated at month 9 and returns a Deprecation header; at month 18, the sunset date, v1 is removed and only v2 remains">
+<line class="sLm" x1="40" y1="140" x2="680" y2="140" style="stroke-width:2"/>
+<line class="sLm" x1="40" y1="134" x2="40" y2="146"/><text class="sS" x="40" y="162" text-anchor="middle">month 0</text>
+<line class="sLm" x1="200" y1="134" x2="200" y2="146"/><text class="sS" x="200" y="162" text-anchor="middle">month 6</text>
+<line class="sLm" x1="360" y1="134" x2="360" y2="146"/><text class="sS" x="360" y="162" text-anchor="middle">month 12</text>
+<line class="sLm" x1="520" y1="134" x2="520" y2="146"/><text class="sS" x="520" y="162" text-anchor="middle">month 18</text>
+<line class="sLm" x1="680" y1="134" x2="680" y2="146"/><text class="sS" x="680" y="162" text-anchor="middle">month 24</text>
+<rect class="sB" x="40" y="40" width="480" height="30" rx="4" opacity=".8"/><text class="sT" x="146.667" y="60" text-anchor="middle">/api/v1</text>
+<rect class="sW" x="280" y="40" width="240" height="30" rx="4"/><text class="sT" x="400" y="60" text-anchor="middle">v1 + Deprecation header</text>
+<rect class="sG" x="200" y="84" width="480" height="30" rx="4" opacity=".8"/><text class="sT" x="440" y="104" text-anchor="middle">/api/v2</text>
+<line class="sLm" x1="200" y1="30" x2="200" y2="134" stroke-dasharray="3 4"/><text class="sGt" x="200" y="186" text-anchor="middle">v2 released</text>
+<line class="sLm" x1="280" y1="30" x2="280" y2="134" stroke-dasharray="3 4"/><text class="sWt" x="280" y="204" text-anchor="middle">v1 deprecated (announced)</text>
+<line class="sLm" x1="520" y1="30" x2="520" y2="134" stroke-dasharray="3 4"/><text class="sRt" x="520" y="186" text-anchor="middle">Sunset: v1 removed</text>
+<text class="sM" x="360" y="22" text-anchor="middle">versions overlap for months; clients get warnings long before anything breaks</text>
+</svg><figcaption>Breaking changes are a migration project for every client, so they get time: a parallel period, a Deprecation header, a published Sunset date, and usage metrics showing who is still on v1. Illustrative timeline.</figcaption></figure>
+
 **Deprecating well:** announce it, document migration, run versions side by side, and signal it in responses with the **`Deprecation`** header (RFC 9745) and the **`Sunset`** header (RFC 8594) giving the shutdown date; log who still calls the old version and contact them.
 
 > [!say]
