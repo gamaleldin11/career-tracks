@@ -285,6 +285,24 @@ A common split: **Airflow orchestrates** (ingestion, waiting for sources, trigge
 > [!lab] Orchestrate your Python pipeline with Airflow and dbt (from your gaps file)
 > Take the `finsight-pipeline` from [[DE4]]'s lab. (1) Run Airflow 3 locally (the Astro CLI or Docker Compose). (2) Write a DAG with extract → validate → load tasks using the data interval, retries and an asset outlet. (3) Create a dbt project (dbt-duckdb or dbt-postgres) with staging → marts, an incremental `fct_daily_transactions`, a snapshot for companies, generic tests, one unit test and docs. (4) Trigger `dbt build` from the DAG. (5) Backfill September and show that rerunning a day changes nothing. Screenshot the Airflow graph and dbt lineage for your README. That closes the Airflow and dbt gaps with real evidence.
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Task-centric versus asset-centric orchestration: Airflow models a pipeline as tasks extract_orders, clean_orders, load_dw and build_report run in order; Dagster models the same pipeline as the datasets raw_orders, orders_clean, fct_orders and revenue_report that should exist and be fresh, giving lineage for free">
+<text class="sM" x="180" y="22" text-anchor="middle">task-centric (Airflow)</text>
+<text class="sM" x="540" y="22" text-anchor="middle">asset-centric (Dagster)</text>
+<rect class="sA" x="40" y="40" width="130" height="40" rx="8"/><text class="sT" x="105" y="65" text-anchor="middle">extract_orders</text>
+<rect class="sA" x="190" y="40" width="130" height="40" rx="8"/><text class="sT" x="255" y="65" text-anchor="middle">clean_orders</text>
+<rect class="sA" x="40" y="120" width="130" height="40" rx="8"/><text class="sT" x="105" y="145" text-anchor="middle">load_dw</text>
+<rect class="sA" x="190" y="120" width="130" height="40" rx="8"/><text class="sT" x="255" y="145" text-anchor="middle">build_report</text>
+<line class="sLm" x1="170" y1="60" x2="190" y2="60" marker-end="url(#ahm)"/><line class="sLm" x1="255" y1="80" x2="105" y2="120" marker-end="url(#ahm)"/><line class="sLm" x1="170" y1="140" x2="190" y2="140" marker-end="url(#ahm)"/>
+<text class="sS" x="180" y="200" text-anchor="middle">"run these steps in this order"</text>
+<rect class="sG" x="400" y="40" width="130" height="40" rx="8"/><text class="sT" x="465" y="65" text-anchor="middle">raw_orders</text>
+<rect class="sG" x="550" y="40" width="130" height="40" rx="8"/><text class="sT" x="615" y="65" text-anchor="middle">orders_clean</text>
+<rect class="sG" x="400" y="120" width="130" height="40" rx="8"/><text class="sT" x="465" y="145" text-anchor="middle">fct_orders</text>
+<rect class="sG" x="550" y="120" width="130" height="40" rx="8"/><text class="sT" x="615" y="145" text-anchor="middle">revenue_report</text>
+<line class="sLm" x1="530" y1="60" x2="550" y2="60" marker-end="url(#ahm)"/><line class="sLm" x1="615" y1="80" x2="465" y2="120" marker-end="url(#ahm)"/><line class="sLm" x1="530" y1="140" x2="550" y2="140" marker-end="url(#ahm)"/>
+<text class="sS" x="540" y="200" text-anchor="middle">"these datasets should exist and be fresh"</text>
+<text class="sS" x="360" y="226" text-anchor="middle">same graph; the nodes are steps on the left and data products on the right (lineage comes free)</text>
+</svg><figcaption>Both run the same code. The asset view answers "is the revenue report fresh, and what feeds it?" directly.</figcaption></figure>
+
 ## DE7.7 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

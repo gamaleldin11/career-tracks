@@ -71,6 +71,25 @@ Each design below is a deliberate combination of these choices.
 > [!mistake] "localStorage, but we escape everything"
 > Framework escaping reduces XSS; it doesn't eliminate it (a vulnerable dependency, a `bypassSecurityTrust…`, a third-party script). Anything in `localStorage` is readable by any script on the page and persists until removed. Choose a design where a single XSS doesn't hand over a long-lived credential.
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Three browser authentication designs compared by where the credential lives: a cookie session keeps an HttpOnly cookie sent automatically, which scripts cannot read but needs SameSite protection against CSRF; a token in memory keeps a short-lived access token in JavaScript sent in the Authorization header, usable by injected script while the page is open, with the refresh token in an HttpOnly cookie; a backend for frontend keeps only a session cookie in the browser while the BFF holds the tokens and calls APIs">
+<rect class="sB" x="14" y="14" width="220" height="190" rx="8" opacity=".5"/><text class="sT" x="124" y="36" text-anchor="middle">A. Cookie session</text>
+<text class="sS" x="124" y="70" text-anchor="middle">HttpOnly cookie</text>
+<text class="sS" x="124" y="100" text-anchor="middle">sent automatically</text>
+<text class="sGt" x="124" y="130" text-anchor="middle">XSS: cannot read</text>
+<text class="sRt" x="124" y="160" text-anchor="middle">CSRF: needs SameSite</text>
+<rect class="sA" x="250" y="14" width="220" height="190" rx="8" opacity=".5"/><text class="sT" x="360" y="36" text-anchor="middle">B. Token in memory</text>
+<text class="sS" x="360" y="70" text-anchor="middle">access token in JS</text>
+<text class="sS" x="360" y="100" text-anchor="middle">Authorization header</text>
+<text class="sRt" x="360" y="130" text-anchor="middle">XSS: can use while open</text>
+<text class="sS" x="360" y="160" text-anchor="middle">refresh in HttpOnly cookie</text>
+<rect class="sV" x="486" y="14" width="220" height="190" rx="8" opacity=".5"/><text class="sT" x="596" y="36" text-anchor="middle">C. BFF</text>
+<text class="sS" x="596" y="70" text-anchor="middle">only a session cookie</text>
+<text class="sS" x="596" y="100" text-anchor="middle">BFF holds the tokens</text>
+<text class="sGt" x="596" y="130" text-anchor="middle">XSS: cannot read</text>
+<text class="sS" x="596" y="160" text-anchor="middle">calls APIs for you</text>
+<text class="sS" x="360" y="226" text-anchor="middle">the question each design answers differently: where does the credential live, and who can reach it?</text>
+</svg><figcaption>Pick by shape: one SPA and one API on one domain → A; APIs on other domains or mobile clients → B; many downstream APIs or an external identity provider → C.</figcaption></figure>
+
 ## FS2.2 Design A: cookie authentication on one origin 🟢 ⭐
 
 **Server (ASP.NET Core 10):**
@@ -238,6 +257,26 @@ await signIn.SignInAsync(user, isPersistent: false);
 
 > [!story]
 > FinSight **verified Google sign-in on the server** (the feature itself was built by a teammate; you integrated it). Explain the two checks that matter most: the **audience** must be your client ID (otherwise a token issued to any other app would be accepted), and users are linked by Google's stable **`sub`**, not by email alone.
+
+<figure class="dia steps"><svg viewBox="0 0 720 306" role="img" aria-label="Sign in with Google using the authorization code flow with PKCE: the browser asks the API to log in; the API redirects to Google with a code challenge and state; the user signs in at Google, which redirects back with a one-time code; the API exchanges the code plus the PKCE verifier with Google server to server for an ID token; the API verifies the token’s signature, issuer, audience and expiry and signs the user in with its own HttpOnly session">
+<rect class="sB" x="0" y="10" width="160" height="36" rx="8"/><text class="sT" x="80" y="33" text-anchor="middle">Browser (SPA)</text>
+<line class="sLm" x1="80" y1="46" x2="80" y2="300" stroke-dasharray="3 5" opacity=".6"/>
+<rect class="sA" x="250" y="10" width="160" height="36" rx="8"/><text class="sT" x="330" y="33" text-anchor="middle">Your API / BFF</text>
+<line class="sLm" x1="330" y1="46" x2="330" y2="300" stroke-dasharray="3 5" opacity=".6"/>
+<rect class="sG" x="520" y="10" width="160" height="36" rx="8"/><text class="sT" x="600" y="33" text-anchor="middle">Google (OIDC)</text>
+<line class="sLm" x1="600" y1="46" x2="600" y2="300" stroke-dasharray="3 5" opacity=".6"/>
+<g data-s="1"><line class="sLm" x1="80" y1="70" x2="326" y2="70" marker-end="url(#ahm)"/><text class="sS" x="205" y="65" text-anchor="middle">GET /login/google</text></g>
+<g data-s="2"><line class="sLm" x1="330" y1="96" x2="84" y2="96" marker-end="url(#ahm)"/><text class="sS" x="205" y="91" text-anchor="middle">302 → accounts.google.com?…&amp;code_challenge&amp;state</text><line class="sLv" x1="80" y1="122" x2="596" y2="122" marker-end="url(#ahv)"/><text class="sS" x="340" y="117" text-anchor="middle">login + consent at Google</text></g>
+<g data-s="3"><line class="sLv" x1="600" y1="148" x2="84" y2="148" marker-end="url(#ahv)"/><text class="sS" x="340" y="143" text-anchor="middle">302 → /callback?code=…&amp;state=…</text><line class="sLm" x1="80" y1="174" x2="326" y2="174" marker-end="url(#ahm)"/><text class="sS" x="205" y="169" text-anchor="middle">code + state</text></g>
+<g data-s="4"><line class="sLg" x1="330" y1="200" x2="596" y2="200" marker-end="url(#ahg)"/><text class="sS" x="465" y="195" text-anchor="middle">code + PKCE verifier (server to server)</text><line class="sLg" x1="600" y1="226" x2="334" y2="226" marker-end="url(#ahg)"/><text class="sS" x="465" y="221" text-anchor="middle">ID token (+ access token)</text></g>
+<g data-s="5"><text class="sGt" x="330" y="254" text-anchor="middle">verify ID token: signature, iss, aud, exp</text><line class="sLg" x1="330" y1="282" x2="84" y2="282" marker-end="url(#ahg)"/><text class="sS" x="205" y="277" text-anchor="middle">Set-Cookie: session (HttpOnly) or your own token</text></g>
+</svg><ol class="dia-steps">
+<li>The user clicks "Sign in with Google". The API creates a PKCE verifier and its hash (the challenge) and a state value.</li>
+<li>The browser is redirected to Google, where the user signs in. Your app never sees the Google password.</li>
+<li>Google redirects back with a one-time authorisation code. The API checks that state matches.</li>
+<li>The API exchanges the code with the verifier. A stolen code is useless without the verifier.</li>
+<li>The API validates the ID token, finds or creates the local user, and signs them in with its own session.</li>
+</ol><figcaption>The browser only ever carries a one-time code; tokens are exchanged server to server and checked before your app trusts who the user is.</figcaption></figure>
 
 ## FS2.6 CORS when the API is on another origin 🟢 ⭐
 

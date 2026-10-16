@@ -169,6 +169,21 @@ A **factless fact table** records events or coverage with no measures, for examp
 
 **Star vs snowflake:** a **star** keeps each dimension as one wide, denormalised table; a **snowflake** normalises dimensions into hierarchies. Stars are simpler to query and usually faster in columnar engines (storage savings from snowflaking are negligible); snowflakes reduce some redundancy at the cost of more joins. Prefer stars for the presentation layer.
 
+<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="A role-playing date dimension: one fact_orders table has three date keys, order date, delivery date and payment date, each joined to the same dim_date table in a different role, plus surrogate-key joins to dim_customer and dim_product">
+<rect class="sA" x="250" y="80" width="220" height="70" rx="8"/><text class="sT" x="360" y="113" text-anchor="middle">fact_orders</text><text class="sC" x="360" y="129" text-anchor="middle">3 date keys + customer, product</text>
+<rect class="sV" x="14" y="20" width="170" height="44" rx="8"/><text class="sT" x="99" y="40" text-anchor="middle">dim_date</text><text class="sC" x="99" y="56" text-anchor="middle">as order date</text>
+<rect class="sV" x="14" y="100" width="170" height="44" rx="8"/><text class="sT" x="99" y="120" text-anchor="middle">dim_date</text><text class="sC" x="99" y="136" text-anchor="middle">as delivery date</text>
+<rect class="sV" x="14" y="180" width="170" height="44" rx="8"/><text class="sT" x="99" y="200" text-anchor="middle">dim_date</text><text class="sC" x="99" y="216" text-anchor="middle">as payment date</text>
+<rect class="sB" x="536" y="60" width="170" height="44" rx="8"/><text class="sT" x="621" y="80" text-anchor="middle">dim_customer</text><text class="sC" x="621" y="96" text-anchor="middle">surrogate key 1043</text>
+<rect class="sB" x="536" y="140" width="170" height="44" rx="8"/><text class="sT" x="621" y="160" text-anchor="middle">dim_product</text><text class="sC" x="621" y="176" text-anchor="middle">surrogate key 77</text>
+<line class="sLv" x1="184" y1="42" x2="250" y2="100"/>
+<line class="sLv" x1="184" y1="122" x2="250" y2="115"/>
+<line class="sLv" x1="184" y1="202" x2="250" y2="130"/>
+<line class="sLm" x1="470" y1="105" x2="536" y2="82"/>
+<line class="sLm" x1="470" y1="125" x2="536" y2="162"/>
+<text class="sS" x="360" y="244" text-anchor="middle">one physical date table, joined three times under three names (views or aliases)</text>
+</svg><figcaption>Role-playing saves building three date tables; in Power BI it means one active relationship plus USERELATIONSHIP, or three role views.</figcaption></figure>
+
 ## DE2.5 Slowly changing dimensions 🟢 🟡 ⭐
 
 Dimension attributes change: a customer moves from Giza to Cairo, a product changes category, a salesperson changes region. **How you handle the change decides whether history is reported "as it was" or "as it is now".**
