@@ -723,6 +723,7 @@ const FOUNDATIONS = {
     q('RL', 'In Géron\'s three-state MDP, raising γ from 0.90 to 0.95 makes the agent in s1…', ['Stay put', 'Go through the fire (−50) for the later +40', 'Stop acting', 'Pick randomly'], 1, 'Valuing the future more makes short-term pain worth paying.', 'AI24.6'),
   ],
   N4: [
+    q('Networks', 'Over a new VPN, ping and small pages work but large downloads hang. The classic cause is…', ['DNS', 'An MTU black hole: big packets are dropped and the ICMP warning is blocked', 'A duplicate IP', 'A full disk'], 1, 'Find the limit with ping -f -l; fix by clamping TCP MSS on the tunnel.', 'N3.1'),
     q('Networks', 'Clients on a newly created VLAN all get 169.254.x.x addresses while other VLANs are fine. Most likely?', ['The DHCP server is down', 'No DHCP relay (ip helper-address) on the new VLAN’s interface', 'A duplex mismatch', 'DNS is down'], 1, 'DISCOVER is a broadcast; without a relay it never reaches the central DHCP server.', 'N3.4'),
     q('Networks', 'Two inside PCs use the same source port to reach the same website through one public IP. PAT keeps them apart by…', ['Dropping one', 'Mapping each to a different public source port', 'Using IPv6', 'Changing the destination port'], 1, 'The translation table is keyed by the public port.', 'N2.6'),
     q('Switching', 'Four 10G links are bundled with LACP. A single large file copy runs at about…', ['40G', '10G: each flow is hashed onto one member link', '20G', '2.5G'], 1, 'LACP adds capacity for many flows and survives a member failure; one flow uses one link.', 'N4.5'),
