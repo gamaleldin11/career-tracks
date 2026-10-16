@@ -1542,6 +1542,21 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Least privilege &amp; defense in depth</strong> — give the minimum access needed, and layer controls (firewall + segmentation + endpoint + patching) so one failure isn't fatal.</li>
 </ul>
 
+<figure class="dia"><svg viewBox="0 0 720 268" role="img" aria-label="The CIA triad drawn as a triangle: confidentiality, protected by encryption, permissions, MFA and segmentation; integrity, protected by hashes, checksums, signatures and change logs; availability, protected by RAID, backups, clustering, redundant power supplies and DDoS protection">
+<polygon class="sN" points="360,30 560,236 160,236" style="stroke-width:1.5"/>
+<rect class="sB" x="290" y="14" width="140" height="44" rx="8"/><text class="sT" x="360" y="34" text-anchor="middle">Confidentiality</text><text class="sS" x="360" y="50" text-anchor="middle">only the right eyes</text>
+<rect class="sG" x="84" y="214" width="140" height="44" rx="8"/><text class="sT" x="154" y="234" text-anchor="middle">Integrity</text><text class="sS" x="154" y="250" text-anchor="middle">unaltered, provable</text>
+<rect class="sA" x="496" y="214" width="140" height="44" rx="8"/><text class="sT" x="566" y="234" text-anchor="middle">Availability</text><text class="sS" x="566" y="250" text-anchor="middle">up when needed</text>
+<text class="sS" x="360" y="140" text-anchor="middle">every control</text>
+<text class="sS" x="360" y="158" text-anchor="middle">protects one or more</text>
+<text class="sS" x="436" y="34">encryption, permissions,</text>
+<text class="sS" x="436" y="50">MFA, VLAN segmentation</text>
+<text class="sS" x="16" y="180">hashes, checksums,</text>
+<text class="sS" x="16" y="196">signatures, change logs</text>
+<text class="sS" x="704" y="180" text-anchor="end">RAID, backups, clustering,</text>
+<text class="sS" x="704" y="196" text-anchor="end">redundant PSUs, DDoS protection</text>
+</svg><figcaption>Classify any control by the corner it protects. Ransomware hits all three: it reads data (C), encrypts it (I) and takes systems down (A).</figcaption></figure>
+
 <h3>7.2 Firewalls</h3>
 <p>A <strong>firewall</strong> enforces rules about which traffic may pass between security <strong>zones</strong> (outside/internet, inside/LAN, DMZ). Evolution stages — a great structure for an answer:</p>
 <ul>
@@ -1628,6 +1643,71 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Log and monitor</strong> — syslog/SIEM, alert on anomalies; NTP so timestamps line up.</li>
   <li><strong>Zero trust</strong> (buzzword worth one line): never trust by network location alone — authenticate and authorize every access explicitly.</li>
 </ul>
+
+<h3>7.5 Encryption, hashing and keys</h3>
+<p>"Encryption" questions test whether you can tell three different tools apart, and say where data is protected <strong>in transit</strong> (moving over a network) and <strong>at rest</strong> (stored on a disk or array).</p>
+
+<figure class="dia"><svg viewBox="0 0 720 264" role="img" aria-label="Three cryptographic tools: hashing turns input into a fixed fingerprint one way, used for stored passwords and checksums; symmetric encryption such as AES uses the same key to lock and unlock and is fast but the key must be shared, used for disk encryption, VPNs and TLS bulk data; asymmetric encryption uses a public and private key pair, slow, used for certificates, key exchange, SSH keys and signatures">
+<rect class="sN" x="14" y="14" width="220" height="236" rx="10"/><text class="sT" x="124" y="36" text-anchor="middle">Hashing</text>
+<rect class="sN" x="250" y="14" width="220" height="236" rx="10"/><text class="sT" x="360" y="36" text-anchor="middle">Symmetric encryption</text>
+<rect class="sN" x="486" y="14" width="220" height="236" rx="10"/><text class="sT" x="596" y="36" text-anchor="middle">Asymmetric encryption</text>
+<rect class="sN" x="34" y="52" width="180" height="30" rx="8"/><text class="sT" x="124" y="72" text-anchor="middle">"Summer2026!"</text>
+<line class="sLg" x1="124" y1="82" x2="124" y2="104" marker-end="url(#ahg)"/>
+<text class="sC" x="132" y="98">SHA-256</text>
+<rect class="sG" x="34" y="106" width="180" height="30" rx="8"/><text class="sT" x="124" y="126" text-anchor="middle">5e884898da28…</text>
+<text class="sS" x="124" y="160" text-anchor="middle">one-way: no key, cannot</text>
+<text class="sS" x="124" y="176" text-anchor="middle">be reversed</text>
+<text class="sS" x="124" y="200" text-anchor="middle">same input → same output</text>
+<text class="sGt" x="124" y="226" text-anchor="middle">stored passwords (salted),</text>
+<text class="sGt" x="124" y="242" text-anchor="middle">file checksums</text>
+<rect class="sN" x="270" y="52" width="180" height="30" rx="8"/><text class="sT" x="360" y="72" text-anchor="middle">plaintext</text>
+<line class="sLm" x1="360" y1="82" x2="360" y2="104" marker-end="url(#ahm)"/>
+<text class="sC" x="368" y="98">AES + key K</text>
+<rect class="sB" x="270" y="106" width="180" height="30" rx="8"/><text class="sT" x="360" y="126" text-anchor="middle">ciphertext</text>
+<text class="sS" x="360" y="160" text-anchor="middle">the SAME key locks</text>
+<text class="sS" x="360" y="176" text-anchor="middle">and unlocks: very fast</text>
+<text class="sWt" x="360" y="200" text-anchor="middle">problem: sharing K safely</text>
+<text class="sGt" x="360" y="226" text-anchor="middle">BitLocker, LUKS, VPN and</text>
+<text class="sGt" x="360" y="242" text-anchor="middle">TLS bulk data</text>
+<rect class="sV" x="506" y="52" width="86" height="30" rx="8"/><text class="sT" x="549" y="72" text-anchor="middle">public key</text>
+<rect class="sR" x="600" y="52" width="86" height="30" rx="8"/><text class="sT" x="643" y="72" text-anchor="middle">private key</text>
+<text class="sS" x="596" y="106" text-anchor="middle">encrypt with public →</text>
+<text class="sS" x="596" y="122" text-anchor="middle">only private decrypts</text>
+<text class="sS" x="596" y="146" text-anchor="middle">sign with private →</text>
+<text class="sS" x="596" y="162" text-anchor="middle">anyone verifies</text>
+<text class="sWt" x="596" y="200" text-anchor="middle">slow: used for small things</text>
+<text class="sGt" x="596" y="226" text-anchor="middle">certificates, key exchange,</text>
+<text class="sGt" x="596" y="242" text-anchor="middle">SSH keys, signatures</text>
+</svg><figcaption>Hashing proves integrity, symmetric encryption protects bulk data, asymmetric encryption solves identity and key exchange. Encoding (Base64) is none of these: anyone can reverse it.</figcaption></figure>
+
+<figure class="dia steps"><svg viewBox="0 0 720 228" role="img" aria-label="How HTTPS combines the three tools: the server sends its certificate; the browser verifies the chain from the server certificate through an intermediate CA to a root CA it trusts, plus the name and dates; an ECDHE key exchange signed with the server private key gives both sides a session key; then all data is encrypted with fast symmetric AES using that key">
+<rect class="sB" x="14" y="30" width="150" height="50" rx="8"/><text class="sT" x="89" y="53" text-anchor="middle">Browser</text><text class="sS" x="89" y="69" text-anchor="middle">trusted root CAs</text>
+<rect class="sG" x="556" y="30" width="150" height="50" rx="8"/><text class="sT" x="631" y="53" text-anchor="middle">Server</text><text class="sS" x="631" y="69" text-anchor="middle">www.example.com</text>
+<rect class="sN" x="14" y="110" width="692" height="110" rx="8"/>
+<g data-s="1-1"><line class="sLv" x1="554" y1="48" x2="168" y2="48" marker-end="url(#ahv)"/><text class="sS" x="360" y="42" text-anchor="middle">certificate: name, public key, CA signature</text><text class="sS" x="30" y="136">The server sends its certificate: "I am www.example.com, here is my public key,</text><text class="sS" x="30" y="156">and an intermediate CA vouches for that with its signature."</text></g>
+<g data-s="2-2"><rect class="sV" x="140" y="172" width="130" height="34" rx="8"/><text class="sT" x="205" y="187" text-anchor="middle">Root CA</text><text class="sC" x="205" y="203" text-anchor="middle">in the browser store</text><line class="sLm" x1="270" y1="189" x2="300" y2="189" marker-end="url(#ahm)"/><rect class="sV" x="302" y="172" width="130" height="34" rx="8"/><text class="sT" x="367" y="194" text-anchor="middle">Intermediate CA</text><line class="sLm" x1="432" y1="189" x2="462" y2="189" marker-end="url(#ahm)"/><rect class="sG" x="464" y="172" width="130" height="34" rx="8"/><text class="sT" x="529" y="194" text-anchor="middle">Server cert</text><text class="sS" x="30" y="136">The browser checks: signatures chain up to a root it trusts, the name matches the URL,</text><text class="sS" x="30" y="156">the dates are valid (a wrong client clock breaks this), and it is not revoked.</text></g>
+<g data-s="3-3"><line class="sLw" x1="166" y1="62" x2="554" y2="62" marker-end="url(#ahw)"/><line class="sLw" x1="554" y1="72" x2="168" y2="72" marker-end="url(#ahw)"/><text class="sS" x="360" y="96" text-anchor="middle">ECDHE key exchange, signed with the server’s private key</text><text class="sS" x="30" y="136">Both sides derive the same session key without ever sending it. The server signs its part</text><text class="sS" x="30" y="156">with its private key, proving it owns the certificate: an impostor cannot.</text><text class="sWt" x="360" y="196" text-anchor="middle">asymmetric crypto used once, for identity and the key</text></g>
+<g data-s="4-4"><line class="sLg" x1="166" y1="62" x2="554" y2="62" marker-end="url(#ahg)" style="stroke-width:4"/><line class="sLg" x1="554" y1="72" x2="168" y2="72" marker-end="url(#ahg)" style="stroke-width:4"/><text class="sGt" x="360" y="96" text-anchor="middle">AES-GCM with the session key: every request and response</text><text class="sS" x="30" y="136">From now on all traffic uses fast symmetric encryption with the session key.</text><text class="sS" x="30" y="156">New session keys per connection: a stolen server key later cannot decrypt old traffic.</text><text class="sGt" x="360" y="196" text-anchor="middle">symmetric crypto for all the data</text></g>
+</svg><ol class="dia-steps">
+<li>The certificate arrives: identity plus public key, signed by a CA.</li>
+<li>The browser validates the chain, the name, the dates and revocation.</li>
+<li>Key exchange: asymmetric crypto proves identity and creates a shared session key.</li>
+<li>Bulk data: symmetric AES with the session key.</li>
+</ol><figcaption>TLS uses asymmetric crypto to agree a key and symmetric crypto to move data. Every certificate error a user reports maps to step 2: expired, wrong name, missing intermediate, untrusted root, or a wrong clock.</figcaption></figure>
+
+<div class="tw"><table>
+  <tr><th></th><th>In transit</th><th>At rest</th></tr>
+  <tr><td>What it protects against</td><td>Sniffing and tampering on the network</td><td>A stolen laptop, disk or backup tape; a decommissioned drive</td></tr>
+  <tr><td>Examples</td><td>TLS (HTTPS, LDAPS, SMTPS), IPsec VPN, SSH, SMB 3 encryption, WPA3</td><td>BitLocker (with the TPM), LUKS on Linux, self-encrypting drives, array encryption (Dell "D@RE"), database TDE, encrypted backups</td></tr>
+  <tr><td>Where the key lives</td><td>Negotiated per session</td><td>TPM, a key manager or HSM, the array — and a <strong>recovery key</strong> escrowed in AD or Entra ID</td></tr>
+</table></div>
+<ul>
+  <li><mark>Lose the key, lose the data</mark>: a BitLocker laptop whose recovery key was never escrowed is a wiped laptop. Key management (storage, rotation, recovery) is most of the real work.</li>
+  <li><strong>Passwords are hashed, not encrypted</strong>, with a per-user <strong>salt</strong> and a deliberately slow algorithm (bcrypt, PBKDF2, Argon2), so a stolen database cannot simply be reversed.</li>
+  <li><strong>Algorithms to name</strong>: AES-256 (symmetric), RSA and ECC (asymmetric), SHA-256 (hash). Retired: DES/3DES, RC4, MD5 and SHA-1 for security, SSL and TLS 1.0/1.1.</li>
+</ul>
+<div class="note"><b>Say it:</b> "Hashing is one-way, for integrity and password storage. Symmetric encryption like AES uses one shared key and is fast, so it protects bulk data — disks with BitLocker, VPN and TLS traffic. Asymmetric uses a public/private pair; it's slow, so it's used to prove identity with certificates and to exchange the symmetric key. HTTPS uses both: certificates and key exchange first, then AES."</div>
+
 
 <div class="qhead"><h3>Interview questions — Module 7</h3><button data-qa="qa7">Show all answers</button></div>
 <div class="qa" id="qa7">
@@ -3316,6 +3396,23 @@ Add-ADGroupMember -Identity "VPN-Users" -Members a.hassan</code></pre>
   <li>Others: password resets (verify identity first!), new-hire onboarding from a template user, disabling leavers (disable → grace period → delete), group membership for access requests, computer account rejoins ("trust relationship failed" → rejoin domain).</li>
 </ul>
 
+<figure class="dia steps"><svg viewBox="0 0 720 224" role="img" aria-label="Chasing a repeat account lockout: the user changes their password, but a phone and an old laptop keep retrying the old one; the domain controller counts the bad attempts until the lockout threshold; it logs event 4740 naming the caller computer; the helpdesk queries event 4740 on the PDC emulator, finds LAPTOP-07, clears the saved credential and then unlocks the account">
+<rect class="sW" x="14" y="30" width="150" height="50" rx="8"/><text class="sT" x="89" y="53" text-anchor="middle">Phone / old laptop</text><text class="sS" x="89" y="69" text-anchor="middle">saved old password</text>
+<rect class="sV" x="286" y="30" width="150" height="50" rx="8"/><text class="sT" x="361" y="53" text-anchor="middle">DC (PDC emulator)</text><text class="sS" x="361" y="69" text-anchor="middle">counts bad attempts</text>
+<rect class="sB" x="556" y="30" width="150" height="50" rx="8"/><text class="sT" x="631" y="53" text-anchor="middle">Helpdesk</text><text class="sS" x="631" y="69" text-anchor="middle">Event Viewer / PowerShell</text>
+<rect class="sN" x="14" y="100" width="692" height="92" rx="8"/>
+<g data-s="1-1"><text class="sS" x="30" y="124">09:00  a.hassan changes their password at their PC. Everything works at their desk.</text><text class="sS" x="30" y="146">Their phone’s mail app and a mapped drive on an old laptop still hold the old one.</text></g>
+<g data-s="2-2"><text class="sS" x="30" y="124">They retry every few minutes: each attempt is a bad password at the DC.</text><text class="sS" x="30" y="146">Bad-password count: 1 … 2 … 3 … 4 … 5  →  lockout threshold reached.</text><path class="sLr" d="M164 46 L284 46" marker-end="url(#ahr)"/><text class="sRt" x="224" y="40" text-anchor="middle">✕ ✕ ✕</text></g>
+<g data-s="3-3"><text class="sS" x="30" y="124">Account locked. The DC logs event 4740 with "Caller Computer Name": the source.</text><text class="sS" x="30" y="146">Unlocking alone fails: it locks again within minutes. This is the ticket that keeps coming back.</text><text class="sRt" x="361" y="92" text-anchor="middle">LOCKED  ·  event 4740</text></g>
+<g data-s="4-4"><text class="sS" x="30" y="124">Get-WinEvent on the PDC emulator, filtered on ID 4740 for a.hassan → caller: LAPTOP-07.</text><text class="sS" x="30" y="146">Clear the saved credential (Credential Manager), update the phone, then unlock. Fixed for good.</text><line class="sLg" x1="554" y1="62" x2="438" y2="62" marker-end="url(#ahg)"/><text class="sGt" x="496" y="92" text-anchor="middle">find the caller</text></g>
+<text class="sC" x="360" y="214" text-anchor="middle">PowerShell: Get-WinEvent -FilterHashtable @{LogName="Security"; Id=4740} | ? Message -match "a.hassan"</text>
+</svg><ol class="dia-steps">
+<li>A password change leaves stale copies behind on other devices.</li>
+<li>Each stale retry is a bad-password attempt at the DC.</li>
+<li>The threshold locks the account and event 4740 records which computer caused it.</li>
+<li>Find the caller, remove the stale credential, then unlock.</li>
+</ol><figcaption>Unlock-and-close is the wrong fix for a lockout that comes back. Event 4740 on the PDC emulator names the source; Microsoft’s Account Lockout Status tool (LockoutStatus.exe) shows the bad-password count on every DC.</figcaption></figure>
+
 <h3>12.5 Patching &amp; endpoint basics</h3>
 <ul>
   <li><strong>Windows Update</strong> centrally managed via <strong>WSUS</strong> or cloud (Intune/Autopatch); monthly "Patch Tuesday" cycle; test group → broad deployment; reboots in maintenance windows.</li>
@@ -3358,6 +3455,24 @@ C:\&gt; klist                       <span class="c"># my Kerberos tickets (klist
   <li><strong>Kerberos flow</strong> in one breath: logon → KDC (a DC) issues a <strong>TGT</strong>; accessing a server → present TGT, receive a <strong>service ticket</strong> for that server's <strong>SPN</strong>; the server validates it — passwords never cross the wire. Requires DNS + time within 5 minutes (both again!).</li>
   <li><strong>Trust relationship failed</strong>: the <em>computer</em> account's password (rotated every 30 days) fell out of sync — commonly after restoring an old VM snapshot of the machine. Fix: <code>Reset-ComputerMachinePassword</code> or rejoin. And that's why <mark>you don't revert old snapshots of domain controllers or domain members casually — and never DCs (USN rollback)</mark>.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 284" role="img" aria-label="Kerberos in three exchanges: the client proves the user’s identity to the domain controller’s KDC with a timestamp sealed by the password-derived key and receives a ticket-granting ticket; it presents the TGT to ask for a service ticket for the file server’s SPN; it presents the service ticket to the file server, which can decrypt it and checks share and NTFS permissions; the password itself never crosses the network; failures come from clock skew over five minutes, DNS, or SPN problems">
+<rect class="sB" x="10" y="10" width="160" height="42" rx="8"/><text class="sT" x="90" y="29" text-anchor="middle">Client PC</text><text class="sC" x="90" y="45" text-anchor="middle">user a.hassan</text>
+<line class="sLm" x1="90" y1="52" x2="90" y2="236" stroke-dasharray="3 5" opacity=".6"/>
+<rect class="sV" x="280" y="10" width="160" height="42" rx="8"/><text class="sT" x="360" y="29" text-anchor="middle">Domain controller</text><text class="sC" x="360" y="45" text-anchor="middle">KDC</text>
+<line class="sLm" x1="360" y1="52" x2="360" y2="236" stroke-dasharray="3 5" opacity=".6"/>
+<rect class="sG" x="550" y="10" width="160" height="42" rx="8"/><text class="sT" x="630" y="29" text-anchor="middle">File server FS01</text><text class="sC" x="630" y="45" text-anchor="middle">SPN cifs/FS01</text>
+<line class="sLm" x1="630" y1="52" x2="630" y2="236" stroke-dasharray="3 5" opacity=".6"/>
+<g data-s="1"><line class="sLv" x1="90" y1="80" x2="356" y2="80" marker-end="url(#ahv)"/><text class="sS" x="225" y="75" text-anchor="middle">AS-REQ: timestamp sealed with my password key</text><line class="sLv" x1="360" y1="104" x2="94" y2="104" marker-end="url(#ahv)"/><text class="sS" x="225" y="99" text-anchor="middle">AS-REP: TGT (sealed by krbtgt)</text></g>
+<g data-s="2"><line class="sLw" x1="90" y1="136" x2="356" y2="136" marker-end="url(#ahw)"/><text class="sS" x="225" y="131" text-anchor="middle">TGS-REQ: TGT + "I want cifs/FS01"</text><line class="sLw" x1="360" y1="160" x2="94" y2="160" marker-end="url(#ahw)"/><text class="sS" x="225" y="155" text-anchor="middle">TGS-REP: service ticket for FS01</text></g>
+<g data-s="3"><line class="sLg" x1="90" y1="192" x2="626" y2="192" marker-end="url(#ahg)"/><text class="sS" x="360" y="187" text-anchor="middle">AP-REQ: service ticket (FS01 can decrypt it)</text><text class="sGt" x="622" y="222" text-anchor="end">access check: share + NTFS</text></g>
+<g data-s="4-4"><rect class="sR" x="14" y="238" width="692" height="40" rx="8" opacity=".9"/><text class="sT" x="360" y="256" text-anchor="middle">clock skew &gt; 5 min → tickets rejected   ·   no DNS SRV → no KDC found</text><text class="sS" x="360" y="272" text-anchor="middle">missing or duplicate SPN → falls back to NTLM or fails</text></g>
+</svg><ol class="dia-steps">
+<li>Logon: the KDC checks a timestamp encrypted with the user’s password-derived key and issues a ticket-granting ticket (TGT).</li>
+<li>Opening \\FS01\Finance: the client trades its TGT for a service ticket for that server’s SPN.</li>
+<li>The file server decrypts the ticket with its own key; it learns who the user is and their groups without calling the DC.</li>
+<li>The three classic failures: time, DNS and SPNs.</li>
+</ol><figcaption>The password never crosses the wire, and tickets are time-stamped — which is why every Kerberos ticket fails when a clock drifts more than five minutes. <code>klist</code> on the client shows the tickets it holds.</figcaption></figure>
 
 <h3>D12.3 NTFS vs share permissions — the worked example</h3>
 <pre><code>Folder: D:\Finance     Share: \\FS01\Finance

@@ -727,6 +727,8 @@ const FOUNDATIONS = {
     q('Switching', 'Spanning Tree elects as root bridge the switch with…', ['The most ports', 'The lowest bridge ID (priority, then MAC)', 'The highest uptime', 'The fastest links'], 1, 'Every other switch then blocks its redundant ports.', 'N4.4'),
   ],
   N7: [
+    q('Security', 'Which pairing is right?', ['Hashing: reversible with a key', 'Symmetric (AES): one shared key, fast, protects bulk data', 'Asymmetric (RSA): fastest, used for disk encryption', 'Base64: strong encryption'], 1, 'Hashing is one-way; asymmetric is slow and used for identity and key exchange; Base64 is just encoding.', 'N7.5'),
+    q('Security', 'In HTTPS, what is asymmetric cryptography used for?', ['Encrypting every request and response', 'Proving the server’s identity and agreeing a session key', 'Compressing pages', 'Hashing passwords'], 1, 'After the handshake, the data itself is encrypted with fast symmetric AES.', 'N7.5'),
     q('Security', 'A stateful firewall lets a web server\'s reply back in because…', ['An inbound rule allows all of port 443', 'The reply matches a connection recorded in its state table', 'Replies are never filtered', 'The NAT table is empty'], 1, 'Rules say who may initiate; state admits the rest of the conversation.', 'N7.2'),
     q('Security', 'Which switch feature stops ARP spoofing?', ['PortFast', 'Dynamic ARP Inspection', 'STP', 'LACP'], 1, 'It checks ARP replies against the DHCP snooping binding table.', 'N7.3'),
   ],
@@ -734,6 +736,10 @@ const FOUNDATIONS = {
     q('Storage', 'Dell’s current midrange unified (block + file) array, successor to Unity XT, is…', ['PowerMax', 'PowerStore', 'PowerScale', 'PowerVault ME5'], 1, 'PowerMax is high-end block, PowerScale scale-out NAS (ex-Isilon), PowerVault ME5 entry block.', 'N9.7'),
     q('Storage', 'PowerProtect DD (formerly Data Domain) is…', ['A primary database array', 'A deduplicating backup target appliance', 'A Fibre Channel switch', 'A hypervisor'], 1, 'Backup software such as Veeam or PowerProtect Data Manager writes to it; retention lock makes copies immutable.', 'N9.7'),
     q('Storage', 'Why did RAID 5 fall out of favour for large disks?', ['It needs too many disks', 'A rebuild must read every surviving bit, so an unreadable sector with no redundancy left becomes likely', 'It is slower than RAID 0', 'It cannot use SSDs'], 1, 'On a 10¹⁴ URE spec with four 10 TB survivors, a clean rebuild is only about 4% likely.', 'N9.2'),
+  ],
+  N12: [
+    q('Windows', 'Every Kerberos logon in an office starts failing at once. A likely cause is…', ['A full disk', 'Clocks more than 5 minutes apart between clients and the DC', 'A wrong VLAN', 'An expired licence'], 1, 'Kerberos tickets are time-stamped; also check DNS, which clients use to find the KDC.', 'N12.2'),
+    q('Windows', 'An account keeps locking again minutes after you unlock it. Next step?', ['Unlock it again', 'Find the caller computer in event 4740 on the PDC emulator and remove the stale saved password', 'Delete the account', 'Disable the lockout policy'], 1, 'Phones, mapped drives and services retrying an old password are the usual sources.', 'N12.4'),
   ],
   N13: [
     q('ITIL', 'The same VPN outage recurs every Monday. Besides restoring service each time, you open…', ['A service request', 'A problem record, to find and remove the root cause', 'A new incident category', 'A CMDB entry'], 1, 'Incident restores; problem finds the cause; a change deploys the fix.', 'N13.1'),
