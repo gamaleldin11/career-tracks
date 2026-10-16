@@ -246,12 +246,12 @@ body.flat .sidebar{position:static;max-height:none}
   <tr><td class="num">1</td><td><strong>Networks</strong>: TCP/IP, routing, switching, DNS, DHCP</td><td><a href="#m1">Module 1</a> (OSI, TCP/IP, encapsulation), <a href="#m2">2</a> (IP and subnetting), <a href="#m3">3</a> (TCP/UDP 3.1, DNS 3.3, DHCP 3.4), <a href="#m4">4</a> (switching, VLANs, STP), <a href="#m5">5</a> (routing)</td></tr>
   <tr><td class="num">2</td><td><strong>OS (Linux/Windows)</strong>: CLI, logs, services, permissions</td><td><a href="#m11">Module 11</a> (commands 11.3, permissions 11.4, services 11.6, logs 11.10), <a href="#m12">Module 12</a> (Event Viewer and event IDs D12.1, NTFS vs share permissions D12.3, the PowerShell dozen)</td></tr>
   <tr><td class="num">3</td><td><strong>Storage</strong>: RAID, SAN/NAS, iSCSI, Dell EMC</td><td><a href="#m9">Module 9</a> (RAID 9.2, DAS/NAS/SAN 9.4, iSCSI D9.1, the Dell storage portfolio 9.7), PERC hardware RAID in <a href="#m18">18.5</a></td></tr>
-  <tr><td class="num">4</td><td><strong>Security</strong>: firewalls, permissions, encryption</td><td><a href="#m7">Module 7</a> (firewalls 7.2 and D7.1, hardening 7.4, crypto vocabulary D7.3), TLS in 3.7, permissions in 11.4 and D12.3</td></tr>
+  <tr><td class="num">4</td><td><strong>Security</strong>: firewalls, permissions, encryption</td><td><a href="#m7">Module 7</a> (CIA triad 7.1, firewalls 7.2 and D7.1, hardening 7.4, encryption 7.5, crypto vocabulary D7.3), TLS in 3.7, permissions in 11.4 and D12.3</td></tr>
   <tr><td class="num">5</td><td><strong>Soft skills</strong>: customer handling, communication</td><td><a href="#m13">Module 13</a> (ticket lifecycle 13.4, customer handling 13.5), <a href="#m14">Module 14</a> (STAR answers 14.4, phrase bank 14.7, what not to say 14.8)</td></tr>
   <tr><td class="num">6</td><td><strong>Hardware</strong>: BIOS, PSU, RAM, RAID, diagnostics</td><td><a href="#m18">Module 18</a> (18.1–18.5, diagnostics 18.10)</td></tr>
   <tr><td class="num">7</td><td><strong>Virtualization</strong>: VMware, Hyper-V, virtual switches</td><td><a href="#m10">Module 10</a> (vSphere, virtual networking 10.5, vSwitch policies D10.5, Hyper-V 10.9)</td></tr>
   <tr><td class="num">8</td><td><strong>Cloud</strong>: Azure/AWS basics, identity</td><td><a href="#m19">Module 19</a> (cloud models, Azure and AWS side by side, identity and access), hybrid identity in Module 12</td></tr>
-  <tr><td class="num">9</td><td><strong>Troubleshooting</strong>: RCA, logs, methodology</td><td><a href="#m8">Module 8</a> (the method 8.1, scenarios 8.3, escalation package D8.4), RCA and 5 Whys in D13.2, hardware in 18.10</td></tr>
+  <tr><td class="num">9</td><td><strong>Troubleshooting</strong>: RCA, logs, methodology</td><td><a href="#m8">Module 8</a> (the method 8.1, the internet-outage flow and scenarios 8.3, escalation package D8.4), RCA and 5 Whys in D13.2, hardware in 18.10</td></tr>
   <tr><td class="num">10</td><td><strong>Dell tools</strong>: iDRAC, OpenManage, SupportAssist</td><td><a href="#m18">Module 18</a> (iDRAC 18.6, Lifecycle Controller 18.7, OpenManage 18.8, SupportAssist 18.9, racadm and Redfish D18.1)</td></tr>
   <tr><td class="num">11</td><td><strong>Scripting</strong>: PowerShell/Bash fundamentals</td><td><a href="#m20">Module 20</a> (both languages side by side), the annotated bash script in Module 11, the PowerShell dozen in Module 12</td></tr>
 </table></div>
@@ -1070,6 +1070,26 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
   <li><strong>DHCP snooping</strong> blocks rogue DHCP offers on untrusted ports; <strong>802.1X</strong> requires authentication before a port passes any traffic (Module 7).</li>
 </ul>
 
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: link aggregation bundles four 10 gigabit links between two switches into one logical port channel; each traffic flow is hashed onto one member link, so a single flow never exceeds one link’s speed; when link 2 fails, its flow moves onto link 4 and traffic continues">
+<rect class="sA" x="14" y="50" width="140" height="120" rx="8"/><text class="sT" x="84" y="115" text-anchor="middle">Switch A</text>
+<text class="sC" x="84" y="136" text-anchor="middle">Po1 = 4 × 10G</text>
+<rect class="sA" x="566" y="50" width="140" height="120" rx="8"/><text class="sT" x="636" y="115" text-anchor="middle">Switch B</text>
+<text class="sC" x="636" y="136" text-anchor="middle">LACP 802.3ad</text>
+<ellipse class="sN" cx="360" cy="110" rx="170" ry="56" style="fill:none" stroke-dasharray="5 4"/>
+<text class="sS" x="360" y="46" text-anchor="middle">one logical 40G link: STP blocks nothing</text>
+<line class="sLm" x1="154" y1="80" x2="566" y2="80"/>
+<line class="sLm" x1="154" y1="100" x2="566" y2="100"/>
+<line class="sLm" x1="154" y1="120" x2="566" y2="120"/>
+<line class="sLm" x1="154" y1="140" x2="566" y2="140"/>
+<circle class="sPg" r="6"><animateMotion dur="2s" repeatCount="indefinite" path="M154 80 L566 80"/></circle>
+<circle class="sPv" r="6"><animateMotion dur="2.4s" repeatCount="indefinite" path="M154 100 L566 100"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" dur="10s" repeatCount="indefinite"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="2.4s" repeatCount="indefinite" path="M154 140 L566 140"/><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.5;0.51;1" dur="10s" repeatCount="indefinite"/></circle>
+<circle class="sPw" r="6"><animateMotion dur="1.8s" repeatCount="indefinite" path="M154 120 L566 120"/></circle>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.5;0.52;1" dur="10s" repeatCount="indefinite"/><line class="sLr" x1="410" y1="92" x2="426" y2="108" style="stroke-width:3"/><line class="sLr" x1="426" y1="92" x2="410" y2="108" style="stroke-width:3"/><text class="sRt" x="360" y="196" text-anchor="middle">link 2 down: its flow rehashes onto link 4 in under a second</text></g>
+<g><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.52;1" dur="10s" repeatCount="indefinite"/><text class="sS" x="360" y="196" text-anchor="middle">each flow is hashed (src/dst MAC, IP, port) onto one member link</text></g>
+<text class="sS" x="360" y="216" text-anchor="middle">so one big file copy never exceeds 10G, but many flows together can use all 40G</text>
+</svg><figcaption>LACP gives bandwidth for many flows and survives a member failure, but it does not make one flow faster. That is the answer to "we bonded four links and the backup copy is still 10G".</figcaption></figure>
+
 <h3>4.6 Commands you can name-drop</h3>
 <pre><code><span class="c"># Cisco IOS — the vocabulary interviewers recognize</span>
 show mac address-table          <span class="c"># who's on which port</span>
@@ -1858,6 +1878,24 @@ ping 8.8.8.8        <span class="c"># routing + WAN + firewall work?</span>
 ping google.com     <span class="c"># DNS works?  → fails only here = DNS problem</span></code></pre>
 
 <h3>8.3 Scenario walkthroughs (rehearse these aloud)</h3>
+<figure class="dia steps"><svg viewBox="0 0 720 340" role="img" aria-label="A decision flow for a user who cannot reach the internet: check whether others are affected, then the physical link, then a valid IP address, then a ping to the gateway, then a ping to an internet IP, then name resolution, then whether one site or all sites fail; each no branch names the likely cause">
+<g data-s="1"><rect class="sB" x="14" y="14" width="250" height="34" rx="8"/><text class="sT" x="139" y="36" text-anchor="middle">Only this user affected?</text><line class="sLm" x1="264" y1="31" x2="300" y2="31" marker-end="url(#ahm)"/><rect class="sR" x="302" y="14" width="404" height="34" rx="8"/><text class="sS" x="312" y="36">No → shared cause: access switch, VLAN, DHCP server, uplink, ISP</text><line class="sLg" x1="139" y1="48" x2="139" y2="60" marker-end="url(#ahg)"/><text class="sGt" x="146" y="58">yes</text></g>
+<g data-s="2"><rect class="sB" x="14" y="60" width="250" height="34" rx="8"/><text class="sT" x="139" y="82" text-anchor="middle">Link light / Wi-Fi connected?</text><line class="sLm" x1="264" y1="77" x2="300" y2="77" marker-end="url(#ahm)"/><rect class="sW" x="302" y="60" width="404" height="34" rx="8"/><text class="sS" x="312" y="82">No → cable, switch port, SSID, NIC driver, airplane mode</text><line class="sLg" x1="139" y1="94" x2="139" y2="106" marker-end="url(#ahg)"/><text class="sGt" x="146" y="104">yes</text></g>
+<g data-s="3"><rect class="sB" x="14" y="106" width="250" height="34" rx="8"/><text class="sT" x="139" y="128" text-anchor="middle">Valid IP from ipconfig /all?</text><line class="sLm" x1="264" y1="123" x2="300" y2="123" marker-end="url(#ahm)"/><rect class="sW" x="302" y="106" width="404" height="34" rx="8"/><text class="sS" x="312" y="128">No (169.254.x.x) → DHCP: scope full, server down, relay, VLAN</text><line class="sLg" x1="139" y1="140" x2="139" y2="152" marker-end="url(#ahg)"/><text class="sGt" x="146" y="150">yes</text></g>
+<g data-s="4"><rect class="sB" x="14" y="152" width="250" height="34" rx="8"/><text class="sT" x="139" y="174" text-anchor="middle">ping the default gateway?</text><line class="sLm" x1="264" y1="169" x2="300" y2="169" marker-end="url(#ahm)"/><rect class="sW" x="302" y="152" width="404" height="34" rx="8"/><text class="sS" x="312" y="174">No → local LAN: wrong VLAN, port, ARP, host firewall</text><line class="sLg" x1="139" y1="186" x2="139" y2="198" marker-end="url(#ahg)"/><text class="sGt" x="146" y="196">yes</text></g>
+<g data-s="5"><rect class="sB" x="14" y="198" width="250" height="34" rx="8"/><text class="sT" x="139" y="220" text-anchor="middle">ping 8.8.8.8?</text><line class="sLm" x1="264" y1="215" x2="300" y2="215" marker-end="url(#ahm)"/><rect class="sW" x="302" y="198" width="404" height="34" rx="8"/><text class="sS" x="312" y="220">No → beyond the gateway: routing, firewall, NAT, ISP</text><line class="sLg" x1="139" y1="232" x2="139" y2="244" marker-end="url(#ahg)"/><text class="sGt" x="146" y="242">yes</text></g>
+<g data-s="6"><rect class="sB" x="14" y="244" width="250" height="34" rx="8"/><text class="sT" x="139" y="266" text-anchor="middle">nslookup google.com works?</text><line class="sLm" x1="264" y1="261" x2="300" y2="261" marker-end="url(#ahm)"/><rect class="sW" x="302" y="244" width="404" height="34" rx="8"/><text class="sS" x="312" y="266">No → DNS: wrong server, server down, blocked UDP/TCP 53</text><line class="sLg" x1="139" y1="278" x2="139" y2="290" marker-end="url(#ahg)"/><text class="sGt" x="146" y="288">yes</text></g>
+<g data-s="7"><rect class="sB" x="14" y="290" width="250" height="34" rx="8"/><text class="sT" x="139" y="312" text-anchor="middle">Every site fails, or one?</text><line class="sLm" x1="264" y1="307" x2="300" y2="307" marker-end="url(#ahm)"/><rect class="sG" x="302" y="290" width="404" height="34" rx="8"/><text class="sS" x="312" y="312">One → that site, proxy, firewall category, TLS/cert; all → browser/proxy</text></g>
+</svg><ol class="dia-steps">
+<li>Scope first: one user or many?</li>
+<li>Layer 1: is there a link at all?</li>
+<li>A 169.254 address means DHCP failed.</li>
+<li>The gateway proves the local LAN.</li>
+<li>An internet IP proves routing and NAT.</li>
+<li>A name proves DNS.</li>
+<li>Finally separate one site from everything.</li>
+</ol><figcaption>The internet-outage walkthrough as a flow: each question moves one layer up and halves the search space. Say the question before the command and the interviewer hears a method, not a guess.</figcaption></figure>
+
 <div class="qa">
 <details><summary>Scenario 1 — "A user can't access the internet." The most likely interview scenario of all.</summary><div class="a">
 <p><strong>Model walkthrough:</strong> "First I scope it: is it just this user or others too? Just this user — I start at their machine. Physical: link light, Wi-Fi associated to the right SSID? Then <code>ipconfig /all</code>: do they have a valid IP for our subnet — a 169.254 address means DHCP failed; wrong subnet could mean wrong VLAN on the port. Then the ping ladder: loopback, gateway, 8.8.8.8, then a name. Gateway fails → local switch/port/VLAN issue. 8.8.8.8 fails but gateway works → routing/firewall/WAN — I check if colleagues are affected and look at the edge device. Name fails but IP works → DNS: <code>nslookup</code>, check configured servers, flush cache. If it's a browser-only problem — ping all good but pages fail — I think proxy settings or content filter. Throughout, I ask what changed: new cable, moved desk, VPN client installed? And I document the fix in the ticket."</p></div></details>
@@ -3054,6 +3092,37 @@ vLCM: hosts patched against a declared image, not ad-hoc VIBs</code></pre>
   <tr><td><code>/mnt</code>, <code>/media</code></td><td>Manual and removable mount points</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="The Linux directory tree: everything hangs from the root directory: /etc for configuration such as /etc/ssh/sshd_config, /home for users, /var for variable data including /var/log, /usr for programs, /dev for device files, /proc for kernel information, /tmp for temporary files and /boot for the kernel and GRUB; a second disk is mounted onto a directory such as /data rather than getting a drive letter">
+<rect class="sA" x="320" y="10" width="80" height="34" rx="8"/><text class="sT" x="360" y="32" text-anchor="middle">/</text>
+<line class="sLm" x1="360" y1="44" x2="54" y2="76"/>
+<rect class="sW" x="14" y="76" width="80" height="32" rx="8"/><text class="sT" x="54" y="97" text-anchor="middle">/etc</text>
+<text class="sS" x="54" y="126" text-anchor="middle">config</text>
+<line class="sLm" x1="360" y1="44" x2="142" y2="76"/>
+<rect class="sB" x="102" y="76" width="80" height="32" rx="8"/><text class="sT" x="142" y="97" text-anchor="middle">/home</text>
+<text class="sS" x="142" y="126" text-anchor="middle">users</text>
+<line class="sLm" x1="360" y1="44" x2="230" y2="76"/>
+<rect class="sB" x="190" y="76" width="80" height="32" rx="8"/><text class="sT" x="230" y="97" text-anchor="middle">/var</text>
+<text class="sS" x="230" y="126" text-anchor="middle">logs, data</text>
+<line class="sLm" x1="360" y1="44" x2="318" y2="76"/>
+<rect class="sN" x="278" y="76" width="80" height="32" rx="8"/><text class="sT" x="318" y="97" text-anchor="middle">/usr</text>
+<text class="sS" x="318" y="126" text-anchor="middle">programs</text>
+<line class="sLm" x1="360" y1="44" x2="406" y2="76"/>
+<rect class="sN" x="366" y="76" width="80" height="32" rx="8"/><text class="sT" x="406" y="97" text-anchor="middle">/dev</text>
+<text class="sS" x="406" y="126" text-anchor="middle">devices</text>
+<line class="sLm" x1="360" y1="44" x2="494" y2="76"/>
+<rect class="sV" x="454" y="76" width="80" height="32" rx="8"/><text class="sT" x="494" y="97" text-anchor="middle">/proc</text>
+<text class="sS" x="494" y="126" text-anchor="middle">kernel info</text>
+<line class="sLm" x1="360" y1="44" x2="582" y2="76"/>
+<rect class="sN" x="542" y="76" width="80" height="32" rx="8"/><text class="sT" x="582" y="97" text-anchor="middle">/tmp</text>
+<text class="sS" x="582" y="126" text-anchor="middle">temporary</text>
+<line class="sLm" x1="360" y1="44" x2="670" y2="76"/>
+<rect class="sN" x="630" y="76" width="80" height="32" rx="8"/><text class="sT" x="670" y="97" text-anchor="middle">/boot</text>
+<text class="sS" x="670" y="126" text-anchor="middle">kernel, GRUB</text>
+<line class="sLm" x1="194" y1="108" x2="194" y2="170"/><rect class="sG" x="184" y="170" width="120" height="30" rx="8"/><text class="sT" x="244" y="190" text-anchor="middle">/var/log</text><text class="sC" x="244" y="220" text-anchor="middle">syslog, auth.log, nginx/</text>
+<line class="sLm" x1="20" y1="108" x2="20" y2="170"/><rect class="sW" x="14" y="170" width="120" height="30" rx="8"/><text class="sT" x="74" y="190" text-anchor="middle">/etc/ssh</text><text class="sC" x="74" y="220" text-anchor="middle">sshd_config</text>
+<rect class="sN" x="380" y="162" width="326" height="70" rx="8"/><text class="sT" x="543" y="184" text-anchor="middle">A second disk is not a new letter:</text><text class="sC" x="396" y="206" xml:space="preserve" style="white-space:pre">mount /dev/sdb1 /data</text><text class="sS" x="543" y="224" text-anchor="middle">and a line in /etc/fstab makes it permanent</text>
+</svg><figcaption>One tree, many disks: Linux mounts filesystems onto directories. The two you will visit most are <code>/etc</code> (change settings) and <code>/var/log</code> (find out what went wrong).</figcaption></figure>
+
 <h3>11.3 Core commands by job</h3>
 <pre><code><span class="c"># WHERE AM I / MOVING AROUND</span>
 pwd                     <span class="c"># print working directory</span>
@@ -3142,6 +3211,25 @@ journalctl -u nginx -e       <span class="c"># unit's log, jump to end</span>
 journalctl -b -p err         <span class="c"># this boot, errors and worse</span></code></pre>
 <div class="note"><b>Interview one-liner:</b> "enable vs start" — <code>start</code> is now, <code>enable</code> is at boot; a service that "keeps disappearing after reboot" was started but never enabled.</div>
 
+<figure class="dia steps"><svg viewBox="0 0 720 220" role="img" aria-label="systemd service states: start moves a unit from inactive to active and stop moves it back; a crash moves it to failed, where systemctl status and journalctl show why; Restart=on-failure makes systemd restart it automatically; enable creates a symlink so the unit starts at every boot, which is different from start">
+<rect class="sN" x="14" y="30" width="150" height="50" rx="8"/><text class="sT" x="89" y="53" text-anchor="middle">inactive (dead)</text><text class="sS" x="89" y="69" text-anchor="middle">not running</text>
+<rect class="sG" x="285" y="30" width="150" height="50" rx="8"/><text class="sT" x="360" y="53" text-anchor="middle">active (running)</text><text class="sS" x="360" y="69" text-anchor="middle">PID 812</text>
+<rect class="sR" x="556" y="30" width="150" height="50" rx="8"/><text class="sT" x="631" y="53" text-anchor="middle">failed</text><text class="sS" x="631" y="69" text-anchor="middle">Result: exit-code</text>
+<rect class="sN" x="14" y="120" width="692" height="92" rx="8"/>
+<g data-s="1"><line class="sLg" x1="164" y1="48" x2="283" y2="48" marker-end="url(#ahg)"/><text class="sGt" x="224" y="42" text-anchor="middle">start</text><line class="sLm" x1="283" y1="66" x2="166" y2="66" marker-end="url(#ahm)"/><text class="sS" x="224" y="80" text-anchor="middle">stop</text></g>
+<g data-s="1-1"><text class="sC" x="30" y="142" xml:space="preserve" style="white-space:pre">sudo systemctl start nginx      # run it now</text><text class="sC" x="30" y="162" xml:space="preserve" style="white-space:pre">systemctl status nginx          # Active: active (running) since 09:12</text><text class="sS" x="30" y="196">start and stop change what is running right now, nothing more.</text></g>
+<g data-s="2"><line class="sLr" x1="435" y1="55" x2="554" y2="55" marker-end="url(#ahr)"/><text class="sRt" x="494" y="48" text-anchor="middle">crash</text></g>
+<g data-s="2-2"><text class="sC" x="30" y="142" xml:space="preserve" style="white-space:pre">systemctl status nginx          # Active: failed (Result: exit-code)</text><text class="sC" x="30" y="162" xml:space="preserve" style="white-space:pre">journalctl -u nginx -e          # the reason: bad config line 42</text><text class="sRt" x="30" y="196">A failed unit keeps its last log lines: read them before restarting.</text></g>
+<g data-s="3"><path class="sLw" d="M630 80 Q495 116 360 82" style="fill:none" marker-end="url(#ahw)"/><text class="sWt" x="495" y="112" text-anchor="middle">Restart=on-failure</text></g>
+<g data-s="3-3"><text class="sC" x="30" y="142" xml:space="preserve" style="white-space:pre">[Service]</text><text class="sC" x="30" y="162" xml:space="preserve" style="white-space:pre">Restart=on-failure              # systemd brings it back by itself</text><text class="sS" x="30" y="196">Good for transient crashes; a crash loop still needs the log.</text></g>
+<g data-s="4-4"><text class="sC" x="30" y="142" xml:space="preserve" style="white-space:pre">sudo systemctl enable nginx     # start at every boot</text><text class="sC" x="30" y="162" xml:space="preserve" style="white-space:pre">→ symlink in /etc/systemd/system/multi-user.target.wants/</text><text class="sGt" x="30" y="196">enable ≠ start: enable is about the next boot. "enable --now" does both.</text></g>
+</svg><ol class="dia-steps">
+<li>start / stop: what runs now.</li>
+<li>A crash leaves the unit failed, with its log.</li>
+<li>A restart policy recovers transient crashes.</li>
+<li>enable: what runs after the next boot.</li>
+</ol><figcaption>Three commands answer most "service down" tickets: <code>systemctl status</code>, <code>journalctl -u</code>, and <code>systemctl is-enabled</code> (it was running, but was it set to survive a reboot?).</figcaption></figure>
+
 <h3>11.7 Software packages</h3>
 <pre><code><span class="c"># Debian/Ubuntu                      # RHEL/Rocky/CentOS</span>
 sudo apt update                      sudo dnf check-update
@@ -3205,6 +3293,29 @@ sudo lvextend -r -L +20G /dev/vg_data/lv_var   <span class="c"># grow LV AND fil
   <li><strong>SSH:</strong> <code>ssh user@host</code>, files copy with <code>scp file user@host:/path</code> or <code>rsync -av</code>. Key auth: <code>ssh-keygen</code> → <code>ssh-copy-id user@host</code> → private key stays with you, public key goes in the server's <code>~/.ssh/authorized_keys</code>. Server config <code>/etc/ssh/sshd_config</code>: disable root login &amp; password auth for hardening. Keys must be <code>600</code> — SSH refuses loose permissions.</li>
   <li><strong>vi/vim survival</strong> (you <em>will</em> be dropped into it): <code>i</code> insert mode → type → <code>Esc</code> → <code>:wq</code> save+quit, <code>:q!</code> quit without saving, <code>/text</code> search, <code>dd</code> delete line, <code>u</code> undo.</li>
 </ul>
+
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: where Linux logs go: the kernel, sshd and nginx write to journald, read with journalctl; rsyslog writes them to files under /var/log such as syslog and auth.log and forwards them over TCP 514 or TLS to a central SIEM; on Windows the event log channels are forwarded to the same SIEM">
+<rect class="sN" x="14" y="20" width="130" height="34" rx="8"/><text class="sT" x="79" y="42" text-anchor="middle">kernel</text>
+<rect class="sN" x="14" y="64" width="130" height="34" rx="8"/><text class="sT" x="79" y="86" text-anchor="middle">sshd</text>
+<rect class="sN" x="14" y="108" width="130" height="34" rx="8"/><text class="sT" x="79" y="130" text-anchor="middle">nginx</text>
+<rect class="sV" x="214" y="50" width="140" height="60" rx="8"/><text class="sT" x="284" y="78" text-anchor="middle">journald</text><text class="sC" x="284" y="94" text-anchor="middle">journalctl</text>
+<rect class="sB" x="410" y="20" width="140" height="44" rx="8"/><text class="sT" x="480" y="47" text-anchor="middle">rsyslog</text>
+<rect class="sG" x="410" y="98" width="140" height="44" rx="8"/><text class="sT" x="480" y="118" text-anchor="middle">/var/log/*</text><text class="sC" x="480" y="134" text-anchor="middle">syslog · auth.log</text>
+<rect class="sA" x="596" y="50" width="110" height="60" rx="8"/><text class="sT" x="651" y="78" text-anchor="middle">SIEM</text><text class="sS" x="651" y="94" text-anchor="middle">central logs</text>
+<line class="sLm" x1="144" y1="37" x2="212" y2="66" marker-end="url(#ahm)"/>
+<line class="sLm" x1="144" y1="81" x2="212" y2="81" marker-end="url(#ahm)"/>
+<line class="sLm" x1="144" y1="125" x2="212" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="354" y1="70" x2="408" y2="46" marker-end="url(#ahm)"/>
+<line class="sLm" x1="480" y1="64" x2="480" y2="96" marker-end="url(#ahm)"/>
+<line class="sLm" x1="550" y1="42" x2="594" y2="66" marker-end="url(#ahm)"/>
+<text class="sC" x="572" y="34" text-anchor="middle">TCP 514 / TLS</text>
+<rect class="sN" x="14" y="166" width="692" height="52" rx="8"/>
+<text class="sS" x="30" y="188">Windows: Event Log channels (System, Application, Security) → Event Viewer locally,</text>
+<text class="sS" x="30" y="206">and Windows Event Forwarding or an agent ships them to the same SIEM.</text>
+<circle class="sPw" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M144 81 L214 81 L354 70 L410 46 L550 42 L596 66"/></circle>
+<circle class="sPg" r="5"><animateMotion dur="4s" begin="1.3s" repeatCount="indefinite" path="M144 125 L214 98 L354 70 L410 46 L480 64 L480 98"/></circle>
+<circle class="sPr" r="5"><animateMotion dur="4s" begin="2.6s" repeatCount="indefinite" path="M144 37 L214 66 L354 70 L410 46 L550 42 L596 66"/></circle>
+</svg><figcaption>Local logs answer "what happened on this box"; central logs answer "what happened across the estate, and when exactly". Central copies also survive an attacker deleting local ones, and only line up if every clock uses NTP.</figcaption></figure>
 
 <h3>11.11 Three rehearsed scenarios</h3>
 <div class="qa">
@@ -4331,6 +4442,26 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <li><strong>Escalate</strong> with evidence when stuck or out of scope — <em>before</em> the SLA clock forces it.</li>
   <li><strong>Resolve → confirm with the user → close</strong> with root cause and fix recorded; new knowledge → KB article.</li>
 </ol>
+
+<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="Timeline of a P2 ticket against its SLA: logged at 09:00, acknowledged at 09:09 inside the 15-minute response target, user updates at regular intervals, escalated with evidence at 10:30 rather than at the deadline, resolved at 12:10 and closed at 12:30 after the user confirms, inside the 4-hour resolution target">
+<line class="sLm" x1="40" y1="120" x2="680" y2="120" style="stroke-width:2"/>
+<line class="sLm" x1="40" y1="114" x2="40" y2="126"/><text class="sS" x="40" y="142" text-anchor="middle">09:00</text>
+<line class="sLm" x1="200" y1="114" x2="200" y2="126"/><text class="sS" x="200" y="142" text-anchor="middle">10:00</text>
+<line class="sLm" x1="360" y1="114" x2="360" y2="126"/><text class="sS" x="360" y="142" text-anchor="middle">11:00</text>
+<line class="sLm" x1="520" y1="114" x2="520" y2="126"/><text class="sS" x="520" y="142" text-anchor="middle">12:00</text>
+<line class="sLm" x1="680" y1="114" x2="680" y2="126"/><text class="sS" x="680" y="142" text-anchor="middle">13:00</text>
+<rect class="sW" x="40" y="150" width="40" height="10" rx="2"/><text class="sWt" x="86" y="159">respond within 15 min</text>
+<rect class="sV" x="40" y="168" width="640" height="10" rx="2" opacity=".6"/><text class="sS" x="680" y="196" text-anchor="end">resolve within 4 h (P2)</text>
+<circle class="sB" cx="40.0" cy="120" r="7"/><line class="sLm" x1="40" y1="113" x2="40" y2="102" opacity=".5"/><text class="sS" x="40" y="96" text-anchor="middle">logged</text>
+<circle class="sG" cx="64.0" cy="120" r="7"/><line class="sLm" x1="64" y1="113" x2="64" y2="76" opacity=".5"/><text class="sS" x="64" y="70" text-anchor="middle">acknowledged</text>
+<circle class="sN" cx="146.7" cy="120" r="7"/><line class="sLm" x1="146.667" y1="113" x2="146.667" y2="102" opacity=".5"/><text class="sS" x="146.667" y="96" text-anchor="middle">update</text>
+<circle class="sN" cx="226.7" cy="120" r="7"/><line class="sLm" x1="226.667" y1="113" x2="226.667" y2="102" opacity=".5"/><text class="sS" x="226.667" y="96" text-anchor="middle">update</text>
+<circle class="sW" cx="280.0" cy="120" r="7"/><line class="sLm" x1="280" y1="113" x2="280" y2="50" opacity=".5"/><text class="sS" x="280" y="44" text-anchor="middle">escalated + evidence</text>
+<circle class="sN" cx="386.7" cy="120" r="7"/><line class="sLm" x1="386.667" y1="113" x2="386.667" y2="102" opacity=".5"/><text class="sS" x="386.667" y="96" text-anchor="middle">update</text>
+<circle class="sG" cx="546.7" cy="120" r="7"/><line class="sLm" x1="546.667" y1="113" x2="546.667" y2="76" opacity=".5"/><text class="sS" x="546.667" y="70" text-anchor="middle">resolved</text>
+<circle class="sG" cx="600.0" cy="120" r="7"/><line class="sLm" x1="600" y1="113" x2="600" y2="50" opacity=".5"/><text class="sS" x="600" y="44" text-anchor="middle">user confirms, closed</text>
+<text class="sT" x="360" y="20" text-anchor="middle">A P2 ticket that meets its SLA: acknowledged fast, updated on a rhythm, escalated early</text>
+</svg><figcaption>Two clocks run on every ticket: <em>response</em> (did someone pick it up?) and <em>resolution</em>. Escalating at 10:30 with evidence, not at 12:55, is what keeps the second one green.</figcaption></figure>
 
 <h3>13.5 Customer handling &amp; communication</h3>
 <p>In support roles, soft skills are scored as hard as subnetting. The customer rarely judges the fix — they can't see it — they judge <strong>how they were treated</strong> and <strong>whether they knew what was happening</strong>. Two habits cover most of it: <mark>acknowledge the person before the problem</mark>, and <mark>never leave a customer without a next update time</mark>.</p>
