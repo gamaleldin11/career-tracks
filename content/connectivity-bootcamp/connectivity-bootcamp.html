@@ -2393,6 +2393,17 @@ access-list 110 deny   ip  any any                              <span class="c">
 3  permit  Mgmt-Subnet   → All-Devices    ssh,https,snmp            <span class="c"># admin plane, tight sources</span>
 4  deny    any           → RFC1918        any               log     <span class="c"># stop leaks to private ranges</span>
 5  deny    any           → any            any               log     <span class="c"># explicit final deny — logged!</span></code></pre>
+<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A clean firewall rulebase evaluated top down with first match winning: specific permits first, for LAN users to the DMZ web servers on 443, LAN users to the internet for web and DNS, and the management subnet to all devices for SSH and HTTPS; then a deny to private ranges and an explicit logged deny of everything; a broad permit placed too high would shadow the rules below it">
+<rect class="sG" x="14" y="30" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="49">1</text><text class="sT" x="50" y="49">permit</text><text class="sC" x="116" y="49">LAN-Users → DMZ-Web  tcp/443</text>
+<rect class="sG" x="14" y="64" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="83">2</text><text class="sT" x="50" y="83">permit</text><text class="sC" x="116" y="83">LAN-Users → Internet  web, DNS</text>
+<rect class="sG" x="14" y="98" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="117">3</text><text class="sT" x="50" y="117">permit</text><text class="sC" x="116" y="117">Mgmt-Subnet → All-Devices  ssh, https</text>
+<rect class="sR" x="14" y="132" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="151">4</text><text class="sT" x="50" y="151">deny</text><text class="sC" x="116" y="151">any → RFC1918  (stop leaks)</text>
+<rect class="sR" x="14" y="166" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="185">5</text><text class="sT" x="50" y="185">deny</text><text class="sC" x="116" y="185">any → any  log</text>
+<text class="sM" x="14" y="20">evaluated top-down, first match wins</text>
+<line class="sLm" x1="470" y1="30" x2="470" y2="196" marker-end="url(#ahm)"/><text class="sS" x="480" y="46">specific allows first</text><text class="sS" x="480" y="176">explicit, logged deny last</text>
+<rect class="sW" x="480" y="82" width="226" height="60" rx="8"/><text class="sT" x="593" y="104" text-anchor="middle">shadowed rule: a broad permit</text><text class="sS" x="593" y="122" text-anchor="middle">above makes a later rule dead</text>
+</svg><figcaption>Read a rulebase like the firewall does: top to bottom, stopping at the first match. The final logged deny is what turns "it doesn’t work" into a log line you can search.</figcaption></figure>
+
 <ul>
   <li>Principles you can recite: default-deny both directions; rules reference named <strong>objects/groups</strong> (host "DC01", group "Web-Servers") not raw IPs; every rule has a comment + ticket reference; <strong>log the final deny</strong> — it's your best troubleshooting sensor ("the firewall shows drops from your host to port 445 — that's our answer").</li>
   <li>Common audit findings: temporary "any/any" rules that became permanent, rules for servers decommissioned years ago, shadowed rules (a broad rule above makes a lower one dead).</li>
@@ -3806,6 +3817,22 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li>The failure everyone eventually meets: <strong>expired vCenter/host certificates</strong> — services won't start or hosts won't reconnect; recognized by dates in the error. Also: vCenter's disk partitions fill (logs/db) → services stop; VAMI shows per-partition usage.</li>
   <li>Login chain worth knowing: vSphere Client → SSO token → vpxd → host's <strong>vpxa</strong> agent → <strong>hostd</strong>. "Host not responding" but pings fine = agents (restart via DCUI/services.sh); hostd dead = even direct Host Client fails.</li>
 </ul>
+<figure class="dia anim"><svg viewBox="0 0 720 198" role="img" aria-label="Animation: the vSphere login and management chain: the vSphere Client in a browser gets a token from vCenter single sign-on, which may authenticate against AD; vpxd, the vCenter core, sends the request to the vpxa agent on the ESXi host, which passes it to hostd, the service that actually runs the VMs; a host that pings but shows not responding usually has a stuck agent">
+<rect class="sB" x="14" y="40" width="124" height="50" rx="8"/><text class="sT" x="76" y="63" text-anchor="middle">vSphere Client</text><text class="sS" x="76" y="79" text-anchor="middle">browser</text>
+<line class="sLm" x1="138" y1="65" x2="154" y2="65" marker-end="url(#ahm)"/>
+<rect class="sV" x="156" y="40" width="124" height="50" rx="8"/><text class="sT" x="218" y="63" text-anchor="middle">SSO</text><text class="sS" x="218" y="79" text-anchor="middle">token (AD login)</text>
+<line class="sLm" x1="280" y1="65" x2="296" y2="65" marker-end="url(#ahm)"/>
+<rect class="sA" x="298" y="40" width="124" height="50" rx="8"/><text class="sT" x="360" y="63" text-anchor="middle">vpxd</text><text class="sS" x="360" y="79" text-anchor="middle">vCenter core</text>
+<line class="sLm" x1="422" y1="65" x2="438" y2="65" marker-end="url(#ahm)"/>
+<rect class="sW" x="440" y="40" width="124" height="50" rx="8"/><text class="sT" x="502" y="63" text-anchor="middle">vpxa</text><text class="sS" x="502" y="79" text-anchor="middle">agent on the host</text>
+<line class="sLm" x1="564" y1="65" x2="580" y2="65" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="40" width="124" height="50" rx="8"/><text class="sT" x="644" y="63" text-anchor="middle">hostd</text><text class="sS" x="644" y="79" text-anchor="middle">runs the VMs</text>
+<rect class="sN" x="14" y="110" width="410" height="30" rx="6"/><text class="sS" x="219" y="130" text-anchor="middle">vCenter appliance (VCSA)</text><rect class="sN" x="440" y="110" width="266" height="30" rx="6"/><text class="sS" x="573" y="130" text-anchor="middle">each ESXi host</text>
+<circle class="sPg" r="6"><animateMotion dur="5s" repeatCount="indefinite" path="M76 96 L644 96"/></circle>
+<text class="sWt" x="360" y="168" text-anchor="middle">"host not responding" but it pings → vpxa / hostd agents: restart management agents from the DCUI</text>
+<text class="sS" x="360" y="188" text-anchor="middle">expired certificates break the chain too: check dates first when services will not start</text>
+</svg><figcaption>When something in vSphere "won’t connect", find the broken link in this chain. Ping only proves the network under it.</figcaption></figure>
+
 <h3>Patching a cluster with zero VM downtime — the model answer</h3>
 <ol>
   <li>Baseline/image in <strong>Lifecycle Manager</strong> (vLCM); check vendor hardware compatibility (HCL) and driver/firmware pairing.</li>
@@ -4386,6 +4413,23 @@ sudo firewall-cmd --add-service=https --permanent &amp;&amp; sudo firewall-cmd -
 sudo ufw allow from 10.20.0.0/16 to any port 22 proto tcp                          <span class="c"># Ubuntu</span>
 <span class="c"># “service unreachable from outside, fine locally” checklist: ss -tulpn (bound to 127.0.0.1</span>
 <span class="c"># instead of 0.0.0.0?) → host firewall → network firewall → SELinux (ausearch -m avc)</span></code></pre>
+<figure class="dia anim"><svg viewBox="0 0 720 186" role="img" aria-label="Animation: the five gates a connection to a Linux service passes: the network path, checked with ping and traceroute; the host firewall, firewalld or ufw, checked with firewall-cmd; whether the service listens on all addresses rather than only 127.0.0.1, checked with ss; SELinux policy, checked with ausearch for AVC denials; and the application itself, checked with journalctl">
+<rect class="sB" x="14" y="70" width="90" height="50" rx="8"/><text class="sT" x="59" y="100" text-anchor="middle">Client</text>
+<rect class="sN" x="124" y="40" width="108" height="110" rx="8" opacity=".85"/><text class="sT" x="178" y="62" text-anchor="middle">Network</text>
+<text class="sS" x="178" y="86" text-anchor="middle">route + switch</text><text class="sS" x="178" y="102" text-anchor="middle">+ upstream firewall</text><text class="sC" x="178" y="136" text-anchor="middle">ping, mtr</text>
+<rect class="sR" x="242" y="40" width="108" height="110" rx="8" opacity=".85"/><text class="sT" x="296" y="62" text-anchor="middle">Host firewall</text>
+<text class="sS" x="296" y="86" text-anchor="middle">firewalld /</text><text class="sS" x="296" y="102" text-anchor="middle">ufw allows :443?</text><text class="sC" x="296" y="136" text-anchor="middle">firewall-cmd</text>
+<rect class="sW" x="360" y="40" width="108" height="110" rx="8" opacity=".85"/><text class="sT" x="414" y="62" text-anchor="middle">Listening</text>
+<text class="sS" x="414" y="86" text-anchor="middle">bound to</text><text class="sS" x="414" y="102" text-anchor="middle">0.0.0.0, not lo?</text><text class="sC" x="414" y="136" text-anchor="middle">ss -tulpn</text>
+<rect class="sV" x="478" y="40" width="108" height="110" rx="8" opacity=".85"/><text class="sT" x="532" y="62" text-anchor="middle">SELinux</text>
+<text class="sS" x="532" y="86" text-anchor="middle">policy allows</text><text class="sS" x="532" y="102" text-anchor="middle">the port/path?</text><text class="sC" x="532" y="136" text-anchor="middle">ausearch -m avc</text>
+<rect class="sG" x="596" y="40" width="108" height="110" rx="8" opacity=".85"/><text class="sT" x="650" y="62" text-anchor="middle">The app</text>
+<text class="sS" x="650" y="86" text-anchor="middle">config,</text><text class="sS" x="650" y="102" text-anchor="middle">logs, backend</text><text class="sC" x="650" y="136" text-anchor="middle">journalctl -u</text>
+<circle class="sPg" r="6"><animateMotion dur="6s" repeatCount="indefinite" path="M104 95 L714 95"/></circle>
+<text class="sM" x="360" y="22" text-anchor="middle">a connection to a Linux service must pass every gate, in order</text>
+<text class="sS" x="360" y="176" text-anchor="middle">"works locally, not from outside" = gates 2 or 3; "permission denied though the file mode is right" = gate 4</text>
+</svg><figcaption>Test the gates from left to right and the first closed one is your answer. <code>curl localhost</code> working but <code>curl server-ip</code> failing jumps straight to gates 2 and 3.</figcaption></figure>
+
 <ul>
   <li><strong>SELinux/AppArmor</strong>: mandatory access control beyond file permissions. The signature: permissions look perfect, service still gets "permission denied" (e.g. nginx reading <code>/srv/www</code> or binding a non-standard port) → check <code>getenforce</code>, audit log, fix the <em>context</em> (<code>restorecon</code>/<code>semanage</code>) — never just disable it; that's the answer that separates candidates.</li>
   <li>Edge cases: script from Windows fails with <code>bad interpreter ^M</code> → CRLF line endings → <code>dos2unix</code>. "Command not found" as root for a tool a user can run → different <code>PATH</code>/secure_path. Timezone/locale drift making logs "wrong" — <code>timedatectl</code> + chrony/ntpd.</li>
@@ -5021,6 +5065,22 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 
 <h3>18.7 Lifecycle Controller</h3>
 <p><strong>Lifecycle Controller</strong> (LC) is the embedded tool set inside the iDRAC, reached with <strong>F10</strong> at boot or remotely. It lets you do the jobs that used to need DVDs: <strong>deploy an OS</strong> (it injects the right drivers), <strong>update firmware</strong> from a Dell repository or USB, <strong>configure RAID</strong> and BIOS, <strong>run hardware diagnostics</strong>, export or import the full server configuration (a <em>Server Configuration Profile</em>, an XML or JSON file — the way to clone settings to 50 identical servers), and replace a part with automatic restore of its firmware and settings (<em>Part Replacement</em>).</p>
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="What Lifecycle Controller does, reached with F10 at boot or remotely through the iDRAC: OS deployment with drivers injected, firmware updates from the Dell repository or USB, RAID and BIOS setup before any OS exists, hardware diagnostics for support, exporting and importing the server configuration to clone servers, and part replacement that restores firmware and settings">
+<rect class="sN" x="270" y="90" width="180" height="56" rx="8"/><text class="sT" x="360" y="116" text-anchor="middle">Lifecycle Controller</text><text class="sS" x="360" y="132" text-anchor="middle">F10 at boot · or remote</text>
+<rect class="sB" x="14" y="20" width="180" height="50" rx="8"/><text class="sT" x="104" y="43" text-anchor="middle">OS deployment</text><text class="sS" x="104" y="59" text-anchor="middle">drivers injected</text>
+<line class="sLm" x1="194" y1="45" x2="270" y2="118" opacity=".6"/>
+<rect class="sA" x="14" y="90" width="180" height="50" rx="8"/><text class="sT" x="104" y="113" text-anchor="middle">Firmware update</text><text class="sS" x="104" y="129" text-anchor="middle">from Dell repo or USB</text>
+<line class="sLm" x1="194" y1="115" x2="270" y2="118" opacity=".6"/>
+<rect class="sW" x="14" y="160" width="180" height="50" rx="8"/><text class="sT" x="104" y="183" text-anchor="middle">RAID + BIOS setup</text><text class="sS" x="104" y="199" text-anchor="middle">before any OS exists</text>
+<line class="sLm" x1="194" y1="185" x2="270" y2="118" opacity=".6"/>
+<rect class="sR" x="526" y="20" width="180" height="50" rx="8"/><text class="sT" x="616" y="43" text-anchor="middle">Hardware diagnostics</text><text class="sS" x="616" y="59" text-anchor="middle">ePSA test for support</text>
+<line class="sLm" x1="526" y1="45" x2="450" y2="118" opacity=".6"/>
+<rect class="sV" x="526" y="90" width="180" height="50" rx="8"/><text class="sT" x="616" y="113" text-anchor="middle">Export / import config</text><text class="sS" x="616" y="129" text-anchor="middle">clone 50 servers</text>
+<line class="sLm" x1="526" y1="115" x2="450" y2="118" opacity=".6"/>
+<rect class="sG" x="526" y="160" width="180" height="50" rx="8"/><text class="sT" x="616" y="183" text-anchor="middle">Part replacement</text><text class="sS" x="616" y="199" text-anchor="middle">restores firmware + settings</text>
+<line class="sLm" x1="526" y1="185" x2="450" y2="118" opacity=".6"/>
+</svg><figcaption>Everything here works without an operating system, which is the point: a brand-new or broken server can be configured, updated and tested entirely from the iDRAC.</figcaption></figure>
+
 
 <h3>18.8 OpenManage — the fleet view</h3>
 <p>iDRAC manages <em>one</em> server. <strong>OpenManage</strong> is Dell's family of tools for managing <em>many</em>:</p>
