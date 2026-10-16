@@ -511,6 +511,22 @@ int[][] Merge(int[][] intervals)
 }
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 214" role="img" aria-label="Merging overlapping intervals after sorting by start: 1 to 3, 2 to 6, 8 to 10, 9 to 12 and 15 to 18 merge into 1 to 6, 8 to 12 and 15 to 18">
+<line class="sLm" x1="60" y1="190" x2="660" y2="190"/>
+<text class="sS" x="60" y="206" text-anchor="middle">0</text>
+<text class="sS" x="156" y="206" text-anchor="middle">3</text>
+<text class="sS" x="252" y="206" text-anchor="middle">6</text>
+<text class="sS" x="348" y="206" text-anchor="middle">9</text>
+<text class="sS" x="444" y="206" text-anchor="middle">12</text>
+<text class="sS" x="540" y="206" text-anchor="middle">15</text>
+<text class="sS" x="636" y="206" text-anchor="middle">18</text>
+<g data-s="1"><rect class="sB" x="92" y="20" width="64" height="18" rx="3" opacity=".8"/><text class="sC" x="162" y="34">[1,3]</text><rect class="sB" x="124" y="44" width="128" height="18" rx="3" opacity=".8"/><text class="sC" x="258" y="58">[2,6]</text><rect class="sB" x="316" y="68" width="64" height="18" rx="3" opacity=".8"/><text class="sC" x="386" y="82">[8,10]</text><rect class="sB" x="348" y="92" width="96" height="18" rx="3" opacity=".8"/><text class="sC" x="450" y="106">[9,12]</text><rect class="sB" x="540" y="116" width="96" height="18" rx="3" opacity=".8"/><text class="sC" x="642" y="130">[15,18]</text></g>
+<g data-s="2"><rect class="sG" x="92" y="148" width="160" height="22" rx="3"/><text class="sT" x="172" y="164" text-anchor="middle">[1,6]</text><rect class="sG" x="316" y="148" width="128" height="22" rx="3"/><text class="sT" x="380" y="164" text-anchor="middle">[8,12]</text><rect class="sG" x="540" y="148" width="96" height="22" rx="3"/><text class="sT" x="588" y="164" text-anchor="middle">[15,18]</text></g>
+</svg><ol class="dia-steps">
+<li>Sorted by start, each interval either overlaps the last merged one or starts a new one.</li>
+<li>Result: [[1, 6], [8, 12], [15, 18]].</li>
+</ol><figcaption>Once sorted, one pass decides everything: compare each start with the current end. O(n log n) for the sort, O(n) for the pass. Computed with the C# logic shown.</figcaption></figure>
+
 ## S4.9 Pattern 6 — Binary search 🟢 🟡 ⭐
 
 **Signal:** sorted data, or "find the smallest value that works" when *works* is monotonic (if 5 works, 6 works too).
@@ -573,6 +589,31 @@ int BinarySearch(int[] a, int target)
 > A binary tree where every node's left subtree holds smaller keys and the right subtree larger ones, so search, insert and delete take O(height): O(log n) if balanced, O(n) if it degenerates into a line.
 
 Traversals:
+
+<figure class="dia steps"><svg viewBox="0 0 720 238" role="img" aria-label="Four traversals of a binary search tree with root 50, children 30 and 70 and leaves 20, 40, 60 and 80: pre-order visits 50, 30, 20, 40, 70, 60, 80; in-order visits 20, 30, 40, 50, 60, 70, 80, which is sorted; post-order visits 20, 40, 30, 60, 80, 70, 50; level-order visits 50, 30, 70, 20, 40, 60, 80">
+<line class="sLm" x1="360" y1="40" x2="220" y2="100"/>
+<line class="sLm" x1="360" y1="40" x2="500" y2="100"/>
+<line class="sLm" x1="220" y1="100" x2="150" y2="160"/>
+<line class="sLm" x1="220" y1="100" x2="290" y2="160"/>
+<line class="sLm" x1="500" y1="100" x2="430" y2="160"/>
+<line class="sLm" x1="500" y1="100" x2="570" y2="160"/>
+<circle class="sB" cx="360" cy="40" r="18"/><text class="sT" x="360" y="45" text-anchor="middle">50</text>
+<circle class="sB" cx="220" cy="100" r="18"/><text class="sT" x="220" y="105" text-anchor="middle">30</text>
+<circle class="sB" cx="500" cy="100" r="18"/><text class="sT" x="500" y="105" text-anchor="middle">70</text>
+<circle class="sB" cx="150" cy="160" r="18"/><text class="sT" x="150" y="165" text-anchor="middle">20</text>
+<circle class="sB" cx="290" cy="160" r="18"/><text class="sT" x="290" y="165" text-anchor="middle">40</text>
+<circle class="sB" cx="430" cy="160" r="18"/><text class="sT" x="430" y="165" text-anchor="middle">60</text>
+<circle class="sB" cx="570" cy="160" r="18"/><text class="sT" x="570" y="165" text-anchor="middle">80</text>
+<g data-s="1-1"><text class="sT" x="360" y="206" text-anchor="middle">pre-order: node, left, right</text><circle class="sG" cx="360" cy="40" r="18" opacity=".55"/><text class="sGt" x="382" y="26">1</text><circle class="sG" cx="220" cy="100" r="18" opacity=".55"/><text class="sGt" x="242" y="86">2</text><circle class="sG" cx="150" cy="160" r="18" opacity=".55"/><text class="sGt" x="172" y="146">3</text><circle class="sG" cx="290" cy="160" r="18" opacity=".55"/><text class="sGt" x="312" y="146">4</text><circle class="sG" cx="500" cy="100" r="18" opacity=".55"/><text class="sGt" x="522" y="86">5</text><circle class="sG" cx="430" cy="160" r="18" opacity=".55"/><text class="sGt" x="452" y="146">6</text><circle class="sG" cx="570" cy="160" r="18" opacity=".55"/><text class="sGt" x="592" y="146">7</text><text class="sC" x="360" y="228" text-anchor="middle">50 → 30 → 20 → 40 → 70 → 60 → 80</text></g>
+<g data-s="2-2"><text class="sT" x="360" y="206" text-anchor="middle">in-order: left, node, right → sorted</text><circle class="sG" cx="150" cy="160" r="18" opacity=".55"/><text class="sGt" x="172" y="146">1</text><circle class="sG" cx="220" cy="100" r="18" opacity=".55"/><text class="sGt" x="242" y="86">2</text><circle class="sG" cx="290" cy="160" r="18" opacity=".55"/><text class="sGt" x="312" y="146">3</text><circle class="sG" cx="360" cy="40" r="18" opacity=".55"/><text class="sGt" x="382" y="26">4</text><circle class="sG" cx="430" cy="160" r="18" opacity=".55"/><text class="sGt" x="452" y="146">5</text><circle class="sG" cx="500" cy="100" r="18" opacity=".55"/><text class="sGt" x="522" y="86">6</text><circle class="sG" cx="570" cy="160" r="18" opacity=".55"/><text class="sGt" x="592" y="146">7</text><text class="sC" x="360" y="228" text-anchor="middle">20 → 30 → 40 → 50 → 60 → 70 → 80</text></g>
+<g data-s="3-3"><text class="sT" x="360" y="206" text-anchor="middle">post-order: left, right, node</text><circle class="sG" cx="150" cy="160" r="18" opacity=".55"/><text class="sGt" x="172" y="146">1</text><circle class="sG" cx="290" cy="160" r="18" opacity=".55"/><text class="sGt" x="312" y="146">2</text><circle class="sG" cx="220" cy="100" r="18" opacity=".55"/><text class="sGt" x="242" y="86">3</text><circle class="sG" cx="430" cy="160" r="18" opacity=".55"/><text class="sGt" x="452" y="146">4</text><circle class="sG" cx="570" cy="160" r="18" opacity=".55"/><text class="sGt" x="592" y="146">5</text><circle class="sG" cx="500" cy="100" r="18" opacity=".55"/><text class="sGt" x="522" y="86">6</text><circle class="sG" cx="360" cy="40" r="18" opacity=".55"/><text class="sGt" x="382" y="26">7</text><text class="sC" x="360" y="228" text-anchor="middle">20 → 40 → 30 → 60 → 80 → 70 → 50</text></g>
+<g data-s="4-4"><text class="sT" x="360" y="206" text-anchor="middle">level-order: by rows (BFS)</text><circle class="sG" cx="360" cy="40" r="18" opacity=".55"/><text class="sGt" x="382" y="26">1</text><circle class="sG" cx="220" cy="100" r="18" opacity=".55"/><text class="sGt" x="242" y="86">2</text><circle class="sG" cx="500" cy="100" r="18" opacity=".55"/><text class="sGt" x="522" y="86">3</text><circle class="sG" cx="150" cy="160" r="18" opacity=".55"/><text class="sGt" x="172" y="146">4</text><circle class="sG" cx="290" cy="160" r="18" opacity=".55"/><text class="sGt" x="312" y="146">5</text><circle class="sG" cx="430" cy="160" r="18" opacity=".55"/><text class="sGt" x="452" y="146">6</text><circle class="sG" cx="570" cy="160" r="18" opacity=".55"/><text class="sGt" x="592" y="146">7</text><text class="sC" x="360" y="228" text-anchor="middle">50 → 30 → 70 → 20 → 40 → 60 → 80</text></g>
+</svg><ol class="dia-steps">
+<li>Pre-order: the root first.</li>
+<li>In-order: a BST comes out sorted.</li>
+<li>Post-order: children before the parent.</li>
+<li>Level-order: row by row with a queue.</li>
+</ol><figcaption>Orders computed by running the four traversals on this tree. The visit number next to each node is its position in the output.</figcaption></figure>
 
 | Order | Visit | Use |
 |---|---|---|

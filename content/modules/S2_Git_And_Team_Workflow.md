@@ -133,6 +133,26 @@ git diff                        # unstaged changes;  git diff --staged  for stag
 
 `git pull` is `git fetch` followed by a merge (or a rebase, with `--rebase` or `pull.rebase=true`). Knowing that one fact answers half the "why did my pull create a weird merge commit?" questions.
 
+<figure class="dia anim"><svg viewBox="0 0 720 186" role="img" aria-label="Animation: the four places git moves changes between: the working tree with your edits, the staging area holding the next commit, the local repository of commits, and the origin remote on GitHub; add moves changes to staging, commit to the local repository, push to origin, fetch brings others’ commits back, and pull --rebase fetches and replays your commits on top">
+<rect class="sN" x="14" y="60" width="150" height="60" rx="8"/><text class="sT" x="89" y="88" text-anchor="middle">Working tree</text><text class="sC" x="89" y="104" text-anchor="middle">your edited files</text>
+<rect class="sW" x="214" y="60" width="150" height="60" rx="8"/><text class="sT" x="289" y="88" text-anchor="middle">Staging area</text><text class="sC" x="289" y="104" text-anchor="middle">the next commit</text>
+<rect class="sV" x="414" y="60" width="150" height="60" rx="8"/><text class="sT" x="489" y="88" text-anchor="middle">Local repo</text><text class="sC" x="489" y="104" text-anchor="middle">commits (history)</text>
+<rect class="sG" x="614" y="60" width="92" height="60" rx="8"/><text class="sT" x="660" y="88" text-anchor="middle">origin</text><text class="sC" x="660" y="104" text-anchor="middle">GitHub</text>
+<line class="sLm" x1="164" y1="80" x2="214" y2="80" marker-end="url(#ahm)"/>
+<text class="sC" x="189" y="72" text-anchor="middle">add -p</text>
+<line class="sLm" x1="364" y1="80" x2="414" y2="80" marker-end="url(#ahm)"/>
+<text class="sC" x="389" y="72" text-anchor="middle">commit</text>
+<line class="sLm" x1="564" y1="80" x2="614" y2="80" marker-end="url(#ahm)"/>
+<text class="sC" x="589" y="72" text-anchor="middle">push</text>
+<line class="sLm" x1="614" y1="104" x2="564" y2="104" marker-end="url(#ahm)"/>
+<text class="sC" x="589" y="120" text-anchor="middle">fetch</text>
+<path class="sLw" d="M640 120 Q 400 180 90 122" style="fill:none" marker-end="url(#ahw)"/>
+<text class="sWt" x="380" y="170" text-anchor="middle">pull --rebase = fetch, then replay your commits on top</text>
+<text class="sC" x="189" y="140" text-anchor="middle">diff --staged</text>
+<text class="sC" x="89" y="140" text-anchor="middle">diff</text>
+<circle class="sPg" r="6"><animateMotion dur="5s" repeatCount="indefinite" path="M89 90 L289 90 L489 90 L660 90"/></circle>
+</svg><figcaption>Most git confusion is not knowing which of the four places a change is in. <code>git status</code> tells you.</figcaption></figure>
+
 ## S2.3 Merge versus rebase 🟢 🟡 ⭐
 
 Both bring work from one branch into another. They differ in what history looks like afterwards.
@@ -298,6 +318,18 @@ That's the **Conventional Commits** style (`type(scope): summary`, with types li
 1. **Rotate the secret immediately.** Assume it's compromised the moment it was pushed. Deleting it in a new commit does nothing; it's still in history and in every clone.
 2. Remove it from history with `git filter-repo` (or BFG Repo-Cleaner), then force-push and ask everyone to re-clone.
 3. Prevent a repeat: secrets in environment variables, a secret store (Azure Key Vault, GitHub Actions secrets), .NET **User Secrets** for local development, and a pre-commit or CI secret scanner. GitHub's secret scanning and push protection catch many known token formats.
+
+<figure class="dia"><svg viewBox="0 0 720 160" role="img" aria-label="What to do after committing a secret, in order: rotate it first so the leaked value stops working, rewrite history with git filter-repo and force-push, have everyone re-clone because old copies still contain it, and prevent a repeat with a vault, user secrets and secret scanning">
+<rect class="sR" x="14" y="40" width="164" height="56" rx="8"/><text class="sT" x="96" y="73" text-anchor="middle">1 Rotate</text><text class="sS" x="96" y="116" text-anchor="middle">new key; the old one is dead</text>
+<line class="sLm" x1="178" y1="68" x2="188" y2="68" marker-end="url(#ahm)"/>
+<rect class="sW" x="190" y="40" width="164" height="56" rx="8"/><text class="sT" x="272" y="73" text-anchor="middle">2 Rewrite history</text><text class="sS" x="272" y="116" text-anchor="middle">git filter-repo, force-push</text>
+<line class="sLm" x1="354" y1="68" x2="364" y2="68" marker-end="url(#ahm)"/>
+<rect class="sA" x="366" y="40" width="164" height="56" rx="8"/><text class="sT" x="448" y="73" text-anchor="middle">3 Everyone re-clones</text><text class="sS" x="448" y="116" text-anchor="middle">old copies still have it</text>
+<line class="sLm" x1="530" y1="68" x2="540" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="40" width="164" height="56" rx="8"/><text class="sT" x="624" y="73" text-anchor="middle">4 Prevent</text><text class="sS" x="624" y="116" text-anchor="middle">vault, user secrets, scanning</text>
+<text class="sM" x="360" y="22" text-anchor="middle">a secret pushed once is public: order matters</text>
+<text class="sRt" x="360" y="150" text-anchor="middle">a new commit that deletes the line does nothing: the secret is still in history, forks and clones</text>
+</svg><figcaption>Rotation comes first because history cleanup cannot reach copies that already exist. Push protection and secret scanning stop the next one.</figcaption></figure>
 
 > [!story]
 > Your July FinSight hardening sweep started with **scrubbing secrets** (WS1). Tell it in that order: rotate first, then clean history, then move configuration to environment variables, then add a check so it can't recur. Interviewers listen for "rotate first".

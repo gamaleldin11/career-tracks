@@ -41,7 +41,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
 - **Frontend:** F1.2; F2.8, F2.11; F5.2, F5.3, F5.6, F5.10, F5.11; F6.8 React 19, F6.9; F7.1; F10.2.
 - **System design and platform:** SD1.1.
-- **Other:** S2.2, S2.7, S2.8; S4.8, S4.10 trees, S4.15; FS1.5, FS1.7, FS2.1, FS2.5 external login; DE2.4; DE7.6; DS6.6.
+- **Other:** S2.7; S4.15; FS1.5, FS1.7, FS2.1, FS2.5 external login; DE2.4; DE7.6; DS6.6.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
 ### Other follow-ups
