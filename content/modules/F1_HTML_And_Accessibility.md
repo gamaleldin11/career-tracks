@@ -153,6 +153,19 @@ What makes it good:
 - **Errors** are text (not just a red border), linked with `aria-describedby`, flagged with `aria-invalid`, and say **how to fix** the problem. On submit, move focus to the first invalid field or an error summary.
 - **Related controls** are grouped with `<fieldset>` and `<legend>`.
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="How an accessible form field is wired: the label’s for attribute connects it to the input so clicking the label focuses it and the name is announced; aria-describedby links the hint and error text; aria-invalid announces the error state; autocomplete lets the browser fill the email">
+<rect class="sN" x="14" y="20" width="360" height="150" rx="8"/>
+<text class="sT" x="30" y="46">Work email</text>
+<rect class="sB" x="30" y="56" width="320" height="30" rx="4" opacity=".5"/><text class="sC" x="40" y="76">nile@</text>
+<text class="sS" x="30" y="106">We’ll send the invoice here.</text>
+<text class="sRt" x="30" y="130">Enter an email like name@company.com</text>
+<line class="sLm" x1="374" y1="46" x2="400" y2="30" opacity=".5"/><text class="sC" x="404" y="34" xml:space="preserve" style="white-space:pre">&lt;label for="email"&gt;</text><text class="sS" x="404" y="50">clicking the label focuses the input; name is announced</text>
+<line class="sLm" x1="374" y1="71" x2="400" y2="76" opacity=".5"/><text class="sC" x="404" y="80" xml:space="preserve" style="white-space:pre">aria-describedby="hint error"</text><text class="sS" x="404" y="96">hint and error read after the name</text>
+<line class="sLm" x1="374" y1="100" x2="400" y2="122" opacity=".5"/><text class="sC" x="404" y="126" xml:space="preserve" style="white-space:pre">aria-invalid="true"</text><text class="sS" x="404" y="142">announced as invalid</text>
+<line class="sLm" x1="374" y1="150" x2="400" y2="168" opacity=".5"/><text class="sC" x="404" y="172" xml:space="preserve" style="white-space:pre">autocomplete="email"</text><text class="sS" x="404" y="188">browser and password manager fill it</text>
+<text class="sS" x="360" y="210" text-anchor="middle">a screen reader hears: "Work email, edit text, invalid entry, We’ll send the invoice here. Enter an email like…"</text>
+</svg><figcaption>Every visible piece of text is programmatically linked to the input, so assistive technology reads the same thing a sighted user sees.</figcaption></figure>
+
 ## F1.4 Images and media 🟢 ⭐
 
 **Alt text** describes the image's *purpose in context*:

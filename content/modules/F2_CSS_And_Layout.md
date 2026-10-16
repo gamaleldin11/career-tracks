@@ -320,6 +320,24 @@ Grid lays children out in **rows and columns at once**.
 .child { position: absolute; inset: 0; margin: auto; width: 300px; height: 200px; }
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Four ways to centre a child element: a grid parent with place-items center, a flex parent with justify-content and align-items center, a fixed-width block with margin-inline auto for horizontal centring, and an absolutely positioned child with inset 0 and margin auto">
+<rect class="sN" x="14" y="20" width="164" height="120" rx="8"/><rect class="sB" x="66" y="56" width="60" height="40" rx="6"/><text class="sT" x="96" y="81" text-anchor="middle">child</text>
+<line class="sLm" x1="96" y1="20" x2="96" y2="56" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="96" y1="96" x2="96" y2="140" stroke-dasharray="3 3" opacity=".6"/>
+<line class="sLm" x1="14" y1="76" x2="66" y2="76" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="126" y1="76" x2="178" y2="76" stroke-dasharray="3 3" opacity=".6"/>
+<text class="sC" x="18" y="160" xml:space="preserve" style="white-space:pre">display: grid;</text><text class="sC" x="18" y="176" xml:space="preserve" style="white-space:pre">place-items: center;</text><text class="sS" x="96" y="198" text-anchor="middle">both axes</text>
+<rect class="sN" x="190" y="20" width="164" height="120" rx="8"/><rect class="sB" x="242" y="56" width="60" height="40" rx="6"/><text class="sT" x="272" y="81" text-anchor="middle">child</text>
+<line class="sLm" x1="272" y1="20" x2="272" y2="56" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="272" y1="96" x2="272" y2="140" stroke-dasharray="3 3" opacity=".6"/>
+<line class="sLm" x1="190" y1="76" x2="242" y2="76" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="302" y1="76" x2="354" y2="76" stroke-dasharray="3 3" opacity=".6"/>
+<text class="sC" x="194" y="160" xml:space="preserve" style="white-space:pre">display: flex;</text><text class="sC" x="194" y="176" xml:space="preserve" style="white-space:pre">justify + align: center</text><text class="sS" x="272" y="198" text-anchor="middle">both axes</text>
+<rect class="sN" x="366" y="20" width="164" height="120" rx="8"/><rect class="sB" x="418" y="56" width="60" height="40" rx="6"/><text class="sT" x="448" y="81" text-anchor="middle">child</text>
+<line class="sLm" x1="448" y1="20" x2="448" y2="56" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="448" y1="96" x2="448" y2="140" stroke-dasharray="3 3" opacity=".6"/>
+<text class="sC" x="370" y="160" xml:space="preserve" style="white-space:pre">width: 600px;</text><text class="sC" x="370" y="176" xml:space="preserve" style="white-space:pre">margin-inline: auto;</text><text class="sS" x="448" y="198" text-anchor="middle">horizontal</text>
+<rect class="sN" x="542" y="20" width="164" height="120" rx="8"/><rect class="sB" x="594" y="56" width="60" height="40" rx="6"/><text class="sT" x="624" y="81" text-anchor="middle">child</text>
+<line class="sLm" x1="624" y1="20" x2="624" y2="56" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="624" y1="96" x2="624" y2="140" stroke-dasharray="3 3" opacity=".6"/>
+<line class="sLm" x1="542" y1="76" x2="594" y2="76" stroke-dasharray="3 3" opacity=".6"/><line class="sLm" x1="654" y1="76" x2="706" y2="76" stroke-dasharray="3 3" opacity=".6"/>
+<text class="sC" x="546" y="160" xml:space="preserve" style="white-space:pre">position: absolute;</text><text class="sC" x="546" y="176" xml:space="preserve" style="white-space:pre">inset: 0; margin: auto;</text><text class="sS" x="624" y="198" text-anchor="middle">overlay</text>
+</svg><figcaption>Grid’s <code>place-items: center</code> is the shortest answer; name flexbox as the alternative and you have covered the interview.</figcaption></figure>
+
 ## F2.7 Units and responsive design 🟢 ⭐
 
 | Unit | Relative to | Use for |

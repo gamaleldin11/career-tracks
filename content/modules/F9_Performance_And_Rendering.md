@@ -86,6 +86,23 @@ Google's **Core Web Vitals** are three user-centred metrics. They're measured on
 | **INP**: Interaction to Next Paint | **Responsiveness**: the delay from a click, tap or key press to the next frame, across the whole visit (roughly the worst interaction) | ≤ 200 ms | 200–500 ms | > 500 ms |
 | **CLS**: Cumulative Layout Shift | **Visual stability**: how much visible content unexpectedly moves | ≤ 0.1 | 0.1–0.25 | > 0.25 |
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Core Web Vitals thresholds: Largest Contentful Paint is good up to 2.5 seconds, needs improvement to 4 seconds and is poor beyond; Interaction to Next Paint is good up to 200 milliseconds, needs improvement to 500 and poor beyond; Cumulative Layout Shift is good up to 0.1, needs improvement to 0.25 and poor beyond">
+<text class="sT" x="120" y="50" text-anchor="end">LCP</text><text class="sC" x="120" y="66" text-anchor="end">loading</text>
+<rect class="sG" x="130" y="30" width="237.5" height="30" rx="0" opacity=".8"/><text class="sT" x="248.75" y="50" text-anchor="middle">≤ 2.5 s</text>
+<rect class="sW" x="367.5" y="30" width="142.5" height="30" rx="0" opacity=".8"/><text class="sT" x="438.75" y="50" text-anchor="middle">2.5–4 s</text>
+<rect class="sR" x="510" y="30" width="190" height="30" rx="0" opacity=".8"/><text class="sT" x="605" y="50" text-anchor="middle">&gt; 4 s</text>
+<text class="sT" x="120" y="108" text-anchor="end">INP</text><text class="sC" x="120" y="124" text-anchor="end">responsiveness</text>
+<rect class="sG" x="130" y="88" width="152" height="30" rx="0" opacity=".8"/><text class="sT" x="206" y="108" text-anchor="middle">≤ 200 ms</text>
+<rect class="sW" x="282" y="88" width="228" height="30" rx="0" opacity=".8"/><text class="sT" x="396" y="108" text-anchor="middle">200–500 ms</text>
+<rect class="sR" x="510" y="88" width="190" height="30" rx="0" opacity=".8"/><text class="sT" x="605" y="108" text-anchor="middle">&gt; 500 ms</text>
+<text class="sT" x="120" y="166" text-anchor="end">CLS</text><text class="sC" x="120" y="182" text-anchor="end">visual stability</text>
+<rect class="sG" x="130" y="146" width="142.5" height="30" rx="0" opacity=".8"/><text class="sT" x="201.25" y="166" text-anchor="middle">≤ 0.1</text>
+<rect class="sW" x="272.5" y="146" width="213.75" height="30" rx="0" opacity=".8"/><text class="sT" x="379.375" y="166" text-anchor="middle">0.1–0.25</text>
+<rect class="sR" x="486.25" y="146" width="213.75" height="30" rx="0" opacity=".8"/><text class="sT" x="593.125" y="166" text-anchor="middle">&gt; 0.25</text>
+<text class="sM" x="390" y="20" text-anchor="middle">good · needs improvement · poor, judged at the 75th percentile of real page views</text>
+<text class="sS" x="390" y="210" text-anchor="middle">INP replaced FID in March 2024: it covers every interaction, not just the first</text>
+</svg><figcaption>A page passes when at least 75% of real visits are in the green for all three. Lab tools (Lighthouse) estimate; field data (CrUX, RUM) decides.</figcaption></figure>
+
 **INP replaced FID** (First Input Delay) as a Core Web Vital in **March 2024**. FID measured only the delay before the *first* interaction's handler started; INP covers every interaction and includes processing and rendering time.
 
 Supporting diagnostics: **TTFB** (time to first byte, the server and network share) and **FCP** (first contentful paint).

@@ -200,6 +200,29 @@ React 19's `useOptimistic` does the same for a component's own state ([[F6.5]]).
 
 ## F8.6 The URL is state 🟢 ⭐
 
+<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="The URL as state: in /invoices?status=overdue&amp;sort=-dueDate&amp;page=2&amp;q=nile the query string holds the filter, sort, page and search text, so a refresh, the back button, a shared link and a bookmark all restore the same view, which in-memory component state cannot do">
+<rect class="sN" x="14" y="20" width="692" height="40" rx="8"/>
+<text class="sT" x="32" y="45">/invoices</text>
+<line class="sLm" x1="71.5" y1="56" x2="71.5" y2="76" opacity=".6"/><text class="sS" x="71.5" y="90" text-anchor="middle">page</text>
+<rect class="sB" x="121" y="26" width="145" height="28" rx="4" opacity=".8"/>
+<text class="sT" x="127" y="45">?status=overdue</text>
+<line class="sLm" x1="193.5" y1="56" x2="193.5" y2="76" opacity=".6"/><text class="sS" x="193.5" y="90" text-anchor="middle">filter</text>
+<rect class="sA" x="270" y="26" width="136" height="28" rx="4" opacity=".8"/>
+<text class="sT" x="276" y="45">&amp;sort=-dueDate</text>
+<line class="sLm" x1="338" y1="56" x2="338" y2="76" opacity=".6"/><text class="sS" x="338" y="90" text-anchor="middle">sort</text>
+<rect class="sV" x="410" y="26" width="73" height="28" rx="4" opacity=".8"/>
+<text class="sT" x="416" y="45">&amp;page=2</text>
+<line class="sLm" x1="446.5" y1="56" x2="446.5" y2="76" opacity=".6"/><text class="sS" x="446.5" y="90" text-anchor="middle">page</text>
+<rect class="sG" x="487" y="26" width="73" height="28" rx="4" opacity=".8"/>
+<text class="sT" x="493" y="45">&amp;q=nile</text>
+<line class="sLm" x1="523.5" y1="56" x2="523.5" y2="76" opacity=".6"/><text class="sS" x="523.5" y="90" text-anchor="middle">search</text>
+<rect class="sG" x="14" y="112" width="164" height="50" rx="8"/><text class="sT" x="96" y="135" text-anchor="middle">refresh</text><text class="sS" x="96" y="151" text-anchor="middle">same view</text>
+<rect class="sG" x="190" y="112" width="164" height="50" rx="8"/><text class="sT" x="272" y="135" text-anchor="middle">back button</text><text class="sS" x="272" y="151" text-anchor="middle">previous filters</text>
+<rect class="sG" x="366" y="112" width="164" height="50" rx="8"/><text class="sT" x="448" y="135" text-anchor="middle">share link</text><text class="sS" x="448" y="151" text-anchor="middle">colleague sees the same</text>
+<rect class="sG" x="542" y="112" width="164" height="50" rx="8"/><text class="sT" x="624" y="135" text-anchor="middle">bookmark</text><text class="sS" x="624" y="151" text-anchor="middle">works next week</text>
+<text class="sRt" x="360" y="186" text-anchor="middle">state kept only in React/Angular memory loses all four</text>
+</svg><figcaption>If a user would be annoyed to lose it on refresh, it belongs in the URL. Keep the URL the source of truth and derive component state from it.</figcaption></figure>
+
 Put anything a user would expect to **survive a refresh, work with the back button, or share in a link** into the URL: filters, search text, sort, page, selected tab, an open detail panel's ID.
 
 ```text
