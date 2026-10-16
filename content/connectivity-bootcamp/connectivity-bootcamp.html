@@ -217,6 +217,19 @@ body.flat .sidebar{position:static;max-height:none}
   <li><strong>Behavioral / fit questions</strong> — teamwork, learning attitude, why Capgemini. Module 14 gives you model answers.</li>
 </ul>
 
+<figure class="dia anim"><svg viewBox="0 0 720 186" role="img" aria-label="Animation: the stages of a typical associate infrastructure interview: an HR screen on background, English, shifts and salary; a rapid-fire technical round of definitions and ports; a deeper technical round of walk-me-through and troubleshooting questions; and a behavioral round of STAR stories and why this company; method, honesty and clear communication are scored throughout">
+<rect class="sB" x="14" y="30" width="160" height="46" rx="8"/><text class="sT" x="94" y="58" text-anchor="middle">HR screen</text><text class="sS" x="94" y="100" text-anchor="middle">background, English,</text><text class="sS" x="94" y="118" text-anchor="middle">shifts, salary</text>
+<line class="sLm" x1="174" y1="53" x2="188" y2="53" marker-end="url(#ahm)"/>
+<rect class="sA" x="190" y="30" width="160" height="46" rx="8"/><text class="sT" x="270" y="58" text-anchor="middle">Technical: rapid fire</text><text class="sS" x="270" y="100" text-anchor="middle">"What is DHCP?"</text><text class="sS" x="270" y="118" text-anchor="middle">definitions, ports</text>
+<line class="sLm" x1="350" y1="53" x2="364" y2="53" marker-end="url(#ahm)"/>
+<rect class="sV" x="366" y="30" width="160" height="46" rx="8"/><text class="sT" x="446" y="58" text-anchor="middle">Technical: depth</text><text class="sS" x="446" y="100" text-anchor="middle">"Walk me through…"</text><text class="sS" x="446" y="118" text-anchor="middle">URL, troubleshooting</text>
+<line class="sLm" x1="526" y1="53" x2="540" y2="53" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="30" width="160" height="46" rx="8"/><text class="sT" x="622" y="58" text-anchor="middle">Behavioral / fit</text><text class="sS" x="622" y="100" text-anchor="middle">STAR stories,</text><text class="sS" x="622" y="118" text-anchor="middle">why this company</text>
+<text class="sM" x="360" y="18" text-anchor="middle">a typical associate infrastructure interview</text>
+<rect class="sN" x="14" y="136" width="692" height="40" rx="8"/><text class="sS" x="360" y="161" text-anchor="middle">what is scored throughout: method out loud, honest "I don’t know, here is how I’d find out", clear English</text>
+<circle class="sPg" r="6"><animateMotion dur="8s" repeatCount="indefinite" path="M14 84 L690 84"/></circle>
+</svg><figcaption>Prepare each stage differently: one-line definitions for the rapid round, spoken walkthroughs (3.9, 8.3) for the depth round, and three STAR stories (14.4) for the last.</figcaption></figure>
+
 <h3>Suggested study plan</h3>
 <div class="tw"><table>
   <tr><th>Day</th><th>Modules</th><th>Focus</th></tr>
@@ -1166,6 +1179,23 @@ C:\&gt; nslookup portal.corp.local 8.8.8.8
                                                         <span class="c">   don't exist on public DNS (split-horizon)</span>
 $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</span>
 10 mx1.mail.capgemini.com.</code></pre>
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="DNS caching on a timeline: a resolver caches an A record pointing to 41.33.7.9 with a one-hour TTL at minute 0; the record is changed to 41.33.7.20 at minute 10, but users keep getting the old address until the cached entry expires at minute 60; lowering the TTL to 300 seconds a day before a planned change avoids this">
+<line class="sLm" x1="60" y1="120" x2="660" y2="120" style="stroke-width:2"/>
+<line class="sLm" x1="60" y1="114" x2="60" y2="126"/><text class="sS" x="60" y="142" text-anchor="middle">0 min</text>
+<line class="sLm" x1="145.714" y1="114" x2="145.714" y2="126"/><text class="sS" x="145.714" y="142" text-anchor="middle">10 min</text>
+<line class="sLm" x1="231.429" y1="114" x2="231.429" y2="126"/><text class="sS" x="231.429" y="142" text-anchor="middle">20 min</text>
+<line class="sLm" x1="317.143" y1="114" x2="317.143" y2="126"/><text class="sS" x="317.143" y="142" text-anchor="middle">30 min</text>
+<line class="sLm" x1="402.857" y1="114" x2="402.857" y2="126"/><text class="sS" x="402.857" y="142" text-anchor="middle">40 min</text>
+<line class="sLm" x1="488.571" y1="114" x2="488.571" y2="126"/><text class="sS" x="488.571" y="142" text-anchor="middle">50 min</text>
+<line class="sLm" x1="574.286" y1="114" x2="574.286" y2="126"/><text class="sS" x="574.286" y="142" text-anchor="middle">60 min</text>
+<line class="sLm" x1="660" y1="114" x2="660" y2="126"/><text class="sS" x="660" y="142" text-anchor="middle">70 min</text>
+<rect class="sW" x="60" y="84" width="514.286" height="22" rx="4" opacity=".7"/><text class="sT" x="317.143" y="99" text-anchor="middle">resolver cached: 41.33.7.9 (TTL 3600 s)</text>
+<rect class="sG" x="574.286" y="84" width="85.7143" height="22" rx="4"/><text class="sT" x="617.143" y="99" text-anchor="middle">new IP</text>
+<line class="sLr" x1="145.714" y1="40" x2="145.714" y2="80" marker-end="url(#ahr)"/><text class="sRt" x="151.714" y="40">record changed to 41.33.7.20 at minute 10</text>
+<text class="sWt" x="360" y="66" text-anchor="middle">users still sent to the OLD server for 50 more minutes</text>
+<rect class="sN" x="14" y="160" width="692" height="46" rx="8"/><text class="sGt" x="360" y="180" text-anchor="middle">Planned move: lower the TTL to 300 s a day before, change the record, raise it again after.</text><text class="sS" x="360" y="198" text-anchor="middle">Emergency: ipconfig /flushdns on clients; clear the resolver cache (Clear-DnsServerCache).</text>
+</svg><figcaption>"I changed the DNS record and nothing happened" is almost always a cache doing its job. The TTL is a promise to the world about how long your answer may be reused.</figcaption></figure>
+
 <ul>
   <li><strong>Timeout vs NXDOMAIN</strong> — different diseases: timeout = can't reach the server (network/port 53); NXDOMAIN = server answered "no such record" (zone/typo problem).</li>
   <li><strong>Negative caching</strong>: a "not found" is cached too — you fix the record and it "still doesn't work" until the negative TTL expires or you flush.</li>
@@ -1433,7 +1463,26 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <li><strong>Double-tagging attack</strong>: outer tag = native VLAN gets stripped, inner tag rides into another VLAN. Mitigation: native VLAN ≠ any user VLAN, and tag it (<code>vlan dot1q tag native</code>).</li>
   <li>Unused ports: shutdown + parked in a dead "black-hole" VLAN — a standard audit finding when not done.</li>
   <li><strong>Voice VLAN detail</strong>: the phone tags voice frames (learned via CDP/LLDP) and passes PC traffic untagged — one cable, two networks, QoS trust boundary at the phone.</li>
-</ul></div></section>
+</ul><figure class="dia steps"><svg viewBox="0 0 720 184" role="img" aria-label="A VLAN double-tagging attack: an attacker on an access port in the native VLAN 1 sends a frame with an outer tag of 1 and an inner tag of 20; the first switch strips the native VLAN tag and forwards the frame over the trunk with only tag 20; the second switch delivers it into VLAN 20; the fix is a dedicated unused native VLAN that is tagged">
+<rect class="sR" x="14" y="40" width="130" height="50" rx="8"/><text class="sT" x="79" y="63" text-anchor="middle">Attacker</text><text class="sS" x="79" y="79" text-anchor="middle">access port, VLAN 1</text>
+<rect class="sA" x="220" y="40" width="120" height="50" rx="8"/><text class="sT" x="280" y="63" text-anchor="middle">Switch 1</text><text class="sS" x="280" y="79" text-anchor="middle">native VLAN 1</text>
+<rect class="sA" x="420" y="40" width="120" height="50" rx="8"/><text class="sT" x="480" y="70" text-anchor="middle">Switch 2</text>
+<rect class="sB" x="596" y="40" width="110" height="50" rx="8"/><text class="sT" x="651" y="63" text-anchor="middle">Victim</text><text class="sS" x="651" y="79" text-anchor="middle">VLAN 20</text>
+<line class="sLm" x1="144" y1="65" x2="220" y2="65"/>
+<line class="sLm" x1="340" y1="65" x2="420" y2="65" style="stroke-width:3"/>
+<line class="sLm" x1="540" y1="65" x2="596" y2="65"/>
+<text class="sS" x="380" y="58" text-anchor="middle">trunk</text>
+<rect class="sN" x="14" y="120" width="692" height="56" rx="8"/>
+<g data-s="1-1"><rect class="sW" x="110" y="98" width="30" height="16" rx="3"/><text class="sC" x="125" y="110" text-anchor="middle">1</text><rect class="sR" x="144" y="98" width="30" height="16" rx="3"/><text class="sC" x="159" y="110" text-anchor="middle">20</text><rect class="sN" x="178" y="98" width="40" height="16" rx="3"/><text class="sC" x="198" y="110" text-anchor="middle">data</text><text class="sS" x="30" y="144">The attacker crafts a frame with two 802.1Q tags: outer = 1 (the native VLAN), inner = 20.</text><text class="sS" x="30" y="164">It only works if the attacker’s access VLAN is the trunk’s native VLAN.</text></g>
+<g data-s="2-2"><rect class="sR" x="300" y="98" width="30" height="16" rx="3"/><text class="sC" x="315" y="110" text-anchor="middle">20</text><rect class="sN" x="334" y="98" width="40" height="16" rx="3"/><text class="sC" x="354" y="110" text-anchor="middle">data</text><text class="sS" x="30" y="144">Switch 1 sees VLAN 1, removes that tag (native VLAN traffic crosses the trunk untagged),</text><text class="sS" x="30" y="164">and sends the frame on — now carrying only the hidden tag 20.</text></g>
+<g data-s="3-3"><rect class="sN" x="520" y="98" width="40" height="16" rx="3"/><text class="sC" x="540" y="110" text-anchor="middle">data</text><text class="sRt" x="30" y="144">Switch 2 reads tag 20 and delivers the frame into VLAN 20: the attacker crossed VLANs.</text><text class="sGt" x="30" y="164">One-way only (replies cannot return). Fix: an unused native VLAN, tagged; no users in it.</text></g>
+</svg><ol class="dia-steps">
+<li>Two tags, crafted by the attacker.</li>
+<li>Switch 1 strips the outer native tag.</li>
+<li>Switch 2 obeys the inner tag.</li>
+</ol><figcaption>The attack abuses one convenience: untagged native-VLAN traffic on trunks. Remove the convenience and the attack is gone.</figcaption></figure>
+
+</div></section>
 <section class="mod" id="m5"><div class="eyebrow">Module 05 · Networks</div>
 <h2>Routing</h2>
 <p class="goal">How routers pick paths: routing tables, static and dynamic routing, the protocols you'll be asked to compare, and ACLs.</p>
@@ -1488,6 +1537,23 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <tr><td>OSPF</td><td class="num">110</td><td>cost (∝ 1/bandwidth)</td></tr>
   <tr><td>RIP</td><td class="num">120</td><td>hop count (max 15)</td></tr>
 </table></div>
+
+<figure class="dia steps"><svg viewBox="0 0 720 196" role="img" aria-label="Administrative distance in action: static with AD 1, eBGP 20, OSPF 110 and RIP 120 all offer the route 10.2.0.0/16; the router installs the static route because it has the lowest administrative distance; if the static route’s next hop fails the eBGP route takes over; a floating static route with AD 250 acts as a last-resort backup">
+<text class="sM" x="14" y="22">four sources offer the same prefix 10.2.0.0/16</text>
+<rect class="sG" x="14" y="34" width="300" height="28" rx="6"/><text class="sT" x="26" y="53">static  ·  AD 1</text><text class="sC" x="300" y="53" text-anchor="end">via 192.168.1.2</text>
+<rect class="sV" x="14" y="68" width="300" height="28" rx="6"/><text class="sT" x="26" y="87">eBGP  ·  AD 20</text><text class="sC" x="300" y="87" text-anchor="end">via ISP</text>
+<rect class="sB" x="14" y="102" width="300" height="28" rx="6"/><text class="sT" x="26" y="121">OSPF  ·  AD 110</text><text class="sC" x="300" y="121" text-anchor="end">via R2, cost 20</text>
+<rect class="sN" x="14" y="136" width="300" height="28" rx="6"/><text class="sT" x="26" y="155">RIP  ·  AD 120</text><text class="sC" x="300" y="155" text-anchor="end">via R3, 3 hops</text>
+<rect class="sN" x="380" y="60" width="326" height="70" rx="8"/><text class="sT" x="543" y="82" text-anchor="middle">routing table: 10.2.0.0/16</text>
+<g data-s="1-1"><text class="sGt" x="543" y="108" text-anchor="middle">lowest AD wins → static (1)</text><line class="sLg" x1="316" y1="48" x2="378" y2="94" marker-end="url(#ahg)"/></g>
+<g data-s="2-2"><text class="sWt" x="543" y="108" text-anchor="middle">static gone → eBGP (20) takes over</text><line class="sLv" x1="316" y1="82" x2="378" y2="94" marker-end="url(#ahv)"/><rect class="sR" x="12" y="32" width="304" height="32" rx="8" style="fill:none;stroke-width:2.5"/><text class="sRt" x="330" y="54">✕</text></g>
+<g data-s="3-3"><text class="sS" x="543" y="108" text-anchor="middle">a floating static, AD 250: used only if</text><text class="sS" x="543" y="124" text-anchor="middle">every dynamic route disappears</text></g>
+<text class="sS" x="360" y="186" text-anchor="middle">AD compares sources (who to believe); the metric compares paths within one protocol</text>
+</svg><ol class="dia-steps">
+<li>The most trusted source wins: static (AD 1).</li>
+<li>If it disappears, the next-lowest AD is installed.</li>
+<li>Set a static route’s AD high (a floating static) to make it a backup instead.</li>
+</ol><figcaption>Longest prefix first, then administrative distance, then metric: that is the full order a router uses to choose.</figcaption></figure>
 
 <h3>5.3 The routing protocols compared</h3>
 <p>Two families: <strong>IGPs</strong> (Interior Gateway Protocols) route <em>within</em> one organization; <strong>EGPs</strong> route <em>between</em> organizations — in practice that means <strong>BGP</strong>, the protocol of the internet. An <strong>Autonomous System (AS)</strong> is one organization's routing domain.</p>
@@ -2303,6 +2369,16 @@ ping 127.0.0.1      <span class="c"># my TCP/IP stack works?</span>
 ping 192.168.1.1    <span class="c"># my LAN + switch + cable work? (gateway)</span>
 ping 8.8.8.8        <span class="c"># routing + WAN + firewall work?</span>
 ping google.com     <span class="c"># DNS works?  → fails only here = DNS problem</span></code></pre>
+
+<figure class="dia"><svg viewBox="0 0 720 256" role="img" aria-label="The troubleshooting toolkit mapped to OSI layers: physical layer: link lights, cable tester, TDR and interface error counters; data link: arp, the switch MAC table and show interfaces; network: ipconfig, ping, traceroute and the routing table; transport: Test-NetConnection with a port, netcat and netstat or ss; application: nslookup or dig, curl and browser developer tools; Wireshark and tcpdump see every layer">
+<rect class="sG" x="14" y="14" width="130" height="36" rx="6"/><text class="sT" x="79" y="37" text-anchor="middle">7 Application</text><rect class="sN" x="154" y="14" width="500" height="36" rx="6"/><text class="sS" x="166" y="37">nslookup / dig · curl -v · browser dev tools</text>
+<rect class="sV" x="14" y="58" width="130" height="36" rx="6"/><text class="sT" x="79" y="81" text-anchor="middle">4 Transport</text><rect class="sN" x="154" y="58" width="500" height="36" rx="6"/><text class="sS" x="166" y="81">Test-NetConnection -Port · nc -zv · netstat -ano / ss -tulpn</text>
+<rect class="sB" x="14" y="102" width="130" height="36" rx="6"/><text class="sT" x="79" y="125" text-anchor="middle">3 Network</text><rect class="sN" x="154" y="102" width="500" height="36" rx="6"/><text class="sS" x="166" y="125">ipconfig / ip a · ping · tracert / mtr · route print / ip route</text>
+<rect class="sA" x="14" y="146" width="130" height="36" rx="6"/><text class="sT" x="79" y="169" text-anchor="middle">2 Data link</text><rect class="sN" x="154" y="146" width="500" height="36" rx="6"/><text class="sS" x="166" y="169">arp -a / ip neigh · show mac address-table · show interfaces</text>
+<rect class="sN" x="14" y="190" width="130" height="36" rx="6"/><text class="sT" x="79" y="213" text-anchor="middle">1 Physical</text><rect class="sN" x="154" y="190" width="500" height="36" rx="6"/><text class="sS" x="166" y="213">link lights · cable tester · TDR · interface error counters</text>
+<rect class="sW" x="664" y="14" width="42" height="212" rx="6"/><text class="sT" x="685" y="120" text-anchor="middle" transform="rotate(-90 685 120)">Wireshark / tcpdump: every layer</text>
+<text class="sS" x="360" y="246" text-anchor="middle">start low when the symptom is "no connection", start high when it is "one app is broken"</text>
+</svg><figcaption>Pick the tool by the layer you are testing. A packet capture is the referee when two layers disagree.</figcaption></figure>
 
 <h3>8.3 Scenario walkthroughs (rehearse these aloud)</h3>
 <figure class="dia steps"><svg viewBox="0 0 720 340" role="img" aria-label="A decision flow for a user who cannot reach the internet: check whether others are affected, then the physical link, then a valid IP address, then a ping to the gateway, then a ping to an internet IP, then name resolution, then whether one site or all sites fail; each no branch names the likely cause">
@@ -3433,6 +3509,18 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li>Host 1 → <strong>maintenance mode</strong> → DRS evacuates VMs live (vMotion) → remediate (patch + reboot) → verify (paths, networks, vSAN resync done) → exit maintenance.</li>
   <li>Repeat host by host — a "rolling upgrade". Users never notice; that's the entire point of clusters. vSAN adds: wait for resync between hosts; witness/quorum awareness.</li>
 </ol>
+<figure class="dia steps"><svg viewBox="0 0 720 200" role="img" aria-label="Rolling patching of a three-host vSphere cluster: all hosts start on 8.0 Update 2 with four VMs each; the first host enters maintenance mode, DRS moves its VMs to the other hosts with vMotion, and it is patched; it returns on Update 3 and the second host is patched the same way; finally all hosts run Update 3 with the VMs rebalanced and no downtime">
+<g data-s="1-1"><rect class="sA" x="60" y="30" width="140" height="60" rx="8"/><text class="sT" x="130" y="58" text-anchor="middle">ESXi-1</text><text class="sC" x="130" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="70" y="132" width="24" height="18" rx="3"/><rect class="sB" x="100" y="132" width="24" height="18" rx="3"/><rect class="sB" x="130" y="132" width="24" height="18" rx="3"/><rect class="sB" x="160" y="132" width="24" height="18" rx="3"/><rect class="sA" x="300" y="30" width="140" height="60" rx="8"/><text class="sT" x="370" y="58" text-anchor="middle">ESXi-2</text><text class="sC" x="370" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="310" y="132" width="24" height="18" rx="3"/><rect class="sB" x="340" y="132" width="24" height="18" rx="3"/><rect class="sB" x="370" y="132" width="24" height="18" rx="3"/><rect class="sB" x="400" y="132" width="24" height="18" rx="3"/><rect class="sA" x="540" y="30" width="140" height="60" rx="8"/><text class="sT" x="610" y="58" text-anchor="middle">ESXi-3</text><text class="sC" x="610" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="550" y="132" width="24" height="18" rx="3"/><rect class="sB" x="580" y="132" width="24" height="18" rx="3"/><rect class="sB" x="610" y="132" width="24" height="18" rx="3"/><rect class="sB" x="640" y="132" width="24" height="18" rx="3"/><text class="sS" x="360" y="188" text-anchor="middle">Three hosts, 12 VMs, all on 8.0 U2. Capacity for N+1: any one host can be emptied.</text></g>
+<g data-s="2-2"><rect class="sW" x="60" y="30" width="140" height="60" rx="8"/><text class="sT" x="130" y="58" text-anchor="middle">ESXi-1</text><text class="sC" x="130" y="74" text-anchor="middle">patching…</text><text class="sWt" x="130" y="112" text-anchor="middle">maintenance mode</text><rect class="sA" x="300" y="30" width="140" height="60" rx="8"/><text class="sT" x="370" y="58" text-anchor="middle">ESXi-2</text><text class="sC" x="370" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="310" y="132" width="24" height="18" rx="3"/><rect class="sB" x="340" y="132" width="24" height="18" rx="3"/><rect class="sB" x="370" y="132" width="24" height="18" rx="3"/><rect class="sB" x="400" y="132" width="24" height="18" rx="3"/><rect class="sB" x="430" y="132" width="24" height="18" rx="3"/><rect class="sB" x="460" y="132" width="24" height="18" rx="3"/><rect class="sA" x="540" y="30" width="140" height="60" rx="8"/><text class="sT" x="610" y="58" text-anchor="middle">ESXi-3</text><text class="sC" x="610" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="550" y="132" width="24" height="18" rx="3"/><rect class="sB" x="580" y="132" width="24" height="18" rx="3"/><rect class="sB" x="610" y="132" width="24" height="18" rx="3"/><rect class="sB" x="640" y="132" width="24" height="18" rx="3"/><rect class="sB" x="670" y="132" width="24" height="18" rx="3"/><rect class="sB" x="700" y="132" width="24" height="18" rx="3"/><path class="sLg" d="M130 132 Q220 100 330 128" style="fill:none" marker-end="url(#ahg)"/><path class="sLg" d="M150 150 Q360 176 570 152" style="fill:none" marker-end="url(#ahg)"/><text class="sS" x="360" y="188" text-anchor="middle">ESXi-1 enters maintenance mode; DRS vMotions its VMs away live; it is patched and rebooted.</text></g>
+<g data-s="3-3"><rect class="sG" x="60" y="30" width="140" height="60" rx="8"/><text class="sT" x="130" y="58" text-anchor="middle">ESXi-1</text><text class="sC" x="130" y="74" text-anchor="middle">8.0 U3</text><rect class="sB" x="70" y="132" width="24" height="18" rx="3"/><rect class="sB" x="100" y="132" width="24" height="18" rx="3"/><rect class="sB" x="130" y="132" width="24" height="18" rx="3"/><rect class="sB" x="160" y="132" width="24" height="18" rx="3"/><rect class="sW" x="300" y="30" width="140" height="60" rx="8"/><text class="sT" x="370" y="58" text-anchor="middle">ESXi-2</text><text class="sC" x="370" y="74" text-anchor="middle">patching…</text><text class="sWt" x="370" y="112" text-anchor="middle">maintenance mode</text><rect class="sA" x="540" y="30" width="140" height="60" rx="8"/><text class="sT" x="610" y="58" text-anchor="middle">ESXi-3</text><text class="sC" x="610" y="74" text-anchor="middle">8.0 U2</text><rect class="sB" x="550" y="132" width="24" height="18" rx="3"/><rect class="sB" x="580" y="132" width="24" height="18" rx="3"/><rect class="sB" x="610" y="132" width="24" height="18" rx="3"/><rect class="sB" x="640" y="132" width="24" height="18" rx="3"/><rect class="sB" x="670" y="132" width="24" height="18" rx="3"/><rect class="sB" x="700" y="132" width="24" height="18" rx="3"/><rect class="sB" x="730" y="132" width="24" height="18" rx="3"/><rect class="sB" x="760" y="132" width="24" height="18" rx="3"/><text class="sS" x="360" y="188" text-anchor="middle">ESXi-1 is back on U3 and takes VMs again; ESXi-2 is next. One host at a time.</text></g>
+<g data-s="4-4"><rect class="sG" x="60" y="30" width="140" height="60" rx="8"/><text class="sT" x="130" y="58" text-anchor="middle">ESXi-1</text><text class="sC" x="130" y="74" text-anchor="middle">8.0 U3</text><rect class="sB" x="70" y="132" width="24" height="18" rx="3"/><rect class="sB" x="100" y="132" width="24" height="18" rx="3"/><rect class="sB" x="130" y="132" width="24" height="18" rx="3"/><rect class="sB" x="160" y="132" width="24" height="18" rx="3"/><rect class="sG" x="300" y="30" width="140" height="60" rx="8"/><text class="sT" x="370" y="58" text-anchor="middle">ESXi-2</text><text class="sC" x="370" y="74" text-anchor="middle">8.0 U3</text><rect class="sB" x="310" y="132" width="24" height="18" rx="3"/><rect class="sB" x="340" y="132" width="24" height="18" rx="3"/><rect class="sB" x="370" y="132" width="24" height="18" rx="3"/><rect class="sB" x="400" y="132" width="24" height="18" rx="3"/><rect class="sG" x="540" y="30" width="140" height="60" rx="8"/><text class="sT" x="610" y="58" text-anchor="middle">ESXi-3</text><text class="sC" x="610" y="74" text-anchor="middle">8.0 U3</text><rect class="sB" x="550" y="132" width="24" height="18" rx="3"/><rect class="sB" x="580" y="132" width="24" height="18" rx="3"/><rect class="sB" x="610" y="132" width="24" height="18" rx="3"/><rect class="sB" x="640" y="132" width="24" height="18" rx="3"/><text class="sGt" x="360" y="188" text-anchor="middle">All hosts patched, VMs rebalanced by DRS. Users noticed nothing.</text></g>
+</svg><ol class="dia-steps">
+<li>Start: N+1 capacity confirmed.</li>
+<li>Host 1 drains and patches.</li>
+<li>Host 1 back; host 2 drains.</li>
+<li>Done, with zero VM downtime.</li>
+</ol><figcaption>Maintenance mode + vMotion + DRS turn "patch the servers" into a daytime, no-outage job. It depends on spare capacity: a cluster running at 90% cannot drain a host.</figcaption></figure>
+
 <h3>Rightsizing &amp; capacity — the conversations behind the tickets</h3>
 <ul>
   <li>Oversized VMs hurt: more vCPUs → co-scheduling pain (%CSTP) + bigger memory footprint + longer vMotions. Method: measure real usage over 30 days (peak + 95th percentile), size to peak+headroom, review quarterly. "8 vCPU because the vendor PDF said so" is how estates rot.</li>
