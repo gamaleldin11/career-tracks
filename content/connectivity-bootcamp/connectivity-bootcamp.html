@@ -666,6 +666,28 @@ Ethernet adapter Ethernet0:
   <tr><td><code>255.255.255.255</code></td><td>Limited broadcast</td><td>Broadcast to the local subnet (used by DHCP discovery).</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="The IPv4 first octet from 0 to 255 with the old class boundaries, class A 1 to 126, B 128 to 191, C 192 to 223, D and E above 224, and the special ranges marked: 10.0.0.0/8 private, 100.64.0.0/10 carrier-grade NAT, 127.0.0.0/8 loopback, 169.254.0.0/16 APIPA meaning DHCP failed, 172.16.0.0/12 private, 192.168.0.0/16 private and 224 and above multicast">
+<line class="sLm" x1="30" y1="70" x2="690" y2="70" style="stroke-width:2"/>
+<line class="sLm" x1="30" y1="64" x2="30" y2="76"/><text class="sC" x="30" y="92" text-anchor="middle">0</text>
+<line class="sLm" x1="195" y1="64" x2="195" y2="76"/><text class="sC" x="195" y="92" text-anchor="middle">64</text>
+<line class="sLm" x1="360" y1="64" x2="360" y2="76"/><text class="sC" x="360" y="92" text-anchor="middle">128</text>
+<line class="sLm" x1="525" y1="64" x2="525" y2="76"/><text class="sC" x="525" y="92" text-anchor="middle">192</text>
+<line class="sLm" x1="607.5" y1="64" x2="607.5" y2="76"/><text class="sC" x="607.5" y="92" text-anchor="middle">224</text>
+<line class="sLm" x1="687.422" y1="64" x2="687.422" y2="76"/><text class="sC" x="687.422" y="92" text-anchor="middle">255</text>
+<rect class="sB" x="30" y="40" width="330" height="22" rx="3" opacity=".35"/><text class="sS" x="195" y="56" text-anchor="middle">class A: 1–126</text>
+<rect class="sA" x="360" y="40" width="165" height="22" rx="3" opacity=".45"/><text class="sS" x="442.5" y="56" text-anchor="middle">B: 128–191</text>
+<rect class="sG" x="525" y="40" width="82.5" height="22" rx="3" opacity=".45"/><text class="sS" x="566.25" y="56" text-anchor="middle">C</text>
+<rect class="sN" x="607.5" y="40" width="82.5" height="22" rx="3"/><text class="sS" x="648.75" y="56" text-anchor="middle">D/E</text>
+<line class="sLm" x1="57.0703" y1="72" x2="57.0703" y2="104" opacity=".5"/><circle class="sP" cx="57.1" cy="70" r="4"/><text class="sC" x="57.0703" y="118" text-anchor="middle">10.0.0.0/8</text><text class="sGt" x="57.0703" y="132" text-anchor="middle">private</text>
+<line class="sLm" x1="358.711" y1="72" x2="358.711" y2="104" opacity=".5"/><circle class="sP" cx="358.7" cy="70" r="4"/><text class="sC" x="358.711" y="118" text-anchor="middle">127/8</text><text class="sS" x="358.711" y="132" text-anchor="middle">loopback</text>
+<line class="sLm" x1="474.727" y1="72" x2="474.727" y2="104" opacity=".5"/><circle class="sP" cx="474.7" cy="70" r="4"/><text class="sC" x="474.727" y="118" text-anchor="middle">172.16/12</text><text class="sGt" x="474.727" y="132" text-anchor="middle">private</text>
+<line class="sLm" x1="289.102" y1="72" x2="289.102" y2="136" opacity=".5"/><circle class="sP" cx="289.1" cy="70" r="4"/><text class="sC" x="289.102" y="150" text-anchor="middle">100.64/10</text><text class="sS" x="289.102" y="164" text-anchor="middle">CGNAT</text>
+<line class="sLm" x1="526.289" y1="72" x2="526.289" y2="136" opacity=".5"/><circle class="sP" cx="526.3" cy="70" r="4"/><text class="sC" x="526.289" y="150" text-anchor="middle">192.168/16</text><text class="sGt" x="526.289" y="164" text-anchor="middle">private</text>
+<line class="sLm" x1="466.992" y1="72" x2="466.992" y2="168" opacity=".5"/><circle class="sP" cx="467.0" cy="70" r="4"/><text class="sC" x="466.992" y="182" text-anchor="middle">169.254/16</text><text class="sRt" x="466.992" y="196" text-anchor="middle">APIPA: DHCP failed</text>
+<line class="sLm" x1="608.789" y1="72" x2="608.789" y2="168" opacity=".5"/><circle class="sP" cx="608.8" cy="70" r="4"/><text class="sC" x="608.789" y="182" text-anchor="middle">224+</text><text class="sS" x="608.789" y="196" text-anchor="middle">multicast</text>
+<text class="sM" x="360" y="22" text-anchor="middle">first octet of an IPv4 address: where the ranges you must recognise live</text>
+</svg><figcaption>Seeing the first octet is often enough: 10, 172.16–31 or 192.168 = private; 169.254 = DHCP failed; 127 = this machine; 100.64–127 = your ISP’s carrier-grade NAT.</figcaption></figure>
+
 <div class="term"><b class="t">Unicast / Broadcast / Multicast</b><p><strong>Unicast</strong>: one-to-one (normal traffic). <strong>Broadcast</strong>: one-to-all in the subnet (ARP, DHCP discover) — doesn't exist in IPv6. <strong>Multicast</strong>: one-to-many-who-subscribed (streaming, routing protocols — OSPF uses 224.0.0.5). <strong>Anycast</strong>: one-to-nearest (how public DNS like 8.8.8.8 is served globally).</p></div>
 
 <h3>2.4 CIDR and subnetting — the method</h3>
@@ -798,6 +820,19 @@ mask= 11000000 (192)    mask= 11000000
 37 AND 192:  00100101 &amp; 11000000 = 00000000 → network .0
 70 AND 192:  01000110 &amp; 11000000 = 01000000 → network .64
 → DIFFERENT subnets. .37 can't ARP .70 — traffic must route via the gateway.</code></pre>
+<figure class="dia steps"><svg viewBox="0 0 720 186" role="img" aria-label="ANDing the last octet with a /26 mask of 192, binary 11000000: 37 is 00100101, which ANDs to 00000000, network .0; 70 is 01000110, which ANDs to 01000000, network .64; the networks differ, so 192.168.10.37 and 192.168.10.70 are in different /26 subnets and must communicate through the gateway">
+<text class="sM" x="14" y="20">last octet only: a /26 mask is 255.255.255.192</text>
+<text class="sS" x="150" y="47" text-anchor="end">mask 192</text><rect class="sV" x="160" y="30" width="30" height="24" rx="3"/><text class="sT" x="175" y="47" text-anchor="middle">1</text><rect class="sV" x="194" y="30" width="30" height="24" rx="3"/><text class="sT" x="209" y="47" text-anchor="middle">1</text><rect class="sN" x="228" y="30" width="30" height="24" rx="3"/><text class="sT" x="243" y="47" text-anchor="middle">0</text><rect class="sN" x="262" y="30" width="30" height="24" rx="3"/><text class="sT" x="277" y="47" text-anchor="middle">0</text><rect class="sN" x="296" y="30" width="30" height="24" rx="3"/><text class="sT" x="311" y="47" text-anchor="middle">0</text><rect class="sN" x="330" y="30" width="30" height="24" rx="3"/><text class="sT" x="345" y="47" text-anchor="middle">0</text><rect class="sN" x="364" y="30" width="30" height="24" rx="3"/><text class="sT" x="379" y="47" text-anchor="middle">0</text><rect class="sN" x="398" y="30" width="30" height="24" rx="3"/><text class="sT" x="413" y="47" text-anchor="middle">0</text>
+<g data-s="1-1"><text class="sS" x="150" y="81" text-anchor="end">.37</text><rect class="sB" x="160" y="64" width="30" height="24" rx="3"/><text class="sT" x="175" y="81" text-anchor="middle">0</text><rect class="sB" x="194" y="64" width="30" height="24" rx="3"/><text class="sT" x="209" y="81" text-anchor="middle">0</text><rect class="sN" x="228" y="64" width="30" height="24" rx="3"/><text class="sT" x="243" y="81" text-anchor="middle">1</text><rect class="sN" x="262" y="64" width="30" height="24" rx="3"/><text class="sT" x="277" y="81" text-anchor="middle">0</text><rect class="sN" x="296" y="64" width="30" height="24" rx="3"/><text class="sT" x="311" y="81" text-anchor="middle">0</text><rect class="sN" x="330" y="64" width="30" height="24" rx="3"/><text class="sT" x="345" y="81" text-anchor="middle">1</text><rect class="sN" x="364" y="64" width="30" height="24" rx="3"/><text class="sT" x="379" y="81" text-anchor="middle">0</text><rect class="sN" x="398" y="64" width="30" height="24" rx="3"/><text class="sT" x="413" y="81" text-anchor="middle">1</text><text class="sS" x="150" y="115" text-anchor="end">AND →</text><rect class="sG" x="160" y="98" width="30" height="24" rx="3"/><text class="sT" x="175" y="115" text-anchor="middle">0</text><rect class="sG" x="194" y="98" width="30" height="24" rx="3"/><text class="sT" x="209" y="115" text-anchor="middle">0</text><rect class="sN" x="228" y="98" width="30" height="24" rx="3"/><text class="sT" x="243" y="115" text-anchor="middle">0</text><rect class="sN" x="262" y="98" width="30" height="24" rx="3"/><text class="sT" x="277" y="115" text-anchor="middle">0</text><rect class="sN" x="296" y="98" width="30" height="24" rx="3"/><text class="sT" x="311" y="115" text-anchor="middle">0</text><rect class="sN" x="330" y="98" width="30" height="24" rx="3"/><text class="sT" x="345" y="115" text-anchor="middle">0</text><rect class="sN" x="364" y="98" width="30" height="24" rx="3"/><text class="sT" x="379" y="115" text-anchor="middle">0</text><rect class="sN" x="398" y="98" width="30" height="24" rx="3"/><text class="sT" x="413" y="115" text-anchor="middle">0</text><text class="sGt" x="450" y="115">network .0</text></g>
+<g data-s="2-2"><text class="sS" x="150" y="81" text-anchor="end">.70</text><rect class="sB" x="160" y="64" width="30" height="24" rx="3"/><text class="sT" x="175" y="81" text-anchor="middle">0</text><rect class="sB" x="194" y="64" width="30" height="24" rx="3"/><text class="sT" x="209" y="81" text-anchor="middle">1</text><rect class="sN" x="228" y="64" width="30" height="24" rx="3"/><text class="sT" x="243" y="81" text-anchor="middle">0</text><rect class="sN" x="262" y="64" width="30" height="24" rx="3"/><text class="sT" x="277" y="81" text-anchor="middle">0</text><rect class="sN" x="296" y="64" width="30" height="24" rx="3"/><text class="sT" x="311" y="81" text-anchor="middle">0</text><rect class="sN" x="330" y="64" width="30" height="24" rx="3"/><text class="sT" x="345" y="81" text-anchor="middle">1</text><rect class="sN" x="364" y="64" width="30" height="24" rx="3"/><text class="sT" x="379" y="81" text-anchor="middle">1</text><rect class="sN" x="398" y="64" width="30" height="24" rx="3"/><text class="sT" x="413" y="81" text-anchor="middle">0</text><text class="sS" x="150" y="115" text-anchor="end">AND →</text><rect class="sW" x="160" y="98" width="30" height="24" rx="3"/><text class="sT" x="175" y="115" text-anchor="middle">0</text><rect class="sW" x="194" y="98" width="30" height="24" rx="3"/><text class="sT" x="209" y="115" text-anchor="middle">1</text><rect class="sN" x="228" y="98" width="30" height="24" rx="3"/><text class="sT" x="243" y="115" text-anchor="middle">0</text><rect class="sN" x="262" y="98" width="30" height="24" rx="3"/><text class="sT" x="277" y="115" text-anchor="middle">0</text><rect class="sN" x="296" y="98" width="30" height="24" rx="3"/><text class="sT" x="311" y="115" text-anchor="middle">0</text><rect class="sN" x="330" y="98" width="30" height="24" rx="3"/><text class="sT" x="345" y="115" text-anchor="middle">0</text><rect class="sN" x="364" y="98" width="30" height="24" rx="3"/><text class="sT" x="379" y="115" text-anchor="middle">0</text><rect class="sN" x="398" y="98" width="30" height="24" rx="3"/><text class="sT" x="413" y="115" text-anchor="middle">0</text><text class="sWt" x="450" y="115">network .64</text></g>
+<g data-s="3-3"><text class="sRt" x="360" y="150" text-anchor="middle">.0 ≠ .64 → different subnets: .37 must send to its gateway to reach .70</text></g>
+<text class="sS" x="360" y="176" text-anchor="middle">only the bits under the 1s of the mask survive the AND; the rest become 0</text>
+</svg><ol class="dia-steps">
+<li>.37 AND 192 keeps only the first two bits: 00 → network .0.</li>
+<li>.70 AND 192: 01 → network .64.</li>
+<li>Different networks: route via the gateway.</li>
+</ol><figcaption>The mask is a stencil: 1-bits let the address through, 0-bits blank it out. Compare the two results; equal means same subnet.</figcaption></figure>
+
 <p><strong>Real-life symptom of getting this wrong:</strong> two servers on the same VLAN, one configured /24 and one /26. The /24 host thinks everything in .0–.255 is local and ARPs directly; the /26 host answers only for its own range and routes the rest. Result: <mark>traffic works one direction and fails the other</mark> — asymmetric weirdness that confuses everyone until someone compares masks.</p>
 
 <h3>D2.2 Wildcard masks, summarization, and the /31</h3>
@@ -3991,6 +4026,22 @@ sudo apt install nginx               sudo dnf install nginx
 sudo apt upgrade                     sudo dnf update
 apt search / apt show pkg            dnf search / dnf info pkg
 dpkg -l | grep nginx                 rpm -qa | grep nginx</code></pre>
+<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="How a package manager works: apt or dnf reads the catalogue of signed packages from a repository, resolves dependencies so that installing nginx also installs libraries such as libssl and libpcre, and installs them all on the server; apt update refreshes the catalogue and apt upgrade installs newer versions">
+<rect class="sG" x="14" y="50" width="140" height="56" rx="8"/><text class="sT" x="84" y="76" text-anchor="middle">Repository</text><text class="sS" x="84" y="92" text-anchor="middle">signed packages</text>
+<rect class="sV" x="220" y="50" width="150" height="56" rx="8"/><text class="sT" x="295" y="76" text-anchor="middle">apt / dnf</text><text class="sS" x="295" y="92" text-anchor="middle">resolve dependencies</text>
+<rect class="sB" x="436" y="30" width="130" height="40" rx="8"/><text class="sT" x="501" y="55" text-anchor="middle">nginx 1.24</text>
+<rect class="sN" x="436" y="86" width="130" height="40" rx="8"/><text class="sT" x="501" y="111" text-anchor="middle">+ libssl, libpcre</text>
+<rect class="sA" x="616" y="50" width="90" height="56" rx="8"/><text class="sT" x="661" y="76" text-anchor="middle">Server</text><text class="sS" x="661" y="92" text-anchor="middle">installed</text>
+<line class="sLm" x1="154" y1="78" x2="220" y2="78" marker-end="url(#ahm)"/>
+<line class="sLm" x1="370" y1="70" x2="434" y2="50" marker-end="url(#ahm)"/>
+<line class="sLm" x1="370" y1="86" x2="434" y2="106" marker-end="url(#ahm)"/>
+<line class="sLm" x1="566" y1="50" x2="614" y2="70" marker-end="url(#ahm)"/>
+<line class="sLm" x1="566" y1="106" x2="614" y2="86" marker-end="url(#ahm)"/>
+<text class="sC" x="186" y="70" text-anchor="middle">update</text>
+<text class="sS" x="360" y="150" text-anchor="middle">apt update refreshes the catalogue; apt upgrade installs newer versions — two different steps</text>
+<text class="sGt" x="360" y="170" text-anchor="middle">install from the repo, not from random .deb/.rpm downloads: signatures, updates and dependencies come for free</text>
+</svg><figcaption>The package manager is the reason Linux servers can be patched with one command. "Package not found" usually means the catalogue was never refreshed or the repo is not enabled.</figcaption></figure>
+
 
 <h3>11.8 Networking on Linux</h3>
 <pre><code>ip a                        <span class="c"># addresses (replaces ifconfig)</span>
@@ -4004,6 +4055,18 @@ cat /etc/hosts              <span class="c"># static name overrides (checked BEF
 curl -I https://site.com    <span class="c"># test an HTTP service directly</span>
 sudo firewall-cmd --list-all     <span class="c"># RHEL firewall  |  Ubuntu: sudo ufw status</span></code></pre>
 <p>Persistent IP config lives in: Ubuntu → <code>/etc/netplan/*.yaml</code> (apply with <code>netplan apply</code>); RHEL → NetworkManager profiles (<code>nmcli con mod ... ; nmcli con up ...</code>). An interface with an address but <code>state DOWN</code>, a missing default route, or an empty <code>resolv.conf</code> are the three classic "Linux box offline" findings.</p>
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Where Linux network settings live: the IP address and gateway are seen with ip a and ip r and made permanent in netplan files on Ubuntu or NetworkManager profiles on RHEL; DNS servers are seen with resolvectl and come from resolv.conf, usually generated; name overrides are in /etc/hosts, checked before DNS; the hostname is in /etc/hostname; the firewall is firewalld on RHEL and ufw on Ubuntu">
+<text class="sM" x="30" y="22">what</text>
+<text class="sM" x="200" y="22">see it now</text>
+<text class="sM" x="400" y="22">make it permanent</text>
+<rect class="sB" x="14" y="32" width="176" height="30" rx="5"/><text class="sT" x="26" y="52">IP address, gateway</text><text class="sC" x="200" y="52" xml:space="preserve" style="white-space:pre">ip a · ip r</text><text class="sS" x="400" y="52">netplan YAML (Ubuntu) · nmcli con mod (RHEL)</text>
+<rect class="sV" x="14" y="68" width="176" height="30" rx="5"/><text class="sT" x="26" y="88">DNS servers</text><text class="sC" x="200" y="88" xml:space="preserve" style="white-space:pre">resolvectl status</text><text class="sS" x="400" y="88">/etc/resolv.conf (usually generated)</text>
+<rect class="sW" x="14" y="104" width="176" height="30" rx="5"/><text class="sT" x="26" y="124">Name overrides</text><text class="sC" x="200" y="124" xml:space="preserve" style="white-space:pre">getent hosts name</text><text class="sS" x="400" y="124">/etc/hosts: checked before DNS</text>
+<rect class="sN" x="14" y="140" width="176" height="30" rx="5"/><text class="sT" x="26" y="160">Hostname</text><text class="sC" x="200" y="160" xml:space="preserve" style="white-space:pre">hostnamectl</text><text class="sS" x="400" y="160">/etc/hostname</text>
+<rect class="sR" x="14" y="176" width="176" height="30" rx="5"/><text class="sT" x="26" y="196">Firewall</text><text class="sC" x="200" y="196" xml:space="preserve" style="white-space:pre">firewall-cmd / ufw status</text><text class="sS" x="400" y="196">firewalld (RHEL) · ufw (Ubuntu)</text>
+<text class="sRt" x="360" y="222" text-anchor="middle">commands like ip addr add change the running state only — gone after a reboot</text>
+</svg><figcaption>Two questions for every setting: what is it right now, and what will it be after a reboot? Most "it broke after the reboot" tickets are a fix applied only to the running state.</figcaption></figure>
+
 
 <h3>11.9 Disks, mounts, LVM</h3>
 <pre><code>lsblk                       <span class="c"># block devices tree: disks → partitions → LVM</span>
@@ -4562,6 +4625,29 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <li>Recognition terms: SSO via SAML/OIDC for third-party apps, Intune for device management (co-managed with GPO), Windows Hello, self-service password reset (SSPR) — the direction user management is moving.</li>
   <li>Interview positioning: you don't claim Entra expertise — you say "I understand the hybrid model: AD remains the source of truth, Entra Connect syncs it to the cloud, and I know which side owns which failure." Exactly right for associate level.</li>
 </ul>
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: hybrid identity: on-premises Active Directory is the source of truth for domain PCs; Entra Connect synchronises users, groups and password hashes to Microsoft Entra ID about every 30 minutes; Entra ID applies Conditional Access such as MFA and device rules and signs users into Microsoft 365 and SaaS apps with SAML or OIDC single sign-on; laptop logon problems point on premises while Teams-only problems point to the cloud side">
+<rect class="sN" x="14" y="20" width="300" height="170" rx="10"/><text class="sM" x="164" y="42" text-anchor="middle">On premises</text>
+<rect class="sN" x="406" y="20" width="300" height="170" rx="10"/><text class="sM" x="556" y="42" text-anchor="middle">Microsoft cloud</text>
+<rect class="sV" x="34" y="60" width="130" height="50" rx="8"/><text class="sT" x="99" y="83" text-anchor="middle">Active Directory</text><text class="sS" x="99" y="99" text-anchor="middle">source of truth</text>
+<rect class="sB" x="34" y="126" width="130" height="46" rx="8"/><text class="sT" x="99" y="147" text-anchor="middle">Domain PCs</text><text class="sS" x="99" y="163" text-anchor="middle">Kerberos, GPO</text>
+<rect class="sA" x="184" y="60" width="116" height="50" rx="8"/><text class="sT" x="242" y="83" text-anchor="middle">Entra Connect</text><text class="sS" x="242" y="99" text-anchor="middle">sync every 30 min</text>
+<rect class="sV" x="426" y="60" width="130" height="50" rx="8"/><text class="sT" x="491" y="83" text-anchor="middle">Entra ID</text><text class="sS" x="491" y="99" text-anchor="middle">cloud identities</text>
+<rect class="sW" x="426" y="126" width="130" height="46" rx="8"/><text class="sT" x="491" y="147" text-anchor="middle">Conditional Access</text><text class="sS" x="491" y="163" text-anchor="middle">MFA, device rules</text>
+<rect class="sG" x="576" y="60" width="116" height="50" rx="8"/><text class="sT" x="634" y="83" text-anchor="middle">Microsoft 365</text><text class="sS" x="634" y="99" text-anchor="middle">Teams, Outlook</text>
+<rect class="sG" x="576" y="126" width="116" height="46" rx="8"/><text class="sT" x="634" y="147" text-anchor="middle">SaaS apps</text><text class="sS" x="634" y="163" text-anchor="middle">SSO: SAML / OIDC</text>
+<line class="sLm" x1="164" y1="85" x2="184" y2="85" marker-end="url(#ahm)"/>
+<line class="sLv" x1="300" y1="85" x2="424" y2="85" marker-end="url(#ahv)" style="stroke-width:3"/>
+<line class="sLm" x1="556" y1="85" x2="576" y2="85" marker-end="url(#ahm)"/>
+<line class="sLm" x1="491" y1="110" x2="491" y2="126"/>
+<line class="sLm" x1="556" y1="149" x2="576" y2="149"/>
+<line class="sLm" x1="99" y1="110" x2="99" y2="126"/>
+<text class="sS" x="362" y="76" text-anchor="middle">users, groups,</text>
+<text class="sS" x="362" y="104" text-anchor="middle">password hashes</text>
+<text class="sWt" x="164" y="210" text-anchor="middle">"can’t log on to the laptop" → on-prem: AD, DNS, time</text>
+<text class="sWt" x="556" y="210" text-anchor="middle">"laptop fine, Teams fails" → cloud: sync, licence, CA policy</text>
+<circle class="sPv" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M99 85 L184 85 L300 85 L426 85 L491 85 L576 85"/></circle>
+</svg><figcaption>One identity, two halves. Ask which half the failing sign-in uses, and you know where to look; a change made in AD reaches the cloud only after the next sync.</figcaption></figure>
+
 
 <h3 style="margin-top:26px">State of the art &amp; the horizon — Windows &amp; identity</h3>
 <ul>
@@ -4894,6 +4980,22 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
   <li><strong>Order matters</strong>: follow the release notes; typically iDRAC first, then BIOS, then controllers, NICs and disks.</li>
   <li><strong>Verify</strong>: versions in the inventory, SEL clean, workloads back.</li>
 </ol>
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: updating server firmware without an outage: pick a validated baseline, run a compliance report, raise a change with a window and rollback, drain the host with maintenance mode, update the iDRAC first and then BIOS, RAID controller and NIC firmware, verify versions and a clean event log, then repeat for the next host">
+<rect class="sN" x="14" y="40" width="108" height="56" rx="8"/><text class="sT" x="68" y="66" text-anchor="middle">1 · Baseline</text><text class="sS" x="68" y="82" text-anchor="middle">validated catalog</text>
+<line class="sLm" x1="122" y1="68" x2="129" y2="68" marker-end="url(#ahm)"/>
+<rect class="sB" x="131" y="40" width="108" height="56" rx="8"/><text class="sT" x="185" y="66" text-anchor="middle">2 · Compliance</text><text class="sS" x="185" y="82" text-anchor="middle">who is behind?</text>
+<line class="sLm" x1="239" y1="68" x2="246" y2="68" marker-end="url(#ahm)"/>
+<rect class="sW" x="248" y="40" width="108" height="56" rx="8"/><text class="sT" x="302" y="66" text-anchor="middle">3 · Change</text><text class="sS" x="302" y="82" text-anchor="middle">window + rollback</text>
+<line class="sLm" x1="356" y1="68" x2="363" y2="68" marker-end="url(#ahm)"/>
+<rect class="sA" x="365" y="40" width="108" height="56" rx="8"/><text class="sT" x="419" y="66" text-anchor="middle">4 · Drain host</text><text class="sS" x="419" y="82" text-anchor="middle">maintenance mode</text>
+<line class="sLm" x1="473" y1="68" x2="480" y2="68" marker-end="url(#ahm)"/>
+<rect class="sV" x="482" y="40" width="108" height="56" rx="8"/><text class="sT" x="536" y="66" text-anchor="middle">5 · iDRAC first</text><text class="sS" x="536" y="82" text-anchor="middle">then BIOS, PERC</text>
+<line class="sLm" x1="590" y1="68" x2="597" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="599" y="40" width="108" height="56" rx="8"/><text class="sT" x="653" y="66" text-anchor="middle">6 · Verify</text><text class="sS" x="653" y="82" text-anchor="middle">versions, SEL clean</text>
+<path class="sLw" d="M650 96 Q650 140 400 140 Q 400 140 409 98" style="fill:none" marker-end="url(#ahw)"/><text class="sWt" x="530" y="158" text-anchor="middle">next host</text>
+<circle class="sPg" r="6"><animateMotion dur="7s" repeatCount="indefinite" path="M68 104 L700 104"/></circle>
+</svg><figcaption>The loop runs once per host. OpenManage Enterprise or vSphere Lifecycle Manager can automate it, but the order and the one-host-at-a-time rule stay the same.</figcaption></figure>
+
 </div>
 </section>
 
