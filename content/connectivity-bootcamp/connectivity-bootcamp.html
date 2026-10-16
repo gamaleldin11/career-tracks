@@ -208,6 +208,29 @@ body.flat .sidebar{position:static;max-height:none}
 <p>Strip away the job-description language and this is an <strong>infrastructure support engineer</strong> role inside Capgemini's <strong>Cloud Infrastructure Services (CIS)</strong> business line. You will sit in a delivery center supporting the IT infrastructure of Capgemini's clients (mostly European and Middle-Eastern companies): watching monitoring dashboards, picking up <strong>tickets</strong> (incidents and service requests), troubleshooting network and server problems, doing routine maintenance like patching, and escalating what you can't fix to senior engineers — all within agreed response times called <strong>SLAs</strong> (Service Level Agreements).</p>
 <p>That's why the interview agenda is Networks, Storage, VMware, and Linux: those four things, plus Windows, are what a modern corporate infrastructure is made of. Nobody expects an associate (0–3 years) to be an expert in all of them. They expect you to <strong>know the fundamentals correctly, use the vocabulary precisely, and reason through a problem out loud</strong>.</p>
 
+<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A plausible day for an associate infrastructure engineer: a shift handover at 08:00, checking backups and alerts, a block of tickets such as VPN problems, account lockouts and a disk alarm, a priority 2 branch outage before noon, an afternoon change adding a VLAN, a storage request for a new LUN, and ending with notes, knowledge-base updates and the handover">
+<line class="sLm" x1="30" y1="150" x2="690" y2="150" style="stroke-width:2"/>
+<line class="sLm" x1="30" y1="144" x2="30" y2="156"/><text class="sS" x="30" y="172" text-anchor="middle">08:00</text>
+<line class="sLm" x1="103.333" y1="144" x2="103.333" y2="156"/><text class="sS" x="103.333" y="172" text-anchor="middle">09:00</text>
+<line class="sLm" x1="176.667" y1="144" x2="176.667" y2="156"/><text class="sS" x="176.667" y="172" text-anchor="middle">10:00</text>
+<line class="sLm" x1="250" y1="144" x2="250" y2="156"/><text class="sS" x="250" y="172" text-anchor="middle">11:00</text>
+<line class="sLm" x1="323.333" y1="144" x2="323.333" y2="156"/><text class="sS" x="323.333" y="172" text-anchor="middle">12:00</text>
+<line class="sLm" x1="396.667" y1="144" x2="396.667" y2="156"/><text class="sS" x="396.667" y="172" text-anchor="middle">13:00</text>
+<line class="sLm" x1="470" y1="144" x2="470" y2="156"/><text class="sS" x="470" y="172" text-anchor="middle">14:00</text>
+<line class="sLm" x1="543.333" y1="144" x2="543.333" y2="156"/><text class="sS" x="543.333" y="172" text-anchor="middle">15:00</text>
+<line class="sLm" x1="616.667" y1="144" x2="616.667" y2="156"/><text class="sS" x="616.667" y="172" text-anchor="middle">16:00</text>
+<line class="sLm" x1="690" y1="144" x2="690" y2="156"/><text class="sS" x="690" y="172" text-anchor="middle">17:00</text>
+<rect class="sN" x="30" y="40" width="34.6667" height="28" rx="5"/><text class="sS" x="48.3333" y="34" text-anchor="middle">handover</text>
+<rect class="sG" x="66.6667" y="74" width="53" height="28" rx="5"/><text class="sS" x="94.1667" y="68" text-anchor="middle">check backups + alerts</text>
+<rect class="sB" x="121.667" y="40" width="163" height="28" rx="5"/><text class="sS" x="204.167" y="34" text-anchor="middle">tickets: VPN, lockouts, a disk alarm</text>
+<rect class="sR" x="286.667" y="74" width="53" height="28" rx="5"/><text class="sS" x="314.167" y="68" text-anchor="middle">P2: branch down</text>
+<rect class="sW" x="396.667" y="40" width="108" height="28" rx="5"/><text class="sS" x="451.667" y="34" text-anchor="middle">change: add VLAN 40</text>
+<rect class="sV" x="506.667" y="74" width="108" height="28" rx="5"/><text class="sS" x="561.667" y="68" text-anchor="middle">storage request: new LUN</text>
+<rect class="sN" x="616.667" y="40" width="71.3333" height="28" rx="5"/><text class="sS" x="653.333" y="34" text-anchor="middle">notes, KB, handover</text>
+<text class="sM" x="360" y="20" text-anchor="middle">a plausible day for an associate infrastructure engineer in a delivery centre</text>
+<text class="sGt" x="360" y="196" text-anchor="middle">networks, storage, VMware, Linux and Windows all appear — usually in the same day</text>
+</svg><figcaption>This is why the interview covers five areas at once: the tickets do. Illustrative schedule; shift patterns vary by client.</figcaption></figure>
+
 <div class="note"><b>Mindset:</b> in every technical answer, aim for three beats — <strong>define it</strong> in one clean sentence, <strong>explain how it works</strong> in two or three, and <strong>tie it to real work</strong> ("in a support role I'd use this when…"). That structure alone puts you ahead of most junior candidates.</div>
 
 <h3>How the interview will likely flow</h3>
@@ -938,6 +961,19 @@ Inside local          Inside global        Outside
   <li><strong>Dual stack</strong> = run v4+v6 together (the normal deployment). Happy Eyeballs: browsers race both and pick the faster — so broken IPv6 shows as "some sites slow to start."</li>
   <li>Rogue RA is IPv6's rogue-DHCP equivalent — <strong>RA Guard</strong> on switches is the defense.</li>
 </ul>
+<figure class="dia steps"><svg viewBox="0 0 720 186" role="img" aria-label="How IPv6 SLAAC works: a new host with only a link-local address sends a router solicitation to the all-routers multicast group; the router answers with a router advertisement containing the /64 prefix, itself as gateway and flags A, M and O; the host appends its own random or EUI-64 interface identifier, checks for duplicates, and is online without a DHCP server">
+<rect class="sB" x="14" y="30" width="140" height="50" rx="8"/><text class="sT" x="84" y="53" text-anchor="middle">New host</text><text class="sC" x="84" y="69" text-anchor="middle">fe80::… link-local</text>
+<rect class="sA" x="566" y="30" width="140" height="50" rx="8"/><text class="sT" x="636" y="60" text-anchor="middle">Router</text>
+<rect class="sN" x="14" y="116" width="692" height="62" rx="8"/>
+<g data-s="1-1"><line class="sLm" x1="154" y1="46" x2="564" y2="46" marker-end="url(#ahm)"/><text class="sS" x="360" y="38" text-anchor="middle">Router Solicitation → ff02::2 (all routers)</text><text class="sS" x="30" y="140">The host already has a link-local fe80:: address it made itself. It asks: "any routers here?"</text><text class="sS" x="30" y="160">There is no broadcast in IPv6: this goes to the all-routers multicast group.</text></g>
+<g data-s="2-2"><line class="sLg" x1="566" y1="64" x2="156" y2="64" marker-end="url(#ahg)"/><text class="sGt" x="360" y="84" text-anchor="middle">Router Advertisement: prefix 2001:db8:a4:1::/64, flags A=1 M=0 O=1</text><text class="sS" x="30" y="140">The RA gives the /64 prefix, the default gateway (the router itself) and flags: A = build your own</text><text class="sS" x="30" y="160">address (SLAAC), M = get one from DHCPv6, O = get options such as DNS from DHCPv6.</text></g>
+<g data-s="3-3"><text class="sT" x="360" y="104" text-anchor="middle">host: 2001:db8:a4:1: + random 64-bit ID</text><text class="sS" x="30" y="140">The host appends its own 64-bit interface ID (random for privacy, or EUI-64 from the MAC)</text><text class="sS" x="30" y="160">and checks nobody else uses it (Duplicate Address Detection). No DHCP server needed.</text></g>
+</svg><ol class="dia-steps">
+<li>Router Solicitation.</li>
+<li>Router Advertisement with prefix and flags.</li>
+<li>The host builds its own address.</li>
+</ol><figcaption>"IPv6 address but no DNS" = the RA says A=1 but nobody provides DNS (O flag with DHCPv6, or RDNSS in the RA). A rogue RA is IPv6’s rogue DHCP: RA Guard on switches stops it.</figcaption></figure>
+
 
 <h3>D2.6 Speed drills — ten more (cover the answers, 30 seconds each)</h3>
 <div class="qa"><details><summary>Drills 1–10 with worked answers</summary><div class="a">
@@ -1536,6 +1572,25 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <li>Variants: <strong>RSTP</strong> (802.1w, seconds), <strong>MST</strong> (instances per VLAN group), Cisco Rapid-PVST+ (a tree per VLAN).</li>
   <li><strong>Broadcast-storm incident pattern</strong> you can narrate: users report "everything frozen", switch CPUs 100%, all port LEDs solid — someone plugged both wall jacks into a mini-switch under a desk. Find via MAC flap logs, shut one port, network heals instantly. Prevention: BPDU Guard + storm control on all access ports.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="How long a new switch port takes to forward traffic: with classic spanning tree a port may wait up to 20 seconds blocking, then 15 seconds listening and 15 seconds learning, roughly 30 to 50 seconds; rapid spanning tree forwards within a second or two; a PortFast edge port forwards immediately; the classic delay makes DHCP time out at boot">
+<text class="sM" x="14" y="20">a PC plugged into a switch port: seconds until it can send</text>
+<text class="sT" x="140" y="52" text-anchor="end">classic STP</text>
+<rect class="sR" x="150" y="36" width="200" height="26" rx="3" opacity=".85"/><text class="sS" x="250" y="54" text-anchor="middle">blocking (max age 20 s)</text>
+<rect class="sW" x="350" y="36" width="150" height="26" rx="3" opacity=".85"/><text class="sS" x="425" y="54" text-anchor="middle">listening 15 s</text>
+<rect class="sW" x="500" y="36" width="150" height="26" rx="3" opacity=".85"/><text class="sS" x="575" y="54" text-anchor="middle">learning 15 s</text>
+<rect class="sG" x="650" y="36" width="20" height="26" rx="3" opacity=".85"/>
+<text class="sRt" x="654" y="78" text-anchor="end">forwarding at ~30–50 s</text>
+<text class="sT" x="140" y="112" text-anchor="end">RSTP</text><rect class="sW" x="150" y="96" width="20" height="26" rx="3"/><rect class="sG" x="170" y="96" width="500" height="26" rx="3" opacity=".7"/><text class="sS" x="178" y="114">forwarding within ~1–2 s (sync handshake)</text>
+<text class="sT" x="140" y="158" text-anchor="end">PortFast edge</text><rect class="sG" x="150" y="142" width="520" height="26" rx="3" opacity=".7"/><text class="sS" x="158" y="160">forwarding immediately: for PCs, printers, servers only</text>
+<text class="sS" x="150" y="192" text-anchor="middle">0 s</text>
+<text class="sS" x="250" y="192" text-anchor="middle">10 s</text>
+<text class="sS" x="350" y="192" text-anchor="middle">20 s</text>
+<text class="sS" x="450" y="192" text-anchor="middle">30 s</text>
+<text class="sS" x="550" y="192" text-anchor="middle">40 s</text>
+<text class="sS" x="650" y="192" text-anchor="middle">50 s</text>
+<text class="sWt" x="360" y="214" text-anchor="middle">DHCP times out during a 30 s wait → "PC gets 169.254 after boot, works after ipconfig /renew"</text>
+</svg><figcaption>The 30-second wait is why PortFast (plus BPDU Guard) belongs on every access port. On trunks between switches, leave the protection on.</figcaption></figure>
+
 
 <h3>D4.3 VLAN security edge cases</h3>
 <ul>
@@ -1798,6 +1853,27 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li>The internet's full table is ~1M IPv4 routes in 2026 — why edge routers need serious memory, and why enterprises usually take only a <strong>default route</strong> from each ISP instead.</li>
   <li>Multi-homing: two ISPs + your own AS + BGP = survive an ISP failure; influence inbound path with AS-path prepending. One sentence of this = instant credibility.</li>
 </ul>
+<figure class="dia steps"><svg viewBox="0 0 720 276" role="img" aria-label="BGP choosing between two ISPs for the destination 203.0.113.0/24: with equal local preference the path through ISP-1 wins because its AS path has two autonomous systems against three; setting a higher local preference on ISP-2 routes makes ISP-2 preferred regardless of path length; if the ISP-2 link fails its routes are withdrawn and traffic moves back to ISP-1">
+<rect class="sV" x="14" y="90" width="130" height="50" rx="8"/><text class="sT" x="79" y="113" text-anchor="middle">Your edge</text><text class="sC" x="79" y="129" text-anchor="middle">AS 65001</text>
+<rect class="sA" x="250" y="20" width="150" height="44" rx="8"/><text class="sT" x="325" y="47" text-anchor="middle">ISP-1 (AS 65010)</text>
+<rect class="sA" x="250" y="160" width="150" height="44" rx="8"/><text class="sT" x="325" y="187" text-anchor="middle">ISP-2 (AS 65020)</text>
+<rect class="sG" x="566" y="90" width="140" height="50" rx="8"/><text class="sT" x="636" y="113" text-anchor="middle">Destination</text><text class="sC" x="636" y="129" text-anchor="middle">203.0.113.0/24</text>
+<line class="sLm" x1="144" y1="105" x2="250" y2="42"/>
+<line class="sLm" x1="144" y1="125" x2="250" y2="182"/>
+<line class="sLm" x1="400" y1="42" x2="566" y2="105"/>
+<line class="sLm" x1="400" y1="182" x2="566" y2="125"/>
+<text class="sC" x="475" y="52" text-anchor="middle">AS path: 65010 65100</text>
+<text class="sC" x="475" y="182" text-anchor="middle">AS path: 65020 65300 65100</text>
+<rect class="sN" x="14" y="222" width="692" height="46" rx="8"/>
+<g data-s="1-1"><text class="sGt" x="30" y="244">Same local-pref on both: the shorter AS path wins → ISP-1 (2 ASes beats 3).</text><line class="sLg" x1="144" y1="105" x2="250" y2="42" style="stroke-width:3"/><text class="sS" x="30" y="260">Speed and bandwidth are not considered at all.</text></g>
+<g data-s="2-2"><text class="sWt" x="30" y="244">Set local-pref 200 on routes from ISP-2 (cheaper contract): local-pref beats AS-path length.</text><line class="sLw" x1="144" y1="125" x2="250" y2="182" style="stroke-width:3"/><text class="sS" x="30" y="260">Policy decides: that is how companies steer outbound traffic.</text></g>
+<g data-s="3-3"><text class="sGt" x="30" y="244">ISP-2 link fails: its routes are withdrawn and ISP-1 takes over automatically.</text><text class="sRt" x="200" y="150" text-anchor="middle">✕</text><line class="sLg" x1="144" y1="105" x2="250" y2="42" style="stroke-width:3"/><text class="sS" x="30" y="260">Multi-homing with BGP = surviving an ISP outage.</text></g>
+</svg><ol class="dia-steps">
+<li>Shortest AS path wins when policy is equal.</li>
+<li>Local preference (policy) overrides path length.</li>
+<li>Withdrawn routes fail over automatically.</li>
+</ol><figcaption>BGP chooses by policy first, then by path length — never by link speed. Documentation-range prefixes and private AS numbers are used here.</figcaption></figure>
+
 
 <h3>D5.4 Routing failure patterns in tickets</h3>
 <ul>
@@ -2557,6 +2633,23 @@ EVIDENCE  mtr HQ→branch: 8% loss starting hop 4 (ISP PE) during window, 0% aft
 TRIED     Rebooted branch AP (no effect) · confirmed no QoS policy on WAN uplink.
 THEORY    Backup job saturating 20M uplink; VoIP unprotected without QoS.
 ASK       L2: apply QoS template (EF for voice) + reschedule backup to 22:00. Approve change?</code></pre>
+<figure class="dia"><svg viewBox="0 0 720 176" role="img" aria-label="The six parts of a good escalation: the symptom and since when, the scope of who is affected, the evidence such as graphs, mtr results and logs with times, what was tried and ruled out, your theory, and one specific ask; contrasted with a vague escalation">
+<rect class="sB" x="14" y="30" width="108" height="56" rx="8"/><text class="sT" x="68" y="63" text-anchor="middle">Symptom</text><text class="sS" x="68" y="108" text-anchor="middle">what, since when</text>
+<line class="sLm" x1="122" y1="58" x2="129" y2="58" marker-end="url(#ahm)"/>
+<rect class="sB" x="131" y="30" width="108" height="56" rx="8"/><text class="sT" x="185" y="63" text-anchor="middle">Scope</text><text class="sS" x="185" y="108" text-anchor="middle">who is affected</text>
+<line class="sLm" x1="239" y1="58" x2="246" y2="58" marker-end="url(#ahm)"/>
+<rect class="sV" x="248" y="30" width="108" height="56" rx="8"/><text class="sT" x="302" y="63" text-anchor="middle">Evidence</text><text class="sS" x="302" y="108" text-anchor="middle">graphs, logs</text>
+<line class="sLm" x1="356" y1="58" x2="363" y2="58" marker-end="url(#ahm)"/>
+<rect class="sA" x="365" y="30" width="108" height="56" rx="8"/><text class="sT" x="419" y="63" text-anchor="middle">Tried</text><text class="sS" x="419" y="108" text-anchor="middle">ruled out</text>
+<line class="sLm" x1="473" y1="58" x2="480" y2="58" marker-end="url(#ahm)"/>
+<rect class="sW" x="482" y="30" width="108" height="56" rx="8"/><text class="sT" x="536" y="63" text-anchor="middle">Theory</text><text class="sS" x="536" y="108" text-anchor="middle">best guess</text>
+<line class="sLm" x1="590" y1="58" x2="597" y2="58" marker-end="url(#ahm)"/>
+<rect class="sG" x="599" y="30" width="108" height="56" rx="8"/><text class="sT" x="653" y="63" text-anchor="middle">Ask</text><text class="sS" x="653" y="108" text-anchor="middle">one request</text>
+<text class="sM" x="360" y="18" text-anchor="middle">an escalation the next tier can act on without calling you back</text>
+<rect class="sR" x="14" y="126" width="340" height="40" rx="8" opacity=".85"/><text class="sT" x="184" y="151" text-anchor="middle">"Branch internet slow, please check" ✕</text>
+<rect class="sG" x="366" y="126" width="340" height="40" rx="8"/><text class="sT" x="536" y="151" text-anchor="middle">"Approve QoS + move backup to 22:00?" ✓</text>
+</svg><figcaption>The last box is the one most people skip. Ending with a concrete ask turns a hand-off into a decision.</figcaption></figure>
+
 <p>Symptom → scope → evidence → tried → theory → specific ask. An escalation written like this is the single fastest way to be seen as promotable.</p></div>
 
 <div class="deep deep4"><span class="dtag">Level 4 · State of the art &amp; the horizon — from troubleshooting to observability</span>
@@ -5203,6 +5296,26 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
   <li><strong>Evidence</strong>: a script's output (a CSV, a log) is proof for a ticket, an audit or an RCA.</li>
   <li>Use <strong>PowerShell</strong> for Windows, Active Directory, Hyper-V, Microsoft 365, Azure and VMware (PowerCLI). Use <strong>Bash</strong> for Linux, ESXi shell basics, network appliances and containers. PowerShell 7 also runs on Linux and macOS.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="When a script pays off: checking servers by hand at 5 minutes each grows to 500 minutes for 100 servers, while a script that takes 60 minutes to write then costs about 6 seconds per server; the lines cross at about 12 servers, and the script can be rerun later at no extra cost">
+<line class="sLm" x1="80" y1="200" x2="650" y2="200"/>
+<line class="sLm" x1="80" y1="200" x2="80" y2="26"/>
+<text class="sS" x="72" y="204" text-anchor="end">0</text>
+<text class="sS" x="72" y="170" text-anchor="end">100</text>
+<text class="sS" x="72" y="136" text-anchor="end">200</text>
+<text class="sS" x="72" y="102" text-anchor="end">300</text>
+<text class="sS" x="72" y="68" text-anchor="end">400</text>
+<text class="sS" x="72" y="34" text-anchor="end">500</text>
+<text class="sS" x="80" y="218" text-anchor="middle">0</text>
+<text class="sS" x="220" y="218" text-anchor="middle">25</text>
+<text class="sS" x="360" y="218" text-anchor="middle">50</text>
+<text class="sS" x="500" y="218" text-anchor="middle">75</text>
+<text class="sS" x="640" y="218" text-anchor="middle">100</text>
+<text class="sS" x="365" y="236" text-anchor="middle">servers to check</text><text class="sS" x="26" y="113" text-anchor="middle" transform="rotate(-90 26 113)">minutes</text>
+<line class="sLr" x1="80" y1="200" x2="640" y2="30" style="stroke-width:3"/><text class="sRt" x="572.8" y="40.2" text-anchor="end">by hand: 5 min each</text>
+<line class="sLg" x1="80" y1="179.6" x2="640" y2="176.2" style="stroke-width:3"/><text class="sGt" x="640" y="166.2" text-anchor="end">script: 60 min to write, then ~6 s each</text>
+<circle class="sPw" cx="148.6" cy="179.2" r="6"/><text class="sWt" x="158.571" y="201.184">break-even ≈ 12 servers — and the script runs again tomorrow for free</text>
+</svg><figcaption>Break-even = writing time ÷ (manual minutes − scripted minutes per server) = 60 ÷ 4.9 ≈ 12. The real win is the second and every later run. Illustrative numbers.</figcaption></figure>
+
 
 <h3>20.2 The two shells side by side</h3>
 <div class="tw"><table>
