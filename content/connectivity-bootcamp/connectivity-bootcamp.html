@@ -501,13 +501,22 @@ body.flat .sidebar{position:static;max-height:none}
 <h3>1.6 Encapsulation — how the layers cooperate</h3>
 <p>When you send data, each layer wraps the layer above it with its own header — like envelopes inside envelopes. This is <strong>encapsulation</strong>; the receiver unwraps in reverse (<strong>de-encapsulation</strong>).</p>
 
-<figure><svg viewBox="0 0 700 230" role="img" aria-label="Encapsulation: data wrapped by TCP, IP, then Ethernet headers">
-  <text class="sM" x="20" y="30">L7 Data</text><rect class="sA" x="360" y="12" width="200" height="28"/><text class="sT" x="460" y="30" text-anchor="middle">Data</text>
-  <text class="sM" x="20" y="84">L4 Segment</text><rect class="sB" x="270" y="66" width="90" height="28"/><text class="sT" x="315" y="84" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="66" width="200" height="28"/><text class="sT" x="460" y="84" text-anchor="middle">Data</text>
-  <text class="sM" x="20" y="138">L3 Packet</text><rect class="sB" x="180" y="120" width="90" height="28"/><text class="sT" x="225" y="138" text-anchor="middle">IP hdr</text><rect class="sB" x="270" y="120" width="90" height="28"/><text class="sT" x="315" y="138" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="120" width="200" height="28"/><text class="sT" x="460" y="138" text-anchor="middle">Data</text>
-  <text class="sM" x="20" y="192">L2 Frame</text><rect class="sB" x="90" y="174" width="90" height="28"/><text class="sT" x="135" y="192" text-anchor="middle">Eth hdr</text><rect class="sB" x="180" y="174" width="90" height="28"/><text class="sT" x="225" y="192" text-anchor="middle">IP hdr</text><rect class="sB" x="270" y="174" width="90" height="28"/><text class="sT" x="315" y="192" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="174" width="200" height="28"/><text class="sT" x="460" y="192" text-anchor="middle">Data</text><rect class="sB" x="560" y="174" width="70" height="28"/><text class="sT" x="595" y="192" text-anchor="middle">FCS</text>
-  <line class="sD" x1="460" y1="40" x2="460" y2="66"/><line class="sD" x1="460" y1="94" x2="460" y2="120"/><line class="sD" x1="460" y1="148" x2="460" y2="174"/>
-</svg><figcaption>Sending an HTTP request: the data gets a TCP header (ports, sequence numbers), then an IP header (source/destination IP), then an Ethernet header (source/destination MAC) and trailer (<strong>FCS</strong> — Frame Check Sequence, an error-detecting checksum).</figcaption></figure>
+<figure class="dia steps"><svg viewBox="0 0 720 252" role="img" aria-label="Encapsulation step by step: application data gets a TCP header with ports to become a segment, then an IP header with addresses to become a packet, then an Ethernet header with MAC addresses and an FCS trailer to become a frame; the receiver removes the headers in reverse order">
+<g data-s="1"><text class="sM" x="80" y="33" text-anchor="end">L7 Data</text><rect class="sA" x="360" y="14" width="200" height="28" rx="3"/><text class="sT" x="460" y="33" text-anchor="middle">Data</text><text class="sS" x="706" y="56" text-anchor="end">the application’s bytes: an HTTP request</text></g>
+<g data-s="2"><text class="sM" x="80" y="83" text-anchor="end">L4 Segment</text><rect class="sB" x="270" y="64" width="90" height="28" rx="3"/><text class="sT" x="315" y="83" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="64" width="200" height="28" rx="3"/><text class="sT" x="460" y="83" text-anchor="middle">Data</text><text class="sS" x="706" y="106" text-anchor="end">+ ports 51522 → 443, sequence numbers</text></g>
+<g data-s="2"><line class="sLm" x1="460" y1="42" x2="460" y2="64" marker-end="url(#ahm)" opacity=".5"/></g>
+<g data-s="3"><text class="sM" x="80" y="133" text-anchor="end">L3 Packet</text><rect class="sV" x="180" y="114" width="90" height="28" rx="3"/><text class="sT" x="225" y="133" text-anchor="middle">IP hdr</text><rect class="sB" x="270" y="114" width="90" height="28" rx="3"/><text class="sT" x="315" y="133" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="114" width="200" height="28" rx="3"/><text class="sT" x="460" y="133" text-anchor="middle">Data</text><text class="sS" x="706" y="156" text-anchor="end">+ source and destination IP, TTL</text></g>
+<g data-s="3"><line class="sLm" x1="460" y1="92" x2="460" y2="114" marker-end="url(#ahm)" opacity=".5"/></g>
+<g data-s="4"><text class="sM" x="80" y="183" text-anchor="end">L2 Frame</text><rect class="sW" x="90" y="164" width="90" height="28" rx="3"/><text class="sT" x="135" y="183" text-anchor="middle">Eth hdr</text><rect class="sV" x="180" y="164" width="90" height="28" rx="3"/><text class="sT" x="225" y="183" text-anchor="middle">IP hdr</text><rect class="sB" x="270" y="164" width="90" height="28" rx="3"/><text class="sT" x="315" y="183" text-anchor="middle">TCP hdr</text><rect class="sA" x="360" y="164" width="200" height="28" rx="3"/><text class="sT" x="460" y="183" text-anchor="middle">Data</text><rect class="sR" x="560" y="164" width="70" height="28" rx="3"/><text class="sT" x="595" y="183" text-anchor="middle">FCS</text><text class="sS" x="706" y="206" text-anchor="end">+ MACs for this hop, and a CRC trailer</text></g>
+<g data-s="4"><line class="sLm" x1="460" y1="142" x2="460" y2="164" marker-end="url(#ahm)" opacity=".5"/></g>
+<g data-s="5-5"><rect class="sG" x="14" y="214" width="692" height="30" rx="6"/><text class="sT" x="360" y="234" text-anchor="middle">the receiver unwraps in reverse: frame → packet → segment → data, each layer reading only its own header</text></g>
+</svg><ol class="dia-steps">
+<li>The application hands down its data.</li>
+<li>TCP adds ports and sequence numbers: a segment.</li>
+<li>IP adds addresses: a packet.</li>
+<li>Ethernet adds MACs for this hop and a CRC: a frame.</li>
+<li>The receiver unwraps in reverse.</li>
+</ol><figcaption>Sending an HTTP request: the data gets a TCP header (ports, sequence numbers), then an IP header (source/destination IP), then an Ethernet header (source/destination MAC) and trailer (<strong>FCS</strong> — Frame Check Sequence, an error-detecting checksum).</figcaption></figure>
 
 <p>Key consequence worth saying in an interview: as a packet crosses the internet, <mark>the IP addresses stay the same end-to-end (ignoring NAT), while the MAC addresses are stripped and rewritten at every router hop</mark> — each hop is a new L2 conversation.</p>
 
@@ -3004,7 +3013,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 </svg><figcaption>Who owns the filesystem decides everything: with block the server does (fast, but only one server should write it unless a cluster filesystem such as VMFS coordinates); with file the NAS does (easy sharing); with object there is no filesystem, just keys in a bucket.</figcaption></figure>
 
 <h3>9.4 DAS, NAS, SAN</h3>
-<figure><svg viewBox="0 0 725 300" role="img" aria-label="DAS directly attached, NAS serving files over the LAN, SAN serving blocks over a dedicated network">
+<figure class="dia anim"><svg viewBox="0 0 725 300" role="img" aria-label="Animation: three ways to attach storage: with DAS the server talks straight to its own disks; with NAS clients reach file shares on a NAS appliance over the ordinary Ethernet LAN; with a SAN servers reach block LUNs on a storage array over a dedicated Fibre Channel or iSCSI fabric">
   <text class="sM" x="20" y="24">DAS</text>
   <rect class="sA" x="20" y="36" width="110" height="40" rx="8"/><text class="sT" x="75" y="61" text-anchor="middle">Server</text>
   <line class="sL" x1="75" y1="76" x2="75" y2="106"/>
@@ -3025,6 +3034,9 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <line class="sL" x1="590" y1="140" x2="590" y2="170"/>
   <rect class="sB" x="500" y="170" width="180" height="44" rx="8"/><text class="sT" x="590" y="189" text-anchor="middle">Storage array</text><text class="sS" x="590" y="205" text-anchor="middle">LUNs carved from RAID pools</text>
   <text class="sS" x="20" y="260">DAS: simple, unshared.  NAS: ready-made file shares, easy.  SAN: raw block devices, high performance, shared by servers/clusters.</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.283;1" path="M75 76 L75 106"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.283;0.284;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.617;1" path="M285 72 L335 106 L340 140 L340 170"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.332;0.334;0.617;0.618;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.950;1" path="M542 72 L560 106 L590 140 L590 170"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.666;0.668;0.950;0.951;1"/></circle>
 </svg><figcaption>The three architectures. VMware clusters classically boot dozens of VMs from SAN LUNs or NFS datastores — which is why storage is on your interview agenda next to VMware.</figcaption></figure>
 
 <ul>
@@ -3627,7 +3639,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 </svg><figcaption>Every type lets several hosts see the same VM files at once — the precondition for vMotion and HA. The ticket question is usually "which one, and what is underneath it?": VMFS → check the LUN and paths; NFS → the NAS and the network; vSAN → the hosts’ disks and the vSAN network.</figcaption></figure>
 
 <h3>10.5 Virtual networking</h3>
-<figure><svg viewBox="0 0 700 280" role="img" aria-label="ESXi virtual switch with VM port groups and VMkernel ports connected to physical uplinks">
+<figure class="dia anim"><svg viewBox="0 0 700 280" role="img" aria-label="Animation: an ESXi virtual switch: traffic from the app01 VM enters its port group, is tagged with that port group’s VLAN and leaves through physical uplink vmnic0 to the physical switch, while VMkernel traffic such as vMotion leaves through vmnic1; both uplinks connect to trunk ports">
   <rect class="sA" x="40" y="20" width="90" height="40" rx="7"/><text class="sT" x="85" y="38" text-anchor="middle">VM</text><text class="sS" x="85" y="52" text-anchor="middle">app01</text>
   <rect class="sA" x="150" y="20" width="90" height="40" rx="7"/><text class="sT" x="195" y="38" text-anchor="middle">VM</text><text class="sS" x="195" y="52" text-anchor="middle">db01</text>
   <rect class="sA" x="290" y="20" width="150" height="40" rx="7"/><text class="sT" x="365" y="38" text-anchor="middle">VMkernel ports</text><text class="sS" x="365" y="52" text-anchor="middle">mgmt · vMotion · iSCSI</text>
@@ -3638,6 +3650,8 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <rect class="sB" x="380" y="200" width="140" height="36" rx="7"/><text class="sT" x="450" y="223" text-anchor="middle">vmnic1 (uplink)</text>
   <line class="sN" x1="250" y1="236" x2="330" y2="264"/><line class="sN" x1="450" y1="236" x2="370" y2="264"/>
   <text class="sS" x="335" y="272">→ physical switches (trunk ports)</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.425;1" path="M85 60 L85 100 L250 156 L250 200 L250 236 L330 264"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.425;0.426;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.925;1" path="M365 60 L365 100 L450 156 L450 200 L450 236 L370 264"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.499;0.501;0.925;0.926;1"/></circle>
 </svg><figcaption>Inside every ESXi host: VMs and VMkernel interfaces plug into <strong>port groups</strong> on a virtual switch; physical NICs (<strong>vmnics</strong>) are its uplinks, usually two for redundancy (NIC teaming), cabled to trunk ports carrying the VLANs.</figcaption></figure>
 
 <ul>
