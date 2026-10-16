@@ -101,6 +101,28 @@ The **OWASP Top 10** is a consensus list of the most critical web-application se
 > [!say]
 > "The 2025 list is led by broken access control, then security misconfiguration, and adds two new categories: software supply-chain failures and mishandling of exceptional conditions. Injection, which includes XSS, is now fifth. In practice I focus on server-side authorisation on every request, parameterised queries, output encoding, and keeping dependencies scanned."
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="The OWASP Top 10 2025 placed along a request’s path: at the request coming in, injection and authentication failures; in your own code, broken access control, insecure design and mishandled exceptions; in the data, cryptographic and integrity failures; in the platform and pipeline, misconfiguration, supply-chain failures and logging failures">
+<rect class="sB" x="14" y="30" width="164" height="150" rx="8" opacity=".55"/><text class="sT" x="96" y="52" text-anchor="middle">Request in</text>
+<text class="sS" x="96" y="82" text-anchor="middle">A05 Injection</text>
+<text class="sS" x="96" y="108" text-anchor="middle">A07 Authentication</text>
+<line class="sLm" x1="178" y1="105" x2="188" y2="105" marker-end="url(#ahm)"/>
+<rect class="sV" x="190" y="30" width="164" height="150" rx="8" opacity=".55"/><text class="sT" x="272" y="52" text-anchor="middle">Your code</text>
+<text class="sS" x="272" y="82" text-anchor="middle">A01 Access control</text>
+<text class="sS" x="272" y="108" text-anchor="middle">A06 Insecure design</text>
+<text class="sS" x="272" y="134" text-anchor="middle">A10 Exceptions</text>
+<line class="sLm" x1="354" y1="105" x2="364" y2="105" marker-end="url(#ahm)"/>
+<rect class="sG" x="366" y="30" width="164" height="150" rx="8" opacity=".55"/><text class="sT" x="448" y="52" text-anchor="middle">Data</text>
+<text class="sS" x="448" y="82" text-anchor="middle">A04 Cryptography</text>
+<text class="sS" x="448" y="108" text-anchor="middle">A08 Integrity</text>
+<line class="sLm" x1="530" y1="105" x2="540" y2="105" marker-end="url(#ahm)"/>
+<rect class="sA" x="542" y="30" width="164" height="150" rx="8" opacity=".55"/><text class="sT" x="624" y="52" text-anchor="middle">Platform + pipeline</text>
+<text class="sS" x="624" y="82" text-anchor="middle">A02 Misconfiguration</text>
+<text class="sS" x="624" y="108" text-anchor="middle">A03 Supply chain</text>
+<text class="sS" x="624" y="134" text-anchor="middle">A09 Logging</text>
+<text class="sM" x="360" y="18" text-anchor="middle">the OWASP Top 10:2025 placed on the path of a request</text>
+<text class="sRt" x="360" y="204" text-anchor="middle">A01 broken access control is #1: the check that is missing is usually "is this record yours?"</text>
+</svg><figcaption>Grouping the ten by where they happen makes them easier to remember and to test: each zone has its own checks.</figcaption></figure>
+
 ## S9.3 Injection, especially SQL injection 🟢 ⭐
 
 > [!term] SQL injection
@@ -225,6 +247,22 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-r4nd0m'; o
 
 > [!story]
 > FinSight is multi-tenant: every query is filtered by the `CompanyId` from the user's JWT through **EF Core global query filters**, so a developer can't forget the `WHERE CompanyId = ...`. That's A01 prevention built into the data layer. The next step, listed in your gaps file, is the test that proves company A can't read company B. Mention both: the mechanism and how you'd verify it.
+
+<figure class="dia steps"><svg viewBox="0 0 720 186" role="img" aria-label="An IDOR attack and its fix: a user from company B requests their own invoice 1042, then changes the URL to 1043; a vulnerable API returns company A’s invoice because it never checks ownership; the fixed API filters every query by the caller’s company from the token, so invoice 1043 returns 404">
+<rect class="sR" x="14" y="40" width="150" height="50" rx="8"/><text class="sT" x="89" y="63" text-anchor="middle">Attacker</text><text class="sC" x="89" y="79" text-anchor="middle">company B user</text>
+<rect class="sA" x="300" y="40" width="150" height="50" rx="8"/><text class="sT" x="375" y="63" text-anchor="middle">API</text><text class="sC" x="375" y="79" text-anchor="middle">GET /invoices/{id}</text>
+<rect class="sV" x="566" y="40" width="140" height="50" rx="8"/><text class="sT" x="636" y="70" text-anchor="middle">Database</text>
+<line class="sLm" x1="164" y1="65" x2="300" y2="65"/>
+<line class="sLm" x1="450" y1="65" x2="566" y2="65"/>
+<rect class="sN" x="14" y="116" width="692" height="62" rx="8"/>
+<g data-s="1-1"><text class="sC" x="232" y="56" text-anchor="middle">/invoices/1042 (own)</text><text class="sS" x="30" y="140">The attacker requests their own invoice: allowed, correctly.</text><text class="sS" x="30" y="162">Then they change one number in the URL.</text></g>
+<g data-s="2-2"><text class="sRt" x="232" y="56" text-anchor="middle">/invoices/1043</text><text class="sC" x="508" y="56" text-anchor="middle">id = 1043</text><text class="sRt" x="30" y="140">Vulnerable: the API looks up 1043 and returns it, without asking whose it is.</text><text class="sS" x="30" y="162">Company A’s invoice leaks. A script can now walk 1 … 100,000.</text></g>
+<g data-s="3-3"><text class="sC" x="232" y="56" text-anchor="middle">/invoices/1043</text><text class="sC" x="508" y="56" text-anchor="middle">id = 1043 AND company = B</text><text class="sGt" x="375" y="108" text-anchor="middle">404 Not Found</text><text class="sGt" x="30" y="140">Fixed: every query also filters by the caller’s company from the token (a global query filter),</text><text class="sS" x="30" y="162">so another tenant’s record simply does not exist for this user.</text></g>
+</svg><ol class="dia-steps">
+<li>A normal request.</li>
+<li>One changed number: the vulnerable API leaks another tenant’s data.</li>
+<li>The fix: ownership is part of every query.</li>
+</ol><figcaption>Role checks ask "may this kind of user call this endpoint?"; IDOR is fixed by asking "is this record theirs?" on every request, on the server.</figcaption></figure>
 
 **Role vs resource checks.** `[Authorize(Roles = "Admin")]` answers "can this *kind* of user call this endpoint?". It doesn't answer "can *this* user touch *this* record?". You need both. At Farwaniya Hospital you granted access per screen by role, which is the first kind; patient-record systems also need the second.
 
