@@ -1170,7 +1170,7 @@ Inside local          Inside global        Outside
 <h3>3.5 ARP — gluing IP to Ethernet</h3>
 <p><strong>ARP</strong> (Address Resolution Protocol) answers one question: <em>"Who has IP x.x.x.x? Tell me your MAC."</em> The request is a broadcast; the owner replies unicast; the result is cached in the <strong>ARP table</strong> (<code>arp -a</code>). Without ARP, a host knows the destination IP but can't build the Ethernet frame. <strong>Gratuitous ARP</strong> announces your own IP (used when failover moves an IP to a new MAC). <strong>ARP spoofing</strong> — an attacker answering with their own MAC — is the classic LAN man-in-the-middle attack (Module 7).</p>
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="ARP: a PC broadcasts who has 192.168.1.1, the switch floods it to every device, only the gateway replies with its MAC address by unicast, and the PC caches the answer">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: ARP: a PC broadcasts who has 192.168.1.1, the switch floods the broadcast to every device, only the gateway replies with its MAC address by unicast, and the PC caches the answer">
 <rect class="sA" x="14" y="90" width="140" height="56" rx="8"/><text class="sT" x="84" y="116" text-anchor="middle">PC 192.168.1.20</text><text class="sC" x="84" y="132" text-anchor="middle">needs a MAC</text>
 <rect class="sB" x="290" y="90" width="120" height="56" rx="8"/><text class="sT" x="350" y="116" text-anchor="middle">switch</text><text class="sC" x="350" y="132" text-anchor="middle">floods broadcasts</text>
 <rect class="sN" x="560" y="20" width="146" height="46" rx="8"/><text class="sT" x="633" y="41" text-anchor="middle">printer</text><text class="sC" x="633" y="57" text-anchor="middle">192.168.1.30</text>
@@ -1183,6 +1183,11 @@ Inside local          Inside global        Outside
 <path class="sLg" d="M560 100 H440 L410 132 H158" fill="none" marker-end="url(#ahg)"/><text class="sGt" x="290" y="170" text-anchor="middle">unicast reply: ".1 is at 00:1a:2b:…"</text>
 <rect class="sN" x="14" y="176" width="260" height="40" rx="6"/><text class="sC" x="24" y="200" xml:space="preserve" style="white-space:pre">arp -a  →  192.168.1.1  00-1a-2b-…</text>
 <text class="sC" x="290" y="204">cached for a few minutes</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M154 110 L286 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.420;1" path="M410 118 L556 43"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.420;0.422;1"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.420;1" path="M410 118 L556 113"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.420;0.422;1"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.420;1" path="M410 118 L556 183"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.420;0.422;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M560 100 H440 L410 132 H158"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
 </svg><figcaption>ARP: one broadcast question, one unicast answer, one cache entry. Duplicate-IP and "gateway not resolving" tickets live here.</figcaption></figure>
 
 <h3>3.6 ICMP — the network's diagnostic channel</h3>
@@ -2102,7 +2107,7 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li>Vocabulary: <strong>CPE</strong> (customer premises equipment), <strong>last mile</strong>, <strong>QoS</strong> (Quality of Service — prioritizing voice/video over bulk data using DSCP markings), <strong>latency</strong> (delay, ms), <strong>jitter</strong> (variation in delay — kills VoIP), <strong>bandwidth</strong> vs <strong>throughput</strong> (capacity vs what you actually get).</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="SD-WAN: a branch edge device has MPLS, fibre internet and LTE links to the hub and steers each application, such as voice over the lowest-jitter path and SaaS over a local internet exit, failing over in seconds">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: SD-WAN: a branch edge device has MPLS, fibre internet and LTE links to the hub and steers each application, sending voice over the low-jitter MPLS path and SaaS traffic over the internet link, with LTE as backup">
 <rect class="sA" x="14" y="90" width="130" height="60" rx="8"/><text class="sT" x="79" y="118" text-anchor="middle">branch</text><text class="sC" x="79" y="134" text-anchor="middle">SD-WAN edge</text>
 <line class="sLm" x1="144" y1="120" x2="270" y2="50"/><rect class="sB" x="270" y="30" width="150" height="40" rx="8"/><text class="sT" x="345" y="47" text-anchor="middle">MPLS</text><text class="sS" x="345" y="63" text-anchor="middle">low jitter, costly</text>
 <line class="sLm" x1="420" y1="50" x2="520" y2="120"/>
@@ -2113,6 +2118,10 @@ access-list 110 deny   ip  any any                              <span class="c">
 <rect class="sA" x="524" y="90" width="130" height="60" rx="8"/><text class="sT" x="589" y="118" text-anchor="middle">HQ / cloud</text><text class="sC" x="589" y="134" text-anchor="middle">SD-WAN hub</text>
 <text class="sM" x="530" y="30">policy per application:</text><text class="sC" x="530" y="50">voice → lowest-jitter path</text><text class="sC" x="530" y="68">SaaS → nearest internet exit</text>
 <text class="sS" x="360" y="236" text-anchor="middle">the controller measures every link continuously and moves each application to the path that meets its target</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M144 120 L270 50 L420 50 L520 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.600;1" path="M144 120 L270 120 L420 120 L520 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.600;0.602;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.950;1" path="M144 120 L270 50 L420 50 L520 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.950;0.952;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.990;1" path="M144 120 L270 120 L420 120 L520 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.990;0.992;1"/></circle>
 </svg><figcaption>SD-WAN in one picture: several cheap and expensive links, one policy that picks per application in real time.</figcaption></figure>
 
 <h3>6.3 VPNs — private tunnels over public networks</h3>
@@ -3693,7 +3702,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td><strong>Templates &amp; cloning</strong></td><td>A <strong>template</strong> is a golden VM image; deploy new VMs from it with <strong>guest customization</strong> (new hostname, IP, SID). Full clone = independent copy; linked clone shares the parent's disk</td><td>How real estates deploy servers in minutes; <strong>OVF/OVA</strong> are the portable appliance formats</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="vSphere features: vMotion moves a running VM between hosts without downtime, used by DRS for balancing; HA restarts the VMs of a failed host on the surviving hosts">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: vSphere features: vMotion moves a running VM from host 1 to host 2 without downtime, used by DRS for balancing; then host 2 fails and HA restarts its VMs on the surviving hosts after a reboot">
 <text class="sT" x="180" y="22" text-anchor="middle">vMotion / DRS: live move, zero downtime</text>
 <rect class="sB" x="20" y="40" width="100" height="130" rx="8"/><text class="sT" x="70" y="58" text-anchor="middle">host 1</text>
 <rect class="sB" x="130" y="40" width="100" height="130" rx="8"/><text class="sT" x="180" y="58" text-anchor="middle">host 2</text>
@@ -3715,6 +3724,9 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <path class="sLw" d="M530 100 Q 560 190 600 110" fill="none" marker-end="url(#ahw)"/><path class="sLw" d="M530 120 Q 490 190 440 140" fill="none" marker-end="url(#ahw)"/>
 <text class="sRt" x="530" y="196" text-anchor="middle">a reboot: minutes of downtime, not zero</text>
 <text class="sS" x="360" y="220" text-anchor="middle">DRS uses vMotion to balance load; HA restarts after failure; FT keeps a live shadow for zero downtime</text>
+<circle class="sPw" r="7" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M106 120 Q 130 140 144 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPw" r="7" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.850;1" path="M530 100 Q 560 190 600 110"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.850;0.852;1"/></circle>
+<circle class="sPw" r="7" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.850;1" path="M530 120 Q 490 190 440 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.850;0.852;1"/></circle>
 </svg><figcaption>The classic interview pair: vMotion moves running VMs (planned, no downtime); HA reacts to failure by restarting them (unplanned, minutes).</figcaption></figure>
 
 <h3>10.7 Resource management (Depth, but high-yield)</h3>
