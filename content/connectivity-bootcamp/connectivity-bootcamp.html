@@ -1985,6 +1985,44 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 <text class="sS" x="360" y="222" text-anchor="middle">restore Thursday: full = 1 set · incremental = Sun + Mon + Tue + Wed + Thu · differential = Sun + Thu</text>
 </svg><figcaption>Incrementals are fastest to take and slowest to restore; differentials grow through the week but restore from just two sets.</figcaption></figure>
 
+<h3>9.7 The Dell storage portfolio — names you must recognise</h3>
+<p>Dell bought EMC in 2016 and sold storage as <strong>Dell EMC</strong> until about 2021–22. The brand is now plain <strong>Dell</strong> (Dell Technologies), but job descriptions still say "Dell EMC". Current products follow one pattern: <strong>Power</strong> + what it does. Interviewers expect you to place each name: which access model (block, file or object, 9.3), which tier, and what it replaced.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="The Dell storage portfolio placed by tier and access model: PowerMax for high-end block, PowerScale for scale-out file, PowerStore and the older Unity XT for midrange unified block and file, PowerFlex for software-defined block, ObjectScale for S3 object storage, PowerVault ME5 for entry block, and outside the grid PowerProtect DD for deduplicating backup and VxRail for hyperconverged VMware">
+<text class="sM" x="205" y="44" text-anchor="middle">block (SAN)</text><text class="sM" x="405" y="44" text-anchor="middle">unified (block + file)</text><text class="sM" x="608" y="44" text-anchor="middle">file / object</text>
+<text class="sM" x="20" y="90">high end</text><text class="sM" x="20" y="156">midrange</text><text class="sM" x="20" y="222">entry</text>
+<line class="sLm" x1="14" y1="120" x2="706" y2="120" opacity=".3"/><line class="sLm" x1="14" y1="186" x2="706" y2="186" opacity=".3"/>
+<line class="sLm" x1="305" y1="30" x2="305" y2="250" opacity=".3"/><line class="sLm" x1="505" y1="30" x2="505" y2="250" opacity=".3"/>
+<rect class="sR" x="115" y="60" width="180" height="52" rx="8"/><text class="sT" x="205" y="83" text-anchor="middle">PowerMax</text><text class="sS" x="205" y="101" text-anchor="middle">mission-critical, SRDF</text>
+<rect class="sG" x="515" y="60" width="186" height="52" rx="8"/><text class="sT" x="608" y="83" text-anchor="middle">PowerScale</text><text class="sS" x="608" y="101" text-anchor="middle">scale-out NAS (ex-Isilon)</text>
+<rect class="sV" x="115" y="126" width="180" height="52" rx="8"/><text class="sT" x="205" y="149" text-anchor="middle">PowerFlex</text><text class="sS" x="205" y="167" text-anchor="middle">software-defined block</text>
+<rect class="sB" x="315" y="126" width="94" height="52" rx="8"/><text class="sT" x="362" y="149" text-anchor="middle">PowerStore</text><text class="sS" x="362" y="167" text-anchor="middle">NVMe, current</text>
+<rect class="sN" x="413" y="126" width="86" height="52" rx="8" stroke-dasharray="5 4"/><text class="sT" x="456" y="149" text-anchor="middle">Unity XT</text><text class="sS" x="456" y="167" text-anchor="middle">previous gen</text>
+<rect class="sG" x="515" y="126" width="186" height="52" rx="8"/><text class="sT" x="608" y="149" text-anchor="middle">ObjectScale</text><text class="sS" x="608" y="167" text-anchor="middle">S3 object (ex-ECS)</text>
+<rect class="sA" x="115" y="192" width="180" height="52" rx="8"/><text class="sT" x="205" y="215" text-anchor="middle">PowerVault ME5</text><text class="sS" x="205" y="233" text-anchor="middle">iSCSI · FC · SAS</text>
+<rect class="sW" x="14" y="258" width="340" height="36" rx="8"/><text class="sT" x="184" y="281" text-anchor="middle">PowerProtect DD: dedup backup target</text>
+<rect class="sV" x="366" y="258" width="340" height="36" rx="8"/><text class="sT" x="536" y="281" text-anchor="middle">VxRail: hyperconverged VMware (vSAN)</text>
+</svg><figcaption>Place a product by row (how big and critical the workload is) and column (block, file or object). The bottom row sits outside the grid: a backup appliance and an HCI appliance, not primary arrays.</figcaption></figure>
+
+<div class="tw"><table>
+  <tr><th>Product</th><th>What it is</th><th>Typical use</th><th>Older name</th></tr>
+  <tr><td><strong>PowerStore</strong></td><td>Midrange all-NVMe unified array: block (FC, iSCSI, NVMe/TCP), file (SMB, NFS) and VMware vVols; always-on deduplication and compression</td><td>The default general-purpose array for VMware clusters and databases</td><td>Replaces Unity XT and SC (Compellent)</td></tr>
+  <tr><td><strong>Unity XT</strong></td><td>Midrange unified array, hybrid or all-flash, managed in Unisphere</td><td>Still in many estates you will support</td><td>EMC VNX before it</td></tr>
+  <tr><td><strong>PowerMax</strong></td><td>High-end block array; <strong>SRDF</strong> replication between sites; mainframe support</td><td>Banks, telcos: workloads that must not stop</td><td>VMAX, Symmetrix</td></tr>
+  <tr><td><strong>PowerScale</strong></td><td>Scale-out NAS running OneFS: add nodes and one filesystem grows; SMB, NFS, HDFS, S3</td><td>File shares at petabyte scale, media, AI datasets</td><td>Isilon</td></tr>
+  <tr><td><strong>PowerVault ME5</strong></td><td>Entry-level block array (iSCSI, FC, SAS), simple web management</td><td>Small sites, direct-attached to a few servers</td><td>PowerVault ME4</td></tr>
+  <tr><td><strong>PowerFlex</strong></td><td>Software-defined block storage over many x86 servers</td><td>Large, scale-out block at high performance</td><td>ScaleIO, VxFlex</td></tr>
+  <tr><td><strong>ObjectScale / ECS</strong></td><td>S3-compatible object storage</td><td>Backups, archives, cloud-native apps</td><td>Elastic Cloud Storage</td></tr>
+  <tr><td><strong>PowerProtect DD</strong></td><td>Backup target appliance with inline <strong>deduplication</strong>; DD Boost speeds backups; retention lock makes copies immutable</td><td>Where Veeam, NetWorker or PowerProtect Data Manager write backups</td><td>Data Domain</td></tr>
+  <tr><td><strong>VxRail</strong></td><td>Hyperconverged appliance: PowerEdge servers + VMware vSAN, updated as one unit</td><td>Turnkey VMware clusters without a separate SAN</td><td>—</td></tr>
+</table></div>
+<ul>
+  <li><strong>Management</strong>: Unisphere (Unity, PowerMax, PowerVault) and PowerStore Manager on the array; <strong>CloudIQ</strong> for fleet health and predictions across arrays, servers and switches. Arrays also "phone home" to Dell support through Secure Connect Gateway, like servers do (18.9).</li>
+  <li><strong>The day-to-day vocabulary is the same on every array</strong>: create a pool, carve a volume (LUN), map it to a host or host group (masking), check the host sees it over iSCSI or FC (multipathing!), and watch capacity and latency.</li>
+  <li><strong>Data reduction ratio</strong> (for example 4:1) is how much logical data fits per physical TB after deduplication and compression. It depends on the data: VDI and VM images reduce well, already-compressed video and encrypted data barely at all.</li>
+</ul>
+<div class="note"><b>Say it:</b> "Dell's current midrange array is PowerStore — unified block and file on NVMe, replacing Unity XT. PowerMax is the high-end block tier with SRDF replication, PowerScale is the scale-out NAS that used to be Isilon, and PowerProtect DD — formerly Data Domain — is the deduplicating backup target. Whatever the model, the workflow is pool, volume, host mapping, multipath check."</div>
+
 <div class="qhead"><h3>Interview questions — Module 9</h3><button data-qa="qa9">Show all answers</button></div>
 <div class="qa" id="qa9">
 <details><summary>Explain the difference between NAS and SAN.</summary><div class="a"><p><strong>Model answer:</strong> "Both are shared network storage; the difference is what they serve. A NAS owns its own filesystem and serves <em>files</em> — SMB or NFS shares over the ordinary LAN; clients see a network folder. A SAN serves raw <em>blocks</em>: the array presents LUNs over Fibre Channel or iSCSI, and each server formats the LUN with its own filesystem as if it were a local disk. NAS is simpler and perfect for user shares; SAN gives the low latency and shared block access that databases and VMware clusters need — vMotion and HA depend on every host seeing the same LUNs."</p></div></details>

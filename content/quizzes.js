@@ -729,6 +729,8 @@ const FOUNDATIONS = {
     q('Security', 'Which switch feature stops ARP spoofing?', ['PortFast', 'Dynamic ARP Inspection', 'STP', 'LACP'], 1, 'It checks ARP replies against the DHCP snooping binding table.', 'N7.3'),
   ],
   N9: [
+    q('Storage', 'Dell’s current midrange unified (block + file) array, successor to Unity XT, is…', ['PowerMax', 'PowerStore', 'PowerScale', 'PowerVault ME5'], 1, 'PowerMax is high-end block, PowerScale scale-out NAS (ex-Isilon), PowerVault ME5 entry block.', 'N9.7'),
+    q('Storage', 'PowerProtect DD (formerly Data Domain) is…', ['A primary database array', 'A deduplicating backup target appliance', 'A Fibre Channel switch', 'A hypervisor'], 1, 'Backup software such as Veeam or PowerProtect Data Manager writes to it; retention lock makes copies immutable.', 'N9.7'),
     q('Storage', 'Why did RAID 5 fall out of favour for large disks?', ['It needs too many disks', 'A rebuild must read every surviving bit, so an unreadable sector with no redundancy left becomes likely', 'It is slower than RAID 0', 'It cannot use SSDs'], 1, 'On a 10¹⁴ URE spec with four 10 TB survivors, a clean rebuild is only about 4% likely.', 'N9.2'),
   ],
   N13: [
