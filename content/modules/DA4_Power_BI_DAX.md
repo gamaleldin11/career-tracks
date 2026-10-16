@@ -289,6 +289,29 @@ RETURN COUNTROWS (
 - **Visual calculations** (generally available in 2026) are DAX written **on a visual** that can refer to the visual's own rows and columns: running sums, moving averages, "versus previous" and % of parent with simple functions like `RUNNINGSUM` and `PREVIOUS`, without fighting filter context.
 - **DAX user-defined functions** (generally available in 2026) let you define a calculation once with typed parameters and reuse it across measures, columns and visual calculations, stored as TMDL in Git.
 
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Monthly sales bars with a running total line rising to 1,730 by December and the three best months ranked 1 to 3: December 210, October 190 and July 175, as the Running Total and Product Rank style measures compute them">
+<line class="sLm" x1="70" y1="200" x2="680" y2="200"/>
+<rect class="sB" x="66" y="161.818" width="28" height="38.1818" rx="2" opacity=".6"/><text class="sS" x="80" y="216" text-anchor="middle">J</text>
+<rect class="sB" x="116" y="169.773" width="28" height="30.2273" rx="2" opacity=".6"/><text class="sS" x="130" y="216" text-anchor="middle">F</text>
+<rect class="sB" x="166" y="155.455" width="28" height="44.5455" rx="2" opacity=".6"/><text class="sS" x="180" y="216" text-anchor="middle">M</text>
+<rect class="sB" x="216" y="174.545" width="28" height="25.4545" rx="2" opacity=".6"/><text class="sS" x="230" y="216" text-anchor="middle">A</text>
+<rect class="sB" x="266" y="149.091" width="28" height="50.9091" rx="2" opacity=".6"/><text class="sS" x="280" y="216" text-anchor="middle">M</text>
+<rect class="sB" x="316" y="165" width="28" height="35" rx="2" opacity=".6"/><text class="sS" x="330" y="216" text-anchor="middle">J</text>
+<rect class="sB" x="366" y="144.318" width="28" height="55.6818" rx="2" opacity=".6"/><text class="sS" x="380" y="216" text-anchor="middle">J</text>
+<rect class="sB" x="416" y="158.636" width="28" height="41.3636" rx="2" opacity=".6"/><text class="sS" x="430" y="216" text-anchor="middle">A</text>
+<rect class="sB" x="466" y="152.273" width="28" height="47.7273" rx="2" opacity=".6"/><text class="sS" x="480" y="216" text-anchor="middle">S</text>
+<rect class="sB" x="516" y="139.545" width="28" height="60.4545" rx="2" opacity=".6"/><text class="sS" x="530" y="216" text-anchor="middle">O</text>
+<rect class="sB" x="566" y="145.909" width="28" height="54.0909" rx="2" opacity=".6"/><text class="sS" x="580" y="216" text-anchor="middle">N</text>
+<rect class="sB" x="616" y="133.182" width="28" height="66.8182" rx="2" opacity=".6"/><text class="sS" x="630" y="216" text-anchor="middle">D</text>
+<polyline class="sLg" points="80,188.9 130,180.1 180,167.2 230,159.8 280,145.0 330,134.8 380,118.6 430,106.6 480,92.7 530,75.1 580,59.4 630,40.0" style="fill:none;stroke-width:3"/>
+<text class="sGt" x="630" y="30" text-anchor="end">Running Total: 1,730</text>
+<text class="sS" x="80" y="153.818">Total Sales per month</text>
+<circle class="sPw" cx="630" cy="119.18181818181819" r="9"/><text class="sT" x="630" y="123.182" text-anchor="middle">1</text>
+<circle class="sPw" cx="530" cy="125.54545454545456" r="9"/><text class="sT" x="530" y="129.545" text-anchor="middle">2</text>
+<circle class="sPw" cx="380" cy="130.3181818181818" r="9"/><text class="sT" x="380" y="134.318" text-anchor="middle">3</text>
+<text class="sS" x="360" y="236" text-anchor="middle">RANKX ranks months by sales (1–3 marked); the running total sums every date up to the current one</text>
+</svg><figcaption>Computed from twelve sample months: the running total ends at 1,730; ranks 1–3 go to December, October and July. Both measures re-evaluate for whatever filter the visual applies.</figcaption></figure>
+
 ## DA4.8 Storage modes 🟡 ⭐
 
 | Mode | Data lives | Speed | Freshness | Limits |

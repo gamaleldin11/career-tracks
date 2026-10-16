@@ -207,6 +207,18 @@ FROM orders o JOIN users u USING (user_id) GROUP BY u.city ORDER BY cancel_rate 
 
 `FILTER (WHERE …)` is PostgreSQL's conditional aggregate; elsewhere write `SUM(CASE WHEN … THEN amount END)`. **The average of a 0/1 flag is a rate**, a pattern you'll use constantly.
 
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="The average of a 0 or 1 flag is a rate: cancelled orders are flagged 1 and paid orders 0, so the mean of the flags is the cancellation rate; computed on 3,000 sample orders in SQLite, Mansoura has 19.4 percent of 736 orders cancelled, Alexandria 11.4 percent of 789, Giza 8.5 percent of 697 and Cairo 6.4 percent of 778">
+<text class="sM" x="14" y="20">AVG(CASE WHEN status = 'cancelled' THEN 1.0 ELSE 0 END) per city</text>
+<rect class="sN" x="14" y="34" width="250" height="120" rx="8"/><text class="sC" x="26" y="56" xml:space="preserve" style="white-space:pre">status      flag</text><text class="sC" x="26" y="78" xml:space="preserve" style="white-space:pre">paid         0</text><text class="sC" x="26" y="98" xml:space="preserve" style="white-space:pre">cancelled    1</text><text class="sC" x="26" y="118" xml:space="preserve" style="white-space:pre">paid         0</text><text class="sC" x="26" y="138" xml:space="preserve" style="white-space:pre">paid         0</text>
+<text class="sGt" x="139" y="172" text-anchor="middle">mean of the flags = 1/4 = 25%</text>
+<line class="sLm" x1="264" y1="94" x2="300" y2="94" marker-end="url(#ahm)"/>
+<text class="sT" x="390" y="53" text-anchor="end">Mansoura</text><rect class="sR" x="400" y="38" width="232.8" height="22" rx="3" opacity=".85"/><text class="sC" x="638.8" y="54">19.4%  of 736</text>
+<text class="sT" x="390" y="85" text-anchor="end">Alexandria</text><rect class="sW" x="400" y="70" width="136.8" height="22" rx="3" opacity=".85"/><text class="sC" x="542.8" y="86">11.4%  of 789</text>
+<text class="sT" x="390" y="117" text-anchor="end">Giza</text><rect class="sW" x="400" y="102" width="102" height="22" rx="3" opacity=".85"/><text class="sC" x="508" y="118">8.5%  of 697</text>
+<text class="sT" x="390" y="149" text-anchor="end">Cairo</text><rect class="sW" x="400" y="134" width="76.8" height="22" rx="3" opacity=".85"/><text class="sC" x="482.8" y="150">6.4%  of 778</text>
+<text class="sS" x="360" y="200" text-anchor="middle">one GROUP BY gives a rate per group: no subquery, no second COUNT</text>
+</svg><figcaption>Rates computed in SQLite on 3,000 generated sample orders. The same trick gives conversion, churn and on-time rates in a single pass.</figcaption></figure>
+
 ## DA3.4 Cohort retention ⭐
 
 "For each signup month, what share of users ordered again in each later month?"

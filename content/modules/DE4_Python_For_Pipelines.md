@@ -50,6 +50,19 @@ sales-pipeline/
     fixtures/orders_sample.json
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="The shape of a well-structured pipeline: extract and load at the edges do the I/O, while the transform layer in the middle is pure functions such as clean_orders and add_vat that take a DataFrame and return a DataFrame; unit tests target the pure middle and a date-parameterised CLI runs the same code for today, backfills and reruns">
+<rect class="sN" x="14" y="60" width="130" height="56" rx="8"/><text class="sT" x="79" y="86" text-anchor="middle">extract/</text><text class="sC" x="79" y="102" text-anchor="middle">API, files (I/O)</text>
+<rect class="sG" x="200" y="30" width="320" height="116" rx="10" opacity=".35"/><text class="sT" x="360" y="52" text-anchor="middle">transform/: pure functions</text>
+<rect class="sG" x="220" y="70" width="130" height="50" rx="8"/><text class="sT" x="285" y="93" text-anchor="middle">clean_orders()</text><text class="sC" x="285" y="109" text-anchor="middle">df → df</text>
+<rect class="sG" x="370" y="70" width="130" height="50" rx="8"/><text class="sT" x="435" y="93" text-anchor="middle">add_vat()</text><text class="sC" x="435" y="109" text-anchor="middle">df → df</text>
+<rect class="sN" x="576" y="60" width="130" height="56" rx="8"/><text class="sT" x="641" y="86" text-anchor="middle">load/</text><text class="sC" x="641" y="102" text-anchor="middle">warehouse (I/O)</text>
+<line class="sLm" x1="144" y1="88" x2="218" y2="95" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="95" x2="368" y2="95" marker-end="url(#ahm)"/>
+<line class="sLm" x1="500" y1="95" x2="574" y2="88" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="170" text-anchor="middle">tests hit the pure middle with small DataFrames; the I/O edges get a few integration tests</text>
+<text class="sGt" x="360" y="190" text-anchor="middle">cli.py run --date 2026-10-02: the same code for today, a backfill or a rerun</text>
+</svg><figcaption>Keep side effects at the edges and logic in the middle: the middle becomes easy to test and reusable in Airflow, a notebook or Spark.</figcaption></figure>
+
 - **Pure transformation functions** (input → output, no hidden I/O) are easy to test and reuse in Airflow, a notebook or Spark.
 - **Configuration from the environment**, validated at start-up (`pydantic-settings`), and secrets from a vault ([[S10.6]]).
 - **Logging** with the standard `logging` module (structured JSON in production), never `print`.
@@ -288,6 +301,15 @@ def test_dedupe_keeps_latest_version():
 
 > [!story]
 > CS Visualizer's **golden and differential tests** in CI are exactly the discipline data teams want and rarely have. Saying "I'd test the pipeline the way I tested my interpreter: golden outputs on fixture data, checked in CI, so any change in results needs explicit approval" is a strong, differentiating answer.
+
+<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="A testing pyramid for data pipelines: many fast unit tests of pure functions with tiny DataFrames at the base, then contract and schema tests, integration tests with Testcontainers, end-to-end runs on sample data against a golden output, and at the top a few data tests running in production">
+<rect class="sR" x="250" y="20" width="220" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="35" text-anchor="middle">data tests in production</text><text class="sC" x="360" y="48" text-anchor="middle">dbt, Great Expectations</text>
+<rect class="sW" x="220" y="58" width="280" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="73" text-anchor="middle">end-to-end on sample data</text><text class="sC" x="360" y="86" text-anchor="middle">golden output</text>
+<rect class="sV" x="190" y="96" width="340" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="111" text-anchor="middle">integration</text><text class="sC" x="360" y="124" text-anchor="middle">Testcontainers</text>
+<rect class="sA" x="160" y="134" width="400" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="149" text-anchor="middle">contract / schema</text><text class="sC" x="360" y="162" text-anchor="middle">pandera, Pydantic</text>
+<rect class="sG" x="130" y="172" width="460" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="187" text-anchor="middle">unit</text><text class="sC" x="360" y="200" text-anchor="middle">pure functions, tiny DataFrames</text>
+<text class="sS" x="14" y="40">few, slow,</text><text class="sS" x="14" y="56">on real data</text><text class="sS" x="14" y="186">many, fast,</text><text class="sS" x="14" y="202">every commit</text>
+</svg><figcaption>Code tests prove the pipeline does what you wrote; data tests prove the data is what you expected. You need both, because the data changes without a commit.</figcaption></figure>
 
 ## DE4.9 Concurrency and performance 🟡
 
