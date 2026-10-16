@@ -20,7 +20,7 @@ content/                      everything you read: edit here
   modules/                    Markdown modules: 00, S1–S10, SD1–SD5, F*, B*, FS*, DA*, DS*, DE*
   ai-journey/parts/           The AI Journey Handbook, Obsidian Markdown (modules AI0–AI25)
   ai-journey/figures/         its figures, plus make_figures.py that draws them
-  connectivity-bootcamp/      The Connectivity Interview Bootcamp, one HTML page (modules N0–N16)
+  connectivity-bootcamp/      The Connectivity Interview Bootcamp, one HTML page (modules N0–N20)
 site/                         the code that turns content/ into a website
   build.js                    the build
   sources.js                  importers for the AI Journey and the Bootcamp formats

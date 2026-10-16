@@ -2,7 +2,7 @@
 
 **Goal:** walk into an entry- to mid-level interview for any of eight roles, which are **frontend, backend, full-stack, data analyst, data scientist, data engineer, AI engineer and network & connectivity engineer**, knowing the fundamentals correctly, using the vocabulary precisely, and able to tell your own project stories well.
 
-**One collection, three origins.** The six software and data tracks were written for this handbook. The **AI Engineer** track is *The AI Journey Handbook* (modules **AI0**–**AI25**) and the **Network & Connectivity Engineer** track is the *Connectivity Interview Bootcamp* (modules **N0**–**N16**). Both keep their own text, numbering and depth; here they gain the shared sidebar, search, level filter, glossary, progress tracking and a self-test.
+**One collection, three origins.** The six software and data tracks were written for this handbook. The **AI Engineer** track is *The AI Journey Handbook* (modules **AI0**–**AI25**) and the **Network & Connectivity Engineer** track is the *Connectivity Interview Bootcamp* (modules **N0**–**N20**). Both keep their own text, numbering and depth; here they gain the shared sidebar, search, level filter, glossary, progress tracking and a self-test.
 
 <div id="trackCards" class="tracks"></div>
 
