@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **819 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **849 self-test questions** across the eight tracks.
+- **863 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **849 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -20,7 +20,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
     - Security and auth: password-hashing cost (a decoded Identity hash); SignalR token flow.
     - Data and operations: latency percentiles; keyset pagination timing; sargable predicates.
   - **System design:** load-balancing tail latency; serverless and managed-service cost break-evens; one-way and two-way doors; back-of-envelope chains; the FinSight-at-scale architecture.
-- **Connectivity track (Oct 2026):** new Modules 18 (servers, hardware and Dell tools), 19 (cloud and identity) and 20 (PowerShell and Bash), sections 7.5 (encryption), 9.7 (Dell storage), 10.9 (Hyper-V) and 13.5 (customer handling), an 11-topic interview checklist in Orientation, and about 85 new diagrams across Modules 1–20.
+- **Connectivity track (Oct 2026):** new Modules 18 (servers, hardware and Dell tools), 19 (cloud and identity) and 20 (PowerShell and Bash), sections 7.5 (encryption), 9.7 (Dell storage), 10.9 (Hyper-V) and 13.5 (customer handling), an 11-topic interview checklist in Orientation, about 110 new or newly animated diagrams across Modules 1–20, and new figures in SD1, SD2, SD4 and SD5 (caching, load balancing, queues, utilisation, RPO/RTO, cells, error budgets, spine-leaf).
 - **Bootcamp:** MAC learning, STP, FHRP, LVM, VMware shares, RAID URE, stateful firewalls, ARP spoofing, ITIL, availability nines, 5 Whys, SD-WAN, the deleted-but-open file case, routing failure patterns.
 
 ## What is left
@@ -44,7 +44,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
   - Operations: B11.5 OpenTelemetry, B11.9.
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
 - **Frontend:** F1.2, F1.3 accessible forms; F2.6 centring, F2.8, F2.11; F3.10, F3.12 predict the output; F4.9 real-time; F5.2, F5.3, F5.6, F5.9 runtime validation, F5.10, F5.11; F6.8 React 19, F6.9; F7.1, F7.2 Angular templates and control flow; F8.6 URL as state; F9.1 Core Web Vitals; F10.2.
-- **System design and platform:** SD1.1, SD1.6, SD1.7, SD1.10; SD2.4, SD2.6, SD2.8; SD4.1, SD4.7, SD4.8 backups and DR, SD4.10; S5.9, S5.13 Kubernetes; S9.2 OWASP, S9.6 IDOR; S10.6.
+- **System design and platform:** SD1.1; S5.9, S5.13 Kubernetes; S9.2 OWASP, S9.6 IDOR; S10.6.
 - **Other:** S2.2, S2.7, S2.8; S4.8, S4.10 trees, S4.15; FS1.5, FS1.7, FS2.1, FS2.5 external login; DE2.4; DE7.6; DS6.6.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
