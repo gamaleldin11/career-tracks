@@ -1499,6 +1499,27 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <tr><td><strong>BGP</strong></td><td>EGP, <strong>path-vector</strong></td><td>Chooses by <em>policy</em> and AS-path, not speed; peers over TCP 179</td><td>Runs the internet; what ISPs and multi-homed companies use. "eBGP between ASes, iBGP inside one"</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Interior and exterior routing: inside the company’s autonomous system AS 65001 the routers run OSPF to find the fastest paths; the company’s edge router peers with the ISP’s router in AS 65002 using eBGP over TCP 179, which exchanges reachability between organisations chosen by policy and AS path; the ISP runs its own IGP inside">
+<ellipse class="sN" cx="190" cy="120" rx="176" ry="100"/>
+<text class="sM" x="190" y="40" text-anchor="middle">AS 65001 · your company</text>
+<ellipse class="sN" cx="560" cy="120" rx="150" ry="100"/>
+<text class="sM" x="560" y="40" text-anchor="middle">AS 65002 · the ISP</text>
+<rect class="sA" x="60" y="74" width="60" height="32" rx="8"/><text class="sT" x="90" y="95" text-anchor="middle">R1</text>
+<rect class="sA" x="60" y="144" width="60" height="32" rx="8"/><text class="sT" x="90" y="165" text-anchor="middle">R2</text>
+<rect class="sA" x="180" y="104" width="60" height="32" rx="8"/><text class="sT" x="210" y="125" text-anchor="middle">R3</text>
+<rect class="sV" x="280" y="104" width="60" height="32" rx="8"/><text class="sT" x="310" y="125" text-anchor="middle">Edge</text>
+<line class="sLg" x1="90" y1="90" x2="90" y2="160" opacity=".7"/>
+<line class="sLg" x1="90" y1="90" x2="210" y2="120" opacity=".7"/>
+<line class="sLg" x1="90" y1="160" x2="210" y2="120" opacity=".7"/>
+<line class="sLg" x1="210" y1="120" x2="310" y2="120" opacity=".7"/>
+<text class="sGt" x="160" y="200" text-anchor="middle">OSPF inside: fastest path</text>
+<rect class="sV" x="470" y="104" width="60" height="32" rx="8"/><text class="sT" x="500" y="125" text-anchor="middle">ISP-1</text><rect class="sA" x="590" y="70" width="60" height="32" rx="8"/><text class="sT" x="620" y="91" text-anchor="middle">ISP-2</text><rect class="sA" x="590" y="140" width="60" height="32" rx="8"/><text class="sT" x="620" y="161" text-anchor="middle">ISP-3</text>
+<line class="sLm" x1="530" y1="120" x2="590" y2="86"/><line class="sLm" x1="530" y1="120" x2="590" y2="156"/><line class="sLm" x1="620" y1="102" x2="620" y2="140"/>
+<line class="sLv" x1="340" y1="120" x2="470" y2="120" style="stroke-width:3"/><text class="sT" x="405" y="112" text-anchor="middle">eBGP</text><text class="sC" x="405" y="142" text-anchor="middle">TCP 179</text>
+<text class="sS" x="560" y="200" text-anchor="middle">their own IGP inside</text>
+<text class="sS" x="360" y="236" text-anchor="middle">inside an AS: an IGP picks the best path by metric · between ASes: BGP picks by policy and AS path</text>
+</svg><figcaption>An IGP answers "what is the fastest way across my network?"; BGP answers "which networks can I reach through which organisation, and which do I prefer?". Private AS numbers (64512–65534) are used in this example.</figcaption></figure>
+
 <h3>5.4 Reading a routing decision</h3>
 <pre><code><span class="c"># Windows: route print   |   Linux: ip route   |   Cisco: show ip route</span>
 C   192.168.10.0/24  directly connected, Gi0/1
@@ -2036,6 +2057,24 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Zero trust</strong> (buzzword worth one line): never trust by network location alone — authenticate and authorize every access explicitly.</li>
 </ul>
 
+<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="Defense in depth as nested layers around the data: perimeter controls such as the firewall, VPN and email filter; the network with VLAN segmentation and access control; endpoints with patching, EDR and hardening; identity with MFA and least privilege; and the data itself with encryption and backups; a phishing email that passes the email filter is still stopped by MFA, EDR, segmentation or backups">
+<rect class="sN" x="14" y="14" width="420" height="230" rx="12" opacity=".85"/>
+<text class="sT" x="24" y="34">Perimeter</text><text class="sS" x="424" y="34" text-anchor="end">firewall, VPN, email filter</text>
+<rect class="sB" x="40" y="34.8" width="368" height="188.4" rx="12" opacity=".85"/>
+<text class="sT" x="50" y="54.8">Network</text><text class="sS" x="398" y="54.8" text-anchor="end">VLAN segmentation, NAC</text>
+<rect class="sA" x="66" y="55.6" width="316" height="146.8" rx="12" opacity=".85"/>
+<text class="sT" x="76" y="75.6">Endpoint</text><text class="sS" x="372" y="75.6" text-anchor="end">patching, EDR, hardening</text>
+<rect class="sV" x="92" y="76.4" width="264" height="105.2" rx="12" opacity=".85"/>
+<text class="sT" x="102" y="96.4">Identity</text><text class="sS" x="346" y="96.4" text-anchor="end">MFA, least privilege</text>
+<rect class="sG" x="118" y="97.2" width="212" height="63.6" rx="12" opacity=".85"/>
+<text class="sT" x="128" y="117.2">Data</text><text class="sS" x="320" y="117.2" text-anchor="end">encryption, backups</text>
+<text class="sT" x="224" y="160" text-anchor="middle">the crown jewels</text>
+<path class="sLr" d="M706 40 L470 40 L420 60" style="fill:none" marker-end="url(#ahr)"/><text class="sRt" x="588" y="32" text-anchor="middle">phishing email</text>
+<text class="sS" x="588" y="80" text-anchor="middle">gets past the email filter…</text><text class="sS" x="588" y="100" text-anchor="middle">…but MFA blocks the stolen password,</text>
+<text class="sS" x="588" y="120" text-anchor="middle">EDR flags the malware,</text><text class="sS" x="588" y="140" text-anchor="middle">segmentation limits the spread,</text><text class="sS" x="588" y="160" text-anchor="middle">and offline backups restore the data</text>
+<text class="sGt" x="588" y="196" text-anchor="middle">no single control has to be perfect</text>
+</svg><figcaption>Each layer assumes the one outside it will eventually fail. That assumption — not any single product — is what "defense in depth" and "zero trust" mean.</figcaption></figure>
+
 <h3>7.5 Encryption, hashing and keys</h3>
 <p>"Encryption" questions test whether you can tell three different tools apart, and say where data is protected <strong>in transit</strong> (moving over a network) and <strong>at rest</strong> (stored on a disk or array).</p>
 
@@ -2077,7 +2116,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 <rect class="sG" x="556" y="30" width="150" height="50" rx="8"/><text class="sT" x="631" y="53" text-anchor="middle">Server</text><text class="sS" x="631" y="69" text-anchor="middle">www.example.com</text>
 <rect class="sN" x="14" y="110" width="692" height="110" rx="8"/>
 <g data-s="1-1"><line class="sLv" x1="554" y1="48" x2="168" y2="48" marker-end="url(#ahv)"/><text class="sS" x="360" y="42" text-anchor="middle">certificate: name, public key, CA signature</text><text class="sS" x="30" y="136">The server sends its certificate: "I am www.example.com, here is my public key,</text><text class="sS" x="30" y="156">and an intermediate CA vouches for that with its signature."</text></g>
-<g data-s="2-2"><rect class="sV" x="140" y="172" width="130" height="34" rx="8"/><text class="sT" x="205" y="187" text-anchor="middle">Root CA</text><text class="sC" x="205" y="203" text-anchor="middle">in the browser store</text><line class="sLm" x1="270" y1="189" x2="300" y2="189" marker-end="url(#ahm)"/><rect class="sV" x="302" y="172" width="130" height="34" rx="8"/><text class="sT" x="367" y="194" text-anchor="middle">Intermediate CA</text><line class="sLm" x1="432" y1="189" x2="462" y2="189" marker-end="url(#ahm)"/><rect class="sG" x="464" y="172" width="130" height="34" rx="8"/><text class="sT" x="529" y="194" text-anchor="middle">Server cert</text><text class="sS" x="30" y="136">The browser checks: signatures chain up to a root it trusts, the name matches the URL,</text><text class="sS" x="30" y="156">the dates are valid (a wrong client clock breaks this), and it is not revoked.</text></g>
+<g data-s="2-2"><rect class="sV" x="140" y="172" width="130" height="34" rx="8"/><text class="sT" x="205" y="187" text-anchor="middle">Root CA</text><text class="sC" x="205" y="203" text-anchor="middle">browser trusts it</text><line class="sLm" x1="270" y1="189" x2="300" y2="189" marker-end="url(#ahm)"/><rect class="sV" x="302" y="172" width="130" height="34" rx="8"/><text class="sT" x="367" y="194" text-anchor="middle">Intermediate CA</text><line class="sLm" x1="432" y1="189" x2="462" y2="189" marker-end="url(#ahm)"/><rect class="sG" x="464" y="172" width="130" height="34" rx="8"/><text class="sT" x="529" y="194" text-anchor="middle">Server cert</text><text class="sS" x="30" y="136">The browser checks: signatures chain up to a root it trusts, the name matches the URL,</text><text class="sS" x="30" y="156">the dates are valid (a wrong client clock breaks this), and it is not revoked.</text></g>
 <g data-s="3-3"><line class="sLw" x1="166" y1="62" x2="554" y2="62" marker-end="url(#ahw)"/><line class="sLw" x1="554" y1="72" x2="168" y2="72" marker-end="url(#ahw)"/><text class="sS" x="360" y="96" text-anchor="middle">ECDHE key exchange, signed with the server’s private key</text><text class="sS" x="30" y="136">Both sides derive the same session key without ever sending it. The server signs its part</text><text class="sS" x="30" y="156">with its private key, proving it owns the certificate: an impostor cannot.</text><text class="sWt" x="360" y="196" text-anchor="middle">asymmetric crypto used once, for identity and the key</text></g>
 <g data-s="4-4"><line class="sLg" x1="166" y1="62" x2="554" y2="62" marker-end="url(#ahg)" style="stroke-width:4"/><line class="sLg" x1="554" y1="72" x2="168" y2="72" marker-end="url(#ahg)" style="stroke-width:4"/><text class="sGt" x="360" y="96" text-anchor="middle">AES-GCM with the session key: every request and response</text><text class="sS" x="30" y="136">From now on all traffic uses fast symmetric encryption with the session key.</text><text class="sS" x="30" y="156">New session keys per connection: a stolen server key later cannot decrypt old traffic.</text><text class="sGt" x="360" y="196" text-anchor="middle">symmetric crypto for all the data</text></g>
 </svg><ol class="dia-steps">
@@ -2168,6 +2207,22 @@ PORT     STATE    SERVICE
 443/tcp  open     https
 3389/tcp filtered ms-wbt-server <span class="c">← no reply at all = a firewall silently dropped it</span>
 8080/tcp closed   http-proxy    <span class="c">← host sent RST = reachable, nothing listening</span></code></pre>
+<figure class="dia steps"><svg viewBox="0 0 720 176" role="img" aria-label="The three nmap port states: open, when the host answers the SYN with SYN-ACK because a service listens; closed, when the host answers with a reset because nothing listens but the path works; and filtered, when no reply comes back because a firewall silently drops the probe">
+<rect class="sB" x="14" y="40" width="130" height="50" rx="8"/><text class="sT" x="79" y="63" text-anchor="middle">nmap</text><text class="sS" x="79" y="79" text-anchor="middle">authorized scan</text>
+<rect class="sA" x="300" y="40" width="120" height="50" rx="8"/><text class="sT" x="360" y="70" text-anchor="middle">Firewall</text>
+<rect class="sG" x="576" y="40" width="130" height="50" rx="8"/><text class="sT" x="641" y="63" text-anchor="middle">Host</text><text class="sC" x="641" y="79" text-anchor="middle">192.168.20.15</text>
+<line class="sLm" x1="144" y1="65" x2="300" y2="65"/>
+<line class="sLm" x1="420" y1="65" x2="576" y2="65"/>
+<rect class="sN" x="14" y="116" width="692" height="52" rx="8"/>
+<g data-s="1-1"><line class="sLg" x1="144" y1="56" x2="574" y2="56" marker-end="url(#ahg)"/><line class="sLg" x1="576" y1="76" x2="146" y2="76" marker-end="url(#ahg)"/><text class="sGt" x="360" y="108" text-anchor="middle">SYN → :22   ·   SYN/ACK ←</text><text class="sGt" x="30" y="138">open: a service answered. The port is reachable and listening.</text><text class="sC" x="30" y="158">22/tcp open ssh</text></g>
+<g data-s="2-2"><line class="sLg" x1="144" y1="56" x2="574" y2="56" marker-end="url(#ahg)"/><line class="sLw" x1="576" y1="76" x2="146" y2="76" marker-end="url(#ahw)"/><text class="sWt" x="360" y="108" text-anchor="middle">SYN → :8080   ·   RST ←</text><text class="sWt" x="30" y="138">closed: the host itself refused (RST). The path works; nothing listens there.</text><text class="sC" x="30" y="158">8080/tcp closed http-proxy</text></g>
+<g data-s="3-3"><line class="sLr" x1="144" y1="56" x2="298" y2="56" marker-end="url(#ahr)"/><text class="sRt" x="360" y="30" text-anchor="middle">✕ dropped silently</text><text class="sRt" x="360" y="108" text-anchor="middle">SYN → :3389   ·   (nothing comes back)</text><text class="sRt" x="30" y="138">filtered: no answer at all. Something in between is discarding the packets.</text><text class="sC" x="30" y="158">3389/tcp filtered ms-wbt-server</text></g>
+</svg><ol class="dia-steps">
+<li>Open: SYN/ACK.</li>
+<li>Closed: RST from the host.</li>
+<li>Filtered: silence.</li>
+</ol><figcaption>The same logic diagnoses any "can’t connect" ticket: a refusal (RST) and a timeout point to different culprits. <code>Test-NetConnection host -Port 3389</code> or <code>nc -vz host 3389</code> show the same distinction without a scanner.</figcaption></figure>
+
 <p><strong>open vs closed vs filtered</strong> is the diagnostic gold: <em>closed</em> proves the network path works (the host itself refused); <em>filtered</em> proves something in between is eating packets. Ethics line for interviews: scanning is for assets you're authorized to test — on client networks that means a ticket/change and written scope.</p></div>
 
 <div class="deep deep4"><span class="dtag">Level 4 · State of the art &amp; the horizon — security</span>
@@ -2479,6 +2534,26 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li>Interfaces: <strong>SATA</strong> (consumer, 6 Gbps), <strong>SAS</strong> (enterprise — dual-ported, deeper queues), <strong>NVMe/PCIe</strong> (fastest).</li>
   <li>The three performance metrics — use them precisely: <strong>IOPS</strong> (I/O operations per second — how many reads/writes), <strong>throughput</strong> (MB/s — how much data), <strong>latency</strong> (ms — how long each operation takes). A database cares about IOPS and latency; a backup job cares about throughput.</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Typical random 4K performance on log scales: a 7,200 rpm hard disk does about 80 IOPS at about 8 milliseconds; a 15,000 rpm disk about 200 IOPS at 4 milliseconds; a SATA SSD about 90,000 IOPS at 0.1 milliseconds; an NVMe SSD about 800,000 IOPS at 0.02 milliseconds">
+<text class="sM" x="240" y="22" text-anchor="middle">random 4K IOPS (more is better)</text>
+<text class="sM" x="540" y="22" text-anchor="middle">latency (less is better)</text>
+<text class="sS" x="130" y="58" text-anchor="end">HDD 7,200 rpm</text><rect class="sN" x="140" y="40" width="63.4363" height="24" rx="3"/><text class="sC" x="209.436" y="57">80</text>
+<rect class="sN" x="440" y="40" width="193.539" height="24" rx="3"/><text class="sC" x="639.539" y="57">8 ms</text>
+<text class="sS" x="130" y="98" text-anchor="end">HDD 15,000 rpm</text><rect class="sN" x="140" y="80" width="76.701" height="24" rx="3"/><text class="sC" x="222.701" y="97">200</text>
+<rect class="sN" x="440" y="80" width="173.471" height="24" rx="3"/><text class="sC" x="619.471" y="97">4 ms</text>
+<text class="sS" x="130" y="138" text-anchor="end">SATA SSD</text><rect class="sB" x="140" y="120" width="165.141" height="24" rx="3"/><text class="sC" x="311.141" y="137">90,000</text>
+<rect class="sB" x="440" y="120" width="66.6667" height="24" rx="3"/><text class="sC" x="512.667" y="137">0.1 ms</text>
+<text class="sS" x="130" y="178" text-anchor="end">NVMe SSD</text><rect class="sG" x="140" y="160" width="196.77" height="24" rx="3"/><text class="sC" x="342.77" y="177">800,000</text>
+<rect class="sG" x="440" y="160" width="20.0687" height="24" rx="3"/><text class="sC" x="466.069" y="177">0.02 ms</text>
+<text class="sS" x="173.333" y="220" text-anchor="middle">10</text><line class="sLm" x1="173.333" y1="36" x2="173.333" y2="204" opacity=".2"/>
+<text class="sS" x="240" y="220" text-anchor="middle">1,000</text><line class="sLm" x1="240" y1="36" x2="240" y2="204" opacity=".2"/>
+<text class="sS" x="306.667" y="220" text-anchor="middle">100,000</text><line class="sLm" x1="306.667" y1="36" x2="306.667" y2="204" opacity=".2"/>
+<text class="sS" x="440" y="220" text-anchor="middle">0.01 ms</text><line class="sLm" x1="440" y1="36" x2="440" y2="204" opacity=".2"/>
+<text class="sS" x="506.667" y="220" text-anchor="middle">0.1 ms</text><line class="sLm" x1="506.667" y1="36" x2="506.667" y2="204" opacity=".2"/>
+<text class="sS" x="573.333" y="220" text-anchor="middle">1 ms</text><line class="sLm" x1="573.333" y1="36" x2="573.333" y2="204" opacity=".2"/>
+<text class="sS" x="640" y="220" text-anchor="middle">10 ms</text><line class="sLm" x1="640" y1="36" x2="640" y2="204" opacity=".2"/>
+</svg><figcaption>Log scales: each grid line is ten times more. A spinning disk waits for the platter to rotate and the head to move; flash has no moving parts. Order-of-magnitude figures — real drives vary by model, queue depth and read/write mix.</figcaption></figure>
 
 <h3>9.2 RAID — surviving disk failure</h3>
 <p><strong>RAID</strong> (Redundant Array of Independent Disks) combines disks for performance and/or fault tolerance. Done by a hardware <strong>RAID controller</strong> (with battery-backed cache) or in software (Windows Storage Spaces, Linux mdadm/ZFS).</p>
@@ -2837,6 +2912,18 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li>Failover realities interviewers respect: replication also replicates corruption (still need backups); failback is its own project; and an untested DR plan is theater — name "annual DR test" and you sound like operations, not theory.</li>
   <li><strong>vSAN specifics</strong> (bridges to Module 10): disk groups (cache SSD + capacity devices), policies per-VM — <strong>FTT=1</strong> mirrors objects across 2 hosts (+witness), RAID-5/6 erasure coding on all-flash; a host in maintenance triggers resync traffic — why vSAN clusters want 10/25G networking.</li>
 </ul>
+<figure class="dia steps"><svg viewBox="0 0 720 192" role="img" aria-label="Synchronous versus asynchronous replication: with synchronous replication a write is copied to the DR array and acknowledged by it before the server gets its acknowledgement, giving a recovery point objective of zero but adding the WAN round trip to every write; with asynchronous replication the primary acknowledges at once and ships changes every few minutes, allowing any distance but losing up to that interval of data">
+<rect class="sB" x="14" y="40" width="110" height="50" rx="8"/><text class="sT" x="69" y="63" text-anchor="middle">Server</text><text class="sS" x="69" y="79" text-anchor="middle">writes</text>
+<rect class="sA" x="250" y="40" width="140" height="50" rx="8"/><text class="sT" x="320" y="63" text-anchor="middle">Primary array</text><text class="sS" x="320" y="79" text-anchor="middle">Cairo</text>
+<rect class="sV" x="566" y="40" width="140" height="50" rx="8"/><text class="sT" x="636" y="63" text-anchor="middle">DR array</text><text class="sS" x="636" y="79" text-anchor="middle">Alexandria</text>
+<rect class="sN" x="14" y="124" width="692" height="60" rx="8"/>
+<g data-s="1-1"><line class="sLm" x1="124" y1="56" x2="248" y2="56" marker-end="url(#ahm)"/><text class="sS" x="186" y="48" text-anchor="middle">① write</text><line class="sLm" x1="390" y1="56" x2="564" y2="56" marker-end="url(#ahm)"/><text class="sS" x="477" y="48" text-anchor="middle">② copy</text><line class="sLg" x1="564" y1="76" x2="392" y2="76" marker-end="url(#ahg)"/><text class="sGt" x="477" y="100" text-anchor="middle">③ remote ack</text><line class="sLg" x1="248" y1="76" x2="126" y2="76" marker-end="url(#ahg)"/><text class="sGt" x="186" y="100" text-anchor="middle">④ ack</text><text class="sS" x="30" y="148">Synchronous: the server hears "done" only after the DR array has the data. RPO = 0,</text><text class="sWt" x="30" y="170">but every write waits for the WAN round trip, so it is limited to metro distances (~100 km).</text></g>
+<g data-s="2-2"><line class="sLm" x1="124" y1="56" x2="248" y2="56" marker-end="url(#ahm)"/><text class="sS" x="186" y="48" text-anchor="middle">① write</text><line class="sLg" x1="248" y1="76" x2="126" y2="76" marker-end="url(#ahg)"/><text class="sGt" x="186" y="100" text-anchor="middle">② ack at once</text><path class="sLw" d="M390 66 L564 66" stroke-dasharray="6 5" marker-end="url(#ahw)"/><text class="sWt" x="477" y="58" text-anchor="middle">every 5 min</text><text class="sS" x="477" y="100" text-anchor="middle">deltas shipped later</text><text class="sS" x="30" y="148">Asynchronous: the server is acknowledged immediately; changes follow every few minutes.</text><text class="sWt" x="30" y="170">Any distance and no write penalty, but RPO = up to the interval (here 5 minutes of data).</text></g>
+</svg><ol class="dia-steps">
+<li>Synchronous: zero data loss, write latency includes the WAN.</li>
+<li>Asynchronous: no write penalty, RPO equals the interval.</li>
+</ol><figcaption>The trade is distance and write latency against data loss. Both replicate mistakes and ransomware just as faithfully, which is why replication never replaces backups.</figcaption></figure>
+
 <h3>The storage-performance troubleshooting flow (recite this)</h3>
 <ol>
   <li><strong>Define</strong>: which VMs/hosts, reads or writes, since when, latency number vs baseline (GAVG 5 ms → 80 ms is a story; "feels slow" isn't).</li>
@@ -3606,6 +3693,32 @@ sudo userdel -r olduser              <span class="c"># remove incl. home</span><
 <ul>
   <li>Accounts live in <code>/etc/passwd</code> (world-readable, no passwords despite the name), password hashes in <code>/etc/shadow</code> (root-only), groups in <code>/etc/group</code>. Sudo rights: <code>/etc/sudoers</code>, edited only via <code>visudo</code>.</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="The seven colon-separated fields of a line in /etc/passwd for user sara: the username, an x meaning the password hash is in /etc/shadow, the user ID 1001, the primary group ID 1001, the comment Sara Ali, the home directory /home/sara and the login shell /bin/bash">
+<text class="sM" x="14" y="24">/etc/passwd: one line per account, seven fields separated by colons</text>
+<rect class="sB" x="14" y="38" width="60" height="32" rx="5"/><text class="sC" x="44" y="59" text-anchor="middle">sara</text>
+<line class="sLm" x1="44" y1="70" x2="44" y2="86" opacity=".6"/><text class="sS" x="44" y="98" text-anchor="middle">username</text>
+<text class="sT" x="79" y="59" text-anchor="middle">:</text>
+<rect class="sR" x="84" y="38" width="34" height="32" rx="5"/><text class="sC" x="101" y="59" text-anchor="middle">x</text>
+<line class="sLm" x1="101" y1="70" x2="101" y2="116" opacity=".6"/><text class="sS" x="101" y="128" text-anchor="middle">password is in /etc/shadow</text>
+<text class="sT" x="123" y="59" text-anchor="middle">:</text>
+<rect class="sA" x="128" y="38" width="54" height="32" rx="5"/><text class="sC" x="155" y="59" text-anchor="middle">1001</text>
+<line class="sLm" x1="155" y1="70" x2="155" y2="86" opacity=".6"/><text class="sS" x="155" y="98" text-anchor="middle">UID</text>
+<text class="sT" x="187" y="59" text-anchor="middle">:</text>
+<rect class="sA" x="192" y="38" width="54" height="32" rx="5"/><text class="sC" x="219" y="59" text-anchor="middle">1001</text>
+<line class="sLm" x1="219" y1="70" x2="219" y2="116" opacity=".6"/><text class="sS" x="219" y="128" text-anchor="middle">primary GID</text>
+<text class="sT" x="251" y="59" text-anchor="middle">:</text>
+<rect class="sN" x="256" y="38" width="92" height="32" rx="5"/><text class="sC" x="302" y="59" text-anchor="middle">Sara Ali</text>
+<line class="sLm" x1="302" y1="70" x2="302" y2="86" opacity=".6"/><text class="sS" x="302" y="98" text-anchor="middle">comment (GECOS)</text>
+<text class="sT" x="353" y="59" text-anchor="middle">:</text>
+<rect class="sG" x="358" y="38" width="112" height="32" rx="5"/><text class="sC" x="414" y="59" text-anchor="middle">/home/sara</text>
+<line class="sLm" x1="414" y1="70" x2="414" y2="116" opacity=".6"/><text class="sS" x="414" y="128" text-anchor="middle">home directory</text>
+<text class="sT" x="475" y="59" text-anchor="middle">:</text>
+<rect class="sV" x="480" y="38" width="98" height="32" rx="5"/><text class="sC" x="529" y="59" text-anchor="middle">/bin/bash</text>
+<line class="sLm" x1="529" y1="70" x2="529" y2="86" opacity=".6"/><text class="sS" x="529" y="98" text-anchor="middle">login shell</text>
+<text class="sS" x="14" y="160">UID 0 = root. Service accounts use /usr/sbin/nologin as the shell so nobody can log in as them.</text>
+<text class="sS" x="14" y="180">The hash itself lives in /etc/shadow, readable only by root.</text>
+</svg><figcaption>Reading one line of <code>/etc/passwd</code> answers most "who is this account?" questions. <code>getent passwd sara</code> shows the same line, including accounts that come from LDAP or AD.</figcaption></figure>
 
 <h3>11.6 Processes &amp; services</h3>
 <pre><code>ps aux                       <span class="c"># all processes (USER, PID, %CPU, %MEM, COMMAND)</span>

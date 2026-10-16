@@ -730,12 +730,14 @@ const FOUNDATIONS = {
     q('Switching', 'Spanning Tree elects as root bridge the switch with…', ['The most ports', 'The lowest bridge ID (priority, then MAC)', 'The highest uptime', 'The fastest links'], 1, 'Every other switch then blocks its redundant ports.', 'N4.4'),
   ],
   N7: [
+    q('Security', 'A port scan shows 3389/tcp as “filtered”. That means…', ['RDP is listening', 'The host sent a reset', 'No reply came back: something in the path silently drops the packets', 'The port is encrypted'], 2, 'Closed (RST) proves the path works; filtered (silence) points at a firewall.', 'N7.4'),
     q('Security', 'Which pairing is right?', ['Hashing: reversible with a key', 'Symmetric (AES): one shared key, fast, protects bulk data', 'Asymmetric (RSA): fastest, used for disk encryption', 'Base64: strong encryption'], 1, 'Hashing is one-way; asymmetric is slow and used for identity and key exchange; Base64 is just encoding.', 'N7.5'),
     q('Security', 'In HTTPS, what is asymmetric cryptography used for?', ['Encrypting every request and response', 'Proving the server’s identity and agreeing a session key', 'Compressing pages', 'Hashing passwords'], 1, 'After the handshake, the data itself is encrypted with fast symmetric AES.', 'N7.5'),
     q('Security', 'A stateful firewall lets a web server\'s reply back in because…', ['An inbound rule allows all of port 443', 'The reply matches a connection recorded in its state table', 'Replies are never filtered', 'The NAT table is empty'], 1, 'Rules say who may initiate; state admits the rest of the conversation.', 'N7.2'),
     q('Security', 'Which switch feature stops ARP spoofing?', ['PortFast', 'Dynamic ARP Inspection', 'STP', 'LACP'], 1, 'It checks ARP replies against the DHCP snooping binding table.', 'N7.3'),
   ],
   N9: [
+    q('Storage', 'Synchronous replication to a DR site gives an RPO of…', ['Zero, at the cost of adding the WAN round trip to every write', 'The replication interval', 'One day', 'It depends on backups'], 0, 'Asynchronous allows any distance but loses up to one interval of data.', 'N9.6'),
     q('Storage', 'A thin pool promises 18 TB on 10 TB of disk and reaches 100% used. What happens?', ['Only the newest volume stops', 'Every thin volume in the pool stops accepting writes at once', 'The array adds disks automatically', 'Nothing until 18 TB'], 1, 'Alert well before 100% and act on it.', 'N9.5'),
     q('Storage', 'With MPIO over two iSCSI paths, one path fails. Users notice…', ['An outage', 'Nothing, so the dead path must be caught by monitoring', 'A reboot', 'Data loss'], 1, 'Redundancy hides failures; monitor paths, not just volumes.', 'N9.1'),
     q('Storage', 'Dell’s current midrange unified (block + file) array, successor to Unity XT, is…', ['PowerMax', 'PowerStore', 'PowerScale', 'PowerVault ME5'], 1, 'PowerMax is high-end block, PowerScale scale-out NAS (ex-Isilon), PowerVault ME5 entry block.', 'N9.7'),
