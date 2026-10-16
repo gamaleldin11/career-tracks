@@ -3823,7 +3823,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td>Virtual switch</td><td>vSS / vDS</td><td>Hyper-V virtual switch: External, Internal or Private (below); SET for NIC teaming</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 258" role="img" aria-label="The three Hyper-V virtual switch types: an External switch connects VMs, the host and the physical network; an Internal switch connects VMs and the host but not the physical network; a Private switch connects only the VMs to each other">
+<figure class="dia anim"><svg viewBox="0 0 720 258" role="img" aria-label="Animation: the three Hyper-V virtual switch types: on an External switch a VM reaches the physical LAN through the physical NIC and also the host; on an Internal switch VMs reach the host and each other but not the LAN; on a Private switch VMs only reach each other">
 <rect class="sN" x="14" y="30" width="220" height="186" rx="10"/><text class="sT" x="124" y="50" text-anchor="middle">External</text>
 <rect class="sB" x="34" y="60" width="80" height="32" rx="6"/><text class="sT" x="74" y="81" text-anchor="middle">VM 1</text>
 <rect class="sB" x="134" y="60" width="80" height="32" rx="6"/><text class="sT" x="174" y="81" text-anchor="middle">VM 2</text>
@@ -3851,6 +3851,12 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <text class="sS" x="124" y="252" text-anchor="middle">VMs + host + physical network</text>
 <text class="sS" x="360" y="252" text-anchor="middle">VMs + host only</text>
 <text class="sS" x="596" y="252" text-anchor="middle">VMs talk only to each other</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M74 92 L74 124 L174 124 L174 166 L174 226"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M174 92 L174 124 L74 124 L74 166"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M310 92 L310 124 L310 166"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M410 92 L410 124 L310 124 L310 92"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M546 92 L546 124 L646 124 L646 92"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M646 92 L646 124 L546 124 L546 92"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
 </svg><figcaption>Choose the switch type by who must talk to whom. External is production; Internal suits host-to-VM labs and NAT setups; Private isolates a test network completely. VLAN IDs are set per virtual network adapter.</figcaption></figure>
 
 <ul>
