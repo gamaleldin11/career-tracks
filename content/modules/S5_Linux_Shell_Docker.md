@@ -427,6 +427,21 @@ docker system prune        # clean up stopped containers, dangling images, unuse
 
 `-p 8080:8080` means **host port : container port**. The most common "it doesn't work" bug is an app listening on `localhost` (127.0.0.1) *inside* the container, which nothing outside can reach. Listen on `0.0.0.0` (ASP.NET Core in the official images already does).
 
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: Docker port mapping: a browser on the host calls localhost:8080, the host port 8080 forwards into the container, and an app listening on 0.0.0.0:8080 answers; an app listening only on 127.0.0.1 inside the container refuses the forwarded connection">
+<rect class="sN" x="14" y="20" width="692" height="160" rx="10"/><text class="sM" x="30" y="42">host: your laptop or server (IP 10.0.0.5)</text>
+<rect class="sB" x="40" y="66" width="130" height="50" rx="8"/><text class="sT" x="105" y="89" text-anchor="middle">browser</text><text class="sC" x="105" y="105" text-anchor="middle">localhost:8080</text>
+<rect class="sA" x="250" y="66" width="110" height="50" rx="8"/><text class="sT" x="305" y="89" text-anchor="middle">host port</text><text class="sC" x="305" y="105" text-anchor="middle">:8080</text>
+<rect class="sV" x="420" y="54" width="270" height="112" rx="10" opacity=".35"/><text class="sS" x="555" y="74" text-anchor="middle">container (own network namespace)</text>
+<rect class="sG" x="440" y="84" width="110" height="50" rx="8"/><text class="sT" x="495" y="107" text-anchor="middle">app listens</text><text class="sC" x="495" y="123" text-anchor="middle">0.0.0.0:8080</text>
+<rect class="sR" x="566" y="84" width="110" height="50" rx="8"/><text class="sT" x="621" y="107" text-anchor="middle">app listens</text><text class="sC" x="621" y="123" text-anchor="middle">127.0.0.1:8080</text>
+<line class="sLm" x1="170" y1="91" x2="250" y2="91" marker-end="url(#ahm)"/>
+<line class="sLm" x1="360" y1="91" x2="438" y2="104" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="202" text-anchor="middle">-p 8080:8080 = host port : container port; listen on 0.0.0.0 inside, or nothing outside can reach it</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M170 91 L250 91 L360 91 L440 108"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M170 96 L250 96 L360 96 L560 120 L566 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.84;0.86;0.98;1"/><text class="sRt" x="621" y="152" text-anchor="middle">✕ refused</text></g>
+</svg><figcaption>Inside a container, 127.0.0.1 means the container itself, so an app bound there is unreachable from the host even with <code>-p</code>. Bind to 0.0.0.0 (ASP.NET Core: <code>ASPNETCORE_URLS=http://+:8080</code>).</figcaption></figure>
+
 ## S5.10 Data that must survive: volumes 🟢 ⭐
 
 A container's writable layer disappears when the container is removed. Databases need storage outside it.
@@ -524,6 +539,30 @@ When one machine isn't enough, an **orchestrator** runs containers across a clus
 | **Ingress / Gateway API** | HTTP routing from outside the cluster to Services |
 | **ConfigMap / Secret** | Configuration and secrets injected as environment variables or files |
 | **Probes** | Liveness (restart if dead) and readiness (only send traffic when ready) |
+
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: Kubernetes keeping declared state: users reach an Ingress, which routes to a Service, which load-balances across three pods of a Deployment; when pod 2 crashes the Service stops sending it traffic and the Deployment starts a replacement to get back to three replicas">
+<rect class="sB" x="14" y="40" width="120" height="50" rx="8"/><text class="sT" x="74" y="70" text-anchor="middle">Users</text>
+<rect class="sA" x="170" y="40" width="130" height="50" rx="8"/><text class="sT" x="235" y="63" text-anchor="middle">Ingress</text><text class="sC" x="235" y="79" text-anchor="middle">HTTP routing</text>
+<rect class="sV" x="336" y="40" width="130" height="50" rx="8"/><text class="sT" x="401" y="63" text-anchor="middle">Service</text><text class="sC" x="401" y="79" text-anchor="middle">stable name + IP</text>
+<rect class="sN" x="500" y="14" width="206" height="196" rx="10"/><text class="sM" x="603" y="32" text-anchor="middle">Deployment: replicas = 3</text>
+<line class="sLm" x1="134" y1="65" x2="170" y2="65" marker-end="url(#ahm)"/>
+<line class="sLm" x1="300" y1="65" x2="336" y2="65" marker-end="url(#ahm)"/>
+<rect class="sG" x="520" y="44" width="166" height="44" rx="8"/><text class="sT" x="603" y="64" text-anchor="middle">pod 1</text><text class="sC" x="603" y="80" text-anchor="middle">ready ✓</text>
+<line class="sLm" x1="466" y1="65" x2="520" y2="66" opacity=".5"/>
+<rect class="sG" x="520" y="100" width="166" height="44" rx="8"/><text class="sT" x="603" y="120" text-anchor="middle">pod 2</text><text class="sC" x="603" y="136" text-anchor="middle">ready ✓</text>
+<line class="sLm" x1="466" y1="65" x2="520" y2="122" opacity=".5"/>
+<rect class="sG" x="520" y="156" width="166" height="44" rx="8"/><text class="sT" x="603" y="176" text-anchor="middle">pod 3</text><text class="sC" x="603" y="192" text-anchor="middle">ready ✓</text>
+<line class="sLm" x1="466" y1="65" x2="520" y2="178" opacity=".5"/>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M134 65 L300 65 L466 65 L520 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.160;1" path="M134 65 L300 65 L466 65 L520 122"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.160;0.162;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M134 65 L300 65 L466 65 L520 178"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.680;1" path="M134 65 L300 65 L466 65 L520 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.680;0.682;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.780;1" path="M134 65 L300 65 L466 65 L520 178"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.780;0.782;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.800;0.880;1" path="M134 65 L300 65 L466 65 L520 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.798;0.802;0.880;0.882;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.3;0.32;0.55;0.57;1"/><rect class="sR" x="518" y="98" width="170" height="48" rx="8" style="fill:none;stroke-width:3"/><text class="sRt" x="410" y="140" text-anchor="middle">pod 2 crashed</text></g>
+<g opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.56;0.58;0.97;1"/><rect class="sG" x="518" y="98" width="170" height="48" rx="8" style="fill:none;stroke-width:3"/><text class="sGt" x="410" y="140" text-anchor="middle">replacement starting</text></g>
+<text class="sS" x="250" y="196" text-anchor="middle">desired state: 3 replicas → actual: 2 → Kubernetes starts one more</text>
+</svg><figcaption>You declare what should exist; controllers keep comparing it with what does exist and fix the difference. Readiness probes decide which pods the Service sends traffic to.</figcaption></figure>
 
 Managed offerings are Azure Kubernetes Service (AKS), Amazon EKS and Google GKE. For a small app, **Azure Container Apps**, **Azure App Service** or **Fly.io** give you containers without managing a cluster.
 

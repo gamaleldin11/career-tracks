@@ -44,7 +44,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
   - Operations: B11.5 OpenTelemetry, B11.9.
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
 - **Frontend:** F1.2, F1.3 accessible forms; F2.6 centring, F2.8, F2.11; F3.10, F3.12 predict the output; F4.9 real-time; F5.2, F5.3, F5.6, F5.9 runtime validation, F5.10, F5.11; F6.8 React 19, F6.9; F7.1, F7.2 Angular templates and control flow; F8.6 URL as state; F9.1 Core Web Vitals; F10.2.
-- **System design and platform:** SD1.1; S5.9, S5.13 Kubernetes; S9.2 OWASP, S9.6 IDOR; S10.6.
+- **System design and platform:** SD1.1; S9.2 OWASP, S9.6 IDOR; S10.6.
 - **Other:** S2.2, S2.7, S2.8; S4.8, S4.10 trees, S4.15; FS1.5, FS1.7, FS2.1, FS2.5 external login; DE2.4; DE7.6; DS6.6.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
