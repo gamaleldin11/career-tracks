@@ -753,6 +753,31 @@ mask= 11000000 (192)    mask= 11000000
 Inside local          Inside global        Outside
 192.168.10.37:51522 → 41.33.7.9:61003   → 142.250.180.4:443   <span class="c"># PC A → Google</span>
 192.168.10.88:51522 → 41.33.7.9:61004   → 142.250.180.4:443   <span class="c"># PC B, same src port — no clash: PAT re-maps</span></code></pre>
+<figure class="dia steps"><svg viewBox="0 0 720 240" role="img" aria-label="Port address translation: PC A at 192.168.10.37 and PC B at 192.168.10.88 both use source port 51522 to reach Google on 443; the firewall maps them to its public address 41.33.7.9 on ports 61003 and 61004; a reply arriving on port 61004 is looked up in the translation table and sent back to PC B">
+<rect class="sB" x="14" y="26" width="140" height="44" rx="8"/><text class="sT" x="84" y="46" text-anchor="middle">PC A</text><text class="sC" x="84" y="62" text-anchor="middle">192.168.10.37</text>
+<rect class="sB" x="14" y="96" width="140" height="44" rx="8"/><text class="sT" x="84" y="116" text-anchor="middle">PC B</text><text class="sC" x="84" y="132" text-anchor="middle">192.168.10.88</text>
+<rect class="sA" x="290" y="50" width="140" height="66" rx="8"/><text class="sT" x="360" y="81" text-anchor="middle">Edge firewall</text><text class="sC" x="360" y="97" text-anchor="middle">public 41.33.7.9</text>
+<rect class="sG" x="566" y="60" width="140" height="44" rx="8"/><text class="sT" x="636" y="80" text-anchor="middle">Google</text><text class="sC" x="636" y="96" text-anchor="middle">142.250.180.4:443</text>
+<line class="sLm" x1="154" y1="48" x2="290" y2="72"/>
+<line class="sLm" x1="154" y1="118" x2="290" y2="96"/>
+<line class="sLm" x1="430" y1="82" x2="566" y2="82"/>
+<rect class="sN" x="14" y="154" width="692" height="78" rx="8"/>
+<text class="sM" x="30" y="172">inside local</text>
+<text class="sM" x="260" y="172">inside global</text>
+<text class="sM" x="470" y="172">outside</text>
+<g data-s="1"><text class="sC" x="30" y="194" xml:space="preserve" style="white-space:pre">192.168.10.37:51522</text><text class="sC" x="260" y="194" xml:space="preserve" style="white-space:pre">41.33.7.9:61003</text><text class="sC" x="470" y="194" xml:space="preserve" style="white-space:pre">142.250.180.4:443</text></g>
+<g class="pk" data-s="1"><circle class="sPg" r="5"><animateMotion dur="1.6s" begin="indefinite" fill="freeze" path="M154 48 L290 72 L430 82 L566 82"/></circle></g>
+<g data-s="2"><text class="sC" x="30" y="216" xml:space="preserve" style="white-space:pre">192.168.10.88:51522</text><text class="sC" x="260" y="216" xml:space="preserve" style="white-space:pre">41.33.7.9:61004</text><text class="sC" x="470" y="216" xml:space="preserve" style="white-space:pre">142.250.180.4:443</text></g>
+<g class="pk" data-s="2"><circle class="sPv" r="5"><animateMotion dur="1.6s" begin="indefinite" fill="freeze" path="M154 118 L290 96 L430 82 L566 82"/></circle></g>
+<g data-s="2-2"><text class="sWt" x="360" y="140" text-anchor="middle">same source port 51522: PAT gives each a different public port</text></g>
+<g data-s="3-3"><rect class="sW" x="256" y="202" width="140" height="20" rx="4" style="fill:none;stroke-width:2"/><text class="sGt" x="360" y="140" text-anchor="middle">reply to :61004 → table lookup → back to PC B</text></g>
+<g class="pk" data-s="3"><circle class="sPv" r="5"><animateMotion dur="1.6s" begin="indefinite" fill="freeze" path="M566 90 L430 90 L290 100 L154 124"/></circle></g>
+</svg><ol class="dia-steps">
+<li>PC A goes out: the firewall records 192.168.10.37:51522 ↔ 41.33.7.9:61003.</li>
+<li>PC B uses the same source port; PAT simply picks another public port.</li>
+<li>Replies are matched by the public port and translated back.</li>
+</ol><figcaption>Thousands of inside hosts can share one public IP because the port, not the address, keeps them apart. Unsolicited inbound traffic has no table entry, so it is dropped: that is why publishing a server needs a static port forward.</figcaption></figure>
+
 <ul>
   <li><strong>Port forwarding (static PAT)</strong>: "public :3389 → 192.168.10.50:3389" publishes a server. Real-life warning you can quote: exposing RDP directly to the internet is how half of ransomware incidents start — publish via VPN or a gateway instead.</li>
   <li><strong>Hairpin/loopback NAT</strong>: internal users reaching the <em>public</em> IP of an internal server need the firewall to translate twice; without it, "website works from home but not from the office LAN" — a classic bewildering ticket. (Split-horizon DNS is the cleaner fix.)</li>
@@ -839,6 +864,24 @@ Inside local          Inside global        Outside
   <tr><td class="num">902</td><td>TCP</td><td>ESXi host mgmt</td><td>vCenter ↔ ESXi (VMware)</td></tr>
   <tr><td class="num">3260</td><td>TCP</td><td><strong>iSCSI</strong></td><td>Block storage over IP (Module 9)</td></tr>
 </table></div>
+
+<figure class="dia anim"><svg viewBox="0 0 720 266" role="img" aria-label="Animation: ports and sockets: a client at 192.168.1.10 opens two browser connections from ephemeral ports 51522 and 51523 to the server’s port 443 where nginx listens, and an SSH session from port 51900 to port 22 where sshd listens; port 3389 on the server is closed; each connection is identified by its five-tuple of protocol, source address and port, and destination address and port">
+<rect class="sN" x="14" y="20" width="200" height="190" rx="10"/><text class="sT" x="114" y="42" text-anchor="middle">Client 192.168.1.10</text>
+<rect class="sN" x="506" y="20" width="200" height="190" rx="10"/><text class="sT" x="606" y="42" text-anchor="middle">Server 93.184.215.14</text>
+<rect class="sB" x="30" y="54" width="70" height="28" rx="6"/><text class="sC" x="65" y="73" text-anchor="middle">:51522</text><text class="sS" x="108" y="73">browser tab 1</text>
+<rect class="sB" x="30" y="104" width="70" height="28" rx="6"/><text class="sC" x="65" y="123" text-anchor="middle">:51523</text><text class="sS" x="108" y="123">browser tab 2</text>
+<rect class="sB" x="30" y="154" width="70" height="28" rx="6"/><text class="sC" x="65" y="173" text-anchor="middle">:51900</text><text class="sS" x="108" y="173">ssh session</text>
+<rect class="sG" x="620" y="54" width="70" height="28" rx="6"/><text class="sC" x="655" y="73" text-anchor="middle">:443</text><text class="sS" x="612" y="73" text-anchor="end">nginx (HTTPS)</text>
+<rect class="sG" x="620" y="104" width="70" height="28" rx="6"/><text class="sC" x="655" y="123" text-anchor="middle">:22</text><text class="sS" x="612" y="123" text-anchor="end">sshd</text>
+<rect class="sN" x="620" y="154" width="70" height="28" rx="6"/><text class="sC" x="655" y="173" text-anchor="middle">:3389</text><text class="sS" x="612" y="173" text-anchor="end">closed</text>
+<line class="sLg" x1="100" y1="66" x2="618" y2="66"/><line class="sLg" x1="100" y1="78" x2="618" y2="74" opacity=".6"/>
+<path class="sLv" d="M100 170 C300 170 380 120 618 120" style="fill:none"/>
+<circle class="sPg" r="5"><animateMotion dur="2.6s" repeatCount="indefinite" path="M100 66 L618 66"/></circle>
+<circle class="sPg" r="5"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M100 78 L618 74"/></circle>
+<circle class="sPv" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M100 170 C300 170 380 120 618 120"/></circle>
+<text class="sT" x="360" y="236" text-anchor="middle">a connection = 5-tuple: protocol, source IP : port, destination IP : port</text>
+<text class="sC" x="360" y="256" text-anchor="middle">TCP 192.168.1.10:51522 → 93.184.215.14:443  ≠  TCP 192.168.1.10:51523 → 93.184.215.14:443</text>
+</svg><figcaption>The well-known port says which service; the client’s random <em>ephemeral</em> port (49152–65535 on Windows) keeps each conversation separate. That is how two browser tabs to the same site never mix their data, and what NAT tables and firewall state tables track.</figcaption></figure>
 
 <h3>3.3 DNS — the internet's phonebook</h3>
 <p><strong>DNS</strong> (Domain Name System) translates names (<code>www.capgemini.com</code>) into IP addresses. It's a distributed, hierarchical database: <strong>root servers</strong> (.) → <strong>TLD servers</strong> (.com, .org, .eg) → <strong>authoritative servers</strong> for each domain. Your PC just asks one <strong>recursive resolver</strong> (your company's DNS server or 8.8.8.8), which does the legwork and caches the result for its <strong>TTL</strong> (time to live).</p>
@@ -1047,6 +1090,26 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
   <li>Redundancy patterns: <strong>80/20 split scopes</strong> across two servers, or Windows <strong>DHCP failover</strong> (hot standby / load-balance modes).</li>
   <li>Scope exhaustion real-life: guest Wi-Fi with 8-hour leases and hundreds of visitors → pool empties by noon → shorten lease to 1 h. Lease time is a <em>design</em> decision: short for guest churn, long for stable offices.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 230" role="img" aria-label="How a DHCP relay works: a laptop in VLAN 20 broadcasts DHCP DISCOVER; the router’s VLAN 20 interface, configured with ip helper-address, forwards it as a unicast to the DHCP server in the server VLAN and stamps the gateway address 192.168.20.1; the server chooses the matching 192.168.20.0/24 scope and offers an address; the relay delivers the offer to the laptop and the request and acknowledgement follow the same path">
+<rect class="sN" x="14" y="20" width="190" height="120" rx="10"/><text class="sM" x="109" y="40" text-anchor="middle">VLAN 20 · floor 3</text>
+<rect class="sB" x="44" y="64" width="130" height="50" rx="8"/><text class="sT" x="109" y="87" text-anchor="middle">New laptop</text><text class="sS" x="109" y="103" text-anchor="middle">no IP yet</text>
+<rect class="sA" x="290" y="50" width="150" height="76" rx="8"/><text class="sT" x="365" y="74" text-anchor="middle">Router / L3 switch</text>
+<text class="sC" x="365" y="98" text-anchor="middle">SVI 192.168.20.1</text>
+<text class="sC" x="365" y="114" text-anchor="middle">ip helper-address</text>
+<rect class="sN" x="516" y="20" width="190" height="120" rx="10"/><text class="sM" x="611" y="40" text-anchor="middle">VLAN 100 · servers</text>
+<rect class="sV" x="546" y="64" width="130" height="50" rx="8"/><text class="sT" x="611" y="87" text-anchor="middle">DHCP server</text><text class="sC" x="611" y="103" text-anchor="middle">10.0.0.5</text>
+<rect class="sN" x="14" y="156" width="692" height="66" rx="8"/>
+<g data-s="1-1"><line class="sLw" x1="174" y1="82" x2="288" y2="82" marker-end="url(#ahw)"/><text class="sWt" x="231" y="74" text-anchor="middle">broadcast</text><text class="sS" x="30" y="180">DISCOVER is a broadcast (the laptop has no IP). Routers never forward broadcasts, so on its own</text><text class="sS" x="30" y="202">it would die at the edge of VLAN 20 — and the laptop would end up with 169.254.x.x.</text></g>
+<g data-s="2-2"><line class="sLg" x1="440" y1="82" x2="544" y2="82" marker-end="url(#ahg)"/><text class="sGt" x="492" y="74" text-anchor="middle">unicast</text><text class="sS" x="30" y="180">The relay (ip helper-address 10.0.0.5) turns it into a unicast to the server and stamps</text><text class="sS" x="30" y="202">giaddr = 192.168.20.1: "this request came from the 192.168.20.0/24 network".</text></g>
+<g data-s="3-3"><line class="sLg" x1="544" y1="100" x2="442" y2="100" marker-end="url(#ahg)"/><text class="sGt" x="492" y="120" text-anchor="middle">OFFER</text><text class="sS" x="30" y="180">The server picks the scope that matches giaddr and offers 192.168.20.57 with gateway</text><text class="sS" x="30" y="202">192.168.20.1 and DNS 10.0.0.10. One central server serves every VLAN this way.</text></g>
+<g data-s="4-4"><line class="sLg" x1="288" y1="100" x2="176" y2="100" marker-end="url(#ahg)"/><text class="sGt" x="232" y="120" text-anchor="middle">OFFER → ACK</text><text class="sGt" x="30" y="180">The relay passes OFFER back to the client; REQUEST and ACK follow the same path. Done.</text><text class="sRt" x="30" y="202">Missing helper on a new VLAN = every client there gets 169.254: the classic new-floor ticket.</text></g>
+</svg><ol class="dia-steps">
+<li>The broadcast cannot cross the router.</li>
+<li>The relay forwards it as a unicast with giaddr.</li>
+<li>The server chooses the scope from giaddr.</li>
+<li>The reply comes back through the relay.</li>
+</ol><figcaption>One DHCP server, many VLANs: the relay agent (Cisco <code>ip helper-address</code>, "DHCP relay" elsewhere) is what makes it work. Every new VLAN needs one, or every client on it self-assigns 169.254.</figcaption></figure>
 
 <h3>D3.4 HTTP/TLS one level down</h3>
 <ul>
@@ -2824,6 +2887,23 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td><strong>NSX</strong>, <strong>Aria</strong>, <strong>Horizon</strong>, <strong>VCF</strong></td><td>Network virtualization / management &amp; automation / VDI desktops / the whole private-cloud bundle (VMware Cloud Foundation). Name-recognition level is enough. (Context point: Broadcom acquired VMware in 2023 and reorganized licensing around VCF subscriptions.)</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="The vSphere inventory hierarchy: vCenter Server manages a datacenter object, which contains a cluster with HA and DRS enabled, made of three ESXi hosts each running several VMs; every host in the cluster sees the same shared datastores and the same distributed switch port groups">
+<rect class="sV" x="290" y="10" width="140" height="40" rx="8"/><text class="sT" x="360" y="28" text-anchor="middle">vCenter Server</text><text class="sC" x="360" y="44" text-anchor="middle">VCSA appliance</text>
+<line class="sLm" x1="360" y1="50" x2="360" y2="66"/>
+<rect class="sN" x="240" y="66" width="240" height="34" rx="8"/><text class="sT" x="360" y="88" text-anchor="middle">Datacenter: Cairo</text>
+<line class="sLm" x1="360" y1="100" x2="360" y2="114"/>
+<rect class="sA" x="60" y="114" width="600" height="112" rx="10" opacity=".35"/>
+<text class="sT" x="80" y="134">Cluster: Prod  (HA + DRS on, a pool of CPU and RAM)</text>
+<rect class="sB" x="90" y="146" width="160" height="44" rx="8"/><text class="sT" x="170" y="166" text-anchor="middle">ESXi host 1</text><text class="sC" x="170" y="182" text-anchor="middle">PowerEdge R760</text>
+<text class="sS" x="170" y="214" text-anchor="middle">app01 · db01 · web01</text>
+<rect class="sB" x="280" y="146" width="160" height="44" rx="8"/><text class="sT" x="360" y="166" text-anchor="middle">ESXi host 2</text><text class="sC" x="360" y="182" text-anchor="middle">PowerEdge R760</text>
+<text class="sS" x="360" y="214" text-anchor="middle">web02 · file01</text>
+<rect class="sB" x="470" y="146" width="160" height="44" rx="8"/><text class="sT" x="550" y="166" text-anchor="middle">ESXi host 3</text><text class="sC" x="550" y="182" text-anchor="middle">PowerEdge R760</text>
+<text class="sS" x="550" y="214" text-anchor="middle">mail01 · dc02</text>
+<rect class="sG" x="60" y="238" width="290" height="30" rx="8"/><text class="sS" x="205" y="258" text-anchor="middle">shared datastores (every host sees them)</text>
+<rect class="sW" x="370" y="238" width="290" height="30" rx="8"/><text class="sS" x="515" y="258" text-anchor="middle">distributed switch (same port groups everywhere)</text>
+</svg><figcaption>The cluster is the unit that matters: HA and DRS only work if every host in it sees the same datastores and the same networks. A host missing one port group is the classic "vMotion fails for this VM only" ticket.</figcaption></figure>
+
 <h3>10.3 Anatomy of a VM</h3>
 <ul>
   <li>Virtual hardware: <strong>vCPUs</strong>, memory, virtual disks (<strong>VMDK</strong>), virtual NIC (<strong>vmxnet3</strong> is the paravirtual/fast type), virtual SCSI controller (PVSCSI), CD-ROM mapping an ISO.</li>
@@ -2846,6 +2926,29 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>RDM</strong> (Raw Device Mapping) hands a VM a raw LUN directly — legacy clustering cases.</li>
   <li><strong>Storage vMotion</strong> moves a running VM's <em>disks</em> between datastores with no downtime (evacuating an array, rebalancing space).</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="The four vSphere datastore types: VMFS, vSphere’s clustered filesystem on a block LUN over Fibre Channel, iSCSI or local disks; NFS, an export from a NAS that owns the filesystem; vSAN, which pools the hosts’ own disks over the network with a storage policy per VM; and vVols, where the array stores each VM disk as its own object">
+<rect class="sN" x="14" y="14" width="164" height="214" rx="10"/><text class="sT" x="96" y="36" text-anchor="middle">VMFS</text>
+<rect class="sA" x="28" y="50" width="60" height="30" rx="6"/><text class="sS" x="58" y="70" text-anchor="middle">ESXi</text><rect class="sA" x="104" y="50" width="60" height="30" rx="6"/><text class="sS" x="134" y="70" text-anchor="middle">ESXi</text>
+<line class="sLm" x1="58" y1="80" x2="96" y2="130"/><line class="sLm" x1="134" y1="80" x2="96" y2="130"/>
+<rect class="sB" x="28" y="130" width="136" height="40" rx="8"/><text class="sT" x="96" y="155" text-anchor="middle">block LUN</text>
+<text class="sC" x="96" y="192" text-anchor="middle">FC · iSCSI · local</text><text class="sS" x="96" y="214" text-anchor="middle">vSphere’s clustered filesystem</text>
+<rect class="sN" x="190" y="14" width="164" height="214" rx="10"/><text class="sT" x="272" y="36" text-anchor="middle">NFS</text>
+<rect class="sA" x="204" y="50" width="60" height="30" rx="6"/><text class="sS" x="234" y="70" text-anchor="middle">ESXi</text><rect class="sA" x="280" y="50" width="60" height="30" rx="6"/><text class="sS" x="310" y="70" text-anchor="middle">ESXi</text>
+<line class="sLm" x1="234" y1="80" x2="272" y2="130"/><line class="sLm" x1="310" y1="80" x2="272" y2="130"/>
+<rect class="sG" x="204" y="130" width="136" height="40" rx="8"/><text class="sT" x="272" y="155" text-anchor="middle">NAS export</text>
+<text class="sC" x="272" y="192" text-anchor="middle">NFS v3 / v4.1</text><text class="sS" x="272" y="214" text-anchor="middle">the NAS owns the filesystem</text>
+<rect class="sN" x="366" y="14" width="164" height="214" rx="10"/><text class="sT" x="448" y="36" text-anchor="middle">vSAN</text>
+<rect class="sA" x="380" y="50" width="60" height="30" rx="6"/><text class="sS" x="410" y="70" text-anchor="middle">ESXi</text><rect class="sA" x="456" y="50" width="60" height="30" rx="6"/><text class="sS" x="486" y="70" text-anchor="middle">ESXi</text>
+<line class="sLm" x1="410" y1="80" x2="448" y2="130"/><line class="sLm" x1="486" y1="80" x2="448" y2="130"/>
+<rect class="sV" x="380" y="130" width="136" height="40" rx="8"/><text class="sT" x="448" y="155" text-anchor="middle">hosts’ own disks</text>
+<text class="sC" x="448" y="192" text-anchor="middle">pooled over the network</text><text class="sS" x="448" y="214" text-anchor="middle">storage policy per VM</text>
+<rect class="sN" x="542" y="14" width="164" height="214" rx="10"/><text class="sT" x="624" y="36" text-anchor="middle">vVols</text>
+<rect class="sA" x="556" y="50" width="60" height="30" rx="6"/><text class="sS" x="586" y="70" text-anchor="middle">ESXi</text><rect class="sA" x="632" y="50" width="60" height="30" rx="6"/><text class="sS" x="662" y="70" text-anchor="middle">ESXi</text>
+<line class="sLm" x1="586" y1="80" x2="624" y2="130"/><line class="sLm" x1="662" y1="80" x2="624" y2="130"/>
+<rect class="sW" x="556" y="130" width="136" height="40" rx="8"/><text class="sT" x="624" y="155" text-anchor="middle">array-side objects</text>
+<text class="sC" x="624" y="192" text-anchor="middle">per-VM disks on the array</text><text class="sS" x="624" y="214" text-anchor="middle">array features per VM</text>
+</svg><figcaption>Every type lets several hosts see the same VM files at once — the precondition for vMotion and HA. The ticket question is usually "which one, and what is underneath it?": VMFS → check the LUN and paths; NFS → the NAS and the network; vSAN → the hosts’ disks and the vSAN network.</figcaption></figure>
 
 <h3>10.5 Virtual networking</h3>
 <figure><svg viewBox="0 0 700 280" role="img" aria-label="ESXi virtual switch with VM port groups and VMkernel ports connected to physical uplinks">
