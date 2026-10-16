@@ -120,6 +120,20 @@ await email.Received(1).SendAsync(Arg.Is<Email>(e => e.Subject.Contains("forecas
 > [!mistake] Over-mocking
 > A test that mocks every collaborator and verifies every call is a copy of the implementation: it breaks on every refactor and proves nothing about real behaviour. Prefer asserting **outcomes** (the returned value, the saved state) over **interactions**, and verify interactions only at real boundaries (an email was sent, a message was published).
 
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: test doubles around ForecastService: a stub IForecastModel returns a 90-day forecast and a fake time provider says it is 02:00, controlling what goes into the service; a mock IEmailSender records the call so the test can verify the email was sent exactly once">
+<rect class="sA" x="250" y="70" width="200" height="60" rx="8"/><text class="sT" x="350" y="98" text-anchor="middle">ForecastService</text><text class="sC" x="350" y="114" text-anchor="middle">system under test</text>
+<rect class="sB" x="14" y="30" width="170" height="50" rx="8"/><text class="sT" x="99" y="53" text-anchor="middle">IForecastModel</text><text class="sC" x="99" y="69" text-anchor="middle">STUB: returns 90 days</text>
+<rect class="sV" x="14" y="120" width="170" height="50" rx="8"/><text class="sT" x="99" y="143" text-anchor="middle">FakeTimeProvider</text><text class="sC" x="99" y="159" text-anchor="middle">FAKE: it is 02:00</text>
+<rect class="sG" x="530" y="70" width="176" height="60" rx="8"/><text class="sT" x="618" y="98" text-anchor="middle">IEmailSender</text><text class="sC" x="618" y="114" text-anchor="middle">MOCK: was it called once?</text>
+<line class="sLm" x1="184" y1="55" x2="248" y2="90" marker-end="url(#ahm)"/>
+<line class="sLm" x1="184" y1="145" x2="248" y2="112" marker-end="url(#ahm)"/>
+<line class="sLm" x1="450" y1="100" x2="528" y2="100" marker-end="url(#ahm)"/>
+<text class="sS" x="216" y="62" text-anchor="middle">feeds data in</text>
+<text class="sS" x="489" y="92" text-anchor="middle">call checked</text>
+<text class="sT" x="360" y="196" text-anchor="middle">stubs and fakes control what goes IN; mocks verify what comes OUT</text>
+<circle class="sPg" r="6"><animateMotion dur="4s" repeatCount="indefinite" path="M184 55 L248 90 L450 100 L528 100"/></circle>
+</svg><figcaption>Assert on outcomes where you can; verify an interaction (a mock) only when the interaction is the outcome, like "an email was sent".</figcaption></figure>
+
 ## B10.4 Integration tests with WebApplicationFactory 🟡 ⭐
 
 `WebApplicationFactory<TEntryPoint>` boots your **real** app (its `Program`, middleware, DI, routing, filters, serialisation) in memory and gives you an `HttpClient` to call it. No network or deployment needed.

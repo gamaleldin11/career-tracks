@@ -168,6 +168,26 @@ dotnet ef migrations bundle                   # a self-contained executable that
 > [!story]
 > FinSight had **15 migrations over a 30-table schema** with six people committing. That's enough to talk credibly about snapshot conflicts and about reviewing migration SQL before it ran against the Azure database.
 
+<figure class="dia steps"><svg viewBox="0 0 720 176" role="img" aria-label="Expand and contract, renaming a column without downtime: add the new nullable column, make the app write both columns, backfill old rows in batches, switch reads to the new column, and finally drop the old column">
+<g data-s="1"><rect class="sB" x="14" y="40" width="128" height="56" rx="8"/><text class="sT" x="78" y="73" text-anchor="middle">1 expand</text><text class="sS" x="78" y="116" text-anchor="middle">add new column due_date</text><text class="sS" x="78" y="132" text-anchor="middle">(nullable)</text></g>
+<g data-s="1"><line class="sLm" x1="142" y1="68" x2="152" y2="68" marker-end="url(#ahm)"/></g>
+<g data-s="2"><rect class="sA" x="154" y="40" width="128" height="56" rx="8"/><text class="sT" x="218" y="73" text-anchor="middle">2 dual write</text><text class="sS" x="218" y="116" text-anchor="middle">app writes both columns</text></g>
+<g data-s="2"><line class="sLm" x1="282" y1="68" x2="292" y2="68" marker-end="url(#ahm)"/></g>
+<g data-s="3"><rect class="sV" x="294" y="40" width="128" height="56" rx="8"/><text class="sT" x="358" y="73" text-anchor="middle">3 backfill</text><text class="sS" x="358" y="116" text-anchor="middle">copy old rows in batches</text></g>
+<g data-s="3"><line class="sLm" x1="422" y1="68" x2="432" y2="68" marker-end="url(#ahm)"/></g>
+<g data-s="4"><rect class="sW" x="434" y="40" width="128" height="56" rx="8"/><text class="sT" x="498" y="73" text-anchor="middle">4 switch reads</text><text class="sS" x="498" y="116" text-anchor="middle">app reads only due_date</text></g>
+<g data-s="4"><line class="sLm" x1="562" y1="68" x2="572" y2="68" marker-end="url(#ahm)"/></g>
+<g data-s="5"><rect class="sG" x="574" y="40" width="128" height="56" rx="8"/><text class="sT" x="638" y="73" text-anchor="middle">5 contract</text><text class="sS" x="638" y="116" text-anchor="middle">drop old column dueDt</text></g>
+<text class="sM" x="360" y="22" text-anchor="middle">renaming a column with zero downtime: every step is safe with old and new app versions running</text>
+<text class="sRt" x="360" y="166" text-anchor="middle">a single "rename column" migration breaks every app instance still running the old code</text>
+</svg><ol class="dia-steps">
+<li>Expand: add, never change in place.</li>
+<li>Dual write so new data lands in both.</li>
+<li>Backfill history in batches.</li>
+<li>Move reads over; old column now unused.</li>
+<li>Contract: remove the old column in a later release.</li>
+</ol><figcaption>Each step ships separately, so a rollback at any point leaves a working system. The same pattern covers type changes and table splits.</figcaption></figure>
+
 ## B5.5 Querying well 🟢 🟡 ⭐
 
 <figure class="dia"><svg viewBox="0 0 720 188" role="img" aria-label="A LINQ query becomes an expression tree that EF Core translates into SQL selecting only the projected columns">

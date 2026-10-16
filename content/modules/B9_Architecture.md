@@ -216,6 +216,26 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 | Operational cost | Low | Low | **High**: deployment, monitoring, tracing, networking, versioning |
 | Team fit | Small team | Small to medium teams | Many teams needing to deploy independently |
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Three architectures side by side: a monolith with all features mixed in one deployable and one database; a modular monolith with orders, billing, catalogue and users as enforced modules in one deployable, each owning its schema in one database; and microservices, where each of the four is a separately deployed service with its own database, talking over the network">
+<text class="sM" x="120" y="22" text-anchor="middle">Monolith</text>
+<text class="sM" x="360" y="22" text-anchor="middle">Modular monolith</text>
+<text class="sM" x="600" y="22" text-anchor="middle">Microservices</text>
+<rect class="sA" x="30" y="36" width="180" height="120" rx="10" opacity=".7"/><text class="sS" x="120" y="70" text-anchor="middle">orders + billing +</text><text class="sS" x="120" y="88" text-anchor="middle">catalogue + users</text><text class="sS" x="120" y="106" text-anchor="middle">all mixed together</text>
+<rect class="sN" x="60" y="172" width="120" height="30" rx="6"/><text class="sS" x="120" y="192" text-anchor="middle">one database</text><line class="sLm" x1="120" y1="156" x2="120" y2="172"/>
+<rect class="sA" x="250" y="36" width="220" height="120" rx="10" opacity=".35"/>
+<rect class="sB" x="262" y="46" width="92" height="42" rx="6"/><text class="sT" x="308" y="72" text-anchor="middle">orders</text>
+<rect class="sB" x="366" y="46" width="92" height="42" rx="6"/><text class="sT" x="412" y="72" text-anchor="middle">billing</text>
+<rect class="sB" x="262" y="98" width="92" height="42" rx="6"/><text class="sT" x="308" y="124" text-anchor="middle">catalogue</text>
+<rect class="sB" x="366" y="98" width="92" height="42" rx="6"/><text class="sT" x="412" y="124" text-anchor="middle">users</text>
+<rect class="sN" x="270" y="172" width="180" height="30" rx="6"/><text class="sS" x="360" y="192" text-anchor="middle">one DB, schema per module</text><line class="sLm" x1="360" y1="156" x2="360" y2="172"/>
+<rect class="sV" x="500" y="40" width="92" height="36" rx="6"/><text class="sT" x="546" y="63" text-anchor="middle">orders</text><rect class="sN" x="516" y="84" width="60" height="22" rx="4"/><text class="sC" x="546" y="99" text-anchor="middle">own DB</text>
+<rect class="sV" x="604" y="40" width="92" height="36" rx="6"/><text class="sT" x="650" y="63" text-anchor="middle">billing</text><rect class="sN" x="620" y="84" width="60" height="22" rx="4"/><text class="sC" x="650" y="99" text-anchor="middle">own DB</text>
+<rect class="sV" x="500" y="124" width="92" height="36" rx="6"/><text class="sT" x="546" y="147" text-anchor="middle">catalogue</text><rect class="sN" x="516" y="168" width="60" height="22" rx="4"/><text class="sC" x="546" y="183" text-anchor="middle">own DB</text>
+<rect class="sV" x="604" y="124" width="92" height="36" rx="6"/><text class="sT" x="650" y="147" text-anchor="middle">users</text><rect class="sN" x="620" y="168" width="60" height="22" rx="4"/><text class="sC" x="650" y="183" text-anchor="middle">own DB</text>
+<line class="sLm" x1="592" y1="58" x2="604" y2="58"/><line class="sLm" x1="592" y1="142" x2="604" y2="142"/><line class="sLm" x1="546" y1="76" x2="546" y2="124" stroke-dasharray="3 3"/><line class="sLm" x1="650" y1="76" x2="650" y2="124" stroke-dasharray="3 3"/>
+<text class="sS" x="120" y="226" text-anchor="middle">one deploy, blurry boundaries</text><text class="sGt" x="360" y="226" text-anchor="middle">one deploy, enforced boundaries</text><text class="sS" x="600" y="226" text-anchor="middle">many deploys, network between</text>
+</svg><figcaption>The modular monolith keeps the boundaries of microservices without the network: the usual recommendation until independent team deployments are the real bottleneck.</figcaption></figure>
+
 **Why microservices:** independent deployment and scaling per service, fault isolation, freedom of technology per service, and **team autonomy**, often the real driver (Conway's law: system structure mirrors the organisation's communication structure).
 
 **What they cost:** network calls that fail and add latency, distributed transactions, data duplication, eventual consistency, versioning between services, and much heavier observability and DevOps needs.
