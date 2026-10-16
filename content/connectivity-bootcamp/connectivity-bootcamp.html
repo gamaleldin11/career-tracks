@@ -239,6 +239,22 @@ body.flat .sidebar{position:static;max-height:none}
   <li>The colored blocks are graduated depth: <span style="color:var(--good);font-weight:700">green = Level 2 deep dives</span> (tool outputs, edge cases, real tickets), <span style="color:var(--warn);font-weight:700">orange = Level 3 expert corners</span> (internals and design), <span style="color:var(--accent);font-weight:700">blue = Level 4 state-of-the-art</span> (what top teams run in 2026 and where the field is going). Master the base + Level 2 for the interview; Levels 3–4 are how you stand out and grow after.</li>
 </ul>
 
+<h3>Interview topic checklist — where each required topic lives</h3>
+<p>The hiring guide lists five required topics and six extras. Each row says where to study it. Do the required rows first, then the extras.</p>
+<div class="tw"><table>
+  <tr><th>#</th><th>Topic</th><th>Study here</th></tr>
+  <tr><td class="num">1</td><td><strong>Networks</strong>: TCP/IP, routing, switching, DNS, DHCP</td><td><a href="#m1">Module 1</a> (OSI, TCP/IP, encapsulation), <a href="#m2">2</a> (IP and subnetting), <a href="#m3">3</a> (TCP/UDP 3.1, DNS 3.3, DHCP 3.4), <a href="#m4">4</a> (switching, VLANs, STP), <a href="#m5">5</a> (routing)</td></tr>
+  <tr><td class="num">2</td><td><strong>OS (Linux/Windows)</strong>: CLI, logs, services, permissions</td><td><a href="#m11">Module 11</a> (commands 11.3, permissions 11.4, services 11.6, logs 11.10), <a href="#m12">Module 12</a> (Event Viewer and event IDs D12.1, NTFS vs share permissions D12.3, the PowerShell dozen)</td></tr>
+  <tr><td class="num">3</td><td><strong>Storage</strong>: RAID, SAN/NAS, iSCSI, Dell EMC</td><td><a href="#m9">Module 9</a> (RAID 9.2, DAS/NAS/SAN 9.4, iSCSI D9.1, the Dell storage portfolio 9.7), PERC hardware RAID in <a href="#m18">18.5</a></td></tr>
+  <tr><td class="num">4</td><td><strong>Security</strong>: firewalls, permissions, encryption</td><td><a href="#m7">Module 7</a> (firewalls 7.2 and D7.1, hardening 7.4, crypto vocabulary D7.3), TLS in 3.7, permissions in 11.4 and D12.3</td></tr>
+  <tr><td class="num">5</td><td><strong>Soft skills</strong>: customer handling, communication</td><td><a href="#m13">Module 13</a> (ticket lifecycle 13.4, customer handling 13.5), <a href="#m14">Module 14</a> (STAR answers 14.4, phrase bank 14.7, what not to say 14.8)</td></tr>
+  <tr><td class="num">6</td><td><strong>Hardware</strong>: BIOS, PSU, RAM, RAID, diagnostics</td><td><a href="#m18">Module 18</a> (18.1–18.5, diagnostics 18.10)</td></tr>
+  <tr><td class="num">7</td><td><strong>Virtualization</strong>: VMware, Hyper-V, virtual switches</td><td><a href="#m10">Module 10</a> (vSphere, virtual networking 10.5, vSwitch policies D10.5, Hyper-V 10.9)</td></tr>
+  <tr><td class="num">8</td><td><strong>Cloud</strong>: Azure/AWS basics, identity</td><td><a href="#m19">Module 19</a> (cloud models, Azure and AWS side by side, identity and access), hybrid identity in Module 12</td></tr>
+  <tr><td class="num">9</td><td><strong>Troubleshooting</strong>: RCA, logs, methodology</td><td><a href="#m8">Module 8</a> (the method 8.1, scenarios 8.3, escalation package D8.4), RCA and 5 Whys in D13.2, hardware in 18.10</td></tr>
+  <tr><td class="num">10</td><td><strong>Dell tools</strong>: iDRAC, OpenManage, SupportAssist</td><td><a href="#m18">Module 18</a> (iDRAC 18.6, Lifecycle Controller 18.7, OpenManage 18.8, SupportAssist 18.9, racadm and Redfish D18.1)</td></tr>
+  <tr><td class="num">11</td><td><strong>Scripting</strong>: PowerShell/Bash fundamentals</td><td><a href="#m20">Module 20</a> (both languages side by side), the annotated bash script in Module 11, the PowerShell dozen in Module 12</td></tr>
+</table></div>
 <h3>Build a free hands-on lab (evenings, zero cost)</h3>
 <p>Reading gets you to "I understand"; twenty minutes of doing gets you to "I've done it" — a phrase interviewers trust far more. Everything below is free:</p>
 <div class="tw"><table>
@@ -3918,6 +3934,51 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <li><strong>Escalate</strong> with evidence when stuck or out of scope — <em>before</em> the SLA clock forces it.</li>
   <li><strong>Resolve → confirm with the user → close</strong> with root cause and fix recorded; new knowledge → KB article.</li>
 </ol>
+
+<h3>13.5 Customer handling &amp; communication</h3>
+<p>In support roles, soft skills are scored as hard as subnetting. The customer rarely judges the fix — they can't see it — they judge <strong>how they were treated</strong> and <strong>whether they knew what was happening</strong>. Two habits cover most of it: <mark>acknowledge the person before the problem</mark>, and <mark>never leave a customer without a next update time</mark>.</p>
+
+<figure class="dia steps"><svg viewBox="0 0 720 214" role="img" aria-label="Five steps for handling an upset customer: listen without interrupting, acknowledge the impact, clarify the facts, set expectations with an action and a next update time, then follow through and confirm the fix with the customer before closing; each step shows a sentence to say">
+<rect class="sB" x="14" y="30" width="124" height="52" rx="8"/><text class="sT" x="76" y="61" text-anchor="middle">1 · Listen</text>
+<line class="sLm" x1="138" y1="56" x2="154" y2="56" marker-end="url(#ahm)"/>
+<rect class="sV" x="156" y="30" width="124" height="52" rx="8"/><text class="sT" x="218" y="61" text-anchor="middle">2 · Acknowledge</text>
+<line class="sLm" x1="280" y1="56" x2="296" y2="56" marker-end="url(#ahm)"/>
+<rect class="sA" x="298" y="30" width="124" height="52" rx="8"/><text class="sT" x="360" y="61" text-anchor="middle">3 · Clarify</text>
+<line class="sLm" x1="422" y1="56" x2="438" y2="56" marker-end="url(#ahm)"/>
+<rect class="sW" x="440" y="30" width="124" height="52" rx="8"/><text class="sT" x="502" y="61" text-anchor="middle">4 · Expectations</text>
+<line class="sLm" x1="564" y1="56" x2="580" y2="56" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="30" width="124" height="52" rx="8"/><text class="sT" x="644" y="61" text-anchor="middle">5 · Follow up</text>
+<rect class="sN" x="14" y="104" width="692" height="100" rx="8"/>
+<g data-s="1-1"><rect class="sR" x="11" y="27" width="130" height="58" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="130">Let them finish. Take notes. Don't interrupt with questions or defend the company:</text><text class="sS" x="30" y="152">people who feel heard calm down; people who are cut off escalate.</text><text class="sGt" x="30" y="182">Say: "Go on, I'm writing this down so you don't have to repeat it."</text></g>
+<g data-s="2-2"><rect class="sR" x="153" y="27" width="130" height="58" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="130">Name the impact on them, not the technical cause. Apologise for the experience,</text><text class="sS" x="30" y="152">without blaming a colleague, the customer or another team.</text><text class="sGt" x="30" y="182">Say: "Your team can't take payments this morning — I understand why that's urgent."</text></g>
+<g data-s="3-3"><rect class="sR" x="295" y="27" width="130" height="58" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="130">Now the troubleshooting questions: since when, who is affected, what changed, the exact</text><text class="sS" x="30" y="152">error text. Repeat it back so you both agree on the problem.</text><text class="sGt" x="30" y="182">Say: "So since 9:00, all 12 tills in the Maadi branch show 'server not found' — right?"</text></g>
+<g data-s="4-4"><rect class="sR" x="437" y="27" width="130" height="58" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="130">Say what you will do, what they can do meanwhile, and when you will update them —</text><text class="sS" x="30" y="152">even if the update is "no news yet". Never promise a fix time you don't control.</text><text class="sGt" x="30" y="182">Say: "I've raised it as P2 and I'm checking the branch link now. I'll call you by 10:30."</text></g>
+<g data-s="5-5"><rect class="sR" x="579" y="27" width="130" height="58" rx="10" style="fill:none;stroke-width:2.5"/><text class="sS" x="30" y="130">Call back on time. When it's fixed, ask them to confirm it works before you close, and</text><text class="sS" x="30" y="152">explain in one sentence what happened and what prevents a repeat.</text><text class="sGt" x="30" y="182">Say: "Can you try a payment now? … Great. It was a failed router at the branch; it's replaced."</text></g>
+</svg><ol class="dia-steps">
+<li>Listen until they have finished.</li>
+<li>Acknowledge the impact in their words.</li>
+<li>Clarify the facts and repeat them back.</li>
+<li>Set expectations: action, workaround, next update time.</li>
+<li>Follow through, confirm with them, then close.</li>
+</ol><figcaption>The upset-customer call, step by step. The technical work happens between steps 4 and 5; the customer's memory of the call is made in all five.</figcaption></figure>
+
+<ul>
+  <li><strong>Explain to non-technical people impact-first</strong>: what they will notice, what they need to do, and when it will be normal — not the protocol. "The branch's internet line is down, so the tills can't reach the payment server; card payments are offline until about noon, cash still works."</li>
+  <li><strong>"I don't know" is fine with a plan attached</strong>: "I don't know yet — I'll check with the storage team and update you by 3 p.m." Guessing and being wrong costs more trust than admitting a gap.</li>
+  <li><strong>Remote sessions</strong>: ask before taking control, ask them to close personal or confidential windows, say what you're doing as you do it, and hand control back at the end.</li>
+  <li><strong>Writing tickets and emails</strong>: facts, times and actions, no emotion or blame; someone else (or an auditor) will read it later. One topic per email, the request in the first line.</li>
+  <li><strong>Saying no</strong>: offer what you <em>can</em> do and the proper route. "I can't give local admin rights — that needs a security approval. I can raise the request now, and meanwhile I'll install the software for you remotely."</li>
+  <li><strong>Escalating without losing the customer</strong>: a warm handover — tell the customer who will contact them and when, and give the next team the whole story so the customer never repeats it.</li>
+</ul>
+<div class="tw"><table>
+  <tr><th>Instead of…</th><th>Say…</th></tr>
+  <tr><td>"That's not my department."</td><td>"That's handled by the network team — I'll pass it to them with everything you've told me and stay on the ticket."</td></tr>
+  <tr><td>"It works on my side."</td><td>"I can't reproduce it yet — can you show me exactly what you see?"</td></tr>
+  <tr><td>"You must have changed something."</td><td>"Has anything changed recently — updates, new equipment, a move?"</td></tr>
+  <tr><td>"It'll be fixed soon."</td><td>"We're working on it; I'll update you by 2:30, or sooner if it's fixed."</td></tr>
+  <tr><td>"Calm down."</td><td>"I understand this is stopping your work. Let's get it sorted."</td></tr>
+</table></div>
+<p>The <strong>incident update</strong> format for a wider audience — managers, a whole office — has four lines: <strong>what is happening</strong> (impact in plain words), <strong>who is affected</strong>, <strong>what we are doing</strong>, and <strong>when the next update comes</strong>. Send it on time even when nothing has changed.</p>
 
 <div class="qhead"><h3>Interview questions — Module 13</h3><button data-qa="qa13">Show all answers</button></div>
 <div class="qa" id="qa13">

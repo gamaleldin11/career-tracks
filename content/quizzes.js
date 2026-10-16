@@ -737,6 +737,8 @@ const FOUNDATIONS = {
   ],
   N13: [
     q('ITIL', 'The same VPN outage recurs every Monday. Besides restoring service each time, you open…', ['A service request', 'A problem record, to find and remove the root cause', 'A new incident category', 'A CMDB entry'], 1, 'Incident restores; problem finds the cause; a change deploys the fix.', 'N13.1'),
+    q('Soft skills', 'An upset user calls about an outage. What do you do first?', ['Explain the technical cause', 'Listen without interrupting, then acknowledge the impact on them', 'Transfer the call', 'Promise a fix in ten minutes'], 1, 'Listen, acknowledge, clarify, set expectations with a next update time, follow through.', 'N13.5'),
+    q('Soft skills', 'You have no news yet at the time you promised an update. You…', ['Wait until there is news', 'Send the update anyway: what you are doing and when the next update comes', 'Close the ticket', 'Ask the customer to call back'], 1, 'A silent ticket feels like an ignored ticket, even when work is happening.', 'N13.5'),
     q('ITIL', 'About how much downtime per year does 99.99% availability allow?', ['5 minutes', '53 minutes', '8 hours 46 minutes', '3.7 days'], 1, 'Each extra nine divides the budget by ten.', 'N13.2'),
   ],
   N18: [
