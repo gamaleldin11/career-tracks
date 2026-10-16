@@ -322,7 +322,7 @@ body.flat .sidebar{position:static;max-height:none}
 </table></div>
 <p>The interview phrase to remember: <mark>a LAN is what you own and control inside a site; a WAN connects sites over links you rent from a carrier</mark>. The internet is the biggest WAN.</p>
 
-<figure><svg viewBox="0 0 700 330" role="img" aria-label="Typical office network: internet, firewall router, switch, and end devices">
+<figure class="dia anim"><svg viewBox="0 0 700 330" role="img" aria-label="Animation: a typical office network: a request from a PC travels up through the switch and the firewall/router to the internet over the ISP’s WAN link, and the reply comes back down the same way; PCs, a printer, a server, an IP phone and a Wi-Fi access point all connect to the switch">
   <ellipse class="sB" cx="350" cy="32" rx="78" ry="24"/><text class="sT" x="350" y="36" text-anchor="middle">Internet</text>
   <line class="sL" x1="350" y1="56" x2="350" y2="84"/><text class="sS" x="362" y="74">WAN link (from ISP)</text>
   <rect class="sA" x="285" y="84" width="130" height="36" rx="7"/><text class="sT" x="350" y="107" text-anchor="middle">Firewall / Router</text>
@@ -337,6 +337,8 @@ body.flat .sidebar{position:static;max-height:none}
   <line class="sD" x1="600" y1="274" x2="575" y2="308"/><line class="sD" x1="640" y1="274" x2="665" y2="308"/>
   <text class="sS" x="565" y="320" text-anchor="middle">laptop</text><text class="sS" x="672" y="320" text-anchor="middle">phone</text>
   <text class="sM" x="30" y="310">LAN — everything below the router</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="5s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.425;1" path="M80 240 L350 186 L350 120 L350 84 L350 56"/><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.425;0.426;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="5s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.925;1" path="M350 56 L350 84 L350 120 L350 186 L80 240"/><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.499;0.501;0.925;0.926;1"/></circle>
 </svg><figcaption>A typical small office LAN. The router/firewall is the boundary between your LAN and the WAN/internet; the switch connects everything inside; the access point (AP) extends the LAN wirelessly.</figcaption></figure>
 
 <h3>1.3 Topologies</h3>
@@ -1468,7 +1470,7 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
 <h3>4.2 VLANs — one switch, many networks</h3>
 <p>A <strong>VLAN</strong> (Virtual LAN, IEEE 802.1Q) logically splits one physical switch into multiple isolated layer-2 networks — separate <strong>broadcast domains</strong>. Devices in VLAN 10 can't talk to VLAN 20 at layer 2 at all; traffic between them must be <em>routed</em>. Why: security (Finance separated from Guests), smaller broadcast domains, and grouping by function regardless of physical location.</p>
 
-<figure><svg viewBox="0 0 800 300" role="img" aria-label="Two switches with VLAN 10 and VLAN 20 connected by an 802.1Q trunk">
+<figure class="dia anim"><svg viewBox="0 0 800 300" role="img" aria-label="Animation: two switches joined by an 802.1Q trunk carry VLAN 10 and VLAN 20: a frame from the HR PC on switch A crosses the trunk tagged and reaches only the HR PC on switch B, a guest frame reaches only the guest PC, and traffic between the two VLANs must go through the router or layer-3 switch">
   <rect class="sB" x="60" y="110" width="220" height="52" rx="9"/><text class="sT" x="170" y="132" text-anchor="middle">Switch A</text><text class="sS" x="170" y="149" text-anchor="middle">access ports: VLAN 10 · VLAN 20</text>
   <rect class="sB" x="420" y="110" width="220" height="52" rx="9"/><text class="sT" x="530" y="132" text-anchor="middle">Switch B</text><text class="sS" x="530" y="149" text-anchor="middle">access ports: VLAN 10 · VLAN 20</text>
   <line class="sL" x1="280" y1="136" x2="420" y2="136"/><text class="sM" x="292" y="126">TRUNK · 802.1Q tags</text>
@@ -1478,6 +1480,9 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
   <line class="sN" x1="590" y1="110" x2="590" y2="55"/><rect class="sB" x="540" y="20" width="100" height="35" rx="7"/><text class="sT" x="590" y="42" text-anchor="middle">Guest PC</text><text class="sM" x="545" y="80">VLAN 20</text>
   <line class="sN" x1="170" y1="162" x2="170" y2="215"/><rect class="sA" x="95" y="215" width="150" height="40" rx="8"/><text class="sT" x="170" y="234" text-anchor="middle">Router / L3 switch</text><text class="sS" x="170" y="249" text-anchor="middle">routes 10 ↔ 20</text>
   <text class="sS" x="330" y="285" >The two HR PCs are one broadcast domain even across switches; guests are another.</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.283;1" path="M110 55 L110 136 L280 136 L420 136 L470 136 L470 55"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.283;0.284;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.617;1" path="M230 55 L230 136 L280 136 L420 136 L590 136 L590 55"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.332;0.334;0.617;0.618;1"/></circle>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.950;1" path="M110 55 L110 136 L170 162 L170 215 L170 162 L230 136 L230 55"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.666;0.668;0.950;0.951;1"/></circle>
 </svg><figcaption>Access ports carry one untagged VLAN to end devices; the <strong>trunk</strong> between switches carries all VLANs, tagging each frame with its VLAN ID.</figcaption></figure>
 
 <ul>
@@ -2084,13 +2089,16 @@ access-list 110 deny   ip  any any                              <span class="c">
 <h3>6.3 VPNs — private tunnels over public networks</h3>
 <p>A <strong>VPN</strong> (Virtual Private Network) creates an encrypted tunnel across an untrusted network so remote traffic behaves like it's on the private LAN. Two shapes:</p>
 
-<figure><svg viewBox="0 0 700 260" role="img" aria-label="Site-to-site VPN between offices and remote-access VPN for a home worker">
+<figure class="dia anim"><svg viewBox="0 0 700 260" role="img" aria-label="Animation: a site-to-site IPsec tunnel carries traffic between the HQ LAN 10.1.0.0/16 and the branch LAN 10.2.0.0/16 across the internet, and a home worker’s VPN client builds its own remote-access tunnel to the office">
   <rect class="sB" x="20" y="30" width="150" height="70" rx="10"/><text class="sT" x="95" y="60" text-anchor="middle">HQ LAN</text><text class="sS" x="95" y="78" text-anchor="middle">10.1.0.0/16</text>
   <rect class="sB" x="530" y="30" width="150" height="70" rx="10"/><text class="sT" x="605" y="60" text-anchor="middle">Branch LAN</text><text class="sS" x="605" y="78" text-anchor="middle">10.2.0.0/16</text>
   <ellipse class="sB" cx="350" cy="65" rx="90" ry="38"/><text class="sT" x="350" y="70" text-anchor="middle">Internet</text>
   <path class="sL" d="M170 65 C 240 30, 460 30, 530 65"/><text class="sM" x="255" y="28">site-to-site IPsec tunnel</text>
   <rect class="sB" x="20" y="170" width="150" height="60" rx="10"/><text class="sT" x="95" y="196" text-anchor="middle">Home worker</text><text class="sS" x="95" y="214" text-anchor="middle">VPN client software</text>
   <path class="sL" d="M170 200 C 250 245, 430 240, 520 100"/><text class="sM" x="300" y="235">remote-access VPN (SSL or IPsec)</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.283;1" path="M170 65 C 240 30, 460 30, 530 65"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.283;0.284;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.617;1" path="M530 65 C 460 30, 240 30, 170 65"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.332;0.334;0.617;0.618;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.950;1" path="M170 200 C 250 245, 430 240, 520 100"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.666;0.668;0.950;0.951;1"/></circle>
 </svg><figcaption><strong>Site-to-site</strong>: firewalls/routers at two offices keep a permanent tunnel — users notice nothing. <strong>Remote-access</strong>: an individual's client (Cisco AnyConnect, GlobalProtect, OpenVPN…) dials in and gets an internal IP.</figcaption></figure>
 
 <ul>
@@ -2245,7 +2253,7 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Next-Generation Firewall (NGFW)</strong> — adds <strong>deep packet inspection</strong>: identifies applications regardless of port, filters URLs, inspects TLS, applies <strong>IPS</strong> signatures, and integrates user identity (AD) into rules. Vendors you can name: Palo Alto, Fortinet FortiGate, Cisco Firepower, Check Point.</li>
 </ul>
 
-<figure><svg viewBox="0 0 700 250" role="img" aria-label="Firewall with three zones: internet, DMZ with public servers, and internal LAN">
+<figure class="dia anim"><svg viewBox="0 0 700 250" role="img" aria-label="Animation: a firewall with three zones: traffic from the internet is allowed to the DMZ servers, traffic from the internal LAN is allowed out to the internet, and a connection started from the DMZ toward the internal LAN is stopped at the firewall">
   <ellipse class="sB" cx="90" cy="120" rx="65" ry="30"/><text class="sT" x="90" y="125" text-anchor="middle">Internet</text>
   <rect class="sA" x="240" y="90" width="140" height="60" rx="9"/><text class="sT" x="310" y="115" text-anchor="middle">Firewall</text><text class="sS" x="310" y="133" text-anchor="middle">stateful / NGFW</text>
   <line class="sL" x1="155" y1="120" x2="240" y2="120"/>
@@ -2253,6 +2261,10 @@ access-list 110 deny   ip  any any                              <span class="c">
   <rect class="sB" x="490" y="160" width="180" height="66" rx="9"/><text class="sT" x="580" y="186" text-anchor="middle">Internal LAN</text><text class="sS" x="580" y="204" text-anchor="middle">users, servers, AD</text>
   <line class="sL" x1="380" y1="105" x2="490" y2="55"/><line class="sL" x1="380" y1="135" x2="490" y2="190"/>
   <text class="sS" x="30" y="230">Internet may reach DMZ services only; DMZ may not initiate into the LAN; LAN may go out.</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.283;1" path="M155 120 L240 120 L380 105 L490 55"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.001;0.283;0.284;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.617;1" path="M490 190 L380 135 L240 120 L155 120"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.332;0.334;0.617;0.618;1"/></circle>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.950;1" path="M490 55 L380 105 L330 115"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.666;0.668;0.950;0.951;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.74;0.76;0.95;1"/><text class="sRt" x="310" y="80" text-anchor="middle">✕ DMZ → LAN blocked</text></g>
 </svg><figcaption>The <strong>DMZ</strong> (demilitarized zone) hosts anything the internet must reach, so a compromised public server still can't touch the internal network directly.</figcaption></figure>
 
 <ul>
