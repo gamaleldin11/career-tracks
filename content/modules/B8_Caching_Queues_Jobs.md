@@ -47,6 +47,25 @@ A cache keeps a copy of expensive-to-produce data somewhere faster to read. Ever
 | **Application, distributed** | **Redis** (`IDistributedCache`) | All instances |
 | Database | Buffer pool, materialised views | The database's own |
 
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: in-memory versus distributed caching behind a load balancer: one request hits instance 1’s own memory cache, the fastest; another misses locally and hits the shared Redis cache; a third misses both and goes to the database; each instance keeps its own in-memory copy while Redis is a single shared copy">
+<rect class="sB" x="14" y="70" width="110" height="50" rx="8"/><text class="sT" x="69" y="93" text-anchor="middle">Requests</text><text class="sC" x="69" y="109" text-anchor="middle">via LB</text>
+<rect class="sA" x="200" y="20" width="170" height="50" rx="8"/><text class="sT" x="285" y="43" text-anchor="middle">app instance 1</text><text class="sC" x="285" y="59" text-anchor="middle">IMemoryCache</text>
+<line class="sLm" x1="124" y1="95" x2="200" y2="45" opacity=".5"/>
+<line class="sLm" x1="370" y1="45" x2="470" y2="115" opacity=".5"/>
+<rect class="sA" x="200" y="90" width="170" height="50" rx="8"/><text class="sT" x="285" y="113" text-anchor="middle">app instance 2</text><text class="sC" x="285" y="129" text-anchor="middle">IMemoryCache</text>
+<line class="sLm" x1="124" y1="95" x2="200" y2="115" opacity=".5"/>
+<line class="sLm" x1="370" y1="115" x2="470" y2="115" opacity=".5"/>
+<rect class="sA" x="200" y="160" width="170" height="50" rx="8"/><text class="sT" x="285" y="183" text-anchor="middle">app instance 3</text><text class="sC" x="285" y="199" text-anchor="middle">IMemoryCache</text>
+<line class="sLm" x1="124" y1="95" x2="200" y2="185" opacity=".5"/>
+<line class="sLm" x1="370" y1="185" x2="470" y2="115" opacity=".5"/>
+<rect class="sV" x="470" y="90" width="120" height="50" rx="8"/><text class="sT" x="530" y="113" text-anchor="middle">Redis</text><text class="sC" x="530" y="129" text-anchor="middle">shared by all</text><rect class="sN" x="620" y="90" width="86" height="50" rx="8"/><text class="sT" x="663" y="120" text-anchor="middle">Database</text>
+<line class="sLm" x1="590" y1="115" x2="620" y2="115"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M124 95 L200 45 L285 45"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle><text class="sGt" x="285" y="82" text-anchor="middle">hit in memory: fastest</text>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.550;1" path="M124 95 L200 115 L370 115 L470 115"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.550;0.552;1"/></circle><text class="sS" x="530" y="160" text-anchor="middle">hit in Redis: ~1 ms</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.950;1" path="M124 95 L200 185 L370 185 L470 115 L590 115 L663 115"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.950;0.952;1"/></circle>
+<text class="sS" x="360" y="232" text-anchor="middle">in-memory copies differ per instance (3 caches to invalidate); Redis is one copy everyone sees</text>
+</svg><figcaption>Two-level caching is common: a small in-memory cache for the hottest keys in front of Redis. The cost is invalidation: an update must reach every instance’s memory, not just Redis.</figcaption></figure>
+
 **Good cache candidates:** read often, changed rarely, expensive to compute, and tolerant of slight staleness: exchange rates, product catalogues, permissions, dashboard summaries, external API responses.
 
 **Bad candidates:** data that must always be exact (account balances at the moment of payment), data unique per request, anything cheap to fetch anyway.
@@ -167,6 +186,21 @@ Redis is an in-memory data-structure server. Knowing its structures turns "I kno
 | **Streams** | A lightweight log with consumer groups |
 | **Pub/Sub** | Fire-and-forget broadcast; used as the **SignalR backplane** across servers |
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="A Redis sorted set used as a leaderboard: members mona 2,840, karim 2,610, sara 2,390, omar 1,980 and laila 1,720 kept ordered by score, with the ZADD, ZINCRBY, ZREVRANGE and ZREVRANK commands that write and read it">
+<text class="sM" x="14" y="20">a sorted set keeps members ordered by score: ZADD to write, ZREVRANGE to read the top</text>
+<rect class="sG" x="14" y="34" width="320" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="51">mona</text><text class="sC" x="124" y="51">2,840</text>
+<rect class="sB" x="14" y="64" width="303.803" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="81">karim</text><text class="sC" x="124" y="81">2,610</text>
+<rect class="sB" x="14" y="94" width="288.31" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="111">sara</text><text class="sC" x="124" y="111">2,390</text>
+<rect class="sB" x="14" y="124" width="259.437" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="141">omar</text><text class="sC" x="124" y="141">1,980</text>
+<rect class="sB" x="14" y="154" width="241.127" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="171">laila</text><text class="sC" x="124" y="171">1,720</text>
+<rect class="sN" x="400" y="34" width="306" height="140" rx="8"/>
+<text class="sC" x="412" y="60" xml:space="preserve" style="white-space:pre">ZADD leaderboard 2840 mona</text>
+<text class="sC" x="412" y="88" xml:space="preserve" style="white-space:pre">ZINCRBY leaderboard 50 sara</text>
+<text class="sC" x="412" y="116" xml:space="preserve" style="white-space:pre">ZREVRANGE leaderboard 0 4 WITHSCORES</text>
+<text class="sC" x="412" y="144" xml:space="preserve" style="white-space:pre">ZREVRANK leaderboard sara</text>
+<text class="sS" x="360" y="204" text-anchor="middle">the same structure, keyed by timestamp, drives sliding-window rate limits</text>
+</svg><figcaption>Redis does the sorting on write, so "top 10" and "my rank" are instant reads even with millions of members.</figcaption></figure>
+
 Also: distributed locks (with care), rate limiting, and session storage. Note the licensing history: Redis changed licence in 2024 (source-available), the community fork **Valkey** appeared under the Linux Foundation, and **Redis 8** (2025) added an open-source AGPL option. Azure's newer offering is **Azure Managed Redis**.
 
 ## B8.4 Why message queues 🟢 ⭐
@@ -222,6 +256,22 @@ A message broker lets services communicate **asynchronously**: the producer send
 > [!say]
 > "Most brokers give at-least-once delivery, so duplicates will happen: after a consumer crash, a timeout or a redelivery. I make consumers idempotent by storing the processed message ID in the same transaction as the business change and skipping repeats, and failures retry with backoff before going to a dead-letter queue."
 
+<figure class="dia steps"><svg viewBox="0 0 720 188" role="img" aria-label="Why consumers must be idempotent: a consumer charges a customer for message 77 and crashes before acknowledging, so the broker redelivers it; a naive consumer charges twice; an idempotent consumer records the processed message ID in the same transaction as the charge, so the redelivery is detected and skipped">
+<rect class="sV" x="14" y="40" width="120" height="50" rx="8"/><text class="sT" x="74" y="63" text-anchor="middle">Broker</text><text class="sC" x="74" y="79" text-anchor="middle">at-least-once</text>
+<rect class="sA" x="300" y="40" width="140" height="50" rx="8"/><text class="sT" x="370" y="70" text-anchor="middle">Consumer</text>
+<rect class="sN" x="566" y="30" width="140" height="70" rx="8"/><text class="sT" x="636" y="50" text-anchor="middle">Database</text>
+<line class="sLm" x1="134" y1="65" x2="300" y2="65"/>
+<line class="sLm" x1="440" y1="65" x2="566" y2="65"/>
+<rect class="sN" x="14" y="120" width="692" height="60" rx="8"/>
+<g data-s="1-1"><g class="pk" data-s="1"><circle class="sPg" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M134 65 L300 65"/></circle></g><text class="sC" x="217" y="56" text-anchor="middle">msg-77: charge 500</text><text class="sT" x="636" y="82" text-anchor="middle">charged: 500</text><text class="sS" x="30" y="144">The consumer processes msg-77 and charges the customer, then crashes before it acknowledges.</text><text class="sS" x="30" y="164">The broker never got the ack, so it will deliver msg-77 again.</text></g>
+<g data-s="2-2"><g class="pk" data-s="2"><circle class="sPr" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M134 65 L300 65"/></circle></g><text class="sRt" x="217" y="56" text-anchor="middle">msg-77 again</text><text class="sRt" x="636" y="82" text-anchor="middle">charged: 1,000 ✕</text><text class="sRt" x="30" y="144">A naive consumer processes the redelivery too: the customer is charged twice.</text><text class="sS" x="30" y="164">Duplicates are normal with at-least-once delivery; the consumer must cope.</text></g>
+<g data-s="3-3"><g class="pk" data-s="3"><circle class="sPg" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M134 65 L300 65"/></circle></g><text class="sC" x="217" y="56" text-anchor="middle">msg-77 again</text><text class="sT" x="636" y="72" text-anchor="middle">charged: 500</text><text class="sGt" x="636" y="90" text-anchor="middle">processed: msg-77</text><text class="sGt" x="30" y="144">Idempotent consumer: the charge and "processed msg-77" are written in ONE transaction.</text><text class="sS" x="30" y="164">On redelivery it finds msg-77 already recorded, skips the work and just acknowledges.</text></g>
+</svg><ol class="dia-steps">
+<li>Processed, then a crash before the ack.</li>
+<li>Naive: the redelivery charges again.</li>
+<li>Idempotent: the recorded message ID stops the duplicate.</li>
+</ol><figcaption>"Exactly once" end to end is at-least-once delivery plus an idempotent consumer. The processed-ID table and the business change must commit together.</figcaption></figure>
+
 **Ordering:** most queues don't guarantee global order once you have several consumers. If order matters per entity, route by a key: Kafka keeps order **within a partition** (key by `invoiceId`); Azure Service Bus has **sessions**; RabbitMQ gives order within a single queue and consumer.
 
 ## B8.6 RabbitMQ, Kafka, Azure Service Bus 🟡 ⭐
@@ -233,6 +283,32 @@ A message broker lets services communicate **asynchronously**: the producer send
 | Ordering | Per queue | **Per partition** | Per session |
 | Typical use | Task queues, commands, RPC-style work between services | Event streaming, analytics pipelines, change data capture, audit logs, event sourcing | Business workflows in Azure: orders, payments, integration |
 | In .NET | `RabbitMQ.Client`, MassTransit | `Confluent.Kafka` | `Azure.Messaging.ServiceBus`, MassTransit |
+
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: a RabbitMQ queue versus a Kafka log: in RabbitMQ each message is delivered to one consumer and deleted once acknowledged; in Kafka messages stay in an ordered log and each consumer group, such as billing at offset 7 and analytics at offset 3, reads at its own position and can replay">
+<text class="sM" x="180" y="22" text-anchor="middle">RabbitMQ: a queue</text>
+<text class="sM" x="540" y="22" text-anchor="middle">Kafka: a log</text>
+<rect class="sB" x="30" y="46" width="44" height="30" rx="4"/><text class="sC" x="52" y="66" text-anchor="middle">m1</text>
+<rect class="sB" x="82" y="46" width="44" height="30" rx="4"/><text class="sC" x="104" y="66" text-anchor="middle">m2</text>
+<rect class="sB" x="134" y="46" width="44" height="30" rx="4"/><text class="sC" x="156" y="66" text-anchor="middle">m3</text>
+<rect class="sB" x="186" y="46" width="44" height="30" rx="4"/><text class="sC" x="208" y="66" text-anchor="middle">m4</text>
+<rect class="sB" x="238" y="46" width="44" height="30" rx="4"/><text class="sC" x="260" y="66" text-anchor="middle">m5</text>
+<rect class="sA" x="100" y="120" width="160" height="44" rx="8"/><text class="sT" x="180" y="140" text-anchor="middle">consumer</text><text class="sC" x="180" y="156" text-anchor="middle">ack → message deleted</text>
+<line class="sLm" x1="52" y1="76" x2="140" y2="120" marker-end="url(#ahm)"/>
+<text class="sS" x="180" y="196" text-anchor="middle">each message goes to one consumer, then is gone</text>
+<rect class="sV" x="390" y="46" width="36" height="30" rx="4"/><text class="sC" x="408" y="66" text-anchor="middle">0</text>
+<rect class="sV" x="430" y="46" width="36" height="30" rx="4"/><text class="sC" x="448" y="66" text-anchor="middle">1</text>
+<rect class="sV" x="470" y="46" width="36" height="30" rx="4"/><text class="sC" x="488" y="66" text-anchor="middle">2</text>
+<rect class="sV" x="510" y="46" width="36" height="30" rx="4"/><text class="sC" x="528" y="66" text-anchor="middle">3</text>
+<rect class="sV" x="550" y="46" width="36" height="30" rx="4"/><text class="sC" x="568" y="66" text-anchor="middle">4</text>
+<rect class="sV" x="590" y="46" width="36" height="30" rx="4"/><text class="sC" x="608" y="66" text-anchor="middle">5</text>
+<rect class="sV" x="630" y="46" width="36" height="30" rx="4"/><text class="sC" x="648" y="66" text-anchor="middle">6</text>
+<rect class="sV" x="670" y="46" width="36" height="30" rx="4"/><text class="sC" x="688" y="66" text-anchor="middle">7</text>
+<rect class="sA" x="390" y="120" width="140" height="44" rx="8"/><text class="sT" x="460" y="140" text-anchor="middle">billing group</text><text class="sC" x="460" y="156" text-anchor="middle">offset 7</text><rect class="sG" x="560" y="120" width="140" height="44" rx="8"/><text class="sT" x="630" y="140" text-anchor="middle">analytics group</text><text class="sC" x="630" y="156" text-anchor="middle">offset 3</text>
+<line class="sLm" x1="460" y1="120" x2="688" y2="78" marker-end="url(#ahm)"/><line class="sLm" x1="630" y1="120" x2="528" y2="78" marker-end="url(#ahm)"/>
+<text class="sS" x="545" y="196" text-anchor="middle">messages stay; each group reads at its own offset and can replay</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M52 40 L52 46 L52 76 L140 120"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="6"><animateMotion dur="6s" repeatCount="indefinite" path="M528 82 L688 82"/></circle>
+</svg><figcaption>The one-line difference: a queue forgets a message once it is handled; a log remembers it, so new consumers can start from the beginning.</figcaption></figure>
 
 Kafka is covered from the data-engineering side in [[DE8]]. **Azure Event Hubs** is Azure's Kafka-compatible event-streaming service; **Event Grid** routes lightweight events (a blob was created) to handlers.
 
