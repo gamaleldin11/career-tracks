@@ -2404,6 +2404,65 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>VM slow</strong> → check CPU ready, ballooning/swapping, datastore latency, snapshot chain length — in that order.</li>
 </ul>
 
+<h3>10.9 Hyper-V — the Microsoft hypervisor, mapped to vSphere</h3>
+<p><strong>Hyper-V</strong> is Microsoft's Type 1 hypervisor, installed as a <strong>role</strong> on Windows Server (or enabled on Windows 10/11 Pro for labs). When you add the role, the hypervisor slides underneath Windows: the Windows you log into becomes the <strong>parent (root) partition</strong> that manages the hardware drivers, and each VM is a <strong>child partition</strong>. Since Broadcom's VMware licensing changes (see "the Broadcom era" at the end of this module), many companies run or evaluate Hyper-V, so expect at least one comparison question.</p>
+
+<div class="tw"><table>
+  <tr><th>Concept</th><th>VMware vSphere</th><th>Microsoft Hyper-V</th></tr>
+  <tr><td>Hypervisor</td><td>ESXi</td><td>Hyper-V role on Windows Server (or Azure Local for HCI)</td></tr>
+  <tr><td>Central management</td><td>vCenter</td><td>Failover Cluster Manager, Windows Admin Center, System Center VMM (SCVMM)</td></tr>
+  <tr><td>Guest drivers</td><td>VMware Tools</td><td>Integration Services (built into modern Windows and Linux)</td></tr>
+  <tr><td>Disk file</td><td>VMDK</td><td><strong>VHDX</strong> (up to 64 TB; fixed, dynamically expanding or differencing)</td></tr>
+  <tr><td>Shared storage for a cluster</td><td>VMFS datastore, vSAN</td><td><strong>Cluster Shared Volumes</strong> (CSV), Storage Spaces Direct (S2D), SMB 3 file shares</td></tr>
+  <tr><td>Live move of a running VM</td><td>vMotion</td><td><strong>Live Migration</strong></td></tr>
+  <tr><td>Move a VM's disks live</td><td>Storage vMotion</td><td>Storage Live Migration</td></tr>
+  <tr><td>Restart VMs after host failure</td><td>vSphere HA</td><td><strong>Failover Clustering</strong></td></tr>
+  <tr><td>Load balancing</td><td>DRS</td><td>Dynamic Optimization (SCVMM), cluster VM load balancing</td></tr>
+  <tr><td>Point-in-time copy</td><td>Snapshot</td><td><strong>Checkpoint</strong> — <em>production</em> (VSS, application-consistent, the default) or <em>standard</em> (saves memory state)</td></tr>
+  <tr><td>Async replication for DR</td><td>vSphere Replication</td><td><strong>Hyper-V Replica</strong> (every 30 s, 5 min or 15 min to another host)</td></tr>
+  <tr><td>Memory overcommit</td><td>Ballooning, TPS</td><td><strong>Dynamic Memory</strong> (startup, minimum and maximum RAM per VM)</td></tr>
+  <tr><td>Virtual switch</td><td>vSS / vDS</td><td>Hyper-V virtual switch: External, Internal or Private (below); SET for NIC teaming</td></tr>
+</table></div>
+
+<figure class="dia"><svg viewBox="0 0 720 258" role="img" aria-label="The three Hyper-V virtual switch types: an External switch connects VMs, the host and the physical network; an Internal switch connects VMs and the host but not the physical network; a Private switch connects only the VMs to each other">
+<rect class="sN" x="14" y="30" width="220" height="186" rx="10"/><text class="sT" x="124" y="50" text-anchor="middle">External</text>
+<rect class="sB" x="34" y="60" width="80" height="32" rx="6"/><text class="sT" x="74" y="81" text-anchor="middle">VM 1</text>
+<rect class="sB" x="134" y="60" width="80" height="32" rx="6"/><text class="sT" x="174" y="81" text-anchor="middle">VM 2</text>
+<line class="sLm" x1="74" y1="92" x2="74" y2="112"/><line class="sLm" x1="174" y1="92" x2="174" y2="112"/>
+<rect class="sV" x="34" y="112" width="180" height="24" rx="5"/><text class="sS" x="124" y="129" text-anchor="middle">virtual switch</text>
+<line class="sLm" x1="74" y1="136" x2="74" y2="166"/><line class="sLm" x1="174" y1="136" x2="174" y2="166"/>
+<rect class="sA" x="34" y="166" width="80" height="32" rx="6"/><text class="sT" x="74" y="187" text-anchor="middle">host OS</text>
+<rect class="sW" x="134" y="166" width="80" height="32" rx="6"/><text class="sT" x="174" y="187" text-anchor="middle">pNIC</text>
+<line class="sLg" x1="174" y1="198" x2="174" y2="226" marker-end="url(#ahg)"/><text class="sGt" x="196" y="236" text-anchor="middle">LAN</text>
+<rect class="sN" x="250" y="30" width="220" height="186" rx="10"/><text class="sT" x="360" y="50" text-anchor="middle">Internal</text>
+<rect class="sB" x="270" y="60" width="80" height="32" rx="6"/><text class="sT" x="310" y="81" text-anchor="middle">VM 1</text>
+<rect class="sB" x="370" y="60" width="80" height="32" rx="6"/><text class="sT" x="410" y="81" text-anchor="middle">VM 2</text>
+<line class="sLm" x1="310" y1="92" x2="310" y2="112"/><line class="sLm" x1="410" y1="92" x2="410" y2="112"/>
+<rect class="sV" x="270" y="112" width="180" height="24" rx="5"/><text class="sS" x="360" y="129" text-anchor="middle">virtual switch</text>
+<line class="sLm" x1="310" y1="136" x2="310" y2="166"/>
+<rect class="sA" x="270" y="166" width="80" height="32" rx="6"/><text class="sT" x="310" y="187" text-anchor="middle">host OS</text>
+<text class="sRt" x="410" y="187" text-anchor="middle">no uplink</text>
+<rect class="sN" x="486" y="30" width="220" height="186" rx="10"/><text class="sT" x="596" y="50" text-anchor="middle">Private</text>
+<rect class="sB" x="506" y="60" width="80" height="32" rx="6"/><text class="sT" x="546" y="81" text-anchor="middle">VM 1</text>
+<rect class="sB" x="606" y="60" width="80" height="32" rx="6"/><text class="sT" x="646" y="81" text-anchor="middle">VM 2</text>
+<line class="sLm" x1="546" y1="92" x2="546" y2="112"/><line class="sLm" x1="646" y1="92" x2="646" y2="112"/>
+<rect class="sV" x="506" y="112" width="180" height="24" rx="5"/><text class="sS" x="596" y="129" text-anchor="middle">virtual switch</text>
+<rect class="sN" x="506" y="166" width="80" height="32" rx="6" stroke-dasharray="4 4"/><text class="sS" x="546" y="187" text-anchor="middle">host OS</text>
+<text class="sRt" x="646" y="187" text-anchor="middle">no uplink</text>
+<text class="sS" x="124" y="252" text-anchor="middle">VMs + host + physical network</text>
+<text class="sS" x="360" y="252" text-anchor="middle">VMs + host only</text>
+<text class="sS" x="596" y="252" text-anchor="middle">VMs talk only to each other</text>
+</svg><figcaption>Choose the switch type by who must talk to whom. External is production; Internal suits host-to-VM labs and NAT setups; Private isolates a test network completely. VLAN IDs are set per virtual network adapter.</figcaption></figure>
+
+<ul>
+  <li><strong>VM generations</strong>: <strong>Generation 2</strong> VMs use UEFI firmware, Secure Boot and boot from virtual SCSI (use them for anything modern); Generation 1 emulates legacy BIOS and IDE for old guests. You can't convert one to the other in place.</li>
+  <li><strong>The classic Hyper-V ticket</strong>: "the VM has no network". Check the virtual switch type (Private or Internal by mistake), the VLAN ID on the VM's adapter versus the physical switch port (it must be a trunk carrying that VLAN), and whether the External switch was bound to the right physical NIC.</li>
+  <li><strong>Checkpoints are not backups</strong> — the same rule as VMware snapshots: they chain AVHDX differencing disks on the same storage, and old ones grow and slow the VM. Back up with a VSS-aware tool (Veeam, Windows Server Backup, DPM).</li>
+  <li><strong>PowerShell runs everything</strong>: <code>Get-VM</code>, <code>Start-VM</code> / <code>Stop-VM</code>, <code>Checkpoint-VM</code>, <code>Get-VMSwitch</code>, <code>New-VMSwitch -Name Ext -NetAdapterName "NIC1"</code>, <code>Move-VM</code> (live migration), <code>Measure-VM</code> (resource use).</li>
+  <li>Licensing in one line: Windows Server <strong>Datacenter</strong> allows unlimited Windows VMs on a licensed host; <strong>Standard</strong> covers two. The free standalone Hyper-V Server stopped with the 2019 version.</li>
+</ul>
+<div class="note"><b>Say it:</b> "Hyper-V is Microsoft's Type 1 hypervisor. The concepts map one-to-one with vSphere: Live Migration is vMotion, Failover Clustering with Cluster Shared Volumes is HA, checkpoints are snapshots, and Hyper-V Replica gives asynchronous DR replication. Its virtual switch comes in three types — External to reach the physical network, Internal for host and VMs, Private for VMs only."</div>
+
 <div class="qhead"><h3>Interview questions — Module 10</h3><button data-qa="qa10">Show all answers</button></div>
 <div class="qa" id="qa10">
 <details><summary>What is a hypervisor? Type 1 vs Type 2?</summary><div class="a"><p><strong>Model answer:</strong> "A hypervisor is the software layer that lets multiple virtual machines share one physical server, allocating CPU, memory, disk, and network to each while keeping them isolated. Type 1 runs directly on the hardware — ESXi, Hyper-V, KVM — and is the data-center standard for performance and stability. Type 2 runs as an application on a desktop OS — VMware Workstation or VirtualBox — and is for labs and development. In production I'd only ever expect Type 1."</p></div></details>
