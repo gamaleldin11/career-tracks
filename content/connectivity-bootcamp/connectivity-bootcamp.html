@@ -1813,7 +1813,7 @@ O   172.16.4.0/24    via 192.168.10.253 [110/20] <span class="c"># OSPF [AD/metr
 S*  0.0.0.0/0        via 41.33.7.1              <span class="c"># default route → internet</span></code></pre>
 <p>Packet to <code>172.16.4.9</code> → the OSPF /24 wins. Packet to <code>8.8.8.8</code> → only the default matches. Being able to narrate this makes routing questions easy.</p>
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Routing table lookup for 172.16.4.9: only the OSPF 172.16.4.0/24 route and the default route match, and the /24 wins as the longest prefix">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: a routing table lookup for 172.16.4.9: the router checks every entry, finds that only the OSPF route 172.16.4.0/24 and the default route 0.0.0.0/0 match, and uses the /24 because it is the longest prefix">
 <rect class="sB" x="14" y="20" width="260" height="40" rx="6"/><text class="sC" x="144" y="38" text-anchor="middle">packet to</text><text class="sT" x="144" y="54" text-anchor="middle">172.16.4.9</text>
 <rect class="sN" x="14" y="80" width="420" height="28" rx="4" opacity=".5"/><text class="sT" x="30" y="99">C</text><text class="sC" x="70" y="99" xml:space="preserve" style="white-space:pre">192.168.10.0/24</text><text class="sC" x="290" y="99">connected</text>
 <text class="sC" x="450" y="99">no match</text>
@@ -1824,6 +1824,10 @@ S*  0.0.0.0/0        via 41.33.7.1              <span class="c"># default route 
 <rect class="sA" x="14" y="182" width="420" height="28" rx="4"/><text class="sT" x="30" y="201">S*</text><text class="sC" x="70" y="201" xml:space="preserve" style="white-space:pre">0.0.0.0/0</text><text class="sC" x="290" y="201">via 41.33.7.1</text>
 <text class="sC" x="450" y="201">matches, but only /0</text>
 <text class="sS" x="360" y="232" text-anchor="middle">among matching routes, the most specific (longest prefix) wins; the default route is the last resort</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.600;1" path="M144 60 L144 94 L144 128 L144 162 L144 196"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.600;0.602;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.310;0.320;0.95;1"/><rect class="sG" x="12" y="146" width="424" height="32" rx="5" style="fill:none;stroke-width:3"/></g>
+<g opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.470;0.480;0.95;1"/><rect class="sW" x="12" y="180" width="424" height="32" rx="5" style="fill:none;stroke-width:3"/></g>
+<g opacity="0"><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.700;0.710;0.95;1"/><rect class="sG" x="12" y="146" width="424" height="32" rx="5" style="fill:none;stroke-width:3"/></g>
 </svg><figcaption>How a router reads its table: find every route that contains the address, then take the longest prefix.</figcaption></figure>
 
 <h3>5.5 First-hop redundancy (Depth)</h3>
@@ -5844,7 +5848,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 </table></div>
 <div class="note"><b>The distinction they will test:</b> incident vs service request ("something broke" vs "I need something"), and incident vs problem ("restore service now" vs "find the root cause so it stops recurring").</div>
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="ITIL flow: repeated incidents are each closed with a workaround; recurrence opens a problem record, root cause analysis produces a known error documented in the knowledge base, and a change request with CAB approval deploys the fix so the incidents stop">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: ITIL flow: three VPN incidents are each restored with a workaround; the recurrence opens a problem record, root cause analysis produces a known error written up in the knowledge base, and a change with CAB approval deploys the fix so the incidents stop">
 <rect class="sR" x="14" y="30" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="50" text-anchor="middle">incident #1: VPN drops</text>
 <rect class="sR" x="14" y="70" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="90" text-anchor="middle">incident #2: VPN drops</text>
 <rect class="sR" x="14" y="110" width="150" height="30" rx="6" opacity=".8"/><text class="sC" x="89" y="130" text-anchor="middle">incident #3: VPN drops</text>
@@ -5857,6 +5861,11 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <line class="sLm" x1="358" y1="205" x2="408" y2="205" marker-end="url(#ahm)"/><rect class="sW" x="412" y="180" width="140" height="50" rx="8"/><text class="sT" x="482" y="203" text-anchor="middle">change (RFC)</text><text class="sC" x="482" y="219" text-anchor="middle">risk, CAB, rollback</text>
 <line class="sLg" x1="552" y1="205" x2="590" y2="205" marker-end="url(#ahg)"/><rect class="sG" x="594" y="180" width="112" height="50" rx="8"/><text class="sT" x="650" y="203" text-anchor="middle">fix deployed</text><text class="sC" x="650" y="219" text-anchor="middle">incidents stop</text>
 <text class="sC" x="560" y="60" text-anchor="middle">incident: "restore now"</text><text class="sC" x="560" y="80" text-anchor="middle">problem: "make it stop"</text><text class="sC" x="560" y="100" text-anchor="middle">change: "safely alter"</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M164 45 L214 85"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M164 85 L214 85"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M164 125 L214 85"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.400;1" path="M89 150 L89 180"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.400;0.402;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.850;1" path="M164 205 L218 205 L358 205 L412 205 L552 205 L594 205"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.850;0.852;1"/></circle>
 </svg><figcaption>Incident, problem and change are three different clocks: minutes to restore, days to understand, a planned window to fix.</figcaption></figure>
 
 <h3>13.2 SLAs and priority</h3>
