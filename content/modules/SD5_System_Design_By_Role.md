@@ -290,13 +290,39 @@ Network rounds ask you to design for **availability and performance at the infra
 | Name resolution | One DNS server | Two or more resolvers; anycast for public services |
 | Power | One feed | Dual power supplies on separate circuits, UPS, generator |
 
+<figure class="dia anim"><svg viewBox="0 0 720 256" role="img" aria-label="Animation: a spine-leaf data centre fabric with two spine switches and four leaf switches, each leaf connected to every spine; traffic from a server under leaf 1 to a server under leaf 4 takes leaf to spine to leaf, two hops, and flows are spread over both spines with equal-cost multipath, so losing a spine reduces capacity but not reachability">
+<text class="sM" x="360" y="20" text-anchor="middle">spine-leaf: every leaf connects to every spine</text>
+<rect class="sV" x="180" y="36" width="120" height="40" rx="8"/><text class="sT" x="240" y="61" text-anchor="middle">spine 1</text>
+<rect class="sV" x="420" y="36" width="120" height="40" rx="8"/><text class="sT" x="480" y="61" text-anchor="middle">spine 2</text>
+<rect class="sA" x="30" y="150" width="120" height="40" rx="8"/><text class="sT" x="90" y="168" text-anchor="middle">leaf 1</text><text class="sC" x="90" y="184" text-anchor="middle">rack switch</text>
+<line class="sLm" x1="90" y1="150" x2="240" y2="76" opacity=".6"/>
+<line class="sLm" x1="90" y1="150" x2="480" y2="76" opacity=".6"/>
+<rect class="sB" x="40" y="206" width="100" height="22" rx="4" opacity=".6"/><text class="sC" x="90" y="221" text-anchor="middle">servers</text>
+<rect class="sA" x="210" y="150" width="120" height="40" rx="8"/><text class="sT" x="270" y="168" text-anchor="middle">leaf 2</text><text class="sC" x="270" y="184" text-anchor="middle">rack switch</text>
+<line class="sLm" x1="270" y1="150" x2="240" y2="76" opacity=".6"/>
+<line class="sLm" x1="270" y1="150" x2="480" y2="76" opacity=".6"/>
+<rect class="sB" x="220" y="206" width="100" height="22" rx="4" opacity=".6"/><text class="sC" x="270" y="221" text-anchor="middle">servers</text>
+<rect class="sA" x="390" y="150" width="120" height="40" rx="8"/><text class="sT" x="450" y="168" text-anchor="middle">leaf 3</text><text class="sC" x="450" y="184" text-anchor="middle">rack switch</text>
+<line class="sLm" x1="450" y1="150" x2="240" y2="76" opacity=".6"/>
+<line class="sLm" x1="450" y1="150" x2="480" y2="76" opacity=".6"/>
+<rect class="sB" x="400" y="206" width="100" height="22" rx="4" opacity=".6"/><text class="sC" x="450" y="221" text-anchor="middle">servers</text>
+<rect class="sA" x="570" y="150" width="120" height="40" rx="8"/><text class="sT" x="630" y="168" text-anchor="middle">leaf 4</text><text class="sC" x="630" y="184" text-anchor="middle">rack switch</text>
+<line class="sLm" x1="630" y1="150" x2="240" y2="76" opacity=".6"/>
+<line class="sLm" x1="630" y1="150" x2="480" y2="76" opacity=".6"/>
+<rect class="sB" x="580" y="206" width="100" height="22" rx="4" opacity=".6"/><text class="sC" x="630" y="221" text-anchor="middle">servers</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M90 150 L240 76 L630 150"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.950;1" path="M90 150 L480 76 L630 150"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.950;0.952;1"/></circle>
+<text class="sS" x="360" y="112" text-anchor="middle">any server to any server: always leaf → spine → leaf, two hops</text>
+<text class="sGt" x="360" y="246" text-anchor="middle">equal-cost paths share the load (ECMP); lose a spine and you lose capacity, not reachability</text>
+</svg><figcaption>The modern data-centre answer to "a single core switch": every path is the same length, and adding capacity means adding a spine.</figcaption></figure>
+
 **Worked: a hospital campus network** (thinking of the systems you supported at Farwaniya Hospital).
 
 - **Requirements:** clinical systems (the HIS, lab and radiology results, the pharmacy) must stay up 24/7; patient Wi-Fi must never reach clinical systems; medical devices often run old operating systems that can't be patched.
 - **Segmentation:** separate VLANs and firewall zones for clinical workstations, servers, medical devices, staff Wi-Fi, guest Wi-Fi and management; deny by default between zones, allow only named flows (device → PACS on its port) ([[N7]]).
 - **Redundancy:** dual core switches, dual uplinks from every closet, HSRP/VRRP gateways, a firewall pair, two ISPs, UPS on every closet switch; the server room's critical systems replicated to a second room or site.
 
-<figure class="dia"><svg viewBox="0 0 720 284" role="img" aria-label="Redundant hospital network: two ISPs, a firewall pair, two core switches with a shared virtual gateway, and every closet switch dual-homed to both cores">
+<figure class="dia anim"><svg viewBox="0 0 720 284" role="img" aria-label="Animation: a redundant hospital network: closet switches first send traffic through core switch 1 to the active firewall and ISP 1; when core switch 1 fails, every closet’s second uplink carries the traffic through core switch 2, which takes over the virtual gateway">
 <rect class="sB" x="150" y="10" width="120" height="34" rx="8"/><text class="sT" x="210" y="32" text-anchor="middle">ISP 1</text><rect class="sB" x="450" y="10" width="120" height="34" rx="8"/><text class="sT" x="510" y="32" text-anchor="middle">ISP 2</text>
 <rect class="sR" x="210" y="66" width="130" height="38" rx="8"/><text class="sT" x="275" y="83" text-anchor="middle">firewall A</text><text class="sC" x="275" y="99" text-anchor="middle">active</text><rect class="sR" x="380" y="66" width="130" height="38" rx="8"/><text class="sT" x="445" y="83" text-anchor="middle">firewall B</text><text class="sC" x="445" y="99" text-anchor="middle">standby</text>
 <line class="sD" x1="340" y1="85" x2="380" y2="85"/><text class="sC" x="360" y="120" text-anchor="middle">state sync</text>
@@ -314,6 +340,15 @@ Network rounds ask you to design for **availability and performance at the infra
 <line class="sLg" x1="570" y1="202" x2="275" y2="170"/><line class="sLg" x1="600" y1="202" x2="445" y2="170"/>
 <text class="sC" x="360" y="258" text-anchor="middle">VLANs: clinical · servers · devices · staff Wi-Fi · guest Wi-Fi · management</text>
 <text class="sC" x="360" y="274" text-anchor="middle">deny by default between them</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.300;1" path="M90 202 L275 170 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.300;0.302;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.850;1" path="M120 202 L445 170 L445 104 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.850;0.852;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.070;0.350;1" path="M250 202 L275 170 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.068;0.072;0.350;0.352;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.900;1" path="M280 202 L445 170 L445 104 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.900;0.902;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.400;1" path="M410 202 L275 170 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.400;0.402;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.950;1" path="M440 202 L445 170 L445 104 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.950;0.952;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.450;1" path="M570 202 L275 170 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.450;0.452;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.970;1" path="M600 202 L445 170 L445 104 L275 104 L250 64 L210 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.970;0.972;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.48;0.5;0.97;1"/><rect class="sR" x="206" y="128" width="138" height="46" rx="9" style="fill:none;stroke-width:3"/><text class="sRt" x="150" y="160" text-anchor="end">core 1 fails →</text></g>
 </svg><figcaption>No single box or cable takes the hospital offline: two ISPs, a firewall pair, two cores sharing a virtual gateway, and two uplinks from every closet (green).</figcaption></figure>
 
 - **Wi-Fi:** WPA2/WPA3-Enterprise with 802.1X for staff, a captive portal on an isolated guest network, coverage surveys for wards ([[N6]]).
