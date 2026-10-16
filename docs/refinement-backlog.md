@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **731 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **802 self-test questions** across the eight tracks.
+- **819 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **840 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -20,6 +20,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
     - Security and auth: password-hashing cost (a decoded Identity hash); SignalR token flow.
     - Data and operations: latency percentiles; keyset pagination timing; sargable predicates.
   - **System design:** load-balancing tail latency; serverless and managed-service cost break-evens; one-way and two-way doors; back-of-envelope chains; the FinSight-at-scale architecture.
+- **Connectivity track (Oct 2026):** new Modules 18 (servers, hardware and Dell tools), 19 (cloud and identity) and 20 (PowerShell and Bash), sections 7.5 (encryption), 9.7 (Dell storage), 10.9 (Hyper-V) and 13.5 (customer handling), an 11-topic interview checklist in Orientation, and about 85 new diagrams across Modules 1–20.
 - **Bootcamp:** MAC learning, STP, FHRP, LVM, VMware shares, RAID URE, stateful firewalls, ARP spoofing, ITIL, availability nines, 5 Whys, SD-WAN, the deleted-but-open file case, routing failure patterns.
 
 ## What is left
@@ -35,7 +36,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ### Handbook sections still without a diagram (most valuable first)
 
-- **SQL and data:** DE3.1 loading patterns; DE4.1 and DE4.8; DA3.3; DA4.7; DA6.1 event tracking; DS6.7 forecast backtesting (rolling origin); DS5.1 counterfactuals.
+- **SQL and data:** DE3.1 loading patterns; DE4.1 and DE4.8; DA3.3; DA4.7; DA6.1 event tracking; DS5.1 counterfactuals.
 - **Backend:**
   - API and ASP.NET: B3.4 model binding and validation; B3.10 background work; B4.2, B4.6 versioning.
   - Persistence, tests and errors: B5.1, B5.4 migrations; B1.5 delegates; B1.9 exceptions; B10.3 test doubles.
@@ -51,7 +52,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - Copy this pass's AI Journey and Bootcamp changes into `E:\AI Journey - Written Course` and `E:\interview prep` if the mirror should show them too.
 - Add quiz questions for the newest figures that still have none: AI16, AI21, AI24 §24.3, SD1.5, DE2.4 and others as figures land. Questions go in `content/quizzes.js`, FOUNDATIONS object, keyed by module id. Inside single-quoted strings, use the typographic apostrophe `’`, not `\'`.
-- Keep the README counts in step: "Over 700 diagrams", "802 questions".
+- Keep the README counts in step: "Over 800 diagrams", "840 questions".
 
 ## How the work was done (to continue in the same style)
 
