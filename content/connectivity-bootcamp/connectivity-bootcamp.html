@@ -1972,7 +1972,7 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li>One-liner to reuse: <mark>"traceroute tells me <em>where</em>; the routing table at that hop tells me <em>why</em>."</mark></li>
 </ul></div>
 
-<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="Three routing failures and how traceroute shows them: a routing loop where traceroute alternates between R1 and R2 until the TTL runs out; asymmetric routing where the SYN leaves through a stateful firewall but the reply returns through another router, so ping works but TCP times out; and a blackhole where a summary route points to Null0 and traceroute stops after R3 with stars">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: three routing failures and how traceroute shows them: a routing loop where packets bounce between R1 and R2 until the TTL runs out; asymmetric routing where the SYN leaves through a stateful firewall but the reply returns through another router, so ping works but TCP times out; and a blackhole where a summary route points to Null0 and traceroute stops after R3">
 <rect class="sN" x="8" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="124" y="18" text-anchor="middle">routing loop</text>
 <rect class="sN" x="248" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="364" y="18" text-anchor="middle">asymmetric + stateful firewall</text>
 <rect class="sN" x="488" y="26" width="232" height="236" rx="8" opacity=".35"/><text class="sT" x="604" y="18" text-anchor="middle">blackhole after a change</text>
@@ -2004,6 +2004,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 <text class="sRt" x="502" y="204" xml:space="preserve" style="white-space:pre">4  *  *  *</text>
 <text class="sS" x="502" y="228" xml:space="preserve" style="white-space:pre">R3# show ip route 10.9.4.0</text>
 <text class="sRt" x="604" y="248" text-anchor="middle">stops dead, no unreachables</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M72 65 L96 65 L148 58"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle><circle class="sPr" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.600;1" path="M 148 58 C 160 40 162 40 174 58 C 162 92 160 92 148 74 C 160 40 162 40 174 58 C 162 92 160 92 148 74"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.600;0.602;1"/></circle><circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.300;1" path="M302 72 L328 56 L402 54 L426 70"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.300;0.302;1"/></circle><circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.600;1" path="M426 88 L402 108 L328 110 L304 90"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.600;0.602;1"/></circle><circle class="sPv" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.450;1" path="M552 65 L574 65 L628 65 L652 65 L680 65"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.450;0.452;1"/></circle>
 </svg><figcaption>Traceroute tells you where; the routing table at that hop tells you why.</figcaption></figure>
 
 <div class="deep deep3"><span class="dtag">Level 3 · Capstone — design a branch network from scratch</span>
@@ -4548,7 +4549,7 @@ MiB Mem: 15843 total, 320 free, 14200 used, 1323 buff/cache
   <li><code>systemd-analyze blame</code> — what made boot slow; <code>systemctl list-dependencies</code> — why a unit starts (or doesn't).</li>
 </ol>
 
-<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="The Linux boot chain from firmware to GRUB, the kernel and initramfs, systemd and the target, with typical failure points: a broken bootloader, a forgotten root password and a bad fstab entry">
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: the Linux boot chain runs from firmware to GRUB, to the kernel and initramfs, to systemd as PID 1 and on to the multi-user target; typical failure points are a broken bootloader, a bad fstab entry and a forgotten root password">
 <rect class="sB" x="14" y="40" width="126" height="52" rx="8"/><text class="sT" x="77" y="64" text-anchor="middle">firmware</text><text class="sC" x="77" y="80" text-anchor="middle">BIOS / UEFI</text>
 <line class="sLm" x1="140" y1="66" x2="154" y2="66" marker-end="url(#ahm)"/>
 <rect class="sV" x="156" y="40" width="126" height="52" rx="8"/><text class="sT" x="219" y="64" text-anchor="middle">GRUB</text><text class="sC" x="219" y="80" text-anchor="middle">bootloader</text>
@@ -4562,6 +4563,7 @@ MiB Mem: 15843 total, 320 free, 14200 used, 1323 buff/cache
 <line class="sLr" x1="503" y1="92" x2="503" y2="124" marker-end="url(#ahr)"/><rect class="sR" x="417" y="126" width="172" height="46" rx="6" opacity=".8"/><text class="sC" x="503" y="146" text-anchor="middle">bad /etc/fstab line</text><text class="sT" x="503" y="164" text-anchor="middle">→ emergency mode</text>
 <line class="sLr" x1="361" y1="92" x2="361" y2="184" marker-end="url(#ahr)"/><rect class="sR" x="275" y="186" width="172" height="46" rx="6" opacity=".8"/><text class="sC" x="361" y="206" text-anchor="middle">forgotten root password</text><text class="sT" x="361" y="224" text-anchor="middle">→ rd.break at GRUB</text>
 <text class="sS" x="360" y="252" text-anchor="middle">knowing the chain tells you where to look when a server won't come up</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.850;1" path="M77 66 L645 66"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.850;0.852;1"/></circle>
 </svg><figcaption>Boot, stage by stage. A typo in /etc/fstab is the classic "server won't boot" ticket; add nofail to non-critical mounts.</figcaption></figure>
 
 <h3>D11.3 Config-file literacy — the files you'll actually edit</h3>
