@@ -733,6 +733,8 @@ const FOUNDATIONS = {
     q('Security', 'Which switch feature stops ARP spoofing?', ['PortFast', 'Dynamic ARP Inspection', 'STP', 'LACP'], 1, 'It checks ARP replies against the DHCP snooping binding table.', 'N7.3'),
   ],
   N9: [
+    q('Storage', 'A thin pool promises 18 TB on 10 TB of disk and reaches 100% used. What happens?', ['Only the newest volume stops', 'Every thin volume in the pool stops accepting writes at once', 'The array adds disks automatically', 'Nothing until 18 TB'], 1, 'Alert well before 100% and act on it.', 'N9.5'),
+    q('Storage', 'With MPIO over two iSCSI paths, one path fails. Users notice…', ['An outage', 'Nothing, so the dead path must be caught by monitoring', 'A reboot', 'Data loss'], 1, 'Redundancy hides failures; monitor paths, not just volumes.', 'N9.1'),
     q('Storage', 'Dell’s current midrange unified (block + file) array, successor to Unity XT, is…', ['PowerMax', 'PowerStore', 'PowerScale', 'PowerVault ME5'], 1, 'PowerMax is high-end block, PowerScale scale-out NAS (ex-Isilon), PowerVault ME5 entry block.', 'N9.7'),
     q('Storage', 'PowerProtect DD (formerly Data Domain) is…', ['A primary database array', 'A deduplicating backup target appliance', 'A Fibre Channel switch', 'A hypervisor'], 1, 'Backup software such as Veeam or PowerProtect Data Manager writes to it; retention lock makes copies immutable.', 'N9.7'),
     q('Storage', 'Why did RAID 5 fall out of favour for large disks?', ['It needs too many disks', 'A rebuild must read every surviving bit, so an unreadable sector with no redundancy left becomes likely', 'It is slower than RAID 0', 'It cannot use SSDs'], 1, 'On a 10¹⁴ URE spec with four 10 TB survivors, a clean rebuild is only about 4% likely.', 'N9.2'),
@@ -748,6 +750,7 @@ const FOUNDATIONS = {
     q('ITIL', 'About how much downtime per year does 99.99% availability allow?', ['5 minutes', '53 minutes', '8 hours 46 minutes', '3.7 days'], 1, 'Each extra nine divides the budget by ten.', 'N13.2'),
   ],
   N18: [
+    q('Hardware', 'Why configure a hot spare on a PERC?', ['It doubles speed', 'The rebuild starts automatically within seconds of a failure instead of waiting for a part', 'It replaces backups', 'It enables RAID 0'], 1, 'The window with no redundancy shrinks from days to the rebuild time.', 'N18.5'),
     q('Hardware', 'A server’s OS is hung and RDP and SSH are dead. How do you still see its screen and power-cycle it?', ['Wait for a user to press the button', 'Through the iDRAC: out-of-band management on its own network and standby power', 'Through vCenter only', 'With ping -t'], 1, 'The BMC works independently of the OS, and even with the server powered off.', 'N18.6'),
     q('Hardware', 'One of two 1+1 redundant PSUs shows amber. The impact is…', ['The server is down', 'No outage, but redundancy is lost: the next failure is an outage', 'Half the CPUs stop', 'The RAID degrades'], 1, 'Check whether it failed or only lost input (cable, PDU), then replace it promptly.', 'N18.3'),
     q('Hardware', 'An OS installed on an MBR disk in Legacy BIOS mode stops booting after the server is switched to UEFI. Why?', ['UEFI is slower', 'UEFI boots from an EFI partition on GPT; the boot mode no longer matches the install', 'Secure Boot deleted the OS', 'The PERC failed'], 1, 'Match the boot mode to how the OS was installed.', 'N18.2'),

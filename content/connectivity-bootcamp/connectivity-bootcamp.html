@@ -2116,6 +2116,60 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <tr><td><strong>Object</strong></td><td>An HTTP API storing objects with metadata in flat buckets</td><td>S3 API, Azure Blob</td><td>Cloud-scale unstructured data, backup targets, archives</td></tr>
 </table></div>
 
+<figure class="dia"><svg viewBox="0 0 720 274" role="img" aria-label="The three storage access models: block storage presents raw numbered blocks as a LUN over iSCSI or Fibre Channel that one server formats with its own filesystem; file storage presents folders and files over SMB or NFS from a NAS that owns the filesystem; object storage stores whole objects with a key, data and metadata in a flat bucket accessed over HTTPS with the S3 API">
+<rect class="sN" x="14" y="14" width="220" height="250" rx="10"/><text class="sT" x="124" y="36" text-anchor="middle">Block (SAN)</text>
+<rect class="sN" x="250" y="14" width="220" height="250" rx="10"/><text class="sT" x="360" y="36" text-anchor="middle">File (NAS)</text>
+<rect class="sN" x="486" y="14" width="220" height="250" rx="10"/><text class="sT" x="596" y="36" text-anchor="middle">Object</text>
+<rect class="sA" x="34" y="50" width="180" height="40" rx="8"/><text class="sT" x="124" y="68" text-anchor="middle">Server</text><text class="sS" x="124" y="84" text-anchor="middle">formats it: NTFS, VMFS, XFS</text>
+<line class="sLm" x1="124" y1="90" x2="124" y2="112" marker-end="url(#ahm)"/>
+<text class="sC" x="132" y="106">iSCSI / FC</text>
+<rect class="sB" x="40" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="69" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="98" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="127" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="156" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="185" y="116" width="25" height="18" rx="3"/>
+<rect class="sB" x="40" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="69" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="98" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="127" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="156" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="185" y="138" width="25" height="18" rx="3"/>
+<rect class="sB" x="40" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="69" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="98" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="127" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="156" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="185" y="160" width="25" height="18" rx="3"/>
+<rect class="sB" x="40" y="182" width="25" height="18" rx="3"/>
+<rect class="sB" x="69" y="182" width="25" height="18" rx="3"/>
+<rect class="sB" x="98" y="182" width="25" height="18" rx="3"/>
+<rect class="sB" x="127" y="182" width="25" height="18" rx="3"/>
+<rect class="sB" x="156" y="182" width="25" height="18" rx="3"/>
+<rect class="sB" x="185" y="182" width="25" height="18" rx="3"/>
+<text class="sS" x="124" y="220" text-anchor="middle">raw numbered blocks: a LUN</text>
+<text class="sGt" x="124" y="240" text-anchor="middle">one server owns the filesystem</text>
+<rect class="sA" x="270" y="50" width="180" height="40" rx="8"/><text class="sT" x="360" y="68" text-anchor="middle">Clients</text><text class="sS" x="360" y="84" text-anchor="middle">map \\nas\finance</text>
+<line class="sLm" x1="360" y1="90" x2="360" y2="112" marker-end="url(#ahm)"/>
+<text class="sC" x="368" y="106">SMB / NFS</text>
+<text class="sC" x="282" y="132" xml:space="preserve" style="white-space:pre">finance/</text>
+<text class="sC" x="282" y="152" xml:space="preserve" style="white-space:pre">  2026/</text>
+<text class="sC" x="282" y="172" xml:space="preserve" style="white-space:pre">    budget.xlsx</text>
+<text class="sC" x="282" y="192" xml:space="preserve" style="white-space:pre">  policy.pdf</text>
+<text class="sS" x="360" y="220" text-anchor="middle">folders and files with locks</text>
+<text class="sGt" x="360" y="240" text-anchor="middle">the NAS owns the filesystem</text>
+<rect class="sA" x="506" y="50" width="180" height="40" rx="8"/><text class="sT" x="596" y="68" text-anchor="middle">App</text><text class="sS" x="596" y="84" text-anchor="middle">HTTPS PUT / GET</text>
+<line class="sLm" x1="596" y1="90" x2="596" y2="112" marker-end="url(#ahm)"/>
+<text class="sC" x="604" y="106">S3 API</text>
+<rect class="sV" x="506" y="116" width="180" height="84" rx="6" opacity=".55"/>
+<text class="sC" x="514" y="136" xml:space="preserve" style="white-space:pre">key  scans/2026/a17.jpg</text>
+<text class="sC" x="514" y="156" xml:space="preserve" style="white-space:pre">data 2.4 MB</text>
+<text class="sC" x="514" y="176" xml:space="preserve" style="white-space:pre">meta owner=hr, ttl=7y</text>
+<text class="sC" x="514" y="194" xml:space="preserve" style="white-space:pre">flat: no real folders</text>
+<text class="sS" x="596" y="220" text-anchor="middle">whole objects over HTTP</text>
+<text class="sGt" x="596" y="240" text-anchor="middle">scales to billions of objects</text>
+</svg><figcaption>Who owns the filesystem decides everything: with block the server does (fast, but only one server should write it unless a cluster filesystem such as VMFS coordinates); with file the NAS does (easy sharing); with object there is no filesystem, just keys in a bucket.</figcaption></figure>
+
 <h3>9.4 DAS, NAS, SAN</h3>
 <figure><svg viewBox="0 0 725 300" role="img" aria-label="DAS directly attached, NAS serving files over the LAN, SAN serving blocks over a dedicated network">
   <text class="sM" x="20" y="24">DAS</text>
@@ -2162,6 +2216,29 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li><strong>Deduplication &amp; compression</strong> — arrays store repeating blocks once; huge savings on VM farms and backups.</li>
   <li><strong>Tiering</strong> — hot data automatically lives on flash, cold data on big slow disks.</li>
 </ul>
+
+<figure class="dia"><svg viewBox="0 0 720 284" role="img" aria-label="Thin provisioning overcommit: six thin volumes of 3 terabytes promise 18 terabytes from a 10 terabyte pool; data actually written grows from 4 terabytes by half a terabyte a month, crosses the 80 percent alert at month 8 and fills the pool at month 12, when every volume in the pool stops accepting writes">
+<line class="sLm" x1="90" y1="230" x2="590" y2="230"/>
+<line class="sLm" x1="90" y1="230" x2="90" y2="40"/>
+<text class="sS" x="82" y="234" text-anchor="end">0 TB</text>
+<text class="sS" x="82" y="184" text-anchor="end">5 TB</text>
+<text class="sS" x="82" y="134" text-anchor="end">10 TB</text>
+<text class="sS" x="82" y="84" text-anchor="end">15 TB</text>
+<text class="sS" x="90" y="248" text-anchor="middle">month 0</text>
+<text class="sS" x="210" y="248" text-anchor="middle">month 3</text>
+<text class="sS" x="330" y="248" text-anchor="middle">month 6</text>
+<text class="sS" x="450" y="248" text-anchor="middle">month 9</text>
+<text class="sS" x="570" y="248" text-anchor="middle">month 12</text>
+<line class="sLv" x1="90" y1="50" x2="590" y2="50" stroke-dasharray="6 4"/><text class="sS" x="596" y="54">promised 18 TB</text>
+<text class="sS" x="596" y="70">(6 volumes × 3 TB)</text>
+<line class="sLr" x1="90" y1="130" x2="590" y2="130" style="stroke-width:2"/><text class="sRt" x="596" y="134">real pool 10 TB</text>
+<line class="sLw" x1="90" y1="150" x2="590" y2="150" stroke-dasharray="3 4"/><text class="sWt" x="596" y="154">alert at 80%</text>
+<polyline class="sLg" points="90,190 130,185 170,180 210,175 250,170 290,165 330,160 370,155 410,150 450,145 490,140 530,135 570,130" style="fill:none;stroke-width:3"/>
+<text class="sGt" x="250" y="202" text-anchor="middle">data actually written</text>
+<circle class="sPw" cx="410" cy="150" r="6"/><text class="sWt" x="402" y="138" text-anchor="end">month 8: act now</text>
+<circle class="sPr" cx="570" cy="130" r="7"/><text class="sRt" x="562" y="116" text-anchor="end">month 12: pool full</text>
+<text class="sS" x="340" y="274" text-anchor="middle">at 100%, every thin volume in the pool stops accepting writes at the same moment</text>
+</svg><figcaption>Thin provisioning is a loan against future capacity. It is safe only with an alert well before 100% and a plan (add disks, move volumes, delete old snapshots) triggered by it. Illustrative numbers.</figcaption></figure>
 
 <h3>9.6 Backup — the concepts interviews test</h3>
 <div class="tw"><table>
@@ -2266,6 +2343,29 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
 | `- 3:0:0:1 sdb 8:16 active ready running     <span class="c">← path via fabric/NIC A</span>
 `-+- policy='round-robin 0' prio=10 status=enabled
   `- 4:0:0:1 sdc 8:32 active ready running     <span class="c">← path via fabric/NIC B — lose one, I/O continues</span></code></pre>
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: a server reaches a LUN over two independent iSCSI paths, NIC A through switch A to controller A and NIC B through switch B to controller B; I/O alternates across both paths until path A’s cable is cut, after which all I/O continues on path B with no outage">
+<rect class="sA" x="14" y="100" width="130" height="70" rx="8"/><text class="sT" x="79" y="133" text-anchor="middle">ESXi / server</text><text class="sC" x="79" y="149" text-anchor="middle">NIC A · NIC B</text>
+<rect class="sN" x="250" y="40" width="120" height="44" rx="8"/><text class="sT" x="310" y="60" text-anchor="middle">Switch A</text><text class="sC" x="310" y="76" text-anchor="middle">VLAN 901</text>
+<rect class="sN" x="250" y="186" width="120" height="44" rx="8"/><text class="sT" x="310" y="206" text-anchor="middle">Switch B</text><text class="sC" x="310" y="222" text-anchor="middle">VLAN 902</text>
+<rect class="sB" x="470" y="40" width="120" height="44" rx="8"/><text class="sT" x="530" y="60" text-anchor="middle">Controller A</text><text class="sC" x="530" y="76" text-anchor="middle">10.9.1.10</text>
+<rect class="sB" x="470" y="186" width="120" height="44" rx="8"/><text class="sT" x="530" y="206" text-anchor="middle">Controller B</text><text class="sC" x="530" y="222" text-anchor="middle">10.9.2.10</text>
+<rect class="sV" x="626" y="100" width="80" height="70" rx="8"/><text class="sT" x="666" y="133" text-anchor="middle">LUN</text><text class="sC" x="666" y="149" text-anchor="middle">2 TB</text>
+<line class="sLm" x1="144" y1="120" x2="250" y2="62"/>
+<line class="sLm" x1="370" y1="62" x2="470" y2="62"/>
+<line class="sLm" x1="590" y1="62" x2="626" y2="120"/>
+<line class="sLm" x1="144" y1="150" x2="250" y2="208"/>
+<line class="sLm" x1="370" y1="208" x2="470" y2="208"/>
+<line class="sLm" x1="590" y1="208" x2="626" y2="150"/>
+<text class="sS" x="195" y="74" text-anchor="middle">path A</text>
+<text class="sS" x="195" y="206" text-anchor="middle">path B</text>
+<text class="sT" x="360" y="140" text-anchor="middle">MPIO: two independent paths,</text>
+<text class="sS" x="360" y="158" text-anchor="middle">round-robin while both are up</text>
+<g opacity="0"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.5;0.52;1" dur="8s" repeatCount="indefinite"/><text class="sRt" x="420" y="56" text-anchor="middle">✕ cable cut</text><line class="sLr" x1="405" y1="50" x2="435" y2="74" style="stroke-width:3"/><line class="sLr" x1="435" y1="50" x2="405" y2="74" style="stroke-width:3"/><text class="sRt" x="360" y="108" text-anchor="middle">path A dead: all I/O on B</text></g>
+<circle class="sPg" r="6"><animateMotion dur="2s" repeatCount="indefinite" path="M144 120 L250 62 L590 62 L626 120"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.51;1" dur="8s" repeatCount="indefinite"/></circle>
+<circle class="sPg" r="6"><animateMotion dur="2s" begin="1s" repeatCount="indefinite" path="M144 150 L250 208 L590 208 L626 150"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="2s" repeatCount="indefinite" path="M144 150 L250 208 L590 208 L626 150"/><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.5;0.51;1" dur="8s" repeatCount="indefinite"/></circle>
+</svg><figcaption>Multipathing in motion: two NICs, two switches, two VLANs, two controllers — nothing shared. When path A dies the I/O simply continues on B, which is exactly why a dead path can go unnoticed for weeks unless paths are monitored.</figcaption></figure>
+
 <p><strong>Real ticket pattern:</strong> "datastore/disk latency alarms every day at 13:00" → one iSCSI path down for weeks (nobody noticed — MPIO masked it) and the surviving link saturates at lunch-hour load. Moral you can quote: <mark>redundancy hides failures; monitor the paths, not just the service.</mark></p>
 
 <h3>D9.2 Why RAID 5 fell out of favor — the math in one paragraph</h3>
@@ -2730,6 +2830,24 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li>vSphere 7+ can also restart vCenter itself via <strong>vCLS</strong> agent VMs (those tiny "vCLS" VMs confuse juniors — they belong there; don't delete them).</li>
 </ul>
 
+<figure class="dia steps"><svg viewBox="0 0 720 242" role="img" aria-label="How vSphere HA tells a dead host from an isolated one: hosts send network heartbeats over the management network and datastore heartbeats on shared storage; a host silent on both is dead, so its VMs are restarted on the other hosts; a host that lost only its network but still writes datastore heartbeats is isolated, and the configured isolation response decides what its VMs do">
+<rect class="sV" x="14" y="150" width="692" height="34" rx="8" opacity=".6"/>
+<text class="sT" x="360" y="172" text-anchor="middle">shared datastore (datastore heartbeats)</text>
+<line class="sLg" x1="14" y1="24" x2="706" y2="24" style="stroke-width:3"/>
+<text class="sS" x="700" y="18" text-anchor="end">management network (network heartbeats)</text>
+<rect class="sA" x="40" y="50" width="160" height="60" rx="8"/><text class="sT" x="120" y="78" text-anchor="middle">ESXi-1</text><text class="sS" x="120" y="94" text-anchor="middle">primary</text>
+<rect class="sA" x="280" y="50" width="160" height="60" rx="8"/><text class="sT" x="360" y="78" text-anchor="middle">ESXi-2</text><text class="sS" x="360" y="94" text-anchor="middle">VMs: 3</text>
+<rect class="sA" x="520" y="50" width="160" height="60" rx="8"/><text class="sT" x="600" y="78" text-anchor="middle">ESXi-3</text><text class="sS" x="600" y="94" text-anchor="middle">VMs: 3</text>
+<line class="sLg" x1="120" y1="24" x2="120" y2="50"/><line class="sLv" x1="120" y1="110" x2="120" y2="150"/>
+<g data-s="1-1"><line class="sLg" x1="360" y1="24" x2="360" y2="50"/><line class="sLg" x1="600" y1="24" x2="600" y2="50"/><line class="sLv" x1="360" y1="110" x2="360" y2="150"/><line class="sLv" x1="600" y1="110" x2="600" y2="150"/><text class="sS" x="30" y="214">Normal: every host answers on both channels. The primary watches them all.</text></g>
+<g data-s="2-2"><line class="sLg" x1="360" y1="24" x2="360" y2="50"/><line class="sLv" x1="360" y1="110" x2="360" y2="150"/><rect class="sR" x="518" y="48" width="164" height="64" rx="10" style="fill:none;stroke-width:3"/><text class="sRt" x="600" y="132" text-anchor="middle">silent on both</text><line class="sLw" x1="200" y1="70" x2="278" y2="70" marker-end="url(#ahw)"/><line class="sLw" x1="200" y1="90" x2="278" y2="90" marker-end="url(#ahw)"/><text class="sRt" x="30" y="214">ESXi-3 is silent on the network AND its datastore heartbeat stopped → dead.</text><text class="sS" x="30" y="232">HA restarts its 3 VMs on ESXi-1 and ESXi-2: minutes of downtime, not hours.</text></g>
+<g data-s="3-3"><line class="sLg" x1="600" y1="24" x2="600" y2="50"/><line class="sLv" x1="600" y1="110" x2="600" y2="150"/><line class="sLv" x1="360" y1="110" x2="360" y2="150"/><text class="sRt" x="360" y="40" text-anchor="middle">✕</text><rect class="sW" x="278" y="48" width="164" height="64" rx="10" style="fill:none;stroke-width:3"/><text class="sWt" x="360" y="132" text-anchor="middle">datastore heartbeat OK</text><text class="sWt" x="30" y="214">ESXi-2 lost only its network, but still writes datastore heartbeats → isolated, not dead.</text><text class="sS" x="30" y="232">Its VMs may still be running: the isolation response decides (leave on, shut down, power off).</text></g>
+</svg><ol class="dia-steps">
+<li>Two independent heartbeat channels: network and datastore.</li>
+<li>Silent on both: the host is dead and HA restarts its VMs elsewhere.</li>
+<li>Silent on the network only: the host is isolated and the isolation response applies.</li>
+</ol><figcaption>The second channel is what stops HA from starting a second copy of a VM that is still running on an isolated host. A redundant management network (two uplinks) prevents most isolation events.</figcaption></figure>
+
 <h3>D10.4 vMotion &amp; snapshot edge cases from real life</h3>
 <ul>
   <li>vMotion prerequisites checklist: shared storage (or storage vMotion combo), vMotion VMkernel on both hosts <em>same subnet</em>, same/compatible CPUs (<strong>EVC</strong> masks generational differences — but only within a vendor: Intel↔AMD never), matching port groups/VLANs, no CD-ROM mapped to a host-local ISO (the #1 silly blocker), no anti-affinity conflict.</li>
@@ -2739,6 +2857,23 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>Orphaned VM</strong> (grayed italic) after host crash → remove from inventory, re-register the .vmx from the datastore browser. <strong>Locked .vmdk</strong> ("unable to access file since it is locked") → another host still holds the lock — find it via the lock owner MAC in the error, restart its mgmt agents.</li>
   <li><strong>PSOD</strong> (Purple Screen of Death) = ESXi's kernel panic — usually hardware/driver; note the code, check HCL/firmware, engage vendor. VMs restart elsewhere via HA — which is exactly the story to tell about why clusters exist.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 152" role="img" aria-label="How a VMware snapshot chain works: without a snapshot the VM writes to its base disk; a snapshot freezes the base and sends new writes to a delta file; a second snapshot adds another delta and reads may walk the chain; consolidation merges the deltas back into the base; and forgotten snapshots grow a chain that can fill the datastore and pause every VM on it">
+<rect class="sA" x="14" y="20" width="120" height="48" rx="8"/><text class="sT" x="74" y="42" text-anchor="middle">VM</text><text class="sS" x="74" y="58" text-anchor="middle">guest writes</text>
+<g data-s="1-1"><rect class="sB" x="200" y="20" width="150" height="48" rx="8"/><text class="sT" x="275" y="42" text-anchor="middle">app.vmdk</text><text class="sS" x="275" y="58" text-anchor="middle">base: read + write</text><line class="sLg" x1="134" y1="44" x2="198" y2="44" marker-end="url(#ahg)"/><text class="sS" x="30" y="120">No snapshot: the VM reads and writes its base disk directly.</text></g>
+<g data-s="2-3"><rect class="sN" x="200" y="20" width="150" height="48" rx="8"/><text class="sT" x="275" y="42" text-anchor="middle">app.vmdk</text><text class="sS" x="275" y="58" text-anchor="middle">base: frozen</text></g>
+<g data-s="5-5"><rect class="sN" x="200" y="20" width="150" height="48" rx="8"/><text class="sT" x="275" y="42" text-anchor="middle">app.vmdk</text><text class="sS" x="275" y="58" text-anchor="middle">base: frozen</text></g>
+<g data-s="2-2"><rect class="sW" x="380" y="20" width="150" height="48" rx="8"/><text class="sT" x="455" y="42" text-anchor="middle">-000001.vmdk</text><text class="sS" x="455" y="58" text-anchor="middle">delta: new writes</text><line class="sLm" x1="350" y1="44" x2="378" y2="44"/><path class="sLg" d="M134 30 Q260 -6 455 18" style="fill:none" marker-end="url(#ahg)"/><text class="sS" x="30" y="120">Snapshot taken: the base becomes read-only and every new write lands in a delta file.</text><text class="sS" x="30" y="140">Reverting just throws the delta away.</text></g>
+<g data-s="3-3"><rect class="sN" x="380" y="20" width="150" height="48" rx="8"/><text class="sT" x="455" y="42" text-anchor="middle">-000001.vmdk</text><text class="sS" x="455" y="58" text-anchor="middle">delta 1: frozen</text><line class="sLm" x1="350" y1="44" x2="378" y2="44"/><rect class="sW" x="560" y="20" width="146" height="48" rx="8"/><text class="sT" x="633" y="42" text-anchor="middle">-000002.vmdk</text><text class="sS" x="633" y="58" text-anchor="middle">delta 2: writes</text><line class="sLm" x1="530" y1="44" x2="558" y2="44"/><path class="sLg" d="M134 30 Q380 -10 633 18" style="fill:none" marker-end="url(#ahg)"/><text class="sS" x="30" y="120">A second snapshot adds another link. Reads may walk the whole chain to find a block,</text><text class="sS" x="30" y="140">so long chains slow the VM, and every delta grows with each write.</text></g>
+<g data-s="4-4"><rect class="sG" x="200" y="20" width="150" height="48" rx="8"/><text class="sT" x="275" y="42" text-anchor="middle">app.vmdk</text><text class="sS" x="275" y="58" text-anchor="middle">base: merged</text><line class="sLg" x1="134" y1="44" x2="198" y2="44" marker-end="url(#ahg)"/><path class="sLw" d="M455 70 Q400 96 300 70" style="fill:none" marker-end="url(#ahw)"/><text class="sWt" x="430" y="100" text-anchor="middle">consolidate</text><text class="sS" x="30" y="120">Delete / consolidate: the deltas are written back into the base. It takes I/O and time,</text><text class="sS" x="30" y="140">and a brief "stun" at the end, so schedule it for big VMs.</text></g>
+<g data-s="5-5"><rect class="sR" x="380" y="20" width="326" height="48" rx="8"/><text class="sT" x="543" y="42" text-anchor="middle">40 deltas, 1.8 TB, datastore 100%</text><text class="sS" x="543" y="60" text-anchor="middle">every VM on it pauses</text><text class="sRt" x="30" y="120">The failure story: nightly backup snapshots fail to delete for weeks. The chain grows</text><text class="sS" x="30" y="140">until the datastore fills. Alarm on snapshot age and "Needs consolidation".</text></g>
+</svg><ol class="dia-steps">
+<li>No snapshot: one disk file.</li>
+<li>Snapshot 1: base frozen, writes go to a delta.</li>
+<li>Snapshot 2: a longer chain.</li>
+<li>Consolidation merges everything back.</li>
+<li>The real-world failure: a forgotten chain fills the datastore.</li>
+</ol><figcaption>A snapshot is a pause button for a disk, not a copy of it: the delta depends on the base. That is why "a snapshot is not a backup".</figcaption></figure>
 
 <h3>D10.5 vSwitch security policies (the three toggles)</h3>
 <ul>
@@ -3640,6 +3775,30 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <li><strong>Controller cache</strong>: <em>write-back</em> (fast; protected by a battery or flash backup) vs <em>write-through</em> (safe, slow). A failed cache battery silently switches the PERC to write-through, and "the database got slow overnight" follows. See D9.3.</li>
   <li>Replace a failed disk <strong>by its bay</strong> (the iDRAC and the blinking amber LED tell you which one). Never pull a healthy disk from a degraded RAID 5: that is two failures.</li>
 </ul>
+
+<figure class="dia steps"><svg viewBox="0 0 720 222" role="img" aria-label="A hot-spare rebuild on a PERC: a four-disk RAID 5 virtual disk is online with an idle global hot spare; disk 1 fails and the virtual disk becomes degraded with no redundancy; the controller rebuilds onto the spare by reading all surviving disks; the virtual disk is online again and the replacement disk becomes the new hot spare">
+<text class="sM" x="250" y="30" text-anchor="middle">RAID 5 virtual disk (4 members)</text>
+<text class="sM" x="560" y="30" text-anchor="middle">global hot spare</text>
+<rect class="sG" x="40" y="44" width="90" height="70" rx="8"/><text class="sT" x="85" y="84" text-anchor="middle">disk 0</text>
+<rect class="sG" x="260" y="44" width="90" height="70" rx="8"/><text class="sT" x="305" y="84" text-anchor="middle">disk 2</text>
+<rect class="sG" x="370" y="44" width="90" height="70" rx="8"/><text class="sT" x="415" y="84" text-anchor="middle">disk 3</text>
+<g data-s="1-1"><rect class="sG" x="150" y="44" width="90" height="70" rx="8"/><text class="sT" x="195" y="84" text-anchor="middle">disk 1</text></g>
+<g data-s="2-3"><rect class="sR" x="150" y="44" width="90" height="70" rx="8"/><text class="sT" x="195" y="84" text-anchor="middle">disk 1</text><text class="sRt" x="195" y="102" text-anchor="middle">failed</text></g>
+<g data-s="4-4"><rect class="sG" x="150" y="44" width="90" height="70" rx="8"/><text class="sT" x="195" y="84" text-anchor="middle">new disk</text><text class="sS" x="195" y="102" text-anchor="middle">new spare</text></g>
+<g data-s="1-2"><rect class="sN" x="520" y="44" width="90" height="70" rx="8"/><text class="sT" x="565" y="84" text-anchor="middle">spare</text><text class="sS" x="565" y="102" text-anchor="middle">idle, powered</text></g>
+<g data-s="3-3"><rect class="sW" x="520" y="44" width="90" height="70" rx="8"/><text class="sT" x="565" y="84" text-anchor="middle">spare</text><rect class="sN" x="530" y="96" width="70" height="8" rx="3"/><rect class="sG" x="530" y="96" width="43" height="8" rx="3"/><text class="sWt" x="565" y="128" text-anchor="middle">rebuilding 62%</text><line class="sLw" x1="85" y1="114" x2="560" y2="138" opacity=".7"/><line class="sLw" x1="305" y1="114" x2="560" y2="138" opacity=".7"/><line class="sLw" x1="415" y1="114" x2="560" y2="138" opacity=".7"/></g>
+<g data-s="4-4"><rect class="sG" x="520" y="44" width="90" height="70" rx="8"/><text class="sT" x="565" y="84" text-anchor="middle">disk 4</text><text class="sGt" x="565" y="102" text-anchor="middle">now a member</text></g>
+<rect class="sN" x="14" y="150" width="692" height="64" rx="8"/>
+<g data-s="1-1"><text class="sGt" x="30" y="174">Virtual disk: ONLINE</text><text class="sS" x="30" y="198">Four members, any one may fail. The spare waits, already powered.</text></g>
+<g data-s="2-2"><text class="sWt" x="30" y="174">Virtual disk: DEGRADED</text><text class="sS" x="30" y="198">Disk 1 failed. Data is still served, but RAID 5 now has no redundancy left.</text></g>
+<g data-s="3-3"><text class="sWt" x="30" y="174">Virtual disk: REBUILDING</text><text class="sS" x="30" y="198">The PERC reads every surviving disk and writes the missing data to the spare: hours, slower I/O.</text></g>
+<g data-s="4-4"><text class="sGt" x="30" y="174">Virtual disk: ONLINE</text><text class="sS" x="30" y="198">Spare is a full member. The replacement in bay 1 becomes the new hot spare.</text></g>
+</svg><ol class="dia-steps">
+<li>Healthy: four members and an idle hot spare.</li>
+<li>A member fails: degraded, still serving data, no redundancy left.</li>
+<li>Automatic rebuild onto the spare, reading every surviving disk.</li>
+<li>Online again; the swapped-in disk becomes the new spare.</li>
+</ol><figcaption>A hot spare turns "rebuild starts when someone notices and the part arrives" into "rebuild starts in seconds". During step 3 a second failure or an unreadable sector loses the virtual disk, which is why large disks use RAID 6 or RAID 10 (D9.2).</figcaption></figure>
 
 <h3>18.6 iDRAC — out-of-band management</h3>
 <p><strong>iDRAC</strong> (integrated Dell Remote Access Controller) is the BMC built into every PowerEdge: its own processor, firmware, web interface and — ideally — its own <strong>dedicated network port</strong> on a separate management network. <strong>Out-of-band</strong> means it does not depend on the server's OS, or on the server being powered on. iDRAC9 runs on 14th–16th generation servers; the 17th generation (2025) introduced iDRAC10.</p>
