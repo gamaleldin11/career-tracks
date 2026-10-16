@@ -385,6 +385,24 @@ Interviewers don't want precise numbers; they want to see you check whether a de
 - 1 KB × 1 million = 1 GB; 1 KB × 1 billion = 1 TB.
 - One modern server can usually handle **hundreds to a few thousand** simple API requests per second; one well-tuned relational database **thousands** of simple indexed queries per second; one Redis instance on the order of **100,000** simple operations per second. Treat these as orders of magnitude, then load-test ([[SD2.8]]).
 
+<figure class="dia anim"><svg viewBox="0 0 720 154" role="img" aria-label="Animation: back-of-the-envelope estimation as a chain: 2 million daily users times 3 app opens times 20 calls is 120 million requests a day, divided by 86,400 seconds is about 1,389 per second, times a 5 times dinner peak is about 6,944 per second, divided by about 1,000 requests per server is about 7 servers plus spare capacity">
+<rect class="sB" x="14" y="40" width="108" height="56" rx="8"/><text class="sT" x="68" y="66" text-anchor="middle">2 M users</text><text class="sC" x="68" y="82" text-anchor="middle">daily active</text>
+<line class="sLm" x1="122" y1="68" x2="129" y2="68" marker-end="url(#ahm)"/>
+<rect class="sN" x="131" y="40" width="108" height="56" rx="8"/><text class="sT" x="185" y="66" text-anchor="middle">× 3 opens</text><text class="sC" x="185" y="82" text-anchor="middle">× 20 calls</text>
+<line class="sLm" x1="239" y1="68" x2="246" y2="68" marker-end="url(#ahm)"/>
+<rect class="sA" x="248" y="40" width="108" height="56" rx="8"/><text class="sT" x="302" y="66" text-anchor="middle">120 M / day</text><text class="sC" x="302" y="82" text-anchor="middle">requests</text>
+<line class="sLm" x1="356" y1="68" x2="363" y2="68" marker-end="url(#ahm)"/>
+<rect class="sV" x="365" y="40" width="108" height="56" rx="8"/><text class="sT" x="419" y="66" text-anchor="middle">÷ 86,400 s</text><text class="sC" x="419" y="82" text-anchor="middle">≈ 1,389 / s</text>
+<line class="sLm" x1="473" y1="68" x2="480" y2="68" marker-end="url(#ahm)"/>
+<rect class="sW" x="482" y="40" width="108" height="56" rx="8"/><text class="sT" x="536" y="66" text-anchor="middle">× 5 peak</text><text class="sC" x="536" y="82" text-anchor="middle">≈ 6,944 / s</text>
+<line class="sLm" x1="590" y1="68" x2="597" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="599" y="40" width="108" height="56" rx="8"/><text class="sT" x="653" y="66" text-anchor="middle">÷ 1,000 each</text><text class="sC" x="653" y="82" text-anchor="middle">≈ 7 servers</text>
+<text class="sM" x="360" y="22" text-anchor="middle">the food-delivery example as a chain: each step is one multiplication or division</text>
+<text class="sS" x="360" y="124" text-anchor="middle">120,000,000 ÷ 86,400 = 1,389 requests per second on average; dinner peak ≈ 6,944</text>
+<text class="sGt" x="360" y="144" text-anchor="middle">the point is the order of magnitude: tens of servers, not one and not thousands</text>
+<circle class="sPg" r="6"><animateMotion dur="7s" repeatCount="indefinite" path="M68 102 L653 102"/></circle>
+</svg><figcaption>Computed: 120,000,000 / 86,400 ≈ 1,389/s, ×5 ≈ 6,944/s, at ~1,000 requests per server ≈ 7 servers before headroom. Say each step aloud; the interviewer is grading the method.</figcaption></figure>
+
 **Worked example: a food-delivery app in Egypt.** 2 million daily active users, each opening the app 3 times a day and making about 20 API calls per session.
 
 - Requests: 2 M × 3 × 20 = 120 M per day ≈ **1,400 per second** average; at a dinner-time peak of 5× ≈ **7,000 per second**. That is a load-balanced fleet of app servers plus a cache, not one server and not a global microservice mesh.

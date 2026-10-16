@@ -289,6 +289,30 @@ When the primary database can't keep up with **writes** or **storage** even on a
 3. Run a **soak test** (hours at expected peak) to find memory leaks and slow degradation.
 4. Run a **spike test** (sudden 10× jump) to check autoscaling and queues react in time.
 
+<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Response time against utilisation for a single queue with random arrivals and 10 milliseconds of work per request, computed as 10 divided by one minus utilisation: 20 ms at 50 percent, 50 ms at 80 percent, 100 ms at 90 percent and 200 ms at 95 percent; capacity plans target roughly 60 to 80 percent">
+<line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
+<line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
+<text class="sS" x="62" y="204" text-anchor="end">0</text>
+<text class="sS" x="62" y="162.75" text-anchor="end">50</text>
+<text class="sS" x="62" y="121.5" text-anchor="end">100</text>
+<text class="sS" x="62" y="80.25" text-anchor="end">150</text>
+<text class="sS" x="62" y="39" text-anchor="end">200</text>
+<text class="sS" x="70" y="218" text-anchor="middle">0%</text>
+<text class="sS" x="190" y="218" text-anchor="middle">20%</text>
+<text class="sS" x="310" y="218" text-anchor="middle">40%</text>
+<text class="sS" x="430" y="218" text-anchor="middle">60%</text>
+<text class="sS" x="550" y="218" text-anchor="middle">80%</text>
+<text class="sS" x="670" y="218" text-anchor="middle">100%</text>
+<polyline class="sLr" points="70.0,191.8 73.0,191.7 76.0,191.7 79.0,191.6 82.0,191.6 85.0,191.5 88.0,191.5 91.0,191.5 94.0,191.4 97.0,191.4 100.0,191.3 103.0,191.3 106.0,191.2 109.0,191.2 112.0,191.1 115.0,191.1 118.0,191.0 121.0,191.0 124.0,190.9 127.0,190.9 130.0,190.8 133.0,190.8 136.0,190.7 139.0,190.7 142.0,190.6 145.0,190.6 148.0,190.5 151.0,190.5 154.0,190.4 157.0,190.4 160.0,190.3 163.0,190.2 166.0,190.2 169.0,190.1 172.0,190.1 175.0,190.0 178.0,189.9 181.0,189.9 184.0,189.8 187.0,189.8 190.0,189.7 193.0,189.6 196.0,189.6 199.0,189.5 202.0,189.4 205.0,189.4 208.0,189.3 211.0,189.2 214.0,189.1 217.0,189.1 220.0,189.0 223.0,188.9 226.0,188.9 229.0,188.8 232.0,188.7 235.0,188.6 238.0,188.5 241.0,188.5 244.0,188.4 247.0,188.3 250.0,188.2 253.0,188.1 256.0,188.0 259.0,188.0 262.0,187.9 265.0,187.8 268.0,187.7 271.0,187.6 274.0,187.5 277.0,187.4 280.0,187.3 283.0,187.2 286.0,187.1 289.0,187.0 292.0,186.9 295.0,186.8 298.0,186.7 301.0,186.6 304.0,186.5 307.0,186.4 310.0,186.2 313.0,186.1 316.0,186.0 319.0,185.9 322.0,185.8 325.0,185.7 328.0,185.5 331.0,185.4 334.0,185.3 337.0,185.1 340.0,185.0 343.0,184.9 346.0,184.7 349.0,184.6 352.0,184.4 355.0,184.3 358.0,184.1 361.0,184.0 364.0,183.8 367.0,183.7 370.0,183.5 373.0,183.3 376.0,183.2 379.0,183.0 382.0,182.8 385.0,182.6 388.0,182.4 391.0,182.3 394.0,182.1 397.0,181.9 400.0,181.7 403.0,181.5 406.0,181.2 409.0,181.0 412.0,180.8 415.0,180.6 418.0,180.4 421.0,180.1 424.0,179.9 427.0,179.6 430.0,179.4 433.0,179.1 436.0,178.8 439.0,178.6 442.0,178.3 445.0,178.0 448.0,177.7 451.0,177.4 454.0,177.1 457.0,176.8 460.0,176.4 463.0,176.1 466.0,175.7 469.0,175.4 472.0,175.0 475.0,174.6 478.0,174.2 481.0,173.8 484.0,173.4 487.0,173.0 490.0,172.5 493.0,172.0 496.0,171.6 499.0,171.1 502.0,170.5 505.0,170.0 508.0,169.4 511.0,168.9 514.0,168.3 517.0,167.6 520.0,167.0 523.0,166.3 526.0,165.6 529.0,164.9 532.0,164.1 535.0,163.3 538.0,162.5 541.0,161.6 544.0,160.7 547.0,159.8 550.0,158.8 553.0,157.7 556.0,156.6 559.0,155.4 562.0,154.2 565.0,152.9 568.0,151.5 571.0,150.0 574.0,148.4 577.0,146.8 580.0,145.0 583.0,143.1 586.0,141.1 589.0,138.9 592.0,136.5 595.0,134.0 598.0,131.2 601.0,128.3 604.0,125.0 607.0,121.4 610.0,117.5 613.0,113.2 616.0,108.3 619.0,102.9 622.0,96.9 625.0,90.0 628.0,82.1 631.0,73.1 634.0,62.5 637.0,50.0 640.0,35.0 643.0,35.0 646.0,35.0 649.0,35.0 652.0,35.0 655.0,35.0" style="fill:none;stroke-width:3"/>
+<circle class="sPw" cx="370.0" cy="183.5" r="5"/><text class="sC" x="362" y="179.5" text-anchor="end">50%: 20 ms</text>
+<circle class="sPw" cx="550.0" cy="158.8" r="5"/><text class="sC" x="542" y="154.75" text-anchor="end">80%: 50 ms</text>
+<circle class="sPw" cx="610.0" cy="117.5" r="5"/><text class="sC" x="602" y="113.5" text-anchor="end">90%: 100 ms</text>
+<circle class="sPw" cx="640.0" cy="35.0" r="5"/><text class="sC" x="632" y="31" text-anchor="end">95%: 200 ms</text>
+<rect class="sG" x="430" y="30" width="120" height="170" rx="0" opacity=".12"/><text class="sGt" x="490" y="46" text-anchor="middle">plan to run here</text>
+<text class="sS" x="370" y="238" text-anchor="middle">server utilisation (one queue, random arrivals, 10 ms of work per request)</text>
+<text class="sS" x="22" y="115" text-anchor="middle" transform="rotate(-90 22 115)">response time, ms</text>
+</svg><figcaption>Computed with the M/M/1 queueing formula, response time = service time ÷ (1 − utilisation). Latency doubles from 50% to 75% busy and explodes past 90%. That is why capacity plans keep headroom and why load tests look for the knee, not the maximum.</figcaption></figure>
+
 > [!sota] Planning for a known peak
 > Shopify prepares all year for Black Friday–Cyber Monday. Over the 2025 weekend its platform peaked at about **489 million requests per minute at the edge** and **more than 117 million per minute on its application servers**, and processed **14.8 trillion database queries** over the weekend (company press release, December 2025). That is a known date with rehearsed load tests and capacity reserved in advance, and it runs on a Ruby on Rails **modular monolith**, with stores grouped into isolated "pods".
 
