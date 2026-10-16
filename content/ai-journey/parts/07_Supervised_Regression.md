@@ -182,6 +182,23 @@ No `stratify` here, because this is regression — there are no classes to strat
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 194" role="img" aria-label="Where the train-test split sits: raw data, then exploratory analysis that only looks, then the split; the preprocessing pipeline is fitted on the training rows only and the test rows are transformed with the training statistics, giving an honest evaluation; fitting the scaler or imputer on all rows before splitting leaks test information">
+<rect class="sN" x="14" y="40" width="100" height="50" rx="8"/><text class="sT" x="64" y="70" text-anchor="middle">raw data</text>
+<rect class="sB" x="140" y="40" width="100" height="50" rx="8"/><text class="sT" x="190" y="63" text-anchor="middle">EDA</text><text class="sC" x="190" y="79" text-anchor="middle">look only</text>
+<rect class="sW" x="266" y="40" width="100" height="50" rx="8"/><text class="sT" x="316" y="63" text-anchor="middle">split</text><text class="sC" x="316" y="79" text-anchor="middle">train / test</text>
+<rect class="sG" x="392" y="14" width="150" height="44" rx="8"/><text class="sT" x="467" y="34" text-anchor="middle">fit pipeline</text><text class="sC" x="467" y="50" text-anchor="middle">on TRAIN only</text>
+<rect class="sV" x="392" y="76" width="150" height="44" rx="8"/><text class="sT" x="467" y="96" text-anchor="middle">transform test</text><text class="sC" x="467" y="112" text-anchor="middle">with train stats</text>
+<rect class="sA" x="570" y="40" width="136" height="50" rx="8"/><text class="sT" x="638" y="63" text-anchor="middle">evaluate</text><text class="sC" x="638" y="79" text-anchor="middle">honest score</text>
+<line class="sLm" x1="114" y1="65" x2="140" y2="65" marker-end="url(#ahm)"/>
+<line class="sLm" x1="240" y1="65" x2="266" y2="65" marker-end="url(#ahm)"/>
+<line class="sLm" x1="366" y1="58" x2="392" y2="36" marker-end="url(#ahm)"/>
+<line class="sLm" x1="366" y1="72" x2="392" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="542" y1="36" x2="570" y2="58" marker-end="url(#ahm)"/>
+<line class="sLm" x1="542" y1="98" x2="570" y2="72" marker-end="url(#ahm)"/>
+<line class="sLg" x1="467" y1="58" x2="467" y2="76" marker-end="url(#ahg)" stroke-dasharray="3 3"/>
+<rect class="sR" x="14" y="140" width="692" height="44" rx="8" opacity=".85"/><text class="sT" x="360" y="160" text-anchor="middle">leak: fitting the scaler or imputer on ALL rows before splitting</text><text class="sS" x="360" y="176" text-anchor="middle">lets test-set statistics shape training, and the score comes out too good</text>
+</svg><figcaption>Putting preprocessing inside a <code>Pipeline</code> enforces this order automatically, including inside every cross-validation fold.</figcaption></figure>
+
 ## 7.6 A custom transformer 🟡
 
 > [!info] 📖 Géron Ch. 2 · “Custom Transformers” · pp. 81–86

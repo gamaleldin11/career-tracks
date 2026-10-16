@@ -265,6 +265,36 @@ Identical in shape to Part 7, minus the IQR clipper. The notebook's comment — 
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Random versus stratified splitting computed with scikit-learn over 1,000 seeds: with 10 positives in 200 rows and a 20 percent test set, a random split gives between 0 and 7 positives in the test set, and 88 of the 1,000 splits contain none; stratify=y gives exactly 2 every time">
+<line class="sLm" x1="70" y1="190" x2="650" y2="190"/>
+<line class="sLm" x1="70" y1="190" x2="70" y2="30"/>
+<text class="sS" x="62" y="194" text-anchor="end">0</text>
+<text class="sS" x="62" y="156.5" text-anchor="end">250</text>
+<text class="sS" x="62" y="119" text-anchor="end">500</text>
+<text class="sS" x="62" y="81.5" text-anchor="end">750</text>
+<text class="sS" x="62" y="44" text-anchor="end">1000</text>
+<text class="sS" x="90" y="208" text-anchor="middle">0</text>
+<rect class="sR" x="68" y="176.8" width="20" height="13.2" rx="2" opacity=".8"/><text class="sC" x="78" y="172.8" text-anchor="middle">88</text>
+<text class="sS" x="160" y="208" text-anchor="middle">1</text>
+<rect class="sR" x="138" y="146.65" width="20" height="43.35" rx="2" opacity=".8"/><text class="sC" x="148" y="142.65" text-anchor="middle">289</text>
+<text class="sS" x="230" y="208" text-anchor="middle">2</text>
+<rect class="sR" x="208" y="147.4" width="20" height="42.6" rx="2" opacity=".8"/><text class="sC" x="218" y="143.4" text-anchor="middle">284</text>
+<text class="sS" x="300" y="208" text-anchor="middle">3</text>
+<rect class="sR" x="278" y="157.3" width="20" height="32.7" rx="2" opacity=".8"/><text class="sC" x="288" y="153.3" text-anchor="middle">218</text>
+<text class="sS" x="370" y="208" text-anchor="middle">4</text>
+<rect class="sR" x="348" y="176.35" width="20" height="13.65" rx="2" opacity=".8"/><text class="sC" x="358" y="172.35" text-anchor="middle">91</text>
+<text class="sS" x="440" y="208" text-anchor="middle">5</text>
+<rect class="sR" x="418" y="186.4" width="20" height="3.6" rx="2" opacity=".8"/><text class="sC" x="428" y="182.4" text-anchor="middle">24</text>
+<text class="sS" x="510" y="208" text-anchor="middle">6</text>
+<rect class="sR" x="488" y="189.25" width="20" height="0.75" rx="2" opacity=".8"/><text class="sC" x="498" y="185.25" text-anchor="middle">5</text>
+<text class="sS" x="580" y="208" text-anchor="middle">7</text>
+<rect class="sR" x="558" y="189.85" width="20" height="0.15" rx="2" opacity=".8"/><text class="sC" x="568" y="185.85" text-anchor="middle">1</text>
+<rect class="sG" x="232" y="40" width="20" height="150" rx="2" opacity=".85"/><text class="sGt" x="242" y="36" text-anchor="middle">1000</text>
+<text class="sS" x="360" y="228" text-anchor="middle">positives in a 40-row test set (10 positives in 200 rows, 1,000 different seeds)</text>
+<rect class="sR" x="470" y="40" width="14" height="14" rx="2"/><text class="sS" x="490" y="52">random split</text><rect class="sG" x="470" y="62" width="14" height="14" rx="2"/><text class="sS" x="490" y="74">stratify=y: always 2</text>
+<text class="sRt" x="560" y="104" text-anchor="middle">88 of 1,000 random splits put</text><text class="sRt" x="560" y="120" text-anchor="middle">no positive in the test set</text>
+</svg><figcaption>Computed with <code>train_test_split</code> on a 5% positive label. Without stratification the test set can miss the rare class entirely, and every metric on it becomes meaningless.</figcaption></figure>
+
 ## 8.5 The three models 🟢
 
 ```python
