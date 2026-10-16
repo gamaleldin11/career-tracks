@@ -2649,6 +2649,20 @@ http.response.code >= 400
 sudo tcpdump -i eth0 -n host 10.1.2.3 and port 443
 sudo tcpdump -i any -n udp port 67    <span class="c"># watch DHCP DORA live</span>
 sudo tcpdump -w /tmp/case123.pcap ... <span class="c"># capture to file, analyze in Wireshark later</span></code></pre>
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: capturing someone else’s traffic with port mirroring: traffic from the user PC on port 5 goes to the uplink as usual, and the switch’s SPAN session copies it to port 24, where a laptop runs Wireshark; alternatively capture on the server with tcpdump">
+<rect class="sA" x="286" y="60" width="148" height="60" rx="8"/><text class="sT" x="360" y="88" text-anchor="middle">Access switch</text><text class="sC" x="360" y="104" text-anchor="middle">SPAN: port 5 → 24</text>
+<rect class="sB" x="14" y="20" width="150" height="50" rx="8"/><text class="sT" x="89" y="43" text-anchor="middle">User PC</text><text class="sC" x="89" y="59" text-anchor="middle">port Gi1/0/5</text>
+<rect class="sV" x="14" y="120" width="150" height="50" rx="8"/><text class="sT" x="89" y="143" text-anchor="middle">Laptop + Wireshark</text><text class="sC" x="89" y="159" text-anchor="middle">port Gi1/0/24</text>
+<rect class="sN" x="556" y="60" width="150" height="60" rx="8"/><text class="sT" x="631" y="88" text-anchor="middle">Uplink</text><text class="sC" x="631" y="104" text-anchor="middle">to the core</text>
+<line class="sLm" x1="164" y1="45" x2="286" y2="80"/>
+<line class="sLm" x1="164" y1="145" x2="286" y2="104"/>
+<line class="sLm" x1="434" y1="90" x2="556" y2="90"/>
+<circle class="sPg" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M164 45 L286 80 L434 90 L556 90"/></circle>
+<circle class="sPw" r="5"><animateMotion dur="3s" repeatCount="indefinite" path="M300 96 L164 145"/></circle>
+<text class="sS" x="360" y="196" text-anchor="middle">a switch only sends you your own traffic: to see someone else’s, mirror their port to yours (SPAN)</text>
+<text class="sC" x="360" y="216" text-anchor="middle">or capture on the server itself: tcpdump -i eth0 host 10.1.2.3 -w case.pcap</text>
+</svg><figcaption>Plugging Wireshark into any port shows only broadcasts and your own traffic, because switches deliver frames only where they belong. Port mirroring (SPAN) or capturing on an endpoint gets around that.</figcaption></figure>
+
 <ul>
   <li>Capture <em>placement</em> matters more than filters: on the client you see what it sent; on a <strong>SPAN/mirror port</strong> you see what the switch actually delivered; compare both to find where frames vanish.</li>
   <li>Three instant reads: SYN, SYN, SYN with no answer = silently filtered. SYN→RST = port closed at the host. Handshake completes then <strong>zero-window</strong>/long gaps = the <em>application</em> is slow, network innocent — the capture that ends the "it's the network" blame game.</li>
@@ -4516,6 +4530,19 @@ sed -i.bak 's/^#Port 22/Port 22/' /etc/ssh/sshd_config         <span class="c">#
 find /var/log -name "*.gz" -mtime +30 -delete                  <span class="c"># purge ancient rotated logs</span>
 tar czf /backup/etc-$(date +%F).tar.gz /etc                    <span class="c"># dated config backup</span>
 rsync -avz --delete /srv/www/ backup01:/srv/www/               <span class="c"># mirror with deletions</span></code></pre>
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="A Linux pipeline step by step on ten sample log lines: awk prints the first column, the client IPs; sort puts identical IPs next to each other; uniq -c counts each run; sort -rn ranks them so 41.33.7.9 with 5 requests comes first, then 197.50.1.2 with 3 and 102.40.3.8 with 2">
+<text class="sM" x="14" y="20">awk '{print $1}' access.log | sort | uniq -c | sort -rn | head</text>
+<g data-s="1"><rect class="sB" x="14" y="34" width="164" height="26" rx="5"/><text class="sC" x="22" y="52" xml:space="preserve" style="white-space:pre">awk '{print $1}'</text><text class="sS" x="96" y="76" text-anchor="middle">column 1 = client IP</text><text class="sC" x="22" y="96" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="22" y="111" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="22" y="126" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="22" y="141" xml:space="preserve" style="white-space:pre">102.40.3.8</text><text class="sC" x="22" y="156" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="22" y="171" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="22" y="186" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="22" y="201" xml:space="preserve" style="white-space:pre">102.40.3.8</text><text class="sC" x="22" y="216" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="22" y="231" xml:space="preserve" style="white-space:pre">41.33.7.9</text></g>
+<g data-s="2"><rect class="sA" x="190" y="34" width="164" height="26" rx="5"/><text class="sC" x="198" y="52" xml:space="preserve" style="white-space:pre">| sort</text><text class="sS" x="272" y="76" text-anchor="middle">same IPs now adjacent</text><text class="sC" x="198" y="96" xml:space="preserve" style="white-space:pre">102.40.3.8</text><text class="sC" x="198" y="111" xml:space="preserve" style="white-space:pre">102.40.3.8</text><text class="sC" x="198" y="126" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="198" y="141" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="198" y="156" xml:space="preserve" style="white-space:pre">197.50.1.2</text><text class="sC" x="198" y="171" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="198" y="186" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="198" y="201" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="198" y="216" xml:space="preserve" style="white-space:pre">41.33.7.9</text><text class="sC" x="198" y="231" xml:space="preserve" style="white-space:pre">41.33.7.9</text></g>
+<g data-s="3"><rect class="sV" x="366" y="34" width="164" height="26" rx="5"/><text class="sC" x="374" y="52" xml:space="preserve" style="white-space:pre">| uniq -c</text><text class="sS" x="448" y="76" text-anchor="middle">count each run</text><text class="sC" x="374" y="96" xml:space="preserve" style="white-space:pre">      2 102.40.3.8</text><text class="sC" x="374" y="111" xml:space="preserve" style="white-space:pre">      3 197.50.1.2</text><text class="sC" x="374" y="126" xml:space="preserve" style="white-space:pre">      5 41.33.7.9</text></g>
+<g data-s="4"><rect class="sG" x="542" y="34" width="164" height="26" rx="5"/><text class="sC" x="550" y="52" xml:space="preserve" style="white-space:pre">| sort -rn</text><text class="sS" x="624" y="76" text-anchor="middle">biggest first</text><text class="sC" x="550" y="96" xml:space="preserve" style="white-space:pre">      5 41.33.7.9</text><text class="sC" x="550" y="111" xml:space="preserve" style="white-space:pre">      3 197.50.1.2</text><text class="sC" x="550" y="126" xml:space="preserve" style="white-space:pre">      2 102.40.3.8</text></g>
+</svg><ol class="dia-steps">
+<li>awk keeps only the first field of each log line.</li>
+<li>sort groups identical values together.</li>
+<li>uniq -c collapses each group into a count (it only merges adjacent lines, hence the sort).</li>
+<li>sort -rn ranks by count: the top talker is first.</li>
+</ol><figcaption>Each command does one small job on text and hands it on. <code>uniq</code> only merges neighbours, which is why a <code>sort</code> always comes first. Output computed from the ten sample lines shown.</figcaption></figure>
+
 <h3>When normal tools aren't enough</h3>
 <ul>
   <li><code>lsof -p PID</code> / <code>lsof :443</code> — every file/socket a process holds (also finds the deleted-file space leak, and "who is using this mount" before umount fails with <em>target is busy</em>).</li>
@@ -6171,6 +6198,41 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <tr><th>Port</th><td>20/21</td><td>22</td><td>23</td><td>25</td><td>53</td><td>67/68</td><td>80</td><td>110</td><td>123</td><td>143</td><td>161</td><td>389/636</td><td>443</td><td>445</td><td>3260</td><td>3389</td></tr>
   <tr><th>Service</th><td>FTP</td><td>SSH</td><td>Telnet</td><td>SMTP</td><td>DNS</td><td>DHCP</td><td>HTTP</td><td>POP3</td><td>NTP</td><td>IMAP</td><td>SNMP</td><td>LDAP(S)</td><td>HTTPS</td><td>SMB</td><td>iSCSI</td><td>RDP</td></tr>
 </table></div>
+<figure class="dia"><svg viewBox="0 0 720 266" role="img" aria-label="Ports grouped by job for memorising: remote access 22 SSH, 23 Telnet to avoid, 3389 RDP; web 80, 443 and 8080; addressing and time 53 DNS, 67 and 68 DHCP, 123 NTP; mail 25 SMTP, 587 submission, 993 IMAPS; Windows and AD 88 Kerberos, 389 and 636 LDAP, 445 SMB; storage 2049 NFS, 3260 iSCSI, 902 ESXi management; monitoring 161 and 162 SNMP, 514 syslog, 623 IPMI; VPN 500 IKE, 4500 NAT-T, 1194 OpenVPN">
+<rect class="sB" x="14" y="14" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="96" y="34" text-anchor="middle">Remote access</text>
+<text class="sT" x="74" y="60" text-anchor="end">22</text><text class="sS" x="84" y="60">SSH</text>
+<text class="sT" x="74" y="82" text-anchor="end">23</text><text class="sS" x="84" y="82">Telnet ✕</text>
+<text class="sT" x="74" y="104" text-anchor="end">3389</text><text class="sS" x="84" y="104">RDP</text>
+<rect class="sG" x="190" y="14" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="272" y="34" text-anchor="middle">Web</text>
+<text class="sT" x="250" y="60" text-anchor="end">80</text><text class="sS" x="260" y="60">HTTP</text>
+<text class="sT" x="250" y="82" text-anchor="end">443</text><text class="sS" x="260" y="82">HTTPS</text>
+<text class="sT" x="250" y="104" text-anchor="end">8080</text><text class="sS" x="260" y="104">alt HTTP</text>
+<rect class="sA" x="366" y="14" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="448" y="34" text-anchor="middle">Addressing + time</text>
+<text class="sT" x="426" y="60" text-anchor="end">53</text><text class="sS" x="436" y="60">DNS</text>
+<text class="sT" x="426" y="82" text-anchor="end">67/68</text><text class="sS" x="436" y="82">DHCP</text>
+<text class="sT" x="426" y="104" text-anchor="end">123</text><text class="sS" x="436" y="104">NTP</text>
+<rect class="sW" x="542" y="14" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="624" y="34" text-anchor="middle">Mail</text>
+<text class="sT" x="602" y="60" text-anchor="end">25</text><text class="sS" x="612" y="60">SMTP</text>
+<text class="sT" x="602" y="82" text-anchor="end">587</text><text class="sS" x="612" y="82">submission</text>
+<text class="sT" x="602" y="104" text-anchor="end">993</text><text class="sS" x="612" y="104">IMAPS</text>
+<rect class="sV" x="14" y="138" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="96" y="158" text-anchor="middle">Windows + AD</text>
+<text class="sT" x="74" y="184" text-anchor="end">88</text><text class="sS" x="84" y="184">Kerberos</text>
+<text class="sT" x="74" y="206" text-anchor="end">389/636</text><text class="sS" x="84" y="206">LDAP/S</text>
+<text class="sT" x="74" y="228" text-anchor="end">445</text><text class="sS" x="84" y="228">SMB</text>
+<rect class="sN" x="190" y="138" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="272" y="158" text-anchor="middle">Storage</text>
+<text class="sT" x="250" y="184" text-anchor="end">2049</text><text class="sS" x="260" y="184">NFS</text>
+<text class="sT" x="250" y="206" text-anchor="end">3260</text><text class="sS" x="260" y="206">iSCSI</text>
+<text class="sT" x="250" y="228" text-anchor="end">902</text><text class="sS" x="260" y="228">ESXi mgmt</text>
+<rect class="sB" x="366" y="138" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="448" y="158" text-anchor="middle">Monitoring</text>
+<text class="sT" x="426" y="184" text-anchor="end">161/162</text><text class="sS" x="436" y="184">SNMP</text>
+<text class="sT" x="426" y="206" text-anchor="end">514</text><text class="sS" x="436" y="206">syslog</text>
+<text class="sT" x="426" y="228" text-anchor="end">623</text><text class="sS" x="436" y="228">IPMI</text>
+<rect class="sR" x="542" y="138" width="164" height="112" rx="8" opacity=".55"/><text class="sT" x="624" y="158" text-anchor="middle">VPN</text>
+<text class="sT" x="602" y="184" text-anchor="end">500</text><text class="sS" x="612" y="184">IKE</text>
+<text class="sT" x="602" y="206" text-anchor="end">4500</text><text class="sS" x="612" y="206">NAT-T</text>
+<text class="sT" x="602" y="228" text-anchor="end">1194</text><text class="sS" x="612" y="228">OpenVPN</text>
+</svg><figcaption>Memorise ports by job, not as one long list: when a ticket says "the share is unreachable", you think "Windows: 445".</figcaption></figure>
+
 
 <h3>Subnetting quick table</h3>
 <div class="tw"><table>
@@ -6179,6 +6241,25 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <tr><th>Block</th><td class="num">256</td><td class="num">128</td><td class="num">64</td><td class="num">32</td><td class="num">16</td><td class="num">8</td><td class="num">4</td></tr>
   <tr><th>Hosts</th><td class="num">254</td><td class="num">126</td><td class="num">62</td><td class="num">30</td><td class="num">14</td><td class="num">6</td><td class="num">2</td></tr>
 </table></div>
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Subnetting as halving: a /24 of 254 hosts splits into two /25s at .0 and .128 with 126 hosts each, four /26s at .0, .64, .128 and .192 with 62 hosts each, and eight /27s every 32 addresses with 30 hosts each">
+<rect class="sB" x="16" y="20" width="688" height="38" rx="5" opacity=".8"/><text class="sT" x="360" y="37" text-anchor="middle">.0/24</text><text class="sC" x="360" y="52" text-anchor="middle">254 hosts</text>
+<rect class="sA" x="16" y="70" width="342" height="38" rx="5" opacity=".8"/><text class="sT" x="187" y="87" text-anchor="middle">.0/25</text><text class="sC" x="187" y="102" text-anchor="middle">126 hosts</text>
+<rect class="sA" x="362" y="70" width="342" height="38" rx="5" opacity=".8"/><text class="sT" x="533" y="87" text-anchor="middle">.128/25</text><text class="sC" x="533" y="102" text-anchor="middle">126 hosts</text>
+<rect class="sV" x="16" y="120" width="169" height="38" rx="5" opacity=".8"/><text class="sT" x="100.5" y="137" text-anchor="middle">.0/26</text><text class="sC" x="100.5" y="152" text-anchor="middle">62 hosts</text>
+<rect class="sV" x="189" y="120" width="169" height="38" rx="5" opacity=".8"/><text class="sT" x="273.5" y="137" text-anchor="middle">.64/26</text><text class="sC" x="273.5" y="152" text-anchor="middle">62 hosts</text>
+<rect class="sV" x="362" y="120" width="169" height="38" rx="5" opacity=".8"/><text class="sT" x="446.5" y="137" text-anchor="middle">.128/26</text><text class="sC" x="446.5" y="152" text-anchor="middle">62 hosts</text>
+<rect class="sV" x="535" y="120" width="169" height="38" rx="5" opacity=".8"/><text class="sT" x="619.5" y="137" text-anchor="middle">.192/26</text><text class="sC" x="619.5" y="152" text-anchor="middle">62 hosts</text>
+<rect class="sG" x="16" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="57.25" y="187" text-anchor="middle">.0/27</text><text class="sC" x="57.25" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="102.5" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="143.75" y="187" text-anchor="middle">.32/27</text><text class="sC" x="143.75" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="189" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="230.25" y="187" text-anchor="middle">.64/27</text><text class="sC" x="230.25" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="275.5" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="316.75" y="187" text-anchor="middle">.96/27</text><text class="sC" x="316.75" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="362" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="403.25" y="187" text-anchor="middle">.128/27</text><text class="sC" x="403.25" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="448.5" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="489.75" y="187" text-anchor="middle">.160/27</text><text class="sC" x="489.75" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="535" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="576.25" y="187" text-anchor="middle">.192/27</text><text class="sC" x="576.25" y="202" text-anchor="middle">30 hosts</text>
+<rect class="sG" x="621.5" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="662.75" y="187" text-anchor="middle">.224/27</text><text class="sC" x="662.75" y="202" text-anchor="middle">30 hosts</text>
+<text class="sS" x="360" y="226" text-anchor="middle">each extra mask bit halves the block: 256 → 128 → 64 → 32; subnets start at multiples of the block size</text>
+</svg><figcaption>Read down a column to see where any address lands: .130 is in .128/25, .128/26 and .128/27. Two addresses per block (network and broadcast) are never hosts.</figcaption></figure>
+
 <p>Method: mask octet → magic number = 256 − mask → subnets step by that number → hosts = 2<sup>host bits</sup> − 2. Private ranges: 10/8, 172.16/12, 192.168/16. APIPA: 169.254 = DHCP failed.</p>
 
 <h3>Command translation table (Windows ↔ Linux)</h3>
