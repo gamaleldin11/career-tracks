@@ -1861,7 +1861,7 @@ S*  0.0.0.0/0        via 41.33.7.1              <span class="c"># default route 
 access-list 110 deny   ip  any any                              <span class="c"># (implicit anyway)</span></code></pre>
 <p>The order rule is a favorite trick question: <mark>if a broad "permit any" sits above a specific deny, the deny never fires</mark>. ACLs are also the building block of firewall rules and NAT match lists.</p>
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="An access control list evaluated top-down: a broad permit any rule above a specific deny means the deny never fires and the RDP packet is allowed">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: an access control list evaluated top-down: an RDP packet to 10.0.0.5 hits rule 10, permit ip any any, first, so it is permitted and the specific deny in rule 20 is never evaluated">
 <rect class="sA" x="160" y="30" width="380" height="36" rx="6"/><text class="sT" x="176" y="53">10</text><text class="sC" x="214" y="53" xml:space="preserve" style="white-space:pre">permit ip any any</text>
 <rect class="sN" x="160" y="76" width="380" height="36" rx="6" opacity=".55"/><text class="sT" x="176" y="99">20</text><text class="sC" x="214" y="99" xml:space="preserve" style="white-space:pre">deny tcp any host 10.0.0.5 eq 3389</text>
 <rect class="sN" x="160" y="122" width="380" height="36" rx="6" opacity=".55"/><text class="sT" x="176" y="145">—</text><text class="sC" x="214" y="145" xml:space="preserve" style="white-space:pre">implicit deny any</text>
@@ -1869,6 +1869,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 <line class="sLr" x1="540" y1="48" x2="600" y2="48" marker-end="url(#ahr)"/><text class="sRt" x="604" y="44">permitted ✗</text><text class="sC" x="604" y="62">first match wins</text>
 <text class="sC" x="560" y="94">never evaluated</text>
 <text class="sS" x="360" y="196" text-anchor="middle">fix: put specific denies above broad permits; every ACL ends with an implicit deny</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.600;1" path="M134 48 L180 48 L540 48 L600 48"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.600;0.602;1"/></circle>
 </svg><figcaption>ACLs stop at the first matching line. A broad permit placed too high silently disables everything below it.</figcaption></figure>
 
 <div class="qhead"><h3>Interview questions — Module 5</h3><button data-qa="qa5">Show all answers</button></div>
@@ -2501,7 +2502,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 </ol>
 <p>Telling this story compactly demonstrates you understand <em>why</em> the boring controls exist — segmentation isn't bureaucracy, it's what turns "company down" into "one laptop reimaged."</p>
 
-<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="An attack chain from phishing to malware, credential theft, lateral movement and ransomware, with the control that stops each stage">
+<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: an attack moves through phishing, malware calling out, credential theft, lateral movement and ransomware, and each stage has a control that can stop it: mail filtering, EDR and DNS filtering, least privilege, segmentation and MFA, and immutable backups">
 <rect class="sR" x="14" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="77" y="67" text-anchor="middle">phish</text>
 <line class="sLg" x1="77" y1="84" x2="77" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="14" y="114" width="126" height="44" rx="6"/><text class="sC" x="77" y="134" text-anchor="middle">stopped by</text><text class="sC" x="77" y="150" text-anchor="middle">mail filtering</text>
 <line class="sLr" x1="140" y1="62" x2="154" y2="62" marker-end="url(#ahr)"/>
@@ -2517,6 +2518,8 @@ access-list 110 deny   ip  any any                              <span class="c">
 <rect class="sR" x="582" y="40" width="126" height="44" rx="6" opacity=".85"/><text class="sT" x="645" y="67" text-anchor="middle">ransomware</text>
 <line class="sLg" x1="645" y1="84" x2="645" y2="112" marker-end="url(#ahg)"/><rect class="sG" x="582" y="114" width="126" height="44" rx="6"/><text class="sC" x="645" y="134" text-anchor="middle">stopped by</text><text class="sC" x="645" y="150" text-anchor="middle">immutable backups</text>
 <text class="sS" x="360" y="190" text-anchor="middle">each boring control breaks one link; together they turn "company down" into "one laptop reimaged"</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.800;1" path="M77 62 L645 62"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.800;0.802;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.020;0.030;0.95;1"/><rect class="sG" x="14" y="112" width="126" height="48" rx="7" style="fill:none;stroke-width:3"/></g><g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.215;0.225;0.95;1"/><rect class="sG" x="156" y="112" width="126" height="48" rx="7" style="fill:none;stroke-width:3"/></g><g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.410;0.420;0.95;1"/><rect class="sG" x="298" y="112" width="126" height="48" rx="7" style="fill:none;stroke-width:3"/></g><g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.605;0.615;0.95;1"/><rect class="sG" x="440" y="112" width="126" height="48" rx="7" style="fill:none;stroke-width:3"/></g><g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.800;0.810;0.95;1"/><rect class="sG" x="582" y="112" width="126" height="48" rx="7" style="fill:none;stroke-width:3"/></g>
 </svg><figcaption>Defence in depth as a chain: the attacker must succeed at every step, the defender only needs to break one.</figcaption></figure>
 
 <h3>D7.3 Identity &amp; crypto vocabulary one level down</h3>
@@ -4822,7 +4825,7 @@ tmux new -s work → C-b d → tmux attach -t work    <span class="c"># your ses
   <li>Tools: <code>gpupdate /force</code> (apply now), <code>gpresult /r</code> (what applied — first stop when "policy isn't applying"), Group Policy Management Console (<code>gpmc.msc</code>).</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Group Policy processing order: local, site, domain, OU and child OU, each applied after the previous so the closest policy wins conflicts, with enforced links and blocked inheritance as exceptions">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: Group Policy processing order: local, site, domain, OU and child OU are applied one after another so the closest policy wins conflicts, with enforced links and blocked inheritance as exceptions">
 <rect class="sN" x="14" y="70" width="104" height="54" rx="6"/><text class="sT" x="66" y="94" text-anchor="middle">Local</text><text class="sC" x="66" y="112" text-anchor="middle">this PC</text>
 <line class="sLm" x1="118" y1="97" x2="124" y2="97" marker-end="url(#ahm)"/>
 <text class="sM" x="66" y="146" text-anchor="middle">1</text>
@@ -4840,6 +4843,7 @@ tmux new -s work → C-b d → tmux attach -t work    <span class="c"># your ses
 <text class="sM" x="14" y="30">applied in this order: later wins on conflicts</text>
 <rect class="sW" x="580" y="40" width="126" height="130" rx="8" opacity=".8"/><text class="sT" x="643" y="62" text-anchor="middle">exceptions</text><text class="sC" x="643" y="86" text-anchor="middle">"Enforced" link:</text><text class="sC" x="643" y="102" text-anchor="middle">can't be overridden</text><text class="sC" x="643" y="126" text-anchor="middle">"Block inheritance"</text><text class="sC" x="643" y="142" text-anchor="middle">on an OU</text>
 <text class="sS" x="290" y="222" text-anchor="middle">gpresult /r shows what actually applied: the first command for "policy isn't applying"</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.850;1" path="M66 132 L514 132"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.850;0.852;1"/></circle>
 </svg><figcaption>LSDOU: the policy closest to the user or computer is applied last, so it wins, unless a higher link is enforced.</figcaption></figure>
 
 <h3>12.4 Daily AD tasks (what "user account management" means)</h3>
@@ -4969,13 +4973,14 @@ Tools: icacls D:\Finance /t (dump ACLs), Effective Access tab, takeown for orpha
   <li><strong>DNS scavenging</strong>: stale dynamic A records answer for machines that changed IPs → "RDP lands on the wrong machine" weirdness; scavenging + correct DHCP/DNS aging fixes it.</li>
 </ul></div>
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Network access passes through two gates, the share permission Read and the NTFS permission Modify; the effective permission is the more restrictive Read">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: network access passes through two gates, the share permission Read and the NTFS permission Modify; a user’s request passes both and ends with the more restrictive effective permission, Read">
 <rect class="sB" x="14" y="80" width="120" height="50" rx="8"/><text class="sT" x="74" y="103" text-anchor="middle">user</text><text class="sC" x="74" y="119" text-anchor="middle">over the network</text>
 <line class="sL" x1="134" y1="105" x2="176" y2="105" marker-end="url(#ah)"/><rect class="sW" x="180" y="60" width="160" height="90" rx="8"/><text class="sT" x="260" y="84" text-anchor="middle">share permission</text><text class="sC" x="260" y="106" text-anchor="middle">Everyone: Read</text><text class="sC" x="260" y="130" text-anchor="middle">gate 1</text>
 <line class="sL" x1="340" y1="105" x2="382" y2="105" marker-end="url(#ah)"/><rect class="sV" x="386" y="60" width="160" height="90" rx="8"/><text class="sT" x="466" y="84" text-anchor="middle">NTFS permission</text><text class="sC" x="466" y="106" text-anchor="middle">Finance-Team: Modify</text><text class="sC" x="466" y="130" text-anchor="middle">gate 2</text>
 <line class="sL" x1="546" y1="105" x2="588" y2="105" marker-end="url(#ah)"/><rect class="sR" x="592" y="80" width="114" height="50" rx="8"/><text class="sT" x="649" y="103" text-anchor="middle">effective</text><text class="sC" x="649" y="119" text-anchor="middle">Read only</text>
 <text class="sRt" x="360" y="186" text-anchor="middle">both gates apply; the most restrictive wins → "I can open files but can't save"</text>
 <text class="sGt" x="360" y="208" text-anchor="middle">best practice: share = Authenticated Users Full Control, do all real control with NTFS</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M134 105 L260 105 L466 105 L592 105"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
 </svg><figcaption>Two permission systems in series. Local logons only see NTFS; network access sees both.</figcaption></figure>
 
 <div class="deep deep3"><span class="dtag">Level 3 · Expert corner — PowerShell toolbox &amp; hybrid identity</span>
