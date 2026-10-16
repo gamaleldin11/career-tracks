@@ -498,6 +498,26 @@ body.flat .sidebar{position:static;max-height:none}
   <li><strong>L5–L7</strong> — session handling, data representation/encryption, and the application protocols users touch (HTTP, DNS, SMTP…). In TCP/IP these three collapse into one "Application" layer. Problems: service down, certificate errors, misconfiguration.</li>
 </ul>
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: data travels down the sender’s layers from application through transport, network and data link to the physical medium, crosses a router that only looks at layers 1 to 3, and climbs up the receiver’s layers back to the application">
+<text class="sT" x="124" y="20" text-anchor="middle">Sender</text>
+<rect class="sG" x="14" y="30" width="220" height="30" rx="5"/><text class="sT" x="124" y="50" text-anchor="middle">7 Application</text>
+<rect class="sB" x="14" y="68" width="220" height="30" rx="5"/><text class="sT" x="124" y="88" text-anchor="middle">4 Transport</text>
+<rect class="sV" x="14" y="106" width="220" height="30" rx="5"/><text class="sT" x="124" y="126" text-anchor="middle">3 Network</text>
+<rect class="sW" x="14" y="144" width="220" height="30" rx="5"/><text class="sT" x="124" y="164" text-anchor="middle">2 Data link</text>
+<rect class="sN" x="14" y="182" width="220" height="30" rx="5"/><text class="sT" x="124" y="202" text-anchor="middle">1 Physical</text>
+<text class="sT" x="596" y="20" text-anchor="middle">Receiver</text>
+<rect class="sG" x="486" y="30" width="220" height="30" rx="5"/><text class="sT" x="596" y="50" text-anchor="middle">7 Application</text>
+<rect class="sB" x="486" y="68" width="220" height="30" rx="5"/><text class="sT" x="596" y="88" text-anchor="middle">4 Transport</text>
+<rect class="sV" x="486" y="106" width="220" height="30" rx="5"/><text class="sT" x="596" y="126" text-anchor="middle">3 Network</text>
+<rect class="sW" x="486" y="144" width="220" height="30" rx="5"/><text class="sT" x="596" y="164" text-anchor="middle">2 Data link</text>
+<rect class="sN" x="486" y="182" width="220" height="30" rx="5"/><text class="sT" x="596" y="202" text-anchor="middle">1 Physical</text>
+<rect class="sA" x="300" y="172" width="120" height="30" rx="8"/><text class="sT" x="360" y="185" text-anchor="middle">Router</text><text class="sC" x="360" y="201" text-anchor="middle">layers 1–3</text>
+<line class="sLm" x1="234" y1="197" x2="300" y2="187"/><line class="sLm" x1="420" y1="187" x2="486" y2="197"/>
+<text class="sS" x="360" y="60" text-anchor="middle">headers added on the way down,</text><text class="sS" x="360" y="78" text-anchor="middle">removed on the way up</text>
+<text class="sS" x="360" y="130" text-anchor="middle">a router only opens</text><text class="sS" x="360" y="146" text-anchor="middle">the frame and packet</text>
+<circle class="sPg" r="7"><animateMotion dur="7s" repeatCount="indefinite" path="M124 45 L124 197 L234 197 L300 187 L360 187 L420 187 L486 197 L596 197 L596 45"/></circle>
+</svg><figcaption>Each layer on the sender talks to the same layer on the receiver: TCP to TCP, IP to IP. Devices in between only go as high as they need — a switch to layer 2, a router to layer 3, a firewall or proxy higher.</figcaption></figure>
+
 <h3>1.6 Encapsulation — how the layers cooperate</h3>
 <p>When you send data, each layer wraps the layer above it with its own header — like envelopes inside envelopes. This is <strong>encapsulation</strong>; the receiver unwraps in reverse (<strong>de-encapsulation</strong>).</p>
 
@@ -4230,6 +4250,19 @@ top / htop               <span class="c"># live processes</span></code></pre>
   <text class="sS" x="40" y="135">r = 4 · w = 2 · x = 1 → rwx=7, r-x=5, r--=4  ⇒  chmod 754 file</text>
   <text class="sS" x="40" y="155">x on a directory = permission to enter it; r = list it; w = create/delete inside it</text>
 </svg><figcaption>Reading <code>ls -l</code> output and converting to the numeric (octal) form. Common values: <code>755</code> (executable/dir), <code>644</code> (normal file), <code>600</code> (private key), <code>777</code> (everyone everything — almost always wrong).</figcaption></figure>
+
+<figure class="dia steps"><svg viewBox="0 0 720 218" role="img" aria-label="Decoding chmod 750: the owner digit 7 is read 4 plus write 2 plus execute 1, giving rwx; the group digit 5 is read 4 plus execute 1, giving r-x; the others digit 0 gives no access; ls -l then shows -rwxr-x---">
+<text class="sM" x="14" y="20">chmod 750 deploy.sh — one digit per audience</text>
+<g data-s="1"><rect class="sA" x="14" y="34" width="220" height="30" rx="6"/><text class="sT" x="124" y="54" text-anchor="middle">user (owner): 7</text><rect class="sG" x="24" y="78" width="60" height="40" rx="5"/><text class="sT" x="54" y="104" text-anchor="middle">r</text><text class="sC" x="54" y="136" text-anchor="middle">4</text><rect class="sG" x="94" y="78" width="60" height="40" rx="5"/><text class="sT" x="124" y="104" text-anchor="middle">w</text><text class="sC" x="124" y="136" text-anchor="middle">2</text><rect class="sG" x="164" y="78" width="60" height="40" rx="5"/><text class="sT" x="194" y="104" text-anchor="middle">x</text><text class="sC" x="194" y="136" text-anchor="middle">1</text><text class="sGt" x="124" y="160" text-anchor="middle">4 + 2 + 1 = 7</text></g>
+<g data-s="2"><rect class="sB" x="250" y="34" width="220" height="30" rx="6"/><text class="sT" x="360" y="54" text-anchor="middle">group: 5</text><rect class="sG" x="260" y="78" width="60" height="40" rx="5"/><text class="sT" x="290" y="104" text-anchor="middle">r</text><text class="sC" x="290" y="136" text-anchor="middle">4</text><rect class="sN" x="330" y="78" width="60" height="40" rx="5" opacity=".4"/><text class="sT" x="360" y="104" text-anchor="middle">-</text><text class="sC" x="360" y="136" text-anchor="middle">0</text><rect class="sG" x="400" y="78" width="60" height="40" rx="5"/><text class="sT" x="430" y="104" text-anchor="middle">x</text><text class="sC" x="430" y="136" text-anchor="middle">1</text><text class="sGt" x="360" y="160" text-anchor="middle">4 + 1 = 5</text></g>
+<g data-s="3"><rect class="sN" x="486" y="34" width="220" height="30" rx="6"/><text class="sT" x="596" y="54" text-anchor="middle">others: 0</text><rect class="sN" x="496" y="78" width="60" height="40" rx="5" opacity=".4"/><text class="sT" x="526" y="104" text-anchor="middle">-</text><text class="sC" x="526" y="136" text-anchor="middle">0</text><rect class="sN" x="566" y="78" width="60" height="40" rx="5" opacity=".4"/><text class="sT" x="596" y="104" text-anchor="middle">-</text><text class="sC" x="596" y="136" text-anchor="middle">0</text><rect class="sN" x="636" y="78" width="60" height="40" rx="5" opacity=".4"/><text class="sT" x="666" y="104" text-anchor="middle">-</text><text class="sC" x="666" y="136" text-anchor="middle">0</text><text class="sS" x="596" y="160" text-anchor="middle">0 = no access</text></g>
+<g data-s="4-4"><rect class="sV" x="14" y="176" width="692" height="34" rx="6" opacity=".7"/><text class="sC" x="30" y="198" xml:space="preserve" style="white-space:pre">-rwxr-x---  1 ahmed devops  deploy.sh</text><text class="sS" x="700" y="198" text-anchor="end">what ls -l shows afterwards</text></g>
+</svg><ol class="dia-steps">
+<li>Owner: 7 = 4 + 2 + 1 = rwx.</li>
+<li>Group: 5 = 4 + 1 = r-x.</li>
+<li>Others: 0 = nothing.</li>
+<li>The result as ls -l prints it.</li>
+</ol><figcaption>Each digit is a sum of read (4), write (2) and execute (1). Learn three: 755 for scripts and directories, 644 for ordinary files, 600 for private keys.</figcaption></figure>
 
 <pre><code>chmod 640 report.txt        <span class="c"># numeric: rw- r-- ---</span>
 chmod u+x deploy.sh         <span class="c"># symbolic: add execute for user</span>
