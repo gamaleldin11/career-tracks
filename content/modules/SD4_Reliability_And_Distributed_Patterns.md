@@ -217,6 +217,22 @@ The defences:
 - **Cell-based architecture**: split the system into many identical, isolated copies ("cells"), each serving a subset of customers, so a failure or bad deploy hits one cell. AWS documents this pattern in its well-architected guidance; Shopify's "pods" ([[SD2.8]]) are a version of it.
 - **Chaos engineering**: deliberately inject failures in a controlled way to prove the system copes (Netflix's Chaos Monkey, 2011, randomly terminated production instances).
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Blast radius with and without cells: a bad deploy to one shared system affects every customer, while the same system split into eight identical cells, each serving a slice of customers, receives the deploy one cell at a time, so only cell 1, 12.5 percent of customers, is hit before the rollout halts">
+<text class="sM" x="180" y="22" text-anchor="middle">one shared system</text>
+<text class="sM" x="540" y="22" text-anchor="middle">eight cells</text>
+<rect class="sR" x="30" y="36" width="300" height="150" rx="10" opacity=".75"/><text class="sT" x="180" y="106" text-anchor="middle">bad deploy</text><text class="sRt" x="180" y="126" text-anchor="middle">100% of customers affected</text>
+<rect class="sR" x="390" y="36" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="424" y="75" text-anchor="middle">cell 1</text>
+<rect class="sG" x="468" y="36" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="502" y="75" text-anchor="middle">cell 2</text>
+<rect class="sG" x="546" y="36" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="580" y="75" text-anchor="middle">cell 3</text>
+<rect class="sG" x="624" y="36" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="658" y="75" text-anchor="middle">cell 4</text>
+<rect class="sG" x="390" y="114" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="424" y="153" text-anchor="middle">cell 5</text>
+<rect class="sG" x="468" y="114" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="502" y="153" text-anchor="middle">cell 6</text>
+<rect class="sG" x="546" y="114" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="580" y="153" text-anchor="middle">cell 7</text>
+<rect class="sG" x="624" y="114" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="658" y="153" text-anchor="middle">cell 8</text>
+<text class="sS" x="540" y="210" text-anchor="middle">bad deploy hits cell 1 first: 12.5%, then halts</text>
+<text class="sS" x="180" y="210" text-anchor="middle">everything shares one fate</text>
+</svg><figcaption>Cells, zones and staged rollouts all apply the same idea: make every failure smaller than the whole.</figcaption></figure>
+
 ## SD4.8 Backups and disaster recovery 🟢 ⭐
 
 > [!term] RPO and RTO
@@ -229,6 +245,23 @@ The defences:
 | Standby replica in another zone, automatic failover | Seconds | Minutes | Moderate |
 | Warm standby in another region | Seconds to minutes | Minutes to an hour | High |
 | Active-active across regions | Near zero | Near zero | Highest |
+
+<figure class="dia"><svg viewBox="0 0 720 192" role="img" aria-label="RPO and RTO on a timeline: the last good backup is at 02:00, the disaster at 06:00 and service is back at 09:00; the four hours between the backup and the disaster are the data lost, the recovery point, and the three hours from the disaster to recovery are the downtime, the recovery time">
+<line class="sLm" x1="40" y1="110" x2="690" y2="110" style="stroke-width:2"/>
+<line class="sLm" x1="60" y1="104" x2="60" y2="116"/><text class="sS" x="60" y="132" text-anchor="middle">00:00</text>
+<line class="sLm" x1="180" y1="104" x2="180" y2="116"/><text class="sS" x="180" y="132" text-anchor="middle">02:00</text>
+<line class="sLm" x1="300" y1="104" x2="300" y2="116"/><text class="sS" x="300" y="132" text-anchor="middle">04:00</text>
+<line class="sLm" x1="420" y1="104" x2="420" y2="116"/><text class="sS" x="420" y="132" text-anchor="middle">06:00</text>
+<line class="sLm" x1="540" y1="104" x2="540" y2="116"/><text class="sS" x="540" y="132" text-anchor="middle">08:00</text>
+<line class="sLm" x1="660" y1="104" x2="660" y2="116"/><text class="sS" x="660" y="132" text-anchor="middle">10:00</text>
+<circle class="sPg" cx="180.0" cy="110" r="7"/><text class="sGt" x="180" y="92" text-anchor="middle">last good backup</text>
+<circle class="sPr" cx="420.0" cy="110" r="8"/><text class="sRt" x="420" y="92" text-anchor="middle">disaster</text>
+<circle class="sPg" cx="600.0" cy="110" r="7"/><text class="sGt" x="600" y="92" text-anchor="middle">service back</text>
+<rect class="sR" x="180" y="40" width="240" height="30" rx="4" opacity=".6"/><text class="sT" x="300" y="60" text-anchor="middle">RPO: 4 h of data lost</text>
+<rect class="sW" x="420" y="40" width="180" height="30" rx="4" opacity=".7"/><text class="sT" x="510" y="60" text-anchor="middle">RTO: 3 h down</text>
+<text class="sS" x="360" y="162" text-anchor="middle">RPO looks back from the disaster to the last copy; RTO looks forward to recovery</text>
+<text class="sGt" x="360" y="182" text-anchor="middle">more frequent copies shrink RPO; standbys and rehearsed restores shrink RTO</text>
+</svg><figcaption>Two different questions: how much data can we lose (RPO), and how long can we be down (RTO)? The table above prices each combination.</figcaption></figure>
 
 Rules that matter more than the table:
 
@@ -291,6 +324,25 @@ What to watch:
 - **RED** per service (Rate, Errors, Duration) and **USE** per resource (Utilisation, Saturation, Errors).
 - For asynchronous work: **queue depth, age of the oldest message, dead-letter count**.
 - **Alert on symptoms users feel** (SLO burn: errors and latency against the objective), not on every CPU spike; page a human only for what needs a human now.
+
+<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="An error budget computed for a 99.9 percent availability objective over 30 days: 43.2 minutes of allowed downtime; incidents of 8 minutes on day 5, 20 minutes on day 12 and 10 minutes on day 20 leave 5.2 minutes for the rest of the month">
+<line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
+<line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
+<text class="sS" x="62" y="204" text-anchor="end">0</text>
+<text class="sS" x="62" y="150.667" text-anchor="end">15</text>
+<text class="sS" x="62" y="97.3333" text-anchor="end">30</text>
+<text class="sS" x="62" y="44" text-anchor="end">45</text>
+<text class="sS" x="70" y="218" text-anchor="middle">day 0</text>
+<text class="sS" x="270" y="218" text-anchor="middle">day 10</text>
+<text class="sS" x="470" y="218" text-anchor="middle">day 20</text>
+<text class="sS" x="670" y="218" text-anchor="middle">day 30</text>
+<polyline class="sLg" points="70.0,46.4 70.0,46.4 90.0,46.4 90.0,46.4 110.0,46.4 110.0,46.4 130.0,46.4 130.0,46.4 150.0,46.4 150.0,46.4 170.0,46.4 170.0,74.8 190.0,74.8 190.0,74.8 210.0,74.8 210.0,74.8 230.0,74.8 230.0,74.8 250.0,74.8 250.0,74.8 270.0,74.8 270.0,74.8 290.0,74.8 290.0,74.8 310.0,74.8 310.0,146.0 330.0,146.0 330.0,146.0 350.0,146.0 350.0,146.0 370.0,146.0 370.0,146.0 390.0,146.0 390.0,146.0 410.0,146.0 410.0,146.0 430.0,146.0 430.0,146.0 450.0,146.0 450.0,146.0 470.0,146.0 470.0,181.5 490.0,181.5 490.0,181.5 510.0,181.5 510.0,181.5 530.0,181.5 530.0,181.5 550.0,181.5 550.0,181.5 570.0,181.5 570.0,181.5 590.0,181.5 590.0,181.5 610.0,181.5 610.0,181.5 630.0,181.5 630.0,181.5 650.0,181.5 650.0,181.5 670.0,181.5 670.0,181.5" style="fill:none;stroke-width:3"/>
+<text class="sWt" x="176" y="40.4">incident: 8 min</text>
+<text class="sWt" x="316" y="68.8444">incident: 20 min</text>
+<text class="sWt" x="476" y="139.956">incident: 10 min</text>
+<text class="sT" x="668" y="173.511" text-anchor="end">5.2 min left</text>
+<text class="sS" x="20" y="115" text-anchor="middle" transform="rotate(-90 20 115)">minutes left</text>
+</svg><figcaption>99.9% of 30 days = 43.2 minutes. With 5.2 minutes left, the team slows risky changes until the window resets; with plenty left, it can ship faster. That trade is what an SLO is for.</figcaption></figure>
 
 After an incident, run a **blameless postmortem**: timeline, impact, root causes, and actions that change the system, not the person.
 

@@ -155,6 +155,29 @@ What has to change first is **state** ([[SD1.4]]):
 
 **Health checks** decide which instances receive traffic. Distinguish a **liveness** check (is the process alive? if not, restart it) from a **readiness** check (can it serve right now? if not, stop sending it traffic but don't kill it). A readiness check that calls the database can take the whole fleet out of rotation when the database blips, so keep it cheap and think about what it should really mean.
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: a load balancer spreads user requests across three stateless app servers that keep sessions in Redis; when app 2 fails its readiness check the load balancer stops sending it requests and the other two carry the traffic">
+<rect class="sB" x="14" y="90" width="120" height="50" rx="8"/><text class="sT" x="74" y="120" text-anchor="middle">Users</text>
+<rect class="sA" x="220" y="84" width="140" height="62" rx="8"/><text class="sT" x="290" y="113" text-anchor="middle">Load balancer</text><text class="sC" x="290" y="129" text-anchor="middle">health checks /ready</text>
+<rect class="sG" x="470" y="24" width="140" height="46" rx="8"/><text class="sT" x="540" y="45" text-anchor="middle">app 1</text><text class="sC" x="540" y="61" text-anchor="middle">stateless</text>
+<line class="sLm" x1="360" y1="115" x2="470" y2="47" opacity=".5"/>
+<rect class="sG" x="470" y="94" width="140" height="46" rx="8"/><text class="sT" x="540" y="115" text-anchor="middle">app 2</text><text class="sC" x="540" y="131" text-anchor="middle">stateless</text>
+<line class="sLm" x1="360" y1="115" x2="470" y2="117" opacity=".5"/>
+<rect class="sG" x="470" y="164" width="140" height="46" rx="8"/><text class="sT" x="540" y="185" text-anchor="middle">app 3</text><text class="sC" x="540" y="201" text-anchor="middle">stateless</text>
+<line class="sLm" x1="360" y1="115" x2="470" y2="187" opacity=".5"/>
+<rect class="sV" x="640" y="94" width="66" height="46" rx="8"/><text class="sT" x="673" y="115" text-anchor="middle">Redis</text><text class="sC" x="673" y="131" text-anchor="middle">sessions</text>
+<line class="sLm" x1="134" y1="115" x2="220" y2="115"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M134 115 L360 115 L470 47"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M134 115 L360 115 L470 117"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M134 115 L360 115 L470 187"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M134 115 L360 115 L470 47"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.630;1" path="M134 115 L360 115 L470 47"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.630;0.632;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.730;1" path="M134 115 L360 115 L470 187"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.730;0.732;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.750;0.830;1" path="M134 115 L360 115 L470 47"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.748;0.752;0.830;0.832;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.850;0.930;1" path="M134 115 L360 115 L470 187"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.848;0.852;0.930;0.932;1"/></circle>
+<g opacity="0"><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.42;0.44;0.97;1"/><rect class="sR" x="468" y="92" width="144" height="50" rx="8" style="fill:none;stroke-width:3"/><text class="sRt" x="540" y="160" text-anchor="middle">fails /ready → removed</text></g>
+<text class="sS" x="360" y="226" text-anchor="middle">round-robin while all are ready; a failed readiness check takes app 2 out within seconds</text>
+</svg><figcaption>Because no server holds state of its own, any of them can take any request, and losing one costs nothing but capacity.</figcaption></figure>
+
 ## SD2.5 Stage 4: caching, CDNs and read replicas 🟢 ⭐
 
 Most applications read far more than they write (10:1 to 100:1 is common). Stage 4 attacks the read load in three layers, cheapest first:
@@ -206,6 +229,28 @@ Design points that interviewers probe:
 - **Separate queues by priority**, so a password-reset code isn't stuck behind a marketing campaign.
 - **Watch queue depth and the age of the oldest message**, and scale workers on them; send poison messages to a **dead-letter queue** after a few retries.
 - Queues **move** load; they don't remove it. If workers are permanently slower than producers, the queue grows until something breaks. That needs more workers or **backpressure** ([[SD4.4]]).
+
+<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="A queue absorbing a burst, computed: arrivals run at 100 jobs a minute, jump to 300 a minute for five minutes, then drop to 50; workers process 150 a minute; the queue grows to 750 jobs at minute 10 and is empty again at minute 18, while the web tier never sees the burst">
+<line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
+<line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
+<text class="sS" x="62" y="204" text-anchor="end">0</text>
+<text class="sS" x="62" y="164" text-anchor="end">200</text>
+<text class="sS" x="62" y="124" text-anchor="end">400</text>
+<text class="sS" x="62" y="84" text-anchor="end">600</text>
+<text class="sS" x="62" y="44" text-anchor="end">800</text>
+<text class="sS" x="70" y="218" text-anchor="middle">0 min</text>
+<text class="sS" x="220" y="218" text-anchor="middle">5 min</text>
+<text class="sS" x="370" y="218" text-anchor="middle">10 min</text>
+<text class="sS" x="520" y="218" text-anchor="middle">15 min</text>
+<text class="sS" x="670" y="218" text-anchor="middle">20 min</text>
+<polyline class="sLw" points="70.0,180.0 100.0,180.0 100.0,180.0 130.0,180.0 130.0,180.0 160.0,180.0 160.0,180.0 190.0,180.0 190.0,180.0 220.0,180.0 220.0,140.0 250.0,140.0 250.0,140.0 280.0,140.0 280.0,140.0 310.0,140.0 310.0,140.0 340.0,140.0 340.0,140.0 370.0,140.0 370.0,190.0 400.0,190.0 400.0,190.0 430.0,190.0 430.0,190.0 460.0,190.0 460.0,190.0 490.0,190.0 490.0,190.0 520.0,190.0 520.0,190.0 550.0,190.0 550.0,190.0 580.0,190.0 580.0,190.0 610.0,190.0 610.0,190.0 640.0,190.0 640.0,190.0 670.0,190.0" style="fill:none;stroke-width:2"/>
+<polyline class="sLv" points="100.0,200.0 130.0,200.0 160.0,200.0 190.0,200.0 220.0,200.0 250.0,170.0 280.0,140.0 310.0,110.0 340.0,80.0 370.0,50.0 400.0,70.0 430.0,90.0 460.0,110.0 490.0,130.0 520.0,150.0 550.0,170.0 580.0,190.0 610.0,200.0 640.0,200.0 670.0,200.0" style="fill:none;stroke-width:3"/>
+<line class="sLg" x1="70" y1="170" x2="670" y2="170" stroke-dasharray="5 4"/>
+<text class="sWt" x="295" y="132" text-anchor="middle">arrivals: 300/min burst</text>
+<text class="sT" x="376" y="42">queue peaks at 750 jobs</text>
+<text class="sGt" x="668" y="164" text-anchor="end">workers: 150/min</text>
+<text class="sS" x="610" y="192" text-anchor="middle">empty again at 18 min</text>
+</svg><figcaption>Computed minute by minute: the queue absorbs the burst (750 jobs at its peak) and the workers drain it by minute 18. Users only see a delay in background work, never errors. Watch queue depth and the age of the oldest message.</figcaption></figure>
 
 ## SD2.7 Stage 6: partitioning and sharding 🟡 ⭐
 

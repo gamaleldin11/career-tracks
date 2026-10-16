@@ -257,6 +257,29 @@ A **cache** keeps a copy of data somewhere faster or closer than its source. Cac
 
 **The price is staleness.** A cached copy can be out of date. Every cache decision is "how stale can this be?": a product description for an hour is fine; an account balance is not. The patterns (cache-aside, write-through, TTLs, invalidation, stampede protection) are in [[B8.2]].
 
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: the caching layers a read passes through, from the browser cache, to a CDN edge, to the application and Redis, to the database and finally the disk; a request stops at the first layer with a fresh copy; with a 1 millisecond cache in front of a 10 millisecond database the average read takes 5.5 ms at a 50 percent hit ratio, 2.8 at 80, 1.9 at 90, 1.5 at 95 and 1.1 at 99">
+<rect class="sB" x="14" y="40" width="120" height="56" rx="8"/><text class="sT" x="74" y="66" text-anchor="middle">Browser cache</text><text class="sC" x="74" y="82" text-anchor="middle">0 ms</text>
+<rect class="sA" x="160" y="40" width="120" height="56" rx="8"/><text class="sT" x="220" y="66" text-anchor="middle">CDN edge</text><text class="sC" x="220" y="82" text-anchor="middle">~10 ms</text>
+<rect class="sV" x="306" y="40" width="120" height="56" rx="8"/><text class="sT" x="366" y="66" text-anchor="middle">App + Redis</text><text class="sC" x="366" y="82" text-anchor="middle">~1 ms lookup</text>
+<rect class="sW" x="452" y="40" width="120" height="56" rx="8"/><text class="sT" x="512" y="66" text-anchor="middle">Database</text><text class="sC" x="512" y="82" text-anchor="middle">~10 ms query</text>
+<rect class="sN" x="598" y="40" width="120" height="56" rx="8"/><text class="sT" x="658" y="66" text-anchor="middle">Disk</text><text class="sC" x="658" y="82" text-anchor="middle">only on a DB miss</text>
+<line class="sLm" x1="134" y1="68" x2="160" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="280" y1="68" x2="306" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="426" y1="68" x2="452" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="572" y1="68" x2="598" y2="68" marker-end="url(#ahm)"/>
+<text class="sM" x="360" y="22" text-anchor="middle">a request stops at the first layer that has a fresh copy</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.050;1" path="M74 110 L74 110"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.050;0.052;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M30 68 L220 68 L220 108"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle><text class="sGt" x="220" y="126" text-anchor="middle">hit at the CDN</text>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.580;1" path="M30 76 L366 76 L366 108"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.580;0.582;1"/></circle><text class="sGt" x="366" y="126" text-anchor="middle">hit in Redis</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.950;1" path="M30 84 L512 84 L512 108"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.950;0.952;1"/></circle><text class="sWt" x="512" y="126" text-anchor="middle">miss everywhere</text>
+<text class="sS" x="14" y="160">average read time with a 1 ms cache in front of a 10 ms database:</text>
+<text class="sC" x="60" y="184" text-anchor="middle">hit 50% → 5.5 ms</text>
+<text class="sC" x="200" y="184" text-anchor="middle">hit 80% → 2.8 ms</text>
+<text class="sC" x="340" y="184" text-anchor="middle">hit 90% → 1.9 ms</text>
+<text class="sC" x="480" y="184" text-anchor="middle">hit 95% → 1.5 ms</text>
+<text class="sC" x="620" y="184" text-anchor="middle">hit 99% → 1.1 ms</text>
+</svg><figcaption>Each layer catches what the one before it missed. The hit ratio matters more than the cache’s speed: going from 90% to 99% hits cuts the average read from 1.9 ms to 1.1 ms (computed as hit × 1 ms + miss × 10 ms).</figcaption></figure>
+
 A **CDN** (content delivery network) is a cache spread across hundreds of cities. It serves static files from an edge server near the user, absorbs traffic spikes and attacks, and can also cache API responses that are the same for everyone. For a user in Cairo, an image served from a nearby edge instead of a server in Europe saves tens of milliseconds on every file.
 
 > [!say]
