@@ -953,6 +953,22 @@ Inside local          Inside global        Outside
   <li><strong>VPN + overlapping subnets</strong>: home LAN 192.168.1.0/24, office also 192.168.1.0/24 → tunnel up, traffic still goes to the local LAN (longest-match ties to connected). Fix: NAT over the tunnel or renumber — and this is why corporate sites avoid 192.168.0/1.x.</li>
   <li><strong>DHCP option 121/249</strong> can push static routes; option 66/67 boot servers (IP phones/PXE) — "phones won't boot on the new VLAN" is usually missing options, not networking.</li>
 </ul>
+<figure class="dia steps"><svg viewBox="0 0 720 248" role="img" aria-label="A rogue DHCP server and DHCP snooping: a home router plugged in at a desk answers DHCP discovers alongside the real server, and clients take the first offer, getting wrong addresses or a malicious gateway; with DHCP snooping only the trusted uplink port may send offers, so the rogue’s offers are dropped">
+<rect class="sB" x="14" y="70" width="120" height="50" rx="8"/><text class="sT" x="74" y="93" text-anchor="middle">Laptop</text><text class="sS" x="74" y="109" text-anchor="middle">DISCOVER</text>
+<rect class="sA" x="250" y="70" width="140" height="50" rx="8"/><text class="sT" x="320" y="93" text-anchor="middle">Access switch</text><text class="sS" x="320" y="109" text-anchor="middle">DHCP snooping</text>
+<rect class="sG" x="566" y="20" width="140" height="50" rx="8"/><text class="sT" x="636" y="43" text-anchor="middle">Real DHCP server</text><text class="sS" x="636" y="59" text-anchor="middle">trusted uplink</text>
+<rect class="sR" x="566" y="130" width="140" height="50" rx="8"/><text class="sT" x="636" y="153" text-anchor="middle">Home router</text><text class="sS" x="636" y="169" text-anchor="middle">plugged in at a desk</text>
+<line class="sLm" x1="134" y1="95" x2="250" y2="95"/>
+<line class="sLm" x1="390" y1="85" x2="566" y2="45"/>
+<line class="sLm" x1="390" y1="105" x2="566" y2="155"/>
+<rect class="sN" x="14" y="196" width="692" height="44" rx="8"/>
+<g data-s="1-1"><text class="sRt" x="478" y="140" text-anchor="middle">OFFER 192.168.0.23, gw 192.168.0.1</text><text class="sGt" x="478" y="52" text-anchor="middle">OFFER 10.20.5.40</text><text class="sS" x="30" y="216">Without snooping: both answer; the client takes the FIRST offer. The rogue is often faster,</text><text class="sRt" x="30" y="232">so random users get 192.168.0.x and "no internet" — or an attacker becomes their gateway.</text></g>
+<g data-s="2-2"><text class="sRt" x="478" y="140" text-anchor="middle">✕ OFFER dropped at the untrusted port</text><text class="sGt" x="478" y="52" text-anchor="middle">OFFER 10.20.5.40 ✓</text><text class="sS" x="30" y="216">With DHCP snooping: only the trusted uplink may send OFFERs. Server replies on user ports are</text><text class="sGt" x="30" y="232">dropped, and the binding table it builds also feeds Dynamic ARP Inspection.</text></g>
+</svg><ol class="dia-steps">
+<li>Two servers answer; the fastest wins, right or wrong.</li>
+<li>Snooping: offers are accepted only from the trusted uplink.</li>
+</ol><figcaption>The tell-tale ticket: a few users with 192.168.0.x or 192.168.1.x addresses on a network that uses 10.x. Find the device by its MAC in the switch table.</figcaption></figure>
+
 
 <h3>D2.5 IPv6 one level deeper</h3>
 <ul>
@@ -3177,6 +3193,18 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li><strong>NFS</strong>: v3 = host-based trust (export lists, UID mapping — "why does user 1001 own these files?"), v4 = stateful, Kerberos-capable, single port 2049. VMware NFS datastores typically v3 — locking and permissions behave differently than v4, an L2-level detail worth recognizing.</li>
   <li>Mixed-protocol gotcha: the same NAS folder shared over SMB (Windows ACLs) and NFS (POSIX bits) has <em>two</em> permission models — mismatches create "I can see it from Windows but not from Linux" tickets.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="One NAS folder shared two ways: Windows clients use SMB 3 on port 445 and are checked against Windows ACLs with AD users and groups; Linux clients use NFS on port 2049 and are checked against POSIX permission bits with UID and GID numbers and export rules; the two models can disagree, so access may work from one side and fail from the other">
+<rect class="sV" x="290" y="80" width="140" height="56" rx="8"/><text class="sT" x="360" y="106" text-anchor="middle">NAS folder</text><text class="sC" x="360" y="122" text-anchor="middle">/finance</text>
+<rect class="sB" x="14" y="30" width="170" height="50" rx="8"/><text class="sT" x="99" y="53" text-anchor="middle">Windows client</text><text class="sC" x="99" y="69" text-anchor="middle">SMB 3 · port 445</text>
+<rect class="sA" x="536" y="30" width="170" height="50" rx="8"/><text class="sT" x="621" y="53" text-anchor="middle">Linux client</text><text class="sC" x="621" y="69" text-anchor="middle">NFS v3/v4 · 2049</text>
+<line class="sLm" x1="184" y1="55" x2="288" y2="98"/>
+<line class="sLm" x1="536" y1="55" x2="432" y2="98"/>
+<rect class="sB" x="14" y="100" width="240" height="70" rx="8" opacity=".5"/><text class="sT" x="134" y="122" text-anchor="middle">checks Windows ACLs</text><text class="sS" x="134" y="140" text-anchor="middle">AD users and groups</text><text class="sS" x="134" y="156" text-anchor="middle">share + NTFS-style permissions</text>
+<rect class="sA" x="466" y="100" width="240" height="70" rx="8" opacity=".5"/><text class="sT" x="586" y="122" text-anchor="middle">checks POSIX bits</text><text class="sS" x="586" y="140" text-anchor="middle">UID / GID numbers</text><text class="sS" x="586" y="156" text-anchor="middle">export rules (hosts allowed)</text>
+<text class="sWt" x="360" y="196" text-anchor="middle">two permission models on one folder: "fine from Windows, denied from Linux" = an ID-mapping or mode-bit mismatch</text>
+<text class="sS" x="360" y="216" text-anchor="middle">SMBv1 stays off; NFS v3 trusts the client’s UID, v4 can use Kerberos</text>
+</svg><figcaption>Multi-protocol shares need a decision about which permission model wins and how AD users map to UIDs. Without one, access tickets are guaranteed.</figcaption></figure>
+
 
 <h3>D9.5 Backup engineering vocabulary (Veeam-era)</h3>
 <ul>
@@ -5344,6 +5372,22 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
   <tr><td>Infrastructure as code</td><td>CloudFormation (or Terraform)</td><td>ARM / Bicep (or Terraform)</td></tr>
   <tr><td>Run on-prem servers through the cloud console</td><td>Systems Manager</td><td>Azure Arc</td></tr>
 </table></div>
+<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="The resources that make up one cloud virtual machine inside a resource group: the VM itself with its size, an OS managed disk and a data disk, a network interface with a private IP, which sits in a subnet of the virtual network and is filtered by a network security group">
+<rect class="sN" x="14" y="14" width="692" height="196" rx="10"/><text class="sM" x="30" y="36">Resource group: rg-web-prod</text>
+<rect class="sA" x="270" y="60" width="180" height="56" rx="8"/><text class="sT" x="360" y="86" text-anchor="middle">Virtual machine</text><text class="sC" x="360" y="102" text-anchor="middle">size D4s_v5 · 4 vCPU</text>
+<rect class="sB" x="40" y="60" width="170" height="44" rx="8"/><text class="sT" x="125" y="80" text-anchor="middle">OS disk</text><text class="sC" x="125" y="96" text-anchor="middle">managed disk, 128 GB</text>
+<rect class="sB" x="40" y="120" width="170" height="44" rx="8"/><text class="sT" x="125" y="140" text-anchor="middle">Data disk</text><text class="sC" x="125" y="156" text-anchor="middle">managed disk, 1 TB</text>
+<rect class="sV" x="270" y="146" width="180" height="44" rx="8"/><text class="sT" x="360" y="166" text-anchor="middle">Network interface</text><text class="sC" x="360" y="182" text-anchor="middle">10.20.11.4</text>
+<rect class="sR" x="510" y="60" width="176" height="44" rx="8"/><text class="sT" x="598" y="80" text-anchor="middle">NSG / security group</text><text class="sC" x="598" y="96" text-anchor="middle">allow 443 from LB</text>
+<rect class="sG" x="510" y="120" width="176" height="44" rx="8"/><text class="sT" x="598" y="140" text-anchor="middle">Subnet in VNet / VPC</text><text class="sC" x="598" y="156" text-anchor="middle">10.20.11.0/24</text>
+<line class="sLm" x1="210" y1="82" x2="270" y2="82"/>
+<line class="sLm" x1="210" y1="142" x2="270" y2="100"/>
+<line class="sLm" x1="360" y1="116" x2="360" y2="146"/>
+<line class="sLm" x1="450" y1="168" x2="510" y2="142"/>
+<line class="sLm" x1="450" y1="160" x2="510" y2="82"/>
+<text class="sS" x="360" y="232" text-anchor="middle">a "VM" is five or six separate resources — each billed, permissioned and backed up on its own</text>
+</svg><figcaption>Deleting the VM often leaves its disks and public IP behind, still billing. Tags and resource groups keep the pieces together.</figcaption></figure>
+
 <p><strong>Cost basics</strong> interviewers like: pay-as-you-go (on-demand) is the most flexible and most expensive; <strong>reservations / savings plans</strong> trade a 1- or 3-year commitment for a large discount on steady workloads; <strong>spot</strong> capacity is very cheap but can be taken back at short notice (batch jobs only). Stopped VMs stop paying for compute but <em>disks keep billing</em>. Azure Hybrid Benefit reuses existing Windows Server and SQL Server licences. <strong>Tags</strong> (owner, cost centre, environment) are how a bill becomes readable.</p>
 
 <h3>19.5 Identity and access — the heart of cloud security</h3>
@@ -6005,6 +6049,35 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <p class="goal">The night-before page. If you can reproduce everything here from memory, you're ready.</p>
 
 <h3>The 60-second summaries</h3>
+
+<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="A map of the whole Connectivity track: networks, Modules 1 to 8 from foundations to troubleshooting; infrastructure, Modules 9 storage, 10 VMware and Hyper-V, 18 hardware and Dell tools, 11 Linux and 12 Windows and AD; cloud and automation, Modules 19 and 20; operations and you, Modules 13 ITIL and customer handling and 14 the interview">
+<rect class="sW" x="290" y="148" width="140" height="44" rx="8"/><text class="sT" x="360" y="168" text-anchor="middle">Connectivity</text><text class="sS" x="360" y="184" text-anchor="middle">interview</text>
+<line class="sLm" x1="360" y1="170" x2="210" y2="80" opacity=".6"/>
+<rect class="sB" x="135" y="7" width="150" height="146" rx="8" opacity=".9"/><text class="sT" x="210" y="24" text-anchor="middle">Networks</text>
+<text class="sC" x="210" y="40" text-anchor="middle">1 foundations</text>
+<text class="sC" x="210" y="55" text-anchor="middle">2 IP</text>
+<text class="sC" x="210" y="70" text-anchor="middle">3 protocols</text>
+<text class="sC" x="210" y="85" text-anchor="middle">4 switching</text>
+<text class="sC" x="210" y="100" text-anchor="middle">5 routing</text>
+<text class="sC" x="210" y="115" text-anchor="middle">6 Wi-Fi/VPN</text>
+<text class="sC" x="210" y="130" text-anchor="middle">7 security</text>
+<text class="sC" x="210" y="145" text-anchor="middle">8 troubleshooting</text>
+<line class="sLm" x1="360" y1="170" x2="520" y2="90" opacity=".6"/>
+<rect class="sA" x="445" y="39.5" width="150" height="101" rx="8" opacity=".9"/><text class="sT" x="520" y="56.5" text-anchor="middle">Infrastructure</text>
+<text class="sC" x="520" y="72.5" text-anchor="middle">9 storage</text>
+<text class="sC" x="520" y="87.5" text-anchor="middle">10 VMware/Hyper-V</text>
+<text class="sC" x="520" y="102.5" text-anchor="middle">18 hardware/Dell</text>
+<text class="sC" x="520" y="117.5" text-anchor="middle">11 Linux</text>
+<text class="sC" x="520" y="132.5" text-anchor="middle">12 Windows/AD</text>
+<line class="sLm" x1="360" y1="170" x2="535" y2="250" opacity=".6"/>
+<rect class="sV" x="460" y="222" width="150" height="56" rx="8" opacity=".9"/><text class="sT" x="535" y="239" text-anchor="middle">Cloud + automation</text>
+<text class="sC" x="535" y="255" text-anchor="middle">19 cloud</text>
+<text class="sC" x="535" y="270" text-anchor="middle">20 scripting</text>
+<line class="sLm" x1="360" y1="170" x2="195" y2="255" opacity=".6"/>
+<rect class="sG" x="120" y="227" width="150" height="56" rx="8" opacity=".9"/><text class="sT" x="195" y="244" text-anchor="middle">Operations + you</text>
+<text class="sC" x="195" y="260" text-anchor="middle">13 ITIL, customers</text>
+<text class="sC" x="195" y="275" text-anchor="middle">14 the interview</text>
+</svg><figcaption>Twenty modules, four areas. If you can say one sentence about each line on this map, you can survive the rapid-fire round.</figcaption></figure>
 <div class="grid2">
   <div class="kv"><b>OSI in one breath</b><p>Physical bits → Data Link frames/MAC (switches) → Network packets/IP (routers) → Transport TCP/UDP+ports → Session → Presentation/encryption → Application (HTTP, DNS). PDUs: bits, frame, packet, segment, data.</p></div>
   <div class="kv"><b>DHCP</b><p>DORA — Discover, Offer, Request, ACK. Broadcasts; relay/IP-helper for remote subnets; failure = APIPA 169.254.x.x.</p></div>
