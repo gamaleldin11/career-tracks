@@ -130,7 +130,7 @@ const MODULES = {
   AI24: { short: 'RL & bandits', ai: '24' },
   AI25: { short: 'SOTA roadmap', ai: '25' },
 
-  // ---- network & connectivity: content/connectivity-bootcamp/connectivity-bootcamp.html (section m0…m16, m18, m19)
+  // ---- network & connectivity: content/connectivity-bootcamp/connectivity-bootcamp.html (section m0…m16, m18…m20)
   N0: { short: 'Orientation & study plan', net: true },
   N1: { short: 'Networking foundations', net: true },
   N2: { short: 'IP addressing & subnetting', net: true },
@@ -150,6 +150,7 @@ const MODULES = {
   N16: { short: 'Network glossary', net: true },
   N18: { short: 'Servers, hardware & Dell tools', net: true },
   N19: { short: 'Cloud basics & identity', net: true },
+  N20: { short: 'Scripting: PowerShell & Bash', net: true },
 };
 
 // Each track is an ordered path of stages. The order is the reading order.
@@ -240,7 +241,7 @@ const TRACKS = [
     stages: [
       ['Start', ['N0']],
       ['Networks', ['N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8']],
-      ['Infrastructure', ['N9', 'N18', 'N10', 'N11', 'N12', 'N19']],
+      ['Infrastructure', ['N9', 'N18', 'N10', 'N11', 'N12', 'N19', 'N20']],
       ['System design', ['SD1', 'SD2', 'SD4', 'SD5']],
       ['Operations & interview', ['N13', 'N14']],
       ['Quick reference', ['N15', 'N16']],
@@ -262,7 +263,7 @@ const LEVEL = {
   AI1: 'E', AI2: 'E', AI3: 'E', AI4: 'E', AI5: 'E', AI6: 'E', AI7: 'E', AI8: 'E', AI8B: 'M', AI9: 'M', AI10: 'M', AI11: 'M',
   AI12: 'E', AI13: 'E', AI15: 'E', AI16: 'E', AI17: 'M', AI18: 'S', AI19: 'M', AI20: 'M', AI21: 'M', AI22: 'S', AI23: 'S', AI24: 'S', AI25: 'E',
   // Bootcamp: written for an associate (0–3 years) role
-  N1: 'E', N2: 'E', N3: 'E', N4: 'E', N5: 'E', N6: 'E', N7: 'E', N8: 'E', N9: 'E', N10: 'E', N11: 'E', N12: 'E', N13: 'E', N14: 'E', N18: 'E', N19: 'E',
+  N1: 'E', N2: 'E', N3: 'E', N4: 'E', N5: 'E', N6: 'E', N7: 'E', N8: 'E', N9: 'E', N10: 'E', N11: 'E', N12: 'E', N13: 'E', N14: 'E', N18: 'E', N19: 'E', N20: 'E',
 };
 
 module.exports = { MODULES, TRACKS, LEVEL };

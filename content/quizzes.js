@@ -757,6 +757,13 @@ const FOUNDATIONS = {
     q('Identity', 'An app on an Azure VM needs to read a storage account. The safest credential is…', ['An access key pasted in the config file', 'A managed identity with a narrow role', 'The admin’s password', 'A shared Owner account'], 1, 'Managed identities (IAM roles on AWS) give short-lived credentials with no secret to leak.', 'N19.5'),
     q('Identity', 'In AWS IAM, a request matched by one policy that allows it and another that explicitly denies it is…', ['Allowed', 'Denied: an explicit deny always wins', 'Allowed for root only', 'Queued for approval'], 1, 'Otherwise, anything not explicitly allowed is implicitly denied.', 'N19.5'),
   ],
+  N20: [
+    q('Scripting', 'In Bash, what exit code means the last command succeeded?', ['1', '0', '-1', '255'], 1, 'Read it from $?. Anything non-zero is an error code that cron, monitoring or CI can act on.', 'N20.2'),
+    q('Scripting', 'Why can PowerShell sort processes with Sort-Object WS while Bash needs sort -k4?', ['Bash is older', 'The PowerShell pipeline passes objects with named properties; Bash passes text columns', 'sort cannot read numbers', 'PowerShell caches results'], 1, 'Pipe anything into Get-Member to see its properties.', 'N20.3'),
+    q('Scripting', 'Which switch shows what Remove-Item or Stop-Service would do without doing it?', ['-Force', '-WhatIf', '-Verbose', '-PassThru'], 1, '-Confirm asks before each action instead.', 'N20.5'),
+    q('Scripting', 'Run a script block on 50 Windows servers in parallel:', ['Enter-PSSession', 'Invoke-Command -ComputerName (list) -ScriptBlock { … }', 'Start-Process', 'ssh -all'], 1, 'It uses WinRM (5985/5986) and tags each result with the computer name.', 'N20.6'),
+    q('Scripting', 'In Bash, set -u makes the script…', ['Run as root', 'Treat an unset variable as an error instead of an empty string', 'Use UTF-8', 'Run faster'], 1, 'It stops accidents such as rm -rf "$dir/" with $dir unset.', 'N20.5'),
+  ],
   S5: [
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
   ],

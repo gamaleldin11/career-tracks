@@ -3703,6 +3703,128 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 </div>
 </section>
 
+<section class="mod" id="m20"><div class="eyebrow">Module 20 · Scripting</div>
+<h2>Scripting: PowerShell &amp; Bash fundamentals</h2>
+<p class="goal">The interview question is rarely "write a program". It is "have you automated anything?" and "what would this script do?". This module gives you the fundamentals of both shells side by side, the one idea that separates them (objects vs text), one worked script in each that you can explain line by line, and the safety habits that make scripts trustworthy. Module 11 has a longer annotated bash script and Module 12 the everyday PowerShell commands.</p>
+
+<h3>20.1 Why infrastructure people script</h3>
+<ul>
+  <li><strong>Repeatability</strong>: the same steps, the same way, on 1 server or 200 — no forgotten step at 3 a.m.</li>
+  <li><strong>Speed</strong>: a report across every server in seconds instead of an afternoon of RDP sessions.</li>
+  <li><strong>Evidence</strong>: a script's output (a CSV, a log) is proof for a ticket, an audit or an RCA.</li>
+  <li>Use <strong>PowerShell</strong> for Windows, Active Directory, Hyper-V, Microsoft 365, Azure and VMware (PowerCLI). Use <strong>Bash</strong> for Linux, ESXi shell basics, network appliances and containers. PowerShell 7 also runs on Linux and macOS.</li>
+</ul>
+
+<h3>20.2 The two shells side by side</h3>
+<div class="tw"><table>
+  <tr><th>Task</th><th>PowerShell</th><th>Bash</th></tr>
+  <tr><td>Run a script</td><td><code>.\report.ps1</code> (execution policy must allow it, e.g. <code>RemoteSigned</code>)</td><td><code>chmod +x report.sh</code> then <code>./report.sh</code>, or <code>bash report.sh</code>; first line <code>#!/usr/bin/env bash</code></td></tr>
+  <tr><td>Variable</td><td><code>$name = "web01"</code></td><td><code>name="web01"</code> (no spaces around <code>=</code>)</td></tr>
+  <tr><td>Use it in a string</td><td><code>"Host: $name"</code> — double quotes expand, single quotes don't</td><td><code>"Host: $name"</code> — the same rule</td></tr>
+  <tr><td>Arguments</td><td><code>param([string]$Path, [int]$Days = 7)</code> → <code>-Path C:\logs -Days 3</code></td><td><code>$1</code>, <code>$2</code>, all: <code>"$@"</code>, default: <code>${1:-7}</code></td></tr>
+  <tr><td>If</td><td><code>if ($pct -lt 15) { … } elseif (…) { … } else { … }</code></td><td><code>if [[ $pct -lt 15 ]]; then … elif …; then … else … fi</code></td></tr>
+  <tr><td>Compare</td><td><code>-eq -ne -lt -gt -le -ge</code>, <code>-like "web*"</code>, <code>-match</code> (regex)</td><td>numbers: <code>-eq -ne -lt -gt</code>; strings: <code>==</code> <code>!=</code>; regex: <code>=~</code></td></tr>
+  <tr><td>Loop over a list</td><td><code>foreach ($s in $servers) { … }</code> or <code>$servers | ForEach-Object { $_ }</code></td><td><code>for s in "${servers[@]}"; do … done</code></td></tr>
+  <tr><td>Read a file line by line</td><td><code>Get-Content servers.txt | ForEach-Object { … }</code></td><td><code>while read -r line; do … done &lt; servers.txt</code></td></tr>
+  <tr><td>Function</td><td><code>function Get-Free { param($Drive) … }</code></td><td><code>get_free() { local drive=$1; … }</code></td></tr>
+  <tr><td>Did the last command work?</td><td><code>$?</code> (True/False); <code>$LASTEXITCODE</code> for external programs</td><td><code>$?</code> — <strong>0 means success</strong>, anything else is an error code</td></tr>
+  <tr><td>Handle errors</td><td><code>try { … -ErrorAction Stop } catch { $_.Exception.Message }</code></td><td><code>set -euo pipefail</code>; <code>cmd || echo "failed"</code></td></tr>
+  <tr><td>Find help</td><td><code>Get-Help Get-Service -Examples</code>, <code>Get-Command *dns*</code>, <code>… | Get-Member</code></td><td><code>man df</code>, <code>df --help</code>, <code>type</code>, <code>which</code></td></tr>
+  <tr><td>Comment</td><td><code># line</code>, <code>&lt;# block #&gt;</code></td><td><code># line</code></td></tr>
+</table></div>
+<p>PowerShell commands are <strong>Verb-Noun</strong> cmdlets (<code>Get-Service</code>, <code>Restart-Service</code>, <code>Get-ADUser</code>); <code>Get-Verb</code> lists the approved verbs, so you can often guess a command's name. Bash strings together small programs (<code>grep</code>, <code>awk</code>, <code>sort</code>, <code>cut</code>), each doing one job.</p>
+
+<h3>20.3 The big difference: objects vs text</h3>
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: the same task, the five processes using the most memory, in both shells; in PowerShell the pipeline passes objects and Sort-Object sorts by the named property WS; in Bash the pipeline passes lines of text and sort must be told that memory is the fourth column, which breaks if the output format changes">
+<text class="sM" x="14" y="24">PowerShell: the pipeline carries objects</text>
+<rect class="sB" x="14" y="36" width="130" height="44" rx="8"/><text class="sT" x="79" y="63" text-anchor="middle">Get-Process</text>
+<rect class="sV" x="172" y="32" width="176" height="52" rx="8"/><text class="sS" x="184" y="52">.Name = "sqlservr"</text><text class="sS" x="184" y="72">.WS = 2.1 GB  .Id = 4120</text>
+<rect class="sB" x="376" y="36" width="170" height="44" rx="8"/><text class="sT" x="461" y="63" text-anchor="middle">Sort-Object WS -Desc</text>
+<rect class="sB" x="574" y="36" width="132" height="44" rx="8"/><text class="sT" x="640" y="63" text-anchor="middle">Select -First 5</text>
+<line class="sLm" x1="144" y1="58" x2="170" y2="58" marker-end="url(#ahm)"/><line class="sLm" x1="348" y1="58" x2="374" y2="58" marker-end="url(#ahm)"/><line class="sLm" x1="546" y1="58" x2="572" y2="58" marker-end="url(#ahm)"/>
+<text class="sGt" x="360" y="104" text-anchor="middle">sorts by a property name: still works if the display format changes</text>
+<text class="sM" x="14" y="140">Bash: the pipeline carries text</text>
+<rect class="sB" x="14" y="152" width="130" height="44" rx="8"/><text class="sT" x="79" y="179" text-anchor="middle">ps aux</text>
+<rect class="sN" x="172" y="148" width="176" height="52" rx="8"/><text class="sS" x="184" y="168">mysql 812 3.1 22.4 …</text><text class="sS" x="184" y="188">root    1 0.0  0.1 …</text>
+<rect class="sB" x="376" y="152" width="170" height="44" rx="8"/><text class="sT" x="461" y="179" text-anchor="middle">sort -k4 -nr</text>
+<rect class="sB" x="574" y="152" width="132" height="44" rx="8"/><text class="sT" x="640" y="179" text-anchor="middle">head -5</text>
+<line class="sLm" x1="144" y1="174" x2="170" y2="174" marker-end="url(#ahm)"/><line class="sLm" x1="348" y1="174" x2="374" y2="174" marker-end="url(#ahm)"/><line class="sLm" x1="546" y1="174" x2="572" y2="174" marker-end="url(#ahm)"/>
+<text class="sWt" x="360" y="222" text-anchor="middle">sorts by column 4 (%MEM): you must know the layout, and it breaks if it changes</text>
+<circle class="sPv" r="6"><animateMotion dur="4s" repeatCount="indefinite" path="M144 58 L706 58"/></circle>
+<circle class="sPw" r="6"><animateMotion dur="4s" repeatCount="indefinite" path="M144 174 L706 174"/></circle>
+</svg><figcaption>Same question, two philosophies. In PowerShell, pipe anything into <code>Get-Member</code> to see the properties you can sort, filter and select on. In Bash, tools such as <code>awk '{print $4}'</code> and <code>cut</code> pick columns out of text — powerful, but tied to the output layout (here <code>ps aux --sort=-%mem</code> would be the more robust choice).</figcaption></figure>
+
+<h3>20.4 One worked script in each — a low-disk report</h3>
+<p>The same job in both shells: check free space and report anything below a threshold. Be ready to explain every line.</p>
+<pre><code><span class="c"># disk-report.ps1: list fixed disks below a free-space threshold, on one or many servers</span>
+param(
+    [string[]]$ComputerName = @($env:COMPUTERNAME),   <span class="c">← default: this machine</span>
+    [int]$MinFreePercent = 15
+)
+foreach ($c in $ComputerName) {
+    $query = @{ ClassName = 'Win32_LogicalDisk'; Filter = 'DriveType=3'; ErrorAction = 'Stop' }   <span class="c">← DriveType 3 = fixed disk</span>
+    if ($c -ne $env:COMPUTERNAME) { $query.ComputerName = $c }    <span class="c">← remote: over WinRM, on by default on Windows Server</span>
+    try {
+        $disks = Get-CimInstance @query                   <span class="c">← "splatting": pass the hashtable as parameters</span>
+    } catch {
+        Write-Warning "$c unreachable: $($_.Exception.Message)"
+        continue                                          <span class="c">← one dead server must not stop the report</span>
+    }
+    foreach ($d in $disks) {
+        $pct = [math]::Round($d.FreeSpace / $d.Size * 100, 1)
+        if ($pct -lt $MinFreePercent) {
+            [pscustomobject]@{ Computer = $c; Drive = $d.DeviceID; FreePct = $pct }   <span class="c">← output objects, not text</span>
+        }
+    }
+}
+
+<span class="c"># run it, and because the output is objects, export straight to CSV:</span>
+.\disk-report.ps1 -ComputerName SRV01,SRV02 -MinFreePercent 20 | Export-Csv low-disk.csv -NoTypeInformation</code></pre>
+<pre><code>#!/usr/bin/env bash
+<span class="c"># disk-report.sh: warn about filesystems above a usage threshold; exit 1 if any</span>
+set -euo pipefail                      <span class="c">← stop on errors, unset variables and failed pipes</span>
+max_used=${1:-85}                      <span class="c">← first argument, default 85 (%)</span>
+status=0
+while read -r pct avail mount; do        <span class="c">← mount last: it absorbs any spaces in the path</span>
+  pct=${pct%\%}                        <span class="c">← strip the % sign: "91%" → 91</span>
+  if (( pct &gt; max_used )); then
+    echo "WARN $mount is ${pct}% full ($avail free)"
+    status=1
+  fi
+done &lt; &lt;(df -h --output=pcent,avail,target -x tmpfs -x devtmpfs | tail -n +2)
+                                       <span class="c">↑ pick the columns by name, skip the header and RAM-backed filesystems</span>
+exit "$status"                         <span class="c">← 0 = all fine; monitoring or cron can act on 1</span></code></pre>
+<p>Both scripts were run as shown here (the Bash one with GNU coreutils <code>df</code>). What to point out in an interview: both take a <strong>parameter with a sensible default</strong>, both <strong>handle failure</strong> deliberately (try/catch and <code>continue</code>; <code>set -euo pipefail</code>), and both produce output another tool can use — PowerShell objects into a CSV, Bash an <strong>exit code</strong> that cron, a monitoring agent or a CI job can test.</p>
+
+<h3>20.5 Safety habits that make scripts trustworthy</h3>
+<ul>
+  <li><strong>Dry run first</strong>: PowerShell's <code>-WhatIf</code> shows what <code>Remove-Item</code>, <code>Stop-Service</code> or <code>Set-ADUser</code> <em>would</em> do; <code>-Confirm</code> asks each time. In Bash, <code>echo</code> the command before running it for real.</li>
+  <li><strong>Quote your variables</strong> in Bash: <code>rm -rf "$dir/"</code>, never <code>rm -rf $dir/</code> — an empty or space-containing variable turns the second into a disaster.</li>
+  <li><strong>No passwords in scripts</strong>: use <code>Get-Credential</code>, the SecretManagement module or a vault; on Linux, SSH keys and root-only config files. A password in a script ends up in Git, backups and screenshots.</li>
+  <li><strong>Test on one machine</strong>, then a small group, then everyone — the change-management habit applied to code.</li>
+  <li><strong>Log what you did</strong>: <code>Start-Transcript</code> in PowerShell; <code>exec &gt; &gt;(tee -a /var/log/myjob.log) 2&gt;&amp;1</code> in Bash.</li>
+  <li><strong>Version it</strong>: scripts live in Git, not on someone's desktop.</li>
+</ul>
+
+<h3>20.6 Running scripts on a schedule and remotely</h3>
+<div class="tw"><table>
+  <tr><th>Need</th><th>Windows / PowerShell</th><th>Linux / Bash</th></tr>
+  <tr><td>Run on a schedule</td><td>Task Scheduler (<code>Register-ScheduledTask</code>)</td><td><code>cron</code> (<code>crontab -e</code>: <code>0 7 * * 1-5 /opt/disk-report.sh</code> = 07:00 on weekdays) or systemd timers</td></tr>
+  <tr><td>Run on remote machines</td><td><code>Invoke-Command -ComputerName SRV01,SRV02 -ScriptBlock { Get-Service spooler }</code> over WinRM (ports 5985/5986)</td><td><code>ssh admin@web01 'df -h'</code>; a loop over hosts; Ansible for fleets</td></tr>
+  <tr><td>Interactive remote shell</td><td><code>Enter-PSSession SRV01</code></td><td><code>ssh admin@web01</code></td></tr>
+  <tr><td>Who may run scripts</td><td>Execution policy (<code>Get-ExecutionPolicy</code>; <code>RemoteSigned</code> is the usual server setting) — a safety catch, not a security boundary</td><td>File permissions: the execute bit (<code>chmod +x</code>), owner, and <code>sudo</code> rules</td></tr>
+</table></div>
+
+<div class="qhead"><h3>Interview questions — Module 20</h3><button data-qa="qa20">Show all answers</button></div>
+<div class="qa" id="qa20">
+<details><summary>Have you automated anything with scripts?</summary><div class="a"><p><strong>Model answer:</strong> "Yes — in my lab I wrote a small PowerShell script that checks free disk space across a list of servers and exports anything under 15% to a CSV, with try/catch so one unreachable server doesn't stop the report. I wrote the same check in Bash for Linux, returning a non-zero exit code so cron or monitoring can alert on it. The pattern I follow: a parameter with a default, deliberate error handling, test on one machine first, and keep it in Git."</p></div></details>
+<details><summary>What's the main difference between PowerShell and Bash?</summary><div class="a"><p><strong>Model answer:</strong> "PowerShell passes objects down the pipeline, so I can sort or filter by property names — Sort-Object WS — and pipe straight into Export-Csv. Bash passes text, so I combine small tools like grep, awk and sort and have to know which column holds what. PowerShell is the natural choice for Windows, AD, Hyper-V and Azure; Bash for Linux and network or storage appliances."</p></div></details>
+<details><summary>What does <code>set -euo pipefail</code> do?</summary><div class="a"><p><strong>Model answer:</strong> "It makes a Bash script fail safely. -e exits when a command fails instead of carrying on with bad state, -u treats an unset variable as an error — which prevents things like rm -rf on an empty path — and pipefail makes a pipeline fail if any command in it fails, not just the last one."</p></div></details>
+<details><summary>How do you run a command on 50 Windows servers at once?</summary><div class="a"><p><strong>Model answer:</strong> "With PowerShell remoting: Invoke-Command with a list of computer names — for example read from a text file or from Get-ADComputer — and a script block. It runs in parallel over WinRM and returns objects tagged with each computer's name, so I can filter the failures and export the result. I'd test against one server first, and use -WhatIf on anything that changes state."</p></div></details>
+<details><summary>A script runs fine by hand but fails from the scheduler. Why?</summary><div class="a"><p><strong>Model answer:</strong> "Usually the environment differs. The scheduled task or cron job runs as a different account — with different permissions or no network-share access — and from a different working directory, with a minimal PATH, so relative paths and commands that aren't fully qualified fail. In PowerShell the execution policy may block it. I fix it by using absolute paths, running under a service account with the right rights, and logging output to a file so the scheduler's failures are visible."</p></div></details>
+</div>
+</section>
+
 <section class="mod" id="m13"><div class="eyebrow">Module 13 · Operations</div>
 <h2>IT operations &amp; ITIL</h2>
 <p class="goal">The service-management vocabulary in the job description — "incidents and service requests within defined service levels" — decoded, plus how a delivery center actually runs.</p>
