@@ -2663,6 +2663,23 @@ sudo tcpdump -w /tmp/case123.pcap ... <span class="c"># capture to file, analyze
   <li><strong>Wi-Fi roaming mid-test</strong>: pings drop every few minutes on a laptop = roams between APs, not a network fault — check BSSID before/after.</li>
   <li><strong>The observer effect</strong>: remote-desktop into a machine to test its network = your session competes with your test. Prefer out-of-band access (console/iLO) for serious loss testing.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A traceroute where hop 3 shows 180 milliseconds but hops 4 and 5 show 14 and 15 milliseconds: the router at hop 3 just answers ICMP slowly, so the spike is cosmetic; only latency that persists through to the final hop is a real problem">
+<line class="sLm" x1="60" y1="150" x2="660" y2="150"/>
+<line class="sLm" x1="60" y1="150" x2="60" y2="30"/>
+<text class="sS" x="52" y="154" text-anchor="end">0</text>
+<text class="sS" x="52" y="99" text-anchor="end">100</text>
+<text class="sS" x="52" y="44" text-anchor="end">200</text>
+<polyline class="sLv" points="80,149 220,147 360,51 500,142 640,142" style="fill:none;stroke-width:2.5"/>
+<circle class="sPg" cx="80" cy="149" r="6"/><text class="sS" x="80" y="170" text-anchor="middle">hop 1</text><text class="sC" x="80" y="137.45" text-anchor="middle">1 ms</text>
+<circle class="sPg" cx="220" cy="147" r="6"/><text class="sS" x="220" y="170" text-anchor="middle">hop 2</text><text class="sC" x="220" y="134.7" text-anchor="middle">6 ms</text>
+<circle class="sPr" cx="360" cy="51" r="6"/><text class="sS" x="360" y="170" text-anchor="middle">hop 3</text><text class="sC" x="360" y="39" text-anchor="middle">180 ms</text>
+<circle class="sPg" cx="500" cy="142" r="6"/><text class="sS" x="500" y="170" text-anchor="middle">hop 4</text><text class="sC" x="500" y="130.3" text-anchor="middle">14 ms</text>
+<circle class="sPg" cx="640" cy="142" r="6"/><text class="sS" x="640" y="170" text-anchor="middle">hop 5</text><text class="sC" x="640" y="129.75" text-anchor="middle">15 ms</text>
+<text class="sWt" x="374" y="55">← this router answers ICMP slowly (low priority)</text>
+<text class="sGt" x="360" y="196" text-anchor="middle">hops 4 and 5 are fast again → hop 3 is cosmetic; only latency that persists to the end is real</text>
+<text class="sS" x="18" y="90" text-anchor="middle" transform="rotate(-90 18 90)">ms</text>
+</svg><figcaption>Routers forward traffic in hardware but answer traceroute probes in software, at low priority. A spike that disappears at the next hop is the router, not the path. Illustrative values.</figcaption></figure>
+
 
 <h3>D8.4 The escalation package (copy this structure)</h3>
 <pre><code>Ticket #48211 — P2 — Branch CAI-03 intermittent packet loss
@@ -3657,6 +3674,21 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>Host shows disconnected</strong> → VMs may be fine; check management network, restart management agents from DCUI, then investigate.</li>
   <li><strong>VM slow</strong> → check CPU ready, ballooning/swapping, datastore latency, snapshot chain length — in that order.</li>
 </ul>
+<figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: triaging a slow VMware VM in order: CPU ready above 5 percent per vCPU, memory ballooning or swapping, disk latency above 20 milliseconds, an old snapshot chain, and only then the application, OS or antivirus inside the guest">
+<rect class="sB" x="14" y="30" width="128" height="56" rx="8"/><text class="sT" x="78" y="56" text-anchor="middle">1 CPU ready</text><text class="sS" x="78" y="72" text-anchor="middle">%RDY &gt; 5% per vCPU?</text><text class="sS" x="78" y="108" text-anchor="middle">too many vCPUs, busy host</text>
+<line class="sLm" x1="142" y1="58" x2="152" y2="58" marker-end="url(#ahm)"/>
+<rect class="sA" x="154" y="30" width="128" height="56" rx="8"/><text class="sT" x="218" y="56" text-anchor="middle">2 Memory</text><text class="sS" x="218" y="72" text-anchor="middle">balloon or swap &gt; 0?</text><text class="sS" x="218" y="108" text-anchor="middle">host short of RAM</text>
+<line class="sLm" x1="282" y1="58" x2="292" y2="58" marker-end="url(#ahm)"/>
+<rect class="sV" x="294" y="30" width="128" height="56" rx="8"/><text class="sT" x="358" y="56" text-anchor="middle">3 Disk latency</text><text class="sS" x="358" y="72" text-anchor="middle">GAVG &gt; 20 ms?</text><text class="sS" x="358" y="108" text-anchor="middle">datastore, path, array</text>
+<line class="sLm" x1="422" y1="58" x2="432" y2="58" marker-end="url(#ahm)"/>
+<rect class="sW" x="434" y="30" width="128" height="56" rx="8"/><text class="sT" x="498" y="56" text-anchor="middle">4 Snapshots</text><text class="sS" x="498" y="72" text-anchor="middle">old delta chain?</text><text class="sS" x="498" y="108" text-anchor="middle">consolidate</text>
+<line class="sLm" x1="562" y1="58" x2="572" y2="58" marker-end="url(#ahm)"/>
+<rect class="sG" x="574" y="30" width="128" height="56" rx="8"/><text class="sT" x="638" y="56" text-anchor="middle">5 Inside the guest</text><text class="sS" x="638" y="72" text-anchor="middle">only then</text><text class="sS" x="638" y="108" text-anchor="middle">app, OS, antivirus</text>
+<text class="sM" x="360" y="18" text-anchor="middle">"the VM is slow": check the host side first, in this order</text>
+<circle class="sPw" r="6"><animateMotion dur="6s" repeatCount="indefinite" path="M78 92 L638 92"/></circle>
+<text class="sGt" x="360" y="140" text-anchor="middle">most "slow VM" tickets are contention on the host, invisible from inside the guest</text>
+</svg><figcaption>Task Manager inside the guest cannot see CPU ready or ballooning; esxtop and the vCenter performance charts can. Start where the evidence is.</figcaption></figure>
+
 
 <h3>10.9 Hyper-V — the Microsoft hypervisor, mapped to vSphere</h3>
 <p><strong>Hyper-V</strong> is Microsoft's Type 1 hypervisor, installed as a <strong>role</strong> on Windows Server (or enabled on Windows 10/11 Pro for labs). When you add the role, the hypervisor slides underneath Windows: the Windows you log into becomes the <strong>parent (root) partition</strong> that manages the hardware drivers, and each VM is a <strong>child partition</strong>. Since Broadcom's VMware licensing changes (see "the Broadcom era" at the end of this module), many companies run or evaluate Hyper-V, so expect at least one comparison question.</p>
@@ -5182,6 +5214,20 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
   <tr><td>Less RAM or fewer CPUs than ordered</td><td>DIMM disabled at POST, wrong slots, a CPU not detected</td><td>iDRAC hardware inventory vs the order</td></tr>
   <tr><td>NIC link flaps</td><td>Cable/optic, switch port, firmware/driver mismatch</td><td>Switch counters (Module 8), iDRAC NIC status, driver versions</td></tr>
 </table></div>
+<figure class="dia steps"><svg viewBox="0 0 720 130" role="img" aria-label="Isolating a server that does not POST by minimum configuration: strip it to CPU 1 and one DIMM in slot A1, which POSTs; add the remaining DIMMs and the RAID controller, then the NIC, still fine; add the GPU and it stops posting, so the last part added is the suspect">
+<text class="sM" x="14" y="20">no POST and no clear error: isolate by minimum configuration</text>
+<g data-s="1-1"><rect class="sV" x="14" y="34" width="90" height="32" rx="5"/><text class="sT" x="59" y="55" text-anchor="middle">CPU 1</text><rect class="sN" x="112" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="157" y="55" text-anchor="middle">CPU 2</text><rect class="sG" x="210" y="34" width="90" height="32" rx="5"/><text class="sT" x="255" y="55" text-anchor="middle">DIMM A1</text><rect class="sN" x="308" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="353" y="55" text-anchor="middle">DIMMs ×15</text><rect class="sN" x="406" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="451" y="55" text-anchor="middle">PERC</text><rect class="sN" x="504" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="549" y="55" text-anchor="middle">NIC</text><rect class="sN" x="602" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="647" y="55" text-anchor="middle">GPU</text><text class="sS" x="706" y="86" text-anchor="end">strip down: CPU 1 + one DIMM in A1 → it POSTs, so the core is fine</text></g>
+<g data-s="2-2"><rect class="sV" x="14" y="34" width="90" height="32" rx="5"/><text class="sT" x="59" y="55" text-anchor="middle">CPU 1</text><rect class="sN" x="112" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="157" y="55" text-anchor="middle">CPU 2</text><rect class="sG" x="210" y="34" width="90" height="32" rx="5"/><text class="sT" x="255" y="55" text-anchor="middle">DIMM A1</text><rect class="sG" x="308" y="34" width="90" height="32" rx="5"/><text class="sT" x="353" y="55" text-anchor="middle">DIMMs ×15</text><rect class="sW" x="406" y="34" width="90" height="32" rx="5"/><text class="sT" x="451" y="55" text-anchor="middle">PERC</text><rect class="sN" x="504" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="549" y="55" text-anchor="middle">NIC</text><rect class="sN" x="602" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="647" y="55" text-anchor="middle">GPU</text><text class="sS" x="706" y="86" text-anchor="end">add parts back in groups → still POSTs</text></g>
+<g data-s="3-3"><rect class="sV" x="14" y="34" width="90" height="32" rx="5"/><text class="sT" x="59" y="55" text-anchor="middle">CPU 1</text><rect class="sN" x="112" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="157" y="55" text-anchor="middle">CPU 2</text><rect class="sG" x="210" y="34" width="90" height="32" rx="5"/><text class="sT" x="255" y="55" text-anchor="middle">DIMM A1</text><rect class="sG" x="308" y="34" width="90" height="32" rx="5"/><text class="sT" x="353" y="55" text-anchor="middle">DIMMs ×15</text><rect class="sW" x="406" y="34" width="90" height="32" rx="5"/><text class="sT" x="451" y="55" text-anchor="middle">PERC</text><rect class="sB" x="504" y="34" width="90" height="32" rx="5"/><text class="sT" x="549" y="55" text-anchor="middle">NIC</text><rect class="sN" x="602" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="647" y="55" text-anchor="middle">GPU</text><text class="sS" x="706" y="86" text-anchor="end">add the NIC → still fine</text></g>
+<g data-s="4-4"><rect class="sV" x="14" y="34" width="90" height="32" rx="5"/><text class="sT" x="59" y="55" text-anchor="middle">CPU 1</text><rect class="sN" x="112" y="34" width="90" height="32" rx="5" opacity=".35"/><text class="sS" x="157" y="55" text-anchor="middle">CPU 2</text><rect class="sG" x="210" y="34" width="90" height="32" rx="5"/><text class="sT" x="255" y="55" text-anchor="middle">DIMM A1</text><rect class="sG" x="308" y="34" width="90" height="32" rx="5"/><text class="sT" x="353" y="55" text-anchor="middle">DIMMs ×15</text><rect class="sW" x="406" y="34" width="90" height="32" rx="5"/><text class="sT" x="451" y="55" text-anchor="middle">PERC</text><rect class="sB" x="504" y="34" width="90" height="32" rx="5"/><text class="sT" x="549" y="55" text-anchor="middle">NIC</text><rect class="sR" x="602" y="34" width="90" height="32" rx="5"/><text class="sT" x="647" y="55" text-anchor="middle">GPU</text><text class="sS" x="706" y="86" text-anchor="end">add the GPU → no POST: the last part added is the suspect</text></g>
+<text class="sGt" x="360" y="120" text-anchor="middle">one change at a time: the same rule as network troubleshooting</text>
+</svg><ol class="dia-steps">
+<li>Strip to the minimum that should boot.</li>
+<li>Add parts back in groups.</li>
+<li>Keep adding.</li>
+<li>The failure appears with the last part added.</li>
+</ol><figcaption>Before any of this, read the front LCD and the iDRAC SEL: they usually name the part. Minimum config is for when they do not. Power off and use ESD protection for every swap.</figcaption></figure>
+
 <p>The method is the same as Module 8: <strong>read the logs before touching anything</strong>, change one thing at a time, and prove the fix. Dell adds two habits: run the <strong>built-in diagnostics</strong> (Lifecycle Controller → Hardware Diagnostics, the ePSA pre-boot test) before asking for a part — support will ask for the result — and check that <strong>firmware and drivers match a validated baseline</strong>, because a large share of "hardware" faults are fixed by an update.</p>
 
 <div class="qhead"><h3>Interview questions — Module 18</h3><button data-qa="qa18">Show all answers</button></div>
@@ -5199,6 +5245,19 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 <div class="deep"><span class="dtag">Level 2 · Deep dive</span>
 <h3>D18.1 racadm, Redfish and IPMI — the iDRAC from the command line</h3>
 <p>Every iDRAC task can be scripted. Three interfaces, oldest to newest:</p>
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="The four ways into an iDRAC: the web interface over HTTPS 443 for people; racadm over SSH or remotely for scripts; the Redfish REST API over HTTPS with JSON for automation tools; and legacy IPMI over UDP 623, best disabled if unused; all reach the same power, console, log, firmware and configuration functions">
+<rect class="sR" x="286" y="80" width="148" height="60" rx="8"/><text class="sT" x="360" y="108" text-anchor="middle">iDRAC</text><text class="sC" x="360" y="124" text-anchor="middle">dedicated mgmt port</text>
+<rect class="sB" x="14" y="14" width="180" height="56" rx="8"/><text class="sT" x="104" y="40" text-anchor="middle">Web UI</text><text class="sC" x="104" y="56" text-anchor="middle">HTTPS 443 · people</text>
+<line class="sLm" x1="194" y1="42" x2="286" y2="110"/>
+<rect class="sA" x="14" y="146" width="180" height="56" rx="8"/><text class="sT" x="104" y="172" text-anchor="middle">racadm</text><text class="sC" x="104" y="188" text-anchor="middle">SSH 22 or remote · scripts</text>
+<line class="sLm" x1="194" y1="174" x2="286" y2="110"/>
+<rect class="sG" x="526" y="14" width="180" height="56" rx="8"/><text class="sT" x="616" y="40" text-anchor="middle">Redfish API</text><text class="sC" x="616" y="56" text-anchor="middle">HTTPS · JSON · automation</text>
+<line class="sLm" x1="526" y1="42" x2="434" y2="110"/>
+<rect class="sN" x="526" y="146" width="180" height="56" rx="8"/><text class="sT" x="616" y="172" text-anchor="middle">IPMI</text><text class="sC" x="616" y="188" text-anchor="middle">UDP 623 · legacy</text>
+<line class="sLm" x1="526" y1="174" x2="434" y2="110"/>
+<text class="sS" x="360" y="226" text-anchor="middle">all four reach the same functions: power, console, logs, firmware, configuration</text>
+</svg><figcaption>Same controller, four doors. Hardening means closing the doors you do not use (IPMI, plain HTTP, default accounts) and restricting the rest to the management network.</figcaption></figure>
+
 <pre><code><span class="c"># racadm: Dell's CLI (remote with -r, or locally in the OS / over SSH to the iDRAC)</span>
 racadm -r 10.0.99.21 -u admin -p '***' getsysinfo        <span class="c">← model, service tag, BIOS/iDRAC versions, power state</span>
 racadm -r 10.0.99.21 -u admin -p '***' getsel            <span class="c">← the System Event Log</span>
@@ -5576,6 +5635,18 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <li><strong>Log what you did</strong>: <code>Start-Transcript</code> in PowerShell; <code>exec &gt; &gt;(tee -a /var/log/myjob.log) 2&gt;&amp;1</code> in Bash.</li>
   <li><strong>Version it</strong>: scripts live in Git, not on someone's desktop.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 168" role="img" aria-label="Rolling out a script safely: preview with -WhatIf, then run on one machine, then a small pilot group, then everyone with logging on; an example shows Disable-ADAccount with -WhatIf listing the accounts it would change before anything happens">
+<rect class="sN" x="14" y="40" width="160" height="50" rx="8"/><text class="sT" x="94" y="63" text-anchor="middle">-WhatIf</text><text class="sS" x="94" y="79" text-anchor="middle">shows what would change</text>
+<line class="sLm" x1="174" y1="65" x2="188" y2="65" marker-end="url(#ahm)"/>
+<rect class="sB" x="190" y="40" width="160" height="50" rx="8"/><text class="sT" x="270" y="63" text-anchor="middle">1 machine</text><text class="sS" x="270" y="79" text-anchor="middle">your lab or test VM</text>
+<line class="sLm" x1="350" y1="65" x2="364" y2="65" marker-end="url(#ahm)"/>
+<rect class="sA" x="366" y="40" width="160" height="50" rx="8"/><text class="sT" x="446" y="63" text-anchor="middle">5 machines</text><text class="sS" x="446" y="79" text-anchor="middle">a pilot group</text>
+<line class="sLm" x1="526" y1="65" x2="540" y2="65" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="40" width="160" height="50" rx="8"/><text class="sT" x="622" y="63" text-anchor="middle">everyone</text><text class="sS" x="622" y="79" text-anchor="middle">with logging on</text>
+<text class="sM" x="360" y="24" text-anchor="middle">grow the blast radius only after the previous step looked right</text>
+<rect class="sN" x="14" y="108" width="692" height="52" rx="8"/><text class="sC" x="30" y="130" xml:space="preserve" style="white-space:pre">PS&gt; Get-ADUser -Filter "Department -eq 'Temp'" | Disable-ADAccount -WhatIf</text><text class="sS" x="30" y="150">What if: Performing the operation "Set" on target "CN=…"   ← read this list BEFORE removing -WhatIf</text>
+</svg><figcaption>A filter that matches more than you expected is the most common scripting disaster. -WhatIf makes the filter’s result visible while it is still harmless.</figcaption></figure>
+
 
 <h3>20.6 Running scripts on a schedule and remotely</h3>
 <div class="tw"><table>
