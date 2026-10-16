@@ -224,6 +224,19 @@ catch (e: unknown) {                                        // the default with 
 > [!say]
 > "any switches the type checker off, so errors slip through and it spreads to everything it touches. unknown is the safe alternative: it accepts anything but forces me to check the type before using it. never represents the impossible, and I use it for exhaustive switch checks."
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="TypeScript types ordered by how many values they allow: never allows none, a literal type like paid allows one, string allows all strings, unknown allows anything but must be narrowed before use, and any switches checking off and spreads through the code">
+<line class="sLm" x1="30" y1="90" x2="690" y2="90" marker-end="url(#ahm)" style="stroke-width:2"/>
+<text class="sS" x="30" y="140">fewer possible values</text>
+<text class="sS" x="690" y="140" text-anchor="end">more possible values</text>
+<rect class="sR" x="30" y="40" width="100" height="34" rx="6"/><text class="sC" x="40" y="62" xml:space="preserve" style="white-space:pre">never</text><text class="sC" x="80" y="108" text-anchor="middle">no value can exist</text>
+<rect class="sW" x="150" y="40" width="100" height="34" rx="6"/><text class="sC" x="160" y="62" xml:space="preserve" style="white-space:pre">"paid"</text><text class="sC" x="200" y="108" text-anchor="middle">one literal</text>
+<rect class="sB" x="260" y="40" width="100" height="34" rx="6"/><text class="sC" x="270" y="62" xml:space="preserve" style="white-space:pre">string</text><text class="sC" x="310" y="108" text-anchor="middle">all strings</text>
+<rect class="sG" x="390" y="40" width="100" height="34" rx="6"/><text class="sC" x="400" y="62" xml:space="preserve" style="white-space:pre">unknown</text><text class="sC" x="440" y="108" text-anchor="middle">anything, narrow first</text>
+<rect class="sN" x="550" y="40" width="100" height="34" rx="6"/><text class="sC" x="560" y="62" xml:space="preserve" style="white-space:pre">any</text><text class="sC" x="600" y="108" text-anchor="middle">checking switched off</text>
+<rect class="sR" x="500" y="150" width="206" height="40" rx="6" opacity=".85"/><text class="sT" x="603" y="175" text-anchor="middle">any flows into everything</text>
+<rect class="sG" x="14" y="150" width="300" height="40" rx="6" opacity=".7"/><text class="sT" x="164" y="175" text-anchor="middle">unknown → check → string: safe</text>
+</svg><figcaption>Prefer the narrowest type that fits. For data from outside use <code>unknown</code> and narrow it (a type guard or a schema); <code>any</code> silently disables the compiler for everything it touches.</figcaption></figure>
+
 ## F5.7 Generics 🟢 ⭐
 
 Generics let one piece of code work with many types **while keeping the relationship between them**, exactly like C#'s `List<T>`.

@@ -461,6 +461,40 @@ Error boundaries don't catch errors in event handlers or async code; handle thos
 > [!lab] Build it twice
 > Build a small "invoices" screen in React: list, filter, add with validation, mark paid, a loading and an error state, and data from a mock API. Use TanStack Query and React Hook Form with Zod. Then add the React Compiler and check in the Profiler that typing in the filter doesn't re-render every row. If you have time, build the same screen in Angular with signals ([[F7]]), and you'll have a perfect answer to "React or Angular?".
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: how updates reach the screen: in React a state change near the top re-renders the component subtree and React diffs the result; with Angular signals only the single binding that reads the changed signal updates">
+<text class="sM" x="180" y="22" text-anchor="middle">React: re-render and diff</text>
+<text class="sM" x="540" y="22" text-anchor="middle">Angular signals: fine-grained</text>
+<line class="sLm" x1="180" y1="50" x2="110" y2="110"/>
+<line class="sLm" x1="180" y1="50" x2="250" y2="110"/>
+<line class="sLm" x1="110" y1="110" x2="70" y2="170"/>
+<line class="sLm" x1="110" y1="110" x2="150" y2="170"/>
+<line class="sLm" x1="250" y1="110" x2="210" y2="170"/>
+<line class="sLm" x1="250" y1="110" x2="290" y2="170"/>
+<circle class="sW" cx="180" cy="50" r="14"/>
+<circle class="sW" cx="110" cy="110" r="14"/>
+<circle class="sW" cx="250" cy="110" r="14"/>
+<circle class="sW" cx="70" cy="170" r="14"/>
+<circle class="sW" cx="150" cy="170" r="14"/>
+<circle class="sW" cx="210" cy="170" r="14"/>
+<circle class="sW" cx="290" cy="170" r="14"/>
+<line class="sLm" x1="540" y1="50" x2="470" y2="110"/>
+<line class="sLm" x1="540" y1="50" x2="610" y2="110"/>
+<line class="sLm" x1="470" y1="110" x2="430" y2="170"/>
+<line class="sLm" x1="470" y1="110" x2="510" y2="170"/>
+<line class="sLm" x1="610" y1="110" x2="570" y2="170"/>
+<line class="sLm" x1="610" y1="110" x2="650" y2="170"/>
+<circle class="sN" cx="540" cy="50" r="14"/>
+<circle class="sN" cx="470" cy="110" r="14"/>
+<circle class="sN" cx="610" cy="110" r="14"/>
+<circle class="sN" cx="430" cy="170" r="14"/>
+<circle class="sN" cx="510" cy="170" r="14"/>
+<circle class="sG" cx="570" cy="170" r="14"/>
+<circle class="sN" cx="650" cy="170" r="14"/>
+<text class="sS" x="180" y="210" text-anchor="middle">state changes at the top: the subtree re-runs, then React diffs</text>
+<text class="sS" x="540" y="210" text-anchor="middle">a signal changes: only the one binding that reads it updates</text>
+<g><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values=".3;1;.3"/><circle class="sW" cx="180" cy="50" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="110" cy="110" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="250" cy="110" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="70" cy="170" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="150" cy="170" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="210" cy="170" r="18" style="fill:none;stroke-width:2"/><circle class="sW" cx="290" cy="170" r="18" style="fill:none;stroke-width:2"/><circle class="sG" cx="570" cy="170" r="18" style="fill:none;stroke-width:2"/></g>
+</svg><figcaption>Both are fast enough for most apps. The difference shows in very large trees: React leans on memoisation (now the React Compiler), Angular on signals reading exactly what changed.</figcaption></figure>
+
 ## F6.10 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

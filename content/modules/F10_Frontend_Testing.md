@@ -77,6 +77,16 @@ A good test checks what a **user** (or a caller) can observe: text on screen, a 
 
 **The guiding principle of Testing Library:** the closer a test is to the way people actually use the software, the more confidence it gives.
 
+<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Behaviour tests versus implementation tests: finding the Pay button by role, clicking it, expecting the text Paid and a POST to payments survive refactoring; finding a CSS class, reading component state, expecting setState calls and whole-tree snapshots break when internals change">
+<rect class="sG" x="14" y="20" width="330" height="170" rx="8" opacity=".4"/><text class="sT" x="179" y="42" text-anchor="middle">tests behaviour (survives refactors)</text>
+<rect class="sR" x="376" y="20" width="330" height="170" rx="8" opacity=".35"/><text class="sT" x="541" y="42" text-anchor="middle">tests implementation (breaks on refactor)</text>
+<text class="sC" x="26" y="74" xml:space="preserve" style="white-space:pre">getByRole("button", { name: "Pay" })</text><text class="sC" x="388" y="74" xml:space="preserve" style="white-space:pre">wrapper.find(".btn-primary")</text>
+<text class="sC" x="26" y="104" xml:space="preserve" style="white-space:pre">user clicks it</text><text class="sC" x="388" y="104" xml:space="preserve" style="white-space:pre">component.state.isPaid</text>
+<text class="sC" x="26" y="134" xml:space="preserve" style="white-space:pre">expect text "Paid" on screen</text><text class="sC" x="388" y="134" xml:space="preserve" style="white-space:pre">expect(setState).toHaveBeenCalled</text>
+<text class="sC" x="26" y="164" xml:space="preserve" style="white-space:pre">expect POST /payments sent</text><text class="sC" x="388" y="164" xml:space="preserve" style="white-space:pre">snapshot of the whole tree</text>
+<text class="sS" x="360" y="212" text-anchor="middle">rename a CSS class or switch to a reducer: the left tests still pass, the right ones fail for no user-visible reason</text>
+</svg><figcaption>Query the way a user (or a screen reader) finds things; assert on what they would notice.</figcaption></figure>
+
 **Arrange, Act, Assert** in every test:
 
 ```ts

@@ -57,6 +57,20 @@ export class InvoiceCard {
 }
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="How an Angular app fits together: the router maps the URL to InvoiceListComponent, a standalone component made of a class, a template and styles; it passes an invoice into InvoiceCardComponent through an input and receives a paid event through an output; both get data from InvoiceService through dependency injection, which calls the API with HttpClient">
+<rect class="sV" x="270" y="20" width="180" height="50" rx="8"/><text class="sT" x="360" y="43" text-anchor="middle">Router</text><text class="sC" x="360" y="59" text-anchor="middle">URL → component</text>
+<rect class="sA" x="60" y="100" width="200" height="60" rx="8"/><text class="sT" x="160" y="128" text-anchor="middle">InvoiceListComponent</text><text class="sC" x="160" y="144" text-anchor="middle">class + template + styles</text>
+<rect class="sA" x="460" y="100" width="200" height="60" rx="8"/><text class="sT" x="560" y="128" text-anchor="middle">InvoiceCardComponent</text><text class="sC" x="560" y="144" text-anchor="middle">input() / output()</text>
+<rect class="sG" x="260" y="190" width="200" height="50" rx="8"/><text class="sT" x="360" y="213" text-anchor="middle">InvoiceService</text><text class="sC" x="360" y="229" text-anchor="middle">HttpClient + signals</text>
+<line class="sLm" x1="330" y1="70" x2="160" y2="100" marker-end="url(#ahm)"/>
+<line class="sLm" x1="260" y1="130" x2="460" y2="130" marker-end="url(#ahm)"/>
+<text class="sC" x="360" y="122" text-anchor="middle">[invoice] in, (paid) out</text>
+<line class="sLv" x1="160" y1="160" x2="300" y2="190" marker-end="url(#ahv)"/>
+<text class="sC" x="200" y="186" text-anchor="middle">inject()</text>
+<line class="sLm" x1="460" y1="215" x2="600" y2="215" marker-end="url(#ahm)"/>
+<rect class="sN" x="600" y="196" width="106" height="40" rx="8"/><text class="sT" x="653" y="221" text-anchor="middle">API</text>
+</svg><figcaption>Components show things, services own data and logic, DI connects them, the router decides which component is on screen.</figcaption></figure>
+
 ## F7.2 Templates and control flow 🟢 ⭐
 
 | Syntax | Meaning |
