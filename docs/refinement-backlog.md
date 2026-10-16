@@ -38,10 +38,8 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - **SQL and data:** DE3.1 loading patterns; DE4.1 and DE4.8; DA3.3; DA4.7; DA6.1 event tracking; DS5.1 counterfactuals.
 - **Backend:**
-  - API and ASP.NET: B3.4 model binding and validation; B3.10 background work; B4.2, B4.6 versioning.
-  - Persistence, tests and errors: B5.1; B1.5 delegates; B1.9 exceptions.
-  - Architecture and services: B9.7.
-  - Operations: B11.9.
+  - API and ASP.NET: B4.2, B4.6 versioning.
+  - Persistence, tests and errors: B5.1; B1.5 delegates.
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
 - **Frontend:** F1.2, F1.3 accessible forms; F2.6 centring, F2.8, F2.11; F3.10, F3.12 predict the output; F4.9 real-time; F5.2, F5.3, F5.6, F5.9 runtime validation, F5.10, F5.11; F6.8 React 19, F6.9; F7.1, F7.2 Angular templates and control flow; F8.6 URL as state; F9.1 Core Web Vitals; F10.2.
 - **System design and platform:** SD1.1.

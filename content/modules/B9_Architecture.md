@@ -253,6 +253,26 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 
 **API gateway:** one entry point for clients that routes to services and handles cross-cutting concerns: authentication, rate limiting, TLS, aggregation. In .NET, **YARP** (Yet Another Reverse Proxy) is Microsoft's toolkit for building one; Azure API Management is the managed option.
 
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: an API gateway and backends for frontends: the web app and the mobile app each call their own BFF, which shapes responses for that client; requests pass through a gateway that handles authentication, TLS and rate limiting and routes to internal orders, billing and catalogue services">
+<rect class="sB" x="14" y="30" width="120" height="44" rx="8"/><text class="sT" x="74" y="57" text-anchor="middle">Web app</text>
+<rect class="sB" x="14" y="120" width="120" height="44" rx="8"/><text class="sT" x="74" y="147" text-anchor="middle">Mobile app</text>
+<rect class="sA" x="200" y="30" width="150" height="44" rx="8"/><text class="sT" x="275" y="50" text-anchor="middle">BFF: web</text><text class="sC" x="275" y="66" text-anchor="middle">shapes for screens</text>
+<rect class="sA" x="200" y="120" width="150" height="44" rx="8"/><text class="sT" x="275" y="140" text-anchor="middle">BFF: mobile</text><text class="sC" x="275" y="156" text-anchor="middle">smaller payloads</text>
+<rect class="sV" x="400" y="20" width="100" height="154" rx="8" opacity=".6"/><text class="sT" x="450" y="92" text-anchor="middle">gateway</text><text class="sC" x="450" y="110" text-anchor="middle">auth · TLS</text><text class="sC" x="450" y="126" text-anchor="middle">rate limit</text>
+<rect class="sG" x="560" y="14" width="146" height="40" rx="8"/><text class="sT" x="633" y="39" text-anchor="middle">orders</text>
+<rect class="sG" x="560" y="77" width="146" height="40" rx="8"/><text class="sT" x="633" y="102" text-anchor="middle">billing</text>
+<rect class="sG" x="560" y="140" width="146" height="40" rx="8"/><text class="sT" x="633" y="165" text-anchor="middle">catalogue</text>
+<line class="sLm" x1="134" y1="52" x2="200" y2="52" marker-end="url(#ahm)"/>
+<line class="sLm" x1="134" y1="142" x2="200" y2="142" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="52" x2="400" y2="70" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="142" x2="400" y2="126" marker-end="url(#ahm)"/>
+<line class="sLm" x1="500" y1="80" x2="560" y2="34"/>
+<line class="sLm" x1="500" y1="97" x2="560" y2="97"/>
+<line class="sLm" x1="500" y1="114" x2="560" y2="160"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M134 52 L200 52 L350 52 L400 70 L500 80 L560 34"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle><circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.850;1" path="M134 142 L200 142 L350 142 L400 126 L500 114 L560 160"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.850;0.852;1"/></circle>
+<text class="sS" x="360" y="204" text-anchor="middle">one public entry point; each client gets a backend shaped for it; services stay internal</text>
+</svg><figcaption>The gateway handles what every request needs; the BFF handles what one client needs. In .NET, YARP is the usual building block for both.</figcaption></figure>
+
 **Backend for Frontend:** a gateway tailored to one client (web, mobile), shaping responses for its screens ([[FS1]]).
 
 **Synchronous vs asynchronous communication:** HTTP/gRPC calls are simple but couple availability (if B is down, A fails); messaging decouples them in time ([[B8]]). Prefer async for anything that doesn't need an immediate answer.

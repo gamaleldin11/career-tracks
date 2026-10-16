@@ -217,6 +217,26 @@ Both are first-class. Pick one per project and organise it well: minimal APIs gr
 | `[FromServices]` | DI (implicit in minimal APIs) |
 | `[AsParameters]` | Bind a group of parameters from a class (minimal APIs) |
 
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Model binding: in the request PATCH /api/invoices/1043?notify=true with header X-Request-Id and a JSON body, the id 1043 binds from the route, notify from the query string, the request id from a header and the due date from the body into a DTO; validation then runs on the DTO and invalid input returns 400 with ProblemDetails before the action runs">
+<rect class="sN" x="14" y="20" width="692" height="44" rx="8"/>
+<text class="sC" x="26" y="47" xml:space="preserve" style="white-space:pre">PATCH</text>
+<line class="sLm" x1="44" y1="58" x2="44" y2="84" opacity=".6"/><text class="sS" x="44" y="98" text-anchor="middle">method</text>
+<text class="sC" x="78" y="47" xml:space="preserve" style="white-space:pre">/api/invoices/</text>
+<rect class="sB" x="188.8" y="28" width="40.8" height="28" rx="4" opacity=".8"/>
+<text class="sC" x="194.8" y="47" xml:space="preserve" style="white-space:pre">1043</text>
+<line class="sLm" x1="209.2" y1="58" x2="209.2" y2="84" opacity=".6"/><text class="sS" x="209.2" y="98" text-anchor="middle">[FromRoute] id</text>
+<rect class="sA" x="233.6" y="28" width="98.4" height="28" rx="4" opacity=".8"/>
+<text class="sC" x="239.6" y="47" xml:space="preserve" style="white-space:pre">?notify=true</text>
+<line class="sLm" x1="282.8" y1="58" x2="282.8" y2="106" opacity=".6"/><text class="sS" x="282.8" y="120" text-anchor="middle">[FromQuery] notify</text>
+<rect class="sV" x="336" y="28" width="141.6" height="28" rx="4" opacity=".8"/>
+<text class="sC" x="342" y="47" xml:space="preserve" style="white-space:pre">X-Request-Id: 7f3a</text>
+<line class="sLm" x1="406.8" y1="58" x2="406.8" y2="84" opacity=".6"/><text class="sS" x="406.8" y="98" text-anchor="middle">[FromHeader]</text>
+<rect class="sG" x="481.6" y="28" width="206.4" height="28" rx="4" opacity=".8"/>
+<text class="sC" x="487.6" y="47" xml:space="preserve" style="white-space:pre">{ "dueDate": "2026-11-01" }</text>
+<line class="sLm" x1="584.8" y1="58" x2="584.8" y2="106" opacity=".6"/><text class="sS" x="584.8" y="120" text-anchor="middle">[FromBody] dto</text>
+<rect class="sN" x="14" y="140" width="692" height="52" rx="8"/><text class="sS" x="30" y="162">then validation runs on the DTO, before your code: dueDate in the past → 400 with</text><text class="sGt" x="30" y="182">a ProblemDetails body listing the field errors; your action never sees invalid input</text>
+</svg><figcaption>Each part of the HTTP request has its own binding source. Validation happens on the request DTO at the boundary, never on the EF entity.</figcaption></figure>
+
 **Validation** happens at the boundary, on request DTOs, **never** on EF entities:
 
 ```csharp
@@ -397,6 +417,26 @@ public class ReforecastWorker(IServiceScopeFactory scopes, Channel<Guid> queue, 
 
 > [!story]
 > FinSight re-forecast **in the background** after a CSV upload or an invoice payment, so the request returned immediately and the dashboard updated later through SignalR. That's the right design, and a great answer to "how do you keep a slow operation out of the request path?".
+
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: in-process background work: a POST endpoint writes company IDs into an in-memory Channel and returns 202 immediately; a BackgroundService reads the channel and processes one job at a time, each in its own dependency-injection scope; jobs are lost on restart, so durable queues are needed when that matters">
+<rect class="sB" x="14" y="70" width="130" height="50" rx="8"/><text class="sT" x="79" y="93" text-anchor="middle">POST /reforecast</text><text class="sC" x="79" y="109" text-anchor="middle">returns 202</text>
+<rect class="sN" x="200" y="70" width="220" height="50" rx="8"/><text class="sM" x="310" y="62" text-anchor="middle">Channel&lt;Guid&gt; (in memory)</text>
+<rect class="sW" x="212" y="80" width="32" height="30" rx="4"/>
+<rect class="sW" x="252" y="80" width="32" height="30" rx="4"/>
+<rect class="sW" x="292" y="80" width="32" height="30" rx="4"/>
+<rect class="sW" x="332" y="80" width="32" height="30" rx="4"/>
+<rect class="sW" x="372" y="80" width="32" height="30" rx="4"/>
+<rect class="sV" x="476" y="70" width="230" height="50" rx="8"/><text class="sT" x="591" y="93" text-anchor="middle">BackgroundService</text><text class="sC" x="591" y="109" text-anchor="middle">one scope per job</text>
+<line class="sLm" x1="144" y1="95" x2="200" y2="95" marker-end="url(#ahm)"/><line class="sLm" x1="420" y1="95" x2="476" y2="95" marker-end="url(#ahm)"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M144 95 L228 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M228 95 L420 95 L590 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M144 95 L228 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.580;0.680;1" path="M228 95 L420 95 L590 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.578;0.582;0.680;0.682;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.320;1" path="M144 95 L228 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.320;0.322;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.760;0.860;1" path="M228 95 L420 95 L590 95"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.758;0.762;0.860;0.862;1"/></circle>
+<text class="sS" x="360" y="150" text-anchor="middle">the request returns at once; the worker drains the channel one job at a time</text>
+<text class="sWt" x="360" y="170" text-anchor="middle">lost on restart, single instance only: use a durable queue (B8) when that matters</text>
+</svg><figcaption>A Channel plus a BackgroundService is the simplest queue there is. Its limits (memory only, one instance) are exactly what a broker removes.</figcaption></figure>
 
 ## B3.11 Built-in production features 🟡
 

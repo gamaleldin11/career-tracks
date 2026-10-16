@@ -398,6 +398,29 @@ The standard handler stacks a rate limiter, total timeout, retry, circuit breake
 5. **Mitigate first** (roll back, scale out, disable a feature flag, open a circuit), **then** fix the root cause.
 6. **Blameless post-mortem:** timeline, impact, root cause, what we'll change.
 
+<figure class="dia anim"><svg viewBox="0 0 720 158" role="img" aria-label="Animation: debugging a slow production API in order: scope which endpoints and since when, follow a slow trace to its span, read the logs by trace ID, check resources such as CPU, garbage collection, the thread pool and database waits, mitigate by rolling back, scaling or turning a feature flag off, then fix the root cause and run a postmortem">
+<rect class="sB" x="14" y="34" width="108" height="46" rx="8"/><text class="sT" x="68" y="62" text-anchor="middle">Scope</text>
+<text class="sS" x="68" y="100" text-anchor="middle">what, since when?</text><text class="sS" x="68" y="116" text-anchor="middle">after a deploy?</text>
+<line class="sLm" x1="122" y1="57" x2="129" y2="57" marker-end="url(#ahm)"/>
+<rect class="sA" x="131" y="34" width="108" height="46" rx="8"/><text class="sT" x="185" y="62" text-anchor="middle">Trace</text>
+<text class="sS" x="185" y="100" text-anchor="middle">find the</text><text class="sS" x="185" y="116" text-anchor="middle">slowest span</text>
+<line class="sLm" x1="239" y1="57" x2="246" y2="57" marker-end="url(#ahm)"/>
+<rect class="sV" x="248" y="34" width="108" height="46" rx="8"/><text class="sT" x="302" y="62" text-anchor="middle">Logs</text>
+<text class="sS" x="302" y="100" text-anchor="middle">read them</text><text class="sS" x="302" y="116" text-anchor="middle">by trace ID</text>
+<line class="sLm" x1="356" y1="57" x2="363" y2="57" marker-end="url(#ahm)"/>
+<rect class="sW" x="365" y="34" width="108" height="46" rx="8"/><text class="sT" x="419" y="62" text-anchor="middle">Resources</text>
+<text class="sS" x="419" y="100" text-anchor="middle">CPU, GC,</text><text class="sS" x="419" y="116" text-anchor="middle">pool, DB waits</text>
+<line class="sLm" x1="473" y1="57" x2="480" y2="57" marker-end="url(#ahm)"/>
+<rect class="sR" x="482" y="34" width="108" height="46" rx="8"/><text class="sT" x="536" y="62" text-anchor="middle">Mitigate</text>
+<text class="sS" x="536" y="100" text-anchor="middle">roll back,</text><text class="sS" x="536" y="116" text-anchor="middle">scale, flag off</text>
+<line class="sLm" x1="590" y1="57" x2="597" y2="57" marker-end="url(#ahm)"/>
+<rect class="sG" x="599" y="34" width="108" height="46" rx="8"/><text class="sT" x="653" y="62" text-anchor="middle">Fix + review</text>
+<text class="sS" x="653" y="100" text-anchor="middle">root cause,</text><text class="sS" x="653" y="116" text-anchor="middle">postmortem</text>
+<circle class="sPw" r="6"><animateMotion dur="7s" repeatCount="indefinite" path="M68 86 L653 86"/></circle>
+<text class="sM" x="360" y="20" text-anchor="middle">"users say the API is slow": the order matters</text>
+<text class="sGt" x="360" y="148" text-anchor="middle">stop the bleeding (mitigate) before the root-cause hunt; a rollback is a fix for users</text>
+</svg><figcaption>Evidence first, mitigation second, root cause third: the same method as the network troubleshooting ladder, applied to an application.</figcaption></figure>
+
 **.NET diagnostic tools:** `dotnet-counters` (live CPU, GC, thread pool, exception rate, request rate), `dotnet-trace` (CPU and event traces for PerfView or Visual Studio), `dotnet-dump` (memory dumps for leaks and hangs), `dotnet-gcdump`.
 
 > [!lab] Two hours to production-grade telemetry (from your gaps file)

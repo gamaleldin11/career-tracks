@@ -351,6 +351,20 @@ catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.ServiceUna
 | Add context, keep the cause | Wrap with a meaningful message and pass the inner exception |
 | One global handler in ASP.NET Core | Converts unhandled exceptions into `ProblemDetails` and logs them ([[B3]]) |
 
+<figure class="dia anim"><svg viewBox="0 0 720 172" role="img" aria-label="Animation: an exception’s path: HttpClient throws an HttpRequestException for a 503, the payment service catches it with an exception filter and wraps it in a PaymentUnavailableException keeping the inner exception, the controller does not catch it, and the global exception handler turns it into a 503 ProblemDetails response with a trace ID">
+<rect class="sR" x="14" y="40" width="140" height="50" rx="8"/><text class="sT" x="84" y="63" text-anchor="middle">HttpClient</text><text class="sC" x="84" y="79" text-anchor="middle">throws 503</text>
+<rect class="sW" x="200" y="40" width="160" height="50" rx="8"/><text class="sT" x="280" y="63" text-anchor="middle">PaymentService</text><text class="sC" x="280" y="79" text-anchor="middle">catch when 503 → wrap</text>
+<rect class="sN" x="406" y="40" width="140" height="50" rx="8"/><text class="sT" x="476" y="63" text-anchor="middle">Controller</text><text class="sC" x="476" y="79" text-anchor="middle">no try/catch</text>
+<rect class="sG" x="592" y="40" width="114" height="50" rx="8"/><text class="sT" x="649" y="63" text-anchor="middle">Exception handler</text><text class="sC" x="649" y="79" text-anchor="middle">→ ProblemDetails</text>
+<line class="sLr" x1="154" y1="65" x2="200" y2="65" marker-end="url(#ahr)"/>
+<line class="sLw" x1="360" y1="65" x2="406" y2="65" marker-end="url(#ahw)"/>
+<line class="sLw" x1="546" y1="65" x2="592" y2="65" marker-end="url(#ahw)"/>
+<text class="sC" x="177" y="110" text-anchor="middle">HttpRequestException</text><text class="sC" x="383" y="110" text-anchor="middle">PaymentUnavailable</text><text class="sC" x="649" y="110" text-anchor="middle">503 + traceId</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M84 65 L280 65 L476 65 L649 65"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
+<text class="sS" x="360" y="142" text-anchor="middle">catch only where you can add context or recover; let everything else bubble to one global handler</text>
+<text class="sGt" x="360" y="162" text-anchor="middle">keep the inner exception; log once, at the top, with the trace ID</text>
+</svg><figcaption>One wrap with context in the layer that understands the error, one handler at the edge: no swallowed exceptions and no duplicate log lines.</figcaption></figure>
+
 ## B1.10 Equality, hashing and collections 🟡
 
 - Override `Equals` **and** `GetHashCode` together (or use a record). Objects that are equal must have the same hash code, or `Dictionary` and `HashSet` break.
