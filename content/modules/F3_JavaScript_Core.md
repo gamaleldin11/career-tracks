@@ -531,6 +531,14 @@ try {
 }
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="What a fetch promise does: a 200 response resolves with res.ok true; a 404 or 500 response also resolves, with res.ok false, so the code must check and throw; only a network failure, CORS block or DNS error rejects the promise and reaches the catch block">
+<rect class="sB" x="14" y="70" width="130" height="50" rx="8"/><text class="sT" x="79" y="100" text-anchor="middle">await fetch(url)</text>
+<line class="sLm" x1="144" y1="95" x2="220" y2="42" marker-end="url(#ahm)"/><rect class="sG" x="222" y="20" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="40" text-anchor="middle">200 OK</text><text class="sC" x="297" y="56" text-anchor="middle">resolves</text><text class="sS" x="386" y="47">res.ok = true → use res.json()</text>
+<line class="sLm" x1="144" y1="95" x2="220" y2="98" marker-end="url(#ahm)"/><rect class="sW" x="222" y="76" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="96" text-anchor="middle">404 / 500</text><text class="sC" x="297" y="112" text-anchor="middle">resolves too!</text><text class="sS" x="386" y="103">res.ok = false → you must throw</text>
+<line class="sLm" x1="144" y1="95" x2="220" y2="154" marker-end="url(#ahm)"/><rect class="sR" x="222" y="132" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="152" text-anchor="middle">network error, CORS</text><text class="sC" x="297" y="168" text-anchor="middle">rejects</text><text class="sS" x="386" y="159">catch block runs</text>
+<text class="sRt" x="360" y="196" text-anchor="middle">if (!res.ok) throw new Error(`HTTP ${res.status}`) is the line people forget</text>
+</svg><figcaption>fetch treats any HTTP response as success; only failing to get a response is an error. That is why the <code>res.ok</code> check exists.</figcaption></figure>
+
 Throw `Error` objects (they carry a stack trace), never strings. Custom error classes (`class ValidationError extends Error {}`) let callers handle cases differently.
 
 ## F3.11 What's new, in brief (2023–2026) 🟡
@@ -576,6 +584,18 @@ Event-loop ordering questions (`setTimeout` vs `Promise.then`) are in [[F4]].
 
 > [!lab] Rebuild five built-ins
 > Without looking: write your own `map`, `filter` and `reduce` for arrays, then `debounce` and `deepEqual(a, b)`. Test each in the console with edge cases (empty arrays, nested objects, `NaN`). These are real interview tasks, and writing them cements closures and `this`.
+
+<figure class="dia steps"><svg viewBox="0 0 720 128" role="img" aria-label="Why a detached method loses this: obj.getName() is called on obj, so this is obj and it returns A; const fn = obj.getName then fn() is called on nothing, so this is undefined in strict code and it throws a TypeError; binding with bind or wrapping in an arrow function keeps this">
+<rect class="sN" x="14" y="20" width="300" height="70" rx="8"/><text class="sC" x="26" y="44" xml:space="preserve" style="white-space:pre">const obj = { name: "A",</text><text class="sC" x="26" y="62" xml:space="preserve" style="white-space:pre">  getName() { return this.name } }</text><text class="sC" x="26" y="80" xml:space="preserve" style="white-space:pre">const fn = obj.getName</text>
+<g data-s="1-1"><rect class="sG" x="360" y="20" width="346" height="70" rx="8"/><text class="sT" x="533" y="53" text-anchor="middle">obj.getName()</text><text class="sC" x="533" y="69" text-anchor="middle">called on obj → this = obj → "A"</text><line class="sLg" x1="314" y1="55" x2="358" y2="55" marker-end="url(#ahg)"/></g>
+<g data-s="2-2"><rect class="sR" x="360" y="20" width="346" height="70" rx="8"/><text class="sT" x="533" y="53" text-anchor="middle">fn()</text><text class="sC" x="533" y="69" text-anchor="middle">called on nothing → this = undefined → TypeError</text><line class="sLr" x1="314" y1="55" x2="358" y2="55" marker-end="url(#ahr)"/></g>
+<g data-s="3-3"><rect class="sV" x="360" y="20" width="346" height="70" rx="8"/><text class="sT" x="533" y="53" text-anchor="middle">obj.getName.bind(obj)  or  () =&gt; obj.getName()</text><text class="sC" x="533" y="69" text-anchor="middle">fix: pin this, or keep the call on obj</text><line class="sLv" x1="314" y1="55" x2="358" y2="55" marker-end="url(#ahv)"/></g>
+<text class="sS" x="360" y="118" text-anchor="middle">this is decided by HOW a function is called, not where it was written (arrow functions excepted)</text>
+</svg><ol class="dia-steps">
+<li>Called as a method: this is the object.</li>
+<li>Called as a plain function: this is undefined.</li>
+<li>Fix by binding or by wrapping the call.</li>
+</ol><figcaption>The classic trap with event handlers and callbacks: <code>onClick={obj.method}</code> passes the function, not the object.</figcaption></figure>
 
 ## F3.13 Interview drill 🟢 ⭐
 

@@ -370,6 +370,19 @@ async function loadInvoice(id: string): Promise<Invoice> {
 }
 ```
 
+<figure class="dia anim"><svg viewBox="0 0 720 192" role="img" aria-label="Animation: runtime validation at the boundary: an API response is unknown JSON until InvoiceSchema.parse checks it; an object with amount 12.5 passes and becomes a typed Invoice used safely everywhere, while an object with amount as the string 12.50 is rejected with a ZodError naming the field">
+<rect class="sN" x="14" y="60" width="120" height="50" rx="8"/><text class="sT" x="74" y="83" text-anchor="middle">API response</text><text class="sC" x="74" y="99" text-anchor="middle">unknown JSON</text>
+<rect class="sV" x="230" y="60" width="170" height="50" rx="8"/><text class="sT" x="315" y="83" text-anchor="middle">InvoiceSchema.parse</text><text class="sC" x="315" y="99" text-anchor="middle">zod, at the edge</text>
+<rect class="sG" x="500" y="20" width="206" height="50" rx="8"/><text class="sT" x="603" y="43" text-anchor="middle">Invoice (typed)</text><text class="sC" x="603" y="59" text-anchor="middle">safe for the whole app</text>
+<rect class="sR" x="500" y="104" width="206" height="50" rx="8"/><text class="sT" x="603" y="127" text-anchor="middle">ZodError</text><text class="sC" x="603" y="143" text-anchor="middle">amount: expected number</text>
+<line class="sLm" x1="134" y1="85" x2="230" y2="85" marker-end="url(#ahm)"/>
+<line class="sLg" x1="400" y1="78" x2="500" y2="45" marker-end="url(#ahg)"/>
+<line class="sLr" x1="400" y1="92" x2="500" y2="129" marker-end="url(#ahr)"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M134 80 L230 80 L400 78 L500 45"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle><text class="sC" x="182" y="52" text-anchor="middle">{ amount: 12.5 }</text>
+<circle class="sPr" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M134 90 L230 90 L400 92 L500 129"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle><text class="sC" x="182" y="132" text-anchor="middle">{ amount: "12.50" }</text>
+<text class="sS" x="360" y="182" text-anchor="middle">type Invoice = z.infer&lt;typeof InvoiceSchema&gt;: one definition gives the check and the type</text>
+</svg><figcaption>TypeScript types disappear at runtime; the schema does not. Parse once where data enters, and everything inside can trust the type.</figcaption></figure>
+
 Alternatives include Valibot, ArkType, and **generating** types from the backend's OpenAPI document (`openapi-typescript`, NSwag, Orval), so frontend and backend can't drift apart ([[FS1]]).
 
 > [!story]

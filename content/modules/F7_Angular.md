@@ -69,6 +69,19 @@ export class InvoiceCard {
 | `#ref` | A template reference variable |
 | `value \| pipe: arg` | Transform for display |
 
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: Angular binding directions between the component and its template: interpolation and property binding carry data from the component to the DOM, event binding carries events from the DOM to the component, and two-way binding with ngModel or model() does both">
+<rect class="sV" x="14" y="70" width="160" height="60" rx="8"/><text class="sT" x="94" y="98" text-anchor="middle">Component (TS)</text><text class="sC" x="94" y="114" text-anchor="middle">invoices(), markPaid()</text>
+<rect class="sB" x="546" y="70" width="160" height="60" rx="8"/><text class="sT" x="626" y="105" text-anchor="middle">Template / DOM</text>
+<line class="sLg" x1="174" y1="40" x2="544" y2="40" marker-end="url(#ahg)"/>
+<text class="sC" x="220" y="32" xml:space="preserve" style="white-space:pre">{{ value }}  ·  [property]="expr"</text><text class="sS" x="540" y="54" text-anchor="end">component → DOM</text>
+<line class="sLw" x1="546" y1="106" x2="176" y2="106" marker-end="url(#ahw)"/>
+<text class="sC" x="220" y="98" xml:space="preserve" style="white-space:pre">(event)="handler($event)"</text><text class="sS" x="540" y="120" text-anchor="end">DOM → component</text>
+<line class="sLv" x1="174" y1="162" x2="544" y2="162" marker-end="url(#ahv)"/><line class="sLv" x1="546" y1="172" x2="176" y2="172" marker-end="url(#ahv)"/>
+<text class="sC" x="220" y="158" xml:space="preserve" style="white-space:pre">[(ngModel)] / model()</text><text class="sS" x="540" y="190" text-anchor="end">both ways</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M174 40 L544 40"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle><circle class="sPw" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.650;1" path="M546 106 L176 106"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.650;0.652;1"/></circle><circle class="sPv" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.980;1" path="M174 162 L544 162 L544 172 L176 172"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.980;0.982;1"/></circle>
+<text class="sS" x="360" y="204" text-anchor="middle">square brackets: data flows in; round brackets: events flow out; both: "banana in a box"</text>
+</svg><figcaption>The bracket shape tells you the direction. Since Angular 17, <code>@if</code> and <code>@for</code> with <code>track</code> replace the structural directives.</figcaption></figure>
+
 **Built-in control flow** (since v17, replacing `*ngIf`, `*ngFor` and `ngSwitch`):
 
 ```html
