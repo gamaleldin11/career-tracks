@@ -748,6 +748,15 @@ const FOUNDATIONS = {
     q('Dell tools', 'SupportAssist on a PowerEdge…', ['Replaces the OS', 'Collects a TSR and can open a Dell support case automatically when hardware fails', 'Is a RAID level', 'Is a backup tool'], 1, 'Across a site the connection runs through Secure Connect Gateway.', 'N18.9'),
     q('Hardware', 'Disks moved from another server show up as a “foreign configuration”. Clearing it…', ['Imports the data', 'Wipes the RAID metadata, losing the data on those disks', 'Updates firmware', 'Is required for hot spares'], 1, 'Import keeps the data; clear destroys it. Check twice.', 'N18.5'),
   ],
+  N19: [
+    q('Cloud', 'In IaaS (Azure VMs, AWS EC2), who patches the guest operating system?', ['The cloud provider', 'You, the customer', 'Nobody: it is automatic', 'The hardware vendor'], 1, 'Shared responsibility: in IaaS the provider runs the hosts and virtualization; the OS and above are yours.', 'N19.1'),
+    q('Cloud', 'Spreading VMs across availability zones protects against…', ['A whole-region disaster', 'The failure of one datacenter in the region', 'Accidental deletion', 'A leaked password'], 1, 'Zones are separate datacenters inside one region; a regional disaster needs a second region.', 'N19.2'),
+    q('Cloud', 'On AWS, a security group differs from a network ACL because it is…', ['Stateless', 'Stateful and attached to instances', 'Only for IPv6', 'Applied to the whole region'], 1, 'NACLs filter whole subnets and are stateless, so return traffic needs its own rule.', 'N19.3'),
+    q('Cloud', 'A private VM must download updates but never accept inbound internet connections. You give its subnet a route to…', ['An internet gateway with a public IP on the VM', 'A NAT gateway', 'A VPN gateway', 'Nothing'], 1, 'NAT allows outbound-only connections, like PAT on an office firewall.', 'N19.3'),
+    q('Identity', 'In Azure RBAC, a role assignment is made of…', ['A username and a password', 'A principal, a role definition and a scope', 'A subscription and a region', 'A VNet and an NSG'], 1, 'Assigned at a scope, it is inherited by everything beneath it.', 'N19.5'),
+    q('Identity', 'An app on an Azure VM needs to read a storage account. The safest credential is…', ['An access key pasted in the config file', 'A managed identity with a narrow role', 'The admin’s password', 'A shared Owner account'], 1, 'Managed identities (IAM roles on AWS) give short-lived credentials with no secret to leak.', 'N19.5'),
+    q('Identity', 'In AWS IAM, a request matched by one policy that allows it and another that explicitly denies it is…', ['Allowed', 'Denied: an explicit deny always wins', 'Allowed for root only', 'Queued for approval'], 1, 'Otherwise, anything not explicitly allowed is implicitly denied.', 'N19.5'),
+  ],
   S5: [
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
   ],

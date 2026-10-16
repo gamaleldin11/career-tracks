@@ -3521,6 +3521,188 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 </div>
 </section>
 
+<section class="mod" id="m19"><div class="eyebrow">Module 19 · Cloud</div>
+<h2>Cloud basics &amp; identity (Azure and AWS)</h2>
+<p class="goal">Enough Azure and AWS to hold a confident first conversation: the service models and who secures what, regions and availability zones, a cloud network drawn end to end, the core services side by side, and identity — the part of cloud that causes the most tickets. Module 10 ("From vSphere to cloud") maps VMware ideas to cloud names; this module builds on it.</p>
+
+<h3>19.1 What "cloud" means — service models and who secures what</h3>
+<p>Cloud computing is renting computing on demand: you <strong>provision in minutes through an API or portal</strong>, <strong>pay for what you use</strong>, and <strong>scale up and down</strong> without buying hardware. The three service models differ in how much of the stack the provider runs for you:</p>
+<ul>
+  <li><strong>IaaS</strong> (Infrastructure as a Service): you rent VMs, disks and networks — Azure Virtual Machines, AWS EC2. You still patch the OS.</li>
+  <li><strong>PaaS</strong> (Platform as a Service): you deploy code or data; the provider runs the OS and runtime — Azure App Service, Azure SQL Database, AWS RDS, AWS Elastic Beanstalk.</li>
+  <li><strong>SaaS</strong> (Software as a Service): you just use the application — Microsoft 365, Salesforce, ServiceNow.</li>
+</ul>
+<p>Deployment models: <strong>public</strong> cloud (Azure, AWS, Google Cloud), <strong>private</strong> cloud (your own VMware or Azure Local estate run cloud-style), and <strong>hybrid</strong> — both, connected — which is what most enterprises actually run.</p>
+
+<figure class="dia"><svg viewBox="0 0 720 306" role="img" aria-label="The shared responsibility model: on premises the customer manages every layer; with IaaS the provider manages the physical datacenter, network, hosts and virtualization while the customer manages the operating system, applications, identity and data; with PaaS the provider also manages the operating system and runtime; with SaaS the provider manages everything except the customer's data and identities, which always remain the customer's responsibility">
+<text class="sS" x="150" y="50" text-anchor="end">Data</text>
+<text class="sS" x="150" y="78" text-anchor="end">Identities, accounts</text>
+<text class="sS" x="150" y="106" text-anchor="end">Applications</text>
+<text class="sS" x="150" y="134" text-anchor="end">Network controls</text>
+<text class="sS" x="150" y="162" text-anchor="end">Operating system</text>
+<text class="sS" x="150" y="190" text-anchor="end">Virtualization</text>
+<text class="sS" x="150" y="218" text-anchor="end">Physical hosts</text>
+<text class="sS" x="150" y="246" text-anchor="end">Physical network</text>
+<text class="sS" x="150" y="274" text-anchor="end">Datacenter</text>
+<text class="sM" x="220" y="22" text-anchor="middle">On-premises</text>
+<rect class="sB" x="160" y="34" width="120" height="248" rx="6"/>
+<text class="sT" x="220" y="163" text-anchor="middle">you</text>
+<text class="sM" x="352" y="22" text-anchor="middle">IaaS</text>
+<rect class="sB" x="292" y="34" width="120" height="136" rx="6"/>
+<text class="sT" x="352" y="107" text-anchor="middle">you</text>
+<rect class="sA" x="292" y="174" width="120" height="108" rx="6"/>
+<text class="sT" x="352" y="233" text-anchor="middle">provider</text>
+<text class="sM" x="484" y="22" text-anchor="middle">PaaS</text>
+<rect class="sB" x="424" y="34" width="120" height="80" rx="6"/>
+<text class="sT" x="484" y="79" text-anchor="middle">you</text>
+<rect class="sW" x="424" y="118" width="120" height="24" rx="6"/>
+<text class="sS" x="484" y="135" text-anchor="middle">shared</text>
+<rect class="sA" x="424" y="146" width="120" height="136" rx="6"/>
+<text class="sT" x="484" y="219" text-anchor="middle">provider</text>
+<text class="sM" x="616" y="22" text-anchor="middle">SaaS</text>
+<rect class="sB" x="556" y="34" width="120" height="52" rx="6"/>
+<text class="sT" x="616" y="65" text-anchor="middle">you</text>
+<rect class="sA" x="556" y="90" width="120" height="192" rx="6"/>
+<text class="sT" x="616" y="191" text-anchor="middle">provider</text>
+<rect class="sB" x="160" y="287" width="12" height="12" rx="3"/><text class="sS" x="178" y="298">you</text>
+<rect class="sA" x="232" y="287" width="12" height="12" rx="3"/><text class="sS" x="250" y="298">cloud provider</text>
+<rect class="sW" x="372" y="287" width="12" height="12" rx="3"/><text class="sS" x="390" y="298">shared</text>
+</svg><figcaption>The <strong>shared responsibility model</strong>. The provider secures the cloud itself; you secure what you put in it. Most real cloud breaches are on the customer's side of this line: a public storage bucket, an over-privileged account, a leaked access key.</figcaption></figure>
+
+<h3>19.2 Regions, availability zones and the global map</h3>
+<ul>
+  <li><strong>Region</strong>: a geographic area with its own set of datacenters — e.g. Azure <em>West Europe</em>, AWS <em>eu-central-1</em> (Frankfurt). Choose by latency to users, data-residency law, and which services and prices it offers. Microsoft and AWS both run regions in the Middle East (e.g. Azure UAE North and Qatar Central, AWS me-central-1 in the UAE).</li>
+  <li><strong>Availability Zone (AZ)</strong>: one or more physically separate datacenters inside a region, with independent power, cooling and network, linked by low-latency fibre. Spread VMs across <strong>two or three AZs</strong> and a datacenter fire does not take the service down.</li>
+  <li><strong>The resilience ladder</strong>: one VM (no protection) → several VMs in one AZ (survives a host failure) → across AZs (survives a datacenter failure) → across regions (survives a regional disaster, at real cost and complexity). The higher you go, the more it costs — match it to the RTO and RPO (9.6).</li>
+  <li><strong>Edge</strong>: CDN points of presence (Azure Front Door, AWS CloudFront) cache content close to users.</li>
+</ul>
+
+<h3>19.3 A cloud network, end to end</h3>
+<p>The network concepts from Modules 2–7 all reappear in the cloud, with new names. A <strong>VPC</strong> (AWS) or <strong>VNet</strong> (Azure) is your private network, with a CIDR range you choose (e.g. <code>10.20.0.0/16</code>) carved into <strong>subnets</strong> — the subnetting from Module 2 is used every day here.</p>
+
+<figure class="dia anim"><svg viewBox="0 0 720 300" role="img" aria-label="Animation: a VPC in one region spanning two availability zones, each with a public subnet and a private subnet; internet traffic enters through the internet gateway to a load balancer in the public subnets and on to web VMs in the private subnets, private VMs reach the internet outbound through a NAT gateway, and the on-premises network connects to the private subnets through a VPN gateway or a dedicated circuit">
+<rect class="sN" x="120" y="14" width="586" height="276" rx="12"/><text class="sM" x="134" y="34">Region · VPC / VNet 10.20.0.0/16</text>
+<rect class="sN" x="200" y="44" width="240" height="236" rx="10" stroke-dasharray="5 4"/><text class="sS" x="320" y="62" text-anchor="middle">Availability zone A</text>
+<rect class="sN" x="456" y="44" width="240" height="236" rx="10" stroke-dasharray="5 4"/><text class="sS" x="576" y="62" text-anchor="middle">Availability zone B</text>
+<rect class="sW" x="214" y="72" width="212" height="76" rx="8"/><text class="sS" x="224" y="90">public subnet 10.20.1.0/24</text>
+<rect class="sW" x="470" y="72" width="212" height="76" rx="8"/><text class="sS" x="480" y="90">public subnet 10.20.2.0/24</text>
+<rect class="sB" x="214" y="166" width="212" height="102" rx="8"/><text class="sS" x="224" y="184">private subnet 10.20.11.0/24</text>
+<rect class="sB" x="470" y="166" width="212" height="102" rx="8"/><text class="sS" x="480" y="184">private subnet 10.20.12.0/24</text>
+<rect class="sA" x="214" y="100" width="376" height="34" rx="6"/><text class="sT" x="402" y="122" text-anchor="middle">load balancer (spans both AZs)</text>
+<rect class="sN" x="604" y="100" width="68" height="34" rx="6"/><text class="sS" x="638" y="122" text-anchor="middle">NAT GW</text>
+<rect class="sG" x="236" y="196" width="80" height="34" rx="6"/><text class="sT" x="276" y="218" text-anchor="middle">web VM</text>
+<rect class="sG" x="492" y="196" width="80" height="34" rx="6"/><text class="sT" x="532" y="218" text-anchor="middle">web VM</text>
+<rect class="sV" x="336" y="196" width="80" height="34" rx="6"/><text class="sT" x="376" y="218" text-anchor="middle">DB</text>
+<rect class="sV" x="592" y="196" width="80" height="34" rx="6"/><text class="sT" x="632" y="218" text-anchor="middle">DB replica</text>
+<text class="sS" x="320" y="256" text-anchor="middle">security group / NSG on every VM</text>
+<rect class="sA" x="14" y="84" width="96" height="40" rx="8"/><text class="sT" x="62" y="109" text-anchor="middle">Internet</text>
+<rect class="sR" x="14" y="196" width="96" height="40" rx="8"/><text class="sT" x="62" y="221" text-anchor="middle">On-prem</text>
+<rect class="sN" x="122" y="92" width="64" height="24" rx="5"/><text class="sS" x="154" y="109" text-anchor="middle">IGW</text>
+<rect class="sN" x="122" y="204" width="64" height="24" rx="5"/><text class="sS" x="154" y="221" text-anchor="middle">VPN GW</text>
+<line class="sLm" x1="110" y1="104" x2="122" y2="104"/><line class="sLm" x1="186" y1="104" x2="214" y2="117"/><path class="sLw" d="M638 100 L638 68 L154 68 L154 92" style="fill:none" stroke-dasharray="4 4"/>
+<line class="sLm" x1="110" y1="216" x2="122" y2="216"/><line class="sLr" x1="186" y1="216" x2="236" y2="213"/>
+<circle class="sPg" r="6"><animateMotion dur="4s" repeatCount="indefinite" path="M62 104 L154 104 L214 117 L276 117 L276 196"/></circle>
+<circle class="sPr" r="6"><animateMotion dur="4s" repeatCount="indefinite" begin="1s" path="M62 216 L154 216 L236 213"/></circle>
+<circle class="sPw" r="6"><animateMotion dur="4s" repeatCount="indefinite" begin="2s" path="M532 196 L638 134 L638 68 L154 68 L154 104 L62 104"/></circle>
+</svg><figcaption>The standard layout: only the load balancer and NAT gateway sit in public subnets; VMs and databases live in private subnets. Green: users come in through the internet gateway and load balancer. White: private VMs go out for updates through the NAT gateway. Red: the office reaches private subnets over a site-to-site VPN (or ExpressRoute / Direct Connect).</figcaption></figure>
+
+<div class="tw"><table>
+  <tr><th>Concept</th><th>AWS</th><th>Azure</th><th>On-prem equivalent</th></tr>
+  <tr><td>Private network</td><td>VPC</td><td>VNet</td><td>Your LAN and its VLANs</td></tr>
+  <tr><td>Per-VM firewall (stateful)</td><td>Security group</td><td>Network Security Group (NSG)</td><td>Host firewall / ACL</td></tr>
+  <tr><td>Per-subnet filter</td><td>Network ACL (<em>stateless</em>)</td><td>NSG on the subnet</td><td>Router ACL</td></tr>
+  <tr><td>Internet access in</td><td>Internet gateway + public IP</td><td>Public IP / load balancer</td><td>Edge firewall + NAT</td></tr>
+  <tr><td>Internet access out only</td><td>NAT gateway</td><td>NAT Gateway</td><td>PAT on the firewall</td></tr>
+  <tr><td>Connect two networks</td><td>VPC peering, Transit Gateway</td><td>VNet peering, Virtual WAN</td><td>Routing between sites</td></tr>
+  <tr><td>Site-to-site VPN</td><td>Site-to-Site VPN</td><td>VPN Gateway</td><td>IPsec tunnel (6.3)</td></tr>
+  <tr><td>Private dedicated circuit</td><td>Direct Connect</td><td>ExpressRoute</td><td>MPLS / leased line</td></tr>
+  <tr><td>DNS</td><td>Route 53</td><td>Azure DNS (+ Private DNS zones)</td><td>Your DNS servers</td></tr>
+  <tr><td>Managed firewall</td><td>AWS Network Firewall</td><td>Azure Firewall</td><td>Perimeter NGFW</td></tr>
+</table></div>
+<p>Two traps that come up in tickets: <mark>cloud routing tables are per subnet</mark> — a "private" subnet is just one whose route table has no route to an internet gateway; and <mark>overlapping CIDR ranges cannot be peered or VPN-routed</mark>, so plan cloud address space so it never clashes with on-prem (the same lesson as merging two companies that both use 192.168.1.0/24).</p>
+
+<h3>19.4 Core services side by side</h3>
+<div class="tw"><table>
+  <tr><th>Need</th><th>AWS</th><th>Azure</th></tr>
+  <tr><td>Virtual machines</td><td>EC2</td><td>Virtual Machines</td></tr>
+  <tr><td>Scale a group of VMs automatically</td><td>Auto Scaling group</td><td>Virtual Machine Scale Sets</td></tr>
+  <tr><td>Block disks for VMs</td><td>EBS</td><td>Managed Disks</td></tr>
+  <tr><td>Object storage</td><td>S3</td><td>Blob Storage</td></tr>
+  <tr><td>File shares (SMB/NFS)</td><td>EFS, FSx</td><td>Azure Files</td></tr>
+  <tr><td>Managed SQL databases</td><td>RDS, Aurora</td><td>Azure SQL Database, Azure Database for PostgreSQL/MySQL</td></tr>
+  <tr><td>Containers</td><td>ECS, EKS (Kubernetes)</td><td>Container Apps, AKS (Kubernetes)</td></tr>
+  <tr><td>Serverless functions</td><td>Lambda</td><td>Azure Functions</td></tr>
+  <tr><td>Monitoring and logs</td><td>CloudWatch, CloudTrail (API audit log)</td><td>Azure Monitor, Log Analytics, Activity Log</td></tr>
+  <tr><td>Backup</td><td>AWS Backup</td><td>Azure Backup, Azure Site Recovery (DR)</td></tr>
+  <tr><td>Infrastructure as code</td><td>CloudFormation (or Terraform)</td><td>ARM / Bicep (or Terraform)</td></tr>
+  <tr><td>Run on-prem servers through the cloud console</td><td>Systems Manager</td><td>Azure Arc</td></tr>
+</table></div>
+<p><strong>Cost basics</strong> interviewers like: pay-as-you-go (on-demand) is the most flexible and most expensive; <strong>reservations / savings plans</strong> trade a 1- or 3-year commitment for a large discount on steady workloads; <strong>spot</strong> capacity is very cheap but can be taken back at short notice (batch jobs only). Stopped VMs stop paying for compute but <em>disks keep billing</em>. Azure Hybrid Benefit reuses existing Windows Server and SQL Server licences. <strong>Tags</strong> (owner, cost centre, environment) are how a bill becomes readable.</p>
+
+<h3>19.5 Identity and access — the heart of cloud security</h3>
+<p>In the cloud there is no locked server room: <strong>identity is the perimeter</strong>. Every action — starting a VM, reading a bucket — is an API call checked against "<em>who</em> are you, and are you <em>allowed</em> to do <em>this</em> on <em>that</em>?"</p>
+<div class="tw"><table>
+  <tr><th>Concept</th><th>AWS IAM</th><th>Azure (Entra ID + Azure RBAC)</th></tr>
+  <tr><td>Directory of people</td><td>IAM users, or better IAM Identity Center (SSO from your corporate directory)</td><td><strong>Microsoft Entra ID</strong> (formerly Azure AD) tenant, often synced from on-prem AD (Module 12)</td></tr>
+  <tr><td>Grouping</td><td>IAM groups</td><td>Entra groups</td></tr>
+  <tr><td>Permission definition</td><td><strong>Policy</strong>: JSON listing allowed or denied actions on resources</td><td><strong>Role definition</strong>: Owner, Contributor, Reader, or custom</td></tr>
+  <tr><td>Granting it</td><td>Attach the policy to a user, group or role</td><td><strong>Role assignment</strong> = who + which role + at which scope</td></tr>
+  <tr><td>Identity for a machine or app</td><td><strong>IAM role</strong> assumed by an EC2 instance (instance profile) or Lambda</td><td><strong>Managed identity</strong> on a VM, function or app</td></tr>
+  <tr><td>The all-powerful account</td><td>The <strong>root user</strong>: MFA on, locked away, never used day to day</td><td>Global Administrator (Entra) and Owner at the top scope: few people, MFA, just-in-time via PIM</td></tr>
+  <tr><td>Audit trail</td><td>CloudTrail</td><td>Activity Log, Entra sign-in and audit logs</td></tr>
+</table></div>
+
+<figure class="dia steps"><svg viewBox="0 0 720 270" role="img" aria-label="Azure role-based access control scopes: a management group contains subscriptions, which contain resource groups, which contain resources; a role assignment made at one scope is inherited by everything below it, so Reader at the subscription lets a user read every resource group and resource in it, while Contributor on one resource group lets them change only that group's resources">
+<rect class="sV" x="250" y="14" width="220" height="38" rx="8"/><text class="sT" x="360" y="38" text-anchor="middle">Management group: Contoso</text>
+<rect class="sB" x="80" y="78" width="220" height="38" rx="8"/><text class="sT" x="190" y="102" text-anchor="middle">Subscription: Production</text>
+<rect class="sB" x="420" y="78" width="220" height="38" rx="8"/><text class="sT" x="530" y="102" text-anchor="middle">Subscription: Dev/Test</text>
+<rect class="sA" x="20" y="142" width="160" height="38" rx="8"/><text class="sT" x="100" y="166" text-anchor="middle">RG: web-prod</text>
+<rect class="sA" x="200" y="142" width="160" height="38" rx="8"/><text class="sT" x="280" y="166" text-anchor="middle">RG: sql-prod</text>
+<rect class="sA" x="450" y="142" width="160" height="38" rx="8"/><text class="sT" x="530" y="166" text-anchor="middle">RG: lab</text>
+<rect class="sN" x="20" y="200" width="74" height="30" rx="6"/><text class="sS" x="57" y="220" text-anchor="middle">VM</text>
+<rect class="sN" x="106" y="200" width="74" height="30" rx="6"/><text class="sS" x="143" y="220" text-anchor="middle">VNet</text>
+<rect class="sN" x="200" y="200" width="74" height="30" rx="6"/><text class="sS" x="237" y="220" text-anchor="middle">SQL DB</text>
+<rect class="sN" x="286" y="200" width="74" height="30" rx="6"/><text class="sS" x="323" y="220" text-anchor="middle">backup</text>
+<rect class="sN" x="450" y="200" width="74" height="30" rx="6"/><text class="sS" x="487" y="220" text-anchor="middle">VM</text>
+<rect class="sN" x="536" y="200" width="74" height="30" rx="6"/><text class="sS" x="573" y="220" text-anchor="middle">storage</text>
+<line class="sLm" x1="320" y1="52" x2="190" y2="78"/><line class="sLm" x1="400" y1="52" x2="530" y2="78"/>
+<line class="sLm" x1="160" y1="116" x2="100" y2="142"/><line class="sLm" x1="220" y1="116" x2="280" y2="142"/><line class="sLm" x1="530" y1="116" x2="530" y2="142"/>
+<line class="sLm" x1="100" y1="180" x2="57" y2="200"/><line class="sLm" x1="100" y1="180" x2="143" y2="200"/><line class="sLm" x1="280" y1="180" x2="237" y2="200"/><line class="sLm" x1="280" y1="180" x2="323" y2="200"/><line class="sLm" x1="530" y1="180" x2="487" y2="200"/><line class="sLm" x1="530" y1="180" x2="573" y2="200"/>
+<g data-s="1-1"><rect class="sG" x="76" y="74" width="228" height="46" rx="10" style="fill:none;stroke-width:2.5"/><rect class="sG" x="16" y="138" width="348" height="96" rx="10" style="fill:none;stroke-width:2" stroke-dasharray="5 4"/><text class="sGt" x="360" y="258" text-anchor="middle">Reader at the subscription: can see everything in it</text></g>
+<g data-s="2-2"><rect class="sW" x="196" y="138" width="168" height="96" rx="10" style="fill:none;stroke-width:2.5"/><text class="sWt" x="360" y="258" text-anchor="middle">Contributor on RG sql-prod: can change only that group</text></g>
+<g data-s="3-3"><rect class="sR" x="446" y="138" width="168" height="96" rx="10" style="fill:none;stroke-width:2.5"/><text class="sRt" x="360" y="258" text-anchor="middle">Owner on RG lab only: full rights in the sandbox, none in production</text></g>
+</svg><ol class="dia-steps">
+<li>A role assigned at a scope is inherited by every scope beneath it. Reader on the Production subscription can read every resource group and resource inside.</li>
+<li>Least privilege: the database team gets Contributor on the sql-prod resource group only, not on the subscription.</li>
+<li>A sandbox resource group lets people experiment as Owner without any rights over production.</li>
+</ol><figcaption>Azure RBAC: a role assignment is <em>who</em> + <em>role</em> + <em>scope</em>, and it flows down the tree. AWS achieves the same separation with separate accounts per environment under AWS Organizations.</figcaption></figure>
+
+<ul>
+  <li><strong>Least privilege</strong>: grant the smallest role at the narrowest scope that does the job, and review it. "Everyone is Owner / AdministratorAccess" is the most common cloud audit finding.</li>
+  <li><strong>MFA everywhere</strong>, enforced by policy: <strong>Conditional Access</strong> in Entra (e.g. "admins need MFA and a compliant device; block sign-ins from unexpected countries").</li>
+  <li><strong>No long-lived secrets in code</strong>: use managed identities / IAM roles so applications get short-lived credentials automatically. A leaked access key in a public Git repository is found by bots within minutes.</li>
+  <li><strong>AWS policy evaluation in one line</strong>: <mark>an explicit Deny always wins; otherwise anything not explicitly allowed is denied</mark>.</li>
+  <li><strong>Two kinds of Azure role</strong>: <em>Entra roles</em> (Global Administrator, User Administrator) govern the directory — users, groups, licences; <em>Azure RBAC roles</em> (Owner, Contributor, Reader) govern resources such as VMs and storage. A Global Admin is not automatically able to manage VMs.</li>
+</ul>
+
+<h3>19.6 How to talk about cloud as an infrastructure associate</h3>
+<ul>
+  <li>Your on-prem knowledge transfers: subnets, routing, DNS, firewalls, RAID-like redundancy (zones), backups and RCA work the same way with different names.</li>
+  <li>Typical associate tasks: build or resize a VM, open an NSG / security group rule through a change, attach a disk, check why a VM can't reach the internet (route table, NSG, NAT), restore from a backup, reset access for a user, read the activity log to see who changed what.</li>
+  <li>Entry certifications worth naming as "in progress" or "next": <strong>Microsoft AZ-900</strong> (Azure Fundamentals) and <strong>AWS Certified Cloud Practitioner</strong>; then AZ-104 (Azure Administrator) or AWS Solutions Architect – Associate.</li>
+</ul>
+
+<div class="qhead"><h3>Interview questions — Module 19</h3><button data-qa="qa19">Show all answers</button></div>
+<div class="qa" id="qa19">
+<details><summary>Explain IaaS, PaaS and SaaS with examples.</summary><div class="a"><p><strong>Model answer:</strong> "They differ in how much of the stack the provider runs. With IaaS — Azure VMs or AWS EC2 — I get virtual hardware and still manage the OS, patching and applications. With PaaS — Azure SQL Database or App Service — the provider runs the OS and platform and I bring the data and code. With SaaS — Microsoft 365 — I just use the software. Across all three, the data and who can access it stay my responsibility: that's the shared responsibility model."</p></div></details>
+<details><summary>What's the difference between a region and an availability zone?</summary><div class="a"><p><strong>Model answer:</strong> "A region is a geographic area, like West Europe or Frankfurt, chosen for latency, data residency and price. Inside a region, availability zones are physically separate datacenters with their own power, cooling and networking, connected by fast links. Spreading VMs across zones behind a load balancer survives a datacenter failure; to survive a regional disaster you replicate to a second region, which costs more and should be driven by the RTO and RPO."</p></div></details>
+<details><summary>A VM in Azure (or AWS) can't reach the internet. How do you troubleshoot?</summary><div class="a"><p><strong>Model answer:</strong> "Same bottom-up method as on-prem, with cloud names. Is the VM running and does it have an IP in the subnet I expect? Then the route table of that subnet — does 0.0.0.0/0 go to a NAT gateway or internet gateway, or is it forced through a firewall? Then the NSG or security group — outbound rules, and on AWS the subnet's network ACL, which is stateless so return traffic needs its own rule. Then DNS resolution from the VM. Azure Network Watcher's 'IP flow verify' or AWS Reachability Analyzer tells me which rule is blocking."</p></div></details>
+<details><summary>Security group vs network ACL on AWS?</summary><div class="a"><p><strong>Model answer:</strong> "A security group is attached to an instance's network interface and is stateful — if I allow inbound 443, the replies go out automatically — and it has only allow rules. A network ACL applies to a whole subnet, is stateless, so I must allow return traffic on ephemeral ports explicitly, and it supports explicit deny rules evaluated in number order. Most designs do the real filtering in security groups and keep NACLs simple."</p></div></details>
+<details><summary>How does access control work in Azure?</summary><div class="a"><p><strong>Model answer:</strong> "Identities live in Microsoft Entra ID, often synced from on-prem AD. Access to resources uses Azure RBAC: a role assignment combines a principal — a user, group or managed identity — with a role like Reader, Contributor or Owner, at a scope: management group, subscription, resource group or single resource, inherited downward. I'd grant the narrowest role at the narrowest scope, assign to groups not individuals, enforce MFA with Conditional Access, and use managed identities so apps don't hold passwords."</p></div></details>
+<details><summary>What is the shared responsibility model?</summary><div class="a"><p><strong>Model answer:</strong> "It splits security duties between the provider and the customer. The provider always secures the physical datacenters, hosts and the virtualization layer. The customer always owns their data, identities and access configuration. The middle — operating systems, network controls, applications — depends on the model: in IaaS it's mine, in PaaS mostly the provider's. Most cloud incidents happen on the customer's side: public buckets, over-privileged accounts, leaked keys."</p></div></details>
+</div>
+</section>
+
 <section class="mod" id="m13"><div class="eyebrow">Module 13 · Operations</div>
 <h2>IT operations &amp; ITIL</h2>
 <p class="goal">The service-management vocabulary in the job description — "incidents and service requests within defined service levels" — decoded, plus how a delivery center actually runs.</p>
