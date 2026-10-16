@@ -1164,6 +1164,20 @@ Inside local          Inside global        Outside
   <li><strong>HTTPS</strong> = HTTP inside a <strong>TLS</strong> (Transport Layer Security; "SSL" is the obsolete predecessor everyone still says) encrypted tunnel. In the TLS handshake the server presents a <strong>certificate</strong> — its public key signed by a trusted <strong>Certificate Authority (CA)</strong> — the client verifies the chain of trust, they agree keys via asymmetric crypto, then encrypt the session with fast symmetric crypto.</li>
   <li>Certificate errors users report: expired cert, name mismatch, untrusted/self-signed CA, or wrong clock on the client (another reason NTP matters).</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="The web protocol stack: HTTP/1.1 and HTTP/2 run over TLS for encryption, over TCP port 443 for a reliable stream, over IP; HTTP/3 keeps the same methods and status codes but runs over QUIC, which builds TLS 1.3 in and runs over UDP port 443">
+<text class="sM" x="180" y="22" text-anchor="middle">HTTP/1.1 and HTTP/2</text>
+<text class="sM" x="540" y="22" text-anchor="middle">HTTP/3</text>
+<rect class="sG" x="30" y="32" width="300" height="34" rx="6"/><text class="sT" x="42" y="54">HTTP</text><text class="sS" x="318" y="54" text-anchor="end">GET / · 200 OK</text>
+<rect class="sW" x="30" y="72" width="300" height="34" rx="6"/><text class="sT" x="42" y="94">TLS</text><text class="sS" x="318" y="94" text-anchor="end">encryption, certificate</text>
+<rect class="sB" x="30" y="112" width="300" height="34" rx="6"/><text class="sT" x="42" y="134">TCP :443</text><text class="sS" x="318" y="134" text-anchor="end">reliable stream, handshake</text>
+<rect class="sA" x="30" y="152" width="300" height="34" rx="6"/><text class="sT" x="42" y="174">IP</text><text class="sS" x="318" y="174" text-anchor="end">addressing, routing</text>
+<rect class="sG" x="390" y="32" width="300" height="34" rx="6"/><text class="sT" x="402" y="54">HTTP/3</text><text class="sS" x="678" y="54" text-anchor="end">same methods and codes</text>
+<rect class="sW" x="390" y="72" width="300" height="34" rx="6"/><text class="sT" x="402" y="94">QUIC</text><text class="sS" x="678" y="94" text-anchor="end">TLS 1.3 built in, streams</text>
+<rect class="sB" x="390" y="112" width="300" height="34" rx="6"/><text class="sT" x="402" y="134">UDP :443</text><text class="sS" x="678" y="134" text-anchor="end">no handshake of its own</text>
+<rect class="sA" x="390" y="152" width="300" height="34" rx="6"/><text class="sT" x="402" y="174">IP</text><text class="sS" x="678" y="174" text-anchor="end">addressing, routing</text>
+<text class="sS" x="360" y="210" text-anchor="middle">a firewall that only allows TCP 443 still works: browsers fall back from HTTP/3 to HTTP/2</text>
+</svg><figcaption>HTTPS is HTTP inside TLS. HTTP/3 moves the transport to QUIC over UDP, which is why "allow UDP 443" appears in modern firewall rules.</figcaption></figure>
+
 
 <h3>3.8 The rest of the family, one line each</h3>
 <ul>
@@ -3250,7 +3264,21 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li><strong>Locate the layer</strong>: guest (one VM only → its queue/filesystem/app) → host (KAVG &gt; 2 ms = host queueing) → path (dead path, saturated fabric port) → array (DAVG high for <em>many</em> hosts = controller/disk side).</li>
   <li><strong>Classic culprits</strong>: a backup or antivirus scan storm (look at the <em>time pattern</em>), one "noisy neighbor" VM flooding IOPS, thin pool nearing full (arrays slow down defensively), RAID rebuild in progress, dead cache battery → write-through, misaligned/undersized cache tier.</li>
   <li><strong>Prove it</strong>: correlate esxtop/array performance graphs timestamps with the complaint window before changing anything.</li>
-</ol></div>
+</ol>
+<figure class="dia anim"><svg viewBox="0 0 720 174" role="img" aria-label="Animation: the storage performance troubleshooting flow: define who is affected, what and since when; then locate the layer from the guest, to the host with kernel latency over 2 milliseconds, to the path with a dead or saturated link, to the array with high device latency on many hosts; then prove it by lining the graphs up with the complaint window">
+<rect class="sN" x="14" y="30" width="130" height="56" rx="8"/><text class="sT" x="79" y="56" text-anchor="middle">Define</text><text class="sS" x="79" y="72" text-anchor="middle">who, what, since</text>
+<rect class="sB" x="170" y="30" width="124" height="56" rx="8"/><text class="sT" x="232" y="56" text-anchor="middle">Guest</text><text class="sS" x="232" y="72" text-anchor="middle">one VM only?</text><text class="sS" x="232" y="108" text-anchor="middle">its app or filesystem</text>
+<line class="sLm" x1="144" y1="58" x2="168" y2="58" marker-end="url(#ahm)"/>
+<rect class="sA" x="304" y="30" width="124" height="56" rx="8"/><text class="sT" x="366" y="56" text-anchor="middle">Host</text><text class="sS" x="366" y="72" text-anchor="middle">KAVG &gt; 2 ms?</text><text class="sS" x="366" y="108" text-anchor="middle">queueing, HBA, driver</text>
+<line class="sLm" x1="294" y1="58" x2="302" y2="58" marker-end="url(#ahm)"/>
+<rect class="sW" x="438" y="30" width="124" height="56" rx="8"/><text class="sT" x="500" y="56" text-anchor="middle">Path</text><text class="sS" x="500" y="72" text-anchor="middle">path dead or full?</text><text class="sS" x="500" y="108" text-anchor="middle">MPIO, fabric port, NIC</text>
+<line class="sLm" x1="428" y1="58" x2="436" y2="58" marker-end="url(#ahm)"/>
+<rect class="sV" x="572" y="30" width="124" height="56" rx="8"/><text class="sT" x="634" y="56" text-anchor="middle">Array</text><text class="sS" x="634" y="72" text-anchor="middle">DAVG high?</text><text class="sS" x="634" y="108" text-anchor="middle">controller, pool</text>
+<line class="sLm" x1="562" y1="58" x2="570" y2="58" marker-end="url(#ahm)"/>
+<rect class="sG" x="14" y="126" width="692" height="40" rx="8"/><text class="sT" x="360" y="151" text-anchor="middle">Prove it: line the graphs up with the complaint window before changing anything</text>
+<circle class="sPw" r="6"><animateMotion dur="6s" repeatCount="indefinite" path="M79 92 L232 92 L366 92 L500 92 L634 92"/></circle>
+</svg><figcaption>Walk outward from the VM one layer at a time. "Many hosts slow at once" points at what they share: the fabric or the array.</figcaption></figure>
+</div>
 
 <div class="deep deep4"><span class="dtag">Level 4 · State of the art &amp; the horizon — storage</span>
 <h3>What experts run today</h3>
@@ -3762,7 +3790,14 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li><strong>Promiscuous mode</strong> (default Reject): Accept = the port sees all the port group's traffic — needed only for IDS/packet-capture VMs.</li>
   <li><strong>MAC address changes</strong> / <strong>Forged transmits</strong> (default Reject on vDS): whether a VM may use a MAC different from its configured one — needed for NLB/clustering/nested labs; otherwise keep rejected (stops MAC spoofing from inside VMs).</li>
   <li>Traffic shaping and NIOC (Network I/O Control on vDS) keep vMotion from starving VM traffic on shared 10G uplinks — recognition level.</li>
-</ul></div>
+</ul>
+<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="The three vSphere virtual switch security policies: promiscuous mode, default reject, so a VM sees only its own traffic, accepted only for IDS or capture VMs; MAC address changes, default reject, so the guest cannot change its MAC to receive other traffic, accepted for some clustering and nested labs; forged transmits, default reject, so frames from a different source MAC are dropped, accepted for NLB and nested ESXi">
+<rect class="sN" x="14" y="14" width="220" height="170" rx="10"/><text class="sT" x="124" y="38" text-anchor="middle">Promiscuous mode</text><rect class="sB" x="64" y="52" width="120" height="32" rx="8"/><text class="sT" x="124" y="73" text-anchor="middle">default: Reject</text><text class="sS" x="124" y="112" text-anchor="middle">a VM sees only its own traffic</text><text class="sWt" x="124" y="150" text-anchor="middle">Accept only for IDS / capture VMs</text>
+<rect class="sN" x="250" y="14" width="220" height="170" rx="10"/><text class="sT" x="360" y="38" text-anchor="middle">MAC address changes</text><rect class="sA" x="300" y="52" width="120" height="32" rx="8"/><text class="sT" x="360" y="73" text-anchor="middle">default: Reject</text><text class="sS" x="360" y="112" text-anchor="middle">guest cannot change its MAC to receive</text><text class="sWt" x="360" y="150" text-anchor="middle">Accept for some clusters, nested labs</text>
+<rect class="sN" x="486" y="14" width="220" height="170" rx="10"/><text class="sT" x="596" y="38" text-anchor="middle">Forged transmits</text><rect class="sV" x="536" y="52" width="120" height="32" rx="8"/><text class="sT" x="596" y="73" text-anchor="middle">default: Reject</text><text class="sS" x="596" y="112" text-anchor="middle">frames from a different MAC are dropped</text><text class="sWt" x="596" y="150" text-anchor="middle">Accept for NLB, nested ESXi</text>
+<text class="sS" x="360" y="206" text-anchor="middle">keep all three on Reject unless a specific workload needs otherwise — they stop spoofing and snooping from inside VMs</text>
+</svg><figcaption>"Nested ESXi has no network" and "NLB cluster can’t be reached" are both answered by these three toggles on the port group.</figcaption></figure>
+</div>
 
 <div class="deep deep3"><span class="dtag">Level 3 · Expert corner — vCenter internals, cluster patching &amp; rightsizing</span>
 <h3>vCenter (VCSA) one level down</h3>
@@ -3797,6 +3832,16 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li>Capacity triggers you'd alarm on: cluster CPU/mem &gt;70–80% sustained, datastore &gt;85%, failover capacity below N+1, snapshot age &gt;72 h, host uptime &gt; patch cycle (means it's missing patches).</li>
   <li>Recognition extras: <strong>VM encryption</strong>/vTPM (Windows 11 guests need vTPM), GPU passthrough/vGPU for VDI/AI, content libraries for template distribution, tags + custom attributes for ownership — the metadata that makes 2,000-VM estates governable.</li>
 </ul>
+<figure class="dia steps"><svg viewBox="0 0 720 186" role="img" aria-label="Why oversized VMs run slower: on an 8-core host with 5 cores busy, a VM with 8 vCPUs must wait until 8 cores are free together, showing as co-stop and CPU ready time; rightsized to 2 vCPUs it runs immediately on the free cores">
+<text class="sM" x="14" y="20">an 8-core host, one scheduling moment</text>
+<g data-s="1-1"><text class="sS" x="140" y="54" text-anchor="end">cores</text><rect class="sN" x="150" y="34" width="44" height="30" rx="4"/><text class="sC" x="172" y="54" text-anchor="middle">busy</text><rect class="sN" x="200" y="34" width="44" height="30" rx="4"/><text class="sC" x="222" y="54" text-anchor="middle">busy</text><rect class="sN" x="250" y="34" width="44" height="30" rx="4"/><text class="sC" x="272" y="54" text-anchor="middle">busy</text><rect class="sN" x="300" y="34" width="44" height="30" rx="4"/><text class="sC" x="322" y="54" text-anchor="middle">busy</text><rect class="sN" x="350" y="34" width="44" height="30" rx="4"/><text class="sC" x="372" y="54" text-anchor="middle">busy</text><rect class="sG" x="400" y="34" width="44" height="30" rx="4"/><text class="sC" x="422" y="54" text-anchor="middle">free</text><rect class="sG" x="450" y="34" width="44" height="30" rx="4"/><text class="sC" x="472" y="54" text-anchor="middle">free</text><rect class="sG" x="500" y="34" width="44" height="30" rx="4"/><text class="sC" x="522" y="54" text-anchor="middle">free</text><text class="sT" x="140" y="104" text-anchor="end">VM: 8 vCPUs</text><rect class="sR" x="150" y="86" width="394" height="30" rx="4"/><text class="sT" x="347" y="106" text-anchor="middle">waits for 8 free cores at once (%CSTP, %RDY)</text><text class="sRt" x="30" y="150">An 8-vCPU VM that mostly uses 2 still needs all 8 scheduled together: it waits, and runs slower.</text></g>
+<g data-s="2-2"><text class="sS" x="140" y="54" text-anchor="end">cores</text><rect class="sN" x="150" y="34" width="44" height="30" rx="4"/><text class="sC" x="172" y="54" text-anchor="middle">busy</text><rect class="sN" x="200" y="34" width="44" height="30" rx="4"/><text class="sC" x="222" y="54" text-anchor="middle">busy</text><rect class="sN" x="250" y="34" width="44" height="30" rx="4"/><text class="sC" x="272" y="54" text-anchor="middle">busy</text><rect class="sN" x="300" y="34" width="44" height="30" rx="4"/><text class="sC" x="322" y="54" text-anchor="middle">busy</text><rect class="sN" x="350" y="34" width="44" height="30" rx="4"/><text class="sC" x="372" y="54" text-anchor="middle">busy</text><rect class="sG" x="400" y="34" width="44" height="30" rx="4"/><text class="sC" x="422" y="54" text-anchor="middle">free</text><rect class="sG" x="450" y="34" width="44" height="30" rx="4"/><text class="sC" x="472" y="54" text-anchor="middle">free</text><rect class="sG" x="500" y="34" width="44" height="30" rx="4"/><text class="sC" x="522" y="54" text-anchor="middle">free</text><text class="sT" x="140" y="104" text-anchor="end">VM: 2 vCPUs</text><rect class="sG" x="400" y="86" width="94" height="30" rx="4"/><text class="sT" x="447" y="106" text-anchor="middle">runs now</text><text class="sGt" x="30" y="150">Rightsized to 2 vCPUs it fits into the free cores immediately: less waiting, faster VM.</text></g>
+<text class="sS" x="360" y="176" text-anchor="middle">size from 30 days of real usage (peak + headroom), not from the vendor’s maximum</text>
+</svg><ol class="dia-steps">
+<li>Oversized: the VM waits for all its vCPUs to fit at once.</li>
+<li>Rightsized: it fits now.</li>
+</ol><figcaption>More vCPUs can make a VM slower. Removing vCPUs is the counter-intuitive fix interviewers like to hear.</figcaption></figure>
+
 
 <h3>From vSphere to cloud — the context of "Cloud Infrastructure Services"</h3>
 <p>Your business line has "Cloud" in its name; one paragraph of fluency goes a long way. The cloud <em>is</em> this module's ideas rented at scale:</p>
@@ -3931,6 +3976,15 @@ vLCM: hosts patched against a declared image, not ad-hoc VIBs</code></pre>
   <li><strong>root</strong> is the superuser (UID 0). Daily practice: log in as yourself and prefix admin commands with <code>sudo</code> — audited, revocable, safer.</li>
   <li>Get help: <code>man command</code>, <code>command --help</code>. Case-sensitive everywhere. <mark>Everything in Linux is a file</mark> — devices, sockets, even process info.</li>
 </ul>
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="The layers of a Linux system from top to bottom: you, connected over SSH; the bash shell that reads commands and runs programs; programs such as ls, systemctl, nginx and sshd; the kernel managing processes, memory, files, the network and drivers; and the hardware">
+<rect class="sB" x="14" y="14" width="692" height="32" rx="6"/><text class="sT" x="30" y="35">You</text><text class="sS" x="690" y="35" text-anchor="end">ssh admin@web01</text>
+<rect class="sA" x="34" y="54" width="652" height="32" rx="6"/><text class="sT" x="50" y="75">Shell (bash)</text><text class="sS" x="670" y="75" text-anchor="end">reads your command, runs programs</text>
+<rect class="sV" x="54" y="94" width="612" height="32" rx="6"/><text class="sT" x="70" y="115">Programs</text><text class="sS" x="650" y="115" text-anchor="end">ls, systemctl, nginx, sshd</text>
+<rect class="sW" x="74" y="134" width="572" height="32" rx="6"/><text class="sT" x="90" y="155">Kernel</text><text class="sS" x="630" y="155" text-anchor="end">processes, memory, files, network, drivers</text>
+<rect class="sN" x="94" y="174" width="532" height="32" rx="6"/><text class="sT" x="110" y="195">Hardware</text><text class="sS" x="610" y="195" text-anchor="end">CPU, RAM, disks, NICs</text>
+<text class="sS" x="360" y="226" text-anchor="middle">a distro = the kernel + programs + a package manager: Ubuntu/Debian (apt), RHEL/Rocky (dnf)</text>
+</svg><figcaption>Every command you type crosses these layers. "Everything is a file" is the kernel’s promise: disks, processes and settings all appear under <code>/dev</code>, <code>/proc</code> and <code>/sys</code>.</figcaption></figure>
+
 
 <h3>11.2 The filesystem hierarchy</h3>
 <p>One tree starting at <code>/</code> (no drive letters — disks are <em>mounted</em> onto directories):</p>
@@ -4638,6 +4692,17 @@ Add-ADGroupMember -Identity "VPN-Users" -Members a.hassan</code></pre>
   <tr><td class="num">6008</td><td>Unexpected shutdown</td><td>Crash forensics starting point</td></tr>
   <tr><td class="num">1074</td><td>Who/what initiated a restart</td><td>"Why did the server reboot?"</td></tr>
 </table></div>
+<figure class="dia"><svg viewBox="0 0 720 264" role="img" aria-label="The three Windows event logs to know and their key event IDs: System, for drivers, services and shutdowns, with 6008 unexpected shutdown, 1074 who restarted and 7036 service state changes; Application, for programs, with 1000 application crash and 1026 .NET errors; and Security, holding logons and account changes, on domain controllers for domain events, with 4624 successful logon, 4625 failed logon, 4740 lockout and 4720 user created">
+<rect class="sV" x="14" y="20" width="150" height="44" rx="8"/><text class="sT" x="89" y="40" text-anchor="middle">Event Viewer</text><text class="sC" x="89" y="56" text-anchor="middle">eventvwr.msc</text>
+<rect class="sA" x="200" y="84" width="506" height="42" rx="6" opacity=".9"/><text class="sT" x="212" y="102">System</text><text class="sC" x="212" y="118">6008 unexpected shutdown · 1074 who restarted · 7036 service state</text><text class="sS" x="694" y="102" text-anchor="end">drivers, services, shutdowns</text>
+<line class="sLm" x1="89" y1="64" x2="89" y2="105"/><line class="sLm" x1="89" y1="105" x2="198" y2="105" marker-end="url(#ahm)"/>
+<rect class="sB" x="200" y="134" width="506" height="42" rx="6" opacity=".9"/><text class="sT" x="212" y="152">Application</text><text class="sC" x="212" y="168">1000 app crash · 1026 .NET error</text><text class="sS" x="694" y="152" text-anchor="end">programs and their errors</text>
+<line class="sLm" x1="89" y1="64" x2="89" y2="155"/><line class="sLm" x1="89" y1="155" x2="198" y2="155" marker-end="url(#ahm)"/>
+<rect class="sR" x="200" y="184" width="506" height="42" rx="6" opacity=".9"/><text class="sT" x="212" y="202">Security (on DCs for domain events)</text><text class="sC" x="212" y="218">4624 logon · 4625 failed · 4740 lockout · 4720 user created</text><text class="sS" x="694" y="202" text-anchor="end">logons and account changes</text>
+<line class="sLm" x1="89" y1="64" x2="89" y2="205"/><line class="sLm" x1="89" y1="205" x2="198" y2="205" marker-end="url(#ahm)"/>
+<text class="sC" x="360" y="254" text-anchor="middle">Get-WinEvent -FilterHashtable @{LogName="System"; Id=6008,1074} -MaxEvents 20</text>
+</svg><figcaption>"Why did the server reboot?" → System log, 1074 and 6008. "Who logged in?" → Security log, 4624 with its logon type. Lockouts are logged on the domain controller, not on the user’s PC.</figcaption></figure>
+
 <pre><code>C:\&gt; whoami /groups              <span class="c"># my effective group memberships (access questions start here)</span>
 C:\&gt; gpresult /r                 <span class="c"># which GPOs applied, which were filtered out, from which DC</span>
 C:\&gt; nltest /dsgetdc:corp.local  <span class="c"># which DC am I talking to — the AD “ping”</span>
