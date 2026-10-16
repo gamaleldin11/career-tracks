@@ -365,6 +365,23 @@ Security is part of the design, not a layer added at the end ([[S9]] covers the 
 - **Supply chain:** pin and scan dependencies and container images; OWASP's 2025 Top 10 added software supply-chain failures as a category.
 - **Auditability:** who changed what, when, for anything involving money, health or personal data.
 
+<figure class="dia anim"><svg viewBox="0 0 720 176" role="img" aria-label="Animation: a request passes security by design layer by layer: the edge with TLS, a WAF, DDoS protection and rate limits; the gateway authenticates the token; the service authorises whether this user may do this action; the data is encrypted and scoped to the tenant; and the action is written to an audit log">
+<rect class="sB" x="14" y="46" width="96" height="50" rx="8"/><text class="sT" x="62" y="76" text-anchor="middle">Request</text>
+<rect class="sB" x="130" y="40" width="108" height="62" rx="8"/><text class="sT" x="184" y="76" text-anchor="middle">Edge</text><text class="sS" x="184" y="120" text-anchor="middle">TLS, WAF,</text><text class="sS" x="184" y="136" text-anchor="middle">DDoS, rate limits</text>
+<line class="sLm" x1="120" y1="71" x2="128" y2="71" marker-end="url(#ahm)"/>
+<rect class="sA" x="248" y="40" width="108" height="62" rx="8"/><text class="sT" x="302" y="76" text-anchor="middle">Gateway</text><text class="sS" x="302" y="120" text-anchor="middle">authenticate:</text><text class="sS" x="302" y="136" text-anchor="middle">token valid?</text>
+<line class="sLm" x1="238" y1="71" x2="246" y2="71" marker-end="url(#ahm)"/>
+<rect class="sV" x="366" y="40" width="108" height="62" rx="8"/><text class="sT" x="420" y="76" text-anchor="middle">Service</text><text class="sS" x="420" y="120" text-anchor="middle">authorise: may</text><text class="sS" x="420" y="136" text-anchor="middle">THIS user do it?</text>
+<line class="sLm" x1="356" y1="71" x2="364" y2="71" marker-end="url(#ahm)"/>
+<rect class="sG" x="484" y="40" width="108" height="62" rx="8"/><text class="sT" x="538" y="76" text-anchor="middle">Data</text><text class="sS" x="538" y="120" text-anchor="middle">encrypted,</text><text class="sS" x="538" y="136" text-anchor="middle">tenant-scoped</text>
+<line class="sLm" x1="474" y1="71" x2="482" y2="71" marker-end="url(#ahm)"/>
+<rect class="sN" x="602" y="40" width="108" height="62" rx="8"/><text class="sT" x="656" y="76" text-anchor="middle">Audit log</text><text class="sS" x="656" y="120" text-anchor="middle">who did what,</text><text class="sS" x="656" y="136" text-anchor="middle">and when</text>
+<line class="sLm" x1="592" y1="71" x2="600" y2="71" marker-end="url(#ahm)"/>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M110 71 L714 71"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+<text class="sM" x="360" y="22" text-anchor="middle">every layer checks again: "internal" is not a reason to trust</text>
+<text class="sS" x="360" y="166" text-anchor="middle">secrets in a vault, least-privilege identities between services, dependencies pinned and scanned</text>
+</svg><figcaption>Authentication happens once at the edge; authorisation happens in every service, because the question "may this user do this to this record?" is only answerable where the record lives.</figcaption></figure>
+
 ## SD4.12 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

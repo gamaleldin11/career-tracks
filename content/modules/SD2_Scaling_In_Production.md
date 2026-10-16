@@ -413,6 +413,26 @@ At small scale, engineers cost far more than servers. At large scale, the cloud 
 - **The usual leaks**: oversized instances running at 5% CPU, forgotten environments, **data egress** (moving data out of a cloud or between regions is billed per GB), chatty services calling each other across zones, logs kept forever at full detail, and per-request pricing (serverless functions, step functions, managed APIs) used for very high-volume work, which is exactly the Prime Video case.
 - **The usual levers**: autoscaling to zero at night for internal tools, reserved or committed-use capacity for the steady baseline, spot or preemptible instances for interruptible batch work, caching, compression, storage tiers (hot, cool, archive), and deleting what nobody uses.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Matching cloud pricing to the shape of the load over a day: a steady baseline of two instances runs all day on reserved or committed capacity; daytime load up to four instances and an evening peak up to six are covered by autoscaled on-demand instances; interruptible batch jobs use spot capacity">
+<line class="sLm" x1="70" y1="190" x2="670" y2="190"/>
+<line class="sLm" x1="70" y1="190" x2="70" y2="30"/>
+<text class="sS" x="62" y="194" text-anchor="end">0</text>
+<text class="sS" x="62" y="151.143" text-anchor="end">2</text>
+<text class="sS" x="62" y="108.286" text-anchor="end">4</text>
+<text class="sS" x="62" y="65.4286" text-anchor="end">6</text>
+<text class="sS" x="70" y="208" text-anchor="middle">00:00</text>
+<text class="sS" x="220" y="208" text-anchor="middle">06:00</text>
+<text class="sS" x="370" y="208" text-anchor="middle">12:00</text>
+<text class="sS" x="520" y="208" text-anchor="middle">18:00</text>
+<text class="sS" x="670" y="208" text-anchor="middle">24:00</text>
+<rect class="sG" x="70" y="147.143" width="600" height="42.8571" rx="0" opacity=".55"/><text class="sT" x="370" y="172.571" text-anchor="middle">steady baseline: reserved / committed (biggest discount)</text>
+<polygon class="sB" points="70.0,147.14285714285714 70.0,147.1 95.0,147.1 95.0,147.1 120.0,147.1 120.0,147.1 145.0,147.1 145.0,147.1 170.0,147.1 170.0,147.1 195.0,147.1 195.0,147.1 220.0,147.1 220.0,147.1 245.0,147.1 245.0,147.1 270.0,147.1 270.0,104.3 295.0,104.3 295.0,104.3 320.0,104.3 320.0,104.3 345.0,104.3 345.0,104.3 370.0,104.3 370.0,104.3 395.0,104.3 395.0,104.3 420.0,104.3 420.0,104.3 445.0,104.3 445.0,104.3 470.0,104.3 470.0,104.3 495.0,104.3 495.0,104.3 520.0,104.3 520.0,61.4 545.0,61.4 545.0,61.4 570.0,61.4 570.0,104.3 595.0,104.3 595.0,147.1 620.0,147.1 620.0,147.1 645.0,147.1 645.0,147.1 670.0,147.1 670.0,147.14285714285714" opacity=".55"/>
+<text class="sT" x="420" y="122.286" text-anchor="middle">daytime: autoscaled on-demand</text>
+<text class="sWt" x="557.5" y="53.4286" text-anchor="middle">evening peak</text>
+<text class="sS" x="370" y="230" text-anchor="middle">batch jobs that can be interrupted (re-index, reports): spot capacity at the deepest discount</text>
+<text class="sS" x="22" y="110" text-anchor="middle" transform="rotate(-90 22 110)">instances</text>
+</svg><figcaption>Buy the floor, rent the peaks: commit to the capacity you always use, autoscale the rest, and push interruptible work to spot. Illustrative load shape.</figcaption></figure>
+
 Many organisations run this as **FinOps**: engineering, finance and product share cost visibility and own their spend.
 
 ## SD2.12 Interview drill 🟢 ⭐
