@@ -593,7 +593,7 @@ C# forbids this; Python allows it. The cost is that "which method runs?" needs a
 
 This is also why the explicit `Father.__init__(...)` / `Mother.__init__(...)` style used here is fragile in deep hierarchies: it can call a shared grandparent twice. The cooperative pattern — every class calling `super().__init__(...)` — walks the MRO exactly once. For a two-parent case like this it makes no practical difference; for anything deeper, use `super()`.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Multiple inheritance: Child inherits from Father and Mother, which inherit from object; methods are looked up in the order Child, Father, Mother, object">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: multiple inheritance: Child inherits from Father and Mother, which inherit from object; methods are looked up in the order Child, Father, Mother, object">
 <rect class="sA" x="260" y="150" width="200" height="46" rx="8"/><text class="sT" x="360" y="171" text-anchor="middle">Child</text><text class="sC" x="360" y="187" text-anchor="middle">class Child(Father, Mother)</text>
 <rect class="sB" x="150" y="70" width="140" height="46" rx="8"/><text class="sT" x="220" y="98" text-anchor="middle">Father</text><rect class="sB" x="430" y="70" width="140" height="46" rx="8"/><text class="sT" x="500" y="98" text-anchor="middle">Mother</text><rect class="sN" x="290" y="10" width="140" height="40" rx="8"/><text class="sT" x="360" y="35" text-anchor="middle">object</text>
 <line class="sLm" x1="340" y1="150" x2="240" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="380" y1="150" x2="480" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="240" y1="70" x2="330" y2="52" marker-end="url(#ahm)"/><line class="sLm" x1="480" y1="70" x2="390" y2="52" marker-end="url(#ahm)"/>
@@ -602,6 +602,7 @@ This is also why the explicit `Father.__init__(...)` / `Mother.__init__(...)` st
 <circle class="sPw" cx="500" cy="140" r="10"/><text class="sX" x="500" y="144" text-anchor="middle">3</text>
 <circle class="sPw" cx="360" cy="66" r="10"/><text class="sX" x="360" y="70" text-anchor="middle">4</text>
 <text class="sC" x="590" y="196" text-anchor="middle">method lookup order</text><text class="sC" x="470" y="216" xml:space="preserve" style="white-space:pre">Child → Father → Mother → object</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M360 208 L220 152 L500 152 L360 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>With multiple parents, Python searches in method resolution order: left parent before right, each class once.</figcaption></figure>
 
 ### Multilevel inheritance
