@@ -274,7 +274,7 @@ Design points that interviewers probe:
 - **Watch queue depth and the age of the oldest message**, and scale workers on them; send poison messages to a **dead-letter queue** after a few retries.
 - Queues **move** load; they don't remove it. If workers are permanently slower than producers, the queue grows until something breaks. That needs more workers or **backpressure** ([[SD4.4]]).
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="A queue absorbing a burst, computed: arrivals run at 100 jobs a minute, jump to 300 a minute for five minutes, then drop to 50; workers process 150 a minute; the queue grows to 750 jobs at minute 10 and is empty again at minute 18, while the web tier never sees the burst">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: A queue absorbing a burst, computed: arrivals run at 100 jobs a minute, jump to 300 a minute for five minutes, then drop to 50; workers process 150 a minute; the queue grows to 750 jobs at minute 10 and is empty again at minute 18, while the web tier never sees the burst">
 <line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
 <line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text>
@@ -294,6 +294,7 @@ Design points that interviewers probe:
 <text class="sT" x="376" y="42">queue peaks at 750 jobs</text>
 <text class="sGt" x="668" y="164" text-anchor="end">workers: 150/min</text>
 <text class="sS" x="610" y="192" text-anchor="middle">empty again at 18 min</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M100 200 L130 200 L160 200 L190 200 L220 200 L250 170 L280 140 L310 110 L340 80 L370 50 L400 70 L430 90 L460 110 L490 130 L520 150 L550 170 L580 190 L610 200 L640 200 L670 200"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Computed minute by minute: the queue absorbs the burst (750 jobs at its peak) and the workers drain it by minute 18. Users only see a delay in background work, never errors. Watch queue depth and the age of the oldest message.</figcaption></figure>
 
 ## SD2.7 Stage 6: partitioning and sharding 🟡 ⭐
