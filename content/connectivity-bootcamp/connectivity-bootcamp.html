@@ -2655,7 +2655,7 @@ ping 192.168.1.1    <span class="c"># my LAN + switch + cable work? (gateway)</s
 ping 8.8.8.8        <span class="c"># routing + WAN + firewall work?</span>
 ping google.com     <span class="c"># DNS works?  → fails only here = DNS problem</span></code></pre>
 
-<figure class="dia"><svg viewBox="0 0 720 256" role="img" aria-label="The troubleshooting toolkit mapped to OSI layers: physical layer: link lights, cable tester, TDR and interface error counters; data link: arp, the switch MAC table and show interfaces; network: ipconfig, ping, traceroute and the routing table; transport: Test-NetConnection with a port, netcat and netstat or ss; application: nslookup or dig, curl and browser developer tools; Wireshark and tcpdump see every layer">
+<figure class="dia anim"><svg viewBox="0 0 720 256" role="img" aria-label="Animation: the troubleshooting toolkit mapped to OSI layers: physical layer: link lights, cable tester, TDR and interface error counters; data link: arp, the switch MAC table and show interfaces; network: ipconfig, ping, traceroute and the routing table; transport: Test-NetConnection with a port, netcat and netstat or ss; application: nslookup or dig, curl and browser developer tools; Wireshark and tcpdump see every layer">
 <rect class="sG" x="14" y="14" width="130" height="36" rx="6"/><text class="sT" x="79" y="37" text-anchor="middle">7 Application</text><rect class="sN" x="154" y="14" width="500" height="36" rx="6"/><text class="sS" x="166" y="37">nslookup / dig · curl -v · browser dev tools</text>
 <rect class="sV" x="14" y="58" width="130" height="36" rx="6"/><text class="sT" x="79" y="81" text-anchor="middle">4 Transport</text><rect class="sN" x="154" y="58" width="500" height="36" rx="6"/><text class="sS" x="166" y="81">Test-NetConnection -Port · nc -zv · netstat -ano / ss -tulpn</text>
 <rect class="sB" x="14" y="102" width="130" height="36" rx="6"/><text class="sT" x="79" y="125" text-anchor="middle">3 Network</text><rect class="sN" x="154" y="102" width="500" height="36" rx="6"/><text class="sS" x="166" y="125">ipconfig / ip a · ping · tracert / mtr · route print / ip route</text>
@@ -2663,6 +2663,8 @@ ping google.com     <span class="c"># DNS works?  → fails only here = DNS prob
 <rect class="sN" x="14" y="190" width="130" height="36" rx="6"/><text class="sT" x="79" y="213" text-anchor="middle">1 Physical</text><rect class="sN" x="154" y="190" width="500" height="36" rx="6"/><text class="sS" x="166" y="213">link lights · cable tester · TDR · interface error counters</text>
 <rect class="sW" x="664" y="14" width="42" height="212" rx="6"/><text class="sT" x="685" y="120" text-anchor="middle" transform="rotate(-90 685 120)">Wireshark / tcpdump: every layer</text>
 <text class="sS" x="360" y="246" text-anchor="middle">start low when the symptom is "no connection", start high when it is "one app is broken"</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M149 208 L149 32"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M149 32 L149 208"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
 </svg><figcaption>Pick the tool by the layer you are testing. A packet capture is the referee when two layers disagree.</figcaption></figure>
 
 <h3>8.3 Scenario walkthroughs (rehearse these aloud)</h3>
@@ -3133,7 +3135,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li><strong>Tiering</strong> — hot data automatically lives on flash, cold data on big slow disks.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 284" role="img" aria-label="Thin provisioning overcommit: six thin volumes of 3 terabytes promise 18 terabytes from a 10 terabyte pool; data actually written grows from 4 terabytes by half a terabyte a month, crosses the 80 percent alert at month 8 and fills the pool at month 12, when every volume in the pool stops accepting writes">
+<figure class="dia anim"><svg viewBox="0 0 720 284" role="img" aria-label="Animation: thin provisioning overcommit: six thin volumes of 3 terabytes promise 18 terabytes from a 10 terabyte pool; data actually written grows from 4 terabytes by half a terabyte a month, crosses the 80 percent alert at month 8 and fills the pool at month 12, when every volume in the pool stops accepting writes">
 <line class="sLm" x1="90" y1="230" x2="590" y2="230"/>
 <line class="sLm" x1="90" y1="230" x2="90" y2="40"/>
 <text class="sS" x="82" y="234" text-anchor="end">0 TB</text>
@@ -3154,6 +3156,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 <circle class="sPw" cx="410" cy="150" r="6"/><text class="sWt" x="402" y="138" text-anchor="end">month 8: act now</text>
 <circle class="sPr" cx="570" cy="130" r="7"/><text class="sRt" x="562" y="116" text-anchor="end">month 12: pool full</text>
 <text class="sS" x="340" y="274" text-anchor="middle">at 100%, every thin volume in the pool stops accepting writes at the same moment</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M90 190 L130 185 L170 180 L210 175 L250 170 L290 165 L330 160 L370 155 L410 150 L450 145 L490 140 L530 135 L570 130"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Thin provisioning is a loan against future capacity. It is safe only with an alert well before 100% and a plan (add disks, move volumes, delete old snapshots) triggered by it. Illustrative numbers.</figcaption></figure>
 
 <h3>9.6 Backup — the concepts interviews test</h3>
@@ -3170,7 +3173,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li>Tools worth naming: Veeam (the VMware world's favorite), Commvault, Windows Server Backup, Linux <code>rsync</code>/<code>tar</code>.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Backup types over a week: full backups copy everything daily; incrementals copy changes since the previous day; differentials copy all changes since Sunday's full">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: backup types over a week: full backups copy everything daily; incrementals copy changes since the previous day; differentials copy all changes since Sunday's full">
 <text class="sT" x="215" y="24" text-anchor="middle">Sun</text>
 <text class="sT" x="325" y="24" text-anchor="middle">Mon</text>
 <text class="sT" x="435" y="24" text-anchor="middle">Tue</text>
@@ -3195,6 +3198,10 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 <rect class="sV" x="504" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="545" y="179" text-anchor="middle">Δ since Sun</text>
 <rect class="sV" x="614" y="156" width="82" height="36" rx="5" opacity=".8"/><text class="sC" x="655" y="179" text-anchor="middle">Δ since Sun</text>
 <text class="sS" x="360" y="222" text-anchor="middle">restore Thursday: full = 1 set · incremental = Sun + Mon + Tue + Wed + Thu · differential = Sun + Thu</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M640 90 L670 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.600;1" path="M200 146 L670 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.600;0.602;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.760;1" path="M200 202 L230 202"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.760;0.762;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.800;0.880;1" path="M640 202 L670 202"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.798;0.802;0.880;0.882;1"/></circle>
 </svg><figcaption>Incrementals are fastest to take and slowest to restore; differentials grow through the week but restore from just two sets.</figcaption></figure>
 
 <h3>9.7 The Dell storage portfolio — names you must recognise</h3>
@@ -3922,7 +3929,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td>Memory</td><td><strong>SWCUR</strong> (host swap)</td><td class="num">0</td><td>Emergency — hypervisor paging guest RAM to disk; performance falls off a cliff</td></tr>
   <tr><td>Disk</td><td><strong>DAVG / KAVG / GAVG</strong></td><td class="num">&lt;20 / ~0 / &lt;25 ms</td><td>DAVG = the array is slow · KAVG = the host/queueing is the problem · GAVG = what the guest feels (D+K)</td></tr>
 </table></div>
-<figure class="dia"><svg viewBox="0 0 720 268" role="img" aria-label="The esxtop storage latency stack: the latency the guest sees, GAVG, is the time spent queued in the ESXi kernel, KAVG, plus the time the device and array take, DAVG; healthy is about 0.5 plus 4 milliseconds; a large KAVG means queueing on the host; a large DAVG means the fabric or array is slow">
+<figure class="dia anim"><svg viewBox="0 0 720 268" role="img" aria-label="Animation: the esxtop storage latency stack: the latency the guest sees, GAVG, is the time spent queued in the ESXi kernel, KAVG, plus the time the device and array take, DAVG; healthy is about 0.5 plus 4 milliseconds; a large KAVG means queueing on the host; a large DAVG means the fabric or array is slow">
 <rect class="sB" x="14" y="30" width="120" height="50" rx="8"/><text class="sT" x="74" y="53" text-anchor="middle">VM guest</text><text class="sS" x="74" y="69" text-anchor="middle">sees GAVG</text>
 <rect class="sA" x="200" y="30" width="150" height="50" rx="8"/><text class="sT" x="275" y="53" text-anchor="middle">ESXi kernel</text><text class="sS" x="275" y="69" text-anchor="middle">queues: KAVG</text>
 <rect class="sN" x="416" y="30" width="120" height="50" rx="8"/><text class="sT" x="476" y="60" text-anchor="middle">HBA + fabric</text>
@@ -3934,6 +3941,8 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <text class="sWt" x="14" y="160">host queueing</text><rect class="sA" x="60" y="168" width="360" height="18" rx="2"/><rect class="sV" x="420" y="168" width="80" height="18" rx="2"/><text class="sC" x="506" y="182">KAVG 18: fix the host</text>
 <text class="sRt" x="14" y="208">slow array</text><rect class="sA" x="60" y="216" width="20" height="18" rx="2"/><rect class="sV" x="80" y="216" width="500" height="18" rx="2"/><text class="sC" x="586" y="230">DAVG 25</text>
 <text class="sT" x="360" y="258" text-anchor="middle">GAVG = KAVG + DAVG: whichever part grew points at the layer to fix</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M74 38 L646 38"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.860;1" path="M646 76 L74 76"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.860;0.862;1"/></circle>
 </svg><figcaption>One subtraction separates "the host is the bottleneck" from "the array is". KAVG above about 2 ms is host-side queueing; high DAVG on many hosts at once is the array or the fabric.</figcaption></figure>
 
 <p>That one table lets you say: "I'd check CPU ready, ballooning, and DAVG before blaming the guest OS" — an L2 sentence from an associate's mouth.</p>
