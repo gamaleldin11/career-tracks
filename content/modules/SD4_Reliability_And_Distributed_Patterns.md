@@ -228,7 +228,7 @@ The defences:
 - **Cell-based architecture**: split the system into many identical, isolated copies ("cells"), each serving a subset of customers, so a failure or bad deploy hits one cell. AWS documents this pattern in its well-architected guidance; Shopify's "pods" ([[SD2.8]]) are a version of it.
 - **Chaos engineering**: deliberately inject failures in a controlled way to prove the system copes (Netflix's Chaos Monkey, 2011, randomly terminated production instances).
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Blast radius with and without cells: a bad deploy to one shared system affects every customer, while the same system split into eight identical cells, each serving a slice of customers, receives the deploy one cell at a time, so only cell 1, 12.5 percent of customers, is hit before the rollout halts">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: blast radius with and without cells: a bad deploy to one shared system affects every customer, while the same system split into eight identical cells, each serving a slice of customers, receives the deploy one cell at a time, so only cell 1, 12.5 percent of customers, is hit before the rollout halts">
 <text class="sM" x="180" y="22" text-anchor="middle">one shared system</text>
 <text class="sM" x="540" y="22" text-anchor="middle">eight cells</text>
 <rect class="sR" x="30" y="36" width="300" height="150" rx="10" opacity=".75"/><text class="sT" x="180" y="106" text-anchor="middle">bad deploy</text><text class="sRt" x="180" y="126" text-anchor="middle">100% of customers affected</text>
@@ -242,6 +242,8 @@ The defences:
 <rect class="sG" x="624" y="114" width="68" height="68" rx="8" opacity=".8"/><text class="sT" x="658" y="153" text-anchor="middle">cell 8</text>
 <text class="sS" x="540" y="210" text-anchor="middle">bad deploy hits cell 1 first: 12.5%, then halts</text>
 <text class="sS" x="180" y="210" text-anchor="middle">everything shares one fate</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M180 30 L180 86"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.550;1" path="M424 30 L424 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.550;0.552;1"/></circle>
 </svg><figcaption>Cells, zones and staged rollouts all apply the same idea: make every failure smaller than the whole.</figcaption></figure>
 
 ## SD4.8 Backups and disaster recovery 🟢 ⭐

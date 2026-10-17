@@ -188,7 +188,7 @@ builder.Build().Run();
 | **Runtime config** | The app fetches `/config.json` (or a `window.__CONFIG__` script written at container start) before bootstrapping | One build for all environments; values set by the deployment |
 | **Relative URLs** | Call `/api/...` and let the reverse proxy route | No API URL to configure at all, which is the simplest when same-origin |
 
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Build-time configuration produces a different bundle per environment; runtime configuration deploys one build everywhere with a config.json per environment">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: build-time configuration produces a different bundle per environment; runtime configuration deploys one build everywhere with a config.json per environment">
 <text class="sT" x="180" y="22" text-anchor="middle">build-time config</text><text class="sT" x="540" y="22" text-anchor="middle">runtime config</text>
 <rect class="sB" x="110" y="36" width="140" height="40" rx="8"/><text class="sT" x="180" y="61" text-anchor="middle">source</text>
 <line class="sLm" x1="180" y1="76" x2="66" y2="106" marker-end="url(#ahm)"/><rect class="sW" x="14" y="108" width="104" height="44" rx="8"/><text class="sT" x="66" y="128" text-anchor="middle">build (dev)</text><text class="sC" x="66" y="144" text-anchor="middle">apiUrl baked in</text>
@@ -201,6 +201,12 @@ builder.Build().Run();
 <line class="sLm" x1="540" y1="76" x2="542" y2="106" marker-end="url(#ahm)"/><rect class="sG" x="490" y="108" width="104" height="44" rx="8"/><text class="sT" x="542" y="128" text-anchor="middle">staging</text><text class="sC" x="542" y="144" text-anchor="middle">config.json</text>
 <line class="sLm" x1="540" y1="76" x2="658" y2="106" marker-end="url(#ahm)"/><rect class="sG" x="606" y="108" width="104" height="44" rx="8"/><text class="sT" x="658" y="128" text-anchor="middle">prod</text><text class="sC" x="658" y="144" text-anchor="middle">config.json</text>
 <text class="sGt" x="540" y="180" text-anchor="middle">one artifact; values set per environment</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M180 76 L66 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M180 76 L182 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.340;1" path="M180 76 L298 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M540 76 L426 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M540 76 L542 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M540 76 L658 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
 </svg><figcaption>"Build once, promote everywhere" needs runtime configuration. With same-origin relative URLs you may need neither.</figcaption></figure>
 
 ```ts
