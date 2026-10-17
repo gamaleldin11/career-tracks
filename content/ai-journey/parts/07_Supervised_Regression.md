@@ -128,6 +128,24 @@ An address is not useless — it contains a city, a postcode, a country. Those a
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Why identifiers must go, computed with scikit-learn on 500 synthetic rows: a decision tree trained on an ID column alone scores R squared 1.00 on training data and minus 1.19 on test data; on a real feature with unlimited depth it scores 1.00 and 0.77; limited to depth 4 it scores 0.92 and 0.85">
+<text class="sM" x="14" y="20">DecisionTreeRegressor, 500 rows, R² on train vs test</text>
+<line class="sLm" x1="300" y1="30" x2="300" y2="186"/>
+<text class="sS" x="300" y="200" text-anchor="middle">0</text>
+<text class="sS" x="460" y="200" text-anchor="middle">1.0</text>
+<text class="sS" x="140" y="200" text-anchor="middle">−1.0</text>
+<text class="sT" x="14" y="48">ID column only</text>
+<rect class="sB" x="300" y="52" width="160" height="12" rx="2" opacity=".6"/><text class="sC" x="466" y="62">train 1.00</text>
+<rect class="sR" x="109.6" y="66" width="190.4" height="12" rx="2"/><text class="sC" x="103.6" y="76" text-anchor="end">test -1.19</text>
+<text class="sT" x="14" y="100">real feature, unlimited depth</text>
+<rect class="sB" x="300" y="104" width="160" height="12" rx="2" opacity=".6"/><text class="sC" x="466" y="114">train 1.00</text>
+<rect class="sW" x="300" y="118" width="123.2" height="12" rx="2"/><text class="sC" x="429.2" y="128">test 0.77</text>
+<text class="sT" x="14" y="152">real feature, max_depth=4</text>
+<rect class="sB" x="300" y="156" width="147.2" height="12" rx="2" opacity=".6"/><text class="sC" x="453.2" y="166">train 0.92</text>
+<rect class="sG" x="300" y="170" width="136" height="12" rx="2"/><text class="sC" x="442" y="180">test 0.85</text>
+<text class="sRt" x="360" y="220" text-anchor="middle">perfect on train, worse than predicting the mean on test: the ID was memorised, not learned</text>
+</svg><figcaption>An ID is unique per row, so a flexible model can memorise it perfectly and learn nothing that transfers. Computed with <code>DecisionTreeRegressor</code> on synthetic data where the target depends only on the real feature.</figcaption></figure>
+
 ## 7.4 EDA 🟢
 
 ```python
@@ -234,6 +252,272 @@ The result drops into any pipeline and is automatically leak-free: fences learne
 `np.nanpercentile` rather than `np.percentile` because NaNs may still be present depending on step order — though here imputation runs first.
 
 ---
+
+<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="The IQRClipper on 1,000 skewed values, computed: the interquartile range runs from 13.3 to 30.8, so the upper bound Q3 plus 1.5 times the IQR is 57.1; 44 values above it, up to 135.9, are clipped to 57.1 and the mean falls from 24.7 to 23.7">
+<line class="sLm" x1="40" y1="120" x2="680" y2="120"/>
+<line class="sLm" x1="40" y1="116" x2="40" y2="124"/><text class="sS" x="40" y="140" text-anchor="middle">0</text>
+<line class="sLm" x1="131.429" y1="116" x2="131.429" y2="124"/><text class="sS" x="131.429" y="140" text-anchor="middle">20</text>
+<line class="sLm" x1="222.857" y1="116" x2="222.857" y2="124"/><text class="sS" x="222.857" y="140" text-anchor="middle">40</text>
+<line class="sLm" x1="314.286" y1="116" x2="314.286" y2="124"/><text class="sS" x="314.286" y="140" text-anchor="middle">60</text>
+<line class="sLm" x1="405.714" y1="116" x2="405.714" y2="124"/><text class="sS" x="405.714" y="140" text-anchor="middle">80</text>
+<line class="sLm" x1="497.143" y1="116" x2="497.143" y2="124"/><text class="sS" x="497.143" y="140" text-anchor="middle">100</text>
+<line class="sLm" x1="588.571" y1="116" x2="588.571" y2="124"/><text class="sS" x="588.571" y="140" text-anchor="middle">120</text>
+<line class="sLm" x1="680" y1="116" x2="680" y2="124"/><text class="sS" x="680" y="140" text-anchor="middle">140</text>
+<circle class="sPg" cx="57.4" cy="52.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="58.3" cy="52.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="61.0" cy="97.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="64.7" cy="95.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="68.3" cy="58.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="69.3" cy="63.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="69.7" cy="66.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="70.2" cy="84.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="70.6" cy="69.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="72.5" cy="69.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="72.9" cy="70.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="73.8" cy="92.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="75.7" cy="78.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="76.6" cy="80.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="77.0" cy="63.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="77.5" cy="50.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="78.4" cy="52.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="78.9" cy="72.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="79.3" cy="77.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="80.2" cy="86.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="80.2" cy="98.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="80.7" cy="98.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="81.1" cy="76.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="82.1" cy="84.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="82.5" cy="81.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="83.0" cy="55.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="83.4" cy="73.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="83.9" cy="72.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="84.3" cy="88.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="84.8" cy="98.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="85.7" cy="83.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="86.6" cy="93.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="87.1" cy="74.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="87.5" cy="50.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="88.0" cy="66.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="88.0" cy="90.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="88.9" cy="55.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="89.4" cy="60.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="89.8" cy="63.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="89.8" cy="54.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="90.3" cy="61.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="90.7" cy="60.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="91.2" cy="82.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="91.7" cy="51.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="92.1" cy="51.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="93.0" cy="91.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="93.5" cy="62.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="93.9" cy="64.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="94.4" cy="76.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="94.4" cy="73.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="94.9" cy="75.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="95.3" cy="53.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="95.8" cy="75.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="96.7" cy="58.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="97.6" cy="82.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="98.1" cy="55.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="98.5" cy="55.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="98.5" cy="76.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="99.0" cy="71.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="99.4" cy="54.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="100.3" cy="63.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="100.3" cy="75.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="100.8" cy="88.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="101.7" cy="83.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="102.2" cy="65.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="102.6" cy="91.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="103.5" cy="54.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="103.5" cy="86.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="104.5" cy="54.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="104.5" cy="84.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="104.9" cy="52.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="105.4" cy="64.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="105.8" cy="74.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="106.3" cy="74.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="106.7" cy="67.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="107.2" cy="70.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="107.7" cy="84.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="108.1" cy="89.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="109.5" cy="74.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="109.5" cy="53.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="109.9" cy="68.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="110.9" cy="96.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="110.9" cy="59.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="111.3" cy="63.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="111.8" cy="54.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="112.2" cy="90.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="112.7" cy="62.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="113.1" cy="97.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="113.6" cy="67.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="114.1" cy="86.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="114.1" cy="88.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="115.0" cy="56.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="115.4" cy="94.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="115.9" cy="73.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="115.9" cy="57.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="116.3" cy="87.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="116.8" cy="89.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="116.8" cy="56.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="117.7" cy="78.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="118.2" cy="64.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="119.1" cy="98.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="119.5" cy="81.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="120.0" cy="91.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="120.9" cy="66.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="120.9" cy="95.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="122.3" cy="52.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="122.7" cy="98.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="123.2" cy="63.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="123.7" cy="98.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="124.1" cy="87.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="124.6" cy="59.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="124.6" cy="92.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="125.0" cy="90.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="125.5" cy="65.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="125.9" cy="80.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="126.9" cy="97.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="126.9" cy="50.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="127.3" cy="92.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="127.8" cy="98.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="128.2" cy="82.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="128.7" cy="69.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="129.1" cy="62.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="129.6" cy="94.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="130.5" cy="83.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="131.0" cy="98.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="131.4" cy="77.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="132.3" cy="61.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="133.3" cy="63.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="133.3" cy="54.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="134.2" cy="62.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="135.1" cy="56.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="135.5" cy="64.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="136.5" cy="76.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="136.5" cy="88.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="137.4" cy="67.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="137.8" cy="84.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="139.2" cy="94.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="139.7" cy="77.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="140.6" cy="56.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="141.0" cy="93.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="141.0" cy="70.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="141.5" cy="80.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="142.9" cy="74.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="143.3" cy="92.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="143.8" cy="52.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="144.2" cy="87.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="144.7" cy="69.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="145.6" cy="79.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="146.1" cy="99.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="147.0" cy="72.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="147.0" cy="93.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="147.4" cy="97.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="148.8" cy="98.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="149.3" cy="91.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="149.7" cy="95.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="150.6" cy="68.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="152.0" cy="74.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="152.5" cy="50.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="153.4" cy="53.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="153.8" cy="50.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="155.2" cy="88.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="156.1" cy="77.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="156.6" cy="87.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="157.0" cy="70.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="157.9" cy="68.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="159.3" cy="60.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="159.8" cy="64.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="160.7" cy="87.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="162.1" cy="78.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="163.4" cy="73.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="164.8" cy="99.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="166.6" cy="98.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="168.0" cy="79.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="168.5" cy="94.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="168.9" cy="63.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="169.8" cy="88.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="170.7" cy="95.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="171.7" cy="90.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="173.0" cy="88.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="173.9" cy="89.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="174.9" cy="74.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="175.3" cy="76.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="176.7" cy="84.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="176.7" cy="67.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="177.6" cy="89.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="179.0" cy="54.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="179.9" cy="51.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="180.8" cy="63.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="181.3" cy="78.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="183.5" cy="74.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="184.5" cy="70.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="185.4" cy="97.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="185.8" cy="79.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="186.7" cy="73.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="188.1" cy="90.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="189.0" cy="95.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="191.3" cy="59.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="191.8" cy="81.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="192.7" cy="74.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="193.6" cy="53.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="194.5" cy="69.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="198.6" cy="85.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="199.1" cy="50.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="201.8" cy="81.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="202.3" cy="99.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="205.9" cy="65.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="207.3" cy="94.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="209.1" cy="84.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="212.3" cy="58.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="214.6" cy="66.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="216.9" cy="99.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="219.2" cy="77.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="221.0" cy="79.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="223.3" cy="75.7" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="224.2" cy="89.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="225.6" cy="70.6" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="229.3" cy="96.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="231.1" cy="85.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="233.8" cy="81.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="234.3" cy="53.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="235.7" cy="96.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="237.5" cy="62.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="238.4" cy="90.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="239.8" cy="71.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="240.7" cy="80.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="244.3" cy="76.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="246.6" cy="62.3" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="248.0" cy="80.2" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="249.8" cy="93.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="251.2" cy="93.9" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="254.4" cy="96.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="258.1" cy="57.5" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="261.7" cy="68.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="268.1" cy="52.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="274.1" cy="65.4" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="282.7" cy="98.8" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="286.4" cy="67.0" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="289.6" cy="61.1" r="2.2" opacity=".7"/>
+<circle class="sPg" cx="292.3" cy="63.8" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="301.9" cy="75.1" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="320.7" cy="82.1" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="328.9" cy="77.1" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="345.4" cy="60.1" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="353.1" cy="86.6" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="359.1" cy="73.7" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="371.0" cy="76.1" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="376.9" cy="52.3" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="458.3" cy="59.8" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="482.1" cy="53.4" r="2.2" opacity=".7"/>
+<circle class="sPr" cx="547.4" cy="58.2" r="2.2" opacity=".7"/>
+<rect class="sB" x="100.8" y="112" width="80" height="16" rx="2" opacity=".6"/><text class="sC" x="140.8" y="162" text-anchor="middle">IQR 13.3–30.8</text>
+<line class="sLr" x1="301.029" y1="30" x2="301.029" y2="130" style="stroke-width:2"/><text class="sRt" x="307.029" y="40">upper = Q3 + 1.5 × IQR = 57.1</text>
+<text class="sS" x="307.029" y="58">44 of 1,000 values above it (max 135.9) are clipped to 57.1</text>
+<text class="sS" x="360" y="190" text-anchor="middle">mean before 24.7, after 23.7: the bounds are learned in fit() on TRAIN only, then applied to test</text>
+</svg><figcaption>Computed by running the transformer’s logic on a lognormal sample (every fourth value drawn). Because <code>fit()</code> stores the bounds, the pipeline clips test data with training statistics, with no leakage.</figcaption></figure>
 
 ## 7.7 The preprocessing pipeline 🟢
 

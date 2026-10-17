@@ -416,6 +416,19 @@ Never put credentials in the connection string in source. Use environment variab
 
 ---
 
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: the SQL to pandas bridge: a SQL Server table is reached through a SQLAlchemy engine; pd.read_sql runs a query that filters and aggregates in the database and returns only the needed rows as a DataFrame">
+<rect class="sV" x="14" y="50" width="140" height="56" rx="8"/><text class="sT" x="84" y="76" text-anchor="middle">SQL Server</text><text class="sC" x="84" y="92" text-anchor="middle">sales.orders</text>
+<rect class="sA" x="200" y="50" width="150" height="56" rx="8"/><text class="sT" x="275" y="76" text-anchor="middle">SQLAlchemy engine</text><text class="sC" x="275" y="92" text-anchor="middle">connection pool</text>
+<rect class="sB" x="396" y="50" width="150" height="56" rx="8"/><text class="sT" x="471" y="76" text-anchor="middle">pd.read_sql(query)</text><text class="sC" x="471" y="92" text-anchor="middle">filter in SQL</text>
+<rect class="sG" x="592" y="50" width="114" height="56" rx="8"/><text class="sT" x="649" y="76" text-anchor="middle">DataFrame</text><text class="sC" x="649" y="92" text-anchor="middle">small result</text>
+<line class="sLm" x1="154" y1="78" x2="200" y2="78" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="78" x2="396" y2="78" marker-end="url(#ahm)"/>
+<line class="sLm" x1="546" y1="78" x2="592" y2="78" marker-end="url(#ahm)"/>
+<text class="sGt" x="360" y="140" text-anchor="middle">push WHERE, GROUP BY and joins to the database; pull the small result into pandas</text>
+<text class="sRt" x="360" y="160" text-anchor="middle">reading SELECT * of a 50-million-row table into memory is the classic mistake</text>
+<circle class="sPg" r="6"><animateMotion dur="4s" repeatCount="indefinite" path="M84 112 L649 112"/></circle>
+</svg><figcaption>The database is better at filtering and joining big tables than pandas is; let it do that part and bring back only the result.</figcaption></figure>
+
 ## 12.5 What to practise 🟢
 
 Since you have the SQL basics, the highest-value practice is:
