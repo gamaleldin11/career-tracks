@@ -113,7 +113,7 @@ Fixes: async APIs, **streams** for big data, **`worker_threads`** for CPU work, 
 > [!term] Semantic versioning (semver)
 > `MAJOR.MINOR.PATCH`: major for breaking changes, minor for features, patch for fixes. **`^5.1.0`** accepts any `5.x.x` ≥ 5.1.0; **`~5.1.0`** accepts only `5.1.x`; an exact `5.1.0` pins it.
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Version ranges on a number line: an exact pin matches only 5.1.0, a tilde range allows patch updates up to 5.2.0, a caret range allows minor updates up to 6.0.0">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: Version ranges on a number line: an exact pin matches only 5.1.0, a tilde range allows patch updates up to 5.2.0, a caret range allows minor updates up to 6.0.0">
 <line class="sLm" x1="150" y1="150" x2="700" y2="150" marker-end="url(#ahm)"/>
 <line class="sLm" x1="170" y1="144" x2="170" y2="156"/><text class="sC" x="170" y="172" text-anchor="middle">5.0.9</text>
 <line class="sLm" x1="240" y1="144" x2="240" y2="156"/><text class="sC" x="240" y="172" text-anchor="middle">5.1.0</text>
@@ -127,6 +127,8 @@ Fixes: async APIs, **streams** for big data, **`worker_threads`** for CPU work, 
 <text class="sM" x="140" y="114" text-anchor="end">"^5.1.0"</text><rect class="sA" x="240" y="104" width="402" height="16" rx="8"/><text class="sRt" x="652" y="117">✗</text>
 <line class="sD" x1="240" y1="40" x2="240" y2="150"/>
 <text class="sS" x="380" y="212" text-anchor="middle">the lock file pins what was actually installed; npm ci reproduces it exactly</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M240 82 L402 82"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.800;1" path="M240 112 L642 112"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.800;0.802;1"/></circle>
 </svg><figcaption>Which versions each range accepts. <code>^</code> is npm's default and trusts authors to follow semver.</figcaption></figure>
 
 - Commit **`package-lock.json`**; install with **`npm ci`** in CI and Docker (exact, reproducible, fails if the lock file is out of date).

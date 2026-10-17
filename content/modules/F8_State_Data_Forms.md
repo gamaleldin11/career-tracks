@@ -200,7 +200,7 @@ React 19's `useOptimistic` does the same for a component's own state ([[F6.5]]).
 
 ## F8.6 The URL is state 🟢 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="The URL as state: in /invoices?status=overdue&amp;sort=-dueDate&amp;page=2&amp;q=nile the query string holds the filter, sort, page and search text, so a refresh, the back button, a shared link and a bookmark all restore the same view, which in-memory component state cannot do">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: the URL as state: in /invoices?status=overdue&amp;sort=-dueDate&amp;page=2&amp;q=nile the query string holds the filter, sort, page and search text, so a refresh, the back button, a shared link and a bookmark all restore the same view, which in-memory component state cannot do">
 <rect class="sN" x="14" y="20" width="692" height="40" rx="8"/>
 <text class="sT" x="32" y="45">/invoices</text>
 <line class="sLm" x1="71.5" y1="56" x2="71.5" y2="76" opacity=".6"/><text class="sS" x="71.5" y="90" text-anchor="middle">page</text>
@@ -221,6 +221,7 @@ React 19's `useOptimistic` does the same for a component's own state ([[F6.5]]).
 <rect class="sG" x="366" y="112" width="164" height="50" rx="8"/><text class="sT" x="448" y="135" text-anchor="middle">share link</text><text class="sS" x="448" y="151" text-anchor="middle">colleague sees the same</text>
 <rect class="sG" x="542" y="112" width="164" height="50" rx="8"/><text class="sT" x="624" y="135" text-anchor="middle">bookmark</text><text class="sS" x="624" y="151" text-anchor="middle">works next week</text>
 <text class="sRt" x="360" y="186" text-anchor="middle">state kept only in React/Angular memory loses all four</text>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M14 66 L560 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
 </svg><figcaption>If a user would be annoyed to lose it on refresh, it belongs in the URL. Keep the URL the source of truth and derive component state from it.</figcaption></figure>
 
 Put anything a user would expect to **survive a refresh, work with the back button, or share in a link** into the URL: filters, search text, sort, page, selected tab, an open detail panel's ID.

@@ -268,7 +268,7 @@ for (let j = 0; j < 3; j++) setTimeout(() => console.log(j), 0);   // 0 1 2
 
 With `var` there is **one** `i` for the whole function; by the time the callbacks run, it's 3. With `let`, each iteration gets a **new binding**, and each callback closes over its own.
 
-<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="With var all three callbacks share one variable that ends at 3; with let each iteration has its own binding">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: with var all three callbacks share one variable that ends at 3; with let each iteration has its own binding">
 <text class="sM" x="180" y="22" text-anchor="middle">for (var i …)</text><text class="sM" x="540" y="22" text-anchor="middle">for (let j …)</text>
 <rect class="sR" x="130" y="120" width="100" height="44" rx="8"/><text class="sT" x="180" y="140" text-anchor="middle">one i</text><text class="sC" x="180" y="156" text-anchor="middle">ends at 3</text>
 <rect class="sB" x="30" y="44" width="90" height="34" rx="6"/><text class="sC" x="75" y="66" text-anchor="middle">callback 1</text><line class="sLr" x1="75" y1="78" x2="170" y2="118" marker-end="url(#ahr)"/>
@@ -280,6 +280,12 @@ With `var` there is **one** `i` for the whole function; by the time the callback
 <rect class="sB" x="610" y="44" width="90" height="34" rx="6"/><text class="sC" x="655" y="66" text-anchor="middle">callback 3</text><line class="sLg" x1="655" y1="78" x2="655" y2="118" marker-end="url(#ahg)"/><rect class="sG" x="610" y="120" width="90" height="44" rx="8"/><text class="sT" x="655" y="140" text-anchor="middle">j = 2</text><text class="sC" x="655" y="156" text-anchor="middle">own binding</text>
 <text class="sGt" x="540" y="192" text-anchor="middle">prints 0 1 2</text>
 <line class="sD" x1="360" y1="12" x2="360" y2="200"/>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M75 78 L170 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M185 78 L180 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M295 78 L190 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.650;1" path="M435 78 L435 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.650;0.652;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.650;1" path="M545 78 L545 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.650;0.652;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.650;1" path="M655 78 L655 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.650;0.652;1"/></circle>
 </svg><figcaption>The loop question as a picture: <code>var</code> gives the whole function one binding; <code>let</code> gives every iteration a fresh one.</figcaption></figure>
 
 > [!say]
