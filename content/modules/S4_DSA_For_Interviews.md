@@ -444,7 +444,7 @@ bool IsValid(string s)                            // "({[]})" → true, "(]" →
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Tracing the bracket checker: for the string with nested brackets each opener is pushed and each closer pops its matching opener, leaving an empty stack, so it is valid; for an opening parenthesis followed by a closing square bracket, the pop finds a parenthesis where a square bracket was needed, so it is invalid">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: tracing the bracket checker: for the string with nested brackets each opener is pushed and each closer pops its matching opener, leaving an empty stack, so it is valid; for an opening parenthesis followed by a closing square bracket, the pop finds a parenthesis where a square bracket was needed, so it is invalid">
 <text class="sM" x="14" y="22">IsValid("({[]})")</text>
 <rect class="sB" x="14" y="34" width="64" height="28" rx="6"/><text class="sT" x="46" y="53" text-anchor="middle">(</text>
 <text class="sS" x="46" y="78" text-anchor="middle">push</text>
@@ -485,6 +485,8 @@ bool IsValid(string s)                            // "({[]})" → true, "(]" →
 <line class="sLm" x1="602" y1="196" x2="658" y2="196"/>
 <text class="sS" x="630" y="188" text-anchor="middle">empty</text>
 <text class="sRt" x="591" y="222" text-anchor="middle">')' expected, got ']' → false</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.600;1" path="M46 29 L436 29"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.600;0.602;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.800;1" path="M552 29 L630 29"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.800;0.802;1"/></circle>
 </svg><figcaption>The stack after each character, traced by running the algorithm: most recent opener on top, so the innermost pair always closes first.</figcaption></figure>
 
 > [!term] Monotonic stack

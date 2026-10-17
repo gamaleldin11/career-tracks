@@ -924,7 +924,7 @@ A wins in both groups yet loses overall, because doctors gave A mostly the hard 
 
 ## S6.9 A/B testing from start to finish 🟢 🟡 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 120" role="img" aria-label="A/B testing steps: hypothesis, metrics, sample size, randomise, run, check, analyse, decide">
+<figure class="dia anim"><svg viewBox="0 0 720 120" role="img" aria-label="Animation: A/B testing steps: hypothesis, metrics, sample size, randomise, run, check, analyse, decide">
 <g class="sT" text-anchor="middle">
 <rect class="sA" x="10" y="30" width="80" height="54" rx="8"/><text x="50" y="62">Hypothesis</text>
 <rect class="sA" x="100" y="30" width="80" height="54" rx="8"/><text x="140" y="62">Metrics</text>
@@ -936,6 +936,7 @@ A wins in both groups yet loses overall, because doctors gave A mostly the hard 
 <rect class="sG" x="640" y="30" width="70" height="54" rx="8"/><text x="675" y="62">Decide</text>
 </g>
 <text class="sS" x="10" y="110">Everything left of "Randomise" is decided before any data is collected.</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M10 93 L710 93"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>The steps of a trustworthy experiment. The left half is planned before launch; peeking and changing plans midway is the most common way experiments go wrong.</figcaption></figure>
 
 **1. Hypothesis.** "Showing delivery fees on the product page (instead of at checkout) will **increase completed orders**, because fewer people abandon at the surprise."

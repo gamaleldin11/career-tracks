@@ -329,7 +329,7 @@ docker exec db pg_dump -U app finsight > "$BACKUP_DIR/$(date +%F).sql"
 | Isolation | Stronger (hypervisor boundary) | Weaker (shared kernel), so harden it |
 | Typical use | Running different OSes, strong tenant isolation | Packaging and shipping applications |
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Virtual machines each run their own guest kernel on a hypervisor; containers share the host kernel">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: virtual machines each run their own guest kernel on a hypervisor; containers share the host kernel">
 <text class="sT" x="170" y="22" text-anchor="middle">Virtual machines</text>
 <rect class="sA" x="10" y="36" width="150" height="30" rx="5"/><text class="sC" x="85" y="55" text-anchor="middle">App A</text>
 <rect class="sA" x="180" y="36" width="150" height="30" rx="5"/><text class="sC" x="255" y="55" text-anchor="middle">App B</text>
@@ -351,6 +351,8 @@ docker exec db pg_dump -U app finsight > "$BACKUP_DIR/$(date +%F).sql"
 <rect class="sB" x="380" y="182" width="320" height="30" rx="5"/><text class="sC" x="540" y="201" text-anchor="middle">hardware</text>
 <text class="sWt" x="170" y="236" text-anchor="middle">each VM boots a whole OS: GBs, minutes</text>
 <text class="sGt" x="540" y="236" text-anchor="middle">each container is an isolated process: MBs, seconds</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.750;1" path="M343 212 L343 36"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.750;0.752;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M368 212 L368 36"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
 </svg><figcaption>Where the boundary sits. A VM brings its own kernel; containers share one, isolated by namespaces and limited by cgroups.</figcaption></figure>
 
 On Windows and macOS, Docker Desktop runs a small Linux VM behind the scenes (WSL 2 on Windows), which is why Linux containers work there.

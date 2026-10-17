@@ -258,7 +258,7 @@ The routine:
 | Copy one commit onto the current branch | `git cherry-pick <sha>` | No (new commit) |
 | "I lost a commit after a bad reset or rebase" | `git reflog`, then `git reset --hard <sha>` or `git branch rescue <sha>` | — |
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="What git reset --soft, --mixed and --hard change: the branch pointer, the staging area and the working tree">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: what git reset --soft, --mixed and --hard change: the branch pointer, the staging area and the working tree">
 <line class="sLm" x1="40" y1="40" x2="86" y2="40"/><circle class="sB" cx="100" cy="40" r="14"/><text class="sT" x="100" y="45" text-anchor="middle">A</text>
 <line class="sLm" x1="114" y1="40" x2="166" y2="40"/><circle class="sA" cx="180" cy="40" r="14"/><text class="sT" x="180" y="45" text-anchor="middle">B</text>
 <line class="sD" x1="194" y1="40" x2="246" y2="40"/><circle class="sN" cx="260" cy="40" r="14" stroke-dasharray="3 3"/><text class="sC" x="260" y="45" text-anchor="middle">C</text>
@@ -267,6 +267,7 @@ The routine:
 <text class="sM" x="20" y="146">--soft</text><rect class="sW" x="190" y="128" width="170" height="28" rx="6"/><text class="sC" x="275" y="146" text-anchor="middle">moved to B</text><rect class="sG" x="370" y="128" width="170" height="28" rx="6"/><text class="sC" x="455" y="146" text-anchor="middle">kept: C's changes staged</text><rect class="sG" x="550" y="128" width="170" height="28" rx="6"/><text class="sC" x="635" y="146" text-anchor="middle">kept</text>
 <text class="sM" x="20" y="186">--mixed</text><text class="sC" x="20" y="200">(default)</text><rect class="sW" x="190" y="168" width="170" height="28" rx="6"/><text class="sC" x="275" y="186" text-anchor="middle">moved to B</text><rect class="sW" x="370" y="168" width="170" height="28" rx="6"/><text class="sC" x="455" y="186" text-anchor="middle">reset to match B</text><rect class="sG" x="550" y="168" width="170" height="28" rx="6"/><text class="sC" x="635" y="186" text-anchor="middle">kept: changes unstaged</text>
 <text class="sM" x="20" y="226">--hard</text><rect class="sW" x="190" y="208" width="170" height="28" rx="6"/><text class="sC" x="275" y="226" text-anchor="middle">moved to B</text><rect class="sW" x="370" y="208" width="170" height="28" rx="6"/><text class="sC" x="455" y="226" text-anchor="middle">reset to match B</text><rect class="sR" x="550" y="208" width="170" height="28" rx="6"/><text class="sC" x="635" y="226" text-anchor="middle">overwritten: edits lost</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.450;1" path="M260 64 Q220 84 186 64"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.450;0.452;1"/></circle>
 </svg><figcaption>The three reset modes differ only in how far the reset reaches. Uncommitted edits destroyed by <code>--hard</code> are the one thing reflog can't bring back.</figcaption></figure>
 
 > [!term] reflog
