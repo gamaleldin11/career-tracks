@@ -309,6 +309,7 @@ onLCP(send); onINP(send); onCLS(send);
 
 | Question | Strong short answer |
 |---|---|
+| `defer` vs `async` scripts? | Both download in parallel with parsing. `defer` runs after parsing, in document order (app code); `async` runs as soon as it arrives, in any order (independent scripts such as analytics). A plain script blocks parsing. |
 | What are the Core Web Vitals? | LCP (loading, ≤ 2.5 s), INP (responsiveness, ≤ 200 ms), CLS (stability, ≤ 0.1), at the 75th percentile of real users. |
 | What replaced FID? | INP, in March 2024; it measures the full latency of all interactions, not just the first input's delay. |
 | How do you improve LCP? | Faster TTFB (caching, CDN, SSR), discover the LCP image early with preload and fetchpriority, optimise its size and format, remove render-blocking resources. |

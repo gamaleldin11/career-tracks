@@ -401,6 +401,7 @@ RecurringJob.AddOrUpdate<ICfoAgentJob>("nightly-cfo-agent", j => j.RunAsync(), C
 
 | Question | Strong short answer |
 |---|---|
+| A background job keeps failing. What should happen? | Automatic retries with growing delays and jitter for transient errors, an idempotent job so a retry does no harm, then a dead-letter or Failed state with an alert for a human after the retry budget is spent. |
 | What is cache-aside? | Read the cache; on a miss read the source and populate the cache; the app manages the cache explicitly. |
 | How do you invalidate a cache? | Evict on writes by key or tag, version keys, plus a TTL as a safety net. |
 | What's a cache stampede? | Many requests missing the same expired key at once and hammering the database; fix with per-key locking, jitter or early refresh. |

@@ -375,6 +375,7 @@ Your app is mostly other people's code. A typical Angular or React project has h
 
 | Question | Strong short answer |
 |---|---|
+| Hash vs HMAC vs encryption? | A hash is a keyless one-way fingerprint; an HMAC is a hash keyed with a shared secret, proving who sent the message and that it was not changed (webhook signatures); encryption is reversible with a key and hides the content. |
 | How do you prevent SQL injection? | Parameterised queries everywhere (LINQ, FromSql with interpolation, Dapper parameters), never concatenation, and allow-lists for identifiers like sort columns. |
 | What's XSS and how do you stop it? | Attacker script running in a victim's session; contextual output encoding (framework default), sanitising user HTML, a strict CSP, and HttpOnly cookies. |
 | What's CSRF? | A third-party site making the victim's browser send an authenticated request using its cookies; stopped by SameSite cookies and anti-forgery tokens. |
