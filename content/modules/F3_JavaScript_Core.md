@@ -364,7 +364,7 @@ class SavingsAccount extends Account {
 > [!say]
 > "JavaScript inheritance is prototype-based: objects link to a prototype and property lookups walk that chain. The class keyword is syntax over the same mechanism; methods end up on the prototype and extends links the prototypes. Hash-prefixed fields are genuinely private."
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Prototype chain from an instance through SavingsAccount.prototype and Account.prototype to Object.prototype, with the lookup of deposit">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: prototype chain from an instance through SavingsAccount.prototype and Account.prototype to Object.prototype, with the lookup of deposit">
 <rect class="sA" x="10" y="40" width="160" height="56" rx="8"/><text class="sC" x="90" y="62" text-anchor="middle">savings</text><text class="sM" x="90" y="82" text-anchor="middle">owner · #balance</text>
 <line class="sLm" x1="170" y1="68" x2="180" y2="68" marker-end="url(#ahm)"/>
 <rect class="sB" x="182" y="40" width="160" height="56" rx="8"/><text class="sC" x="262" y="62" text-anchor="middle">SavingsAccount.prototype</text><text class="sM" x="262" y="82" text-anchor="middle">addInterest()</text>
@@ -377,6 +377,8 @@ class SavingsAccount extends Account {
 <path class="sLw" d="M90 100 C90 140 250 140 250 102" marker-end="url(#ahw)"/><text class="sWt" x="170" y="152" text-anchor="middle">not here</text>
 <path class="sLg" d="M250 100 C250 160 422 160 422 102" marker-end="url(#ahg)"/><text class="sGt" x="336" y="170" text-anchor="middle">found: deposit()</text>
 <text class="sS" x="360" y="196" text-anchor="middle">savings.deposit(100): look on the object, then up the chain until found (or null → undefined)</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M90 100 C90 140 250 140 250 102"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M250 100 C250 160 422 160 422 102"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption><code>class</code> and <code>extends</code> build exactly this chain. Methods live once on the prototypes, not on every instance.</figcaption></figure>
 
 ## F3.7 Objects, arrays and immutability 🟢 ⭐

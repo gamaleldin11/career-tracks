@@ -279,7 +279,7 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-r4nd0m'; o
 - A **salt** (random per user, stored with the hash) makes identical passwords hash differently and defeats precomputed tables.
 - **Never** plain SHA-256 or MD5: they're built to be fast, which helps attackers try billions of guesses per second.
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Password storage: password plus random salt through Argon2id, storing salt, parameters and hash; login repeats the computation and compares">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: password storage: password plus random salt through Argon2id, storing salt, parameters and hash; login repeats the computation and compares">
 <text class="sT" x="16" y="30">Sign-up</text>
 <rect class="sB" x="90" y="14" width="120" height="34" rx="8"/><text class="sC" x="150" y="36" text-anchor="middle">"correct horse…"</text><text class="sX" x="222" y="36" text-anchor="middle">+</text><rect class="sV" x="236" y="14" width="120" height="34" rx="8"/><text class="sC" x="296" y="36" text-anchor="middle">random salt</text>
 <line class="sLm" x1="358" y1="31" x2="392" y2="31" marker-end="url(#ahm)"/><rect class="sW" x="396" y="10" width="120" height="42" rx="8"/><text class="sT" x="456" y="29" text-anchor="middle">Argon2id</text><text class="sC" x="456" y="45" text-anchor="middle">slow on purpose</text>
@@ -292,6 +292,12 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-r4nd0m'; o
 <text class="sT" x="16" y="176">Why it works:</text>
 <text class="sS" x="130" y="176">the salt means identical passwords get different hashes, so one guess can't test every account;</text>
 <text class="sS" x="130" y="196">the slowness means each guess costs real time and memory, even on GPUs.</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.060;1" path="M358 31 L392 31"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.060;0.062;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.070;0.300;1" path="M400 52 L512 52"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.068;0.072;0.300;0.302;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.310;0.370;1" path="M518 31 L548 31"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.308;0.312;0.370;0.372;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.540;1" path="M358 117 L392 117"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.540;0.542;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.780;1" path="M400 138 L512 138"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.780;0.782;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.790;0.850;1" path="M518 117 L548 117"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.788;0.792;0.850;0.852;1"/></circle>
 </svg><figcaption>Password storage. The parameters shown are OWASP's minimum recommendation for Argon2id (19 MiB of memory, 2 iterations, 1 thread).</figcaption></figure>
 
 > [!story]

@@ -258,7 +258,7 @@ async function search(q) {
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 256" role="img" aria-label="A search box sends ca then cai; the cai response arrives first and is shown, then the slower ca response arrives and overwrites it with wrong results. Aborting the previous request when a new one starts cancels ca, so the page keeps showing cai">
+<figure class="dia anim"><svg viewBox="0 0 720 256" role="img" aria-label="Animation: a search box sends ca then cai; the cai response arrives first and is shown, then the slower ca response arrives and overwrites it with wrong results. Aborting the previous request when a new one starts cancels ca, so the page keeps showing cai">
 <text class="sT" x="14" y="60">without abort</text>
 <line class="sLm" x1="140" y1="104" x2="700" y2="104"/>
 <rect class="sR" x="140" y="40" width="468" height="22" rx="4" opacity=".7"/><text class="sC" x="148" y="56">"ca" request</text>
@@ -273,6 +273,12 @@ async function search(q) {
 <line class="sLr" x1="275" y1="142" x2="275" y2="168" style="stroke-width:2.4"/><text class="sRt" x="281" y="138">new keystroke: abort()</text>
 <text class="sS" x="269" y="138" text-anchor="end">ca cancelled</text>
 <text class="sS" x="420" y="246" text-anchor="middle">time → (ms); responses don't arrive in the order requests were sent</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.710;1" path="M140 62 L608 62"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.710;0.712;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.205;0.451;1" path="M275 92 L437 92"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.203;0.207;0.451;0.453;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.205;1" path="M140 166 L275 166"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.205;0.207;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.205;0.451;1" path="M275 196 L437 196"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.203;0.207;0.451;0.453;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M140 104 L700 104"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M140 208 L700 208"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The stale-response race: the last response to arrive wins unless you cancel the older request.</figcaption></figure>
 
 In Angular, RxJS's `switchMap` does exactly this for you ([[F7]]); in React, TanStack Query handles it by query key ([[F8]]).
