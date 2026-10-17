@@ -235,6 +235,29 @@ jobs:
 - Lower the DNS TTL before a migration ([[S1.2]]).
 - A custom domain on a demo (`finsight-demo.yourname.dev`) looks far more professional on a CV than `random-words-1234.azurewebsites.net`.
 
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: how Caddy gets a TLS certificate from Let's Encrypt: the VM orders a certificate, Let's Encrypt looks up the domain in DNS, fetches a challenge token over HTTP from the VM to prove control of the domain, then issues a certificate valid for 90 days, and browsers connect over HTTPS">
+<rect class="sN" x="14" y="28" width="190" height="46" rx="8"/><text class="sT" x="109" y="49" text-anchor="middle">DNS</text><text class="sC" x="109" y="65" text-anchor="middle">A  app.example.com → 20.1.2.3</text>
+<rect class="sA" x="265" y="104" width="190" height="56" rx="8"/><text class="sT" x="360" y="130" text-anchor="middle">your VM: Caddy</text><text class="sC" x="360" y="146" text-anchor="middle">listens on :80 and :443</text>
+<rect class="sG" x="516" y="28" width="190" height="46" rx="8"/><text class="sT" x="611" y="49" text-anchor="middle">Let's Encrypt</text><text class="sC" x="611" y="65" text-anchor="middle">ACME certificate authority</text>
+<rect class="sB" x="14" y="186" width="190" height="40" rx="8"/><text class="sT" x="109" y="211" text-anchor="middle">browser</text>
+<line class="sLm" x1="455" y1="112" x2="560" y2="76"/>
+<line class="sLm" x1="516" y1="52" x2="206" y2="52"/>
+<line class="sLm" x1="560" y1="76" x2="455" y2="132"/>
+<line class="sLm" x1="204" y1="206" x2="300" y2="162"/>
+<text class="sC" x="530" y="104">1 order a cert</text>
+<text class="sC" x="360" y="44" text-anchor="middle">2 look up app.example.com</text>
+<text class="sC" x="536" y="140">3 GET the challenge token</text>
+<text class="sGt" x="560" y="156">4 certificate, valid 90 days</text>
+<text class="sC" x="268" y="200">5 HTTPS for every visitor</text>
+<text class="sS" x="360" y="250" text-anchor="middle">renewal is automatic at about 60 days; it fails if port 80 is blocked or DNS points elsewhere</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M455 112 L560 76"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.300;1" path="M516 52 L206 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.480;1" path="M560 76 L455 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.480;0.482;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M455 132 L560 76"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.740;1" path="M560 76 L455 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.740;0.742;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.800;0.900;1" path="M204 206 L300 162"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.798;0.802;0.900;0.902;1"/></circle>
+</svg><figcaption>The HTTP-01 challenge proves you control the domain by serving a token on it. Point DNS at the VM first and keep port 80 open, or issuance and renewal fail.</figcaption></figure>
+
 ## FS4.7 The go-live checklist 🟢 ⭐
 
 | Area | Check |

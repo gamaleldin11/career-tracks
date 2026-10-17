@@ -41,6 +41,28 @@ Moving the threshold doesn't change the model; it trades one kind of error for t
 
 Every decision made by looking at a set leaks a little information from it, so a test set used repeatedly stops being a test set.
 
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: train, validation and test sets: 60 percent of the data fits many candidate models, 20 percent of validation data compares them and picks settings in a tune-and-refit loop, and the 20 percent test set is scored once at the end to give an honest estimate">
+<rect class="sB" x="14" y="30" width="415" height="30" rx="4"/><text class="sT" x="221" y="50" text-anchor="middle">train 60%: fit the models</text>
+<rect class="sW" x="429" y="30" width="138" height="30" rx="4"/><text class="sT" x="498" y="50" text-anchor="middle">validation 20%</text>
+<rect class="sV" x="567" y="30" width="139" height="30" rx="4"/><text class="sT" x="636" y="50" text-anchor="middle">test 20%</text>
+<line class="sLm" x1="221" y1="60" x2="221" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="498" y1="60" x2="498" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="636" y1="60" x2="636" y2="98" marker-end="url(#ahm)"/>
+<rect class="sB" x="150" y="100" width="140" height="44" rx="8"/><text class="sT" x="220" y="120" text-anchor="middle">fit models</text><text class="sC" x="220" y="136" text-anchor="middle">many settings</text>
+<rect class="sW" x="430" y="100" width="136" height="44" rx="8"/><text class="sT" x="498" y="120" text-anchor="middle">compare</text><text class="sC" x="498" y="136" text-anchor="middle">pick the best</text>
+<rect class="sV" x="576" y="100" width="130" height="44" rx="8"/><text class="sT" x="641" y="120" text-anchor="middle">score once</text><text class="sC" x="641" y="136" text-anchor="middle">the honest number</text>
+<line class="sLm" x1="290" y1="122" x2="428" y2="122" marker-end="url(#ahm)"/>
+<path class="sLw" d="M430 140 C380 178 320 178 290 140" style="fill:none" marker-end="url(#ahw)"/>
+<text class="sWt" x="360" y="186" text-anchor="middle">tune and refit</text>
+<text class="sS" x="360" y="212" text-anchor="middle">touch the test set once, at the end: tune on it and its score stops predicting the future</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M221 60 L221 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M290 122 L428 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.400;1" path="M430 140 C380 178 320 178 290 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.400;0.402;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.540;1" path="M290 122 L428 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.540;0.542;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.580;0.680;1" path="M430 140 C380 178 320 178 290 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.578;0.582;0.680;0.682;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.780;0.880;1" path="M636 60 L636 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.778;0.782;0.880;0.882;1"/></circle>
+</svg><figcaption>Validation is for choosing; test is for reporting. Cross-validation replaces the single validation slice when data is small, but the test set stays locked away either way.</figcaption></figure>
+
 ## DS4.2 Validation designs 🟢 🟡 ⭐
 
 **Validate the way the model will be used.**

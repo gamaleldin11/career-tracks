@@ -178,6 +178,27 @@ An interaction has three phases: **input delay** (the main thread is busy with s
 - **Big DOM:** thousands of nodes make every style and layout recalculation slow. Virtualise long lists.
 - **Re-render storms:** in React, state that's too global re-renders big subtrees on each keystroke; in Angular, Default change detection checks everything (OnPush and signals fix it).
 
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: one interaction split into its three INP phases: about 100 milliseconds of input delay while the main thread is busy, 190 milliseconds of event-handler processing and 100 milliseconds of presentation before the next frame is painted, 390 milliseconds in all against the 200 millisecond threshold for a good INP, with the fix for each phase">
+<text class="sM" x="14" y="22">one click, measured from input to the next painted frame</text>
+<rect class="sR" x="60" y="50" width="115" height="30" rx="3"/><text class="sT" x="117.5" y="70" text-anchor="middle">input delay</text>
+<rect class="sW" x="175" y="50" width="218.5" height="30" rx="3"/><text class="sT" x="284.25" y="70" text-anchor="middle">processing: event handlers</text>
+<rect class="sB" x="393.5" y="50" width="115" height="30" rx="3"/><text class="sT" x="451" y="70" text-anchor="middle">presentation</text>
+<rect class="sG" x="508.5" y="50" width="14" height="30" rx="3"/>
+<line class="sLg" x1="290" y1="40" x2="290" y2="92" stroke-dasharray="4 3"/><text class="sGt" x="290" y="36" text-anchor="middle">200 ms: good INP</text>
+<text class="sS" x="117.5" y="112" text-anchor="middle">main thread busy:</text><text class="sS" x="117.5" y="128" text-anchor="middle">break up long tasks</text>
+<text class="sS" x="284.25" y="112" text-anchor="middle">handlers do too much:</text><text class="sS" x="284.25" y="128" text-anchor="middle">defer non-urgent work</text>
+<text class="sS" x="451" y="112" text-anchor="middle">big re-render:</text><text class="sS" x="451" y="128" text-anchor="middle">smaller DOM updates</text>
+<line class="sLm" x1="60" y1="150" x2="520" y2="150"/>
+<line class="sLm" x1="60" y1="146" x2="60" y2="154"/><text class="sC" x="60" y="168" text-anchor="middle">0 ms</text>
+<line class="sLm" x1="175" y1="146" x2="175" y2="154"/><text class="sC" x="175" y="168" text-anchor="middle">100 ms</text>
+<line class="sLm" x1="290" y1="146" x2="290" y2="154"/><text class="sC" x="290" y="168" text-anchor="middle">200 ms</text>
+<line class="sLm" x1="405" y1="146" x2="405" y2="154"/><text class="sC" x="405" y="168" text-anchor="middle">300 ms</text>
+<line class="sLm" x1="520" y1="146" x2="520" y2="154"/><text class="sC" x="520" y="168" text-anchor="middle">400 ms</text>
+<text class="sS" x="360" y="196" text-anchor="middle">INP reports a page’s slowest interactions (about the 98th percentile): this one is 390 ms, needs improvement</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M60.0 88 L508.49999999999994 88"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.820;0.900;1" path="M516.55 84 L516.55 46"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.818;0.822;0.900;0.902;1"/></circle>
+</svg><figcaption>Find which phase is long before fixing anything: a long input delay is someone else’s task blocking the thread; long processing is your handler; long presentation is rendering work.</figcaption></figure>
+
 ## F9.5 Fixing CLS 🟢 ⭐
 
 | Cause | Fix |

@@ -150,6 +150,34 @@ Consumers that share a **group ID** split a topic's partitions between them: **e
 - A **hot key** (one huge merchant, a NULL key) overloads one partition, the streaming version of skew ([[DE6.7]]). Spread with a composite key if strict per-key ordering isn't needed.
 - Changing the partition count changes which partition a key maps to, breaking ordering for in-flight keys, so plan the count up front.
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: Kafka keys and ordering: events for order-17, order-42 and order-9 are hashed by key to partitions P0, P2 and P1; each partition is an append-only log, so created, paid and shipped for order-17 stay in order in P0, while there is no ordering between partitions">
+<text class="sM" x="90" y="22" text-anchor="middle">events, in arrival order</text>
+<text class="sM" x="560" y="22" text-anchor="middle">partitions: an append-only log each</text>
+<rect class="sN" x="250" y="92" width="120" height="44" rx="8"/><text class="sT" x="310" y="112" text-anchor="middle">hash(key) % 3</text><text class="sC" x="310" y="128" text-anchor="middle">key → partition</text>
+<rect class="sB" x="14" y="34" width="152" height="24" rx="4"/><text class="sC" x="90" y="50" text-anchor="middle">order-17: created</text>
+<rect class="sV" x="14" y="64" width="152" height="24" rx="4"/><text class="sC" x="90" y="80" text-anchor="middle">order-42: created</text>
+<rect class="sB" x="14" y="94" width="152" height="24" rx="4"/><text class="sC" x="90" y="110" text-anchor="middle">order-17: paid</text>
+<rect class="sA" x="14" y="124" width="152" height="24" rx="4"/><text class="sC" x="90" y="140" text-anchor="middle">order-9: created</text>
+<rect class="sV" x="14" y="154" width="152" height="24" rx="4"/><text class="sC" x="90" y="170" text-anchor="middle">order-42: paid</text>
+<rect class="sB" x="14" y="184" width="152" height="24" rx="4"/><text class="sC" x="90" y="200" text-anchor="middle">order-17: shipped</text>
+<rect class="sN" x="420" y="40" width="286" height="40" rx="6"/><text class="sT" x="434" y="65">P0</text>
+<rect class="sN" x="420" y="96" width="286" height="40" rx="6"/><text class="sT" x="434" y="121">P1</text>
+<rect class="sN" x="420" y="152" width="286" height="40" rx="6"/><text class="sT" x="434" y="177">P2</text>
+<rect class="sB" x="458" y="50" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="490" y="64" text-anchor="middle">created</text>
+<rect class="sV" x="458" y="162" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="490" y="176" text-anchor="middle">created</text>
+<rect class="sB" x="530" y="50" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="562" y="64" text-anchor="middle">paid</text>
+<rect class="sA" x="458" y="106" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="490" y="120" text-anchor="middle">created</text>
+<rect class="sV" x="530" y="162" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="562" y="176" text-anchor="middle">paid</text>
+<rect class="sB" x="602" y="50" width="64" height="20" rx="4" opacity=".55"/><text class="sC" x="634" y="64" text-anchor="middle">shipped</text>
+<text class="sS" x="360" y="222" text-anchor="middle">order holds within a partition, so all events for order-17 are read in order; there is no order across partitions</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.040;0.140;1" path="M166 46 L250 114 L370 114 L490 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.038;0.042;0.140;0.142;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.270;1" path="M166 76 L250 114 L370 114 L490 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.270;0.272;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.400;1" path="M166 106 L250 114 L370 114 L562 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.400;0.402;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.530;1" path="M166 136 L250 114 L370 114 L490 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.530;0.532;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.660;1" path="M166 166 L250 114 L370 114 L562 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.660;0.662;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.690;0.790;1" path="M166 196 L250 114 L370 114 L634 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.688;0.692;0.790;0.792;1"/></circle>
+</svg><figcaption>Pick the key that needs ordering, usually the entity ID. A hot key overloads one partition, and changing the partition count reshuffles which partition a key maps to.</figcaption></figure>
+
 ## DE8.5 Schemas and evolution 🟡 ⭐
 
 Producers and consumers evolve independently, so the record format needs a contract.
