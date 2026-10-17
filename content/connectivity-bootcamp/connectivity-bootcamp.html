@@ -603,6 +603,32 @@ Ethernet adapter Ethernet0:
    DNS Servers . . . . . : 192.168.10.5, 192.168.10.6  <span class="c">← public IPs here on a domain PC = AD breakage</span></code></pre>
 <p><strong>Real-life reads:</strong> address 169.254.* → DHCP unreachable. Gateway blank → static config half-done. DHCP server field showing a colleague's home-router brand IP (192.168.0.1 when your site uses 10.x) → rogue DHCP on the floor. Two IPv4 addresses on one NIC → old static + APIPA/duplicate — clean it up.</p>
 
+<figure class="dia steps"><svg viewBox="0 0 720 290" role="img" aria-label="Where each line of ipconfig /all comes from: the physical address is the MAC burned into the network card; with DHCP enabled, one offer from the DHCP server at 192.168.10.5 fills the address, mask, lease, gateway and DNS lines; the default gateway is the router at 192.168.10.1 and the DNS servers are the domain controllers; and the faults to read off it: a 169.254 address means no DHCP reply, a blank gateway means no way off the subnet, an unknown DHCP server is a rogue one, and public DNS on a domain PC breaks Active Directory lookups">
+<rect class="sN" x="14" y="20" width="400" height="208" rx="8"/>
+<text class="sC" x="26" y="40" xml:space="preserve" style="white-space:pre">C:\&gt; ipconfig /all</text>
+<text class="sS" x="26" y="62">Physical Address</text><text class="sC" x="170" y="62" xml:space="preserve" style="white-space:pre">3C-52-82-4F-1A-9B</text>
+<text class="sS" x="26" y="84">DHCP Enabled</text><text class="sC" x="170" y="84" xml:space="preserve" style="white-space:pre">Yes</text>
+<text class="sS" x="26" y="106">IPv4 Address</text><text class="sC" x="170" y="106" xml:space="preserve" style="white-space:pre">192.168.10.37</text>
+<text class="sS" x="26" y="128">Subnet Mask</text><text class="sC" x="170" y="128" xml:space="preserve" style="white-space:pre">255.255.255.0</text>
+<text class="sS" x="26" y="150">Lease Expires</text><text class="sC" x="170" y="150" xml:space="preserve" style="white-space:pre">in 24 h (renews at 12 h)</text>
+<text class="sS" x="26" y="172">Default Gateway</text><text class="sC" x="170" y="172" xml:space="preserve" style="white-space:pre">192.168.10.1</text>
+<text class="sS" x="26" y="194">DHCP Server</text><text class="sC" x="170" y="194" xml:space="preserve" style="white-space:pre">192.168.10.5</text>
+<text class="sS" x="26" y="216">DNS Servers</text><text class="sC" x="170" y="216" xml:space="preserve" style="white-space:pre">192.168.10.5, .6</text>
+<rect class="sB" x="470" y="24" width="236" height="44" rx="8"/><text class="sT" x="588" y="44" text-anchor="middle">network card</text><text class="sC" x="588" y="60" text-anchor="middle">MAC burned in at the factory</text>
+<rect class="sV" x="470" y="92" width="236" height="52" rx="8"/><text class="sT" x="588" y="116" text-anchor="middle">DHCP server 192.168.10.5</text><text class="sC" x="588" y="132" text-anchor="middle">one offer fills six lines</text>
+<rect class="sA" x="470" y="170" width="110" height="44" rx="8"/><text class="sT" x="525" y="190" text-anchor="middle">router</text><text class="sC" x="525" y="206" text-anchor="middle">192.168.10.1</text>
+<rect class="sG" x="596" y="170" width="110" height="44" rx="8"/><text class="sT" x="651" y="190" text-anchor="middle">DC + DNS</text><text class="sC" x="651" y="206" text-anchor="middle">.5 and .6</text>
+<g data-s="1-1"><rect class="sR" x="18" y="47" width="392" height="22" rx="6" style="fill:none;stroke-width:2.5"/><line class="sLm" x1="414" y1="58" x2="468" y2="46" marker-end="url(#ahm)"/></g>
+<g data-s="2-2"><rect class="sR" x="18" y="69" width="392" height="154" rx="6" style="fill:none;stroke-width:2.5"/><line class="sLv" x1="414" y1="130" x2="468" y2="118" marker-end="url(#ahv)"/></g>
+<g data-s="3-3"><rect class="sR" x="18" y="157" width="392" height="22" rx="6" style="fill:none;stroke-width:2.5"/><line class="sLm" x1="414" y1="168" x2="524" y2="168" marker-end="url(#ahm)"/><rect class="sR" x="18" y="201" width="392" height="22" rx="6" style="fill:none;stroke-width:2.5"/><line class="sLg" x1="414" y1="212" x2="594" y2="196" marker-end="url(#ahg)"/></g>
+<g data-s="4-4"><rect class="sR" x="14" y="236" width="692" height="46" rx="8" opacity=".9"/><text class="sT" x="360" y="255" text-anchor="middle">169.254.x.x: no DHCP reply · blank gateway: stuck on this subnet</text><text class="sT" x="360" y="273" text-anchor="middle">unknown DHCP server: a rogue one · public DNS on a domain PC: AD lookups fail</text></g>
+</svg><ol class="dia-steps">
+<li>Physical Address is the MAC, burned into the network card; its first half (the OUI) names the maker.</li>
+<li>DHCP Enabled: Yes means one DHCP offer filled the address, mask, lease, gateway and DNS lines.</li>
+<li>The gateway is the router on this subnet, the only way to reach anything else; the DNS servers are the domain controllers.</li>
+<li>Read faults straight off it: 169.254 means no DHCP reply, a blank gateway means no way off the subnet, an unknown DHCP server is rogue, and public DNS on a domain PC breaks AD.</li>
+</ol><figcaption>The same output as above, traced to its sources. In an interview, "read me this ipconfig" is really "tell me where each line came from".</figcaption></figure>
+
 <h3>D1.2 Inside an Ethernet frame (what "layer 2" literally carries)</h3>
 <div class="tw"><table>
   <tr><th>Field</th><th>Size</th><th>Purpose / edge cases</th></tr>
