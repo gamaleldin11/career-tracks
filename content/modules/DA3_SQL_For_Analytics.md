@@ -579,7 +579,7 @@ SELECT ROUND(100.0 * SUM(spend) FILTER (WHERE quintile = 1) / SUM(spend), 1) AS 
 
 **Sessionisation:** a new session starts after 30 minutes of inactivity.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Six events on a timeline split into three sessions by gaps longer than 30 minutes; new-session flags 1 0 0 1 0 1 and their running sum 1 1 1 2 2 3">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: six events on a timeline split into three sessions by gaps longer than 30 minutes; new-session flags 1 0 0 1 0 1 and their running sum 1 1 1 2 2 3">
 <rect class="sA" x="86" y="40" width="80.8" height="40" rx="8" opacity=".45"/><text class="sM" x="126.4" y="34" text-anchor="middle">session 1</text>
 <rect class="sV" x="266" y="40" width="59.2" height="40" rx="8" opacity=".45"/><text class="sM" x="295.6" y="34" text-anchor="middle">session 2</text>
 <rect class="sG" x="566" y="40" width="28" height="40" rx="8" opacity=".45"/><text class="sM" x="580" y="34" text-anchor="middle">session 3</text>
@@ -604,6 +604,13 @@ SELECT ROUND(100.0 * SUM(spend) FILTER (WHERE quintile = 1) / SUM(spend), 1) AS 
 <text class="sC" x="311.2" y="152" text-anchor="middle">0</text><text class="sT" x="311.2" y="180" text-anchor="middle">2</text>
 <text class="sRt" x="580" y="152" text-anchor="middle">1</text><text class="sT" x="580" y="180" text-anchor="middle">3</text>
 <text class="sS" x="380" y="210" text-anchor="middle">flag rows after a gap of over 30 minutes; a running SUM of the flags numbers the sessions</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80 60 L676 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.029;0.069;1" path="M100 130 L100 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.027;0.031;0.069;0.071;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.056;0.096;1" path="M119.2 130 L119.2 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.054;0.058;0.096;0.098;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.104;0.144;1" path="M152.8 130 L152.8 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.102;0.106;0.144;0.146;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.285;0.325;1" path="M280 130 L280 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.283;0.287;0.325;0.327;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.370;1" path="M311.2 130 L311.2 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.370;0.372;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.713;0.753;1" path="M580 130 L580 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.711;0.715;0.753;0.755;1"/></circle>
 </svg><figcaption>Sessionisation is two window functions: LAG to measure each gap, a running SUM to turn flags into session numbers.</figcaption></figure>
 
 ```sql

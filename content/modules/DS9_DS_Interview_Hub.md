@@ -49,7 +49,7 @@ This is the module to live in during the final week before a data-scientist inte
 <text class="sS" x="360" y="196" text-anchor="middle">framing, data, model, deployment, impact measurement and monitoring in one picture</text>
 </svg><figcaption>The churn design answer as a system. The holdout box is what turns a model into measured business value.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 20-minute ML design answer: goal 2 minutes, framing 3, data and features 4, models 3, validation 3, deployment 2, impact and monitoring 3">
+<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: A 20-minute ML design answer: goal 2 minutes, framing 3, data and features 4, models 3, validation 3, deployment 2, impact and monitoring 3">
 <rect class="sB" x="14" y="30" width="67.2" height="44" rx="6"/><text class="sT" x="48.6" y="50" text-anchor="middle">goal</text><text class="sC" x="48.6" y="66" text-anchor="middle">2 min</text>
 <rect class="sB" x="83.2" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="135.1" y="50" text-anchor="middle">framing</text><text class="sC" x="135.1" y="66" text-anchor="middle">3 min</text>
 <rect class="sA" x="187" y="30" width="136.4" height="44" rx="6"/><text class="sT" x="256.2" y="50" text-anchor="middle">data + features</text><text class="sC" x="256.2" y="66" text-anchor="middle">4 min</text>
@@ -58,6 +58,7 @@ This is the module to live in during the final week before a data-scientist inte
 <rect class="sG" x="533" y="30" width="67.2" height="44" rx="6"/><text class="sT" x="567.6" y="50" text-anchor="middle">deploy</text><text class="sC" x="567.6" y="66" text-anchor="middle">2 min</text>
 <rect class="sW" x="602.2" y="30" width="101.8" height="44" rx="6"/><text class="sT" x="654.1" y="50" text-anchor="middle">impact · monitor</text><text class="sC" x="654.1" y="66" text-anchor="middle">3 min</text>
 <text class="sC" x="14" y="98">decision, budget, cadence</text><text class="sC" x="706" y="98" text-anchor="end">holdout, drift, retraining, risks</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.920;1" path="M14 80 L704 80"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.920;0.922;1"/></circle>
 </svg><figcaption>Spend the first five minutes on the decision and the target. Most weak answers jump straight to the model.</figcaption></figure>
 
 > [!say]

@@ -88,7 +88,7 @@ Every decision made by looking at a set leaks a little information from it, so a
 <text class="sRt" x="180" y="206" text-anchor="middle">the same customers on both sides</text><text class="sGt" x="540" y="206" text-anchor="middle">test customers are truly new</text>
 </svg><figcaption>When an entity appears many times, split by entity, or the score measures memory of those customers instead of skill on new ones.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 150" role="img" aria-label="Rolling-origin time series validation folds">
+<figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: rolling-origin time series validation folds">
 <text class="sS" x="10" y="20">time →</text>
 <g>
 <rect class="sA" x="80" y="30" width="200" height="18" rx="3"/><rect class="sW" x="280" y="30" width="60" height="18" rx="3"/>
@@ -100,6 +100,15 @@ Every decision made by looking at a set leaks a little information from it, so a
 <text class="sS" x="10" y="44">fold 1</text><text class="sS" x="10" y="70">fold 2</text><text class="sS" x="10" y="96">fold 3</text><text class="sS" x="10" y="122">fold 4</text>
 <text class="sM" x="600" y="146" text-anchor="middle">final test</text>
 <text class="sM" x="200" y="146">train (blue) · validate (amber)</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M80 39 L280 39"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.160;1" path="M280 39 L340 39"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.160;0.162;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M80 65 L340 65"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.360;1" path="M340 65 L400 65"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.360;0.362;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M80 91 L400 91"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.560;1" path="M400 91 L460 91"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.560;0.562;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M80 117 L460 117"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.760;1" path="M460 117 L520 117"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.760;0.762;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.840;0.940;1" path="M560 78 L640 78"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.838;0.842;0.940;0.942;1"/></circle>
 </svg><figcaption>Rolling-origin validation: always train on the past and validate on the next period, then a final out-of-time test.</figcaption></figure>
 
 > [!say]

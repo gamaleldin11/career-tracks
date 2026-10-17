@@ -190,7 +190,7 @@ enc = TargetEncoder(smooth="auto", cv=5)                # fit_transform uses out
 
 **Signs of leakage:** a suspiciously high score (AUC 0.99 on a hard problem); one feature dominates importance; performance drops sharply on a later time period; a feature's meaning involves the outcome.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="The modelling workflow from raw data to test, with the points where target leakage, label overlap, temporal and group leakage, preprocessing contamination and tuning on the test set enter">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: the modelling workflow from raw data to test, with the points where target leakage, label overlap, temporal and group leakage, preprocessing contamination and tuning on the test set enter">
 <rect class="sB" x="10" y="96" width="92" height="40" rx="8"/><text class="sT" x="56" y="121" text-anchor="middle">raw data</text>
 <line class="sLm" x1="102" y1="116" x2="110" y2="116" marker-end="url(#ahm)"/>
 <rect class="sB" x="111" y="96" width="92" height="40" rx="8"/><text class="sT" x="157" y="121" text-anchor="middle">features</text>
@@ -209,6 +209,12 @@ enc = TargetEncoder(smooth="auto", cv=5)                # fit_transform uses out
 <line class="sLr" x1="125" y1="172" x2="157" y2="138" marker-end="url(#ahr)"/><rect class="sR" x="15" y="174" width="220" height="44" rx="6" opacity=".85"/><text class="sT" x="125" y="192" text-anchor="middle">label overlap</text><text class="sC" x="125" y="209" text-anchor="middle">windows cross the cut-off</text>
 <line class="sLr" x1="360" y1="172" x2="359" y2="138" marker-end="url(#ahr)"/><rect class="sR" x="250" y="174" width="220" height="44" rx="6" opacity=".85"/><text class="sT" x="360" y="192" text-anchor="middle">contamination</text><text class="sC" x="360" y="209" text-anchor="middle">scaler fitted on all rows</text>
 <line class="sLr" x1="595" y1="172" x2="561" y2="138" marker-end="url(#ahr)"/><rect class="sR" x="485" y="174" width="220" height="44" rx="6" opacity=".85"/><text class="sT" x="595" y="192" text-anchor="middle">tuning on test</text><text class="sC" x="595" y="209" text-anchor="middle">test score picks settings</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M10 90 L708 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.150;1" path="M125 62 L157 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.150;0.152;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.350;1" path="M360 62 L258 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.350;0.352;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.490;1" path="M360 172 L359 138"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.490;0.492;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.730;1" path="M595 172 L561 138"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.730;0.732;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.190;1" path="M125 172 L157 138"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.190;0.192;1"/></circle>
 </svg><figcaption>Each kind of leakage enters at a specific step. Knowing where makes the prevention obvious.</figcaption></figure>
 
 > [!say]
