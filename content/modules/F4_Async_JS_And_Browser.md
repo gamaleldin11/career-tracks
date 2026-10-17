@@ -355,7 +355,7 @@ list.addEventListener("click", (e) => {
 
 A **long task** is anything that blocks the main thread for more than 50 ms; during it, clicks and typing feel frozen, which hurts **INP** ([[F9]]).
 
-<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="A 300 ms long task delays a tap until it ends; splitting the work into chunks with yields lets the tap run within a few milliseconds">
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: A 300 ms long task delays a tap until it ends; splitting the work into chunks with yields lets the tap run within a few milliseconds">
 <text class="sT" x="130" y="42" text-anchor="end">one long task</text><rect class="sR" x="140" y="28" width="420" height="26" rx="3"/><text class="sC" x="350" y="46" text-anchor="middle">processRows(10 000): 300 ms</text>
 <line class="sLw" x1="224.0" y1="10" x2="224.0" y2="26" marker-end="url(#ahw)"/><text class="sWt" x="232" y="18">tap at 60 ms</text>
 <rect class="sW" x="560" y="28" width="28" height="26" rx="3"/><text class="sRt" x="602" y="46">answered at 300 ms</text>
@@ -373,6 +373,8 @@ A **long task** is anything that blocks the main thread for more than 50 ms; dur
 <text class="sC" x="420" y="172" text-anchor="middle">200 ms</text>
 <text class="sC" x="560" y="172" text-anchor="middle">300 ms</text>
 <text class="sC" x="700" y="172" text-anchor="middle">400 ms</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M140 60 L700 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M140 130 L700 130"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Long tasks are the main cause of a poor INP. The total work is the same; what changes is that input can get in between.</figcaption></figure>
 
 - **Break work up:** process a big list in chunks, yielding between them (`await scheduler.yield()` where supported, or `await new Promise(r => setTimeout(r))`).

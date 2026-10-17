@@ -467,7 +467,7 @@ input.addEventListener("input", e => onSearch(e.target.value));
 > [!say]
 > "Debounce waits until calls stop for a set time, so a search box only queries once the user pauses typing. Throttle guarantees at most one call per interval, which suits scroll or resize handlers. Both are closures that keep a timer or a timestamp between calls."
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Timeline: a burst of input events, debounce firing once after each pause, throttle firing at regular intervals during the burst">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: timeline: a burst of input events, debounce firing once after each pause, throttle firing at regular intervals during the burst">
 <text class="sS" x="110" y="50" text-anchor="end">input events</text>
 <line class="sLm" x1="120.0" y1="36" x2="120.0" y2="56"/>
 <line class="sLm" x1="142.8" y1="36" x2="142.8" y2="56"/>
@@ -499,6 +499,7 @@ input.addEventListener("input", e => onSearch(e.target.value));
 <text class="sC" x="405" y="210" text-anchor="middle">1000 ms</text>
 <text class="sC" x="547.5" y="210" text-anchor="middle">1500 ms</text>
 <text class="sC" x="690" y="210" text-anchor="middle">2000 ms</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M120 30 L690 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Debounce waits for quiet; throttle keeps a steady beat. Search boxes want the first, scroll and resize handlers the second.</figcaption></figure>
 
 **Memoisation**, caching a pure function's results:

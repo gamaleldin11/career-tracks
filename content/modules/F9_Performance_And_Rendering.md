@@ -220,7 +220,7 @@ Layout shifts within **500 ms after a user input** don't count, because the user
 | **ISR** (incremental static regeneration) / cached rendering | Statically, then **regenerated in the background** after a set time or on demand | Fast | Eventually fresh | Low | Product and catalogue pages |
 | **Streaming SSR** | Server sends HTML in pieces as data resolves (Suspense boundaries) | Fast first bytes | Fresh | Medium | Pages with slow and fast parts |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Timelines for client-side rendering, server-side rendering and static generation: when content becomes visible and when it becomes interactive">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: timelines for client-side rendering, server-side rendering and static generation: when content becomes visible and when it becomes interactive">
 <text class="sT" x="100" y="56" text-anchor="end">CSR</text>
 <rect class="sV" x="110" y="40" width="36.3333" height="22" rx="3"/>
 <rect class="sW" x="147.333" y="40" width="204.333" height="22" rx="3"/>
@@ -247,6 +247,9 @@ Layout shifts within **500 ms after a user input** don't count, because the user
 <rect class="sW" x="260" y="218" width="14" height="12" rx="2"/><text class="sC" x="280" y="229">download JS</text>
 <rect class="sR" x="410" y="218" width="14" height="12" rx="2"/><text class="sC" x="430" y="229">run + fetch data</text>
 <rect class="sA" x="560" y="218" width="14" height="12" rx="2"/><text class="sC" x="580" y="229">hydrate</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M110 68 L670 68"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M110 122 L670 122"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M110 176 L670 176"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>When users see content and when they can use it. SSR and SSG show content early; hydration is the gap before it responds.</figcaption></figure>
 
 > [!term] Hydration

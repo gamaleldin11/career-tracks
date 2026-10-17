@@ -277,7 +277,7 @@ test("accountant can record a payment", async ({ page }) => {
 });
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="Playwright actionability checks on a timeline: the button becomes attached at 80 milliseconds, visible at 180, stable at 300, uncovered at 420 and enabled at 470; only when all five are true does the click happen">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: playwright actionability checks on a timeline: the button becomes attached at 80 milliseconds, visible at 180, stable at 300, uncovered at 420 and enabled at 470; only when all five are true does the click happen">
 <text class="sS" x="14" y="22" xml:space="preserve" style="white-space:pre">await row.getByRole("button", { name: "Mark paid" }).click();</text>
 <text class="sS" x="220" y="63" text-anchor="end">attached to the DOM</text>
 <rect class="sW" x="230" y="50" width="54.6667" height="20" rx="4" opacity=".35"/><rect class="sG" x="284.667" y="50" width="355.333" height="20" rx="4" opacity=".55"/>
@@ -303,6 +303,8 @@ test("accountant can record a payment", async ({ page }) => {
 <text class="sS" x="571.667" y="40" text-anchor="middle">500</text>
 <text class="sS" x="640" y="40" text-anchor="middle">600 ms</text>
 <text class="sS" x="360" y="252" text-anchor="middle">a fixed sleep(300) would click a covered button; Playwright retries the checks until they all pass (or the timeout)</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M230 210 L640 210"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.666;0.746;1" path="M551.167 44 L551.167 210"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.664;0.668;0.746;0.748;1"/></circle>
 </svg><figcaption>What auto-waiting means for click(): every actionability check must pass at the same moment (timings illustrative).</figcaption></figure>
 
 **Good E2E practice:**
