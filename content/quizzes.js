@@ -368,6 +368,10 @@ const QUIZ = {
 
 // System design (SD1–SD5): fundamentals for every track, depth where the role needs it
 const SD_CORE = [
+  q('System design', 'Backups run nightly at 02:00; a disaster hits at 06:00 and service is back at 09:00. What are the RPO and RTO for this incident?', ['RPO 3 h, RTO 4 h', 'RPO 4 h (data lost since the backup), RTO 3 h (time to recover)', 'Both 7 h', 'RPO 0'], 1, 'RPO looks back to the last good copy; RTO looks forward to recovery. Frequent copies shrink RPO; standbys and rehearsed restores shrink RTO.', 'SD4.8'),
+  q('System design', 'Why split a service into cells?', ['To use fewer servers', 'A bad deploy or noisy tenant only affects one cell, so the blast radius is a fraction of customers', 'To avoid databases', 'It makes deploys faster'], 1, 'Roll changes cell by cell and halt on the first sign of trouble.', 'SD4.7'),
+  q('System design', 'A retrying client should add jitter to its backoff because…', ['It makes retries faster', 'Without it, many clients retry in lock-step and hit the recovering service in synchronised spikes', 'The server requires it', 'It replaces timeouts'], 1, 'Exponential backoff with full jitter spreads the retries out; cap the attempts and only retry idempotent or keyed requests.', 'SD4.2'),
+  q('System design', 'In a 45-minute design round, where should most of the time go?', ['Drawing the boxes', 'Requirements first, then a high-level design, then deep dives into the hardest parts and their trade-offs', 'Writing code', 'Estimating traffic precisely'], 1, 'Clarify scope and numbers in the first minutes; spend the bulk on the high-level design and the deep dives the interviewer cares about.', 'SD5.1'),
   q('System design', 'About how many requests per second is 1 million requests per day?', ['1', '12', '120', '1,200'], 1, 'A day is about 86,400 seconds (round to 10⁵); plan for peaks several times the average.', 'SD1.10'),
   q('System design', 'Why should app servers be stateless?', ['They use less memory', 'So any server can handle any request, enabling load balancing, autoscaling and rolling deploys', 'Databases require it', 'To avoid using a cache'], 1, 'Sessions go to tokens or a shared store, files to object storage.', 'SD1.4'),
   q('System design', 'A request needs two services in series, each 99.9% available. The best overall availability is about…', ['99.99%', '99.9%', '99.8%', '99%'], 2, 'Hard dependencies multiply availability down: 0.999 × 0.999 ≈ 0.998.', 'SD1.9'),
@@ -753,6 +757,31 @@ const FOUNDATIONS = {
     q('Troubleshooting', 'A traceroute shows * * * at hop 4, but hops 5 to 8 answer normally. This means…', ['The path is broken at hop 4', 'Hop 4 simply does not answer traceroute probes (often ICMP rate-limiting); the path works', 'DNS is down', 'The destination is unreachable'], 1, 'Only a problem that persists to the end of the trace is real.', 'N8.2'),
     q('Troubleshooting', 'Which order matches the structured troubleshooting method?', ['Fix, test, document', 'Identify the problem, theorise, test the theory, plan and implement, verify, document', 'Reboot first, then ask', 'Escalate immediately'], 1, 'Saying the method out loud before naming commands is what interviewers listen for.', 'N8.1'),
   ],
+  S8: [
+    q('Behavioural', 'In a two-minute STAR answer, which part should take most of the time?', ['Situation', 'Task', 'Action: what you personally did, in concrete steps', 'Result'], 2, 'Keep situation and task to a few sentences; say I, not we; end with a measurable result and a lesson.', 'S8.3'),
+    q('Behavioural', 'Asked about a weakness, the strongest answer…', ['Claims you have none', 'Names a real, job-relevant gap and what you are already doing about it', 'Is a disguised strength like perfectionism', 'Changes the subject'], 1, 'Interviewers score self-awareness and a plan, not perfection.', 'S8.4'),
+  ],
+  AI5: [
+    q('EDA', 'Anscombe’s quartet shows that…', ['Means are enough', 'Datasets with identical summary statistics can look completely different, so always plot the data', 'Correlation implies causation', 'Outliers never matter'], 1, 'Four datasets share mean, variance, correlation and regression line but have different shapes.', 'AI5.1'),
+    q('EDA', 'To show how a numeric variable is distributed across a few categories, a good first chart is…', ['A pie chart', 'A box plot or violin plot per category', 'A 3-D bar chart', 'A table of means'], 1, 'Box plots show median, spread and outliers side by side; add the raw points when the groups are small.', 'AI5.2'),
+  ],
+  AI12: [
+    q('SQL', 'Joining a customer to three orders and two tickets in one query, then summing order amounts, gives…', ['The right total', 'A total inflated by duplicated rows (3 × 2 = 6 rows): aggregate each table first, then join', 'An error', 'NULL'], 1, 'Fan-out from joining two one-to-many tables is the classic silent analytics bug.', 'AI12.2'),
+    q('SQL', 'What is the SQL equivalent of pandas groupby(…).sum()?', ['ORDER BY', 'GROUP BY with SUM()', 'DISTINCT', 'HAVING alone'], 1, 'Both split rows by key, apply the aggregate and combine; HAVING filters after grouping, WHERE before.', 'AI12.2'),
+  ],
+  AI20: [
+    q('NLP', 'Why does beam search often beat greedy decoding?', ['It is faster', 'It keeps the k best partial sequences, so a word that is not the single best now can still lead to the best whole sentence', 'It uses a bigger model', 'It removes the need for training'], 1, 'Greedy commits to the top token at each step and cannot recover.', 'AI20.4'),
+    q('NLP', 'Teacher forcing during training means…', ['The model is trained by a human teacher', 'The decoder is fed the true previous word, not its own prediction; at inference it must use its own outputs', 'Freezing the encoder', 'Using a smaller vocabulary'], 1, 'It speeds training but creates exposure bias: early mistakes at inference compound.', 'AI20.4'),
+  ],
+  AI22: [
+    q('Vision', 'How does a Vision Transformer turn an image into tokens?', ['One token per pixel', 'It splits the image into fixed-size patches (for example 16 × 16) and linearly embeds each one', 'It runs a CNN first, always', 'It uses the image caption'], 1, 'A 224 × 224 image gives 196 patch tokens plus a class token.', 'AI22.1'),
+    q('Vision', 'CLIP can classify images into labels it was never trained on because…', ['It memorised ImageNet', 'Images and text are embedded in the same space, so it compares the image with text prompts such as a photo of a dog', 'It uses a decision tree', 'It retrains at inference'], 1, 'That is zero-shot classification: pick the prompt with the highest cosine similarity.', 'AI22.3'),
+    q('Vision', 'In masked autoencoder (MAE) pretraining, the encoder…', ['Sees every patch', 'Sees only the visible quarter of the patches; a light decoder rebuilds the masked ones', 'Is frozen', 'Predicts the class label'], 1, 'Hiding 75% of patches makes the task hard and pretraining about 3× cheaper.', 'AI22.2'),
+  ],
+  AI23: [
+    q('Generative', 'The reparameterisation trick in a VAE…', ['Removes the KL term', 'Samples z = μ + σ·ε with ε from N(0, 1), so the sampling step stays differentiable for backpropagation', 'Replaces the decoder', 'Adds dropout'], 1, 'The loss is reconstruction plus a KL term that keeps the latent space smooth enough to sample from.', 'AI23.2'),
+    q('Generative', 'An autoencoder can flag anomalies because…', ['It labels them', 'It learns to rebuild normal patterns; an input that breaks them reconstructs badly, so a high reconstruction error flags it', 'It clusters the data', 'It uses a threshold of zero'], 1, 'Set the threshold from the error distribution on normal data, for example its 99th percentile.', 'AI23.1'),
+  ],
   N4: [
     q('Switching', 'A PC on a switch port gets 169.254.x.x at boot but a normal address after ipconfig /renew. Likely cause?', ['A bad cable', 'Classic STP holds the port ~30 s before forwarding, so DHCP times out: enable PortFast on access ports', 'The DHCP scope is full', 'A duplex mismatch'], 1, 'RSTP or PortFast with BPDU Guard makes edge ports forward immediately.', 'N4.4'),
     q('Networks', 'You changed a DNS A record 10 minutes ago, but users still reach the old server. Why?', ['DNS is broken', 'Resolvers and clients cached the old answer until its TTL expires', 'The record needs a reboot', 'ARP is stale'], 1, 'Lower the TTL before a planned change; flush caches in an emergency.', 'N3.3'),
@@ -835,6 +864,8 @@ const FOUNDATIONS = {
     q('Scripting', 'In Bash, set -u makes the script…', ['Run as root', 'Treat an unset variable as an error instead of an empty string', 'Use UTF-8', 'Run faster'], 1, 'It stops accidents such as rm -rf "$dir/" with $dir unset.', 'N20.5'),
   ],
   S5: [
+    q('Linux', 'A Dockerfile uses a multi-stage build mainly to…', ['Run several apps in one container', 'Compile with the full SDK image but ship only the small runtime image with the build output', 'Speed up the network', 'Avoid writing a Dockerfile'], 1, 'Smaller images pull faster and expose less; run as a non-root user too.', 'S5.8'),
+    q('Linux', 'Data a container writes to its own filesystem…', ['Is backed up automatically', 'Is lost when the container is removed, so databases need a volume', 'Is shared by all containers', 'Is read-only'], 1, 'Mount a named volume (or a bind mount) for anything that must survive a rebuild.', 'S5.10'),
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
   ],
   AI2: [
