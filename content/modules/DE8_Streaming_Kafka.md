@@ -243,7 +243,7 @@ Producers and consumers evolve independently, so the record format needs a contr
 > [!term] Consumer lag
 > The difference between the latest offset in a partition and the group's committed offset: how far behind a consumer is. Rising lag means consumers can't keep up (too slow, too few, stuck on a poison message) and is the first streaming metric to alert on.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Consumer lag: the latest offset keeps rising while the committed offset falls behind after a downstream slowdown at minute 30, so the gap between them grows">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: consumer lag: the latest offset keeps rising while the committed offset falls behind after a downstream slowdown at minute 30, so the gap between them grows">
 <line class="sLm" x1="60" y1="190" x2="668" y2="190" marker-end="url(#ahm)"/>
 <polyline class="sL" points="60,190 110,178 160,165 210,153 260,141 310,128 360,116 410,104 460,92 510,79 560,67 610,55 660,42" fill="none" stroke-width="2.5"/>
 <polyline class="sLw" points="60,190 110,178 160,165 210,153 260,141 310,128 360,116 410,113 460,110 510,107 560,104 610,101 660,98" fill="none" stroke-width="2.5"/>
@@ -253,6 +253,8 @@ Producers and consumers evolve independently, so the record format needs a contr
 <text class="sC" x="60" y="208" text-anchor="middle">0 min</text>
 <text class="sC" x="360" y="208" text-anchor="middle">30 min</text>
 <text class="sC" x="660" y="208" text-anchor="middle">60 min</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60 190 L110 178 L160 165 L210 153 L260 141 L310 128 L360 116 L410 104 L460 92 L510 79 L560 67 L610 55 L660 42"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60 190 L110 178 L160 165 L210 153 L260 141 L310 128 L360 116 L410 113 L460 110 L510 107 L560 104 L610 101 L660 98"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Lag is the one Kafka metric everyone should alert on: it measures how stale the consumers' view of the world is.</figcaption></figure>
 
 Also: partition count planning (throughput per partition, target parallelism, growth); retention sized to recovery needs (enough to replay after a multi-day outage); a **dead-letter topic** for records that fail repeatedly ([[B8.4]]); monitoring under-replicated partitions and broker disk usage; and security (TLS, SASL authentication, ACLs per topic).

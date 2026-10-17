@@ -47,7 +47,7 @@ User counts are often attached to these stages ("1,000 users: one server; 1 mill
 | 7 | **Multiple regions** | Users on other continents need low latency; the business needs to survive a region outage | Data replication across regions, conflict handling, much higher cost |
 | (any) | **Splitting into services** | Many teams block each other in one codebase; parts need very different scaling or release cycles | Network calls, distributed failures, observability and platform work |
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Scaling ladder from one server to multi-region">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: scaling ladder from one server to multi-region">
 <rect class="sB" x="10" y="150" width="88" height="44" rx="6"/><text class="sT" x="54" y="170" text-anchor="middle">1 · one</text><text class="sT" x="54" y="185" text-anchor="middle">server</text>
 <rect class="sB" x="110" y="128" width="88" height="66" rx="6"/><text class="sT" x="154" y="158" text-anchor="middle">2 · own</text><text class="sT" x="154" y="173" text-anchor="middle">database</text>
 <rect class="sA" x="210" y="106" width="88" height="88" rx="6"/><text class="sT" x="254" y="146" text-anchor="middle">3 · LB +</text><text class="sT" x="254" y="161" text-anchor="middle">N servers</text>
@@ -56,6 +56,7 @@ User counts are often attached to these stages ("1,000 users: one server; 1 mill
 <rect class="sW" x="510" y="40" width="88" height="154" rx="6"/><text class="sT" x="554" y="112" text-anchor="middle">6 · shards</text>
 <rect class="sR" x="610" y="18" width="98" height="176" rx="6"/><text class="sT" x="659" y="100" text-anchor="middle">7 · multi-</text><text class="sT" x="659" y="115" text-anchor="middle">region</text>
 <text class="sS" x="10" y="20">Each step: more capacity and resilience, more moving parts to run</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M54 146 L154 124 L254 102 L354 80 L454 58 L554 36 L659 14"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Most products never need the last two steps. Many successful ones stop at step 4 or 5 for years.</figcaption></figure>
 
 ## SD2.3 Stages 1–2: one server, then a separate database 🟢 ⭐
@@ -376,7 +377,7 @@ Go multi-region for one of two reasons: **latency** for users on other continent
 
 **Recovery targets** decide which pattern you need: the **RTO** (how long you may be down) and the **RPO** (how much recent data you may lose). See [[SD4.8]].
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Three multi-region patterns: backup and restore, warm standby with async replication, and active-active with both regions live">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: three multi-region patterns: backup and restore, warm standby with async replication, and active-active with both regions live">
 <text class="sT" x="120" y="22" text-anchor="middle">Backup &amp; restore</text><text class="sC" x="120" y="236" text-anchor="middle">RTO: hours · cheapest</text>
 <rect class="sA" x="10" y="36" width="100" height="150" rx="10"/><text class="sT" x="60" y="56" text-anchor="middle">Region A</text><text class="sC" x="60" y="76" text-anchor="middle">live</text>
 <rect class="sB" x="24" y="92" width="72" height="18" rx="3"/>
@@ -404,6 +405,13 @@ Go multi-region for one of two reasons: **latency** for users on other continent
 <rect class="sB" x="620" y="144" width="72" height="18" rx="3"/>
 <line class="sLw" x1="586" y1="120" x2="606" y2="120" marker-start="url(#ahw)" marker-end="url(#ahw)"/>
 <text class="sS" x="596" y="210" text-anchor="middle">both take writes</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M110 145 L142 145"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M348 120 L380 120"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M348 120 L380 120"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M586 116 L606 116"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M606 124 L586 124"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M586 116 L606 116"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.800;1" path="M606 124 L586 124"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.800;0.802;1"/></circle>
 </svg><figcaption>Multi-region patterns, cheapest to most resilient. RTO is how long you're down; RPO is how much recent data you lose.</figcaption></figure>
 
 > [!sota] Why "one region" is a business decision, not just a technical one

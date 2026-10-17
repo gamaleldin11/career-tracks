@@ -393,7 +393,7 @@ Two rules of thumb follow from multiplying probabilities:
 - **Components in series multiply down.** If a request needs the API (99.9%) *and* the database (99.9%), the best you can expect is about 99.8%. Every hard dependency costs you availability.
 - **Redundant components multiply up.** Two independent servers that are each up 99% of the time, where either can serve, are both down only 0.01 × 0.01 = 0.01% of the time: about 99.99%. This is why redundancy across machines, zones and regions works, *as long as the failures are independent*.
 
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Availability multiplies down for components in series and up for redundant components in parallel">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: availability multiplies down for components in series and up for redundant components in parallel">
 <text class="sT" x="20" y="26">In series: every part must work</text>
 <rect class="sA" x="40" y="40" width="110" height="40" rx="8"/><text class="sT" x="95" y="58" text-anchor="middle">API</text><text class="sC" x="95" y="74" text-anchor="middle">99.9%</text><line class="sLm" x1="150" y1="60" x2="196" y2="60" marker-end="url(#ahm)"/><rect class="sA" x="200" y="40" width="110" height="40" rx="8"/><text class="sT" x="255" y="58" text-anchor="middle">database</text><text class="sC" x="255" y="74" text-anchor="middle">99.9%</text><line class="sLm" x1="310" y1="60" x2="356" y2="60" marker-end="url(#ahm)"/><rect class="sA" x="360" y="40" width="110" height="40" rx="8"/><text class="sT" x="415" y="58" text-anchor="middle">payments</text><text class="sC" x="415" y="74" text-anchor="middle">99.9%</text>
 <text class="sM" x="490" y="56">0.999 × 0.999 × 0.999</text><text class="sRt" x="490" y="74">≈ 99.7%: lower than any part</text>
@@ -402,6 +402,10 @@ Two rules of thumb follow from multiplying probabilities:
 <line class="sLm" x1="150" y1="181" x2="196" y2="156" marker-end="url(#ahm)"/><line class="sLm" x1="150" y1="181" x2="196" y2="206" marker-end="url(#ahm)"/><rect class="sB" x="40" y="160" width="110" height="40" rx="8"/><text class="sT" x="95" y="185" text-anchor="middle">balancer</text>
 <text class="sM" x="340" y="172">1 − (0.01 × 0.01)</text><text class="sGt" x="340" y="190">= 99.99%: higher than either</text>
 <text class="sC" x="340" y="214">(only if their failures are independent)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M150 60 L196 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M310 60 L356 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M150 181 L196 156"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M150 181 L196 206"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
 </svg><figcaption>The arithmetic behind "remove hard dependencies" and "add redundancy". Shared failure causes (one zone, one bad deploy) break the parallel rule.</figcaption></figure>
 
 > [!term] SLI, SLO and SLA
