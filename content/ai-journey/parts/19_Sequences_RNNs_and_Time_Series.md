@@ -309,7 +309,7 @@ class SimpleRnnModel(nn.Module):
 
 A 3-D input to `nn.Linear` works because `torch.matmul` broadcasts over the leading dimensions: [batch, time, 32] @ [32, 14] → [batch, time, 14].
 
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Two multi-step forecasting strategies: recursive prediction feeds each forecast back as an input, compounding errors; direct prediction outputs every horizon at once">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: two multi-step forecasting strategies: recursive prediction feeds each forecast back as an input, compounding errors; direct prediction outputs every horizon at once">
 <text class="sM" x="14" y="24">recursive: predict one, feed it back</text>
 <rect class="sB" x="14" y="34" width="52" height="26" rx="4"/><text class="sC" x="40" y="52" text-anchor="middle">t−3</text>
 <rect class="sB" x="74" y="34" width="52" height="26" rx="4"/><text class="sC" x="100" y="52" text-anchor="middle">t−2</text>
@@ -331,6 +331,12 @@ A 3-D input to `nn.Linear` works because `torch.matmul` broadcasts over the lead
 <line class="sLm" x1="394" y1="147" x2="430" y2="147" marker-end="url(#ahm)"/><rect class="sG" x="434" y="135" width="60" height="24" rx="4"/><text class="sC" x="464" y="152" text-anchor="middle">ŷ t+2</text>
 <line class="sLm" x1="394" y1="147" x2="430" y2="174" marker-end="url(#ahm)"/><rect class="sG" x="434" y="162" width="60" height="24" rx="4"/><text class="sC" x="464" y="179" text-anchor="middle">ŷ t+3</text>
 <text class="sGt" x="520" y="152">no feedback, no compounding</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M380 60 Q 330 92 310 62"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.400;1" path="M460 60 Q 410 92 390 62"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.400;0.402;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M250 147 L290 147"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.720;1" path="M394 147 L430 120"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.720;0.722;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.720;1" path="M394 147 L430 147"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.720;0.722;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.720;1" path="M394 147 L430 174"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.720;0.722;1"/></circle>
 </svg><figcaption>For 14 days ahead, Géron's direct model beats the recursive one for exactly this reason.</figcaption></figure>
 
 ---

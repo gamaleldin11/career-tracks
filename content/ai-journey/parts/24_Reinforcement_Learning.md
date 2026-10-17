@@ -1405,7 +1405,7 @@ Original Atari DQN recipe: huge replay buffer, tiny learning rate, **50 million*
 
 **Actor** = policy network (like REINFORCE). **Critic** = value network estimating V(s). The actor updates using the critic's judgement instead of noisy full returns — "an athlete learning with a coach". Gets the best of both worlds: stochastic policies, continuous actions, **lower variance**, and better data efficiency.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Actor-critic: a shared network body feeds an actor head that outputs the policy and a critic head that estimates state value; the TD error acts as the advantage that updates the actor">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: actor-critic: a shared network body feeds an actor head that outputs the policy and a critic head that estimates state value; the TD error acts as the advantage that updates the actor">
 <rect class="sB" x="14" y="80" width="110" height="50" rx="8"/><text class="sT" x="69" y="110" text-anchor="middle">state s</text><line class="sL" x1="124" y1="105" x2="166" y2="105" marker-end="url(#ah)"/>
 <rect class="sV" x="170" y="70" width="140" height="70" rx="8"/><text class="sT" x="240" y="103" text-anchor="middle">shared body</text><text class="sC" x="240" y="119" text-anchor="middle">layers</text>
 <line class="sL" x1="310" y1="90" x2="366" y2="56" marker-end="url(#ah)"/><rect class="sA" x="370" y="30" width="150" height="50" rx="8"/><text class="sT" x="445" y="53" text-anchor="middle">actor head</text><text class="sC" x="445" y="69" text-anchor="middle">policy π(a | s)</text>
@@ -1413,6 +1413,11 @@ Original Atari DQN recipe: huge replay buffer, tiny learning rate, **50 million*
 <line class="sLw" x1="520" y1="155" x2="566" y2="120" marker-end="url(#ahw)"/><rect class="sW" x="570" y="90" width="136" height="50" rx="8"/><text class="sT" x="638" y="113" text-anchor="middle">TD error δ</text><text class="sC" x="638" y="129" text-anchor="middle">r + γV(s′) − V(s)</text>
 <path class="sLw" d="M638 90 V55 H524" fill="none" stroke-dasharray="5 4" marker-end="url(#ahw)"/><text class="sWt" x="706" y="20" text-anchor="end">advantage: was the action better than expected?</text>
 <text class="sS" x="360" y="210" text-anchor="middle">the actor chooses; the critic judges each choice against its expectation (less noisy than full returns)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M124 105 L166 105"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.260;1" path="M310 90 L366 56"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.260;0.262;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.260;1" path="M310 120 L366 154"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.260;0.262;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.440;1" path="M520 155 L566 120"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.440;0.442;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.700;1" path="M638 90 V55 H524"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.700;0.702;1"/></circle>
 </svg><figcaption>Actor-critic in one picture. PPO, the algorithm behind most modern RL including RLHF, is an actor-critic with a clipped update.</figcaption></figure>
 
 ```python

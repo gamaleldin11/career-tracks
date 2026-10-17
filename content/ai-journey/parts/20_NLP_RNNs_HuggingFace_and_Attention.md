@@ -280,7 +280,7 @@ Géron's experiment: the SST-2 sentiment model rates **"I am from the USA" very 
 - Loss: `nn.CrossEntropyLoss(ignore_index=pad_id)`, so padding positions don't count.
 - A **shared BPE tokenizer and embedding** for English and Spanish, since they share many subwords.
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Teacher forcing feeds the decoder the true previous target word during training, while at inference it receives its own previous prediction, so an early mistake propagates">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: teacher forcing feeds the decoder the true previous target word during training, while at inference it receives its own previous prediction, so an early mistake propagates">
 <text class="sM" x="14" y="22">training (teacher forcing): feed the TRUE previous word</text>
 <rect class="sV" x="60" y="50" width="90" height="30" rx="6"/><text class="sC" x="105" y="70" text-anchor="middle">decoder</text>
 <rect class="sG" x="60" y="92" width="90" height="24" rx="4"/><text class="sC" x="105" y="109" text-anchor="middle">&lt;s&gt;</text><line class="sLm" x1="105" y1="92" x2="105" y2="82" marker-end="url(#ahm)"/>
@@ -311,6 +311,9 @@ Géron's experiment: the SST-2 sentiment model rates **"I am from the USA" very 
 <rect class="sR" x="510" y="192" width="90" height="24" rx="4"/><text class="sC" x="555" y="209" text-anchor="middle">players</text><line class="sLm" x1="555" y1="192" x2="555" y2="182" marker-end="url(#ahm)"/>
 <text class="sT" x="555" y="142" text-anchor="middle">???</text><line class="sLm" x1="555" y1="150" x2="555" y2="146"/>
 <text class="sS" x="360" y="226" text-anchor="middle">one early mistake ("players") feeds every later step: why beam search and good training matter</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.180;1" path="M130 138 Q 180 126 215 190"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.180;0.182;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.460;1" path="M280 138 Q 330 126 365 190"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.460;0.462;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.740;1" path="M430 138 Q 480 126 515 190"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.740;0.742;1"/></circle>
 </svg><figcaption>Teacher forcing makes training fast and stable; at inference the model must live with its own outputs.</figcaption></figure>
 
 ```python

@@ -1055,7 +1055,7 @@ y_pred, y_pred_aux = model(X_wide=xw, X_deep=xd)
 loss = 0.8 * criterion(y_pred, y) + 0.2 * criterion(y_pred_aux, y)   # the weights are a hyperparameter
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Wide and Deep: the deep input passes through two linear and ReLU layers, the wide input skips them, both are concatenated into the main output, and an auxiliary output reads the deep features alone; the loss is a weighted sum of both outputs">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: wide and Deep: the deep input passes through two linear and ReLU layers, the wide input skips them, both are concatenated into the main output, and an auxiliary output reads the deep features alone; the loss is a weighted sum of both outputs">
 <rect class="sA" x="14" y="30" width="120" height="44" rx="8"/><text class="sT" x="74" y="50" text-anchor="middle">X_wide</text><text class="sC" x="74" y="66" text-anchor="middle">(batch, 8)</text>
 <rect class="sB" x="14" y="150" width="120" height="44" rx="8"/><text class="sT" x="74" y="170" text-anchor="middle">X_deep</text><text class="sC" x="74" y="186" text-anchor="middle">(batch, 8)</text>
 <rect class="sB" x="170" y="150" width="120" height="44" rx="8"/><text class="sT" x="230" y="170" text-anchor="middle">Linear + ReLU</text><text class="sC" x="230" y="186" text-anchor="middle">8 → 50</text>
@@ -1070,6 +1070,12 @@ loss = 0.8 * criterion(y_pred, y) + 0.2 * criterion(y_pred_aux, y)   # the weigh
 <line class="sLw" x1="440" y1="180" x2="602" y2="182" marker-end="url(#ahw)"/>
 <text class="sGt" x="560" y="226" text-anchor="middle">loss = 0.8 · loss(output) + 0.2 · loss(aux)</text>
 <text class="sS" x="220" y="226" text-anchor="middle">parameters: 2,580</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M134 52 H520 V80"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M134 172 L166 172"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.250;1" path="M290 172 L316 172"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.450;1" path="M440 164 L500 132"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.450;0.452;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.550;1" path="M440 180 L602 182"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.550;0.552;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.600;1" path="M580 106 L602 106"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.600;0.602;1"/></circle>
 </svg><figcaption>The WideAndDeep module above as a graph, with tensor shapes for 8 input features. The auxiliary head forces the deep stack to be useful on its own.</figcaption></figure>
 
 - **Multiple inputs:** return several tensors from the Dataset (`for *X_inputs, y in loader: model(*X_inputs)`), or better, a **dict of named inputs** from a custom `Dataset` with `__len__` and `__getitem__`, then call `model(**inputs)`. That prevents order mix-ups.
