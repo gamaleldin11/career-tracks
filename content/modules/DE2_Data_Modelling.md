@@ -169,7 +169,7 @@ A **factless fact table** records events or coverage with no measures, for examp
 
 **Star vs snowflake:** a **star** keeps each dimension as one wide, denormalised table; a **snowflake** normalises dimensions into hierarchies. Stars are simpler to query and usually faster in columnar engines (storage savings from snowflaking are negligible); snowflakes reduce some redundancy at the cost of more joins. Prefer stars for the presentation layer.
 
-<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="A role-playing date dimension: one fact_orders table has three date keys, order date, delivery date and payment date, each joined to the same dim_date table in a different role, plus surrogate-key joins to dim_customer and dim_product">
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: a role-playing date dimension: one fact_orders table has three date keys, order date, delivery date and payment date, each joined to the same dim_date table in a different role, plus surrogate-key joins to dim_customer and dim_product">
 <rect class="sA" x="250" y="80" width="220" height="70" rx="8"/><text class="sT" x="360" y="113" text-anchor="middle">fact_orders</text><text class="sC" x="360" y="129" text-anchor="middle">3 date keys + customer, product</text>
 <rect class="sV" x="14" y="20" width="170" height="44" rx="8"/><text class="sT" x="99" y="40" text-anchor="middle">dim_date</text><text class="sC" x="99" y="56" text-anchor="middle">as order date</text>
 <rect class="sV" x="14" y="100" width="170" height="44" rx="8"/><text class="sT" x="99" y="120" text-anchor="middle">dim_date</text><text class="sC" x="99" y="136" text-anchor="middle">as delivery date</text>
@@ -182,6 +182,11 @@ A **factless fact table** records events or coverage with no measures, for examp
 <line class="sLm" x1="470" y1="105" x2="536" y2="82"/>
 <line class="sLm" x1="470" y1="125" x2="536" y2="162"/>
 <text class="sS" x="360" y="244" text-anchor="middle">one physical date table, joined three times under three names (views or aliases)</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M250 100 L184 42"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M250 115 L184 122"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M250 130 L184 202"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.550;1" path="M470 105 L536 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.550;0.552;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.550;1" path="M470 125 L536 162"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.550;0.552;1"/></circle>
 </svg><figcaption>Role-playing saves building three date tables; in Power BI it means one active relationship plus USERELATIONSHIP, or three role views.</figcaption></figure>
 
 ## DE2.5 Slowly changing dimensions 🟢 🟡 ⭐
@@ -233,7 +238,7 @@ Orders from March 2026 point to `customer_sk = 1001` (Giza); orders from July po
 | **One Big Table (OBT)** / wide denormalised tables | Pre-join facts and dimension attributes into one wide table per use case | Very simple for BI tools and ad-hoc queries; columnar engines handle wide tables well | Duplication, harder to keep consistent, mixed grains risk; SCD history is awkward |
 | **Normalised integration layer** (Inmon) | A 3NF enterprise model, then marts | Single integrated truth | Slow to build; still needs marts |
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Data Vault: hubs for the customer and order business keys, a link between them, and satellites holding their changing attributes with load dates">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: Data Vault: hubs for the customer and order business keys, a link between them, and satellites holding their changing attributes with load dates">
 <rect class="sA" x="40" y="40" width="160" height="50" rx="8"/><text class="sT" x="120" y="63" text-anchor="middle">hub_customer</text><text class="sC" x="120" y="79" text-anchor="middle">business key C-42</text><rect class="sA" x="520" y="40" width="160" height="50" rx="8"/><text class="sT" x="600" y="63" text-anchor="middle">hub_order</text><text class="sC" x="600" y="79" text-anchor="middle">business key O-9912</text>
 <rect class="sV" x="280" y="40" width="160" height="50" rx="8"/><text class="sT" x="360" y="63" text-anchor="middle">link_customer_order</text><text class="sC" x="360" y="79" text-anchor="middle">C-42 ↔ O-9912</text>
 <line class="sLm" x1="200" y1="65" x2="278" y2="65"/><line class="sLm" x1="440" y1="65" x2="518" y2="65"/>
@@ -241,6 +246,10 @@ Orders from March 2026 point to `customer_sk = 1001` (Giza); orders from July po
 <line class="sLm" x1="120" y1="90" x2="120" y2="138"/><line class="sLm" x1="600" y1="90" x2="600" y2="138"/>
 <text class="sC" x="360" y="160" text-anchor="middle">every table is insert-only,</text><text class="sC" x="360" y="178" text-anchor="middle">so the full history is auditable</text>
 <text class="sS" x="360" y="222" text-anchor="middle">hubs = keys · links = relationships · satellites = changing attributes</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M200 65 L278 65"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M440 65 L518 65"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M120 90 L120 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M600 90 L600 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
 </svg><figcaption>Data Vault trades easy querying for auditability and easy integration of new sources. Stars are usually built on top of it.</figcaption></figure>
 
 A common modern pattern: **source-shaped and cleaned data in silver**, **Kimball stars in gold**, and a few **wide tables** for specific dashboards or ML feature sets, all built with dbt.

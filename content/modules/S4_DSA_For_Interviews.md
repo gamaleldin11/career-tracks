@@ -746,7 +746,7 @@ Weighted shortest paths use **Dijkstra's algorithm** (a priority queue, non-nega
 
 **Signal:** "k largest", "k most frequent", "merge k sorted lists", "running median".
 
-<figure class="dia"><svg viewBox="0 0 720 310" role="img" aria-label="A min-heap drawn as a tree and stored as an array, with the index formulas">
+<figure class="dia anim"><svg viewBox="0 0 720 310" role="img" aria-label="Animation: a min-heap drawn as a tree and stored as an array, with the index formulas">
 <line class="sLm" x1="360" y1="40" x2="220" y2="100"/>
 <line class="sLm" x1="360" y1="40" x2="500" y2="100"/>
 <line class="sLm" x1="220" y1="100" x2="150" y2="160"/>
@@ -770,6 +770,11 @@ Weighted shortest paths use **Dijkstra's algorithm** (a priority queue, non-nega
 <text class="sM" x="20" y="226">array</text>
 <text class="sS" x="20" y="280">children of i: 2i + 1 and 2i + 2 · parent of i: (i − 1) / 2</text>
 <text class="sGt" x="20" y="298">every parent ≤ its children, so the minimum is always at [0]</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M220 100 L150 160"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M220 100 L290 160"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.450;1" path="M244 204 L244 118"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.450;0.452;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M360 204 L162 178"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M418 204 L292 178"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
 </svg><figcaption>A binary heap is a tree stored in an array, with no pointers. Insert adds at the end and swaps upward; removing the minimum moves the last item to the top and swaps it down. Both walk one path, so O(log n).</figcaption></figure>
 
 ```csharp
