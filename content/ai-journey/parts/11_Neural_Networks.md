@@ -212,6 +212,19 @@ The fix, if you revisit this: `scikeras` wraps a Keras model in the sklearn esti
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="The project’s structural weakness and its fix: the fitted preprocessor and the Keras model are saved as two separate files that must stay in sync; wrapping the Keras model with scikeras puts both in one scikit-learn Pipeline saved as a single artifact">
+<rect class="sB" x="14" y="40" width="150" height="56" rx="8"/><text class="sT" x="89" y="66" text-anchor="middle">preprocessor</text><text class="sC" x="89" y="82" text-anchor="middle">preprocessor.joblib</text>
+<rect class="sV" x="14" y="120" width="150" height="56" rx="8"/><text class="sT" x="89" y="146" text-anchor="middle">Keras model</text><text class="sC" x="89" y="162" text-anchor="middle">model.keras</text>
+<text class="sS" x="260" y="80" text-anchor="middle">two files that must stay in sync:</text>
+<text class="sS" x="260" y="98" text-anchor="middle">load a new model with an old</text>
+<text class="sRt" x="260" y="116" text-anchor="middle">preprocessor and features shift</text>
+<rect class="sG" x="400" y="76" width="160" height="64" rx="8"/><text class="sT" x="480" y="106" text-anchor="middle">one Pipeline</text><text class="sC" x="480" y="122" text-anchor="middle">scikeras wraps Keras</text>
+<line class="sLm" x1="164" y1="68" x2="398" y2="100" marker-end="url(#ahm)"/>
+<line class="sLm" x1="164" y1="148" x2="398" y2="116" marker-end="url(#ahm)"/>
+<rect class="sG" x="590" y="82" width="116" height="52" rx="8"/><text class="sT" x="648" y="106" text-anchor="middle">pipeline.joblib</text><text class="sC" x="648" y="122" text-anchor="middle">one artifact</text>
+<line class="sLg" x1="560" y1="108" x2="588" y2="108" marker-end="url(#ahg)"/>
+</svg><figcaption>One artifact means the exact preprocessing that trained the model always travels with it.</figcaption></figure>
+
 ## 11.3 `preprocess.py` 🟢
 
 ```python

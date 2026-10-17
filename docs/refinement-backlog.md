@@ -28,15 +28,14 @@ Status of the diagram and foundations refinement pass, written so the work can b
 ### AI Journey sections still without a diagram
 
 - §5.5 and §13.5 (worked EDAs). Both need the original datasets (Supermarket Sales, UK road accidents), which are not in the repo.
-- §13.6 statistical tests (needs the accident data), §13.9, §13.11.
-- §9.6, §11.3 (mostly notebook walkthroughs and translation tables).
+- §13.6 statistical tests (needs the accident data).
+- §9.6 (mostly notebook walkthroughs and translation tables).
 - §14.1, §14.5, §14.6, §25.2–25.4, §25.7 (lists, reading lists and summaries: low value for diagrams).
 
 ### Handbook sections still without a diagram (most valuable first)
 
 - **Backend:**
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
-- **Frontend:** F5.11.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
 ### Other follow-ups

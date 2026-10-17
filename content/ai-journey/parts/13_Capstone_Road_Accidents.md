@@ -684,6 +684,16 @@ From the sibling `AI_Project/readme.md`:
 >
 > **Time & Demographics:** Age of Casualty and Hour of Day are the two most important features in the predictive model, indicating that *who* is involved and *when* the accident happens matters more than weather conditions.
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="The road-accident project’s key findings as bars: about 8 percent of car accidents were serious or fatal against about 42 percent for motorcycles over 500cc; 11 percent in daylight, 22 percent in darkness with no street lighting and 66 percent where street lights were present but unlit">
+<text class="sM" x="14" y="20">share of accidents that were serious or fatal (from the project readme)</text>
+<text class="sS" x="240" y="50" text-anchor="end">Cars</text><rect class="sB" x="250" y="34" width="52" height="22" rx="3" opacity=".85"/><text class="sT" x="308" y="50">~8%</text>
+<text class="sS" x="240" y="80" text-anchor="end">Motorcycles over 500cc</text><rect class="sR" x="250" y="64" width="273" height="22" rx="3" opacity=".85"/><text class="sT" x="529" y="80">~42%</text>
+<text class="sS" x="240" y="124" text-anchor="end">Daylight</text><rect class="sB" x="250" y="108" width="71.5" height="22" rx="3" opacity=".85"/><text class="sT" x="327.5" y="124">~11%</text>
+<text class="sS" x="240" y="154" text-anchor="end">Darkness: no street lighting</text><rect class="sW" x="250" y="138" width="143" height="22" rx="3" opacity=".85"/><text class="sT" x="399" y="154">~22%</text>
+<text class="sS" x="240" y="184" text-anchor="end">Darkness: lights present but unlit</text><rect class="sR" x="250" y="168" width="429" height="22" rx="3" opacity=".85"/><text class="sT" x="685" y="184">~66%</text>
+<text class="sGt" x="360" y="210" text-anchor="middle">each finding is a comparison with a number and a baseline, which is what makes it actionable</text>
+</svg><figcaption>Figures quoted from the project’s own readme; the 66% bar rests on a small sample, as the readme itself warns.</figcaption></figure>
+
 Look at what makes these good:
 
 - **They are quantified.** "42% vs 8%", not "motorcycles are riskier".
@@ -1145,6 +1155,16 @@ AI_Project/
 ├── requirements.txt
 └── *.png              # saved figures
 ```
+
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="The team project as modules: the collective notebook imports data_handling for loading and cleaning, EDA for plots, training for fitting models and evaluation for metrics, and the findings and figures are written to readme.md and PNG files">
+<rect class="sA" x="270" y="14" width="180" height="46" rx="8"/><text class="sT" x="360" y="35" text-anchor="middle">collective_project.ipynb</text><text class="sC" x="360" y="51" text-anchor="middle">the narrative</text>
+<rect class="sB" x="14" y="104" width="164" height="46" rx="8"/><text class="sT" x="96" y="125" text-anchor="middle">data_handling.py</text><text class="sC" x="96" y="141" text-anchor="middle">load + clean</text><line class="sLm" x1="360" y1="60" x2="96" y2="104" marker-end="url(#ahm)"/>
+<rect class="sV" x="190" y="104" width="164" height="46" rx="8"/><text class="sT" x="272" y="125" text-anchor="middle">EDA.py</text><text class="sC" x="272" y="141" text-anchor="middle">plots</text><line class="sLm" x1="360" y1="60" x2="272" y2="104" marker-end="url(#ahm)"/>
+<rect class="sG" x="366" y="104" width="164" height="46" rx="8"/><text class="sT" x="448" y="125" text-anchor="middle">training.py</text><text class="sC" x="448" y="141" text-anchor="middle">fit models</text><line class="sLm" x1="360" y1="60" x2="448" y2="104" marker-end="url(#ahm)"/>
+<rect class="sW" x="542" y="104" width="164" height="46" rx="8"/><text class="sT" x="624" y="125" text-anchor="middle">evaluation.py</text><text class="sC" x="624" y="141" text-anchor="middle">metrics</text><line class="sLm" x1="360" y1="60" x2="624" y2="104" marker-end="url(#ahm)"/>
+<rect class="sN" x="270" y="180" width="180" height="40" rx="8"/><text class="sT" x="360" y="198" text-anchor="middle">readme.md + *.png</text><text class="sC" x="360" y="214" text-anchor="middle">findings, figures</text>
+<text class="sS" x="360" y="240" text-anchor="middle">logic lives in reviewable modules; the notebook imports them and tells the story</text>
+</svg><figcaption>The same layering as the single-person project, scaled to a team: each file can be reviewed and diffed on its own.</figcaption></figure>
 
 **This is the right pattern for team work.** Logic lives in modules that can be reviewed and diffed; the notebook is the narrative layer that imports them. Four people can work on four modules without merge conflicts in JSON.
 
