@@ -393,7 +393,7 @@ process.on("SIGTERM", () => {
 - **Security:** `helmet`, body size limits, rate limiting (`express-rate-limit`), validated input, parameterised queries, `npm ci` with a lock file, a non-root container user, and no secrets in the image ([[S5.8]]).
 - **Alternatives:** **Fastify** (faster, schema-based validation), and the **Bun** and **Deno** runtimes, worth knowing exist; Node remains the default for jobs.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Using four cores: Node runs four processes each with one JavaScript thread behind a load balancer; .NET runs one process whose thread pool spans all cores">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: using four cores: Node runs four processes each with one JavaScript thread behind a load balancer; .NET runs one process whose thread pool spans all cores">
 <rect class="sN" x="14" y="24" width="336" height="190" rx="12"/><text class="sT" x="182" y="44" text-anchor="middle">Node: one process per core</text>
 <rect class="sB" x="102" y="54" width="160" height="34" rx="8"/><text class="sT" x="182" y="76" text-anchor="middle">load balancer / cluster</text>
 <line class="sLm" x1="182" y1="88" x2="61" y2="108"/><rect class="sA" x="26" y="110" width="70" height="64" rx="6"/><text class="sC" x="61" y="132" text-anchor="middle">process</text><text class="sC" x="61" y="150" text-anchor="middle">JS thread</text><text class="sM" x="61" y="166" text-anchor="middle">core 1</text>
@@ -411,6 +411,10 @@ process.on("SIGTERM", () => {
 <rect class="sB" x="634" y="92" width="38" height="34" rx="4"/><text class="sC" x="653" y="114" text-anchor="middle">T6</text>
 <text class="sC" x="538" y="150" text-anchor="middle">thread pool spans all cores</text><text class="sC" x="538" y="166" text-anchor="middle">shared in-memory cache works</text>
 <text class="sC" x="538" y="200" text-anchor="middle">one process; locks needed for shared data</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M182 88 L61 108"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M182 88 L141 108"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M182 88 L221 108"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M182 88 L301 108"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
 </svg><figcaption>How each runtime uses a multi-core machine. In containers, Node usually gets more replicas with one core each.</figcaption></figure>
 
 <figure class="dia steps"><svg viewBox="0 0 720 220" role="img" aria-label="Graceful shutdown timeline: on SIGTERM the server stops accepting connections, in-flight requests finish, the database pool closes and the process exits, with a ten-second force-exit timer as a safety net">

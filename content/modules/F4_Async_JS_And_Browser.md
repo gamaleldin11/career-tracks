@@ -202,7 +202,7 @@ An `async` function **always returns a promise**. `await` pauses only that funct
 | `Promise.race([...])` | The **first to settle** settles it | The first to settle rejects | Timeouts |
 | `Promise.any([...])` | The **first to fulfil** | All reject (`AggregateError`) | Fastest of several mirrors |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Three promises settling at 300, 600 and 900 ms, one rejecting, and when Promise.all, allSettled, race and any each settle">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: three promises settling at 300, 600 and 900 ms, one rejecting, and when Promise.all, allSettled, race and any each settle">
 <text class="sM" x="160" y="40" text-anchor="end">A: 300 ms ✓</text><rect class="sG" x="170" y="26" width="141" height="18" rx="3"/>
 <text class="sM" x="160" y="66" text-anchor="end">B: 600 ms ✗</text><rect class="sR" x="170" y="52" width="282" height="18" rx="3"/>
 <text class="sM" x="160" y="92" text-anchor="end">C: 900 ms ✓</text><rect class="sG" x="170" y="78" width="423" height="18" rx="3"/>
@@ -214,6 +214,7 @@ An `async` function **always returns a promise**. `await` pauses only that funct
 <text class="sC" x="311" y="230" text-anchor="middle">300 ms</text><line class="sD" x1="311.0" y1="20" x2="311.0" y2="218" opacity=".4"/>
 <text class="sC" x="452" y="230" text-anchor="middle">600 ms</text><line class="sD" x1="452.0" y1="20" x2="452.0" y2="218" opacity=".4"/>
 <text class="sC" x="593" y="230" text-anchor="middle">900 ms</text><line class="sD" x1="593.0" y1="20" x2="593.0" y2="218" opacity=".4"/>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.875;1" path="M170 108 L654 108"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.875;0.877;1"/></circle>
 </svg><figcaption>Same three promises, four combinators. <code>all</code> fails fast, <code>allSettled</code> waits for everyone, <code>race</code> takes the first to settle, <code>any</code> the first to succeed.</figcaption></figure>
 
 ```js

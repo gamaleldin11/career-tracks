@@ -202,7 +202,7 @@ dotnet ef migrations bundle                   # a self-contained executable that
 
 ## B5.5 Querying well 🟢 🟡 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 188" role="img" aria-label="A LINQ query becomes an expression tree that EF Core translates into SQL selecting only the projected columns">
+<figure class="dia anim"><svg viewBox="0 0 720 188" role="img" aria-label="Animation: A LINQ query becomes an expression tree that EF Core translates into SQL selecting only the projected columns">
 <rect class="sA" x="14" y="30" width="230" height="120" rx="8"/><text class="sT" x="129" y="48" text-anchor="middle">C# (LINQ)</text>
 <text class="sC" x="22" y="66" xml:space="preserve" style="white-space:pre">db.Invoices</text>
 <text class="sC" x="22" y="80" xml:space="preserve" style="white-space:pre">  .Where(i =&gt; i.Status</text>
@@ -223,6 +223,8 @@ dotnet ef migrations bundle                   # a self-contained executable that
 <text class="sC" x="482" y="106" xml:space="preserve" style="white-space:pre">WHERE i.Status = 2</text>
 <text class="sC" x="482" y="124" xml:space="preserve" style="white-space:pre">ORDER BY i.DueDate</text>
 <text class="sS" x="360" y="176" text-anchor="middle">the lambda is data, not compiled code: the provider reads it and writes SQL</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M244 90 L270 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M444 90 L470 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
 </svg><figcaption>Translation, step by step. Anything EF can't express in SQL inside <code>Where</code> throws, rather than silently loading the table.</figcaption></figure>
 
 ### Tracking vs no-tracking
