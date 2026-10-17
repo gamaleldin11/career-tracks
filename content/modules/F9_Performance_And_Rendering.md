@@ -309,6 +309,29 @@ Ways to do less hydration:
 - **Images:** AVIF or WebP, `srcset`/`sizes`, lazy below the fold, explicit dimensions ([[F1.4]]).
 - **Fonts:** few weights, WOFF2, subset (Latin plus Arabic only if needed), `font-display: swap`, self-host when possible.
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: a CDN in front of the origin: a cache hit is answered from the nearby edge in about 20 milliseconds, a miss goes on to the origin server and back, adding about 120 milliseconds; hashed asset names are cached for a year as immutable while index.html is revalidated every time">
+<rect class="sB" x="14" y="90" width="110" height="50" rx="8"/><text class="sT" x="69" y="113" text-anchor="middle">browser</text><text class="sC" x="69" y="129" text-anchor="middle">Cairo</text>
+<rect class="sV" x="214" y="90" width="150" height="50" rx="8"/><text class="sT" x="289" y="113" text-anchor="middle">CDN edge</text><text class="sC" x="289" y="129" text-anchor="middle">nearby cache</text>
+<rect class="sA" x="470" y="90" width="150" height="50" rx="8"/><text class="sT" x="545" y="113" text-anchor="middle">origin</text><text class="sC" x="545" y="129" text-anchor="middle">your server</text>
+<line class="sLm" x1="124" y1="108" x2="212" y2="108" marker-end="url(#ahm)"/>
+<line class="sLg" x1="212" y1="122" x2="126" y2="122" marker-end="url(#ahg)"/>
+<line class="sLm" x1="364" y1="108" x2="468" y2="108" marker-end="url(#ahm)"/>
+<line class="sLm" x1="468" y1="122" x2="366" y2="122" marker-end="url(#ahm)"/>
+<text class="sGt" x="168" y="84" text-anchor="middle">hit: ~20 ms</text>
+<text class="sWt" x="416" y="84" text-anchor="middle">miss: + ~120 ms</text>
+<rect class="sN" x="14" y="168" width="692" height="54" rx="8"/>
+<text class="sC" x="26" y="188" xml:space="preserve" style="white-space:pre">app.3f9a2c.js   Cache-Control: public, max-age=31536000, immutable</text>
+<text class="sC" x="26" y="208" xml:space="preserve" style="white-space:pre">index.html      Cache-Control: no-cache   (revalidate every time)</text>
+<text class="sM" x="360" y="30" text-anchor="middle">hashed file names can be cached for a year; the HTML that points at them must not be</text>
+<text class="sS" x="360" y="50" text-anchor="middle">plus Brotli compression and HTTP/2 or 3 on the same connection</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M124 108 L212 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M212 122 L126 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M124 108 L212 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M364 108 L468 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.760;1" path="M468 122 L366 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.760;0.762;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.780;0.860;1" path="M212 122 L126 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.778;0.782;0.860;0.862;1"/></circle>
+</svg><figcaption>Content-hashed file names make long caching safe: a new build produces new names, so nobody is stuck with an old file.</figcaption></figure>
+
 ## F9.10 Measuring in practice 🟡
 
 - **Lighthouse** (DevTools, CLI or CI): a lab audit with specific recommendations.

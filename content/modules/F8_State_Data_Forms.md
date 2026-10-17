@@ -146,6 +146,23 @@ Every screen that loads data must design all four, not just the happy path:
 
 Model them as a discriminated union ([[F5.5]]) so you can't show data and an error at the same time.
 
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: the four states every data view needs: loading leads to success with the data, an empty state that tells the user what to do next, or an error state with a message and a retry that returns to loading">
+<rect class="sB" x="290" y="20" width="140" height="44" rx="8"/><text class="sT" x="360" y="40" text-anchor="middle">loading</text><text class="sC" x="360" y="56" text-anchor="middle">show a skeleton</text>
+<rect class="sG" x="40" y="120" width="160" height="50" rx="8"/><text class="sT" x="120" y="143" text-anchor="middle">success</text><text class="sC" x="120" y="159" text-anchor="middle">the data</text>
+<rect class="sN" x="280" y="120" width="160" height="50" rx="8"/><text class="sT" x="360" y="143" text-anchor="middle">empty</text><text class="sC" x="360" y="159" text-anchor="middle">say what to do next</text>
+<rect class="sR" x="520" y="120" width="160" height="50" rx="8"/><text class="sT" x="600" y="143" text-anchor="middle">error</text><text class="sC" x="600" y="159" text-anchor="middle">message + retry</text>
+<line class="sLm" x1="330" y1="64" x2="140" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="360" y1="64" x2="360" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="390" y1="64" x2="600" y2="118" marker-end="url(#ahm)"/>
+<path class="sLw" d="M600 170 C600 220 470 220 430 66" style="fill:none" marker-end="url(#ahw)"/>
+<text class="sWt" x="560" y="214" text-anchor="middle">retry</text>
+<text class="sS" x="360" y="240" text-anchor="middle">design all four before shipping: users see empty and error more often than the demo suggests</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.140;1" path="M330 64 L140 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.140;0.142;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.380;1" path="M360 64 L360 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.380;0.382;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.640;1" path="M390 64 L600 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.640;0.642;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.880;1" path="M600 170 C600 220 470 220 430 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.880;0.882;1"/></circle>
+</svg><figcaption>TanStack Query and Angular resources expose these states directly (<code>isPending</code>, <code>isError</code>, <code>data</code>); render each one on purpose.</figcaption></figure>
+
 ## F8.4 Optimistic updates 🟡 ⭐
 
 > [!term] Optimistic update

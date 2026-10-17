@@ -201,6 +201,29 @@ Producers and consumers evolve independently, so the record format needs a contr
 - Feeding search indexes and caches.
 - The **outbox pattern** ([[B8.7]]): Debezium publishes rows from an outbox table, so an application's database commit and its event publication can't diverge.
 
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: change data capture: Debezium, a Kafka Connect source, reads the database transaction log rather than the tables and publishes each insert, update and delete to a Kafka topic, from which sink connectors and consumers update a lakehouse, a search index and a cache">
+<rect class="sB" x="14" y="70" width="130" height="56" rx="8"/><text class="sT" x="79" y="96" text-anchor="middle">orders DB</text><text class="sC" x="79" y="112" text-anchor="middle">SQL / Postgres</text>
+<rect class="sN" x="14" y="140" width="130" height="26" rx="4"/><text class="sC" x="79" y="158" text-anchor="middle">transaction log</text>
+<rect class="sV" x="196" y="84" width="130" height="56" rx="8"/><text class="sT" x="261" y="110" text-anchor="middle">Debezium</text><text class="sC" x="261" y="126" text-anchor="middle">Kafka Connect source</text>
+<rect class="sW" x="378" y="84" width="130" height="56" rx="8"/><text class="sT" x="443" y="110" text-anchor="middle">Kafka topic</text><text class="sC" x="443" y="126" text-anchor="middle">db.orders changes</text>
+<rect class="sG" x="560" y="20" width="146" height="44" rx="8"/><text class="sT" x="633" y="40" text-anchor="middle">lakehouse</text><text class="sC" x="633" y="56" text-anchor="middle">sink connector</text>
+<rect class="sG" x="560" y="90" width="146" height="44" rx="8"/><text class="sT" x="633" y="110" text-anchor="middle">search index</text><text class="sC" x="633" y="126" text-anchor="middle">sink connector</text>
+<rect class="sG" x="560" y="160" width="146" height="44" rx="8"/><text class="sT" x="633" y="180" text-anchor="middle">cache invalidation</text><text class="sC" x="633" y="196" text-anchor="middle">a consumer</text>
+<line class="sLm" x1="144" y1="153" x2="196" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="326" y1="112" x2="376" y2="112" marker-end="url(#ahm)"/>
+<line class="sLm" x1="508" y1="112" x2="558" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="508" y1="112" x2="558" y2="112" marker-end="url(#ahm)"/>
+<line class="sLm" x1="508" y1="112" x2="558" y2="182" marker-end="url(#ahm)"/>
+<text class="sS" x="170" y="190" text-anchor="middle">reads the log, not the tables:</text><text class="sS" x="170" y="206" text-anchor="middle">no extra load, no missed deletes</text>
+<text class="sS" x="360" y="232" text-anchor="middle">each change arrives as an event with before and after values, in commit order per key</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.050;1" path="M79 126 L79 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.050;0.052;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.070;0.150;1" path="M144 153 L196 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.068;0.072;0.150;0.152;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M326 112 L376 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.440;1" path="M508 112 L558 42"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.440;0.442;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.440;1" path="M508 112 L558 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.440;0.442;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.440;1" path="M508 112 L558 182"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.440;0.442;1"/></circle>
+</svg><figcaption>CDC turns a database into an event stream without touching the application. Polling a <code>LastModified</code> column misses deletes and adds load; reading the log misses nothing.</figcaption></figure>
+
 ## DE8.7 Stream processing concepts 🟡 ⭐
 
 | Concept | Meaning |

@@ -171,6 +171,28 @@ journalctl -u nginx --since "10 min ago"
 > [!term] Signal (SIGTERM, SIGKILL)
 > A message the OS sends to a process. **SIGTERM** asks it to shut down gracefully: finish requests, close connections. **SIGKILL** ends it immediately, with no clean-up. Docker sends SIGTERM on `docker stop`, waits (10 seconds by default), then sends SIGKILL. ASP.NET Core handles SIGTERM for a graceful shutdown.
 
+<figure class="dia anim"><svg viewBox="0 0 720 216" role="img" aria-label="Animation: systemd and journald: systemctl start asks systemd, process 1, to start the api service from its unit file; the process writes to stdout and stderr, which journald collects and journalctl -u api -f shows; when the process crashes, systemd restarts it because the unit has Restart=on-failure">
+<rect class="sN" x="14" y="30" width="150" height="50" rx="8"/><text class="sT" x="89" y="53" text-anchor="middle">systemctl start api</text><text class="sC" x="89" y="69" text-anchor="middle">you, or boot</text>
+<rect class="sV" x="214" y="30" width="150" height="50" rx="8"/><text class="sT" x="289" y="53" text-anchor="middle">systemd</text><text class="sC" x="289" y="69" text-anchor="middle">PID 1, reads the unit</text>
+<rect class="sA" x="414" y="30" width="150" height="50" rx="8"/><text class="sT" x="489" y="53" text-anchor="middle">api process</text><text class="sC" x="489" y="69" text-anchor="middle">PID 4312</text>
+<rect class="sW" x="414" y="120" width="150" height="50" rx="8"/><text class="sT" x="489" y="143" text-anchor="middle">journald</text><text class="sC" x="489" y="159" text-anchor="middle">collects stdout/stderr</text>
+<rect class="sB" x="614" y="120" width="92" height="50" rx="8"/><text class="sT" x="660" y="143" text-anchor="middle">journalctl</text><text class="sC" x="660" y="159" text-anchor="middle">-u api -f</text>
+<line class="sLm" x1="164" y1="55" x2="212" y2="55" marker-end="url(#ahm)"/>
+<line class="sLm" x1="364" y1="55" x2="412" y2="55" marker-end="url(#ahm)"/>
+<line class="sLm" x1="489" y1="80" x2="489" y2="118" marker-end="url(#ahm)"/>
+<line class="sLm" x1="564" y1="145" x2="612" y2="145" marker-end="url(#ahm)"/>
+<path class="sLr" d="M414 70 C360 110 300 110 289 82" style="fill:none" marker-end="url(#ahr)"/>
+<text class="sRt" x="300" y="124" text-anchor="middle">crashed? Restart=on-failure</text>
+<text class="sS" x="130" y="150" text-anchor="middle">kill &lt;pid&gt; sends SIGTERM:</text><text class="sS" x="130" y="166" text-anchor="middle">graceful; kill -9 cannot be caught</text>
+<text class="sS" x="360" y="206" text-anchor="middle">systemd starts, supervises and restarts the service; journald keeps its logs with timestamps and the unit name</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M164 55 L212 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M364 55 L412 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.340;1" path="M489 80 L489 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.340;0.342;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.460;1" path="M564 145 L612 145"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.460;0.462;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M414 70 C360 110 300 110 289 82"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.780;0.860;1" path="M364 55 L412 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.778;0.782;0.860;0.862;1"/></circle>
+</svg><figcaption>On a server the first two commands for a broken service are <code>systemctl status api</code> and <code>journalctl -u api --since "10 min ago"</code>.</figcaption></figure>
+
 ## S5.4 Pipes, redirection and text tools 🟢 ⭐
 
 The Unix idea: small tools that each do one thing, joined with **pipes** (`|`), which send one program's output to the next one's input.

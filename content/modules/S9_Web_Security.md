@@ -349,6 +349,36 @@ Your app is mostly other people's code. A typical Angular or React project has h
 > [!term] SBOM (software bill of materials)
 > A machine-readable inventory of every component and version in a piece of software (formats: SPDX, CycloneDX). When a new vulnerability is announced, it tells you in minutes whether you're affected.
 
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: a defended software supply chain: pinned dependencies in a lock file, a CI build from a clean checkout, dependency and secret scanning, a software bill of materials, a signed artifact with provenance, and a deploy that verifies the signature; a typosquatted package, a compromised build server and a tampered image are each caught at a step">
+<rect class="sB" x="14" y="50" width="108" height="50" rx="8"/><text class="sT" x="68" y="73" text-anchor="middle">dependencies</text><text class="sC" x="68" y="89" text-anchor="middle">pinned in a lock</text>
+<rect class="sA" x="132" y="50" width="108" height="50" rx="8"/><text class="sT" x="186" y="73" text-anchor="middle">CI build</text><text class="sC" x="186" y="89" text-anchor="middle">clean checkout</text>
+<line class="sLm" x1="122" y1="75" x2="130" y2="75" marker-end="url(#ahm)"/>
+<rect class="sW" x="250" y="50" width="108" height="50" rx="8"/><text class="sT" x="304" y="73" text-anchor="middle">scan</text><text class="sC" x="304" y="89" text-anchor="middle">SCA + secrets</text>
+<line class="sLm" x1="240" y1="75" x2="248" y2="75" marker-end="url(#ahm)"/>
+<rect class="sV" x="368" y="50" width="108" height="50" rx="8"/><text class="sT" x="422" y="73" text-anchor="middle">SBOM</text><text class="sC" x="422" y="89" text-anchor="middle">what is inside</text>
+<line class="sLm" x1="358" y1="75" x2="366" y2="75" marker-end="url(#ahm)"/>
+<rect class="sG" x="486" y="50" width="108" height="50" rx="8"/><text class="sT" x="540" y="73" text-anchor="middle">sign</text><text class="sC" x="540" y="89" text-anchor="middle">+ provenance</text>
+<line class="sLm" x1="476" y1="75" x2="484" y2="75" marker-end="url(#ahm)"/>
+<rect class="sG" x="604" y="50" width="108" height="50" rx="8"/><text class="sT" x="658" y="73" text-anchor="middle">deploy</text><text class="sC" x="658" y="89" text-anchor="middle">verify signature</text>
+<line class="sLm" x1="594" y1="75" x2="602" y2="75" marker-end="url(#ahm)"/>
+<rect class="sR" x="14" y="140" width="220" height="46" rx="8"/><text class="sT" x="124" y="161" text-anchor="middle">typosquatted package</text><text class="sC" x="124" y="177" text-anchor="middle">stopped at the lock + scan</text>
+<rect class="sR" x="250" y="140" width="220" height="46" rx="8"/><text class="sT" x="360" y="161" text-anchor="middle">compromised build server</text><text class="sC" x="360" y="177" text-anchor="middle">provenance shows it</text>
+<rect class="sR" x="486" y="140" width="220" height="46" rx="8"/><text class="sT" x="596" y="161" text-anchor="middle">tampered image</text><text class="sC" x="596" y="177" text-anchor="middle">signature check fails</text>
+<line class="sLr" x1="124" y1="140" x2="130" y2="102"/>
+<line class="sLr" x1="360" y1="140" x2="300" y2="102"/>
+<line class="sLr" x1="596" y1="140" x2="670" y2="102"/>
+<text class="sM" x="360" y="28" text-anchor="middle">every step leaves evidence the next one checks (A03: software supply chain failures)</text>
+<text class="sS" x="360" y="212" text-anchor="middle">Dependabot/Renovate keep dependencies current; npm ci and dotnet restore --locked-mode install exactly the lock file</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.040;0.100;1" path="M122 75 L130 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.038;0.042;0.100;0.102;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.220;1" path="M240 75 L248 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.220;0.222;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.340;1" path="M358 75 L366 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.340;0.342;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.460;1" path="M476 75 L484 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.460;0.462;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.580;1" path="M594 75 L602 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.580;0.582;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.780;1" path="M130 102 L124 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.780;0.782;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.780;0.860;1" path="M300 102 L360 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.778;0.782;0.860;0.862;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.860;0.940;1" path="M670 102 L596 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.858;0.862;0.940;0.942;1"/></circle>
+</svg><figcaption>The attacks of the last few years went through the pipeline, not the app. Each control is cheap on its own; together they make tampering visible.</figcaption></figure>
+
 ## S9.11 Other attacks worth one sentence each 🟡
 
 - **SSRF (server-side request forgery):** your server fetches a URL the user supplied, and the attacker points it at internal addresses (the cloud metadata service at `169.254.169.254`). Allow-list destinations; block private IP ranges.
