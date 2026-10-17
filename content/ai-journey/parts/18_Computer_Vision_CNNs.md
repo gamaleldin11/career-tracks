@@ -337,7 +337,7 @@ A block learns **f(x) = h(x) − x**, and the output is **f(x) + x**.
 - When the shape changes (stride 2, more channels), the skip uses a **1×1 conv with stride 2** to match.
 - **Stochastic depth:** randomly drop whole residual units during training (`torchvision.ops.stochastic_depth`). Faster training, regularisation.
 
-<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="A residual block: the input passes through convolution, batch normalisation and ReLU layers, and a skip connection adds the original input to the result before the final ReLU">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: A residual block: the input passes through convolution, batch normalisation and ReLU layers, and a skip connection adds the original input to the result before the final ReLU">
 <rect class="sB" x="14" y="90" width="70" height="44" rx="8"/><text class="sT" x="49" y="117" text-anchor="middle">x</text>
 <line class="sL" x1="84" y1="112" x2="120" y2="112" marker-end="url(#ah)"/>
 <rect class="sV" x="124" y="90" width="86" height="44" rx="8"/><text class="sT" x="167" y="117" text-anchor="middle">conv 3×3</text>
@@ -354,6 +354,9 @@ A block learns **f(x) = h(x) − x**, and the output is **f(x) + x**.
 <path class="sLg" d="M49 90 V44 H640 V94" fill="none" stroke-width="3" marker-end="url(#ahg)"/><text class="sGt" x="345" y="36" text-anchor="middle">skip connection: x added back unchanged (a gradient highway)</text>
 <text class="sC" x="345" y="168" text-anchor="middle">the block only has to learn a correction f(x); output = f(x) + x</text>
 <text class="sS" x="345" y="190" text-anchor="middle">at initialisation f(x) ≈ 0, so a deep stack starts as the identity and stays trainable</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M49 90 V44 H640 V94"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M84 142 L640 142 L640 130"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M656 112 L682 112"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
 </svg><figcaption>The residual block behind ResNet. The skip path lets gradients reach early layers even in very deep networks.</figcaption></figure>
 
 ```python

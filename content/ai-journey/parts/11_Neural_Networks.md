@@ -297,7 +297,7 @@ A `Dense(64)` layer computes:
 
 > **output = activation(W·x + b)**
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="One neuron: three inputs multiplied by weights, summed with a bias, passed through ReLU to give the output">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: one neuron: three inputs multiplied by weights, summed with a bias, passed through ReLU to give the output">
 <rect class="sB" x="14" y="34" width="130" height="40" rx="6"/><text class="sC" x="79" y="51" text-anchor="middle">tenure</text><text class="sT" x="79" y="67" text-anchor="middle">x = 0.8</text>
 <line class="sLm" x1="144" y1="54" x2="296" y2="110" marker-end="url(#ahm)"/><text class="sWt" x="214" y="75.2" text-anchor="middle">w = -0.6</text>
 <rect class="sB" x="14" y="94" width="130" height="40" rx="6"/><text class="sC" x="79" y="111" text-anchor="middle">complaints</text><text class="sT" x="79" y="127" text-anchor="middle">x = 2.0</text>
@@ -309,6 +309,11 @@ A `Dense(64)` layer computes:
 <line class="sL" x1="420" y1="110" x2="466" y2="110" marker-end="url(#ah)"/><rect class="sA" x="470" y="86" width="110" height="48" rx="8"/><text class="sT" x="525" y="108" text-anchor="middle">ReLU</text><text class="sC" x="525" y="124" text-anchor="middle">max(0, z)</text>
 <line class="sL" x1="580" y1="110" x2="616" y2="110" marker-end="url(#ah)"/><rect class="sG" x="620" y="86" width="86" height="48" rx="8"/><text class="sT" x="663" y="115" text-anchor="middle">0.82</text>
 <text class="sS" x="360" y="212" text-anchor="middle">a Dense(64) layer is 64 of these side by side: one weight row each, all computed as one matrix product</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M144 54 L296 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M144 114 L296 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M144 174 L296 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M420 110 L466 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.580;0.680;1" path="M580 110 L616 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.578;0.582;0.680;0.682;1"/></circle>
 </svg><figcaption>One neuron, with numbers: 0.8×(−0.6) + 2.0×0.9 + (−0.5)×0.4 − 0.3 = 0.82, and ReLU keeps it.</figcaption></figure>
 
 where `W` is a `(input_dim, 64)` weight matrix and `b` a length-64 bias vector. That is 64 dot products — §2.8 again, at scale. Every "neuron" is one row of `W` producing one number.
