@@ -16,7 +16,7 @@
 - An **artifact** is the output of a build: a zip, a NuGet or npm package, a container image. Give every artifact a unique version that never changes: a **semantic version** such as `1.4.0` for releases, and the commit SHA so you can always trace it back to the code.
 - **Deploying** puts one specific artifact into one specific environment, together with that environment's configuration.
 
-<figure class="dia"><svg viewBox="0 0 720 235" role="img" aria-label="One commit is built once into a versioned image, and the same image is deployed to dev, staging and production with different configuration">
+<figure class="dia anim"><svg viewBox="0 0 720 235" role="img" aria-label="Animation: one commit is built once into a versioned image, and the same image is deployed to dev, staging and production with different configuration">
 <rect class="sB" x="10" y="80" width="100" height="50" rx="8"/><text class="sT" x="60" y="103" text-anchor="middle">git commit</text><text class="sC" x="60" y="119" text-anchor="middle">a1b2c3d</text>
 <line class="sLm" x1="110" y1="105" x2="140" y2="105" marker-end="url(#ahm)"/>
 <rect class="sA" x="144" y="80" width="110" height="50" rx="8"/><text class="sT" x="199" y="103" text-anchor="middle">build</text><text class="sC" x="199" y="119" text-anchor="middle">once</text>
@@ -29,6 +29,11 @@
 <line class="sL" x1="418" y1="105" x2="486" y2="176" marker-end="url(#ah)"/>
 <rect class="sG" x="490" y="154" width="220" height="44" rx="8"/><text class="sT" x="502" y="173">production</text><text class="sC" x="502" y="190">config: prod DB via Key Vault</text>
 <text class="sS" x="360" y="222" text-anchor="middle">Only configuration differs between environments; the bits you tested are the bits you ship.</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M110 105 L140 105"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.220;1" path="M254 105 L284 105"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.220;0.222;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M418 105 L486 52"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.600;1" path="M418 105 L486 114"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.780;1" path="M418 105 L486 176"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.780;0.782;1"/></circle>
 </svg><figcaption>Build once, promote everywhere. Rebuilding per environment would mean production runs something nobody tested.</figcaption></figure>
 
 > [!term] Semantic versioning

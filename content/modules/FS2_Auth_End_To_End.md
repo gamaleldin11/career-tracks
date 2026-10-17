@@ -14,7 +14,7 @@ HTTP is **stateless**: each request arrives on its own and the server doesn't re
 
 **1. What the credential is.** A **session ID** is a random reference the server looks up; a **signed token** (usually a JWT) carries the user's claims inside and the server only checks the signature ([[B7]]).
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="A session ID is a random reference the server looks up in a session store; a signed token carries its claims and is verified with a key">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: A session ID is a random reference the server looks up in a session store; a signed token carries its claims and is verified with a key">
 <rect class="sN" x="14" y="20" width="336" height="210" rx="12"/><text class="sT" x="182" y="42" text-anchor="middle">session ID: a reference</text>
 <rect class="sB" x="30" y="60" width="140" height="34" rx="6"/><text class="sC" x="40" y="82" xml:space="preserve" style="white-space:pre">sid=8f3a91c2…</text>
 <line class="sL" x1="170" y1="77" x2="206" y2="77" marker-end="url(#ah)"/><rect class="sA" x="210" y="56" width="124" height="42" rx="8"/><text class="sT" x="272" y="82" text-anchor="middle">server</text>
@@ -25,6 +25,10 @@ HTTP is **stateless**: each request arrives on its own and the server doesn't re
 <line class="sL" x1="536" y1="77" x2="566" y2="77" marker-end="url(#ah)"/><rect class="sA" x="570" y="56" width="124" height="42" rx="8"/><text class="sT" x="632" y="82" text-anchor="middle">server</text>
 <rect class="sV" x="386" y="112" width="308" height="60" rx="6" opacity=".6"/><text class="sC" x="540" y="132" text-anchor="middle">claims inside: sub 42, role, exp</text><text class="sC" x="540" y="152" text-anchor="middle">checked with the signing key, no lookup</text>
 <text class="sGt" x="386" y="196">+ no shared store; any server can verify</text><text class="sRt" x="386" y="216">− can't be revoked: keep it short-lived</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M170 77 L206 77"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M272 98 L272 124"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.320;1" path="M264 124 L264 98"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.320;0.322;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M536 77 L566 77"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
 </svg><figcaption>The two kinds of credential. Cookies usually carry the first; Authorization headers usually carry the second, but either can carry either.</figcaption></figure>
 
 **2. Where the browser keeps it.** A **cookie** is stored by the browser and **attached automatically** to requests for its site. Anything in JavaScript (a variable, `localStorage`) is sent **only when your code adds it** to a header. That difference decides which attack you must design against:

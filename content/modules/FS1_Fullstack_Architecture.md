@@ -139,13 +139,18 @@ Run generation in CI and fail the build if the generated file changed but wasn't
 
 **Use the dev server's proxy**, so the browser sees one origin even in development, with no CORS and real cookies:
 
-<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="Local development: the browser talks only to the front-end dev server on port 4200, which proxies /api and /hubs to the API on port 7001">
+<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: local development: the browser talks only to the front-end dev server on port 4200, which proxies /api and /hubs to the API on port 7001">
 <rect class="sB" x="10" y="70" width="110" height="50" rx="8"/><text class="sT" x="65" y="93" text-anchor="middle">browser</text><text class="sC" x="65" y="109" text-anchor="middle">one origin</text>
 <rect class="sA" x="170" y="30" width="230" height="130" rx="10"/><text class="sT" x="285" y="52" text-anchor="middle">dev server :4200</text><text class="sC" x="285" y="76" text-anchor="middle">serves the bundle, hot reload</text>
 <rect class="sN" x="186" y="92" width="198" height="50" rx="6"/><text class="sC" x="285" y="112" text-anchor="middle">proxy: /api and /hubs</text><text class="sC" x="285" y="130" text-anchor="middle">→ https://localhost:7001</text>
 <line class="sL" x1="120" y1="95" x2="166" y2="95" marker-end="url(#ah)"/>
 <line class="sLg" x1="384" y1="117" x2="466" y2="117" marker-end="url(#ahg)"/><rect class="sG" x="470" y="92" width="120" height="50" rx="8"/><text class="sT" x="530" y="115" text-anchor="middle">API :7001</text><text class="sC" x="530" y="131" text-anchor="middle">ASP.NET Core</text><line class="sL" x1="590" y1="117" x2="616" y2="117"/><rect class="sB" x="616" y="92" width="94" height="50" rx="8"/><text class="sT" x="663" y="115" text-anchor="middle">database</text><text class="sC" x="663" y="131" text-anchor="middle">compose</text>
 <text class="sS" x="360" y="190" text-anchor="middle">the browser only ever talks to localhost:4200, so no CORS and real cookies, like production</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M120 95 L166 95"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.340;1" path="M384 117 L466 117"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M590 117 L616 117"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.700;1" path="M466 125 L384 125"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.760;0.860;1" path="M166 103 L120 103"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.758;0.762;0.860;0.862;1"/></circle>
 </svg><figcaption>The dev-server proxy recreates the same-origin production setup on your machine.</figcaption></figure>
 
 ```json
