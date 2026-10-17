@@ -184,7 +184,7 @@ for name, age in zip(names, ages):
 
 `zip` stops at the **shortest** input. That silent truncation is a real bug source; if you need it to complain, `zip(a, b, strict=True)` (Python 3.10+) raises instead.
 
-<figure class="dia"><svg viewBox="0 0 720 184" role="img" aria-label="zip pairs names with ages position by position and silently drops the fourth name because the ages list is shorter">
+<figure class="dia anim"><svg viewBox="0 0 720 184" role="img" aria-label="Animation: zip pairs names with ages position by position and silently drops the fourth name because the ages list is shorter">
 <rect class="sB" x="30" y="30" width="80" height="30" rx="4"/><text class="sC" x="70" y="50" text-anchor="middle">laila</text>
 <rect class="sB" x="120" y="30" width="80" height="30" rx="4"/><text class="sC" x="160" y="50" text-anchor="middle">amr</text>
 <rect class="sB" x="210" y="30" width="80" height="30" rx="4"/><text class="sC" x="250" y="50" text-anchor="middle">mo</text>
@@ -198,6 +198,10 @@ for name, age in zip(names, ages):
 <line class="sLm" x1="250" y1="112" x2="250" y2="138" marker-end="url(#ahm)"/><rect class="sG" x="204" y="140" width="92" height="30" rx="15"/><text class="sC" x="250" y="160" text-anchor="middle">(mo, 30)</text>
 <rect class="sR" x="300" y="30" width="80" height="30" rx="4" opacity=".5"/><text class="sRt" x="340" y="130" text-anchor="middle">"nour" dropped:</text><text class="sRt" x="340" y="146" text-anchor="middle">zip stops at the shortest</text>
 <text class="sGt" x="560" y="140" text-anchor="middle">strict=True raises instead</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M70 112 L70 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M160 112 L160 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M250 112 L250 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M340 62 L340 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
 </svg><figcaption>zip walks its inputs in lockstep and stops at the shortest, silently. Use strict=True when lengths must match.</figcaption></figure>
 
 `zip(*matrix)` transposes — a trick worth having, though NumPy's `.T` supersedes it once you get to Part 2.

@@ -1130,7 +1130,7 @@ xentropy = nn.CrossEntropyLoss()                    # takes LOGITS + class indic
 
 **Why no softmax in the model?** Computing cross-entropy straight from logits skips exponentials and logs that cancel out, and is more numerically stable (the **log-sum-exp** trick). The price is that you must apply softmax or sigmoid yourself when you want probabilities.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Logits 2, 0.5 and minus 1 become softmax probabilities 0.786, 0.175 and 0.039; with true class 0 the cross-entropy loss is 0.241, the same as logsumexp minus the true logit. A naive softmax of logits 1000 and 999 in float32 overflows to NaN, while subtracting the maximum first gives 0.731 and 0.269">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: logits 2, 0.5 and minus 1 become softmax probabilities 0.786, 0.175 and 0.039; with true class 0 the cross-entropy loss is 0.241, the same as logsumexp minus the true logit. A naive softmax of logits 1000 and 999 in float32 overflows to NaN, while subtracting the maximum first gives 0.731 and 0.269">
 <text class="sM" x="14" y="18">one example, true class = 0</text>
 <text class="sC" x="70" y="58" text-anchor="end">class 0</text>
 <rect class="sB" x="80" y="40" width="90" height="26" rx="4"/><text class="sC" x="125" y="58" text-anchor="middle">z = 2</text>
@@ -1154,6 +1154,9 @@ xentropy = nn.CrossEntropyLoss()                    # takes LOGITS + class indic
 <text class="sS" x="402" y="152">the log-sum-exp shift: same answer, no overflow</text>
 <text class="sS" x="402" y="180">class weights for 900 / 700 / 400 rows:</text><text class="sC" x="402" y="196">0.2205, 0.2835, 0.4961</text>
 <text class="sS" x="360" y="228" text-anchor="middle">so the model ends in plain Linear (logits) and the loss does softmax + log + NLL in one stable step</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M170 53 L196 53"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M170 87 L196 87"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M170 121 L196 121"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
 </svg><figcaption>Why CrossEntropyLoss wants raw logits: the maths is the same, the numerics are not. Computed with NumPy.</figcaption></figure>
 
 **Imbalanced classes:** `nn.CrossEntropyLoss(weight=torch.tensor([...]))`. Géron's example with classes of 900/700/400: weights ∝ 2000/900, 2000/700, 2000/400, normalised to **[0.2205, 0.2835, 0.4961]**. For binary: `nn.BCEWithLogitsLoss(pos_weight=torch.tensor([neg/pos]))`.

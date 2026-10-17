@@ -270,7 +270,7 @@ If `x₁ ∈ [0, 1]` and `x₂ ∈ [0, 100000]`, the loss surface is a long thin
 
 Standardising features makes the contours roughly circular, so the gradient points more or less straight at the minimum. **This is the mechanism behind "scale your features", and it is why the requirement applies to gradient-based methods and not to trees.**
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Gradient descent on unscaled features zig-zags across a long thin ravine and is still far from the minimum after 25 steps; on standardised features the bowl is round and it reaches the minimum">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: gradient descent on unscaled features zig-zags across a long thin ravine and is still far from the minimum after 25 steps; on standardised features the bowl is round and it reaches the minimum">
 <text class="sRt" x="190" y="22" text-anchor="middle">unscaled: a long thin ravine</text>
 <ellipse class="sLm" cx="190" cy="118" rx="39" ry="9" fill="none" opacity=".55"/>
 <ellipse class="sLm" cx="190" cy="118" rx="76" ry="18" fill="none" opacity=".55"/>
@@ -286,6 +286,8 @@ Standardising features makes the contours roughly circular, so the gradient poin
 <polyline class="sLg" points="452.0,60.8 475.4,78.0 491.8,90.0 503.2,98.4 511.3,104.3 516.9,108.4 520.8,111.3 523.6,113.3 525.5,114.7 526.9,115.7 527.8,116.4 528.5,116.9 528.9,117.2 529.2,117.4 529.5,117.6 529.6,117.7 529.7,117.8 529.8,117.9 529.9,117.9 529.9,117.9 529.9,118.0 530.0,118.0 530.0,118.0 530.0,118.0 530.0,118.0 530.0,118.0" fill="none" stroke-width="2.2"/>
 <circle class="sP" cx="452" cy="61" r="5"/><circle class="sPg" cx="530" cy="118" r="4"/>
 <text class="sGt" x="530" y="222" text-anchor="middle">after 25 steps: at the minimum</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M46.0 58.0 L49.0 169.6 L51.9 73.6 L54.7 156.2 L57.5 85.2 L60.3 146.2 L63.0 93.7 L65.6 138.9 L68.2 100.0 L70.7 133.4 L73.1 104.7 L75.6 129.4 L77.9 108.2 L80.2 126.4 L82.5 110.7 L84.7 124.2 L86.9 112.6 L89.0 122.6 L91.1 114.0 L93.2 121.4 L95.2 115.1 L97.1 120.5 L99.0 115.8 L100.9 119.9 L102.8 116.4 L104.6 119.4"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M452.0 60.8 L475.4 78.0 L491.8 90.0 L503.2 98.4 L511.3 104.3 L516.9 108.4 L520.8 111.3 L523.6 113.3 L525.5 114.7 L526.9 115.7 L527.8 116.4 L528.5 116.9 L528.9 117.2 L529.2 117.4 L529.5 117.6 L529.6 117.7 L529.7 117.8 L529.8 117.9 L529.9 117.9 L529.9 117.9 L529.9 118.0 L530.0 118.0 L530.0 118.0 L530.0 118.0 L530.0 118.0 L530.0 118.0"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Why "scale your features": the same 25 gradient steps, computed on both surfaces. Only the feature scales differ.</figcaption></figure>
 
 ### Convexity
