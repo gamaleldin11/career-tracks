@@ -177,7 +177,7 @@ invoices.MapPost("/", async (CreateInvoiceRequest req, IInvoiceService s, Cancel
 | Performance | Slightly more overhead | Leaner, and compatible with Native AOT |
 | Fits | Large existing codebases, teams used to MVC | New services, microservices, small and medium APIs |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="One request through a controller and through a minimal API: both route, run filters, bind parameters with validation, call your code and write the result; controllers use MVC filters and output formatters, minimal APIs use endpoint filters and TypedResults">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: one request through a controller and through a minimal API: both route, run filters, bind parameters with validation, call your code and write the result; controllers use MVC filters and output formatters, minimal APIs use endpoint filters and TypedResults">
 <text class="sT" x="14" y="60">controller</text>
 <rect class="sN" x="110" y="30" width="108" height="52" rx="8"/><text class="sC" x="164" y="61" text-anchor="middle">routing</text>
 <line class="sLm" x1="218" y1="56" x2="226" y2="56" marker-end="url(#ahm)"/>
@@ -199,6 +199,10 @@ invoices.MapPost("/", async (CreateInvoiceRequest req, IInvoiceService s, Cancel
 <line class="sLm" x1="572" y1="148" x2="580" y2="148" marker-end="url(#ahm)"/>
 <rect class="sG" x="582" y="122" width="108" height="52" rx="8"/><text class="sC" x="636" y="144" text-anchor="middle">TypedResults</text><text class="sS" x="636" y="162" text-anchor="middle">writes the response</text>
 <text class="sS" x="360" y="228" text-anchor="middle">[ApiController] returns 400 before the action runs; minimal APIs validate built-in since .NET 10</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M110 96 L690 96"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.680;1" path="M110 96 L400 96"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.680;0.682;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M110 188 L690 188"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.680;1" path="M110 188 L400 188"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.680;0.682;1"/></circle>
 </svg><figcaption>Controllers and minimal APIs are two front-ends on the same pipeline. Choose one per project and stay consistent.</figcaption></figure>
 
 Both are first-class. Pick one per project and organise it well: minimal APIs grouped by feature with `MapGroup`, or thin controllers delegating to services.

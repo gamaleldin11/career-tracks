@@ -18,7 +18,7 @@ Three ideas run through this module:
 - **Dependency direction.** "A depends on B" means A must change, or at least recompile, when B changes. Point dependencies toward what changes **least**: the business rules. Note the difference between *calling* something at run time and *referencing* it at compile time; interfaces let them point in opposite directions.
 - **Conway's law.** Systems end up shaped like the teams that build them. Architecture and team structure have to be designed together ([[B9.6]]).
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="At run time requests flow from the API through the application to infrastructure; at compile time infrastructure references the application's interfaces, so dependencies point inward to the domain">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: at run time requests flow from the API through the application to infrastructure; at compile time infrastructure references the application's interfaces, so dependencies point inward to the domain">
 <text class="sT" x="180" y="22" text-anchor="middle">run time: who calls whom</text><text class="sT" x="540" y="22" text-anchor="middle">compile time: who references whom</text>
 <rect class="sB" x="90" y="40" width="180" height="40" rx="8"/><text class="sT" x="180" y="65" text-anchor="middle">Api</text>
 <line class="sL" x1="180" y1="80" x2="180" y2="98" marker-end="url(#ah)"/>
@@ -32,6 +32,12 @@ Three ideas run through this module:
 <rect class="sG" x="470" y="190" width="140" height="34" rx="8"/><text class="sT" x="540" y="212" text-anchor="middle">Domain</text>
 <line class="sLm" x1="500" y1="80" x2="460" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="580" y1="80" x2="620" y2="118" marker-end="url(#ahm)"/><line class="sLm" x1="455" y1="160" x2="515" y2="188" marker-end="url(#ahm)"/><line class="sLg" x1="560" y1="140" x2="534" y2="140" marker-end="url(#ahg)"/><text class="sGt" x="547" y="112" text-anchor="middle">implements</text>
 <line class="sLm" x1="630" y1="160" x2="570" y2="188" marker-end="url(#ahm)"/>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M180 80 L180 158"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M500 80 L460 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M580 80 L620 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.620;1" path="M560 140 L534 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.620;0.622;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.780;1" path="M455 160 L515 188"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.780;0.782;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.780;1" path="M630 160 L570 188"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.780;0.782;1"/></circle>
 </svg><figcaption>Clean Architecture is about the right-hand picture. Calls still go down at run time; what changes is which project has to know about which.</figcaption></figure>
 
 ## B9.1 Layered architecture 🟢 ⭐

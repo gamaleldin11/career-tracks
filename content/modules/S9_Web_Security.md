@@ -104,7 +104,7 @@ The **OWASP Top 10** is a consensus list of the most critical web-application se
 > [!say]
 > "The 2025 list is led by broken access control, then security misconfiguration, and adds two new categories: software supply-chain failures and mishandling of exceptional conditions. Injection, which includes XSS, is now fifth. In practice I focus on server-side authorisation on every request, parameterised queries, output encoding, and keeping dependencies scanned."
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="The OWASP Top 10 2025 placed along a request’s path: at the request coming in, injection and authentication failures; in your own code, broken access control, insecure design and mishandled exceptions; in the data, cryptographic and integrity failures; in the platform and pipeline, misconfiguration, supply-chain failures and logging failures">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: the OWASP Top 10 2025 placed along a request’s path: at the request coming in, injection and authentication failures; in your own code, broken access control, insecure design and mishandled exceptions; in the data, cryptographic and integrity failures; in the platform and pipeline, misconfiguration, supply-chain failures and logging failures">
 <rect class="sB" x="14" y="30" width="164" height="150" rx="8" opacity=".55"/><text class="sT" x="96" y="52" text-anchor="middle">Request in</text>
 <text class="sS" x="96" y="82" text-anchor="middle">A05 Injection</text>
 <text class="sS" x="96" y="108" text-anchor="middle">A07 Authentication</text>
@@ -124,6 +124,7 @@ The **OWASP Top 10** is a consensus list of the most critical web-application se
 <text class="sS" x="624" y="134" text-anchor="middle">A09 Logging</text>
 <text class="sM" x="360" y="18" text-anchor="middle">the OWASP Top 10:2025 placed on the path of a request</text>
 <text class="sRt" x="360" y="204" text-anchor="middle">A01 broken access control is #1: the check that is missing is usually "is this record yours?"</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M20 160 L700 160"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Grouping the ten by where they happen makes them easier to remember and to test: each zone has its own checks.</figcaption></figure>
 
 ## S9.3 Injection, especially SQL injection 🟢 ⭐
