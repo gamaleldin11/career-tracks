@@ -254,6 +254,33 @@ Apply reliability practice ([[B11.7]]) to data: **SLIs** such as "share of days 
 > [!lab] Add a quality layer to your pipeline
 > In the dbt project from [[DE7]]'s lab: add generic tests on every primary key and foreign key, accepted values, a reconciliation singular test against the source totals, and source **freshness** checks; add an Elementary (or Soda) report for volume and schema-change anomalies; quarantine malformed CSV rows to an error table in the Python ingestion; tag PII columns and create a masked view for analysts; and write a one-page runbook for "the daily load failed a check". That's a complete answer to "how do you ensure data quality?" with evidence.
 
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: a data SLA in practice: the sales mart finishes between about 05:30 and 06:10 on most of 14 days but at 07:24 on day 6 and 07:48 on day 11, after the 07:00 deadline; 12 of 14 days on time is 86 percent, below a 99 percent objective, which alerts the owner">
+<line class="sLm" x1="60" y1="200" x2="690" y2="200"/>
+<line class="sLm" x1="60" y1="200" x2="60" y2="40"/>
+<text class="sC" x="52" y="204" text-anchor="end">04:00</text>
+<text class="sC" x="52" y="164" text-anchor="end">05:00</text>
+<text class="sC" x="52" y="124" text-anchor="end">06:00</text>
+<text class="sC" x="52" y="84" text-anchor="end">07:00</text>
+<text class="sC" x="52" y="44" text-anchor="end">08:00</text>
+<line class="sLr" x1="60" y1="80" x2="690" y2="80" stroke-dasharray="5 4"/><text class="sRt" x="686" y="74" text-anchor="end">SLA: complete by 07:00</text>
+<rect class="sG" x="76" y="136" width="28" height="64" rx="2" opacity=".8"/><text class="sC" x="90" y="216" text-anchor="middle">1</text>
+<rect class="sG" x="120" y="128" width="28" height="72" rx="2" opacity=".8"/><text class="sC" x="134" y="216" text-anchor="middle">2</text>
+<rect class="sG" x="164" y="140" width="28" height="60" rx="2" opacity=".8"/><text class="sC" x="178" y="216" text-anchor="middle">3</text>
+<rect class="sG" x="208" y="116" width="28" height="84" rx="2" opacity=".8"/><text class="sC" x="222" y="216" text-anchor="middle">4</text>
+<rect class="sG" x="252" y="132" width="28" height="68" rx="2" opacity=".8"/><text class="sC" x="266" y="216" text-anchor="middle">5</text>
+<rect class="sR" x="296" y="64" width="28" height="136" rx="2" opacity=".8"/><text class="sC" x="310" y="216" text-anchor="middle">6</text>
+<rect class="sG" x="340" y="124" width="28" height="76" rx="2" opacity=".8"/><text class="sC" x="354" y="216" text-anchor="middle">7</text>
+<rect class="sG" x="384" y="136" width="28" height="64" rx="2" opacity=".8"/><text class="sC" x="398" y="216" text-anchor="middle">8</text>
+<rect class="sG" x="428" y="120" width="28" height="80" rx="2" opacity=".8"/><text class="sC" x="442" y="216" text-anchor="middle">9</text>
+<rect class="sG" x="472" y="128" width="28" height="72" rx="2" opacity=".8"/><text class="sC" x="486" y="216" text-anchor="middle">10</text>
+<rect class="sR" x="516" y="48" width="28" height="152" rx="2" opacity=".8"/><text class="sC" x="530" y="216" text-anchor="middle">11</text>
+<rect class="sG" x="560" y="132" width="28" height="68" rx="2" opacity=".8"/><text class="sC" x="574" y="216" text-anchor="middle">12</text>
+<rect class="sG" x="604" y="124" width="28" height="76" rx="2" opacity=".8"/><text class="sC" x="618" y="216" text-anchor="middle">13</text>
+<rect class="sG" x="648" y="136" width="28" height="64" rx="2" opacity=".8"/><text class="sC" x="662" y="216" text-anchor="middle">14</text>
+<text class="sS" x="375" y="236" text-anchor="middle">day: 12 of 14 on time = 86%, below a 99% SLO, so the owner is alerted</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M76 34 L686 34"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
+</svg><figcaption>The SLI is measured from run metadata, not from someone noticing a stale dashboard; publish it where consumers can see it.</figcaption></figure>
+
 ## DE9.11 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

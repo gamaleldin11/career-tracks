@@ -135,6 +135,28 @@ finsight.example.com {
 
 Free or very cheap tiers exist for several of these at demo scale, but they change often, so check current pricing pages and set a **budget alert** before deploying anything.
 
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: the managed path on Azure: the browser loads the SPA from Static Web Apps on a CDN and calls /api on Azure Container Apps, which reads secrets from Key Vault through its managed identity, queries Azure SQL with point-in-time restore, and sends traces to Application Insights">
+<rect class="sB" x="14" y="94" width="110" height="50" rx="8"/><text class="sT" x="69" y="124" text-anchor="middle">browser</text>
+<rect class="sG" x="190" y="30" width="180" height="50" rx="8"/><text class="sT" x="280" y="53" text-anchor="middle">Static Web Apps</text><text class="sC" x="280" y="69" text-anchor="middle">SPA files on a CDN</text>
+<rect class="sA" x="190" y="150" width="180" height="50" rx="8"/><text class="sT" x="280" y="173" text-anchor="middle">Container Apps</text><text class="sC" x="280" y="189" text-anchor="middle">the API, autoscaled</text>
+<rect class="sB" x="450" y="150" width="130" height="50" rx="8"/><text class="sT" x="515" y="173" text-anchor="middle">Azure SQL</text><text class="sC" x="515" y="189" text-anchor="middle">PITR backups</text>
+<rect class="sV" x="450" y="70" width="130" height="46" rx="8"/><text class="sT" x="515" y="91" text-anchor="middle">Key Vault</text><text class="sC" x="515" y="107" text-anchor="middle">via managed identity</text>
+<rect class="sW" x="610" y="150" width="96" height="50" rx="8"/><text class="sT" x="658" y="173" text-anchor="middle">App Insights</text><text class="sC" x="658" y="189" text-anchor="middle">traces, alerts</text>
+<line class="sLm" x1="124" y1="110" x2="188" y2="60" marker-end="url(#ahm)"/>
+<line class="sLm" x1="124" y1="128" x2="188" y2="172" marker-end="url(#ahm)"/>
+<line class="sLm" x1="370" y1="175" x2="448" y2="175" marker-end="url(#ahm)"/>
+<line class="sLv" x1="370" y1="160" x2="448" y2="100" marker-end="url(#ahv)"/>
+<path class="sLw" d="M280 200 C280 236 640 236 652 202" style="fill:none" marker-end="url(#ahw)"/>
+<text class="sC" x="150" y="70" text-anchor="middle">GET /</text>
+<text class="sC" x="150" y="170" text-anchor="middle">/api</text>
+<text class="sWt" x="470" y="244" text-anchor="middle">telemetry (OpenTelemetry)</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M124 110 L188 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M124 128 L188 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.420;1" path="M370 160 L448 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.420;0.422;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.560;1" path="M370 175 L448 175"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.560;0.562;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.820;1" path="M280 200 C280 236 640 236 652 202"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.820;0.822;1"/></circle>
+</svg><figcaption>Every box is a managed service: patching, TLS, backups and scaling are the platform’s job, which is the point of paying for them.</figcaption></figure>
+
 ## FS4.4 A full-stack pipeline 🟡 ⭐
 
 ```yaml

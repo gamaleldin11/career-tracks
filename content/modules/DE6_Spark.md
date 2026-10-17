@@ -377,6 +377,64 @@ joined = big.join(small_salted, ["merchant_id", "salt"])
 - Python data-source API improvements, and Structured Streaming state improvements.
 - **Spark Declarative Pipelines** (in Spark 4.1): an open-source declarative framework for batch and streaming pipelines, contributed by Databricks from what was Delta Live Tables (Databricks' product is now called **Lakeflow** declarative pipelines).
 
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: Adaptive Query Execution coalescing shuffle partitions: the default 200 shuffle partitions of about 1 megabyte each would mean 200 tiny tasks; using statistics from the finished stage, AQE merges them at run time into about 8 partitions of about 25 megabytes">
+<text class="sWt" x="180" y="22" text-anchor="middle">before: 200 shuffle partitions</text>
+<text class="sGt" x="540" y="22" text-anchor="middle">AQE at run time: 8 partitions</text>
+<rect class="sB" x="20" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="36" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="52" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="68" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="84" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="100" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="116" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="132" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="148" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="164" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="180" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="196" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="212" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="228" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="244" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="260" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="276" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="292" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="308" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="324" y="40" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="20" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="36" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="52" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="68" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="84" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="100" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="116" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="132" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="148" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="164" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="180" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="196" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="212" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="228" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="244" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="260" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="276" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="292" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="308" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<rect class="sB" x="324" y="60" width="12" height="12" rx="2" opacity=".7"/>
+<text class="sC" x="180" y="100" text-anchor="middle">… 200 tiny tasks of about 1 MB each</text>
+<rect class="sG" x="390" y="40" width="70" height="30" rx="4"/><text class="sC" x="425" y="60" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="470" y="40" width="70" height="30" rx="4"/><text class="sC" x="505" y="60" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="550" y="40" width="70" height="30" rx="4"/><text class="sC" x="585" y="60" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="630" y="40" width="70" height="30" rx="4"/><text class="sC" x="665" y="60" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="390" y="80" width="70" height="30" rx="4"/><text class="sC" x="425" y="100" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="470" y="80" width="70" height="30" rx="4"/><text class="sC" x="505" y="100" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="550" y="80" width="70" height="30" rx="4"/><text class="sC" x="585" y="100" text-anchor="middle">~25 MB</text>
+<rect class="sG" x="630" y="80" width="70" height="30" rx="4"/><text class="sC" x="665" y="100" text-anchor="middle">~25 MB</text>
+<text class="sS" x="360" y="150" text-anchor="middle">it also turns a sort-merge join into a broadcast join when one side turns out small,</text>
+<text class="sS" x="360" y="168" text-anchor="middle">and splits a skewed partition into several tasks</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.400;1" path="M180 76 L425 55"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M180 76 L665 95"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
+</svg><figcaption>AQE is on by default since Spark 3.2, which is why tuning <code>spark.sql.shuffle.partitions</code> by hand matters less than it used to.</figcaption></figure>
+
 ## DE6.10 Reading the Spark UI 🟡 ⭐
 
 "Why is my job slow?", worked through the UI:

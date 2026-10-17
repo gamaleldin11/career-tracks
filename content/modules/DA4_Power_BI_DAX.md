@@ -82,6 +82,30 @@ It's the same tool as in Excel ([[DA2.6]]). One extra concept matters for perfor
 
 Good habits: remove unused columns and rows early, set data types explicitly, give steps and queries meaningful names, and do heavy transformations upstream (in SQL or the warehouse) when you can.
 
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: query folding in Power Query: the source, filter, remove-columns and change-type steps fold into one SQL query that the database runs, returning only the needed rows; a custom column written as an M function cannot fold, so it and every later step run inside Power BI">
+<text class="sM" x="14" y="22">Applied steps</text>
+<rect class="sG" x="14" y="32" width="190" height="32" rx="4"/><text class="sT" x="24" y="47">Source</text><text class="sC" x="24" y="60">sql.orders</text>
+<rect class="sG" x="14" y="72" width="190" height="32" rx="4"/><text class="sT" x="24" y="87">Filtered rows</text><text class="sC" x="24" y="100">Year = 2026</text>
+<rect class="sG" x="14" y="112" width="190" height="32" rx="4"/><text class="sT" x="24" y="127">Removed columns</text><text class="sC" x="24" y="140">6 of 20 kept</text>
+<rect class="sG" x="14" y="152" width="190" height="32" rx="4"/><text class="sT" x="24" y="167">Changed type</text><text class="sC" x="24" y="180">Amount: decimal</text>
+<rect class="sR" x="14" y="196" width="190" height="32" rx="4"/><text class="sT" x="24" y="211">Added custom column</text><text class="sC" x="24" y="224">an M function: no SQL</text>
+<rect class="sN" x="270" y="40" width="250" height="110" rx="8"/>
+<text class="sC" x="282" y="62" xml:space="preserve" style="white-space:pre">SELECT OrderID, Amount, …</text>
+<text class="sC" x="282" y="82" xml:space="preserve" style="white-space:pre">FROM sales.orders</text>
+<text class="sC" x="282" y="102" xml:space="preserve" style="white-space:pre">WHERE Year = 2026</text>
+<text class="sGt" x="395" y="134" text-anchor="middle">one query: the database filters</text>
+<rect class="sB" x="570" y="70" width="136" height="56" rx="8"/><text class="sT" x="638" y="96" text-anchor="middle">SQL Server</text><text class="sC" x="638" y="112" text-anchor="middle">200 k rows back</text>
+<line class="sLg" x1="204" y1="90" x2="268" y2="90" marker-end="url(#ahg)"/>
+<line class="sLg" x1="520" y1="98" x2="568" y2="98" marker-end="url(#ahg)"/>
+<text class="sRt" x="395" y="190" text-anchor="middle">folding stops here: later steps run in Power BI</text>
+<text class="sS" x="395" y="208" text-anchor="middle">keep such steps last, or push the logic upstream</text>
+<line class="sLr" x1="204" y1="212" x2="290" y2="196"/>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M204 90 L268 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M520 98 L568 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.420;1" path="M568 106 L520 106"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.420;0.422;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.720;1" path="M204 212 L290 196"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.720;0.722;1"/></circle>
+</svg><figcaption>Right-click a step and check <em>View Native Query</em>: if it is greyed out, folding has stopped at or before that step.</figcaption></figure>
+
 ## DA4.3 Modelling: the star schema 🟢 ⭐
 
 > [!term] Star schema

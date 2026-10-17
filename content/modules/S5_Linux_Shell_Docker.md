@@ -269,6 +269,17 @@ ping -c 4 db                 # reachability
 nc -zv db 5432               # can I open TCP port 5432 on host db?
 ```
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: network troubleshooting from the command line, bottom up: ip a and ip r for an address and a route, ping for reachability, dig for name resolution, nc -zv for an open port, and curl -i for an application answer; the first step that fails names the layer">
+<text class="sM" x="14" y="22">work up the stack until a step fails: the failing step names the layer</text>
+<rect class="sG" x="14" y="34" width="692" height="30" rx="6" opacity=".8"/><text class="sC" x="28" y="54" xml:space="preserve" style="white-space:pre">curl -i https://…/health</text><text class="sS" x="694" y="54" text-anchor="end">does the app answer?</text>
+<rect class="sW" x="14" y="70" width="692" height="30" rx="6" opacity=".8"/><text class="sC" x="28" y="90" xml:space="preserve" style="white-space:pre">nc -zv db 5432</text><text class="sS" x="694" y="90" text-anchor="end">is the port open?</text>
+<rect class="sV" x="14" y="106" width="692" height="30" rx="6" opacity=".8"/><text class="sC" x="28" y="126" xml:space="preserve" style="white-space:pre">dig api.example.com</text><text class="sS" x="694" y="126" text-anchor="end">does the name resolve?</text>
+<rect class="sA" x="14" y="142" width="692" height="30" rx="6" opacity=".8"/><text class="sC" x="28" y="162" xml:space="preserve" style="white-space:pre">ping -c 4 db</text><text class="sS" x="694" y="162" text-anchor="end">can I reach the host?</text>
+<rect class="sB" x="14" y="178" width="692" height="30" rx="6" opacity=".8"/><text class="sC" x="28" y="198" xml:space="preserve" style="white-space:pre">ip a / ip r</text><text class="sS" x="694" y="198" text-anchor="end">do I have an address and a route?</text>
+<text class="sS" x="360" y="226" text-anchor="middle">ss -tulpn on the server shows what is listening; a service bound to 127.0.0.1 is invisible from outside</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M8 192 L8 44"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+</svg><figcaption>The same ladder as the network troubleshooting module, in Linux commands; on Windows the equivalents are ipconfig, ping, Resolve-DnsName, Test-NetConnection and Invoke-WebRequest.</figcaption></figure>
+
 ## S5.6 Environment variables, SSH and scripts 🟢
 
 **Environment variables** carry configuration into processes, which is how containers and cloud platforms configure apps. ASP.NET Core maps `ConnectionStrings__Default` (double underscore) onto `ConnectionStrings:Default`.

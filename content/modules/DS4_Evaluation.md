@@ -355,6 +355,50 @@ Aggregate metrics hide uneven performance. After choosing a model:
 
 Two models whose AUC differs by 0.003 may be indistinguishable. Estimate uncertainty: the spread across CV folds, **bootstrap** confidence intervals on the test set, or paired tests on the same folds. Prefer the simpler, more stable or more explainable model when the difference is within noise.
 
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: is model B really better? On 1,000 test rows a random forest scores AUC 0.888 against 0.879 for gradient boosting, a difference of 0.009; 2,000 bootstrap resamples of the test set give a 95 percent interval for the difference from about minus 0.009 to plus 0.028, which includes zero">
+<line class="sLm" x1="60" y1="180" x2="660" y2="180"/>
+<rect class="sB" x="163.21" y="179.406" width="15.4727" height="0.594059" rx="1" opacity=".7"/>
+<rect class="sB" x="179.682" y="180" width="15.4727" height="0" rx="1" opacity=".7"/>
+<rect class="sB" x="196.155" y="177.624" width="15.4727" height="2.37624" rx="1" opacity=".7"/>
+<rect class="sB" x="212.628" y="179.406" width="15.4727" height="0.594059" rx="1" opacity=".7"/>
+<rect class="sB" x="229.101" y="178.218" width="15.4727" height="1.78218" rx="1" opacity=".7"/>
+<rect class="sB" x="245.573" y="174.653" width="15.4727" height="5.34653" rx="1" opacity=".7"/>
+<rect class="sB" x="262.046" y="169.307" width="15.4727" height="10.6931" rx="1" opacity=".7"/>
+<rect class="sB" x="278.519" y="167.525" width="15.4727" height="12.4752" rx="1" opacity=".7"/>
+<rect class="sB" x="294.991" y="151.485" width="15.4727" height="28.5149" rx="1" opacity=".7"/>
+<rect class="sB" x="311.464" y="141.386" width="15.4727" height="38.6139" rx="1" opacity=".7"/>
+<rect class="sB" x="327.937" y="124.752" width="15.4727" height="55.2475" rx="1" opacity=".7"/>
+<rect class="sB" x="344.41" y="119.406" width="15.4727" height="60.5941" rx="1" opacity=".7"/>
+<rect class="sB" x="360.882" y="102.178" width="15.4727" height="77.8218" rx="1" opacity=".7"/>
+<rect class="sB" x="377.355" y="81.9802" width="15.4727" height="98.0198" rx="1" opacity=".7"/>
+<rect class="sB" x="393.828" y="79.0099" width="15.4727" height="100.99" rx="1" opacity=".7"/>
+<rect class="sB" x="410.301" y="76.6337" width="15.4727" height="103.366" rx="1" opacity=".7"/>
+<rect class="sB" x="426.773" y="60" width="15.4727" height="120" rx="1" opacity=".7"/>
+<rect class="sB" x="443.246" y="83.7624" width="15.4727" height="96.2376" rx="1" opacity=".7"/>
+<rect class="sB" x="459.719" y="83.1683" width="15.4727" height="96.8317" rx="1" opacity=".7"/>
+<rect class="sB" x="476.191" y="99.2079" width="15.4727" height="80.7921" rx="1" opacity=".7"/>
+<rect class="sB" x="492.664" y="119.406" width="15.4727" height="60.5941" rx="1" opacity=".7"/>
+<rect class="sB" x="509.137" y="133.663" width="15.4727" height="46.3366" rx="1" opacity=".7"/>
+<rect class="sB" x="525.61" y="150.891" width="15.4727" height="29.1089" rx="1" opacity=".7"/>
+<rect class="sB" x="542.082" y="156.832" width="15.4727" height="23.1683" rx="1" opacity=".7"/>
+<rect class="sB" x="558.555" y="165.743" width="15.4727" height="14.2574" rx="1" opacity=".7"/>
+<rect class="sB" x="575.028" y="169.307" width="15.4727" height="10.6931" rx="1" opacity=".7"/>
+<rect class="sB" x="591.501" y="176.436" width="15.4727" height="3.56436" rx="1" opacity=".7"/>
+<rect class="sB" x="607.973" y="176.436" width="15.4727" height="3.56436" rx="1" opacity=".7"/>
+<rect class="sB" x="624.446" y="176.436" width="15.4727" height="3.56436" rx="1" opacity=".7"/>
+<rect class="sB" x="640.919" y="177.624" width="15.4727" height="2.37624" rx="1" opacity=".7"/>
+<text class="sC" x="60" y="198" text-anchor="middle">-0.04</text>
+<text class="sC" x="210" y="198" text-anchor="middle">-0.02</text>
+<text class="sC" x="360" y="198" text-anchor="middle">0</text>
+<text class="sC" x="510" y="198" text-anchor="middle">+0.02</text>
+<text class="sC" x="660" y="198" text-anchor="middle">+0.04</text>
+<line class="sLr" x1="360" y1="40" x2="360" y2="184" stroke-dasharray="4 3"/><text class="sRt" x="366" y="48">no difference</text>
+<rect class="sW" x="291.736" y="206" width="276.569" height="8" rx="3"/><text class="sWt" x="576.305" y="214">95% CI -0.009 to +0.028</text>
+<text class="sM" x="360" y="24" text-anchor="middle">AUC random forest 0.888 vs boosting 0.879: difference +0.009</text>
+<text class="sS" x="360" y="236" text-anchor="middle">2,000 bootstrap resamples of the same 1,000 test rows: the interval includes zero, so this is not a win yet</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M291.73612819644995 210 L568.305115990971 210"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+</svg><figcaption>Computed with scikit-learn on synthetic data. Resample rows, recompute both scores on each resample, and look at the spread of the difference, not at two point estimates.</figcaption></figure>
+
 ## DS4.10 Fairness checks 🟡
 
 Compare outcomes and errors across groups where it matters (credit, hiring, insurance):
