@@ -162,7 +162,7 @@ What makes it good:
 - **Errors** are text (not just a red border), linked with `aria-describedby`, flagged with `aria-invalid`, and say **how to fix** the problem. On submit, move focus to the first invalid field or an error summary.
 - **Related controls** are grouped with `<fieldset>` and `<legend>`.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="How an accessible form field is wired: the label’s for attribute connects it to the input so clicking the label focuses it and the name is announced; aria-describedby links the hint and error text; aria-invalid announces the error state; autocomplete lets the browser fill the email">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: how an accessible form field is wired: the label’s for attribute connects it to the input so clicking the label focuses it and the name is announced; aria-describedby links the hint and error text; aria-invalid announces the error state; autocomplete lets the browser fill the email">
 <rect class="sN" x="14" y="20" width="360" height="150" rx="8"/>
 <text class="sT" x="30" y="46">Work email</text>
 <rect class="sB" x="30" y="56" width="320" height="30" rx="4" opacity=".5"/><text class="sC" x="40" y="76">nile@</text>
@@ -173,6 +173,10 @@ What makes it good:
 <line class="sLm" x1="374" y1="100" x2="400" y2="122" opacity=".5"/><text class="sC" x="404" y="126" xml:space="preserve" style="white-space:pre">aria-invalid="true"</text><text class="sS" x="404" y="142">announced as invalid</text>
 <line class="sLm" x1="374" y1="150" x2="400" y2="168" opacity=".5"/><text class="sC" x="404" y="172" xml:space="preserve" style="white-space:pre">autocomplete="email"</text><text class="sS" x="404" y="188">browser and password manager fill it</text>
 <text class="sS" x="360" y="210" text-anchor="middle">a screen reader hears: "Work email, edit text, invalid entry, We’ll send the invoice here. Enter an email like…"</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M374 46 L400 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.330;1" path="M374 71 L400 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.330;0.332;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.530;1" path="M374 100 L400 122"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.530;0.532;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.730;1" path="M374 150 L400 168"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.730;0.732;1"/></circle>
 </svg><figcaption>Every visible piece of text is programmatically linked to the input, so assistive technology reads the same thing a sighted user sees.</figcaption></figure>
 
 ## F1.4 Images and media 🟢 ⭐
