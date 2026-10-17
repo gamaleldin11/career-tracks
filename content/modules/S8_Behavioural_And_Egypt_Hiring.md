@@ -135,6 +135,22 @@ The formula, in about 60 seconds: **present** (who you are now) → **past** (tw
 > [!say] Data engineer
 > "I'm a software engineer moving into data engineering. On FinSight I built the ingestion side: CSV imports with a transaction categoriser, a daily aggregation layer that fills calendar gaps so forecasting has a continuous series, and nightly Hangfire jobs, all on SQL Server in Docker. I studied the Hadoop and Spark ecosystem through Huawei's big-data material, and I'm strongest at the software side of data: reliable, tested, deployable code. I want a role building pipelines that other teams can trust."
 
+<figure class="dia anim"><svg viewBox="0 0 720 182" role="img" aria-label="Animation: the structure of tell me about yourself in about 60 seconds: about 12 seconds of present, who you are now; about 33 seconds of past, two proofs that matter for this role; and about 15 seconds of future, why this job is the next step">
+<text class="sM" x="14" y="22">"Tell me about yourself" in about 60 seconds</text>
+<rect class="sB" x="30" y="36" width="132" height="50" rx="6"/><text class="sT" x="96" y="58" text-anchor="middle">present</text><text class="sC" x="96" y="76" text-anchor="middle">who you are now</text>
+<rect class="sA" x="162" y="36" width="363" height="50" rx="6"/><text class="sT" x="343.5" y="58" text-anchor="middle">past: two proofs for THIS role</text><text class="sC" x="343.5" y="76" text-anchor="middle">a project with a number, a skill they asked for</text>
+<rect class="sG" x="525" y="36" width="165" height="50" rx="6"/><text class="sT" x="607.5" y="58" text-anchor="middle">future</text><text class="sC" x="607.5" y="76" text-anchor="middle">why this job next</text>
+<line class="sLm" x1="30" y1="100" x2="690" y2="100"/>
+<line class="sLm" x1="30" y1="96" x2="30" y2="104"/><text class="sC" x="30" y="120" text-anchor="middle">0 s</text>
+<line class="sLm" x1="195" y1="96" x2="195" y2="104"/><text class="sC" x="195" y="120" text-anchor="middle">15 s</text>
+<line class="sLm" x1="360" y1="96" x2="360" y2="104"/><text class="sC" x="360" y="120" text-anchor="middle">30 s</text>
+<line class="sLm" x1="525" y1="96" x2="525" y2="104"/><text class="sC" x="525" y="120" text-anchor="middle">45 s</text>
+<line class="sLm" x1="690" y1="96" x2="690" y2="104"/><text class="sC" x="690" y="120" text-anchor="middle">60 s</text>
+<text class="sRt" x="360" y="150" text-anchor="middle">leave out: your life story, the CV read aloud, hobbies, salary</text>
+<text class="sGt" x="360" y="170" text-anchor="middle">end on a hook they can ask about: the project you most want to discuss</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M30 92 L690 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
+</svg><figcaption>Rehearse it aloud with a timer. The "past" part changes for every role you apply to; the other two barely move.</figcaption></figure>
+
 ## S8.3 The STAR method and your story bank 🟢 ⭐
 
 > [!term] STAR

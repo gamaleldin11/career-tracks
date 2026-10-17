@@ -106,6 +106,54 @@ Press **F4** to cycle through them.
 > [!tip] SUMIFS over SUMIF
 > `SUMIFS` takes multiple conditions and puts the sum range first, so it's one consistent pattern for one condition or five. The same goes for `COUNTIFS` and `AVERAGEIFS`.
 
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: relative and absolute references: the formula =B3*$B$1 in C3 is copied down to C4 and C5; the relative reference B3 shifts to B4 and B5, while the absolute reference $B$1 keeps pointing at the VAT rate">
+<text class="sM" x="14" y="22">copy =B3*$B$1 from C3 down to C4 and C5</text>
+<text class="sT" x="110" y="46" text-anchor="middle">A</text>
+<text class="sT" x="210" y="46" text-anchor="middle">B</text>
+<text class="sT" x="310" y="46" text-anchor="middle">C</text>
+<text class="sT" x="40" y="72" text-anchor="end">1</text>
+<rect class="sN" x="60" y="52" width="100" height="28" rx="2"/>
+<rect class="sN" x="160" y="52" width="100" height="28" rx="2"/>
+<rect class="sN" x="260" y="52" width="100" height="28" rx="2"/>
+<text class="sT" x="40" y="102" text-anchor="end">2</text>
+<rect class="sN" x="60" y="82" width="100" height="28" rx="2"/>
+<rect class="sN" x="160" y="82" width="100" height="28" rx="2"/>
+<rect class="sN" x="260" y="82" width="100" height="28" rx="2"/>
+<text class="sT" x="40" y="132" text-anchor="end">3</text>
+<rect class="sN" x="60" y="112" width="100" height="28" rx="2"/>
+<rect class="sN" x="160" y="112" width="100" height="28" rx="2"/>
+<rect class="sN" x="260" y="112" width="100" height="28" rx="2"/>
+<text class="sT" x="40" y="162" text-anchor="end">4</text>
+<rect class="sN" x="60" y="142" width="100" height="28" rx="2"/>
+<rect class="sN" x="160" y="142" width="100" height="28" rx="2"/>
+<rect class="sN" x="260" y="142" width="100" height="28" rx="2"/>
+<text class="sT" x="40" y="192" text-anchor="end">5</text>
+<rect class="sN" x="60" y="172" width="100" height="28" rx="2"/>
+<rect class="sN" x="160" y="172" width="100" height="28" rx="2"/>
+<rect class="sN" x="260" y="172" width="100" height="28" rx="2"/>
+<text class="sC" x="110" y="71" text-anchor="middle">VAT</text>
+<text class="sC" x="210" y="71" text-anchor="middle">14%</text>
+<text class="sC" x="110" y="131" text-anchor="middle">Laptop</text>
+<text class="sC" x="210" y="131" text-anchor="middle">20,000</text>
+<text class="sC" x="110" y="161" text-anchor="middle">Phone</text>
+<text class="sC" x="210" y="161" text-anchor="middle">9,000</text>
+<text class="sC" x="110" y="191" text-anchor="middle">Mouse</text>
+<text class="sC" x="210" y="191" text-anchor="middle">400</text>
+<text class="sC" x="310" y="131" text-anchor="middle">=B3*$B$1</text>
+<text class="sC" x="310" y="161" text-anchor="middle">=B4*$B$1</text>
+<text class="sC" x="310" y="191" text-anchor="middle">=B5*$B$1</text>
+<rect class="sG" x="160" y="52" width="100" height="28" rx="2" style="fill:none;stroke-width:2"/>
+<rect class="sB" x="400" y="60" width="300" height="50" rx="8"/><text class="sT" x="550" y="83" text-anchor="middle">B3 is relative</text><text class="sC" x="550" y="99" text-anchor="middle">copied down one row it becomes B4, then B5</text>
+<rect class="sG" x="400" y="124" width="300" height="50" rx="8"/><text class="sT" x="550" y="147" text-anchor="middle">$B$1 is absolute</text><text class="sC" x="550" y="163" text-anchor="middle">every copy still points at the VAT rate</text>
+<text class="sC" x="550" y="200" text-anchor="middle">F4 cycles A1 → $A$1 → A$1 → $A1</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M260 126 L210 126"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.250;1" path="M260 126 C240 106 230 80 210 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.410;1" path="M260 156 L210 156"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.410;0.412;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.530;1" path="M260 156 C240 136 230 80 210 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.530;0.532;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.610;0.690;1" path="M260 186 L210 186"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.608;0.612;0.690;0.692;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.710;0.810;1" path="M260 186 C240 166 230 80 210 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.708;0.712;0.810;0.812;1"/></circle>
+</svg><figcaption>The dollar sign pins what follows it: <code>$B$1</code> pins both, <code>$B1</code> only the column, <code>B$1</code> only the row.</figcaption></figure>
+
 ## DA2.3 Lookups: VLOOKUP, INDEX/MATCH, XLOOKUP 🟢 ⭐
 
 ```text

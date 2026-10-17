@@ -174,6 +174,23 @@ except (KeyError, ValueError) as e:
 - Format and lint with **ruff**; type-check with **mypy** or **pyright** in larger code.
 - Pin the Python version too. pandas 3.0 requires **Python 3.11 or newer**.
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: virtual environments: the system Python stays untouched while project A and project B each get their own .venv with different pinned versions, pandas 2.2 with numpy 1.26 in one and pandas 3.0 with numpy 2.3 in the other, each recorded in a lock file">
+<rect class="sN" x="250" y="20" width="220" height="46" rx="8"/><text class="sT" x="360" y="41" text-anchor="middle">system Python 3.12</text><text class="sC" x="360" y="57" text-anchor="middle">leave it alone</text>
+<rect class="sA" x="30" y="100" width="300" height="104" rx="10"/><text class="sT" x="180" y="122" text-anchor="middle">project A/.venv</text>
+<rect class="sV" x="390" y="100" width="300" height="104" rx="10"/><text class="sT" x="540" y="122" text-anchor="middle">project B/.venv</text>
+<text class="sC" x="46" y="146" xml:space="preserve" style="white-space:pre">pandas 2.2.3   numpy 1.26</text>
+<text class="sC" x="46" y="166" xml:space="preserve" style="white-space:pre">scikit-learn 1.5</text>
+<text class="sC" x="46" y="186" xml:space="preserve" style="white-space:pre">requirements.txt / uv.lock</text>
+<text class="sC" x="406" y="146" xml:space="preserve" style="white-space:pre">pandas 3.0.1   numpy 2.3</text>
+<text class="sC" x="406" y="166" xml:space="preserve" style="white-space:pre">polars 1.x</text>
+<text class="sC" x="406" y="186" xml:space="preserve" style="white-space:pre">pyproject.toml + uv.lock</text>
+<line class="sLm" x1="330" y1="66" x2="220" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="390" y1="66" x2="500" y2="98" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="226" text-anchor="middle">each project gets its own interpreter copy and packages, pinned by a lock file: no version fights</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M330 66 L220 98"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.450;1" path="M390 66 L500 98"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.450;0.452;1"/></circle>
+</svg><figcaption><code>python -m venv .venv</code> or <code>uv venv</code>, then install from the lock file. "Works on my machine" usually means two different environments.</figcaption></figure>
+
 ## S7.3 NumPy: think in arrays 🟢 ⭐
 
 NumPy arrays are typed, contiguous blocks of memory, and operations on them run in compiled C. A plain Python loop over ten million numbers takes around a second; the equivalent NumPy operation takes tens of milliseconds.

@@ -245,6 +245,49 @@ enriched = orders.join(broadcast(dim_city), "city_id")      # force a broadcast 
 | Balance | Even | Can be uneven |
 | Use | Before a big write partitioned by a column; to fix skewed or too-few partitions | Reduce the number of output files cheaply at the end |
 
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: repartition versus coalesce going from four partitions to two: repartition shuffles every partition to every output partition, giving even sizes at the cost of moving data; coalesce merges neighbouring partitions without a shuffle, which is cheap but can leave the outputs uneven">
+<text class="sWt" x="180" y="22" text-anchor="middle">repartition(2): full shuffle</text>
+<text class="sGt" x="540" y="22" text-anchor="middle">coalesce(2): merge, no shuffle</text>
+<line class="sD" x1="360" y1="12" x2="360" y2="196"/>
+<rect class="sB" x="30" y="40" width="90" height="28" rx="4"/><text class="sC" x="75" y="59" text-anchor="middle">part 1</text>
+<rect class="sB" x="390" y="40" width="90" height="28" rx="4"/><text class="sC" x="435" y="59" text-anchor="middle">part 1</text>
+<rect class="sB" x="30" y="76" width="90" height="28" rx="4"/><text class="sC" x="75" y="95" text-anchor="middle">part 2</text>
+<rect class="sB" x="390" y="76" width="90" height="28" rx="4"/><text class="sC" x="435" y="95" text-anchor="middle">part 2</text>
+<rect class="sB" x="30" y="112" width="90" height="28" rx="4"/><text class="sC" x="75" y="131" text-anchor="middle">part 3</text>
+<rect class="sB" x="390" y="112" width="90" height="28" rx="4"/><text class="sC" x="435" y="131" text-anchor="middle">part 3</text>
+<rect class="sB" x="30" y="148" width="90" height="28" rx="4"/><text class="sC" x="75" y="167" text-anchor="middle">part 4</text>
+<rect class="sB" x="390" y="148" width="90" height="28" rx="4"/><text class="sC" x="435" y="167" text-anchor="middle">part 4</text>
+<rect class="sW" x="240" y="58" width="100" height="32" rx="4"/><text class="sC" x="290" y="79" text-anchor="middle">out 1</text>
+<rect class="sG" x="600" y="58" width="100" height="32" rx="4"/><text class="sC" x="650" y="79" text-anchor="middle">out 1</text>
+<rect class="sW" x="240" y="130" width="100" height="32" rx="4"/><text class="sC" x="290" y="151" text-anchor="middle">out 2</text>
+<rect class="sG" x="600" y="130" width="100" height="32" rx="4"/><text class="sC" x="650" y="151" text-anchor="middle">out 2</text>
+<line class="sLm" x1="120" y1="54" x2="238" y2="74" opacity=".5"/>
+<line class="sLm" x1="120" y1="54" x2="238" y2="146" opacity=".5"/>
+<line class="sLm" x1="120" y1="90" x2="238" y2="74" opacity=".5"/>
+<line class="sLm" x1="120" y1="90" x2="238" y2="146" opacity=".5"/>
+<line class="sLm" x1="120" y1="126" x2="238" y2="74" opacity=".5"/>
+<line class="sLm" x1="120" y1="126" x2="238" y2="146" opacity=".5"/>
+<line class="sLm" x1="120" y1="162" x2="238" y2="74" opacity=".5"/>
+<line class="sLm" x1="120" y1="162" x2="238" y2="146" opacity=".5"/>
+<line class="sLg" x1="480" y1="54" x2="598" y2="74"/>
+<line class="sLg" x1="480" y1="90" x2="598" y2="74"/>
+<line class="sLg" x1="480" y1="126" x2="598" y2="146"/>
+<line class="sLg" x1="480" y1="162" x2="598" y2="146"/>
+<text class="sS" x="180" y="208" text-anchor="middle">even sizes, but every row may move</text><text class="sS" x="540" y="208" text-anchor="middle">cheap, but sizes can end up uneven</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.300;1" path="M120 54 L238 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.330;1" path="M120 54 L238 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.330;0.332;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.110;0.360;1" path="M120 90 L238 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.108;0.112;0.360;0.362;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.390;1" path="M120 90 L238 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.390;0.392;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.420;1" path="M120 126 L238 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.420;0.422;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.450;1" path="M120 126 L238 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.450;0.452;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.480;1" path="M120 162 L238 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.480;0.482;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.510;1" path="M120 162 L238 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.510;0.512;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M480 54 L598 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M480 90 L598 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M480 126 L598 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M480 162 L598 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
+</svg><figcaption>Use coalesce to cut the number of output files at the end of a job; use repartition, usually by a column, when partitions are skewed or a write needs a layout.</figcaption></figure>
+
 ## DE6.7 Data skew 🟡 ⭐
 
 > [!term] Data skew
