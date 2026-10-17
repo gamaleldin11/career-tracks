@@ -731,6 +731,28 @@ const FOUNDATIONS = {
     q('RL', 'Why does DQN train against a separate, periodically copied target network?', ['To use less memory', 'So the targets do not shift with every gradient step, which keeps training stable', 'To explore more', 'Because replay needs it'], 1, 'Random replay breaks correlation between consecutive steps; the frozen target stops the network chasing its own moving estimates.', 'AI24.8'),
     q('RL', 'In Géron\'s three-state MDP, raising γ from 0.90 to 0.95 makes the agent in s1…', ['Stay put', 'Go through the fire (−50) for the later +40', 'Stop acting', 'Pick randomly'], 1, 'Valuing the future more makes short-term pain worth paying.', 'AI24.6'),
   ],
+  N1: [
+    q('Networking', 'Which device separates broadcast domains?', ['A hub', 'A switch', 'A router (or a VLAN boundary)', 'A repeater'], 2, 'A switch separates collision domains, but broadcasts flood the whole VLAN; only a router or a separate VLAN stops them.', 'N1.4'),
+    q('Networking', 'A switch makes forwarding decisions based on…', ['Destination IP address', 'Destination MAC address', 'Port number', 'TTL'], 1, 'Switches work at layer 2 on MAC addresses; routers work at layer 3 on IP addresses.', 'N1.4'),
+    q('Networking', 'In encapsulation, the transport layer’s unit of data is called a…', ['Frame', 'Packet', 'Segment', 'Bit'], 2, 'Data → segment (layer 4) → packet (layer 3) → frame (layer 2) → bits (layer 1).', 'N1.6'),
+    q('Networking', 'A user’s link light is off. Which OSI layer do you check first?', ['Layer 7', 'Layer 3', 'Layer 2', 'Layer 1: cable, port, NIC'], 3, 'No link means nothing above layer 1 can work; check the cable, the patch panel, the switch port and the NIC.', 'N1.5'),
+  ],
+  N2: [
+    q('Networking', 'How many usable host addresses does a /26 provide?', ['64', '62', '30', '126'], 1, '2^6 = 64 addresses, minus the network and broadcast addresses = 62.', 'N2.4'),
+    q('Networking', 'Host 192.168.1.37/26: what are its network and broadcast addresses?', ['.0 and .63', '.32 and .63', '.0 and .255', '.36 and .38'], 0, 'Block size 256 − 192 = 64, so subnets start at .0, .64, .128, .192; .37 is in .0–.63.', 'N2.4'),
+    q('Networking', 'Which of these is NOT a private (RFC 1918) range?', ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16', '169.254.0.0/16'], 3, '169.254.0.0/16 is link-local (APIPA): a host gives itself one when DHCP fails.', 'N2.3'),
+    q('Networking', 'PC 10.1.1.20/24 wants to reach 10.1.2.5. What does it do?', ['ARPs for 10.1.2.5 directly', 'Sends the packet to its default gateway, because the destination is on another subnet', 'Broadcasts the packet', 'Drops it'], 1, 'ANDing both addresses with the mask gives different networks, so the PC ARPs for the gateway instead.', 'N2.5'),
+  ],
+  N6: [
+    q('Networking', 'Which 2.4 GHz Wi-Fi channels do not overlap?', ['1, 2, 3', '1, 6, 11', '1, 7, 13', 'Any three'], 1, 'Channels are 5 MHz apart but about 20 MHz wide; plan APs on 1, 6 and 11, and prefer 5 GHz where you can.', 'N6.1'),
+    q('Networking', 'A Wi-Fi signal of −80 dBm is…', ['Excellent', 'Good', 'Weak: expect drops and slow speeds', 'Too strong'], 2, 'Closer to zero is stronger: around −30 to −55 is excellent, −67 is the usual minimum for voice and video, −80 is poor.', 'N6.1'),
+    q('Networking', 'With split tunnelling on a remote-access VPN…', ['All traffic goes through the office', 'Only traffic for company networks uses the tunnel; internet traffic goes out locally', 'The VPN is disabled', 'DNS stops working'], 1, 'It saves office bandwidth but means internet traffic is not inspected by company security tools.', 'N6.3'),
+  ],
+  N8: [
+    q('Troubleshooting', 'ping 8.8.8.8 works but ping google.com fails. The problem is most likely…', ['The cable', 'DNS', 'The default gateway', 'The NIC driver'], 1, 'Reaching an IP proves layers 1 to 3 and routing; failing by name points at name resolution: check the DNS servers with nslookup.', 'N8.3'),
+    q('Troubleshooting', 'A traceroute shows * * * at hop 4, but hops 5 to 8 answer normally. This means…', ['The path is broken at hop 4', 'Hop 4 simply does not answer traceroute probes (often ICMP rate-limiting); the path works', 'DNS is down', 'The destination is unreachable'], 1, 'Only a problem that persists to the end of the trace is real.', 'N8.2'),
+    q('Troubleshooting', 'Which order matches the structured troubleshooting method?', ['Fix, test, document', 'Identify the problem, theorise, test the theory, plan and implement, verify, document', 'Reboot first, then ask', 'Escalate immediately'], 1, 'Saying the method out loud before naming commands is what interviewers listen for.', 'N8.1'),
+  ],
   N4: [
     q('Switching', 'A PC on a switch port gets 169.254.x.x at boot but a normal address after ipconfig /renew. Likely cause?', ['A bad cable', 'Classic STP holds the port ~30 s before forwarding, so DHCP times out: enable PortFast on access ports', 'The DHCP scope is full', 'A duplex mismatch'], 1, 'RSTP or PortFast with BPDU Guard makes edge ports forward immediately.', 'N4.4'),
     q('Networks', 'You changed a DNS A record 10 minutes ago, but users still reach the old server. Why?', ['DNS is broken', 'Resolvers and clients cached the old answer until its TTL expires', 'The record needs a reboot', 'ARP is stale'], 1, 'Lower the TTL before a planned change; flush caches in an emergency.', 'N3.3'),
@@ -748,6 +770,8 @@ const FOUNDATIONS = {
     q('Networking', 'Firewall logs show only IP addresses. Which record type turns an IP back into a name?', ['A', 'CNAME', 'PTR', 'MX'], 2, 'PTR records live under in-addr.arpa and answer reverse lookups; MX finds mail servers, CNAME aliases one name to another.', 'N3.3'),
   ],
   N5: [
+    q('Networking', 'A router has routes 10.0.0.0/8 and 10.1.2.0/24. A packet for 10.1.2.9 uses…', ['10.0.0.0/8, because it was learned first', '10.1.2.0/24: the longest prefix match wins', 'Both, load-balanced', 'The default route'], 1, 'Prefix length decides first; administrative distance only breaks ties between identical prefixes from different sources.', 'N5.4'),
+    q('Networking', 'The same prefix is learned from OSPF (AD 110) and a static route (AD 1). Which is installed?', ['OSPF', 'The static route, because lower administrative distance is more trusted', 'Both', 'Neither'], 1, 'A floating static route deliberately uses a high AD (for example 250) so it stays out of the table until the primary disappears.', 'N5.2'),
     q('Networking', 'A branch has a fibre default route and a backup route via 4G configured with administrative distance 250. While the fibre is up, the 4G route is…', ['Used for half the traffic', 'In the routing table but unused', 'Kept in the configuration but not installed in the routing table', 'Deleted'], 2, 'A floating static is only installed when the better route disappears, and is removed again when it returns.', 'N5.2'),
   ],
   N7: [
