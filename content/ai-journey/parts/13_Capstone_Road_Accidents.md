@@ -412,6 +412,17 @@ Two cautions worth adding:
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="Chi-square and ANOVA on synthetic accident data, computed with SciPy: serious-or-fatal shares of 10.7 percent in daylight, 16.8 percent in dark but lit roads and 19.8 percent on dark unlit roads give chi-square 45.9 with p around 1e-10, an association; weather shares of 13.0, 15.3 and 12.0 percent give chi-square 3.61 with p 0.16, no evidence; mean casualty age of 38.1, 42.2 and 47.1 across severity classes gives F 25.9 with p around 7e-12">
+<text class="sM" x="124" y="20" text-anchor="middle">chi-square: lighting vs severity</text><text class="sS" x="104" y="53" text-anchor="end">Daylight</text><rect class="sN" x="114" y="38" width="120" height="22" rx="3"/><rect class="sR" x="114" y="38" width="51.2" height="22" rx="3" opacity=".8"/><text class="sC" x="240" y="53">10.7%</text><text class="sS" x="104" y="87" text-anchor="end">Dark, lit</text><rect class="sN" x="114" y="72" width="120" height="22" rx="3"/><rect class="sR" x="114" y="72" width="80.8" height="22" rx="3" opacity=".8"/><text class="sC" x="240" y="87">16.8%</text><text class="sS" x="104" y="121" text-anchor="end">Dark, unlit</text><rect class="sN" x="114" y="106" width="120" height="22" rx="3"/><rect class="sR" x="114" y="106" width="94.8" height="22" rx="3" opacity=".8"/><text class="sC" x="240" y="121">19.8%</text><text class="sC" x="154" y="152" text-anchor="middle">χ² = 45.9, p ≈ 1e-10</text><text class="sGt" x="154" y="172" text-anchor="middle">reject H0: associated</text>
+<text class="sM" x="400" y="20" text-anchor="middle">chi-square: weather vs severity</text><text class="sS" x="380" y="53" text-anchor="end">Fine</text><rect class="sN" x="390" y="38" width="120" height="22" rx="3"/><rect class="sR" x="390" y="38" width="62.24" height="22" rx="3" opacity=".8"/><text class="sC" x="516" y="53">13.0%</text><text class="sS" x="380" y="87" text-anchor="end">Rain</text><rect class="sN" x="390" y="72" width="120" height="22" rx="3"/><rect class="sR" x="390" y="72" width="73.6" height="22" rx="3" opacity=".8"/><text class="sC" x="516" y="87">15.3%</text><text class="sS" x="380" y="121" text-anchor="end">Fog</text><rect class="sN" x="390" y="106" width="120" height="22" rx="3"/><rect class="sR" x="390" y="106" width="57.6" height="22" rx="3" opacity=".8"/><text class="sC" x="516" y="121">12.0%</text><text class="sC" x="430" y="152" text-anchor="middle">χ² = 3.61, p = 0.16</text><text class="sWt" x="430" y="172" text-anchor="middle">no evidence of association</text>
+<text class="sM" x="616" y="20" text-anchor="middle">ANOVA: casualty age</text>
+<text class="sS" x="608" y="53" text-anchor="end">slight</text><rect class="sV" x="614" y="38" width="30.78" height="22" rx="3" opacity=".8"/><text class="sC" x="648.78" y="53">38.1</text>
+<text class="sS" x="608" y="87" text-anchor="end">serious</text><rect class="sV" x="614" y="72" width="46.36" height="22" rx="3" opacity=".8"/><text class="sC" x="664.36" y="87">42.2</text>
+<text class="sS" x="608" y="121" text-anchor="end">fatal</text><rect class="sV" x="614" y="106" width="64.98" height="22" rx="3" opacity=".8"/><text class="sC" x="682.98" y="121">47.1</text>
+<text class="sC" x="640" y="152" text-anchor="middle">F = 25.9, p ≈ 7e-12</text><text class="sGt" x="640" y="172" text-anchor="middle">means differ</text>
+<text class="sS" x="360" y="204" text-anchor="middle">bars show the serious-or-fatal share (left, centre) and mean age per class (right); synthetic data, SciPy tests</text>
+</svg><figcaption>Computed with <code>chi2_contingency</code> and <code>f_oneway</code> on synthetic data shaped like the accident dataset (the original file is not in this repo). A small p says "unlikely if independent", not "large effect": always show the rates too.</figcaption></figure>
+
 ## 13.7 Multicollinearity and VIF 🟡
 
 ```python
@@ -686,11 +697,11 @@ From the sibling `AI_Project/readme.md`:
 
 <figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="The road-accident project’s key findings as bars: about 8 percent of car accidents were serious or fatal against about 42 percent for motorcycles over 500cc; 11 percent in daylight, 22 percent in darkness with no street lighting and 66 percent where street lights were present but unlit">
 <text class="sM" x="14" y="20">share of accidents that were serious or fatal (from the project readme)</text>
-<text class="sS" x="240" y="50" text-anchor="end">Cars</text><rect class="sB" x="250" y="34" width="52" height="22" rx="3" opacity=".85"/><text class="sT" x="308" y="50">~8%</text>
-<text class="sS" x="240" y="80" text-anchor="end">Motorcycles over 500cc</text><rect class="sR" x="250" y="64" width="273" height="22" rx="3" opacity=".85"/><text class="sT" x="529" y="80">~42%</text>
-<text class="sS" x="240" y="124" text-anchor="end">Daylight</text><rect class="sB" x="250" y="108" width="71.5" height="22" rx="3" opacity=".85"/><text class="sT" x="327.5" y="124">~11%</text>
-<text class="sS" x="240" y="154" text-anchor="end">Darkness: no street lighting</text><rect class="sW" x="250" y="138" width="143" height="22" rx="3" opacity=".85"/><text class="sT" x="399" y="154">~22%</text>
-<text class="sS" x="240" y="184" text-anchor="end">Darkness: lights present but unlit</text><rect class="sR" x="250" y="168" width="429" height="22" rx="3" opacity=".85"/><text class="sT" x="685" y="184">~66%</text>
+<text class="sS" x="240" y="50" text-anchor="end">Cars</text><rect class="sB" x="250" y="34" width="48" height="22" rx="3" opacity=".85"/><text class="sT" x="304" y="50">~8%</text>
+<text class="sS" x="240" y="80" text-anchor="end">Motorcycles over 500cc</text><rect class="sR" x="250" y="64" width="252" height="22" rx="3" opacity=".85"/><text class="sT" x="508" y="80">~42%</text>
+<text class="sS" x="240" y="124" text-anchor="end">Daylight</text><rect class="sB" x="250" y="108" width="66" height="22" rx="3" opacity=".85"/><text class="sT" x="322" y="124">~11%</text>
+<text class="sS" x="240" y="154" text-anchor="end">Darkness: no street lighting</text><rect class="sW" x="250" y="138" width="132" height="22" rx="3" opacity=".85"/><text class="sT" x="388" y="154">~22%</text>
+<text class="sS" x="240" y="184" text-anchor="end">Darkness: lights present but unlit</text><rect class="sR" x="250" y="168" width="396" height="22" rx="3" opacity=".85"/><text class="sT" x="652" y="184">~66%</text>
 <text class="sGt" x="360" y="210" text-anchor="middle">each finding is a comparison with a number and a baseline, which is what makes it actionable</text>
 </svg><figcaption>Figures quoted from the project’s own readme; the 66% bar rests on a small sample, as the readme itself warns.</figcaption></figure>
 
