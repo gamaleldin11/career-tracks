@@ -1207,7 +1207,7 @@ Result:
 
 With γ = 0.90, in s1 the best action is a0 ("stay put"). **With γ = 0.95 the best action in s1 becomes a2 — go through the fire**: the more you value the future, the more short- term pain you accept for later reward. (This is the answer to "can γ change the optimal policy?" — yes.)
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Géron's three-state MDP: s0 can loop for a reward of 10 or drift to s1; s1 can stay or go through fire for minus 50 into s2; s2 returns to s0 for plus 40. Q-value iteration shows the best action in s1 is to stay at gamma 0.90 but to go through the fire at gamma 0.95">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: géron's three-state MDP: s0 can loop for a reward of 10 or drift to s1; s1 can stay or go through fire for minus 50 into s2; s2 returns to s0 for plus 40. Q-value iteration shows the best action in s1 is to stay at gamma 0.90 but to go through the fire at gamma 0.95">
 <circle class="sB" cx="90" cy="120" r="26"/><text class="sT" x="90" y="125" text-anchor="middle">s0</text>
 <circle class="sB" cx="330" cy="64" r="26"/><text class="sT" x="330" y="69" text-anchor="middle">s1</text>
 <circle class="sB" cx="330" cy="196" r="26"/><text class="sT" x="330" y="201" text-anchor="middle">s2</text>
@@ -1228,6 +1228,10 @@ With γ = 0.90, in s1 the best action is a0 ("stay put"). **With γ = 0.95 the b
 <text class="sRt" x="500" y="166" text-anchor="middle">s1, a2</text><text class="sC" x="580" y="166" text-anchor="middle">−4.9</text><text class="sGt" x="660" y="166" text-anchor="middle">1.2</text>
 <text class="sC" x="500" y="186" text-anchor="middle">s2, a1</text><text class="sGt" x="580" y="186" text-anchor="middle">50.1</text><text class="sGt" x="660" y="186" text-anchor="middle">53.9</text>
 <text class="sRt" x="582" y="210" text-anchor="middle">in s1: γ 0.90 picks a0, γ 0.95 picks a2</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M 68 104 C 20 70, 20 170, 68 136"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.380;1" path="M114 108 L302 70"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.380;0.382;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.600;1" path="M330 90 L330 168"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.840;1" path="M304 190 L116 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.840;0.842;1"/></circle>
 </svg><figcaption>The MDP behind the code, and the computed Q-values: valuing the future more (higher γ) makes the −50 worth paying. Green marks the best action per state.</figcaption></figure>
 
 ---

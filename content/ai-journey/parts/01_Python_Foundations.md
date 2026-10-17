@@ -338,7 +338,7 @@ train_model('Xgboost', 'train.csv', 'test.csv', learning_rate=0.01, n_estimators
 # hyperparameters: {'learning_rate': 0.01, 'n_estimators': 200}
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="Calling train_model with Xgboost, two file names and two keyword arguments: the first positional value binds to model, the remaining positionals pack into the datasets tuple, and the keyword arguments pack into the hyperparm dict">
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: calling train_model with Xgboost, two file names and two keyword arguments: the first positional value binds to model, the remaining positionals pack into the datasets tuple, and the keyword arguments pack into the hyperparm dict">
 <text class="sM" x="14" y="22">train_model(</text>
 <rect class="sA" x="14" y="32" width="92" height="28" rx="5"/><text class="sC" x="60" y="51" text-anchor="middle">'Xgboost'</text>
 <rect class="sB" x="112" y="32" width="104" height="28" rx="5"/><text class="sC" x="164" y="51" text-anchor="middle">'train.csv'</text>
@@ -354,6 +354,11 @@ train_model('Xgboost', 'train.csv', 'test.csv', learning_rate=0.01, n_estimators
 <line class="sLm" x1="164" y1="60" x2="240" y2="136" marker-end="url(#ahm)"/><line class="sLm" x1="270" y1="60" x2="280" y2="136" marker-end="url(#ahm)"/>
 <line class="sLm" x1="401" y1="60" x2="520" y2="136" marker-end="url(#ahm)"/><line class="sLm" x1="554" y1="60" x2="580" y2="136" marker-end="url(#ahm)"/>
 <text class="sS" x="360" y="200" text-anchor="middle">positional values fill named parameters in order; extra positionals pack into a tuple, extra keywords into a dict</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M60 60 L69 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.360;1" path="M164 60 L240 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.360;0.362;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.360;1" path="M270 60 L280 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.360;0.362;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.600;1" path="M401 60 L520 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.600;0.602;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.600;1" path="M554 60 L580 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.600;0.602;1"/></circle>
 </svg><figcaption>How Python binds one call to def train_model(model, *datasets, **hyperparm).</figcaption></figure>
 
 The names `args` and `kwargs` are convention only; `*` and `**` do the work. The full canonical signature order is `def f(pos, /, normal, *args, kw_only, **kwargs)` — you will rarely write it, but you will read it in library source.

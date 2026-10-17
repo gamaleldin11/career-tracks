@@ -382,7 +382,7 @@ The last four rows are the ones worth memorising: **`transform`, `shift`, `cumco
 
 ---
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="GROUP BY and pandas groupby do the same split-apply-combine: six order rows are split by city into Cairo, Giza and Alexandria groups, each group’s amounts are summed, giving Cairo 350, Giza 150 and Alexandria 50">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: GROUP BY and pandas groupby do the same split-apply-combine: six order rows are split by city into Cairo, Giza and Alexandria groups, each group’s amounts are summed, giving Cairo 350, Giza 150 and Alexandria 50">
 <text class="sC" x="14" y="20" xml:space="preserve" style="white-space:pre">SELECT city, SUM(amount) FROM orders GROUP BY city</text>
 <text class="sC" x="14" y="38" xml:space="preserve" style="white-space:pre">df.groupby('city')['amount'].sum()</text>
 <rect class="sB" x="14" y="56" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="71">Cairo</text><text class="sC" x="164" y="71" text-anchor="end">120</text>
@@ -404,6 +404,15 @@ The last four rows are the ones worth memorising: **`transform`, `shift`, `cumco
 <text class="sS" x="270" y="203">Alex 50</text>
 <line class="sLm" x1="460" y1="198" x2="520" y2="198" marker-end="url(#ahm)"/><rect class="sG" x="522" y="186" width="184" height="24" rx="3"/><text class="sT" x="532" y="203">Alex</text><text class="sT" x="696" y="203" text-anchor="end">50</text>
 <text class="sS" x="97" y="230" text-anchor="middle">rows</text><text class="sS" x="360" y="230" text-anchor="middle">split by key</text><text class="sS" x="614" y="230" text-anchor="middle">apply SUM, combine</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M174 66 L258 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.060;0.180;1" path="M174 114 L258 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.058;0.062;0.180;0.182;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.240;1" path="M174 186 L258 114"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.240;0.242;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.300;1" path="M174 90 L258 144"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.360;1" path="M174 162 L258 168"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.360;0.362;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M174 138 L258 198"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M460 90 L520 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M460 156 L520 156"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M460 198 L520 198"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
 </svg><figcaption>Split, apply, combine: the mental model behind SQL <code>GROUP BY</code>, pandas <code>groupby</code> and Spark <code>groupBy</code> alike.</figcaption></figure>
 
 ## 12.4 The bridge: SQL → Pandas in code 🟢
