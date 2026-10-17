@@ -480,7 +480,7 @@ At small scale, engineers cost far more than servers. At large scale, the cloud 
 - **The usual leaks**: oversized instances running at 5% CPU, forgotten environments, **data egress** (moving data out of a cloud or between regions is billed per GB), chatty services calling each other across zones, logs kept forever at full detail, and per-request pricing (serverless functions, step functions, managed APIs) used for very high-volume work, which is exactly the Prime Video case.
 - **The usual levers**: autoscaling to zero at night for internal tools, reserved or committed-use capacity for the steady baseline, spot or preemptible instances for interruptible batch work, caching, compression, storage tiers (hot, cool, archive), and deleting what nobody uses.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Matching cloud pricing to the shape of the load over a day: a steady baseline of two instances runs all day on reserved or committed capacity; daytime load up to four instances and an evening peak up to six are covered by autoscaled on-demand instances; interruptible batch jobs use spot capacity">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Matching cloud pricing to the shape of the load over a day: a steady baseline of two instances runs all day on reserved or committed capacity; daytime load up to four instances and an evening peak up to six are covered by autoscaled on-demand instances; interruptible batch jobs use spot capacity">
 <line class="sLm" x1="70" y1="190" x2="670" y2="190"/>
 <line class="sLm" x1="70" y1="190" x2="70" y2="30"/>
 <text class="sS" x="62" y="194" text-anchor="end">0</text>
@@ -498,6 +498,7 @@ At small scale, engineers cost far more than servers. At large scale, the cloud 
 <text class="sWt" x="557.5" y="53.4286" text-anchor="middle">evening peak</text>
 <text class="sS" x="370" y="230" text-anchor="middle">batch jobs that can be interrupted (re-index, reports): spot capacity at the deepest discount</text>
 <text class="sS" x="22" y="110" text-anchor="middle" transform="rotate(-90 22 110)">instances</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M70 147 L270 147 L270 104 L520 104 L520 61 L570 61 L570 104 L595 104 L595 147 L670 147"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>Buy the floor, rent the peaks: commit to the capacity you always use, autoscale the rest, and push interruptible work to spot. Illustrative load shape.</figcaption></figure>
 
 Many organisations run this as **FinOps**: engineering, finance and product share cost visibility and own their spend.

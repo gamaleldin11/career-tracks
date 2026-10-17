@@ -54,7 +54,7 @@ Every decision made by looking at a set leaks a little information from it, so a
 | **Out-of-time test** | Hold out the most recent period entirely | Final check that performance survives time |
 | **Nested CV** | An inner loop for tuning inside an outer loop for evaluation | Small datasets where you need an unbiased estimate after tuning |
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Rows from three customers split randomly put the same customers in train and test; a group split keeps each customer's rows on one side">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: Rows from three customers split randomly put the same customers in train and test; a group split keeps each customer's rows on one side">
 <text class="sRt" x="180" y="20" text-anchor="middle">random rows</text>
 <rect class="sA" x="30" y="50" width="26" height="26" rx="4"/><text class="sT" x="43" y="68" text-anchor="middle">A</text>
 <rect class="sA" x="240" y="50" width="26" height="26" rx="4"/><text class="sT" x="253" y="68" text-anchor="middle">A</text>
@@ -86,6 +86,8 @@ Every decision made by looking at a set leaks a little information from it, so a
 <text class="sT" x="450" y="180" text-anchor="middle">train</text><text class="sT" x="630" y="180" text-anchor="middle">test</text>
 <line class="sD" x1="540" y1="40" x2="540" y2="166"/>
 <text class="sRt" x="180" y="206" text-anchor="middle">the same customers on both sides</text><text class="sGt" x="540" y="206" text-anchor="middle">test customers are truly new</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M180 40 L180 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M540 40 L540 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
 </svg><figcaption>When an entity appears many times, split by entity, or the score measures memory of those customers instead of skill on new ones.</figcaption></figure>
 
 <figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: rolling-origin time series validation folds">

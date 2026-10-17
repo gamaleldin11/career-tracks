@@ -79,7 +79,7 @@ _logger.LogInformation("Invoice {InvoiceId} paid in {ElapsedMs} ms by {UserId}",
 _logger.LogInformation($"Invoice {invoice.Id} paid in {sw.ElapsedMilliseconds} ms");
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 304" role="img" aria-label="The JSON emitted for a message template contains InvoiceId, ElapsedMs and UserId as separate properties plus the shared template, so it can be filtered and grouped; the interpolated string emits only the formatted text, whose template differs for every invoice">
+<figure class="dia anim"><svg viewBox="0 0 720 304" role="img" aria-label="Animation: the JSON emitted for a message template contains InvoiceId, ElapsedMs and UserId as separate properties plus the shared template, so it can be filtered and grouped; the interpolated string emits only the formatted text, whose template differs for every invoice">
 <text class="sGt" x="14" y="28">message template</text><text class="sS" x="14" y="46" xml:space="preserve" style="white-space:pre">LogInformation("Invoice {InvoiceId} paid in {ElapsedMs} ms by {UserId}", …)</text>
 <rect class="sG" x="14" y="58" width="116.8" height="26" rx="5" opacity=".4"/><text class="sS" x="22" y="76" xml:space="preserve" style="white-space:pre">InvoiceId = 42</text>
 <rect class="sG" x="138.8" y="58" width="124" height="26" rx="5" opacity=".4"/><text class="sS" x="146.8" y="76" xml:space="preserve" style="white-space:pre">ElapsedMs = 731</text>
@@ -92,6 +92,9 @@ _logger.LogInformation($"Invoice {invoice.Id} paid in {sw.ElapsedMilliseconds} m
 <rect class="sN" x="14" y="238" width="347.2" height="26" rx="5"/><text class="sS" x="22" y="256" xml:space="preserve" style="white-space:pre">{OriginalFormat} = "Invoice 42 paid in 731 ms"</text>
 <text class="sS" x="14" y="276">query ElapsedMs &gt; 500:</text><text class="sRt" x="170" y="276">nothing to filter on: one opaque string</text>
 <text class="sS" x="14" y="294">count events of this kind:</text><text class="sRt" x="190" y="294">{OriginalFormat} differs for every invoice</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.120;1" path="M72 50 L72 58"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.120;0.122;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.220;1" path="M200 50 L200 58"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.220;0.222;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.320;1" path="M332 50 L332 58"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.320;0.322;1"/></circle>
 </svg><figcaption>The two log calls above, written by the .NET JSON console logger: only the template produces properties you can query.</figcaption></figure>
 
 | Level | Use for |
