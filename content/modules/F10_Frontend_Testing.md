@@ -212,7 +212,7 @@ Plain **TestBed** (`TestBed.configureTestingModule`, `fixture.detectChanges()`) 
 > [!term] Mock Service Worker (MSW)
 > A library that intercepts requests at the network level, in the browser (with a service worker) or in Node (in tests), and answers with handlers you define. Your components and data layer run **unchanged**; only the network is fake. The same handlers can power tests, Storybook and local development without a backend.
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Mock Service Worker intercepts requests at the network layer in tests, so the component and data code are the same code that talks to the real API in production">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: mock Service Worker intercepts requests at the network layer in tests, so the component and data code are the same code that talks to the real API in production">
 <text class="sT" x="180" y="20" text-anchor="middle">in tests and Storybook</text><text class="sT" x="540" y="20" text-anchor="middle">in production</text>
 <line class="sD" x1="360" y1="10" x2="360" y2="196"/>
 <rect class="sA" x="20" y="34" width="150" height="44" rx="8"/><text class="sT" x="95" y="54" text-anchor="middle">component</text><text class="sC" x="95" y="70" text-anchor="middle">unchanged</text><rect class="sB" x="20" y="96" width="150" height="44" rx="8"/><text class="sT" x="95" y="116" text-anchor="middle">fetch / HttpClient</text><text class="sC" x="95" y="132" text-anchor="middle">unchanged</text>
@@ -222,6 +222,10 @@ Plain **TestBed** (`TestBed.configureTestingModule`, `fixture.detectChanges()`) 
 <line class="sLm" x1="455" y1="78" x2="455" y2="94" marker-end="url(#ahm)"/><line class="sL" x1="530" y1="118" x2="566" y2="118" marker-end="url(#ah)"/>
 <rect class="sG" x="570" y="96" width="140" height="44" rx="8"/><text class="sT" x="640" y="116" text-anchor="middle">real API</text><text class="sC" x="640" y="132" text-anchor="middle">ASP.NET Core</text>
 <text class="sC" x="180" y="172" text-anchor="middle">intercepted at the network layer</text><text class="sC" x="540" y="172" text-anchor="middle">same code, real network</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M95 78 L95 94"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M170 118 L206 118"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M455 78 L455 94"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.620;1" path="M530 118 L566 118"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.620;0.622;1"/></circle>
 </svg><figcaption>Mocking at the network edge. Everything above the network runs for real, which is what makes these tests trustworthy.</figcaption></figure>
 
 ```ts

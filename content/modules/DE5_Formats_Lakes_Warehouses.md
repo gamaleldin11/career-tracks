@@ -160,12 +160,15 @@ Without a catalog, a lake is a pile of folders; with one, it's a governed set of
 
 All modern platforms **separate storage from compute**: data sits in cheap durable storage, and compute clusters scale up, down or to zero independently, with several workloads reading the same data without competing.
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Separated storage and compute: one copy of the data in object storage read by independent compute clusters for ETL, BI and data science, each sized and billed separately">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: separated storage and compute: one copy of the data in object storage read by independent compute clusters for ETL, BI and data science, each sized and billed separately">
 <rect class="sB" x="14" y="150" width="692" height="56" rx="10"/><text class="sT" x="360" y="174" text-anchor="middle">one copy of the data in object storage</text><text class="sC" x="360" y="194" text-anchor="middle">OneLake · ADLS · S3 · Snowflake managed storage</text>
 <rect class="sV" x="40" y="30" width="180" height="56" rx="8"/><text class="sT" x="130" y="56" text-anchor="middle">ETL cluster</text><text class="sC" x="130" y="72" text-anchor="middle">large, nightly, then off</text><line class="sLm" x1="130" y1="86" x2="130" y2="146" marker-end="url(#ahm)"/>
 <rect class="sA" x="270" y="30" width="180" height="56" rx="8"/><text class="sT" x="360" y="56" text-anchor="middle">BI warehouse</text><text class="sC" x="360" y="72" text-anchor="middle">medium, office hours</text><line class="sLm" x1="360" y1="86" x2="360" y2="146" marker-end="url(#ahm)"/>
 <rect class="sG" x="500" y="30" width="180" height="56" rx="8"/><text class="sT" x="590" y="56" text-anchor="middle">data science</text><text class="sC" x="590" y="72" text-anchor="middle">GPU notebook, on demand</text><line class="sLm" x1="590" y1="86" x2="590" y2="146" marker-end="url(#ahm)"/>
 <text class="sC" x="360" y="116" text-anchor="middle">each scales, pauses and is billed independently; none slows the others</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M130 146 L130 86"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.350;1" path="M360 146 L360 86"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.550;1" path="M590 146 L590 86"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.550;0.552;1"/></circle>
 </svg><figcaption>Separating storage from compute is the architectural change behind every modern platform, from Snowflake to Fabric.</figcaption></figure>
 
 | Platform | Architecture in one line | Pricing model (roughly) | Notable features |

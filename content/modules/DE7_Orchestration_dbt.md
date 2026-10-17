@@ -234,7 +234,7 @@ models:
 
 **Project structure** (dbt Labs' recommendation): `staging/` (one model per source table, light cleaning) → `intermediate/` (joins and business logic) → `marts/` (facts and dimensions for consumers), which maps neatly onto bronze → silver → gold ([[DE1.3]]).
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="dbt lineage: raw sources feed staging models, which feed an intermediate model and marts for orders and customers, which feed a sales dashboard exposure; tests run on key models">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: dbt lineage: raw sources feed staging models, which feed an intermediate model and marts for orders and customers, which feed a sales dashboard exposure; tests run on key models">
 <text class="sM" x="84" y="22" text-anchor="middle">sources</text>
 <rect class="sN" x="14" y="40" width="140" height="40" rx="6"/><text class="sC" x="84" y="65" text-anchor="middle">raw.orders</text>
 <rect class="sN" x="14" y="110" width="140" height="40" rx="6"/><text class="sC" x="84" y="135" text-anchor="middle">raw.customers</text>
@@ -257,6 +257,13 @@ models:
 <circle class="sPg" cx="628" cy="116" r="5"/>
 <rect class="sW" x="500" y="170" width="206" height="40" rx="8"/><text class="sT" x="603" y="195" text-anchor="middle">exposure: sales dashboard</text><line class="sLw" x1="570" y1="150" x2="590" y2="168" marker-end="url(#ahw)"/>
 <text class="sC" x="14" y="200">arrows come from ref() and source(): dbt builds the graph from the SQL</text><text class="sGt" x="14" y="218">green dots: tests that run with dbt build</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M154 60 L172 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M154 130 L172 130"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.230;1" path="M314 60 L332 95"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.230;0.232;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.230;1" path="M314 130 L332 95"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.230;0.232;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.350;1" path="M314 130 L492 130"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.350;0.352;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M474 95 L492 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M570 150 L590 168"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
 </svg><figcaption>A dbt project is a DAG of SELECT statements. ref() is both the dependency and the documentation of lineage.</figcaption></figure>
 
 > [!sota] dbt in 2026
