@@ -135,7 +135,7 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 # then LightGBM on rows up to the forecast origin; validate on the following 14 days (rolling origin)
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="A daily series turned into a supervised table with lag-1, lag-2 and a shifted three-day mean as features for each day's value">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: A daily series turned into a supervised table with lag-1, lag-2 and a shifted three-day mean as features for each day's value">
 <rect class="sN" x="80" y="20" width="90" height="24" rx="0"/><text class="sT" x="125" y="37" text-anchor="middle">date</text>
 <rect class="sN" x="170" y="20" width="70" height="24" rx="0"/><text class="sT" x="205" y="37" text-anchor="middle">y</text>
 <rect class="sN" x="240" y="20" width="80" height="24" rx="0"/><text class="sT" x="280" y="37" text-anchor="middle">lag_1</text>
@@ -183,6 +183,8 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 <rect class="sV" x="400" y="198" width="130" height="22" rx="0" opacity=".5"/><text class="sC" x="465" y="213" text-anchor="middle">120</text>
 <line class="sLw" x1="185" y1="121" x2="260" y2="143" marker-end="url(#ahw)"/>
 <text class="sC" x="548" y="70">predict y from</text><text class="sC" x="548" y="88">only earlier values</text><text class="sWt" x="548" y="120">shift(1) first:</text><text class="sWt" x="548" y="138">today never sees itself</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M205 55 L280 77 L360 99"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M185 121 L260 143"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
 </svg><figcaption>Lag features turn a time series into an ordinary table, which is why gradient boosting can forecast. The shift is the leakage guard.</figcaption></figure>
 
 | Multi-step strategy | How | Trade-off |
@@ -281,7 +283,7 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 - **Intermittent demand** (many zeros: slow-moving spare parts, niche products): Croston's method and its variants, or forecasting the probability of demand and its size separately; evaluate with metrics that handle zeros.
 - **Hierarchies** (country → region → store, category → product): forecasts at different levels must add up. **Reconciliation** methods (bottom-up, top-down, MinT optimal reconciliation) make them coherent.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A forecast hierarchy from Egypt to regions to stores where independently forecast levels do not add up and must be reconciled">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: A forecast hierarchy from Egypt to regions to stores where independently forecast levels do not add up and must be reconciled">
 <rect class="sB" x="290" y="14" width="140" height="46" rx="8"/><text class="sT" x="360" y="35" text-anchor="middle">Egypt</text><text class="sC" x="360" y="51" text-anchor="middle">forecast 1,040</text>
 <line class="sLm" x1="360" y1="60" x2="150" y2="90"/><rect class="sA" x="80" y="92" width="140" height="46" rx="8"/><text class="sT" x="150" y="113" text-anchor="middle">Cairo</text><text class="sC" x="150" y="129" text-anchor="middle">600</text>
 <line class="sLm" x1="360" y1="60" x2="360" y2="90"/><rect class="sA" x="290" y="92" width="140" height="46" rx="8"/><text class="sT" x="360" y="113" text-anchor="middle">Alexandria</text><text class="sC" x="360" y="129" text-anchor="middle">250</text>
@@ -289,6 +291,11 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 <line class="sLm" x1="150" y1="138" x2="80" y2="168"/><rect class="sV" x="20" y="170" width="120" height="42" rx="8"/><text class="sT" x="80" y="189" text-anchor="middle">store 1</text><text class="sC" x="80" y="205" text-anchor="middle">350</text>
 <line class="sLm" x1="150" y1="138" x2="220" y2="168"/><rect class="sV" x="160" y="170" width="120" height="42" rx="8"/><text class="sT" x="220" y="189" text-anchor="middle">store 2</text><text class="sC" x="220" y="205" text-anchor="middle">250</text>
 <rect class="sR" x="450" y="160" width="256" height="56" rx="8" opacity=".85"/><text class="sT" x="578" y="182" text-anchor="middle">regions add to 1,000, not 1,040</text><text class="sC" x="578" y="202" text-anchor="middle">reconcile: bottom-up, top-down, MinT</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M80 168 L150 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M220 168 L150 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.460;1" path="M150 90 L360 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.460;0.462;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.460;1" path="M360 90 L360 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.460;0.462;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.460;1" path="M570 90 L360 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.460;0.462;1"/></circle>
 </svg><figcaption>Forecast every level independently and the numbers disagree. Reconciliation makes the plan coherent from national budget to store order.</figcaption></figure>
 
 - **Cold start** (new products, stores): global models with product attributes, borrowing from similar items, or foundation models.

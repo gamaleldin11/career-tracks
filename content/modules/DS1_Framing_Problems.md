@@ -165,13 +165,14 @@ Start with the simplest thing that could work:
 - **A SQL report** may answer the question without predicting anything.
 - ML earns its keep when patterns are complex, data is plentiful, decisions repeat at scale, and the cost of building and maintaining a model is justified by the improvement.
 
-<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="A ladder of approaches from a rule, to a SQL segment, to logistic regression, to gradient boosting, with rising accuracy and rising cost">
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: A ladder of approaches from a rule, to a SQL segment, to logistic regression, to gradient boosting, with rising accuracy and rising cost">
 <rect class="sB" x="14" y="170" width="170" height="50" rx="8"/><text class="sT" x="99" y="193" text-anchor="middle">a rule</text><text class="sC" x="99" y="209" text-anchor="middle">no recharge in 14 days</text>
 <rect class="sB" x="164" y="126" width="170" height="50" rx="8"/><text class="sT" x="249" y="149" text-anchor="middle">a SQL segment</text><text class="sS" x="249" y="165" text-anchor="middle">or a report, no prediction</text>
 <rect class="sA" x="314" y="82" width="170" height="50" rx="8"/><text class="sT" x="399" y="105" text-anchor="middle">logistic regression</text><text class="sC" x="399" y="121" text-anchor="middle">simple, explainable</text>
 <rect class="sV" x="464" y="38" width="170" height="50" rx="8"/><text class="sT" x="549" y="61" text-anchor="middle">gradient boosting</text><text class="sC" x="549" y="77" text-anchor="middle">usually best on tables</text>
 <line class="sLm" x1="40" y1="236" x2="650" y2="236" marker-end="url(#ahm)"/><text class="sC" x="345" y="252" text-anchor="middle">more accuracy possible; more cost to build, explain and maintain</text>
 <text class="sGt" x="560" y="214" text-anchor="middle">climb only while each step beats</text><text class="sGt" x="560" y="232" text-anchor="middle">the one below by enough to pay</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M99 166 L164 151 L249 122 L314 107 L399 78 L464 63 L549 34"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>The rule at the bottom is also your baseline. A model that can't beat it clearly isn't worth running.</figcaption></figure>
 
 > [!say]

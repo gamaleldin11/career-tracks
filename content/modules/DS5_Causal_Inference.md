@@ -81,7 +81,7 @@ So causal methods estimate effects for **groups**, by finding a comparison group
 
 A **causal graph (DAG)** draws your assumptions: arrows from causes to effects.
 
-<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="Confounder and collider DAG examples">
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: confounder and collider DAG examples">
 <g transform="translate(20,10)">
 <text class="sT" x="0" y="15">Confounder</text>
 <rect class="sW" x="110" y="25" width="120" height="34" rx="8"/><text class="sS" x="170" y="47" text-anchor="middle">Prior engagement</text>
@@ -98,6 +98,10 @@ A **causal graph (DAG)** draws your assumptions: arrows from causes to effects.
 <line class="sL" x1="80" y1="59" x2="150" y2="105"/><line class="sL" x1="250" y1="59" x2="180" y2="105"/>
 <text class="sS" x="0" y="160">Don't condition on it</text>
 </g>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M170 69 L120 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M210 69 L270 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M460 69 L530 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M630 69 L560 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
 </svg><figcaption>Adjust for confounders (common causes). Conditioning on a collider (a common effect) creates a false association.</figcaption></figure>
 
 | Structure | Example | Do |
