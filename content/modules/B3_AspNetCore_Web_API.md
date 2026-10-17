@@ -324,7 +324,7 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log, 
 | Exception | When the action throws | Action-specific error mapping |
 | Result | Around the result execution | Adding headers, wrapping responses |
 
-<figure class="dia"><svg viewBox="0 0 720 150" role="img" aria-label="MVC filter order: authorization, resource, model binding, action filters, the action, result filters, the result; exception filters wrap the action">
+<figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: MVC filter order: authorization, resource, model binding, action filters, the action, result filters, the result; exception filters wrap the action">
 <rect class="sR" x="8" y="40" width="94" height="50" rx="8"/><text class="sC" x="55" y="70" text-anchor="middle">authorization</text>
 <line class="sLm" x1="102" y1="65" x2="108" y2="65" marker-end="url(#ahm)"/>
 <rect class="sB" x="109" y="40" width="94" height="50" rx="8"/><text class="sC" x="156" y="70" text-anchor="middle">resource</text>
@@ -340,6 +340,8 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log, 
 <rect class="sB" x="614" y="40" width="94" height="50" rx="8"/><text class="sC" x="661" y="70" text-anchor="middle">result</text>
 <path class="sLr" d="M459 92 V120 H358" stroke-dasharray="4 3"/><text class="sRt" x="459" y="138" text-anchor="middle">exception filters wrap the action</text>
 <text class="sC" x="360" y="24" text-anchor="middle">inside the endpoint, for one action (middleware runs before all of this)</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.600;1" path="M8 96 L708 96"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.600;0.602;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.850;1" path="M459 92 V120 H358"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.850;0.852;1"/></circle>
 </svg><figcaption>The MVC filter pipeline. Filters see the action, its arguments and its result, which middleware never does.</figcaption></figure>
 
 Minimal APIs have **endpoint filters** (`.AddEndpointFilter<T>()`) for the same purposes.

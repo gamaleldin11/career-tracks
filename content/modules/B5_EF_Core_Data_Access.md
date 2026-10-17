@@ -250,7 +250,7 @@ var list = await db.Invoices.AsNoTracking()                  // read-only: no sn
 > [!term] N+1 queries
 > Loading a list with one query, then triggering one more query per item to get related data, which is 101 queries for 100 invoices. It usually comes from **lazy loading** or from querying inside a loop. Fix it with `Include`, a projection, or one batched query (`WHERE InvoiceId IN (…)`).
 
-<figure class="dia"><svg viewBox="0 0 720 152" role="img" aria-label="N+1 queries: one query for the list and one hundred more, one per item, compared with a single query">
+<figure class="dia anim"><svg viewBox="0 0 720 152" role="img" aria-label="Animation: N+1 queries: one query for the list and one hundred more, one per item, compared with a single query">
 <text class="sT" x="130" y="44" text-anchor="end">N+1</text>
 <rect class="sA" x="140" y="32" width="40" height="20" rx="3"/><text class="sC" x="160" y="46" text-anchor="middle">1</text>
 <rect class="sR" x="184" y="32" width="22" height="20" rx="3" opacity=".8"/>
@@ -274,6 +274,8 @@ var list = await db.Invoices.AsNoTracking()                  // read-only: no sn
 <text class="sRt" x="658" y="46">… ×100</text>
 <text class="sT" x="130" y="96" text-anchor="end">one query</text><rect class="sG" x="140" y="84" width="70" height="20" rx="3"/><text class="sC" x="175" y="98" text-anchor="middle">1</text><text class="sGt" x="220" y="98">with JOIN or a projection</text>
 <text class="sS" x="360" y="140" text-anchor="middle">each query costs a round trip (~0.5–1 ms in a data centre, far more across regions): 101 trips vs 1</text>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M140 58 L630 58"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M140 110 L210 110"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
 </svg><figcaption>N+1 is a round-trip problem. Each query may be fast; a hundred of them in sequence are not.</figcaption></figure>
 
 ```csharp

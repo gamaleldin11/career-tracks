@@ -297,13 +297,17 @@ Isolation decides what concurrent transactions can see of each other. Weaker lev
 > [!term] Deadlock
 > Two transactions each hold a lock the other needs: A locks row 1 and wants row 2; B locks row 2 and wants row 1. Neither can proceed. The database detects the cycle and kills one (the **victim**), which gets an error (SQL Server error **1205**; PostgreSQL `deadlock detected`).
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Deadlock cycle: transaction A holds row 1 and waits for row 2 while transaction B holds row 2 and waits for row 1">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: deadlock cycle: transaction A holds row 1 and waits for row 2 while transaction B holds row 2 and waits for row 1">
 <rect class="sA" x="60" y="40" width="170" height="50" rx="8"/><text class="sT" x="145" y="63" text-anchor="middle">Transaction A</text><text class="sC" x="145" y="79" text-anchor="middle">holds row 1</text><rect class="sW" x="490" y="40" width="170" height="50" rx="8"/><text class="sT" x="575" y="63" text-anchor="middle">Transaction B</text><text class="sC" x="575" y="79" text-anchor="middle">holds row 2</text>
 <rect class="sB" x="60" y="150" width="170" height="44" rx="8"/><text class="sT" x="145" y="170" text-anchor="middle">row 1</text><text class="sC" x="145" y="186" text-anchor="middle">locked by A</text><rect class="sB" x="490" y="150" width="170" height="44" rx="8"/><text class="sT" x="575" y="170" text-anchor="middle">row 2</text><text class="sC" x="575" y="186" text-anchor="middle">locked by B</text>
 <line class="sLg" x1="145" y1="90" x2="145" y2="148" marker-end="url(#ahg)"/><line class="sLg" x1="575" y1="90" x2="575" y2="148" marker-end="url(#ahg)"/>
 <path class="sLr" d="M230 70 C350 70 400 150 486 166" stroke-dasharray="6 4" marker-end="url(#ahr)"/><text class="sRt" x="380" y="92" text-anchor="middle">A waits for row 2</text>
 <path class="sLr" d="M490 70 C370 70 320 150 234 176" stroke-dasharray="6 4" marker-end="url(#ahr)"/><text class="sRt" x="340" y="150" text-anchor="middle">B waits for row 1</text>
 <text class="sS" x="360" y="222" text-anchor="middle">a cycle: the database picks a victim, rolls it back (error 1205), and the other continues</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M145 90 L145 148"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M575 90 L575 148"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.450;1" path="M230 70 C350 70 400 150 486 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.450;0.452;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.450;1" path="M490 70 C370 70 320 150 234 176"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.450;0.452;1"/></circle>
 </svg><figcaption>A deadlock is a cycle in the waits-for graph. Consistent access order breaks the cycle before it forms.</figcaption></figure>
 
 **Avoiding them:**

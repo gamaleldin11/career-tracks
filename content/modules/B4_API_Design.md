@@ -253,13 +253,15 @@ Or push completion over SignalR, SSE or a webhook instead of polling.
 - Send an **event ID** and type; keep payloads small (or send IDs and let them fetch).
 - Give a way to see deliveries and replay them.
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Webhook signing: the payload and a timestamp are signed with an HMAC using a shared secret; the receiver recomputes and compares">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: webhook signing: the payload and a timestamp are signed with an HMAC using a shared secret; the receiver recomputes and compares">
 <rect class="sB" x="16" y="40" width="150" height="50" rx="8"/><text class="sT" x="91" y="63" text-anchor="middle">event payload</text><text class="sC" x="91" y="79" text-anchor="middle">invoice.paid</text><text class="sX" x="186" y="70" text-anchor="middle">+</text><rect class="sR" x="200" y="40" width="130" height="50" rx="8"/><text class="sT" x="265" y="63" text-anchor="middle">shared secret</text><text class="sC" x="265" y="79" text-anchor="middle">never sent</text>
 <text class="sX" x="186" y="120" text-anchor="middle">+</text><rect class="sB" x="200" y="100" width="130" height="40" rx="8"/><text class="sT" x="265" y="125" text-anchor="middle">timestamp</text>
 <line class="sLm" x1="330" y1="80" x2="366" y2="80" marker-end="url(#ahm)"/><rect class="sV" x="370" y="54" width="130" height="50" rx="8"/><text class="sT" x="435" y="84" text-anchor="middle">HMAC-SHA256</text>
 <line class="sLm" x1="500" y1="80" x2="536" y2="80" marker-end="url(#ahm)"/><rect class="sG" x="540" y="50" width="168" height="60" rx="8"/><text class="sC" x="624" y="72" text-anchor="middle">header:</text><text class="sC" x="624" y="92" text-anchor="middle">X-Signature: t=…,v1=9f2c…</text>
 <text class="sS" x="360" y="176" text-anchor="middle">Receiver: recompute the HMAC over the raw body with the same secret, compare in constant time,</text>
 <text class="sS" x="360" y="196" text-anchor="middle">reject old timestamps (replays), and process each event ID once (deliveries repeat).</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M330 80 L366 80"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.280;1" path="M500 80 L536 80"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.280;0.282;1"/></circle>
 </svg><figcaption>Signed webhooks. The signature proves who sent it and that nobody changed it; the timestamp and event ID stop replays and duplicates.</figcaption></figure>
 
 ## B4.9 Other recurring design questions 🟡

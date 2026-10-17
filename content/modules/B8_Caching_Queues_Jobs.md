@@ -370,7 +370,7 @@ BackgroundJob.Schedule<IReminderService>(s => s.SendDueReminderAsync(invoiceId),
 RecurringJob.AddOrUpdate<ICfoAgentJob>("nightly-cfo-agent", j => j.RunAsync(), Cron.Daily(2));            // 02:00 daily
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Hangfire job states: enqueued, processing, succeeded or failed; failed jobs are scheduled for automatic retries">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: hangfire job states: enqueued, processing, succeeded or failed; failed jobs are scheduled for automatic retries">
 <rect class="sB" x="40" y="70" width="130" height="38" rx="8"/><text class="sC" x="105" y="94" text-anchor="middle">Enqueued</text>
 <rect class="sA" x="210" y="70" width="130" height="38" rx="8"/><text class="sC" x="275" y="94" text-anchor="middle">Processing</text>
 <rect class="sG" x="400" y="30" width="130" height="38" rx="8"/><text class="sC" x="465" y="54" text-anchor="middle">Succeeded</text>
@@ -380,6 +380,13 @@ RecurringJob.AddOrUpdate<ICfoAgentJob>("nightly-cfo-agent", j => j.RunAsync(), C
 <line class="sLm" x1="170" y1="89" x2="206" y2="89" marker-end="url(#ahm)"/><line class="sLg" x1="340" y1="82" x2="396" y2="54" marker-end="url(#ahg)"/><line class="sLr" x1="340" y1="96" x2="396" y2="134" marker-end="url(#ahr)"/><line class="sLw" x1="530" y1="139" x2="576" y2="139" marker-end="url(#ahw)"/>
 <path class="sLw" d="M645 158 C645 210 105 210 105 112" marker-end="url(#ahw)"/><text class="sC" x="375" y="214" text-anchor="middle">automatic retries with growing delays (10 by default), then it stays Failed for a human</text>
 <line class="sLm" x1="530" y1="49" x2="576" y2="49" marker-end="url(#ahm)"/><text class="sC" x="553" y="40" text-anchor="middle">expiry</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.060;1" path="M170 89 L206 89"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.060;0.062;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M340 96 L396 134"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.280;1" path="M530 139 L576 139"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.280;0.282;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.550;1" path="M645 158 C645 210 105 210 105 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.550;0.552;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.660;1" path="M170 89 L206 89"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.660;0.662;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.780;1" path="M340 82 L396 54"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.780;0.782;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.840;0.900;1" path="M530 49 L576 49"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.838;0.842;0.900;0.902;1"/></circle>
 </svg><figcaption>A durable job's life. Because a retry re-runs the whole job, jobs must be idempotent.</figcaption></figure>
 
 **Job hygiene:** jobs must be **idempotent** (Hangfire retries them); pass IDs, not whole objects (the data may have changed); keep them short or checkpoint progress; set the tenant context explicitly; log a correlation ID; alert when the failed-job count rises.
