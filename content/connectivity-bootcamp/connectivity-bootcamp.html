@@ -3825,7 +3825,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <tr><td><strong>NSX</strong>, <strong>Aria</strong>, <strong>Horizon</strong>, <strong>VCF</strong></td><td>Network virtualization / management &amp; automation / VDI desktops / the whole private-cloud bundle (VMware Cloud Foundation). Name-recognition level is enough. (Context point: Broadcom acquired VMware in 2023 and reorganized licensing around VCF subscriptions.)</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="The vSphere inventory hierarchy: vCenter Server manages a datacenter object, which contains a cluster with HA and DRS enabled, made of three ESXi hosts each running several VMs; every host in the cluster sees the same shared datastores and the same distributed switch port groups">
+<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: the vSphere inventory hierarchy: vCenter Server manages a datacenter object, which contains a cluster with HA and DRS enabled, made of three ESXi hosts each running several VMs; every host in the cluster sees the same shared datastores and the same distributed switch port groups">
 <rect class="sV" x="290" y="10" width="140" height="40" rx="8"/><text class="sT" x="360" y="28" text-anchor="middle">vCenter Server</text><text class="sC" x="360" y="44" text-anchor="middle">VCSA appliance</text>
 <line class="sLm" x1="360" y1="50" x2="360" y2="66"/>
 <rect class="sN" x="240" y="66" width="240" height="34" rx="8"/><text class="sT" x="360" y="88" text-anchor="middle">Datacenter: Cairo</text>
@@ -3840,6 +3840,9 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <text class="sS" x="550" y="214" text-anchor="middle">mail01 · dc02</text>
 <rect class="sG" x="60" y="238" width="290" height="30" rx="8"/><text class="sS" x="205" y="258" text-anchor="middle">shared datastores (every host sees them)</text>
 <rect class="sW" x="370" y="238" width="290" height="30" rx="8"/><text class="sS" x="515" y="258" text-anchor="middle">distributed switch (same port groups everywhere)</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.060;1" path="M360 50 L360 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.060;0.062;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.160;1" path="M360 100 L360 114"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.160;0.162;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.600;1" path="M90 140 L630 140"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.600;0.602;1"/></circle>
 </svg><figcaption>The cluster is the unit that matters: HA and DRS only work if every host in it sees the same datastores and the same networks. A host missing one port group is the classic "vMotion fails for this VM only" ticket.</figcaption></figure>
 
 <h3>10.3 Anatomy of a VM</h3>
@@ -4426,7 +4429,7 @@ vLCM: hosts patched against a declared image, not ad-hoc VIBs</code></pre>
   <tr><td><code>/mnt</code>, <code>/media</code></td><td>Manual and removable mount points</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="The Linux directory tree: everything hangs from the root directory: /etc for configuration such as /etc/ssh/sshd_config, /home for users, /var for variable data including /var/log, /usr for programs, /dev for device files, /proc for kernel information, /tmp for temporary files and /boot for the kernel and GRUB; a second disk is mounted onto a directory such as /data rather than getting a drive letter">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: the Linux directory tree: everything hangs from the root directory: /etc for configuration such as /etc/ssh/sshd_config, /home for users, /var for variable data including /var/log, /usr for programs, /dev for device files, /proc for kernel information, /tmp for temporary files and /boot for the kernel and GRUB; a second disk is mounted onto a directory such as /data rather than getting a drive letter">
 <rect class="sA" x="320" y="10" width="80" height="34" rx="8"/><text class="sT" x="360" y="32" text-anchor="middle">/</text>
 <line class="sLm" x1="360" y1="44" x2="54" y2="76"/>
 <rect class="sW" x="14" y="76" width="80" height="32" rx="8"/><text class="sT" x="54" y="97" text-anchor="middle">/etc</text>
@@ -4455,6 +4458,10 @@ vLCM: hosts patched against a declared image, not ad-hoc VIBs</code></pre>
 <line class="sLm" x1="194" y1="108" x2="194" y2="170"/><rect class="sG" x="184" y="170" width="120" height="30" rx="8"/><text class="sT" x="244" y="190" text-anchor="middle">/var/log</text><text class="sC" x="244" y="220" text-anchor="middle">syslog, auth.log, nginx/</text>
 <line class="sLm" x1="20" y1="108" x2="20" y2="170"/><rect class="sW" x="14" y="170" width="120" height="30" rx="8"/><text class="sT" x="74" y="190" text-anchor="middle">/etc/ssh</text><text class="sC" x="74" y="220" text-anchor="middle">sshd_config</text>
 <rect class="sN" x="380" y="162" width="326" height="70" rx="8"/><text class="sT" x="543" y="184" text-anchor="middle">A second disk is not a new letter:</text><text class="sC" x="396" y="206" xml:space="preserve" style="white-space:pre">mount /dev/sdb1 /data</text><text class="sS" x="543" y="224" text-anchor="middle">and a line in /etc/fstab makes it permanent</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M360 44 L54 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.340;1" path="M20 108 L20 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M360 44 L230 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.670;0.790;1" path="M194 108 L194 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.668;0.672;0.790;0.792;1"/></circle>
 </svg><figcaption>One tree, many disks: Linux mounts filesystems onto directories. The two you will visit most are <code>/etc</code> (change settings) and <code>/var/log</code> (find out what went wrong).</figcaption></figure>
 
 <h3>11.3 Core commands by job</h3>
