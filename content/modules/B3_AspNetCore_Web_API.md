@@ -19,7 +19,7 @@ A web API is a program that listens on a port, reads HTTP requests and writes HT
 5. **Model binding and validation** turn the route, query and JSON body into typed C# objects and reject bad input.
 6. **Serialisation** turns your return value back into JSON (`System.Text.Json`, camelCase property names by default).
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Raw HTTP bytes are parsed by Kestrel into an HttpContext object, and model binding turns the JSON body into a typed, validated request object">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: raw HTTP bytes are parsed by Kestrel into an HttpContext object, and model binding turns the JSON body into a typed, validated request object">
 <rect class="sB" x="14" y="20" width="220" height="200" rx="10"/><text class="sT" x="124" y="40" text-anchor="middle">bytes on a socket</text>
 <text class="sC" x="22" y="62" xml:space="preserve" style="white-space:pre">POST /api/invoices HTTP/1.1</text>
 <text class="sC" x="22" y="82" xml:space="preserve" style="white-space:pre">Host: api.example.com</text>
@@ -39,6 +39,8 @@ A web API is a program that listens on a port, reads HTTP requests and writes HT
 <text class="sC" x="286" y="182">RequestAborted (cancellation)</text>
 <line class="sL" x1="506" y1="120" x2="540" y2="120" marker-end="url(#ah)"/><text class="sC" x="523" y="110" text-anchor="middle">binding</text>
 <rect class="sG" x="544" y="54" width="162" height="112" rx="10"/><text class="sT" x="625" y="74" text-anchor="middle">CreateInvoiceRequest</text><text class="sC" x="625" y="98" text-anchor="middle">Customer = "Nile Foods"</text><text class="sC" x="625" y="116" text-anchor="middle">Amount = 900</text><text class="sGt" x="625" y="146" text-anchor="middle">validated, typed</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M236 120 L270 120"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.470;1" path="M506 120 L540 120"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.470;0.472;1"/></circle>
 </svg><figcaption>What the framework does before your code runs: parse bytes into an <code>HttpContext</code>, then bind and validate a typed object. On the way out it serialises your object back to JSON.</figcaption></figure>
 
 `HttpContext` is the object every middleware and endpoint receives: the request, the response being built, the authenticated `User`, the request's DI scope (`RequestServices`) and `RequestAborted`, the token that fires if the client disconnects.

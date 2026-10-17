@@ -16,7 +16,7 @@ JavaScript was created to run inside browsers. **Node.js** (2009) took Chrome's 
 - **libuv**, a C library, provides the **event loop** and a small **thread pool**. It asks the operating system to do I/O asynchronously and tells the loop when results are ready.
 - **Node's standard library** (`http`, `fs`, `crypto`, `stream`, `timers`) is the JavaScript API you call; it hands slow work to libuv.
 
-<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="Node.js layers: your JavaScript calls Node APIs, which run on the V8 engine and the libuv event loop and thread pool, which use the operating system's asynchronous I/O">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: node.js layers: your JavaScript calls Node APIs, which run on the V8 engine and the libuv event loop and thread pool, which use the operating system's asynchronous I/O">
 <rect class="sA" x="200" y="16" width="320" height="40" rx="8"/><text class="sT" x="360" y="41" text-anchor="middle">your JavaScript (server.js)</text>
 <line class="sLm" x1="360" y1="56" x2="360" y2="76" marker-end="url(#ahm)"/>
 <rect class="sB" x="110" y="78" width="500" height="40" rx="8"/><text class="sT" x="360" y="103" text-anchor="middle">Node APIs: http · fs · crypto · stream · timers</text>
@@ -25,6 +25,11 @@ JavaScript was created to run inside browsers. **Node.js** (2009) took Chrome's 
 <rect class="sW" x="380" y="142" width="290" height="54" rx="8"/><text class="sT" x="525" y="167" text-anchor="middle">libuv</text><text class="sC" x="525" y="183" text-anchor="middle">event loop · thread pool (4 by default)</text>
 <line class="sLm" x1="525" y1="196" x2="525" y2="216" marker-end="url(#ahm)"/>
 <rect class="sG" x="50" y="218" width="620" height="40" rx="8"/><text class="sT" x="360" y="243" text-anchor="middle">operating system async I/O: epoll (Linux) · kqueue (macOS) · IOCP (Windows)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M360 56 L360 76"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.220;1" path="M250 118 L200 140"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.220;0.222;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.220;1" path="M470 118 L520 140"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.220;0.222;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M525 196 L525 216"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.680;1" path="M525 216 L525 196"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.680;0.682;1"/></circle>
 </svg><figcaption>Node = V8 (the JavaScript engine from Chrome) + libuv (the event loop and thread pool) + a server-side standard library.</figcaption></figure>
 
 The consequence that shapes everything else: **your JavaScript never runs in parallel with itself.** Two callbacks can't interleave in the middle of a function, so in-memory data needs no locks. But a function that takes 200 ms of CPU stops every other request for 200 ms. ASP.NET Core makes the opposite trade: many threads run requests truly in parallel, which uses all cores but requires thread-safe code ([[B1]]).

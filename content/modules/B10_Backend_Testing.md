@@ -235,13 +235,17 @@ Why not the alternatives: EF's **InMemory** provider isn't relational and lets b
 
 These are the integration tests reviewers love, because they prove the things that matter most:
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Tenant isolation test: company A creates an invoice; company B requests it by ID and must receive 404">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: tenant isolation test: company A creates an invoice; company B requests it by ID and must receive 404">
 <text class="sT" x="100" y="22" text-anchor="middle">client as company A</text><line class="sD" x1="100" y1="32" x2="100" y2="170"/>
 <text class="sT" x="360" y="22" text-anchor="middle">API + database</text><line class="sD" x1="360" y1="32" x2="360" y2="170"/>
 <text class="sT" x="620" y="22" text-anchor="middle">client as company B</text><line class="sD" x1="620" y1="32" x2="620" y2="170"/>
 <line class="sL" x1="100" y1="50" x2="356" y2="58" marker-end="url(#ah)"/><text class="sC" x="230" y="46" text-anchor="middle">POST invoice</text><line class="sLg" x1="356" y1="70" x2="104" y2="78" marker-end="url(#ahg)"/><text class="sGt" x="230" y="92" text-anchor="middle">201 · id 7</text>
 <line class="sL" x1="620" y1="110" x2="364" y2="118" marker-end="url(#ah)"/><text class="sM" x="490" y="106" text-anchor="middle">GET /invoices/7</text><line class="sLg" x1="364" y1="130" x2="616" y2="138" marker-end="url(#ahg)"/><text class="sGt" x="490" y="152" text-anchor="middle">404: not even revealed</text>
 <text class="sS" x="360" y="196" text-anchor="middle">Assert.Equal(HttpStatusCode.NotFound, res.StatusCode): proves the filter works, on every endpoint, forever</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.160;1" path="M100 50 L356 58"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.160;0.162;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.360;1" path="M356 70 L104 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.360;0.362;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.640;1" path="M620 110 L364 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.640;0.642;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.840;1" path="M364 130 L616 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.840;0.842;1"/></circle>
 </svg><figcaption>The test that turns "we use global query filters" into evidence.</figcaption></figure>
 
 ```csharp
