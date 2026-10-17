@@ -354,7 +354,7 @@ Grid lays children out in **rows and columns at once**.
 | `dvh` / `svh` / `lvh` | The dynamic / small / large viewport height | Mobile, where browser toolbars change the visible height (`100vh` overflows on phones) |
 | `ch` | Width of "0" in the current font | Line length: `max-width: 65ch` for readable text |
 
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Left: nested list items with font-size 1.2em grow 19.2, 23, 27.6 and 33.2 pixels because em compounds, while 1.2rem stays at 19.2 pixels. Right: clamp(1.5rem, 1rem + 2vw, 2.5rem) stays at 24 pixels below a 400 pixel viewport, grows linearly, and caps at 40 pixels from 1,200 pixels">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: Left: nested list items with font-size 1.2em grow 19.2, 23, 27.6 and 33.2 pixels because em compounds, while 1.2rem stays at 19.2 pixels. Right: clamp(1.5rem, 1rem + 2vw, 2.5rem) stays at 24 pixels below a 400 pixel viewport, grows linearly, and caps at 40 pixels from 1,200 pixels">
 <text class="sM" x="14" y="22">each nested level: 1.2em vs 1.2rem (root 16px)</text>
 <text class="sC" x="70" y="58" text-anchor="end">level 1</text>
 <rect class="sW" x="80" y="38" width="115.2" height="14" rx="3"/><text class="sWt" x="201.2" y="50">19.2px (em)</text>
@@ -376,6 +376,7 @@ Grid lays children out in **rows and columns at once**.
 <text class="sS" x="434" y="74" text-anchor="end">40</text>
 <text class="sM" x="570" y="30" text-anchor="middle">clamp(1.5rem, 1rem + 2vw, 2.5rem)</text>
 <text class="sS" x="470" y="166">floor</text><text class="sS" x="600" y="64" text-anchor="middle">ceiling</text><text class="sS" x="570" y="224" text-anchor="middle">viewport width → (font-size in px)</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M440.0 150.0 L444.1 150.0 L448.1 150.0 L452.2 150.0 L456.2 150.0 L460.3 148.0 L464.4 146.0 L468.4 144.0 L472.5 142.0 L476.6 140.0 L480.6 138.0 L484.7 136.0 L488.8 134.0 L492.8 132.0 L496.9 130.0 L500.9 128.0 L505.0 126.0 L509.1 124.0 L513.1 122.0 L517.2 120.0 L521.2 118.0 L525.3 116.0 L529.4 114.0 L533.4 112.0 L537.5 110.0 L541.6 108.0 L545.6 106.0 L549.7 104.0 L553.8 102.0 L557.8 100.0 L561.9 98.0 L565.9 96.0 L570.0 94.0 L574.1 92.0 L578.1 90.0 L582.2 88.0 L586.2 86.0 L590.3 84.0 L594.4 82.0 L598.4 80.0 L602.5 78.0 L606.6 76.0 L610.6 74.0 L614.7 72.0 L618.8 70.0 L622.8 70.0 L626.9 70.0 L630.9 70.0 L635.0 70.0 L639.1 70.0 L643.1 70.0 L647.2 70.0 L651.2 70.0 L655.3 70.0 L659.4 70.0 L663.4 70.0 L667.5 70.0 L671.6 70.0 L675.6 70.0 L679.7 70.0 L683.8 70.0 L687.8 70.0 L691.9 70.0 L695.9 70.0 L700.0 70.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>em multiplies down the tree, rem always refers to the root; clamp() gives fluid type with a floor and a ceiling. Computed.</figcaption></figure>
 
 **Mobile-first:** write base styles for small screens, then add `min-width` media queries for larger ones. It forces you to prioritise content, and phones dominate traffic in Egypt.

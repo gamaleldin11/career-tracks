@@ -294,7 +294,7 @@ await prisma.$transaction(async (tx) => {
 });
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Measured query time per page on a million-row table: OFFSET pagination grows linearly to about 30 milliseconds at page 49,000, while keyset pagination on the same index stays at about 0.02 milliseconds on every page">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Measured query time per page on a million-row table: OFFSET pagination grows linearly to about 30 milliseconds at page 49,000, while keyset pagination on the same index stays at about 0.02 milliseconds on every page">
 <line class="sLm" x1="70" y1="200" x2="500" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="24"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text><line class="sLm" x1="70" y1="200" x2="500" y2="200" opacity=".15"/>
 <text class="sS" x="62" y="155.429" text-anchor="end">10</text><line class="sLm" x1="70" y1="151.429" x2="500" y2="151.429" opacity=".15"/>
@@ -317,6 +317,8 @@ await prisma.$transaction(async (tx) => {
 <text class="sT" x="613" y="52" text-anchor="middle">1,000,000 invoices, SQLite</text><text class="sS" x="613" y="70" text-anchor="middle">index on (company, status,</text><text class="sS" x="613" y="86" text-anchor="middle">due_date, id)</text>
 <text class="sRt" x="613" y="114" text-anchor="middle">OFFSET walks and discards</text><text class="sRt" x="613" y="130" text-anchor="middle">every earlier row</text>
 <text class="sGt" x="613" y="158" text-anchor="middle">keyset seeks straight to</text><text class="sGt" x="613" y="174" text-anchor="middle">(due_date, id) &gt; cursor</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M70.0 199.9 L78.4 197.3 L154.0 172.3 L280.0 126.8 L481.6 57.3"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M70.0 199.9 L78.4 199.9 L154.0 199.9 L280.0 199.9 L481.6 199.9"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Offset versus keyset pagination, measured (best of five runs per page): the cursor in the Prisma example above keeps every page as cheap as the first.</figcaption></figure>
 
 The same principles as EF Core apply: select only needed fields, avoid N+1 (use `include` or batch queries), use transactions for multi-step writes, and run migrations deliberately ([[B5]]).

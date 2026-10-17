@@ -14,7 +14,7 @@ These are the three topics your gaps file lists as blocking the most backend job
 
 The payoff is plain arithmetic:
 
-<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Average read latency falls from 20 ms with no cache to 2.9 ms at a 90% hit ratio and about 1.2 ms at 99%">
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: Average read latency falls from 20 ms with no cache to 2.9 ms at a 90% hit ratio and about 1.2 ms at 99%">
 <line class="sLm" x1="80" y1="196" x2="650" y2="196" marker-end="url(#ahm)"/><line class="sLm" x1="80" y1="196" x2="80" y2="34" marker-end="url(#ahm)"/>
 <polyline class="sL" points="80.0,46.0 91.2,48.8 102.4,51.7 113.6,54.6 124.8,57.4 136.0,60.2 147.2,63.1 158.4,65.9 169.6,68.8 180.8,71.6 192.0,74.5 203.2,77.3 214.4,80.2 225.6,83.0 236.8,85.9 248.0,88.7 259.2,91.6 270.4,94.5 281.6,97.3 292.8,100.1 304.0,103.0 315.2,105.8 326.4,108.7 337.6,111.5 348.8,114.4 360.0,117.2 371.2,120.1 382.4,123.0 393.6,125.8 404.8,128.6 416.0,131.5 427.2,134.4 438.4,137.2 449.6,140.1 460.8,142.9 472.0,145.8 483.2,148.6 494.4,151.4 505.6,154.3 516.8,157.2 528.0,160.0 539.2,162.8 550.4,165.7 561.6,168.6 572.8,171.4 584.0,174.2 595.2,177.1 606.4,179.9 617.6,182.8 628.8,185.7 640.0,188.5"/>
 <circle class="sPw" cx="80.0" cy="46.0" r="5"/><text class="sM" x="88" y="38">0% → 20.0 ms</text>
@@ -28,6 +28,7 @@ The payoff is plain arithmetic:
 <text class="sC" x="640" y="214" text-anchor="middle">100%</text>
 <text class="sC" x="640" y="230" text-anchor="end">cache hit ratio →</text><text class="sC" x="74" y="14">average read latency</text>
 <text class="sS" x="390" y="70" text-anchor="middle">average = hit% × 1 ms + miss% × 20 ms</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80.0 46.0 L91.2 48.8 L102.4 51.7 L113.6 54.6 L124.8 57.4 L136.0 60.2 L147.2 63.1 L158.4 65.9 L169.6 68.8 L180.8 71.6 L192.0 74.5 L203.2 77.3 L214.4 80.2 L225.6 83.0 L236.8 85.9 L248.0 88.7 L259.2 91.6 L270.4 94.5 L281.6 97.3 L292.8 100.1 L304.0 103.0 L315.2 105.8 L326.4 108.7 L337.6 111.5 L348.8 114.4 L360.0 117.2 L371.2 120.1 L382.4 123.0 L393.6 125.8 L404.8 128.6 L416.0 131.5 L427.2 134.4 L438.4 137.2 L449.6 140.1 L460.8 142.9 L472.0 145.8 L483.2 148.6 L494.4 151.4 L505.6 154.3 L516.8 157.2 L528.0 160.0 L539.2 162.8 L550.4 165.7 L561.6 168.6 L572.8 171.4 L584.0 174.2 L595.2 177.1 L606.4 179.9 L617.6 182.8 L628.8 185.7 L640.0 188.5"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The arithmetic of caching, with a 1 ms cache and a 20 ms query. The last few percent of hit ratio matter most, and the database load falls by the same factor.</figcaption></figure>
 
 The cost is also plain: a cached copy can be **stale**, and every cache needs an answer to "when do I throw this away?".

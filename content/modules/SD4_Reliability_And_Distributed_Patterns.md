@@ -339,7 +339,7 @@ What to watch:
 - For asynchronous work: **queue depth, age of the oldest message, dead-letter count**.
 - **Alert on symptoms users feel** (SLO burn: errors and latency against the objective), not on every CPU spike; page a human only for what needs a human now.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="An error budget computed for a 99.9 percent availability objective over 30 days: 43.2 minutes of allowed downtime; incidents of 8 minutes on day 5, 20 minutes on day 12 and 10 minutes on day 20 leave 5.2 minutes for the rest of the month">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: an error budget computed for a 99.9 percent availability objective over 30 days: 43.2 minutes of allowed downtime; incidents of 8 minutes on day 5, 20 minutes on day 12 and 10 minutes on day 20 leave 5.2 minutes for the rest of the month">
 <line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
 <line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text>
@@ -356,6 +356,7 @@ What to watch:
 <text class="sWt" x="476" y="139.956">incident: 10 min</text>
 <text class="sT" x="668" y="173.511" text-anchor="end">5.2 min left</text>
 <text class="sS" x="20" y="115" text-anchor="middle" transform="rotate(-90 20 115)">minutes left</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M70.0 46.4 L70.0 46.4 L90.0 46.4 L90.0 46.4 L110.0 46.4 L110.0 46.4 L130.0 46.4 L130.0 46.4 L150.0 46.4 L150.0 46.4 L170.0 46.4 L170.0 74.8 L190.0 74.8 L190.0 74.8 L210.0 74.8 L210.0 74.8 L230.0 74.8 L230.0 74.8 L250.0 74.8 L250.0 74.8 L270.0 74.8 L270.0 74.8 L290.0 74.8 L290.0 74.8 L310.0 74.8 L310.0 146.0 L330.0 146.0 L330.0 146.0 L350.0 146.0 L350.0 146.0 L370.0 146.0 L370.0 146.0 L390.0 146.0 L390.0 146.0 L410.0 146.0 L410.0 146.0 L430.0 146.0 L430.0 146.0 L450.0 146.0 L450.0 146.0 L470.0 146.0 L470.0 181.5 L490.0 181.5 L490.0 181.5 L510.0 181.5 L510.0 181.5 L530.0 181.5 L530.0 181.5 L550.0 181.5 L550.0 181.5 L570.0 181.5 L570.0 181.5 L590.0 181.5 L590.0 181.5 L610.0 181.5 L610.0 181.5 L630.0 181.5 L630.0 181.5 L650.0 181.5 L650.0 181.5 L670.0 181.5 L670.0 181.5"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>99.9% of 30 days = 43.2 minutes. With 5.2 minutes left, the team slows risky changes until the window resets; with plenty left, it can ship faster. That trade is what an SLO is for.</figcaption></figure>
 
 After an incident, run a **blameless postmortem**: timeline, impact, root causes, and actions that change the system, not the person.

@@ -331,7 +331,7 @@ app.MapHealthChecks("/health/ready", new() { Predicate = c => c.Tags.Contains("r
 
 When the budget is healthy, ship faster; when it's spent, prioritise reliability work. That turns reliability into a shared, measurable decision instead of an argument.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Error budget over 30 days: 216 minutes allowed at 99.5%; a bad deploy consumes 90 minutes at once">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: Error budget over 30 days: 216 minutes allowed at 99.5%; a bad deploy consumes 90 minutes at once">
 <line class="sLm" x1="70" y1="190" x2="680" y2="190" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="190" x2="70" y2="30" marker-end="url(#ahm)"/>
 <line class="sLr" x1="70" y1="40.0" x2="670" y2="40.0" stroke-dasharray="6 4"/><text class="sRt" x="670" y="34" text-anchor="end">budget: 216 min (99.5% of 30 days)</text>
 <polyline class="sLw" points="70.0,190.0 170.0,176.1 250.0,169.2 270.0,106.7 350.0,101.1 470.0,92.8 570.0,85.8 670.0,78.9"/>
@@ -342,6 +342,7 @@ When the budget is healthy, ship faster; when it's spent, prioritise reliability
 <text class="sC" x="470" y="208" text-anchor="middle">day 20</text>
 <text class="sC" x="670" y="208" text-anchor="middle">day 30</text>
 <text class="sC" x="74" y="28">minutes of "bad" service used</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M70.0 190.0 L170.0 176.1 L250.0 169.2 L270.0 106.7 L350.0 101.1 L470.0 92.8 L570.0 85.8 L670.0 78.9"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>An error budget makes the trade-off visible: spend it on shipping fast, but when a bad deploy eats most of it, reliability work comes first.</figcaption></figure>
 
 **Alert on symptoms, not causes:** page a human when users are hurting (the SLO is burning fast: error rate or p99 latency), not when CPU hits 80% while users are fine. Every page needs a runbook; noisy alerts get ignored (**alert fatigue**).
