@@ -57,7 +57,7 @@ export class InvoiceCard {
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="How an Angular app fits together: the router maps the URL to InvoiceListComponent, a standalone component made of a class, a template and styles; it passes an invoice into InvoiceCardComponent through an input and receives a paid event through an output; both get data from InvoiceService through dependency injection, which calls the API with HttpClient">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: how an Angular app fits together: the router maps the URL to InvoiceListComponent, a standalone component made of a class, a template and styles; it passes an invoice into InvoiceCardComponent through an input and receives a paid event through an output; both get data from InvoiceService through dependency injection, which calls the API with HttpClient">
 <rect class="sV" x="270" y="20" width="180" height="50" rx="8"/><text class="sT" x="360" y="43" text-anchor="middle">Router</text><text class="sC" x="360" y="59" text-anchor="middle">URL → component</text>
 <rect class="sA" x="60" y="100" width="200" height="60" rx="8"/><text class="sT" x="160" y="128" text-anchor="middle">InvoiceListComponent</text><text class="sC" x="160" y="144" text-anchor="middle">class + template + styles</text>
 <rect class="sA" x="460" y="100" width="200" height="60" rx="8"/><text class="sT" x="560" y="128" text-anchor="middle">InvoiceCardComponent</text><text class="sC" x="560" y="144" text-anchor="middle">input() / output()</text>
@@ -69,6 +69,11 @@ export class InvoiceCard {
 <text class="sC" x="200" y="186" text-anchor="middle">inject()</text>
 <line class="sLm" x1="460" y1="215" x2="600" y2="215" marker-end="url(#ahm)"/>
 <rect class="sN" x="600" y="196" width="106" height="40" rx="8"/><text class="sT" x="653" y="221" text-anchor="middle">API</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M330 70 L160 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M160 160 L300 190"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.480;1" path="M460 215 L600 215"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.640;1" path="M600 215 L460 215"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.640;0.642;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.840;1" path="M260 136 L460 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.840;0.842;1"/></circle>
 </svg><figcaption>Components show things, services own data and logic, DI connects them, the router decides which component is on screen.</figcaption></figure>
 
 ## F7.2 Templates and control flow 🟢 ⭐

@@ -85,7 +85,7 @@ What makes a VM deployment defensible in an interview:
 - **Monitoring:** an external uptime check (one ping every minute or so; free tiers exist), container logs shipped somewhere, disk-space alerts.
 - **A runbook:** how to deploy, roll back, restore, rotate secrets, and what to do when the site is down.
 
-<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="A single VM deployment: only ports 22 (restricted), 80 and 443 are open; Caddy terminates TLS and routes to the web and API containers; SQL Server data is backed up nightly to Blob Storage">
+<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: A single VM deployment: only ports 22 (restricted), 80 and 443 are open; Caddy terminates TLS and routes to the web and API containers; SQL Server data is backed up nightly to Blob Storage">
 <rect class="sB" x="14" y="84" width="90" height="56" rx="8"/><text class="sT" x="59" y="117" text-anchor="middle">internet</text>
 <rect class="sN" x="124" y="16" width="582" height="190" rx="12"/><text class="sT" x="415" y="36" text-anchor="middle">one Azure VM (Ubuntu) running Docker Compose</text>
 <rect class="sW" x="134" y="50" width="112" height="30" rx="5"/><text class="sC" x="190" y="70" text-anchor="middle">22 · your IP only</text>
@@ -99,6 +99,12 @@ What makes a VM deployment defensible in an interview:
 <text class="sC" x="415" y="198" text-anchor="middle">pinned tags · non-root · health checks · secrets readable by the deploy user only</text>
 <line class="sLg" x1="641" y1="174" x2="641" y2="226" marker-end="url(#ahg)"/><rect class="sG" x="500" y="228" width="206" height="40" rx="8"/><text class="sT" x="603" y="246" text-anchor="middle">Blob Storage</text><text class="sC" x="603" y="262" text-anchor="middle">nightly backup, off the machine</text>
 <text class="sRt" x="14" y="248">a backup you have never restored is a hope, not a backup</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M104 112 L132 112"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M246 145 L274 125"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.360;1" path="M396 104 L434 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.360;0.362;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.520;1" path="M396 120 L434 146"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.520;0.522;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.640;1" path="M556 149 L584 149"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.640;0.642;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.760;0.900;1" path="M641 174 L641 226"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.758;0.762;0.900;0.902;1"/></circle>
 </svg><figcaption>FinSight's shape. Simple, cheap and perfectly defensible, if the boring parts (ports, patches, backups) are done.</figcaption></figure>
 
 ```text

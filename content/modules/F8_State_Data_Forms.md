@@ -268,7 +268,7 @@ Server-side **sorting and filtering** belong in the API for large data sets; doi
 
 **Client-side validation is for the user; server-side validation is for the truth.** The client gives instant feedback; the server must re-validate everything, because anyone can bypass the client ([[S9.1]]).
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="Client validation gives instant feedback; the server validates again and returns field errors, which the form maps back onto its fields">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: client validation gives instant feedback; the server validates again and returns field errors, which the form maps back onto its fields">
 <rect class="sB" x="10" y="30" width="130" height="54" rx="8"/><text class="sT" x="75" y="62" text-anchor="middle">user types</text>
 <line class="sLm" x1="140" y1="57" x2="166" y2="57" marker-end="url(#ahm)"/><rect class="sA" x="170" y="30" width="150" height="54" rx="8"/><text class="sT" x="245" y="55" text-anchor="middle">client rules</text><text class="sC" x="245" y="71" text-anchor="middle">Zod / validators</text>
 <text class="sGt" x="245" y="104" text-anchor="middle">instant feedback</text><text class="sC" x="245" y="120" text-anchor="middle">blocks obvious mistakes</text>
@@ -276,6 +276,11 @@ Server-side **sorting and filtering** belong in the API for large data sets; doi
 <line class="sLm" x1="470" y1="57" x2="496" y2="57" marker-end="url(#ahm)"/><rect class="sV" x="500" y="30" width="200" height="54" rx="8"/><text class="sT" x="600" y="55" text-anchor="middle">server validates again</text><text class="sC" x="600" y="71" text-anchor="middle">the source of truth</text>
 <line class="sLr" x1="600" y1="84" x2="600" y2="136" marker-end="url(#ahr)"/><rect class="sR" x="470" y="140" width="240" height="64" rx="8" opacity=".85"/><text class="sM" x="590" y="160" text-anchor="middle">400 ValidationProblemDetails</text><text class="sC" x="590" y="178" text-anchor="middle">errors: { Email: [...] }</text><text class="sC" x="590" y="194" text-anchor="middle">"already registered"</text>
 <path class="sLr" d="M470 172 C360 172 300 150 260 92" marker-end="url(#ahr)"/><text class="sRt" x="330" y="186" text-anchor="middle">mapped onto the Email field</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.060;1" path="M140 57 L166 57"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.060;0.062;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.200;1" path="M320 57 L346 57"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.320;1" path="M470 57 L496 57"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.320;0.322;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M600 84 L600 136"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.740;1" path="M470 172 C360 172 300 150 260 92"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.740;0.742;1"/></circle>
 </svg><figcaption>Two layers of validation. Only the server can check things like "email already registered", and only the server is safe from a bypassed client.</figcaption></figure>
 
 **A good validation experience:**
