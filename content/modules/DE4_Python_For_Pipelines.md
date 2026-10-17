@@ -329,7 +329,7 @@ def test_dedupe_keeps_latest_version():
 - **CPU-bound work in pure Python:** `multiprocessing` or `ProcessPoolExecutor`, because of the **GIL** (global interpreter lock), which lets only one thread run Python bytecode at a time in the standard build. (Python 3.13 introduced an optional **free-threaded** build without the GIL, and 3.14 made it officially supported; libraries are still catching up.) Usually, the better fix is **vectorised** code (Polars, DuckDB, NumPy) that runs outside the interpreter.
 - Profile before optimising (`cProfile`, `py-spy`).
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Threads help I/O-bound work because their waits overlap, but CPU-bound Python threads run one at a time under the GIL, while separate processes run in parallel">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: Threads help I/O-bound work because their waits overlap, but CPU-bound Python threads run one at a time under the GIL, while separate processes run in parallel">
 <text class="sM" x="14" y="20">I/O-bound (API calls) with 4 threads: waiting overlaps</text>
 <text class="sC" x="150" y="45" text-anchor="end">thread 1</text><rect class="sA" x="160" y="30" width="13" height="22" rx="3"/><rect class="sN" x="175" y="30" width="148" height="22" rx="3"/><rect class="sA" x="325" y="30" width="13" height="22" rx="3"/>
 <text class="sC" x="150" y="71" text-anchor="end">thread 2</text><rect class="sA" x="175" y="56" width="13" height="22" rx="3"/><rect class="sN" x="190" y="56" width="148" height="22" rx="3"/><rect class="sA" x="340" y="56" width="13" height="22" rx="3"/>
@@ -340,6 +340,8 @@ def test_dedupe_keeps_latest_version():
 <text class="sC" x="150" y="203" text-anchor="end">process 1</text><rect class="sG" x="160" y="188" width="98" height="22" rx="3"/><text class="sC" x="150" y="227" text-anchor="end">process 2</text><rect class="sG" x="160" y="212" width="98" height="22" rx="3"/>
 <text class="sGt" x="560" y="200">work done in a quarter</text><text class="sGt" x="560" y="218">of the time (4 cores)</text>
 <text class="sC" x="430" y="70">grey = waiting on the network</text><text class="sC" x="430" y="88">blue = running Python</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M160 26 L560 26"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M160 157 L560 157"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Threads (or asyncio) for waiting; processes for computing. Libraries like NumPy, Polars and DuckDB release the GIL internally.</figcaption></figure>
 
 > [!lab] Rewrite FinSight's aggregation in Python (from your gaps file)

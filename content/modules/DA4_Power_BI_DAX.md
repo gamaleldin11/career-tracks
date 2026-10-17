@@ -87,7 +87,7 @@ Good habits: remove unused columns and rows early, set data types explicitly, gi
 > [!term] Star schema
 > A model with central **fact tables** (events and measurements: sales lines, transactions, calls; many rows, mostly numbers and keys) surrounded by **dimension tables** (descriptions: date, product, customer, store; fewer rows, many text attributes), joined one-to-many from dimension to fact. Power BI's engine and DAX are designed for this shape.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Star schema: Sales fact table in the centre with Date, Product, Customer and Store dimensions">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Star schema: Sales fact table in the centre with Date, Product, Customer and Store dimensions">
 <rect class="sA" x="280" y="85" width="160" height="70" rx="10"/><text class="sT" x="360" y="112" text-anchor="middle">fact_Sales</text><text class="sS" x="360" y="130" text-anchor="middle">DateKey, ProductKey,</text><text class="sS" x="360" y="145" text-anchor="middle">CustomerKey, Qty, Amount</text>
 <rect class="sB" x="30" y="20" width="170" height="54" rx="8"/><text class="sT" x="115" y="44" text-anchor="middle">dim_Date</text><text class="sS" x="115" y="62" text-anchor="middle">Date, Month, Year, Ramadan?</text>
 <rect class="sB" x="530" y="20" width="150" height="54" rx="8"/><text class="sT" x="605" y="44" text-anchor="middle">dim_Product</text><text class="sS" x="605" y="62" text-anchor="middle">Name, Category, Brand</text>
@@ -95,6 +95,10 @@ Good habits: remove unused columns and rows early, set data types explicitly, gi
 <rect class="sB" x="530" y="166" width="150" height="54" rx="8"/><text class="sT" x="605" y="190" text-anchor="middle">dim_Store</text><text class="sS" x="605" y="208" text-anchor="middle">Region, Governorate</text>
 <line class="sL" x1="190" y1="50" x2="290" y2="100"/><line class="sL" x1="530" y1="50" x2="430" y2="100"/><line class="sL" x1="190" y1="190" x2="290" y2="140"/><line class="sL" x1="530" y1="190" x2="430" y2="140"/>
 <text class="sM" x="200" y="88">1</text><text class="sM" x="275" y="104">*</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M190 50 L290 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.300;1" path="M530 50 L430 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.300;0.302;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.350;1" path="M190 190 L290 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.350;0.352;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.400;1" path="M530 190 L430 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.400;0.402;1"/></circle>
 </svg><figcaption>One-to-many relationships from each dimension (1) to the fact table (*), filtering in one direction: dimension to fact.</figcaption></figure>
 
 **Why star schemas:** simpler, predictable DAX; filters flow cleanly from dimensions to facts; better compression and speed; easier for report users to understand. A single flat table works for a demo, but creates problems as soon as you add a second fact table (budget vs actuals).

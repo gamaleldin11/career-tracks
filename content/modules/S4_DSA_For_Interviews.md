@@ -16,7 +16,7 @@ A data structure is a way of arranging data in memory so that the operations you
 
 Reading any address in RAM takes roughly the same time. An **array** puts its items side by side, so item `i` lives at *start + i × item size*: one multiplication away, which is why indexing is O(1). A **linked list** keeps each item in its own node, anywhere in memory, with a pointer to the next node, so reaching the k-th item means following k pointers.
 
-<figure class="dia"><svg viewBox="0 0 720 295" role="img" aria-label="An array stores items side by side so any index is one calculation away; a linked list scatters nodes and links them with pointers">
+<figure class="dia anim"><svg viewBox="0 0 720 295" role="img" aria-label="Animation: an array stores items side by side so any index is one calculation away; a linked list scatters nodes and links them with pointers">
 <text class="sT" x="20" y="14">Array int[5]: one contiguous block</text>
 <rect class="sA" x="140" y="38" width="76" height="40" rx="4"/>
 <text class="sT" x="178" y="63" text-anchor="middle">7</text>
@@ -66,6 +66,8 @@ Reading any address in RAM takes roughly the same time. An **array** puts its it
 <text class="sC" x="605" y="208" text-anchor="middle">@7200</text>
 <text class="sM" x="672" y="234" text-anchor="middle">null</text>
 <text class="sWt" x="20" y="280">reaching the 4th item means following 3 pointers: O(n), and every hop may miss the CPU cache</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M178 82 L418 82"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.850;1" path="M106 205 L207 237 L286 237 L387 191 L466 191 L557 229"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.850;0.852;1"/></circle>
 </svg><figcaption>Why arrays have O(1) indexing and linked lists don't. Walking an array is also far friendlier to the CPU cache, so arrays usually win in practice even when both are O(n).</figcaption></figure>
 
 Big-O hides one practical detail: CPUs fetch memory in 64-byte **cache lines**, so scanning an array reads many neighbours for free, while each linked-list hop may wait for memory. That is why `List<T>` beats `LinkedList<T>` for nearly everything.

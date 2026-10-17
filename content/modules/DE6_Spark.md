@@ -252,7 +252,7 @@ enriched = orders.join(broadcast(dim_city), "city_id")      # force a broadcast 
 
 **Spot it** in the Spark UI: one or a few tasks in a stage take far longer and read far more shuffle data than the median.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Task durations in a stage: thirty-nine tasks take about ten seconds and one task with a hot key takes three minutes; salting spreads the key over sixteen tasks">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: Task durations in a stage: thirty-nine tasks take about ten seconds and one task with a hot key takes three minutes; salting spreads the key over sixteen tasks">
 <rect class="sB" x="40" y="187.637" width="8" height="12.3626" rx="1"/>
 <rect class="sB" x="50" y="187.682" width="8" height="12.3183" rx="1"/>
 <rect class="sB" x="60" y="192.495" width="8" height="7.50538" rx="1"/>
@@ -297,6 +297,7 @@ enriched = orders.join(broadcast(dim_city), "city_id")      # force a broadcast 
 <text class="sRt" x="320" y="36">one task holds the hot key: 3 minutes</text>
 <text class="sC" x="320" y="54">the stage waits for it; 39 cores sit idle</text>
 <rect class="sG" x="480" y="80" width="226" height="96" rx="8" opacity=".8"/><text class="sT" x="593" y="102" text-anchor="middle">after salting (16 buckets)</text><text class="sC" x="593" y="124" text-anchor="middle">the hot key spreads over</text><text class="sC" x="593" y="142" text-anchor="middle">16 tasks of about 12 s</text><text class="sGt" x="593" y="164" text-anchor="middle">stage time: 3 min → ~15 s</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M314 200 L314 38"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Skew in the Spark UI: a long tail in task duration and shuffle read. A stage is only as fast as its slowest task.</figcaption></figure>
 
 **Fix it:**
