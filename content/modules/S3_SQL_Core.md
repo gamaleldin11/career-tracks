@@ -630,7 +630,7 @@ WITH r AS (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rk FROM em
 SELECT DISTINCT salary FROM r WHERE rk = 2;
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Five salaries with a tie at 8,000: ROW_NUMBER numbers them 1 to 5, RANK gives 1, 2, 2, 4, 5 and DENSE_RANK gives 1, 2, 2, 3, 4, so DENSE_RANK equal 2 returns the second-highest salary even with ties">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: five salaries with a tie at 8,000: ROW_NUMBER numbers them 1 to 5, RANK gives 1, 2, 2, 4, 5 and DENSE_RANK gives 1, 2, 2, 3, 4, so DENSE_RANK equal 2 returns the second-highest salary even with ties">
 <rect class="sN" x="40" y="24" width="110" height="24" rx="0"/><text class="sT" x="95" y="40" text-anchor="middle">employee</text>
 <rect class="sN" x="150" y="24" width="90" height="24" rx="0"/><text class="sT" x="195" y="40" text-anchor="middle">salary</text>
 <rect class="sN" x="240" y="24" width="120" height="24" rx="0"/><text class="sT" x="300" y="40" text-anchor="middle">ROW_NUMBER</text>
@@ -665,6 +665,7 @@ SELECT DISTINCT salary FROM r WHERE rk = 2;
 <text class="sC" x="612" y="64">RANK skips 3</text><text class="sC" x="612" y="82">DENSE_RANK</text><text class="sC" x="612" y="98">does not</text>
 <text class="sGt" x="612" y="130">rk = 2 →</text><text class="sGt" x="612" y="146">both 8,000s</text>
 <text class="sS" x="360" y="188" text-anchor="middle">ROW_NUMBER breaks ties arbitrarily: use it to dedupe; use DENSE_RANK to find "the Nth value"</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M34 52 L34 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>The three ranking functions differ only on ties, and ties are exactly what the second-highest-salary question tests. Computed.</figcaption></figure>
 
 **2. Find duplicates, then keep one** (the core data-cleaning query):

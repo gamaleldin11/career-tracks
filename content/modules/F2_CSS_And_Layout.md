@@ -45,7 +45,7 @@ For every element and every property, the browser collects the matching declarat
 
 Before any flexbox or grid, elements are laid out in **normal flow**. Flex and grid replace it only for the direct children of the container that asks for them.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Normal flow: block boxes stack vertically at full width; inline boxes flow along lines and wrap">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: Normal flow: block boxes stack vertically at full width; inline boxes flow along lines and wrap">
 <rect class="sN" x="20" y="14" width="680" height="196" rx="10"/><text class="sC" x="30" y="32">&lt;article&gt;  (a block container)</text>
 <rect class="sA" x="36" y="42" width="648" height="30" rx="4"/><text class="sC" x="46" y="62">&lt;h1&gt; block: full width, starts a new line</text>
 <rect class="sB" x="36" y="80" width="648" height="78" rx="4"/><text class="sC" x="46" y="96">&lt;p&gt; block, containing inline boxes that flow in lines and wrap:</text>
@@ -59,6 +59,9 @@ Before any flexbox or grid, elements are laid out in **normal flow**. Flex and g
 <rect class="sN" x="285" y="134" width="72.1" height="20" rx="3"/><text class="sC" x="321.05" y="148" text-anchor="middle">customers</text>
 <rect class="sN" x="363.1" y="134" width="72.1" height="20" rx="3"/><text class="sC" x="399.15" y="148" text-anchor="middle">in Cairo.</text>
 <rect class="sA" x="36" y="166" width="648" height="32" rx="4"/><text class="sC" x="46" y="186">&lt;div&gt; block: the next box starts below</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M42 76 L678 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.750;1" path="M46 131 L590 131 L590 131 L46 157 L435 157"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.750;0.752;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.800;0.950;1" path="M42 162 L678 162"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.798;0.802;0.950;0.952;1"/></circle>
 </svg><figcaption>Normal flow, the layout you get before any flex or grid: blocks stack, inline content flows in lines. In a right-to-left page the lines simply run the other way.</figcaption></figure>
 
 ## F2.1 The cascade, specificity and inheritance 🟢 ⭐
@@ -134,13 +137,14 @@ When several rules set the same property on an element, the browser picks one by
 
 Every element is a box: **content**, then **padding**, then **border**, then **margin**.
 
-<figure class="dia"><svg viewBox="0 0 800 210" role="img" aria-label="Box model: margin, border, padding and content nested boxes">
+<figure class="dia anim"><svg viewBox="0 0 800 210" role="img" aria-label="Animation: Box model: margin, border, padding and content nested boxes">
 <rect class="sW" x="150" y="10" width="420" height="190" rx="4"/><text class="sM" x="160" y="28">margin</text>
 <rect class="sR" x="180" y="38" width="360" height="134" rx="4"/><text class="sM" x="190" y="56">border</text>
 <rect class="sG" x="200" y="64" width="320" height="90" rx="4"/><text class="sM" x="210" y="82">padding</text>
 <rect class="sA" x="250" y="90" width="220" height="44" rx="4"/><text class="sT" x="360" y="117" text-anchor="middle">content</text>
 <text class="sS" x="590" y="80">box-sizing: content-box →</text><text class="sS" x="590" y="96">width = content only</text>
 <text class="sS" x="590" y="126">box-sizing: border-box →</text><text class="sS" x="590" y="142">width = content + padding + border</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M155 105 L180 105 L200 105 L250 105"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
 </svg><figcaption>With the default <code>content-box</code>, padding and border are added on top of the width you set. Almost every project switches to <code>border-box</code>.</figcaption></figure>
 
 ```css
