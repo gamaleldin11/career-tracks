@@ -351,7 +351,7 @@ joined = big.join(small_salted, ["merchant_id", "salt"])
 
 Spark Structured Streaming treats a stream as an **unbounded table** and runs the same DataFrame operations incrementally (as **micro-batches** by default).
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Structured Streaming treats incoming events as rows appended to an unbounded table; each micro-batch runs the same query incrementally and updates a result table">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: structured Streaming treats incoming events as rows appended to an unbounded table; each micro-batch runs the same query incrementally and updates a result table">
 <text class="sM" x="150" y="22" text-anchor="middle">input: an unbounded table</text>
 <rect class="sB" x="60" y="32" width="180" height="22" rx="3"/><text class="sC" x="150" y="47" text-anchor="middle">10:00:01 order</text>
 <rect class="sB" x="60" y="56" width="180" height="22" rx="3"/><text class="sC" x="150" y="71" text-anchor="middle">10:00:03 order</text>
@@ -365,6 +365,10 @@ Spark Structured Streaming treats a stream as an **unbounded table** and runs th
 <line class="sL" x1="494" y1="100" x2="540" y2="100" marker-end="url(#ah)"/>
 <rect class="sG" x="544" y="50" width="162" height="100" rx="8"/><text class="sT" x="625" y="74" text-anchor="middle">result table</text><text class="sC" x="625" y="98" text-anchor="middle">10:00 → 4</text><text class="sC" x="625" y="118" text-anchor="middle">10:01 → 2 (batch 2)</text>
 <text class="sS" x="360" y="210" text-anchor="middle">a checkpoint stores offsets and state, so a restart resumes exactly where it stopped</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M250 100 L330 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M494 100 L540 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M250 100 L330 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.740;1" path="M494 100 L540 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.740;0.742;1"/></circle>
 </svg><figcaption>Structured Streaming: write a batch query; Spark runs it incrementally over a table that never stops growing.</figcaption></figure>
 
 ```python

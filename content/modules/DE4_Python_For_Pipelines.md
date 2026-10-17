@@ -122,7 +122,7 @@ What makes this production-grade:
 - **Raw landing** in bronze as **JSON Lines** with lineage metadata (`_run_id`, `_ingested_at`), before any transformation, so you can always reprocess.
 - `ensure_ascii=False` keeps Arabic text readable in the files.
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Retries with exponential backoff: a 503, a 429 and a timeout are retried after waits of about one, two and four seconds with random jitter, and the fourth attempt succeeds">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: retries with exponential backoff: a 503, a 429 and a timeout are retried after waits of about one, two and four seconds with random jitter, and the fourth attempt succeeds">
 <line class="sLm" x1="60" y1="120" x2="662" y2="120" marker-end="url(#ahm)"/>
 <text class="sC" x="60" y="140" text-anchor="middle">0 s</text>
 <text class="sC" x="130" y="140" text-anchor="middle">1 s</text>
@@ -142,6 +142,9 @@ What makes this production-grade:
 <path class="sLw" d="M301 158 Q 442 180 582 158" fill="none" marker-end="url(#ahw)"/><text class="sWt" x="441.5" y="196" text-anchor="middle">4 s + jitter</text>
 <text class="sS" x="360" y="30" text-anchor="middle">retry only transient errors (network, 429, 5xx); honour Retry-After; cap the attempts</text>
 <text class="sC" x="360" y="54" text-anchor="middle">a 400 or 401 is a bug or a config error: retrying it just wastes the rate limit</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.014;0.104;1" path="M70 158 Q 102 180 134 158"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.012;0.016;0.104;0.106;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.133;0.312;1" path="M154 158 Q 218 180 281 158"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.131;0.135;0.312;0.314;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.737;1" path="M301 158 Q 442 180 582 158"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.737;0.739;1"/></circle>
 </svg><figcaption>Exponential backoff gives the server room to recover; jitter stops a thousand clients from retrying in lockstep.</figcaption></figure>
 
 > [!term] JSON Lines (NDJSON)

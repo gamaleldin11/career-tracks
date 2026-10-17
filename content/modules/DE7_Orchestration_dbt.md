@@ -88,7 +88,7 @@ daily_orders()
 > [!mistake] Using "now" inside tasks
 > `datetime.now()` in a task makes a rerun of last Tuesday load today's data. Always use the run's **data interval** (`data_interval_start`/`end`, or `ds` for the date) so reruns and backfills are correct.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Daily DAG runs each own one data interval: the run for 1 October covers midnight to midnight and starts just after; a rerun days later processes the same interval">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: daily DAG runs each own one data interval: the run for 1 October covers midnight to midnight and starts just after; a rerun days later processes the same interval">
 <line class="sLm" x1="60" y1="150" x2="668" y2="150" marker-end="url(#ahm)"/>
 <line class="sLm" x1="60" y1="146" x2="60" y2="154"/><text class="sC" x="60" y="170" text-anchor="middle">1 Oct 00:00</text>
 <line class="sLm" x1="210" y1="146" x2="210" y2="154"/><text class="sC" x="210" y="170" text-anchor="middle">2 Oct 00:00</text>
@@ -104,6 +104,11 @@ daily_orders()
 <text class="sC" x="222" y="60">run for 1 Oct starts 2 Oct 00:05</text>
 <rect class="sG" x="63" y="186" width="380" height="24" rx="4"/><text class="sC" x="253" y="203" text-anchor="middle">rerun of 1 Oct, on 4 Oct: same interval, same result</text><line class="sLg" x1="135" y1="186" x2="135" y2="130" marker-end="url(#ahg)"/>
 <text class="sM" x="60" y="30">every task reads data_interval_start / end, never now()</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60 150 L668 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.226;0.276;1" path="M222 83 L180 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.224;0.228;0.276;0.278;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.436;0.486;1" path="M372 83 L330 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.434;0.438;0.486;0.488;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.646;0.696;1" path="M522 83 L480 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.644;0.648;0.696;0.698;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.629;0.689;1" path="M135 186 L135 130"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.627;0.631;0.689;0.691;1"/></circle>
 </svg><figcaption>A run is responsible for a data interval, not for "today". That single rule makes reruns and backfills correct.</figcaption></figure>
 
 > [!mistake] Passing data through XCom
@@ -117,7 +122,7 @@ Every task should be **idempotent**: running it twice for the same interval give
 - **Backfills** (running the DAG for past intervals, after a bug fix or a new column) are safe. In Airflow 3, backfills run through the scheduler and can be launched from the UI or CLI (`airflow backfill create --dag-id daily_orders --from-date 2026-09-01 --to-date 2026-09-30`).
 - **`catchup`** controls whether the scheduler automatically creates runs for missed intervals since `start_date`; it now **defaults to `False`** in Airflow 3, so set it deliberately.
 
-<figure class="dia"><svg viewBox="0 0 720 176" role="img" aria-label="Ten daily runs where days four to six wrote wrong totals; after the bug fix, a backfill reruns those three intervals and overwrites them correctly">
+<figure class="dia anim"><svg viewBox="0 0 720 176" role="img" aria-label="Animation: ten daily runs where days four to six wrote wrong totals; after the bug fix, a backfill reruns those three intervals and overwrites them correctly">
 <rect class="sG" x="30" y="40" width="58" height="40" rx="6"/><text class="sC" x="59" y="64" text-anchor="middle">day 1</text>
 <rect class="sG" x="96" y="40" width="58" height="40" rx="6"/><text class="sC" x="125" y="64" text-anchor="middle">day 2</text>
 <rect class="sG" x="162" y="40" width="58" height="40" rx="6"/><text class="sC" x="191" y="64" text-anchor="middle">day 3</text>
@@ -133,6 +138,10 @@ Every task should be **idempotent**: running it twice for the same interval give
 <rect class="sG" x="624" y="40" width="58" height="40" rx="6"/><text class="sC" x="653" y="64" text-anchor="middle">day 10</text>
 <text class="sC" x="30" y="28">production runs (days 4–6 wrote wrong totals: a bug in the discount logic)</text>
 <text class="sGt" x="436" y="140">← backfill days 4–6 after the fix:</text><text class="sGt" x="436" y="158">idempotent tasks overwrite them</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M30 34 L682 34"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.580;0.660;1" path="M257 82 L257 118"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.578;0.582;0.660;0.662;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.760;1" path="M323 82 L323 118"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.760;0.762;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.780;0.860;1" path="M389 82 L389 118"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.778;0.782;0.860;0.862;1"/></circle>
 </svg><figcaption>A backfill is just more runs for past intervals. It is only safe because each task is idempotent.</figcaption></figure>
 
 **Other scheduling tools:** **sensors** wait for a condition (a file arrives, another DAG's task succeeds), and **deferrable** operators free the worker while waiting. **Asset-aware scheduling** (`schedule=[ORDERS_GOLD]`) runs the downstream DAG when the upstream asset is updated, instead of guessing times. Pools and `max_active_runs` limit concurrency against fragile sources.
