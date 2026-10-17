@@ -584,6 +584,7 @@ const FOUNDATIONS = {
     q('Auth', 'Why does a browser SignalR client put the JWT in the query string for the WebSocket connection?', ['It is more secure', 'The browser WebSocket API cannot set an Authorization header', 'SignalR requires it for negotiate', 'To enable caching'], 1, 'Read it only for hub paths, and keep query-string tokens out of access logs.', 'FS2.8'),
   ],
   FS3: [
+    q('Payments', 'A “paid” webhook arrives for an order already in the Refunded state. The right handling is…', ['Mark it Paid again', 'Ignore the transition, log it and alert, because the state machine does not allow Refunded → Paid', 'Delete the order', 'Refund it a second time'], 1, 'Model payments as a state machine and reject any transition it does not define.', 'FS3.3'),
     q('Full-stack', 'A CSV import takes three minutes. What should the upload request return?', ['200 after the import finishes', '202 Accepted with an import ID; progress arrives later', '504', 'A redirect'], 1, 'Record the intent, return quickly, do the work in a worker, report progress.', 'FS3.0'),
     q('Full-stack', 'Which signal may mark an order as paid?', ['The browser reaching the success redirect', 'A verified, signed server-to-server webhook from the gateway', 'The client posting "paid: true"', 'The amount on the checkout page'], 1, 'Redirects can be faked or never arrive; the signed webhook is the source of truth.', 'FS3.3'),
   ],
@@ -602,6 +603,7 @@ const FOUNDATIONS = {
     q('Excel', 'Why does VLOOKUP break when someone inserts a column in the lookup range?', ['It recalculates slowly', 'It returns a column by number, which now points at a different column', 'It switches to approximate match', 'It cannot look left'], 1, 'XLOOKUP references the return column itself, so it moves with it.', 'DA2.3'),
   ],
   DA3: [
+    q('Analytics', '1,000 users viewed an item, 320 added to cart and 180 checked out. The cart-to-checkout step conversion is…', ['18%', '32%', '56%', '180'], 2, '180 ÷ 320 ≈ 56%. Report step conversion and overall conversion (180 ÷ 1,000 = 18%) separately.', 'DA3.5'),
     q('SQL', 'What is the key difference between GROUP BY and a window function?', ['Window functions are faster', 'GROUP BY collapses rows to one per group; a window function adds a column and keeps every row', 'GROUP BY cannot use SUM', 'There is none'], 1, 'Aggregate to buckets, then compare buckets with windows.', 'DA3.0'),
     q('SQL', 'A daily series has no row for a day with zero orders. What goes wrong with LAG?', ['Nothing', 'LAG compares with the previous row, which is two days back', 'LAG returns NULL for every row', 'It double-counts'], 1, 'Fill missing days from a calendar with a LEFT JOIN first.', 'DA3.1'),
     q('SQL', 'For orders 120, 150, 180, 240, 400, 2,600, percentile_disc(0.5) returns…', ['210', '180', '240', '615'], 1, 'disc returns an actual value (first with cumulative share ≥ 0.5); percentile_cont interpolates to 210.', 'DA3.7'),
@@ -648,6 +650,7 @@ const FOUNDATIONS = {
     q('Data science', 'In TF-IDF, why does a word like "the" get a low weight?', ['It is short', 'It appears in almost every document, so it is not distinctive', 'It is a stop word in Arabic', 'TF-IDF ignores frequency'], 1, 'Inverse document frequency down-weights common words.', 'DS7.3'),
   ],
   DS8: [
+    q('MLOps', 'A model scores well offline but badly in production, and the same feature computes 3 in training SQL and 2.6 in the C# service. This is…', ['Concept drift', 'Training-serving skew', 'Overfitting', 'Label leakage'], 1, 'Fix it with one feature definition and one code path (a feature pipeline or store) feeding both training and serving.', 'DS8.5'),
     q('MLOps', 'Churn labels arrive 30 days after scoring. What do you monitor meanwhile?', ['Nothing', 'Input drift (e.g. PSI) and the score distribution', 'Only accuracy', 'Training loss'], 1, 'Drift is the early warning; performance is the late verdict.', 'DS8.6'),
     q('MLOps', 'What is training–serving skew?', ['A slow model', 'Features computed differently in training and in production', 'Imbalanced classes', 'A model too large for the server'], 1, 'One feature definition and code path for both prevents it.', 'DS8.5'),
   ],
@@ -669,6 +672,7 @@ const FOUNDATIONS = {
     q('Data engineering', 'CPU-bound pure-Python work runs no faster with threads because of…', ['The network', 'The GIL: only one thread runs Python bytecode at a time', 'Memory limits', 'Pandas'], 1, 'Use processes for CPU-bound Python, threads or asyncio for I/O.', 'DE4.9'),
   ],
   DE5: [
+    q('Lakehouse', 'How does a Delta table answer SELECT … VERSION AS OF 41?', ['It restores a backup', 'It reads the latest checkpoint and replays the JSON commits up to 41 to get that version’s file list', 'It re-runs the pipeline', 'It keeps a full copy per version'], 1, 'Old Parquet files stay until VACUUM removes them, which is what bounds time travel.', 'DE5.3'),
     q('Data engineering', 'What makes a Delta or Iceberg table ACID on object storage?', ['A database server', 'A transaction log or metadata that defines which files form each version', 'Faster disks', 'Parquet itself'], 1, 'Readers follow the log, not the folder listing.', 'DE5.0'),
     q('Data engineering', 'After VACUUM with 7-day retention, what can you no longer do?', ['Query current data', 'Time-travel to versions older than 7 days', 'Write new data', 'Read Parquet'], 1, 'Old files are gone, so older versions cannot be reconstructed.', 'DE5.6'),
   ],
@@ -677,11 +681,14 @@ const FOUNDATIONS = {
     q('Data engineering', 'One task in a stage takes 3 minutes while the others take 10 seconds. Likely cause?', ['Too many partitions', 'Data skew: a hot key landed in one partition', 'A slow driver', 'Caching'], 1, 'Use AQE skew handling, separate hot keys, broadcast, or salting.', 'DE6.7'),
   ],
   DE7: [
+    q('Orchestration', 'Why should a daily task read data_interval_start and data_interval_end instead of now()?', ['It runs faster', 'So a rerun or backfill of 1 October processes exactly 1 October and gives the same result', 'now() is not allowed in SQL', 'To save storage'], 1, 'A run owns an interval, not a wall-clock moment; that is what makes reruns and backfills idempotent.', 'DE7.2'),
     q('Data engineering', 'Why must an Airflow task use the data interval instead of now()?', ['now() is slow', 'So reruns and backfills process the same past slice', 'Airflow forbids now()', 'For logging'], 1, 'A run owns an interval, not "today".', 'DE7.0'),
     q('Data engineering', 'In dbt, what builds the dependency graph between models?', ['A YAML list', 'ref() and source() calls inside the SQL', 'Airflow', 'File names'], 1, 'ref() is both the dependency and the lineage.', 'DE7.4'),
     q('dbt', 'Why does an incremental fct_orders model reprocess the last three days on every run?', ['To warm the cache', 'To catch late-arriving or updated rows that a strict max(created_at) filter would miss', 'dbt requires it', 'To rebuild indexes'], 1, 'With a merge on the unique key, reprocessing a lookback window is idempotent.', 'DE7.4'),
   ],
   DE8: [
+    q('Streaming', 'A consumer processes a record, crashes before committing the offset, and restarts. What happens, and what makes it safe?', ['The record is lost; nothing helps', 'The record is processed again, so processing must be idempotent (dedupe by event ID or MERGE on keys)', 'Kafka deletes the record', 'The consumer group rebalances and skips it'], 1, 'Process-then-commit is at-least-once delivery: duplicates are possible, so make the write idempotent.', 'DE8.3'),
+    q('Streaming', 'Consumer lag keeps growing after a downstream database slows down. Lag is…', ['The number of partitions', 'The gap between the latest offset and the committed offset', 'The network latency to the broker', 'The retention period'], 1, 'Alert on lag (or its growth) per consumer group; it is the earliest sign that consumers cannot keep up.', 'DE8.9'),
     q('Data engineering', 'How does Kafka differ from a classic message queue?', ['It is slower', 'Records stay in a log after reading; each consumer group tracks its own offset', 'It deletes on read', 'It has no partitions'], 1, 'Many groups can read and replay the same events independently.', 'DE8.0'),
     q('Data engineering', 'A group has 6 partitions and 8 consumers. What happens?', ['All 8 share the work', 'Two consumers sit idle', 'Kafka adds partitions', 'It fails'], 1, 'Partition count caps a group\'s parallelism.', 'DE8.2'),
   ],
@@ -840,6 +847,7 @@ const FOUNDATIONS = {
     q('Statistics', 'In Monty Hall, why does switching win 2/3 of the time?', ['The host chooses randomly', 'The host always opens a goat door, so the 2/3 on the unpicked doors moves to the one left closed', 'Two doors remain, so it is 1/2', 'It does not; staying is better'], 1, 'Your first pick stays at 1/3; switching wins exactly when that pick was wrong.', 'AI15.10'),
   ],
   SD1: [
+    q('System design', 'An API, its database and a payment provider are each 99.9% available and all must work. The request path’s availability is about…', ['99.9%', '99.99%', '99.7%', '97%'], 2, 'Series components multiply: 0.999³ ≈ 0.997. Redundancy in parallel is how you climb above any single part.', 'SD1.9'),
     q('System design', 'Request costs vary a lot (some take 5 s, most 0.5 s). Which balancing algorithm usually gives better tail latency?', ['Round robin', 'Least connections', 'Random', 'DNS round robin'], 1, 'Round robin keeps sending work to a server busy with a slow request; least connections avoids it. Simulated here: p95 9.3 s vs 5.9 s.', 'SD1.5'),
   ],
   SD3: [
