@@ -82,6 +82,16 @@ from sklearn.metrics import mean_squared_error, r2_score
 import joblib
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="The notebook’s scikit-learn imports grouped by job: splitting and evaluation with train_test_split, KFold, cross_validate and GridSearchCV; custom steps with BaseEstimator and TransformerMixin; column routing with ColumnTransformer and Pipeline; transformers SimpleImputer, StandardScaler and OneHotEncoder; models LinearRegression and KNeighborsRegressor; scoring and saving with mean_squared_error, r2_score and joblib">
+<rect class="sB" x="14" y="14" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="33" text-anchor="middle">split + evaluate</text><text class="sC" x="176" y="33" xml:space="preserve" style="white-space:pre">train_test_split · KFold · cross_validate · GridSearchCV</text>
+<rect class="sV" x="14" y="48" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="67" text-anchor="middle">custom steps</text><text class="sC" x="176" y="67" xml:space="preserve" style="white-space:pre">BaseEstimator · TransformerMixin</text>
+<rect class="sA" x="14" y="82" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="101" text-anchor="middle">route columns</text><text class="sC" x="176" y="101" xml:space="preserve" style="white-space:pre">ColumnTransformer · Pipeline</text>
+<rect class="sW" x="14" y="116" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="135" text-anchor="middle">transform</text><text class="sC" x="176" y="135" xml:space="preserve" style="white-space:pre">SimpleImputer · StandardScaler · OneHotEncoder</text>
+<rect class="sG" x="14" y="150" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="169" text-anchor="middle">models</text><text class="sC" x="176" y="169" xml:space="preserve" style="white-space:pre">LinearRegression · KNeighborsRegressor</text>
+<rect class="sN" x="14" y="184" width="150" height="28" rx="6" opacity=".8"/><text class="sT" x="89" y="203" text-anchor="middle">score + save</text><text class="sC" x="176" y="203" xml:space="preserve" style="white-space:pre">mean_squared_error · r2_score · joblib</text>
+<text class="sS" x="360" y="226" text-anchor="middle">read top to bottom, it is the whole applied-ML workflow: split, prepare, model, score, save</text>
+</svg><figcaption>Every supervised notebook in this course uses the same six groups; only the model line changes.</figcaption></figure>
+
 Worth pausing on that import list — it is the entire working vocabulary of applied ML in one cell. Splitters, transformers, a column router, two estimators, two metrics, and persistence.
 
 ```python
@@ -181,6 +191,231 @@ The looping pattern is the point: **look at every feature, do not cherry-pick**.
 On this dataset the bivariate plots show `Length of Membership` with a strong linear relationship to spend, and `Time on Website` with almost none — which is a genuinely interesting business finding before any model is fitted.
 
 ---
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Three EDA views on synthetic data shaped like the e-commerce dataset: a roughly normal histogram of yearly spend, a scatter of length of membership against spend showing a strong linear trend, and correlations with the target of 0.82 for membership, 0.53 for time on the app and 0.06 for time on the website">
+<text class="sM" x="120" y="18" text-anchor="middle">univariate: target distribution</text>
+<text class="sM" x="360" y="18" text-anchor="middle">bivariate: feature vs target</text>
+<text class="sM" x="600" y="18" text-anchor="middle">correlation with target</text>
+<rect class="sB" x="20" y="175.692" width="12" height="4.30769" rx="1" opacity=".8"/>
+<rect class="sB" x="34" y="171.385" width="12" height="8.61538" rx="1" opacity=".8"/>
+<rect class="sB" x="48" y="167.077" width="12" height="12.9231" rx="1" opacity=".8"/>
+<rect class="sB" x="62" y="143.385" width="12" height="36.6154" rx="1" opacity=".8"/>
+<rect class="sB" x="76" y="104.615" width="12" height="75.3846" rx="1" opacity=".8"/>
+<rect class="sB" x="90" y="46.4615" width="12" height="133.538" rx="1" opacity=".8"/>
+<rect class="sB" x="104" y="40" width="12" height="140" rx="1" opacity=".8"/>
+<rect class="sB" x="118" y="44.3077" width="12" height="135.692" rx="1" opacity=".8"/>
+<rect class="sB" x="132" y="59.3846" width="12" height="120.615" rx="1" opacity=".8"/>
+<rect class="sB" x="146" y="76.6154" width="12" height="103.385" rx="1" opacity=".8"/>
+<rect class="sB" x="160" y="128.308" width="12" height="51.6923" rx="1" opacity=".8"/>
+<rect class="sB" x="174" y="149.846" width="12" height="30.1538" rx="1" opacity=".8"/>
+<rect class="sB" x="188" y="175.692" width="12" height="4.30769" rx="1" opacity=".8"/>
+<rect class="sB" x="202" y="175.692" width="12" height="4.30769" rx="1" opacity=".8"/>
+<circle class="sPg" cx="326.3" cy="101.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="348.5" cy="132.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="404.2" cy="71.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="336.3" cy="109.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="388.6" cy="96.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="369.5" cy="87.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="320.0" cy="126.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="366.7" cy="110.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="355.2" cy="85.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="333.2" cy="121.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="329.9" cy="112.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.0" cy="123.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="375.0" cy="111.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="292.5" cy="160.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="319.1" cy="123.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="306.7" cy="147.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="357.0" cy="90.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="316.4" cy="125.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="314.7" cy="134.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="367.6" cy="110.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="405.6" cy="77.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="278.2" cy="117.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="314.2" cy="108.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="360.3" cy="115.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="349.1" cy="99.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="397.2" cy="79.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="388.2" cy="95.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="345.2" cy="110.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="416.7" cy="89.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="456.3" cy="40.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="392.5" cy="95.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="334.1" cy="123.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="412.8" cy="79.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="366.1" cy="97.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="383.0" cy="83.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="352.4" cy="106.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="362.7" cy="115.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="394.5" cy="78.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="310.2" cy="121.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="397.4" cy="82.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="319.5" cy="123.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="375.4" cy="101.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="307.4" cy="140.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="310.4" cy="124.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="358.3" cy="96.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.3" cy="126.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="337.7" cy="102.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="284.7" cy="126.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="344.4" cy="125.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="339.9" cy="112.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="329.5" cy="131.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="365.0" cy="96.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="362.6" cy="108.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="377.8" cy="102.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="428.2" cy="68.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="320.7" cy="120.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="359.2" cy="118.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="333.1" cy="105.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="360.5" cy="129.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="345.5" cy="86.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="433.9" cy="67.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="368.9" cy="112.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="315.9" cy="123.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="357.9" cy="126.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="337.2" cy="121.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="387.5" cy="87.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="393.4" cy="72.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="378.1" cy="81.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="383.6" cy="101.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="387.1" cy="97.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="344.9" cy="134.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="383.9" cy="86.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="358.9" cy="114.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="436.8" cy="92.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="316.0" cy="111.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="359.8" cy="106.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="341.6" cy="126.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="422.5" cy="51.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="348.3" cy="108.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="343.3" cy="123.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="367.3" cy="107.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="383.6" cy="110.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="312.3" cy="164.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.1" cy="120.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="291.0" cy="140.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="395.4" cy="89.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="395.0" cy="91.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="262.5" cy="157.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="342.9" cy="131.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="353.6" cy="118.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.2" cy="134.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="445.3" cy="72.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="321.3" cy="125.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="319.1" cy="129.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="360.0" cy="99.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="399.9" cy="99.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="323.5" cy="124.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="368.6" cy="104.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="357.9" cy="128.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="316.5" cy="116.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="336.8" cy="97.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="335.2" cy="115.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="406.3" cy="91.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="385.3" cy="97.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.4" cy="132.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="429.6" cy="58.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="392.9" cy="80.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="404.3" cy="86.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="354.7" cy="95.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="358.7" cy="105.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="470.0" cy="43.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="409.6" cy="80.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="351.0" cy="95.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="271.0" cy="138.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="393.0" cy="95.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="311.9" cy="114.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="348.2" cy="86.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="343.5" cy="131.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="387.6" cy="66.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="347.3" cy="119.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.4" cy="113.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="372.6" cy="107.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="352.5" cy="100.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.0" cy="103.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="362.7" cy="109.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="293.5" cy="138.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="344.9" cy="109.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="345.3" cy="110.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="370.4" cy="100.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="395.8" cy="84.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="390.9" cy="88.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.3" cy="98.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="346.1" cy="119.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="404.9" cy="97.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="287.4" cy="137.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="359.2" cy="114.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="305.0" cy="131.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="388.2" cy="108.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="344.4" cy="90.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="351.8" cy="111.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="313.5" cy="154.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.9" cy="111.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="362.3" cy="110.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="379.7" cy="90.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="346.9" cy="140.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="319.4" cy="119.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.6" cy="117.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="323.9" cy="115.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="388.5" cy="96.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="297.8" cy="144.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="315.7" cy="112.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.3" cy="85.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="332.8" cy="124.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="394.3" cy="76.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="396.6" cy="102.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="350.2" cy="116.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="316.1" cy="126.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="332.8" cy="126.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="305.3" cy="112.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="253.6" cy="180.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="439.5" cy="67.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="379.5" cy="76.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="429.7" cy="86.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="361.6" cy="89.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="355.6" cy="99.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.1" cy="133.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.7" cy="95.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="393.5" cy="104.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="351.7" cy="108.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="360.1" cy="98.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="404.2" cy="78.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="388.2" cy="94.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="347.8" cy="110.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="296.3" cy="141.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="308.3" cy="121.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="367.0" cy="113.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="330.9" cy="125.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="336.8" cy="114.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="342.1" cy="123.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="341.0" cy="104.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="379.5" cy="89.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="331.9" cy="122.5" r="2" opacity=".6"/>
+<circle class="sPg" cx="376.0" cy="96.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.8" cy="98.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="250.0" cy="170.8" r="2" opacity=".6"/>
+<circle class="sPg" cx="371.8" cy="84.1" r="2" opacity=".6"/>
+<circle class="sPg" cx="387.5" cy="96.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="359.2" cy="98.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="394.0" cy="124.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="378.7" cy="114.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="369.5" cy="108.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="338.8" cy="109.0" r="2" opacity=".6"/>
+<circle class="sPg" cx="324.1" cy="119.7" r="2" opacity=".6"/>
+<circle class="sPg" cx="425.5" cy="76.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="406.2" cy="66.2" r="2" opacity=".6"/>
+<circle class="sPg" cx="387.8" cy="112.3" r="2" opacity=".6"/>
+<circle class="sPg" cx="317.8" cy="124.6" r="2" opacity=".6"/>
+<circle class="sPg" cx="422.4" cy="70.4" r="2" opacity=".6"/>
+<circle class="sPg" cx="356.6" cy="118.9" r="2" opacity=".6"/>
+<circle class="sPg" cx="371.3" cy="111.4" r="2" opacity=".6"/>
+<text class="sS" x="360" y="198" text-anchor="middle">length of membership →</text>
+<text class="sS" x="600" y="50" text-anchor="middle">membership</text><rect class="sN" x="510" y="56" width="180" height="14" rx="2"/><rect class="sG" x="510" y="56" width="147.872" height="14" rx="2"/><text class="sC" x="690" y="50" text-anchor="end">0.82</text>
+<text class="sS" x="600" y="90" text-anchor="middle">time on app</text><rect class="sN" x="510" y="96" width="180" height="14" rx="2"/><rect class="sG" x="510" y="96" width="95.696" height="14" rx="2"/><text class="sC" x="690" y="90" text-anchor="end">0.53</text>
+<text class="sS" x="600" y="130" text-anchor="middle">time on web</text><rect class="sN" x="510" y="136" width="180" height="14" rx="2"/><rect class="sW" x="510" y="136" width="11.0507" height="14" rx="2"/><text class="sC" x="690" y="130" text-anchor="end">0.06</text>
+<text class="sS" x="360" y="220" text-anchor="middle">synthetic data shaped like the e-commerce dataset (target = 60·membership + 38·app + 0.5·web + noise)</text>
+</svg><figcaption>Computed with NumPy: correlations 0.82, 0.53 and 0.06. The three views answer three questions: what does the target look like, how does each feature move with it, and which features carry signal.</figcaption></figure>
 
 ## 7.5 Split — and note where it sits 🟢 ⭐
 
