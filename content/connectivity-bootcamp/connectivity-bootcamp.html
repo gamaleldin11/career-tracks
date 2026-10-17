@@ -2947,7 +2947,7 @@ EVIDENCE  mtr HQ→branch: 8% loss starting hop 4 (ISP PE) during window, 0% aft
 TRIED     Rebooted branch AP (no effect) · confirmed no QoS policy on WAN uplink.
 THEORY    Backup job saturating 20M uplink; VoIP unprotected without QoS.
 ASK       L2: apply QoS template (EF for voice) + reschedule backup to 22:00. Approve change?</code></pre>
-<figure class="dia"><svg viewBox="0 0 720 176" role="img" aria-label="The six parts of a good escalation: the symptom and since when, the scope of who is affected, the evidence such as graphs, mtr results and logs with times, what was tried and ruled out, your theory, and one specific ask; contrasted with a vague escalation">
+<figure class="dia anim"><svg viewBox="0 0 720 176" role="img" aria-label="Animation: the six parts of a good escalation: the symptom and since when, the scope of who is affected, the evidence such as graphs, mtr results and logs with times, what was tried and ruled out, your theory, and one specific ask; contrasted with a vague escalation">
 <rect class="sB" x="14" y="30" width="108" height="56" rx="8"/><text class="sT" x="68" y="63" text-anchor="middle">Symptom</text><text class="sS" x="68" y="108" text-anchor="middle">what, since when</text>
 <line class="sLm" x1="122" y1="58" x2="129" y2="58" marker-end="url(#ahm)"/>
 <rect class="sB" x="131" y="30" width="108" height="56" rx="8"/><text class="sT" x="185" y="63" text-anchor="middle">Scope</text><text class="sS" x="185" y="108" text-anchor="middle">who is affected</text>
@@ -2962,6 +2962,7 @@ ASK       L2: apply QoS template (EF for voice) + reschedule backup to 22:00. Ap
 <text class="sM" x="360" y="18" text-anchor="middle">an escalation the next tier can act on without calling you back</text>
 <rect class="sR" x="14" y="126" width="340" height="40" rx="8" opacity=".85"/><text class="sT" x="184" y="151" text-anchor="middle">"Branch internet slow, please check" ✕</text>
 <rect class="sG" x="366" y="126" width="340" height="40" rx="8"/><text class="sT" x="536" y="151" text-anchor="middle">"Approve QoS + move backup to 22:00?" ✓</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M14 92 L707 92"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>The last box is the one most people skip. Ending with a concrete ask turns a hand-off into a decision.</figcaption></figure>
 
 <p>Symptom → scope → evidence → tried → theory → specific ask. An escalation written like this is the single fastest way to be seen as promotable.</p></div>
@@ -3182,7 +3183,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <tr><td><strong>Object</strong></td><td>An HTTP API storing objects with metadata in flat buckets</td><td>S3 API, Azure Blob</td><td>Cloud-scale unstructured data, backup targets, archives</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 274" role="img" aria-label="The three storage access models: block storage presents raw numbered blocks as a LUN over iSCSI or Fibre Channel that one server formats with its own filesystem; file storage presents folders and files over SMB or NFS from a NAS that owns the filesystem; object storage stores whole objects with a key, data and metadata in a flat bucket accessed over HTTPS with the S3 API">
+<figure class="dia anim"><svg viewBox="0 0 720 274" role="img" aria-label="Animation: the three storage access models: block storage presents raw numbered blocks as a LUN over iSCSI or Fibre Channel that one server formats with its own filesystem; file storage presents folders and files over SMB or NFS from a NAS that owns the filesystem; object storage stores whole objects with a key, data and metadata in a flat bucket accessed over HTTPS with the S3 API">
 <rect class="sN" x="14" y="14" width="220" height="250" rx="10"/><text class="sT" x="124" y="36" text-anchor="middle">Block (SAN)</text>
 <rect class="sN" x="250" y="14" width="220" height="250" rx="10"/><text class="sT" x="360" y="36" text-anchor="middle">File (NAS)</text>
 <rect class="sN" x="486" y="14" width="220" height="250" rx="10"/><text class="sT" x="596" y="36" text-anchor="middle">Object</text>
@@ -3234,6 +3235,9 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 <text class="sC" x="514" y="194" xml:space="preserve" style="white-space:pre">flat: no real folders</text>
 <text class="sS" x="596" y="220" text-anchor="middle">whole objects over HTTP</text>
 <text class="sGt" x="596" y="240" text-anchor="middle">scales to billions of objects</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M124 90 L124 112"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.330;1" path="M360 90 L360 112"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.330;0.332;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M596 90 L596 112"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
 </svg><figcaption>Who owns the filesystem decides everything: with block the server does (fast, but only one server should write it unless a cluster filesystem such as VMFS coordinates); with file the NAS does (easy sharing); with object there is no filesystem, just keys in a bucket.</figcaption></figure>
 
 <h3>9.4 DAS, NAS, SAN</h3>
@@ -5765,7 +5769,7 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
   <li><strong>Edge</strong>: CDN points of presence (Azure Front Door, AWS CloudFront) cache content close to users.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="The cloud resilience ladder: a single VM survives nothing; several VMs in one availability zone survive a host or rack failure; VMs across two or three zones behind a load balancer survive a whole datacenter failure and are the usual production target; a second region survives a regional disaster at the highest cost and complexity">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: the cloud resilience ladder: a single VM survives nothing; several VMs in one availability zone survive a host or rack failure; VMs across two or three zones behind a load balancer survive a whole datacenter failure and are the usual production target; a second region survives a regional disaster at the highest cost and complexity">
 <rect class="sR" x="14" y="200" width="220" height="40" rx="8"/><text class="sT" x="28" y="225">1 VM</text><text class="sS" x="248" y="218">survives: nothing: a host failure is an outage</text>
 <text class="sC" x="248" y="234">cheapest</text>
 <rect class="sW" x="14" y="148" width="290" height="40" rx="8"/><text class="sT" x="28" y="173">VMs in one zone</text><text class="sS" x="318" y="166">survives: host or rack failure</text>
@@ -5774,6 +5778,7 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 <rect class="sG" x="14" y="44" width="430" height="40" rx="8"/><text class="sT" x="28" y="69">a second region (DR)</text><text class="sS" x="458" y="62">survives: a regional disaster or outage</text>
 <text class="sC" x="458" y="78">most cost and complexity</text>
 <line class="sLm" x1="706" y1="236" x2="706" y2="30" marker-end="url(#ahm)"/><text class="sS" x="700" y="22" text-anchor="end">cost, complexity</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M8 220 L8 64"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Each rung costs more. Pick the rung from the RTO and RPO the business agreed, not from what sounds safest.</figcaption></figure>
 
 <h3>19.3 A cloud network, end to end</h3>
@@ -6643,7 +6648,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <tr><th>Block</th><td class="num">256</td><td class="num">128</td><td class="num">64</td><td class="num">32</td><td class="num">16</td><td class="num">8</td><td class="num">4</td></tr>
   <tr><th>Hosts</th><td class="num">254</td><td class="num">126</td><td class="num">62</td><td class="num">30</td><td class="num">14</td><td class="num">6</td><td class="num">2</td></tr>
 </table></div>
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Subnetting as halving: a /24 of 254 hosts splits into two /25s at .0 and .128 with 126 hosts each, four /26s at .0, .64, .128 and .192 with 62 hosts each, and eight /27s every 32 addresses with 30 hosts each">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: subnetting as halving: a /24 of 254 hosts splits into two /25s at .0 and .128 with 126 hosts each, four /26s at .0, .64, .128 and .192 with 62 hosts each, and eight /27s every 32 addresses with 30 hosts each">
 <rect class="sB" x="16" y="20" width="688" height="38" rx="5" opacity=".8"/><text class="sT" x="360" y="37" text-anchor="middle">.0/24</text><text class="sC" x="360" y="52" text-anchor="middle">254 hosts</text>
 <rect class="sA" x="16" y="70" width="342" height="38" rx="5" opacity=".8"/><text class="sT" x="187" y="87" text-anchor="middle">.0/25</text><text class="sC" x="187" y="102" text-anchor="middle">126 hosts</text>
 <rect class="sA" x="362" y="70" width="342" height="38" rx="5" opacity=".8"/><text class="sT" x="533" y="87" text-anchor="middle">.128/25</text><text class="sC" x="533" y="102" text-anchor="middle">126 hosts</text>
@@ -6660,6 +6665,20 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <rect class="sG" x="535" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="576.25" y="187" text-anchor="middle">.192/27</text><text class="sC" x="576.25" y="202" text-anchor="middle">30 hosts</text>
 <rect class="sG" x="621.5" y="170" width="82.5" height="38" rx="5" opacity=".8"/><text class="sT" x="662.75" y="187" text-anchor="middle">.224/27</text><text class="sC" x="662.75" y="202" text-anchor="middle">30 hosts</text>
 <text class="sS" x="360" y="226" text-anchor="middle">each extra mask bit halves the block: 256 → 128 → 64 → 32; subnets start at multiples of the block size</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M360 58 L187 70"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M360 58 L533 70"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M187 108 L100.5 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M187 108 L273.5 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M533 108 L446.5 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M533 108 L619.5 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M100.5 158 L57.25 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M100.5 158 L143.75 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M273.5 158 L230.25 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M273.5 158 L316.75 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M446.5 158 L403.25 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M446.5 158 L489.75 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M619.5 158 L576.25 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M619.5 158 L662.75 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
 </svg><figcaption>Read down a column to see where any address lands: .130 is in .128/25, .128/26 and .128/27. Two addresses per block (network and broadcast) are never hosts.</figcaption></figure>
 
 <p>Method: mask octet → magic number = 256 − mask → subnets step by that number → hosts = 2<sup>host bits</sup> − 2. Private ranges: 10/8, 172.16/12, 192.168/16. APIPA: 169.254 = DHCP failed.</p>
