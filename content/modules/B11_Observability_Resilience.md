@@ -375,7 +375,7 @@ builder.Services.AddHttpClient<IPaymentGateway, PaymobGateway>()
 
 The standard handler stacks a rate limiter, total timeout, retry, circuit breaker and per-attempt timeout in the right order. **Polly v8** "resilience pipelines" let you build the same for databases, queues or any code.
 
-<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="The standard resilience handler as nested layers: rate limiter, total timeout, retry, circuit breaker, per-attempt timeout, then the HttpClient call">
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: the standard resilience handler as nested layers: rate limiter, total timeout, retry, circuit breaker, per-attempt timeout, then the HttpClient call">
 <rect class="sB" x="14" y="20" width="692" height="220" rx="10" opacity=".9"/><text class="sC" x="24" y="36">rate limiter</text>
 <rect class="sW" x="34" y="42" width="652" height="176" rx="10" opacity=".9"/><text class="sC" x="44" y="58">total timeout 20 s</text>
 <rect class="sA" x="54" y="64" width="612" height="132" rx="10" opacity=".9"/><text class="sC" x="64" y="80">retry ×3, backoff</text>
@@ -383,6 +383,8 @@ The standard handler stacks a rate limiter, total timeout, retry, circuit breake
 <rect class="sW" x="94" y="108" width="532" height="44" rx="10" opacity=".9"/><text class="sC" x="104" y="124">attempt timeout 5 s</text>
 <rect class="sG" x="114" y="130" width="492" height="0" rx="10" opacity=".9"/><text class="sC" x="124" y="146">HttpClient</text>
 <text class="sS" x="360" y="252" text-anchor="middle">outer layers see the whole operation; inner layers see a single attempt</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M700 26 L680 48 L660 70 L640 92 L620 114 L600 136"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M600 136 L620 114 L640 92 L660 70 L680 48 L700 26"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption>The order <code>AddStandardResilienceHandler</code> uses. Retries sit inside the total timeout, so they can never extend a request indefinitely.</figcaption></figure>
 
 > [!say]

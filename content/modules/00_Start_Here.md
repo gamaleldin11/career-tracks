@@ -123,7 +123,7 @@ The detail is in [[S8]]; this is the shape.
 4. **Team or manager round.** Architecture of your past work, behavioural questions, "why us".
 5. **Offer.** Gross versus net salary, the social insurance deduction, the probation period (commonly three months), and benefits such as medical insurance. These are covered in [[S8]].
 
-<figure class="dia"><svg viewBox="0 0 720 142" role="img" aria-label="The usual hiring sequence in Egypt: application, HR call, technical screen, a coding task or take-home, a team round, and the offer">
+<figure class="dia anim"><svg viewBox="0 0 720 142" role="img" aria-label="Animation: the usual hiring sequence in Egypt: application, HR call, technical screen, a coding task or take-home, a team round, and the offer">
 <rect class="sB" x="4" y="40" width="114" height="60" rx="8"/><text class="sT" x="61" y="64" text-anchor="middle">apply</text><text class="sC" x="61" y="84" text-anchor="middle">LinkedIn</text>
 <line class="sLm" x1="118" y1="70" x2="123" y2="70" marker-end="url(#ahm)"/>
 <rect class="sB" x="124" y="40" width="114" height="60" rx="8"/><text class="sT" x="181" y="64" text-anchor="middle">HR call</text><text class="sC" x="181" y="84" text-anchor="middle">English</text>
@@ -136,6 +136,7 @@ The detail is in [[S8]]; this is the shape.
 <line class="sLm" x1="598" y1="70" x2="603" y2="70" marker-end="url(#ahm)"/>
 <rect class="sW" x="604" y="40" width="114" height="60" rx="8"/><text class="sT" x="661" y="64" text-anchor="middle">offer</text><text class="sC" x="661" y="84" text-anchor="middle">gross vs net</text>
 <text class="sS" x="360" y="130" text-anchor="middle">each module's Interview focus card targets the technical screen; S8 covers the rest</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M8 108 L714 108"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>The shape of most processes. Referrals skip the first queue; take-homes are common at startups.</figcaption></figure>
 
 Remote work for foreign companies is a real option for Egyptian engineers; those interviews follow the same shape but put more weight on written English and on asynchronous communication.

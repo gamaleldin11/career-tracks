@@ -264,7 +264,7 @@ public class InvoiceEditHandler : AuthorizationHandler<OperationAuthorizationReq
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 194" role="img" aria-label="Authorisation path: unauthenticated requests get 401, failed policies 403, failed resource checks 404 or 403, and only then does the handler run">
+<figure class="dia anim"><svg viewBox="0 0 720 194" role="img" aria-label="Animation: authorisation path: unauthenticated requests get 401, failed policies 403, failed resource checks 404 or 403, and only then does the handler run">
 <rect class="sB" x="8" y="40" width="130" height="52" rx="8"/><text class="sT" x="73" y="64" text-anchor="middle">request</text><text class="sC" x="73" y="80" text-anchor="middle">GET /invoices/1043</text>
 <line class="sLg" x1="138" y1="66" x2="150" y2="66" marker-end="url(#ahg)"/>
 <rect class="sW" x="152" y="40" width="130" height="52" rx="8"/><text class="sT" x="217" y="64" text-anchor="middle">authenticated?</text><text class="sS" x="217" y="80" text-anchor="middle">valid token / cookie</text>
@@ -278,6 +278,10 @@ public class InvoiceEditHandler : AuthorizationHandler<OperationAuthorizationReq
 <line class="sLr" x1="361" y1="92" x2="361" y2="122" marker-end="url(#ahr)"/><rect class="sR" x="299" y="126" width="124" height="26" rx="6" opacity=".85"/><text class="sC" x="361" y="144" text-anchor="middle">403 Forbidden</text>
 <line class="sLr" x1="505" y1="92" x2="505" y2="122" marker-end="url(#ahr)"/><rect class="sR" x="443" y="126" width="124" height="26" rx="6" opacity=".85"/><text class="sC" x="505" y="144" text-anchor="middle">404 or 403</text>
 <text class="sS" x="360" y="182" text-anchor="middle">roles and policies answer "this kind of user"; the resource check answers "this user, this record"</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M73 98 L217 98 L217 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.400;1" path="M73 98 L361 98 L361 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.680;1" path="M73 98 L505 98 L505 122"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.680;0.682;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.740;0.940;1" path="M73 98 L649 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.738;0.742;0.940;0.942;1"/></circle>
 </svg><figcaption>Three gates, three failure codes. Returning 404 for another tenant's record avoids confirming that it exists.</figcaption></figure>
 
 **Permission-based authorisation** (mid level): instead of hard-coding roles in attributes, map roles to fine-grained **permissions** (`invoices.approve`, `team.manage`) stored in data, and check permissions in policies. Roles can then change without redeploying.
