@@ -362,6 +362,27 @@ connection.on("InvoicePaid", (id: string) => {
 > [!lab] One screen, every state
 > Build an invoice list with: filters and page in the URL; TanStack Query (or `httpResource`) with a skeleton loading state, an error state with retry, an empty state; a "mark paid" mutation with an optimistic update and rollback; and a create form that maps ASP.NET Core `ValidationProblemDetails` to field errors. Then throttle the network in DevTools to "Slow 4G" and click through it. Every rough edge you find is an interview story.
 
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: offline support with a service worker: the page fetches through the service worker, which goes to the network when online and updates its cache, answers from the last good cached copy when offline, and queues writes in an IndexedDB outbox that is replayed when the connection returns">
+<rect class="sB" x="14" y="80" width="130" height="56" rx="8"/><text class="sT" x="79" y="106" text-anchor="middle">page</text><text class="sC" x="79" y="122" text-anchor="middle">fetch /api/invoices</text>
+<rect class="sV" x="210" y="80" width="150" height="56" rx="8"/><text class="sT" x="285" y="106" text-anchor="middle">service worker</text><text class="sC" x="285" y="122" text-anchor="middle">sits in between</text>
+<rect class="sG" x="440" y="20" width="140" height="46" rx="8"/><text class="sT" x="510" y="41" text-anchor="middle">network</text><text class="sC" x="510" y="57" text-anchor="middle">online</text>
+<rect class="sW" x="440" y="140" width="140" height="46" rx="8"/><text class="sT" x="510" y="161" text-anchor="middle">cache storage</text><text class="sC" x="510" y="177" text-anchor="middle">last good copy</text>
+<rect class="sA" x="610" y="80" width="96" height="56" rx="8"/><text class="sT" x="658" y="106" text-anchor="middle">outbox</text><text class="sC" x="658" y="122" text-anchor="middle">IndexedDB</text>
+<line class="sLm" x1="144" y1="108" x2="208" y2="108" marker-end="url(#ahm)"/>
+<line class="sLm" x1="360" y1="96" x2="438" y2="46" marker-end="url(#ahm)"/>
+<line class="sLm" x1="360" y1="120" x2="438" y2="160" marker-end="url(#ahm)"/>
+<line class="sLw" x1="360" y1="108" x2="608" y2="108" stroke-dasharray="4 3"/>
+<text class="sGt" x="372" y="84">online: network, then update cache</text>
+<text class="sWt" x="400" y="210">offline: answer from cache</text>
+<text class="sC" x="560" y="126" text-anchor="middle">writes queue here</text>
+<text class="sS" x="360" y="236" text-anchor="middle">Background Sync replays the outbox when the connection returns</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M144 108 L208 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M360 96 L438 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M144 108 L208 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.620;1" path="M360 120 L438 160"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.620;0.622;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.860;1" path="M360 108 L608 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.860;0.862;1"/></circle>
+</svg><figcaption>Decide per request: network-first for data that must be fresh, cache-first for the app shell and assets.</figcaption></figure>
+
 ## F8.11 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

@@ -364,6 +364,26 @@ joined = big.join(small_salted, ["merchant_id", "salt"])
 
 `df.cache()` (or `persist(StorageLevel...)`) keeps a DataFrame in executor memory (spilling to disk) after the **first action** computes it. Cache only when the **same** DataFrame is reused by **several actions** and is expensive to recompute; unpersist it afterwards. Caching everything wastes memory and can slow jobs down. On Databricks, the automatic disk cache already speeds repeated reads of the same files.
 
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: caching in Spark: an expensive read and join produces a cleaned DataFrame marked with cache(); the first action, a count, computes it and stores it in executor memory, and the next two actions, writing a gold table and building model features, read the cached copy instead of recomputing from the source">
+<rect class="sW" x="14" y="70" width="140" height="56" rx="8"/><text class="sT" x="84" y="96" text-anchor="middle">read + join</text><text class="sC" x="84" y="112" text-anchor="middle">expensive</text>
+<rect class="sV" x="210" y="70" width="140" height="56" rx="8"/><text class="sT" x="280" y="96" text-anchor="middle">cleaned</text><text class="sC" x="280" y="112" text-anchor="middle">.cache()</text>
+<rect class="sB" x="420" y="20" width="140" height="46" rx="8"/><text class="sT" x="490" y="41" text-anchor="middle">count()</text><text class="sC" x="490" y="57" text-anchor="middle">action 1</text>
+<rect class="sB" x="420" y="90" width="140" height="46" rx="8"/><text class="sT" x="490" y="111" text-anchor="middle">write gold</text><text class="sC" x="490" y="127" text-anchor="middle">action 2</text>
+<rect class="sB" x="420" y="160" width="140" height="46" rx="8"/><text class="sT" x="490" y="181" text-anchor="middle">model features</text><text class="sC" x="490" y="197" text-anchor="middle">action 3</text>
+<line class="sLm" x1="154" y1="98" x2="208" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="90" x2="418" y2="43" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="98" x2="418" y2="113" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="106" x2="418" y2="183" marker-end="url(#ahm)"/>
+<text class="sWt" x="640" y="46" text-anchor="middle">computes and caches</text>
+<text class="sGt" x="640" y="116" text-anchor="middle">reads the cache</text>
+<text class="sGt" x="640" y="186" text-anchor="middle">reads the cache</text>
+<text class="sS" x="250" y="230" text-anchor="middle">without cache() each action recomputes from the source; unpersist() when done</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M154 98 L208 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.280;1" path="M350 90 L418 43"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.530;1" path="M350 98 L418 113"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.530;0.532;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.730;1" path="M350 106 L418 183"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.730;0.732;1"/></circle>
+</svg><figcaption>Caching only pays when a DataFrame feeds several actions; it is lazy, so the first action pays the full cost.</figcaption></figure>
+
 ## DE6.9 Adaptive Query Execution and Spark 4 🟡 ⭐
 
 > [!term] Adaptive Query Execution (AQE)

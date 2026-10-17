@@ -566,6 +566,24 @@ A checklist you can say out loud:
 5. **Permissions:** the non-root user can't write to a folder owned by root.
 6. **Architecture:** an image built for `arm64` (an Apple-silicon Mac) won't run on an `amd64` server without a multi-platform build.
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: why an app works locally but not in a container: an API listening on localhost inside the container refuses connections arriving through the published port, while one listening on 0.0.0.0 accepts them; likewise the database must be reached by its service name, not localhost">
+<rect class="sN" x="14" y="30" width="330" height="160" rx="10"/><text class="sT" x="179" y="52" text-anchor="middle">container</text>
+<rect class="sR" x="30" y="66" width="140" height="46" rx="8"/><text class="sT" x="100" y="87" text-anchor="middle">API</text><text class="sC" x="100" y="103" text-anchor="middle">localhost:8080</text>
+<rect class="sG" x="30" y="126" width="140" height="46" rx="8"/><text class="sT" x="100" y="147" text-anchor="middle">API</text><text class="sC" x="100" y="163" text-anchor="middle">0.0.0.0:8080</text>
+<rect class="sB" x="420" y="66" width="140" height="46" rx="8"/><text class="sT" x="490" y="87" text-anchor="middle">host :8080</text><text class="sC" x="490" y="103" text-anchor="middle">published port</text>
+<rect class="sB" x="600" y="66" width="106" height="46" rx="8"/><text class="sT" x="653" y="94" text-anchor="middle">browser</text>
+<line class="sLm" x1="560" y1="89" x2="598" y2="89"/>
+<line class="sLg" x1="170" y1="149" x2="418" y2="96" marker-end="url(#ahg)"/>
+<line class="sLr" x1="418" y1="82" x2="172" y2="82"/>
+<text class="sRt" x="250" y="74" text-anchor="middle">refused</text>
+<text class="sS" x="190" y="210" text-anchor="middle">inside a container, localhost means the container itself</text>
+<text class="sS" x="540" y="160" text-anchor="middle">same rule for the database:</text>
+<text class="sS" x="540" y="176" text-anchor="middle">use the service name, db,</text>
+<text class="sS" x="540" y="192" text-anchor="middle">not localhost</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M598 89 L560 89 L420 82 L180 82"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M598 89 L560 89 L420 96 L172 149"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
+</svg><figcaption>ASP.NET Core containers listen on <code>http://+:8080</code> by default; a hard-coded <code>localhost</code> URL in configuration is the usual culprit.</figcaption></figure>
+
 ## S5.13 Kubernetes in one section 🟡
 
 When one machine isn't enough, an **orchestrator** runs containers across a cluster, restarts them when they die, scales them and routes traffic. **Kubernetes** is the standard one.

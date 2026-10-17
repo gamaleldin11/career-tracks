@@ -356,6 +356,33 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-r4nd0m'; o
 
 **Common misconfigurations:** detailed error pages or stack traces in production (`app.UseDeveloperExceptionPage()` left on), Swagger UI exposed publicly without auth, default credentials, overly permissive CORS (`AllowAnyOrigin` plus credentials isn't even allowed, but reflecting any `Origin` header is equivalent and dangerous), public storage buckets, debug endpoints, and unnecessary open ports (FinSight's network security group allowed only 22, 80 and 443 for this reason).
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: security headers: the server adds Strict-Transport-Security, Content-Security-Policy, X-Content-Type-Options, Referrer-Policy and Permissions-Policy to responses, and the browser enforces them, blocking plain HTTP, injected scripts, framing of the page by an attacker and unused features such as the camera">
+<rect class="sA" x="14" y="70" width="130" height="56" rx="8"/><text class="sT" x="79" y="96" text-anchor="middle">server</text><text class="sC" x="79" y="112" text-anchor="middle">adds headers</text>
+<rect class="sN" x="180" y="30" width="260" height="150" rx="8"/>
+<text class="sT" x="310" y="50" text-anchor="middle">response headers</text>
+<text class="sC" x="192" y="74" xml:space="preserve" style="white-space:pre">Strict-Transport-Security</text>
+<text class="sC" x="192" y="96" xml:space="preserve" style="white-space:pre">Content-Security-Policy</text>
+<text class="sC" x="192" y="118" xml:space="preserve" style="white-space:pre">X-Content-Type-Options</text>
+<text class="sC" x="192" y="140" xml:space="preserve" style="white-space:pre">Referrer-Policy</text>
+<text class="sC" x="192" y="162" xml:space="preserve" style="white-space:pre">Permissions-Policy</text>
+<rect class="sB" x="480" y="70" width="130" height="56" rx="8"/><text class="sT" x="545" y="96" text-anchor="middle">browser</text><text class="sC" x="545" y="112" text-anchor="middle">enforces them</text>
+<line class="sLm" x1="144" y1="98" x2="178" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="440" y1="98" x2="478" y2="98" marker-end="url(#ahm)"/>
+<text class="sRt" x="650" y="40" text-anchor="middle">blocked:</text>
+<text class="sS" x="650" y="64" text-anchor="middle">plain http</text>
+<text class="sS" x="650" y="86" text-anchor="middle">injected script</text>
+<text class="sS" x="650" y="108" text-anchor="middle">your page in an</text>
+<text class="sS" x="650" y="124" text-anchor="middle">attacker’s iframe</text>
+<text class="sS" x="650" y="146" text-anchor="middle">camera access</text>
+<text class="sS" x="360" y="210" text-anchor="middle">headers turn a single XSS or clickjacking bug into a failed attack, not a breach</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M144 98 L178 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M440 98 L478 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.420;1" path="M610 60 L604 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.420;0.422;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.520;1" path="M610 82 L604 82"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.520;0.522;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.620;1" path="M610 112 L604 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.620;0.622;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.720;1" path="M610 142 L604 142"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.720;0.722;1"/></circle>
+</svg><figcaption>Check a live site with securityheaders.com or the browser’s network tab; start CSP in report-only mode to find what it would break.</figcaption></figure>
+
 ## S9.10 Software supply chain (A03, new in 2025) 🟡 ⭐
 
 Your app is mostly other people's code. A typical Angular or React project has hundreds of transitive npm dependencies.
