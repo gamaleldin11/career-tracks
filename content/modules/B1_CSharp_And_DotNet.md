@@ -85,7 +85,7 @@ That picture explains two later topics. **Async** ([[B1.7]]) exists so that a th
 > [!mistake] "Value types live on the stack"
 > It's a useful simplification but not the rule. A value type lives **wherever its container is**: a local `int` is usually on the stack, but an `int` field inside a class object is on the heap with that object, and a boxed `int` is on the heap. The real difference is **copy semantics**.
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Structs are copied into each variable; class variables hold references to one shared heap object; boxing copies a value into a new heap object">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: Structs are copied into each variable; class variables hold references to one shared heap object; boxing copies a value into a new heap object">
 <text class="sT" x="150" y="22" text-anchor="middle">stack frame</text><text class="sT" x="500" y="22" text-anchor="middle">managed heap</text>
 <rect class="sB" x="20" y="32" width="260" height="190" rx="10"/>
 <text class="sC" x="28" y="56" xml:space="preserve" style="white-space:pre">Money m1 = new(900, "EGP")</text><rect class="sA" x="186" y="60" width="86" height="14" rx="3"/><text class="sC" x="229" y="71" text-anchor="middle">900 EGP</text>
@@ -97,6 +97,9 @@ That picture explains two later topics. **Async** ([[B1.7]]) exists so that a th
 <rect class="sW" x="430" y="150" width="140" height="46" rx="10"/><text class="sT" x="500" y="170" text-anchor="middle">boxed int</text><text class="sM" x="500" y="186" text-anchor="middle">42</text>
 <path class="sL" d="M272 121 C330 121 340 90 386 84" marker-end="url(#ah)"/><path class="sL" d="M272 157 C340 157 350 100 386 92" marker-end="url(#ah)"/><path class="sLw" d="M272 193 C340 193 380 175 426 173" marker-end="url(#ahw)"/>
 <text class="sC" x="500" y="222" text-anchor="middle">two variables, one object</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M272 121 C330 121 340 90 386 84"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.550;1" path="M272 157 C340 157 350 100 386 92"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.550;0.552;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.850;1" path="M272 193 C340 193 380 175 426 173"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.850;0.852;1"/></circle>
 </svg><figcaption>Copy semantics, drawn. A struct assignment copies the data; a class assignment copies the reference; boxing allocates a heap copy of a value.</figcaption></figure>
 
 > [!term] Boxing

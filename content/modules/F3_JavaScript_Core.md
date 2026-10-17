@@ -16,7 +16,7 @@ Every frontend and full-stack interview has a JavaScript fundamentals round, and
 
 **Stack and heap.** The **call stack** holds a frame for each running function ([[S4.0]] shows it step by step). The **heap** holds everything longer-lived: objects, arrays, functions and the environments that closures keep. A variable holds a primitive directly, or a reference to something on the heap.
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="A primitive is stored directly in its variable; object variables hold references to one shared object on the heap">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: a primitive is stored directly in its variable; object variables hold references to one shared object on the heap">
 <text class="sT" x="140" y="22" text-anchor="middle">Stack frame (variables)</text><text class="sT" x="520" y="22" text-anchor="middle">Heap (objects)</text>
 <rect class="sB" x="20" y="34" width="240" height="150" rx="10"/>
 <text class="sC" x="32" y="69" xml:space="preserve" style="white-space:pre">let n = 5</text><rect class="sA" x="190" y="50" width="56" height="30" rx="4"/><text class="sM" x="218" y="70" text-anchor="middle">5</text>
@@ -27,6 +27,8 @@ Every frontend and full-stack interview has a JavaScript fundamentals round, and
 <rect class="sG" x="400" y="70" width="200" height="60" rx="10"/><text class="sX" x="500" y="96" text-anchor="middle">{ n: 2 }</text><text class="sC" x="500" y="116" text-anchor="middle">one object, two references</text>
 <text class="sS" x="140" y="206" text-anchor="middle">b.n = 2 changed the object both names point to</text>
 <text class="sC" x="500" y="160" text-anchor="middle">{ n: 1 } === { n: 1 } is false:</text><text class="sC" x="500" y="176" text-anchor="middle">two objects, compared by identity</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M246 107 C320 107 330 100 396 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.600;1" path="M246 149 C320 149 330 100 396 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.600;0.602;1"/></circle>
 </svg><figcaption>Primitives live in the variable; objects live on the heap and variables hold references to them. Assignment copies the reference.</figcaption></figure>
 
 **Garbage collection.** You never free memory yourself. The garbage collector periodically finds objects that can no longer be reached from the globals or the current stack, and frees them. So a JavaScript **memory leak** is an object that is still reachable but no longer needed: an event listener whose handler captures a big array, a `setInterval` that's never cleared, a module-level cache that only grows, a removed DOM node still held in a variable. In single-page apps these pile up with every route change, which is why React's effect clean-up and Angular's `DestroyRef` exist.
@@ -395,13 +397,16 @@ const copy = [...items, newItem];                           // new array; items 
 
 **Shallow vs deep copy.** Spread and `Object.assign` copy only the **top level**; nested objects are still shared. For a real deep copy use `structuredClone(obj)` (built into browsers and Node since 2022), which also handles `Date`, `Map`, `Set` and circular references.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="A spread copy shares the nested address object with the original; structuredClone copies the nested object too">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: a spread copy shares the nested address object with the original; structuredClone copies the nested object too">
 <rect class="sA" x="20" y="40" width="150" height="60" rx="8"/><text class="sC" x="95" y="62" text-anchor="middle">user</text><text class="sM" x="95" y="84" text-anchor="middle">name · address</text><rect class="sV" x="285" y="40" width="150" height="60" rx="8"/><text class="sC" x="360" y="62" text-anchor="middle">copy = {...user}</text><text class="sM" x="360" y="84" text-anchor="middle">name · address</text><rect class="sG" x="550" y="40" width="150" height="60" rx="8"/><text class="sC" x="625" y="62" text-anchor="middle">structuredClone(user)</text><text class="sM" x="625" y="84" text-anchor="middle">name · address</text>
 <rect class="sW" x="150" y="150" width="150" height="46" rx="8"/><text class="sC" x="225" y="170" text-anchor="middle">address</text><text class="sM" x="225" y="188" text-anchor="middle">{ city: "Giza" }</text>
 <rect class="sG" x="550" y="150" width="150" height="46" rx="8"/><text class="sC" x="625" y="170" text-anchor="middle">its own address</text><text class="sM" x="625" y="188" text-anchor="middle">{ city: "Giza" }</text>
 <line class="sL" x1="130" y1="100" x2="200" y2="148" marker-end="url(#ah)"/><line class="sLw" x1="360" y1="100" x2="260" y2="148" marker-end="url(#ahw)"/><line class="sLg" x1="625" y1="100" x2="625" y2="148" marker-end="url(#ahg)"/>
 <text class="sWt" x="225" y="218" text-anchor="middle">shared: copy.address.city = "Cairo" changes user too</text>
 <text class="sGt" x="625" y="218" text-anchor="middle">independent</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M130 100 L200 148"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.500;1" path="M360 100 L260 148"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.800;1" path="M625 100 L625 148"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.800;0.802;1"/></circle>
 </svg><figcaption>Spread copies one level. Nested objects are still shared until you copy them too, or use <code>structuredClone</code>.</figcaption></figure>
 
 **Array methods you must use fluently:**
