@@ -289,6 +289,28 @@ Producers and consumers evolve independently, so the record format needs a contr
 - Streaming writes create **many small files**: schedule **compaction** ([[DE5.6]]).
 - On Azure, **Event Hubs** exposes a **Kafka-compatible endpoint**, so Kafka clients work unchanged; **Microsoft Fabric Real-Time Intelligence** (Eventstreams into an Eventhouse queried with KQL) covers real-time analytics. AWS has MSK and Kinesis; Google Cloud has Pub/Sub and Managed Kafka.
 
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: streaming into the lakehouse: events from a Kafka topic are read by a stream job in one-minute micro-batches with offsets in a checkpoint, appended to a bronze table, then processed incrementally to silver and gold; the many small files streaming writes create need scheduled compaction">
+<rect class="sW" x="14" y="70" width="140" height="56" rx="8"/><text class="sT" x="84" y="96" text-anchor="middle">Kafka topic</text><text class="sC" x="84" y="112" text-anchor="middle">orders events</text>
+<rect class="sV" x="210" y="70" width="150" height="56" rx="8"/><text class="sT" x="285" y="96" text-anchor="middle">stream job</text><text class="sC" x="285" y="112" text-anchor="middle">micro-batch / 1 min</text>
+<rect class="sB" x="416" y="70" width="130" height="56" rx="8"/><text class="sT" x="481" y="96" text-anchor="middle">bronze</text><text class="sC" x="481" y="112" text-anchor="middle">raw, append</text>
+<rect class="sA" x="586" y="30" width="120" height="50" rx="8"/><text class="sT" x="646" y="53" text-anchor="middle">silver</text><text class="sC" x="646" y="69" text-anchor="middle">cleaned</text>
+<rect class="sG" x="586" y="110" width="120" height="50" rx="8"/><text class="sT" x="646" y="133" text-anchor="middle">gold</text><text class="sC" x="646" y="149" text-anchor="middle">aggregates</text>
+<line class="sLm" x1="154" y1="98" x2="208" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="360" y1="98" x2="414" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="546" y1="90" x2="584" y2="56" marker-end="url(#ahm)"/>
+<line class="sLm" x1="646" y1="80" x2="646" y2="108" marker-end="url(#ahm)"/>
+<rect class="sN" x="416" y="160" width="130" height="30" rx="4"/><text class="sRt" x="481" y="179" text-anchor="middle">many small files</text>
+<text class="sGt" x="481" y="208" text-anchor="middle">scheduled compaction</text>
+<text class="sC" x="285" y="160" text-anchor="middle">checkpoint: offsets</text>
+<text class="sS" x="360" y="236" text-anchor="middle">the checkpoint makes restarts exactly where they stopped; compaction keeps reads fast</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.080;1" path="M154 98 L208 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.080;0.082;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.180;1" path="M154 98 L208 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.180;0.182;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.280;1" path="M154 98 L208 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.280;0.282;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.420;1" path="M360 98 L414 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M546 90 L584 56"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.720;1" path="M646 80 L646 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.720;0.722;1"/></circle>
+</svg><figcaption>Bronze keeps the raw events so silver and gold can be rebuilt; incremental processing keeps each step cheap.</figcaption></figure>
+
 ## DE8.9 Operating Kafka 🟡 ⭐
 
 > [!term] Consumer lag

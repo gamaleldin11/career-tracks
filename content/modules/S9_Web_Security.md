@@ -325,6 +325,25 @@ Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-r4nd0m'; o
 - **Secrets** (connection strings, API keys, signing keys) live in a vault (**Azure Key Vault**, AWS Secrets Manager) or the platform's secret store, injected at runtime, and rotated. Never in Git, never in images ([[S2.8]], [[S5.8]]).
 - **Data minimisation:** the safest personal data is data you never collected. Mask it in logs; Egypt's **Personal Data Protection Law (No. 151 of 2020)** and, for European users, the GDPR make this a legal matter, not just good practice.
 
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: secrets without passwords in config: the API authenticates to Entra ID with its managed identity and gets a token, uses the token to read secrets from Key Vault, then connects to the SQL database; nothing secret lives in appsettings.json, Git or the container image">
+<rect class="sA" x="14" y="70" width="150" height="56" rx="8"/><text class="sT" x="89" y="96" text-anchor="middle">API (App Service)</text><text class="sC" x="89" y="112" text-anchor="middle">managed identity</text>
+<rect class="sV" x="285" y="20" width="150" height="50" rx="8"/><text class="sT" x="360" y="43" text-anchor="middle">Entra ID</text><text class="sC" x="360" y="59" text-anchor="middle">issues a token</text>
+<rect class="sG" x="285" y="130" width="150" height="56" rx="8"/><text class="sT" x="360" y="156" text-anchor="middle">Key Vault</text><text class="sC" x="360" y="172" text-anchor="middle">DbPassword, ApiKey</text>
+<rect class="sB" x="556" y="70" width="150" height="56" rx="8"/><text class="sT" x="631" y="103" text-anchor="middle">SQL database</text>
+<line class="sLm" x1="164" y1="84" x2="283" y2="50" marker-end="url(#ahm)"/>
+<line class="sLm" x1="164" y1="112" x2="283" y2="152" marker-end="url(#ahm)"/>
+<line class="sLm" x1="164" y1="98" x2="554" y2="98" marker-end="url(#ahm)"/>
+<text class="sC" x="210" y="54" text-anchor="middle">1 who am I?</text>
+<text class="sC" x="210" y="150" text-anchor="middle">2 get secret</text>
+<text class="sC" x="460" y="92" text-anchor="middle">3 connect</text>
+<rect class="sR" x="14" y="206" width="692" height="30" rx="6" opacity=".9"/><text class="sT" x="360" y="226" text-anchor="middle">never in appsettings.json, Git or the image; rotate in the vault and the app picks it up</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M164 84 L283 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.280;1" path="M283 56 L164 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.460;1" path="M164 112 L283 152"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.460;0.462;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M283 160 L164 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.880;1" path="M164 98 L554 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.880;0.882;1"/></circle>
+</svg><figcaption>The app proves who it is with its managed identity, so there is no bootstrap secret to leak. Locally, <code>dotnet user-secrets</code> plays the vault’s role.</figcaption></figure>
+
 ## S9.9 Misconfiguration and security headers 🟢 🟡
 
 | Header | Purpose |

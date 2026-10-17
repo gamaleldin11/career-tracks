@@ -231,6 +231,26 @@ Layout shifts within **500 ms after a user input** don't count, because the user
 - **Third-party scripts** (chat widgets, analytics, tag managers) are often the heaviest code on the page. Load them `async`/`defer`, after interaction, or not at all.
 - Respect **budgets**: Angular's `angular.json` has `budgets` that fail the build when a bundle grows past a limit.
 
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: code splitting: one 1.2 megabyte bundle that every page downloads and parses is split into a small main chunk for the shell and home page plus chunks for invoices, reports and charts, which the browser loads only when that route or component is first used">
+<rect class="sR" x="14" y="40" width="170" height="56" rx="8"/><text class="sT" x="99" y="66" text-anchor="middle">one bundle</text><text class="sC" x="99" y="82" text-anchor="middle">main.js 1.2 MB</text>
+<text class="sRt" x="99" y="120" text-anchor="middle">every page downloads</text><text class="sRt" x="99" y="136" text-anchor="middle">and parses all of it</text>
+<rect class="sG" x="260" y="20" width="160" height="40" rx="8"/><text class="sT" x="340" y="38" text-anchor="middle">main.js 180 KB</text><text class="sC" x="340" y="54" text-anchor="middle">shell + home</text>
+<rect class="sB" x="260" y="70" width="160" height="40" rx="8"/><text class="sT" x="340" y="88" text-anchor="middle">invoices.js</text><text class="sC" x="340" y="104" text-anchor="middle">loaded on /invoices</text>
+<rect class="sB" x="260" y="120" width="160" height="40" rx="8"/><text class="sT" x="340" y="138" text-anchor="middle">reports.js</text><text class="sC" x="340" y="154" text-anchor="middle">loaded on /reports</text>
+<rect class="sB" x="260" y="170" width="160" height="40" rx="8"/><text class="sT" x="340" y="188" text-anchor="middle">charts.js</text><text class="sC" x="340" y="204" text-anchor="middle">loaded when shown</text>
+<line class="sLm" x1="184" y1="68" x2="258" y2="40" marker-end="url(#ahm)"/>
+<line class="sLm" x1="184" y1="68" x2="258" y2="90"/>
+<line class="sLm" x1="184" y1="68" x2="258" y2="140"/>
+<line class="sLm" x1="184" y1="68" x2="258" y2="190"/>
+<rect class="sA" x="500" y="60" width="206" height="56" rx="8"/><text class="sT" x="603" y="86" text-anchor="middle">browser on /</text><text class="sC" x="603" y="102" text-anchor="middle">downloads only main.js</text>
+<line class="sLg" x1="420" y1="40" x2="498" y2="80" marker-end="url(#ahg)"/>
+<text class="sS" x="603" y="150" text-anchor="middle">route-level lazy loading:</text>
+<text class="sC" x="603" y="166" text-anchor="middle">loadComponent / React.lazy</text>
+<text class="sS" x="360" y="230" text-anchor="middle">tree shaking drops unused exports; splitting delays the rest until it is needed</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M420 40 L498 80"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.600;1" path="M420 90 L498 96"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.600;0.602;1"/></circle>
+</svg><figcaption>Measure with the bundle analyser first; split by route, then by heavy components such as charts and editors.</figcaption></figure>
+
 ## F9.7 Rendering strategies 🟢 🟡 ⭐
 
 | Strategy | HTML is produced | First view | Freshness | Server cost | Good for |

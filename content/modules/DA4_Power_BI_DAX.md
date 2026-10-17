@@ -398,6 +398,23 @@ Design principles are in [[DA5]]. Power BI features worth knowing: **slicers** (
 - **Deployment pipelines** (Dev → Test → Prod) and **Git integration** using the **PBIP** project format. In 2026, the text-based **PBIR** report format became the default for new reports, which makes report changes reviewable in pull requests, alongside **TMDL** for the model.
 - **Endorsement** (Promoted, Certified) so users know which semantic model is the trusted one; **sensitivity labels** for confidential data.
 
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: a scheduled refresh through the on-premises data gateway: the Power BI Service asks the gateway, which queries the on-premises SQL Server and sends the data back outbound to refresh the semantic model, which the app and its reports then serve to users">
+<rect class="sB" x="14" y="70" width="170" height="56" rx="8"/><text class="sT" x="99" y="96" text-anchor="middle">on-prem SQL Server</text><text class="sC" x="99" y="112" text-anchor="middle">behind the firewall</text>
+<rect class="sW" x="250" y="70" width="170" height="56" rx="8"/><text class="sT" x="335" y="96" text-anchor="middle">data gateway</text><text class="sC" x="335" y="112" text-anchor="middle">a service on a local VM</text>
+<rect class="sV" x="486" y="30" width="220" height="56" rx="8"/><text class="sT" x="596" y="56" text-anchor="middle">Power BI Service</text><text class="sC" x="596" y="72" text-anchor="middle">semantic model, schedule</text>
+<rect class="sG" x="486" y="130" width="220" height="56" rx="8"/><text class="sT" x="596" y="156" text-anchor="middle">app / report</text><text class="sC" x="596" y="172" text-anchor="middle">users and RLS roles</text>
+<line class="sLm" x1="184" y1="98" x2="248" y2="98"/>
+<line class="sLm" x1="420" y1="90" x2="484" y2="62"/>
+<line class="sLm" x1="596" y1="86" x2="596" y2="128" marker-end="url(#ahm)"/>
+<text class="sWt" x="452" y="64" text-anchor="middle">outbound only</text>
+<text class="sS" x="360" y="220" text-anchor="middle">the gateway calls out to the service, so no inbound firewall port is opened; cloud sources refresh without it</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M484 62 L420 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M248 98 L184 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M184 98 L248 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.540;1" path="M420 90 L484 62"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.540;0.542;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.720;1" path="M596 86 L596 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.720;0.722;1"/></circle>
+</svg><figcaption>Refresh failures are usually the gateway (offline VM, expired credentials) or the source; check the refresh history first.</figcaption></figure>
+
 ## DA4.13 Power BI, Tableau and others 🟢
 
 | | Power BI | Tableau | Looker Studio |

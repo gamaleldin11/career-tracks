@@ -337,6 +337,22 @@ connection.on("InvoicePaid", (id: string) => {
 });
 ```
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: real-time updates into the cache: the server publishes InvoicePaid for invoice 7 through a SignalR hub, the client invalidates the invoices and dashboard queries in its query cache, and the components refetch and re-render from the cache">
+<rect class="sA" x="14" y="70" width="150" height="56" rx="8"/><text class="sT" x="89" y="96" text-anchor="middle">server</text><text class="sC" x="89" y="112" text-anchor="middle">invoice 7 paid</text>
+<rect class="sV" x="240" y="70" width="150" height="56" rx="8"/><text class="sT" x="315" y="96" text-anchor="middle">SignalR hub</text><text class="sC" x="315" y="112" text-anchor="middle">InvoicePaid(7)</text>
+<rect class="sW" x="466" y="20" width="240" height="50" rx="8"/><text class="sT" x="586" y="43" text-anchor="middle">query cache</text><text class="sC" x="586" y="59" text-anchor="middle">["invoices"] ["dashboard"]</text>
+<rect class="sG" x="466" y="120" width="240" height="50" rx="8"/><text class="sT" x="586" y="143" text-anchor="middle">components</text><text class="sC" x="586" y="159" text-anchor="middle">re-render from the cache</text>
+<line class="sLm" x1="164" y1="98" x2="238" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="390" y1="90" x2="464" y2="50" marker-end="url(#ahm)"/>
+<line class="sLm" x1="586" y1="70" x2="586" y2="118" marker-end="url(#ahm)"/>
+<text class="sWt" x="430" y="96" text-anchor="middle">invalidate</text>
+<text class="sC" x="600" y="98">refetch</text>
+<text class="sS" x="360" y="210" text-anchor="middle">one source of truth: the push marks queries stale instead of keeping a second copy of the data</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M164 98 L238 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.300;1" path="M390 90 L464 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M586 70 L586 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
+</svg><figcaption>Invalidate first; patch the cache with <code>setQueryData</code> only where the refetch is too slow.</figcaption></figure>
+
 ## F8.10 Persisting and offline 🟡
 
 - `localStorage` for small preferences (theme, a dismissed banner); never for secrets ([[S1.6]]).

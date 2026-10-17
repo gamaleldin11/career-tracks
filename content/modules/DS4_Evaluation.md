@@ -372,6 +372,23 @@ Offline metrics estimate potential; **online experiments measure impact** ([[S6.
 > [!lab] Evaluate one model like a professional
 > Take your best model from [[DS3]]'s lab. Produce: rolling time-based CV scores with spread; ROC and PR curves; a profit curve with the chosen threshold; a reliability diagram before and after isotonic calibration; a SHAP beeswarm and two waterfall explanations; a performance table sliced by two segments; and a five-sentence evaluation summary. That page is what interviewers mean by "how did you evaluate it?".
 
+<figure class="dia anim"><svg viewBox="0 0 720 186" role="img" aria-label="Animation: from offline to online evaluation: an offline metric on a holdout, then shadow mode where scores are logged but not used, then an A/B test on a share of traffic, and finally the online business metric such as retention or revenue">
+<rect class="sB" x="14" y="50" width="160" height="56" rx="8"/><text class="sT" x="94" y="76" text-anchor="middle">offline metric</text><text class="sC" x="94" y="92" text-anchor="middle">AUC, profit on a holdout</text>
+<rect class="sV" x="190" y="50" width="160" height="56" rx="8"/><text class="sT" x="270" y="76" text-anchor="middle">shadow mode</text><text class="sC" x="270" y="92" text-anchor="middle">scores logged, not used</text>
+<line class="sLm" x1="176" y1="78" x2="188" y2="78" marker-end="url(#ahm)"/>
+<rect class="sW" x="366" y="50" width="160" height="56" rx="8"/><text class="sT" x="446" y="76" text-anchor="middle">A/B test</text><text class="sC" x="446" y="92" text-anchor="middle">10% of traffic</text>
+<line class="sLm" x1="352" y1="78" x2="364" y2="78" marker-end="url(#ahm)"/>
+<rect class="sG" x="542" y="50" width="160" height="56" rx="8"/><text class="sT" x="622" y="76" text-anchor="middle">online metric</text><text class="sC" x="622" y="92" text-anchor="middle">retention, revenue</text>
+<line class="sLm" x1="528" y1="78" x2="540" y2="78" marker-end="url(#ahm)"/>
+<text class="sM" x="360" y="28" text-anchor="middle">a better offline score is a hypothesis; the online metric is the result</text>
+<text class="sGt" x="180" y="140" text-anchor="middle">cheap, fast, repeatable</text>
+<text class="sWt" x="540" y="140" text-anchor="middle">slow, costly, the only real answer</text>
+<text class="sS" x="360" y="176" text-anchor="middle">they disagree when the offline data is stale, the label is a proxy, or users react to the model</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M174 78 L188 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M350 78 L364 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.680;1" path="M526 78 L540 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.680;0.682;1"/></circle>
+</svg><figcaption>Shadow mode catches broken features and latency before any user is affected; the A/B test answers whether the model changes behaviour.</figcaption></figure>
+
 ## DS4.12 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |
