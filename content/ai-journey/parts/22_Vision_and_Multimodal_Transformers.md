@@ -189,7 +189,7 @@ Trainer(model=model, args=args, data_collator=collate,
 <text class="sS" x="360" y="250" text-anchor="middle">for a 224 × 224 image at 4 × 4 patches: 64× fewer attention pairs; cost grows linearly with image size</text>
 </svg><figcaption>Each highlighted token (orange) attends to the red area on the left and only the green window on the right. 3,136² ÷ (3,136 × 49) = 64. Shifted windows in the next layer let information cross window borders.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Masked autoencoder pretraining: of 196 image patches, a random 75 percent are hidden and only 49 visible patches go into a large encoder; a light decoder adds 147 mask tokens and reconstructs the missing pixels">
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: masked autoencoder pretraining: of 196 image patches, a random 75 percent are hidden and only 49 visible patches go into a large encoder; a light decoder adds 147 mask tokens and reconstructs the missing pixels">
 <text class="sM" x="14" y="20">MAE: hide 75% of the 196 patches; the encoder sees only the 49 visible ones</text>
 <rect class="sN" x="30" y="34" width="12" height="12" rx="1" opacity=".35"/>
 <rect class="sB" x="43" y="34" width="12" height="12" rx="1"/>
@@ -391,6 +391,9 @@ Trainer(model=model, args=args, data_collator=collate,
 <line class="sLm" x1="422" y1="125" x2="470" y2="125" marker-end="url(#ahm)"/><rect class="sV" x="472" y="95" width="130" height="60" rx="8"/><text class="sT" x="537" y="123" text-anchor="middle">light decoder</text><text class="sC" x="537" y="139" text-anchor="middle">+ 147 mask tokens</text>
 <line class="sLm" x1="602" y1="125" x2="630" y2="125" marker-end="url(#ahm)"/><text class="sT" x="668" y="120" text-anchor="middle">rebuild</text><text class="sT" x="668" y="138" text-anchor="middle">pixels</text>
 <text class="sS" x="360" y="232" text-anchor="middle">the expensive encoder processes a quarter of the tokens: pretraining is about 3× faster, and the task is hard enough to teach</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M222 125 L270 125"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M422 125 L470 125"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M602 125 L630 125"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
 </svg><figcaption>Masking a high ratio makes the task non-trivial (neighbouring patches can’t just be copied) and makes training cheap, because the big encoder never sees the masked tokens.</figcaption></figure>
 
 **Efficient and specialised ViTs to recognise by name:**

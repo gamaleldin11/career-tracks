@@ -458,7 +458,7 @@ weights.meta["categories"][logits.argmax(1)[0]]       # e.g. 'palace', 'daisy'
 
 **Fine-tuning on a new task** (Géron: Flowers102, only 10 images per class, 102 classes):
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Transfer learning in two phases: first train only a new classification head on a frozen pretrained backbone, then unfreeze the top blocks and fine-tune with a much lower learning rate">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: transfer learning in two phases: first train only a new classification head on a frozen pretrained backbone, then unfreeze the top blocks and fine-tune with a much lower learning rate">
 <text class="sM" x="14" y="22">phase 1: train the new head</text>
 <rect class="sN" x="14" y="30" width="100" height="50" rx="6"/><text class="sT" x="64" y="52" text-anchor="middle">block 1</text><text class="sC" x="64" y="70" text-anchor="middle">frozen 🔒</text>
 <line class="sLm" x1="114" y1="55" x2="122" y2="55" marker-end="url(#ahm)"/>
@@ -482,6 +482,8 @@ weights.meta["categories"][logits.argmax(1)[0]]       # e.g. 'palace', 'daisy'
 <rect class="sG" x="458" y="126" width="120" height="50" rx="6"/><text class="sT" x="518" y="148" text-anchor="middle">new head</text><text class="sC" x="518" y="166" text-anchor="middle">102 classes</text>
 <text class="sWt" x="600" y="148">lr 1e-5</text><text class="sC" x="600" y="166">with augmentation</text>
 <text class="sS" x="360" y="226" text-anchor="middle">pretrained ImageNet features do most of the work; 10 images per class can be enough</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M578 86 L458 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.850;1" path="M578 182 L234 182"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.850;0.852;1"/></circle>
 </svg><figcaption>The everyday vision workflow: reuse a pretrained backbone, train a head, then gently fine-tune.</figcaption></figure>
 
 ```python
