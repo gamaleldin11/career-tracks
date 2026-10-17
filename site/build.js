@@ -335,6 +335,18 @@ const body = bodyTpl
 const html = `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${head}\n</head>\n<body>\n${body}\n</body>\n</html>\n`;
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'index.html'), html);
+
+// ------------------------------------------------------------ the network interview map (/interview)
+{
+  const { TOPICS, FINAL } = require('../content/interview-map.js');
+  const targets = [...TOPICS.flatMap((T) => T.groups.flatMap((g) => g[1])), ...FINAL].map((x) => x[1]);
+  for (const id of new Set(targets)) if (!html.includes(`id="${id}"`)) console.warn(`interview map: no element with id ${id}`);
+  const tokens = head.slice(head.indexOf('<style>') + 7, head.indexOf('*{box-sizing'));
+  const page = fs.readFileSync(path.join(HERE, 'template_interview.html'), 'utf8')
+    .replace('{{TOKENS}}', () => tokens)
+    .replace('{{DATA}}', () => JSON.stringify({ topics: TOPICS, final: FINAL }).replace(/</g, String.fromCharCode(92) + 'u003c'));
+  fs.writeFileSync(path.join(OUT, 'interview.html'), page);
+}
 const figs = SOURCES.copyAiFigures(path.join(OUT, 'figures'));
 const sizeMb = (Buffer.byteLength(html) / 1e6).toFixed(2);
 console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, dist/index.html ${sizeMb} MB`);

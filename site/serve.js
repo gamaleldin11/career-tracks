@@ -19,6 +19,8 @@ http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-cache' });
     return fs.createReadStream(file).pipe(res);
   }
+  // /interview is its own page (Vercel's cleanUrls maps it to interview.html the same way)
+  const page = rel.replace(/\/$/, '') === 'interview' ? 'interview.html' : 'index.html';
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
-  fs.createReadStream(path.join(DIST, 'index.html')).pipe(res);
+  fs.createReadStream(path.join(DIST, page)).pipe(res);
 }).listen(PORT, () => console.log('http://localhost:' + PORT));

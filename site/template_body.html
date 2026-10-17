@@ -22,6 +22,7 @@
     <div class="track"><div class="track-name">Reference</div><ul>
       <li><a href="#m-00" data-page="m-00"><span class="pn">·</span><span class="pt">Start here &amp; track picker</span><span></span><span></span></a></li>
       <li><a href="#quiz" id="quizLink" data-page="quiz"><span class="pn">?</span><span class="pt">Self-test for this track</span><span></span><span></span></a></li>
+      <li id="imapItem" hidden><a href="/interview" class="imap-link" title="Every interview topic in one side navbar"><span class="pn">⌖</span><span class="pt">Network interview map ↗</span><span></span><span></span></a></li>
       <li><a href="#glossary" data-page="glossary"><span class="pn">A–Z</span><span class="pt">Glossary</span><span></span><span></span></a></li>
     </ul></div>
   </nav>
@@ -60,7 +61,9 @@
   const TRACKS = DATA.tracks, TITLES = DATA.titles;
   const pathOf = t => t.stages.flatMap(s => s[1]);
   const trackById = id => TRACKS.find(t => t.id === id) || TRACKS[0];
-  let track = trackById(store.get("track", "fe"));
+  // inside the /interview map the handbook runs embedded: network track, all levels, no saved position
+  const EMBED = document.documentElement.classList.contains("embed");
+  let track = trackById(EMBED ? "net" : store.get("track", "fe"));
   let current = null;
   let done = store.get("done", {});
   // one-time import of progress ticked in the stand-alone AI Journey and Bootcamp pages
@@ -92,6 +95,7 @@
   sel.innerHTML = TRACKS.map(t => '<option value="' + t.id + '">' + esc(t.name) + "</option>").join("");
   function renderNav() {
     sel.value = track.id;
+    $("#imapItem").hidden = track.id !== "net";
     let step = 0;
     $("#nav").innerHTML = track.stages.map((st, si) => {
       const items = st[1].map(id => {
@@ -165,7 +169,7 @@
   }
 
   /* ---------- level filter ---------- */
-  let level = store.get("level", "S");
+  let level = EMBED ? "S" : store.get("level", "S");
   function applyLevel() {
     $$(".levelsel button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lv === level));
     const max = LV_RANK[level];
@@ -202,7 +206,7 @@
     if (current !== art) {
       if (current) current.hidden = true;
       art.hidden = false; current = art;
-      store.set("last", art.id);
+      if (!EMBED) store.set("last", art.id);
       const t = art.dataset.mod ? (art.dataset.mod === "00" ? "" : "Module " + art.dataset.mod + " · " + (TITLES[art.dataset.mod] || "") + " · ") : ($("h1", art).textContent + " · ");
       document.title = t + "Career Tracks Handbook";
       if (art.id.startsWith("quiz-") && art.id.slice(5) !== track.id) setTrack(art.id.slice(5));

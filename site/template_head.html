@@ -408,4 +408,11 @@ html{scroll-behavior:smooth}
 .part:not([hidden]){animation:partIn .28s ease-out}
 @keyframes partIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media print{.topbar,.sidebar,.toc,.pager,.part-actions,.copy,.dia-ctl,.dia-pause{display:none!important}.app{display:block}.part[hidden]{display:block!important}}
+/* ---------- embed mode: the handbook shown inside the /interview map ---------- */
+html.embed{--top:0px}
+html.embed .topbar,html.embed .sidebar{display:none!important}
+html.embed .app{grid-template-columns:minmax(0,1fr) 232px}
+@media (max-width:1180px){html.embed .app{grid-template-columns:minmax(0,1fr)}}
+.imap-link .pn{color:var(--accent)}
 </style>
+<script>if (/[?&]embed(=|&|$)/.test(location.search)) document.documentElement.classList.add("embed");</script>
