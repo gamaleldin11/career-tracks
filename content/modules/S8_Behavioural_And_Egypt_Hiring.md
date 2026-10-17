@@ -140,7 +140,7 @@ The formula, in about 60 seconds: **present** (who you are now) → **past** (tw
 > [!term] STAR
 > **S**ituation (one or two sentences of context) → **T**ask (what *you* had to do) → **A**ction (what you did, in the first person, with detail: most of the answer) → **R**esult (what changed, and what you learned). Aim for 90 seconds to two minutes.
 
-<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time budget for a two-minute STAR answer: most of it on the actions">
+<figure class="dia anim"><svg viewBox="0 0 720 118" role="img" aria-label="Animation: time budget for a two-minute STAR answer: most of it on the actions">
 <rect class="sB" x="20" y="40" width="83" height="44" rx="4"/><text class="sX" x="62.5" y="60" text-anchor="middle">S</text><text class="sC" x="62.5" y="76" text-anchor="middle">~15 s</text>
 <text class="sS" x="62.5" y="104" text-anchor="middle">Situation</text>
 <rect class="sB" x="105" y="40" width="54.6667" height="44" rx="4"/><text class="sX" x="133.333" y="60" text-anchor="middle">T</text><text class="sC" x="133.333" y="76" text-anchor="middle">~10 s</text>
@@ -150,6 +150,7 @@ The formula, in about 60 seconds: **present** (who you are now) → **past** (tw
 <rect class="sG" x="558.333" y="40" width="139.667" height="44" rx="4"/><text class="sX" x="629.167" y="60" text-anchor="middle">R</text><text class="sC" x="629.167" y="76" text-anchor="middle">~25 s</text>
 <text class="sS" x="629.167" y="104" text-anchor="middle">Result + lesson</text>
 <text class="sT" x="20" y="26">A two-minute STAR answer</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.920;1" path="M20 89 L698 89"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.920;0.922;1"/></circle>
 </svg><figcaption>Spend most of the time on the actions. A long situation is the most common way STAR answers go wrong.</figcaption></figure>
 
 Prepare these eight stories once; each answers several questions.

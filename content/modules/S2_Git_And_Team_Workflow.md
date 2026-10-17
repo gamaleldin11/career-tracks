@@ -28,7 +28,7 @@ Every object is named by a **hash of its content** (SHA-1 by default; new reposi
 - **Snapshots are cheap.** A file that didn't change between two commits has the same content, so the same hash, so it is stored once and both trees point to it.
 - **History is tamper-evident.** Changing anything in an old commit changes its hash, which changes the parent hash recorded in its child, and so on up to the newest commit.
 
-<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="Git object model: HEAD points to main, main to the newest commit; each commit points to its parent and to a tree; trees point to blobs, and unchanged blobs are shared">
+<figure class="dia anim"><svg viewBox="0 0 720 300" role="img" aria-label="Animation: git object model: HEAD points to main, main to the newest commit; each commit points to its parent and to a tree; trees point to blobs, and unchanged blobs are shared">
 <rect class="sV" x="590" y="10" width="80" height="26" rx="13"/><text class="sT" x="630" y="28" text-anchor="middle">HEAD</text>
 <rect class="sW" x="590" y="52" width="80" height="26" rx="13"/><text class="sT" x="630" y="70" text-anchor="middle">main</text>
 <line class="sLm" x1="630" y1="36" x2="630" y2="50" marker-end="url(#ahm)"/><line class="sLm" x1="630" y1="78" x2="630" y2="94" marker-end="url(#ahm)"/>
@@ -46,6 +46,13 @@ Every object is named by a **hash of its content** (SHA-1 by default; new reposi
 <line class="sLm" x1="350" y1="214" x2="305" y2="248" marker-end="url(#ahm)"/><line class="sLm" x1="390" y1="214" x2="480" y2="248" marker-end="url(#ahm)"/>
 <line class="sLm" x1="610" y1="214" x2="510" y2="248" marker-end="url(#ahm)"/><line class="sLm" x1="645" y1="214" x2="645" y2="248" marker-end="url(#ahm)"/>
 <text class="sGt" x="40" y="200">README.md didn't change,</text><text class="sGt" x="40" y="216">so both trees share one blob</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.060;1" path="M630 36 L630 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.060;0.062;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.140;1" path="M630 78 L630 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.140;0.142;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M558 122 L444 122"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.480;1" path="M298 122 L184 122"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.640;1" path="M630 146 L630 178"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.640;0.642;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.780;1" path="M610 214 L510 248"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.780;0.782;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.780;1" path="M645 214 L645 248"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.780;0.782;1"/></circle>
 </svg><figcaption>The object graph. A branch and HEAD are tiny pointers; commits point to their parents and to a tree; trees point to blobs. Unchanged files are shared, which is why snapshots cost almost nothing.</figcaption></figure>
 
 Branches and tags are just files in `.git/refs` that contain a commit hash, and `.git/HEAD` usually contains a line such as `ref: refs/heads/main`. That is the whole implementation of "a branch is a pointer".
@@ -341,7 +348,7 @@ That's the **Conventional Commits** style (`type(scope): summary`, with types li
 2. Remove it from history with `git filter-repo` (or BFG Repo-Cleaner), then force-push and ask everyone to re-clone.
 3. Prevent a repeat: secrets in environment variables, a secret store (Azure Key Vault, GitHub Actions secrets), .NET **User Secrets** for local development, and a pre-commit or CI secret scanner. GitHub's secret scanning and push protection catch many known token formats.
 
-<figure class="dia"><svg viewBox="0 0 720 160" role="img" aria-label="What to do after committing a secret, in order: rotate it first so the leaked value stops working, rewrite history with git filter-repo and force-push, have everyone re-clone because old copies still contain it, and prevent a repeat with a vault, user secrets and secret scanning">
+<figure class="dia anim"><svg viewBox="0 0 720 160" role="img" aria-label="Animation: what to do after committing a secret, in order: rotate it first so the leaked value stops working, rewrite history with git filter-repo and force-push, have everyone re-clone because old copies still contain it, and prevent a repeat with a vault, user secrets and secret scanning">
 <rect class="sR" x="14" y="40" width="164" height="56" rx="8"/><text class="sT" x="96" y="73" text-anchor="middle">1 Rotate</text><text class="sS" x="96" y="116" text-anchor="middle">new key; the old one is dead</text>
 <line class="sLm" x1="178" y1="68" x2="188" y2="68" marker-end="url(#ahm)"/>
 <rect class="sW" x="190" y="40" width="164" height="56" rx="8"/><text class="sT" x="272" y="73" text-anchor="middle">2 Rewrite history</text><text class="sS" x="272" y="116" text-anchor="middle">git filter-repo, force-push</text>
@@ -351,6 +358,9 @@ That's the **Conventional Commits** style (`type(scope): summary`, with types li
 <rect class="sG" x="542" y="40" width="164" height="56" rx="8"/><text class="sT" x="624" y="73" text-anchor="middle">4 Prevent</text><text class="sS" x="624" y="116" text-anchor="middle">vault, user secrets, scanning</text>
 <text class="sM" x="360" y="22" text-anchor="middle">a secret pushed once is public: order matters</text>
 <text class="sRt" x="360" y="150" text-anchor="middle">a new commit that deletes the line does nothing: the secret is still in history, forks and clones</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.160;1" path="M178 68 L188 68"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.160;0.162;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.410;1" path="M354 68 L364 68"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.410;0.412;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.660;1" path="M530 68 L540 68"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.660;0.662;1"/></circle>
 </svg><figcaption>Rotation comes first because history cleanup cannot reach copies that already exist. Push protection and secret scanning stop the next one.</figcaption></figure>
 
 > [!story]

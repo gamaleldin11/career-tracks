@@ -16,7 +16,7 @@ Most bugs in data code come from three ideas: names are references, some objects
 
 A Python variable is a name attached to an object, not a box that holds a value. `b = a` attaches a second name to the **same** object; nothing is copied.
 
-<figure class="dia"><svg viewBox="0 0 720 195" role="img" aria-label="Names a and b point to the same list object; c points to a separate copy">
+<figure class="dia anim"><svg viewBox="0 0 720 195" role="img" aria-label="Animation: names a and b point to the same list object; c points to a separate copy">
 <rect class="sV" x="40" y="40" width="50" height="30" rx="6"/><text class="sT" x="65" y="60" text-anchor="middle">a</text>
 <rect class="sV" x="40" y="90" width="50" height="30" rx="6"/><text class="sT" x="65" y="110" text-anchor="middle">b</text>
 <rect class="sV" x="40" y="140" width="50" height="30" rx="6"/><text class="sT" x="65" y="160" text-anchor="middle">c</text>
@@ -31,6 +31,9 @@ A Python variable is a name attached to an object, not a box that holds a value.
 <text class="sM" x="400" y="116">b.append(3)</text>
 <text class="sM" x="400" y="138">print(a)       # [1, 2, 3]</text>
 <text class="sM" x="400" y="160">print(c)       # [1, 2]</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M90 55 L218 62"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M90 105 L218 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M90 155 L218 154"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
 </svg><figcaption>Assignment attaches a name; it never copies. Two names on one mutable object means a change through either is visible through both.</figcaption></figure>
 
 That is why a function that appends to a list it was given changes the caller's list. A **shallow** copy (`a.copy()`, `list(a)`, `dict(d)`) makes a new outer container that still shares the items inside it; `copy.deepcopy` copies everything, all the way down.
