@@ -1362,7 +1362,7 @@ C:\&gt; nslookup portal.corp.local 8.8.8.8
                                                         <span class="c">   don't exist on public DNS (split-horizon)</span>
 $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</span>
 10 mx1.mail.capgemini.com.</code></pre>
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="DNS caching on a timeline: a resolver caches an A record pointing to 41.33.7.9 with a one-hour TTL at minute 0; the record is changed to 41.33.7.20 at minute 10, but users keep getting the old address until the cached entry expires at minute 60; lowering the TTL to 300 seconds a day before a planned change avoids this">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: dNS caching on a timeline: a resolver caches an A record pointing to 41.33.7.9 with a one-hour TTL at minute 0; the record is changed to 41.33.7.20 at minute 10, but users keep getting the old address until the cached entry expires at minute 60; lowering the TTL to 300 seconds a day before a planned change avoids this">
 <line class="sLm" x1="60" y1="120" x2="660" y2="120" style="stroke-width:2"/>
 <line class="sLm" x1="60" y1="114" x2="60" y2="126"/><text class="sS" x="60" y="142" text-anchor="middle">0 min</text>
 <line class="sLm" x1="145.714" y1="114" x2="145.714" y2="126"/><text class="sS" x="145.714" y="142" text-anchor="middle">10 min</text>
@@ -1377,6 +1377,9 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
 <line class="sLr" x1="145.714" y1="40" x2="145.714" y2="80" marker-end="url(#ahr)"/><text class="sRt" x="151.714" y="40">record changed to 41.33.7.20 at minute 10</text>
 <text class="sWt" x="360" y="66" text-anchor="middle">users still sent to the OLD server for 50 more minutes</text>
 <rect class="sN" x="14" y="160" width="692" height="46" rx="8"/><text class="sGt" x="360" y="180" text-anchor="middle">Planned move: lower the TTL to 300 s a day before, change the record, raise it again after.</text><text class="sS" x="360" y="198" text-anchor="middle">Emergency: ipconfig /flushdns on clients; clear the resolver cache (Clear-DnsServerCache).</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M60 120 L660 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.129;0.179;1" path="M145.7 40 L145.7 80"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.127;0.131;0.179;0.181;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.771;0.801;1" path="M574.3 120 L574.3 106"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.769;0.773;0.801;0.803;1"/></circle>
 </svg><figcaption>"I changed the DNS record and nothing happened" is almost always a cache doing its job. The TTL is a promise to the world about how long your answer may be reused.</figcaption></figure>
 
 <ul>
@@ -1658,7 +1661,7 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <li>Variants: <strong>RSTP</strong> (802.1w, seconds), <strong>MST</strong> (instances per VLAN group), Cisco Rapid-PVST+ (a tree per VLAN).</li>
   <li><strong>Broadcast-storm incident pattern</strong> you can narrate: users report "everything frozen", switch CPUs 100%, all port LEDs solid — someone plugged both wall jacks into a mini-switch under a desk. Find via MAC flap logs, shut one port, network heals instantly. Prevention: BPDU Guard + storm control on all access ports.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="How long a new switch port takes to forward traffic: with classic spanning tree a port may wait up to 20 seconds blocking, then 15 seconds listening and 15 seconds learning, roughly 30 to 50 seconds; rapid spanning tree forwards within a second or two; a PortFast edge port forwards immediately; the classic delay makes DHCP time out at boot">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: how long a new switch port takes to forward traffic: with classic spanning tree a port may wait up to 20 seconds blocking, then 15 seconds listening and 15 seconds learning, roughly 30 to 50 seconds; rapid spanning tree forwards within a second or two; a PortFast edge port forwards immediately; the classic delay makes DHCP time out at boot">
 <text class="sM" x="14" y="20">a PC plugged into a switch port: seconds until it can send</text>
 <text class="sT" x="140" y="52" text-anchor="end">classic STP</text>
 <rect class="sR" x="150" y="36" width="200" height="26" rx="3" opacity=".85"/><text class="sS" x="250" y="54" text-anchor="middle">blocking (max age 20 s)</text>
@@ -1675,6 +1678,11 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
 <text class="sS" x="550" y="192" text-anchor="middle">40 s</text>
 <text class="sS" x="650" y="192" text-anchor="middle">50 s</text>
 <text class="sWt" x="360" y="214" text-anchor="middle">DHCP times out during a 30 s wait → "PC gets 169.254 after boot, works after ipconfig /renew"</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M150 66 L650 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.880;0.915;1" path="M650 66 L670 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.878;0.882;0.915;0.917;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.035;1" path="M150 126 L170 126"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.035;0.037;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.035;0.915;1" path="M170 126 L670 126"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.033;0.037;0.915;0.917;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.915;1" path="M150 172 L670 172"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.915;0.917;1"/></circle>
 </svg><figcaption>The 30-second wait is why PortFast (plus BPDU Guard) belongs on every access port. On trunks between switches, leave the protection on.</figcaption></figure>
 
 
@@ -4200,13 +4208,15 @@ vLCM: hosts patched against a declared image, not ad-hoc VIBs</code></pre>
   <li><strong>root</strong> is the superuser (UID 0). Daily practice: log in as yourself and prefix admin commands with <code>sudo</code> — audited, revocable, safer.</li>
   <li>Get help: <code>man command</code>, <code>command --help</code>. Case-sensitive everywhere. <mark>Everything in Linux is a file</mark> — devices, sockets, even process info.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="The layers of a Linux system from top to bottom: you, connected over SSH; the bash shell that reads commands and runs programs; programs such as ls, systemctl, nginx and sshd; the kernel managing processes, memory, files, the network and drivers; and the hardware">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: the layers of a Linux system from top to bottom: you, connected over SSH; the bash shell that reads commands and runs programs; programs such as ls, systemctl, nginx and sshd; the kernel managing processes, memory, files, the network and drivers; and the hardware">
 <rect class="sB" x="14" y="14" width="692" height="32" rx="6"/><text class="sT" x="30" y="35">You</text><text class="sS" x="690" y="35" text-anchor="end">ssh admin@web01</text>
 <rect class="sA" x="34" y="54" width="652" height="32" rx="6"/><text class="sT" x="50" y="75">Shell (bash)</text><text class="sS" x="670" y="75" text-anchor="end">reads your command, runs programs</text>
 <rect class="sV" x="54" y="94" width="612" height="32" rx="6"/><text class="sT" x="70" y="115">Programs</text><text class="sS" x="650" y="115" text-anchor="end">ls, systemctl, nginx, sshd</text>
 <rect class="sW" x="74" y="134" width="572" height="32" rx="6"/><text class="sT" x="90" y="155">Kernel</text><text class="sS" x="630" y="155" text-anchor="end">processes, memory, files, network, drivers</text>
 <rect class="sN" x="94" y="174" width="532" height="32" rx="6"/><text class="sT" x="110" y="195">Hardware</text><text class="sS" x="610" y="195" text-anchor="end">CPU, RAM, disks, NICs</text>
 <text class="sS" x="360" y="226" text-anchor="middle">a distro = the kernel + programs + a package manager: Ubuntu/Debian (apt), RHEL/Rocky (dnf)</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M22 30 L42 70 L62 110 L82 150 L102 190"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.880;1" path="M102 190 L82 150 L62 110 L42 70 L22 30"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.880;0.882;1"/></circle>
 </svg><figcaption>Every command you type crosses these layers. "Everything is a file" is the kernel’s promise: disks, processes and settings all appear under <code>/dev</code>, <code>/proc</code> and <code>/sys</code>.</figcaption></figure>
 
 
@@ -4410,7 +4420,7 @@ sudo apt install nginx               sudo dnf install nginx
 sudo apt upgrade                     sudo dnf update
 apt search / apt show pkg            dnf search / dnf info pkg
 dpkg -l | grep nginx                 rpm -qa | grep nginx</code></pre>
-<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="How a package manager works: apt or dnf reads the catalogue of signed packages from a repository, resolves dependencies so that installing nginx also installs libraries such as libssl and libpcre, and installs them all on the server; apt update refreshes the catalogue and apt upgrade installs newer versions">
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: how a package manager works: apt or dnf reads the catalogue of signed packages from a repository, resolves dependencies so that installing nginx also installs libraries such as libssl and libpcre, and installs them all on the server; apt update refreshes the catalogue and apt upgrade installs newer versions">
 <rect class="sG" x="14" y="50" width="140" height="56" rx="8"/><text class="sT" x="84" y="76" text-anchor="middle">Repository</text><text class="sS" x="84" y="92" text-anchor="middle">signed packages</text>
 <rect class="sV" x="220" y="50" width="150" height="56" rx="8"/><text class="sT" x="295" y="76" text-anchor="middle">apt / dnf</text><text class="sS" x="295" y="92" text-anchor="middle">resolve dependencies</text>
 <rect class="sB" x="436" y="30" width="130" height="40" rx="8"/><text class="sT" x="501" y="55" text-anchor="middle">nginx 1.24</text>
@@ -4424,6 +4434,11 @@ dpkg -l | grep nginx                 rpm -qa | grep nginx</code></pre>
 <text class="sC" x="186" y="70" text-anchor="middle">update</text>
 <text class="sS" x="360" y="150" text-anchor="middle">apt update refreshes the catalogue; apt upgrade installs newer versions — two different steps</text>
 <text class="sGt" x="360" y="170" text-anchor="middle">install from the repo, not from random .deb/.rpm downloads: signatures, updates and dependencies come for free</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M154 78 L220 78"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M370 70 L434 50"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M370 86 L434 106"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M566 50 L614 70"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M566 106 L614 86"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
 </svg><figcaption>The package manager is the reason Linux servers can be patched with one command. "Package not found" usually means the catalogue was never refreshed or the repo is not enabled.</figcaption></figure>
 
 
@@ -4822,7 +4837,7 @@ tmux new -s work → C-b d → tmux attach -t work    <span class="c"># your ses
   <li>Support staples: <strong>RDP</strong> (port 3389) for remote administration, <strong>Event Viewer</strong> (System/Application/Security logs) as the Windows equivalent of <code>/var/log</code>, <strong>Task Manager / Resource Monitor</strong>, <code>services.msc</code>, and PowerShell (<code>Get-Service</code>, <code>Test-NetConnection</code>, <code>Get-EventLog</code>/<code>Get-WinEvent</code>).</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Workgroup versus domain: in a workgroup every PC keeps its own list of local accounts, so a password change means visiting every machine; in a domain one domain controller holds a single directory of accounts, every PC checks logons against it with Kerberos, and Group Policy applies settings centrally">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: workgroup versus domain: in a workgroup every PC keeps its own list of local accounts, so a password change means visiting every machine; in a domain one domain controller holds a single directory of accounts, every PC checks logons against it with Kerberos, and Group Policy applies settings centrally">
 <rect class="sN" x="14" y="14" width="340" height="210" rx="10"/><text class="sT" x="184" y="36" text-anchor="middle">Workgroup</text>
 <rect class="sN" x="366" y="14" width="340" height="210" rx="10"/><text class="sT" x="536" y="36" text-anchor="middle">Domain</text>
 <rect class="sB" x="34" y="60" width="92" height="50" rx="8"/><text class="sT" x="80" y="83" text-anchor="middle">PC 1</text><text class="sS" x="80" y="99" text-anchor="middle">own accounts</text>
@@ -4840,6 +4855,10 @@ tmux new -s work → C-b d → tmux attach -t work    <span class="c"># your ses
 <rect class="sB" x="602" y="140" width="92" height="40" rx="8"/><text class="sT" x="648" y="165" text-anchor="middle">PC 3</text>
 <line class="sLv" x1="648" y1="140" x2="536" y2="104" opacity=".7"/>
 <text class="sGt" x="536" y="202" text-anchor="middle">one account, one password, GPOs</text><text class="sS" x="536" y="218" text-anchor="middle">logons checked by the DC (Kerberos)</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M80 118 L188 118 L296 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M536 104 L432 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M536 104 L540 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M536 104 L648 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
 </svg><figcaption>Past about ten machines, a workgroup becomes unmanageable. Domain-joined PCs trust the DC for every logon — which is why DNS and time sync to the DC matter so much.</figcaption></figure>
 
 <h3>12.2 Active Directory structure</h3>
@@ -5411,7 +5430,7 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 <div class="deep"><span class="dtag">Level 2 · Deep dive</span>
 <h3>D18.1 racadm, Redfish and IPMI — the iDRAC from the command line</h3>
 <p>Every iDRAC task can be scripted. Three interfaces, oldest to newest:</p>
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="The four ways into an iDRAC: the web interface over HTTPS 443 for people; racadm over SSH or remotely for scripts; the Redfish REST API over HTTPS with JSON for automation tools; and legacy IPMI over UDP 623, best disabled if unused; all reach the same power, console, log, firmware and configuration functions">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: the four ways into an iDRAC: the web interface over HTTPS 443 for people; racadm over SSH or remotely for scripts; the Redfish REST API over HTTPS with JSON for automation tools; and legacy IPMI over UDP 623, best disabled if unused; all reach the same power, console, log, firmware and configuration functions">
 <rect class="sR" x="286" y="80" width="148" height="60" rx="8"/><text class="sT" x="360" y="108" text-anchor="middle">iDRAC</text><text class="sC" x="360" y="124" text-anchor="middle">dedicated mgmt port</text>
 <rect class="sB" x="14" y="14" width="180" height="56" rx="8"/><text class="sT" x="104" y="40" text-anchor="middle">Web UI</text><text class="sC" x="104" y="56" text-anchor="middle">HTTPS 443 · people</text>
 <line class="sLm" x1="194" y1="42" x2="286" y2="110"/>
@@ -5422,6 +5441,10 @@ Get-HotFix | Sort InstalledOn -Descending | Select -First 5       <span class="c
 <rect class="sN" x="526" y="146" width="180" height="56" rx="8"/><text class="sT" x="616" y="172" text-anchor="middle">IPMI</text><text class="sC" x="616" y="188" text-anchor="middle">UDP 623 · legacy</text>
 <line class="sLm" x1="526" y1="174" x2="434" y2="110"/>
 <text class="sS" x="360" y="226" text-anchor="middle">all four reach the same functions: power, console, logs, firmware, configuration</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M194 42 L286 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.370;1" path="M194 174 L286 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.370;0.372;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.590;1" path="M526 42 L434 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.590;0.592;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.810;1" path="M526 174 L434 110"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.810;0.812;1"/></circle>
 </svg><figcaption>Same controller, four doors. Hardening means closing the doors you do not use (IPMI, plain HTTP, default accounts) and restricting the rest to the management network.</figcaption></figure>
 
 <pre><code><span class="c"># racadm: Dell's CLI (remote with -r, or locally in the OS / over SSH to the iDRAC)</span>
@@ -5801,7 +5824,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <li><strong>Log what you did</strong>: <code>Start-Transcript</code> in PowerShell; <code>exec &gt; &gt;(tee -a /var/log/myjob.log) 2&gt;&amp;1</code> in Bash.</li>
   <li><strong>Version it</strong>: scripts live in Git, not on someone's desktop.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 168" role="img" aria-label="Rolling out a script safely: preview with -WhatIf, then run on one machine, then a small pilot group, then everyone with logging on; an example shows Disable-ADAccount with -WhatIf listing the accounts it would change before anything happens">
+<figure class="dia anim"><svg viewBox="0 0 720 168" role="img" aria-label="Animation: rolling out a script safely: preview with -WhatIf, then run on one machine, then a small pilot group, then everyone with logging on; an example shows Disable-ADAccount with -WhatIf listing the accounts it would change before anything happens">
 <rect class="sN" x="14" y="40" width="160" height="50" rx="8"/><text class="sT" x="94" y="63" text-anchor="middle">-WhatIf</text><text class="sS" x="94" y="79" text-anchor="middle">shows what would change</text>
 <line class="sLm" x1="174" y1="65" x2="188" y2="65" marker-end="url(#ahm)"/>
 <rect class="sB" x="190" y="40" width="160" height="50" rx="8"/><text class="sT" x="270" y="63" text-anchor="middle">1 machine</text><text class="sS" x="270" y="79" text-anchor="middle">your lab or test VM</text>
@@ -5811,6 +5834,9 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <rect class="sG" x="542" y="40" width="160" height="50" rx="8"/><text class="sT" x="622" y="63" text-anchor="middle">everyone</text><text class="sS" x="622" y="79" text-anchor="middle">with logging on</text>
 <text class="sM" x="360" y="24" text-anchor="middle">grow the blast radius only after the previous step looked right</text>
 <rect class="sN" x="14" y="108" width="692" height="52" rx="8"/><text class="sC" x="30" y="130" xml:space="preserve" style="white-space:pre">PS&gt; Get-ADUser -Filter "Department -eq 'Temp'" | Disable-ADAccount -WhatIf</text><text class="sS" x="30" y="150">What if: Performing the operation "Set" on target "CN=…"   ← read this list BEFORE removing -WhatIf</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.220;1" path="M94 98 L270 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.220;0.222;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.490;1" path="M270 98 L446 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.490;0.492;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.590;0.760;1" path="M446 98 L622 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.588;0.592;0.760;0.762;1"/></circle>
 </svg><figcaption>A filter that matches more than you expected is the most common scripting disaster. -WhatIf makes the filter’s result visible while it is still harmless.</figcaption></figure>
 
 
@@ -5903,7 +5929,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
   <li>Support tiers: <strong>L1</strong> triage/known fixes, <strong>L2</strong> deep technical work (this role grows into it), <strong>L3</strong> engineering/vendors.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="An impact by urgency matrix giving priorities P1 to P4, and the incident flow from logging and prioritising to L1, escalation, resolution and closure">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: an impact by urgency matrix giving priorities P1 to P4, and the incident flow from logging and prioritising to L1, escalation, resolution and closure">
 <text class="sT" x="160" y="22" text-anchor="middle">priority = impact × urgency</text>
 <text class="sC" x="130" y="44" text-anchor="middle">high urgency</text>
 <text class="sC" x="200" y="44" text-anchor="middle">medium</text>
@@ -5934,6 +5960,8 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <rect class="sG" x="380" y="190" width="220" height="28" rx="6"/><text class="sC" x="490" y="209" text-anchor="middle">closed: user confirms</text>
 <text class="sC" x="612" y="87">functional</text><text class="sC" x="612" y="103">escalation</text>
 <text class="sC" x="490" y="232" text-anchor="middle">timestamps on every step: SLA clocks run on them</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M129 71 L372 34"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.850;1" path="M372 34 L372 204"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.850;0.852;1"/></circle>
 </svg><figcaption>How a ticket is prioritised and where it travels. Using these words precisely is half of an ITIL interview question.</figcaption></figure>
 
 <h3>13.3 The operations rhythm</h3>
