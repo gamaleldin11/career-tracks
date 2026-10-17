@@ -360,7 +360,7 @@ export const appConfig: ApplicationConfig = {
 
 Requests are **immutable**; you `clone()` them to change them.
 
-<figure class="dia"><svg viewBox="0 0 720 130" role="img" aria-label="An HTTP request passes from the component through HttpClient and two interceptors to the backend, and the response returns through them in reverse">
+<figure class="dia anim"><svg viewBox="0 0 720 130" role="img" aria-label="Animation: an HTTP request passes from the component through HttpClient, the auth interceptor and the error interceptor to the backend, and the response returns through them in reverse order">
 <rect class="sB" x="8" y="40" width="128" height="52" rx="8"/><text class="sT" x="72" y="64" text-anchor="middle">component</text><text class="sC" x="72" y="80" text-anchor="middle">api.list()</text>
 <line class="sL" x1="136" y1="58" x2="148" y2="58" marker-end="url(#ah)"/><line class="sLg" x1="148" y1="76" x2="136" y2="76" marker-end="url(#ahg)"/>
 <rect class="sA" x="150" y="40" width="128" height="52" rx="8"/><text class="sT" x="214" y="71" text-anchor="middle">HttpClient</text>
@@ -372,6 +372,8 @@ Requests are **immutable**; you `clone()` them to change them.
 <rect class="sG" x="576" y="40" width="128" height="52" rx="8"/><text class="sT" x="640" y="64" text-anchor="middle">backend</text><text class="sC" x="640" y="80" text-anchor="middle">ASP.NET Core</text>
 <text class="sC" x="360" y="22" text-anchor="middle">request →  (each interceptor clones and passes it on with next(req))</text>
 <text class="sGt" x="360" y="118" text-anchor="middle">← response flows back through them in reverse order</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M72 58 L640 58"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.950;1" path="M640 76 L72 76"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.950;0.952;1"/></circle>
 </svg><figcaption>Interceptors form a chain around every request. Order matters: they run in the order listed on the way out and in reverse on the way back.</figcaption></figure>
 
 > [!story]

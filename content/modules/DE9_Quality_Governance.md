@@ -62,7 +62,7 @@ So data quality can't rely on things failing loudly. It needs **explicit checks*
 
 ## DE9.2 Where to check 🟢 🟡 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 150" role="img" aria-label="Checks along a pipeline: contract at ingestion, tests after transformation, audit before publish, monitoring in production">
+<figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: a batch of data passes the checks along a pipeline: a contract at ingestion, tests after transformation, an audit before publishing and monitoring in production">
 <g class="sT" text-anchor="middle">
 <rect class="sB" x="10" y="45" width="110" height="56" rx="8"/><text x="65" y="78">Source</text>
 <rect class="sW" x="150" y="45" width="130" height="56" rx="8"/><text x="215" y="70">Ingest</text><text class="sS" x="215" y="88">contract / schema</text>
@@ -72,6 +72,7 @@ So data quality can't rely on things failing loudly. It needs **explicit checks*
 </g>
 <line class="sL" x1="120" y1="73" x2="150" y2="73"/><line class="sL" x1="280" y1="73" x2="310" y2="73"/><line class="sL" x1="440" y1="73" x2="470" y2="73"/><line class="sL" x1="580" y1="73" x2="610" y2="73"/>
 <text class="sS" x="10" y="135">Catch problems as early as possible; never let consumers be the first to notice.</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M65 112 L660 112"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Checks at every stage: validate inputs against a contract, test each transformation, audit before publishing, and monitor what's published.</figcaption></figure>
 
 1. **At ingestion:** schema and contract checks; reject or quarantine malformed records ([[DE4.7]]).

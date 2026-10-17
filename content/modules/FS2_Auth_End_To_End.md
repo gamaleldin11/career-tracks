@@ -223,7 +223,7 @@ React equivalents: an axios or `fetch` wrapper with the same single shared refre
 
 The BFF is a confidential OAuth client: it runs the authorisation-code flow with the identity provider (Entra ID, Auth0, Keycloak, Google), stores the tokens **server-side** (in its session store), and gives the browser a session cookie. API calls from the SPA go to the BFF, which forwards them with the access token attached (often using **YARP** as the proxy), refreshing it as needed. The SPA's code is as simple as design A's.
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Backend-for-frontend: the browser holds only a session cookie; the BFF keeps the tokens server-side, runs the login flow with the identity provider and forwards calls to APIs with a bearer token">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: a backend for frontend: the browser sends only its session cookie to the BFF, which looks up the tokens in its session store and its proxy forwards the call to the APIs with a bearer token; the login flow with the identity provider runs server-side">
 <rect class="sB" x="14" y="84" width="120" height="56" rx="8"/><text class="sT" x="74" y="110" text-anchor="middle">browser</text><text class="sC" x="74" y="126" text-anchor="middle">cookie only</text>
 <line class="sL" x1="134" y1="112" x2="196" y2="112" marker-end="url(#ah)"/><text class="sC" x="165" y="104" text-anchor="middle">cookie</text>
 <rect class="sV" x="200" y="30" width="230" height="164" rx="12"/><text class="sT" x="315" y="52" text-anchor="middle">BFF (same origin as the SPA)</text>
@@ -233,6 +233,8 @@ The BFF is a confidential OAuth client: it runs the authorisation-code flow with
 <rect class="sG" x="520" y="48" width="186" height="50" rx="8"/><text class="sT" x="613" y="71" text-anchor="middle">invoices API</text><text class="sC" x="613" y="87" text-anchor="middle">validates the token</text><rect class="sG" x="520" y="148" width="186" height="50" rx="8"/><text class="sT" x="613" y="171" text-anchor="middle">forecast API</text><text class="sC" x="613" y="187" text-anchor="middle">validates the token</text>
 <path class="sLw" d="M315 194 V222 H560" fill="none" stroke-dasharray="5 4" marker-end="url(#ahw)"/><rect class="sW" x="564" y="206" width="142" height="34" rx="8"/><text class="sT" x="635" y="228" text-anchor="middle">identity provider</text>
 <text class="sWt" x="326" y="214">code flow + PKCE, client secret</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M134 112 L216 112 L315 91 L315 151 L430 150 L516 74"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.950;1" path="M134 112 L216 112 L315 91 L315 151 L430 160 L516 172"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.950;0.952;1"/></circle>
 </svg><figcaption>The BFF keeps every token on the server. The browser ends up with design A's simplicity and the APIs still get standard bearer tokens.</figcaption></figure>
 
 In .NET, Duende's BFF library (commercial for larger companies) implements this; a small custom version needs the OIDC handler, a session store and YARP.

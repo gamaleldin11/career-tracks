@@ -16,7 +16,7 @@ Linux questions get easier once you have the model behind the commands. Five ide
 
 **System calls.** A process can't touch the disk or the network card itself. It asks the kernel through **system calls** (`open`, `read`, `write`, `socket`, `fork`, `exec`), and the kernel checks permissions before doing it. `strace -p <pid>` shows them live.
 
-<figure class="dia"><svg viewBox="0 0 720 280" role="img" aria-label="Processes in user space ask the kernel for everything through system calls; only the kernel touches the hardware">
+<figure class="dia anim"><svg viewBox="0 0 720 280" role="img" aria-label="Animation: processes in user space ask the kernel for everything through system calls such as open, read, write and socket; only the kernel touches the hardware">
 <rect class="sB" x="20" y="236" width="680" height="34" rx="6"/><text class="sT" x="360" y="258" text-anchor="middle">Hardware: CPU cores, memory, disk, network card</text>
 <rect class="sW" x="20" y="186" width="680" height="40" rx="6"/><text class="sT" x="360" y="204" text-anchor="middle">Kernel</text><text class="sC" x="360" y="219" text-anchor="middle">scheduling · memory · files · network · permissions</text>
 <line class="sD" x1="20" y1="170" x2="700" y2="170"/>
@@ -30,6 +30,10 @@ Linux questions get easier once you have the model behind the commands. Five ide
 <rect class="sB" x="536" y="60" width="160" height="72" rx="6"/><text class="sT" x="616" y="84" text-anchor="middle">postgres</text><text class="sC" x="616" y="102" text-anchor="middle">PID 640 · postgres</text><text class="sC" x="616" y="120" text-anchor="middle">own memory · fds 0 1 2…</text>
 <line class="sLm" x1="616" y1="132" x2="616" y2="184" marker-end="url(#ahm)"/>
 <text class="sS" x="20" y="40">User space: processes, each isolated in its own memory</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M100 132 L100 184 L100 236"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.550;1" path="M272 132 L272 184 L272 236"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.550;0.552;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M444 132 L444 184 L444 236"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.980;1" path="M616 132 L616 184 L616 236"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.980;0.982;1"/></circle>
 </svg><figcaption>Processes never touch hardware directly. They ask the kernel through system calls, and the kernel enforces who may do what. A container (§S5.7) is a process that the kernel shows a restricted view of all this.</figcaption></figure>
 
 **File descriptors and the three standard streams.** "Everything is a file" means files, folders, devices, sockets and pipes are all used through small numbers called **file descriptors**. Every process starts with three: **0 = stdin**, **1 = stdout**, **2 = stderr**. Now `2>&1` reads naturally: point descriptor 2 at wherever descriptor 1 points. Docker captures a container's stdout and stderr as its logs, which is why apps in containers should log to the console rather than to files.

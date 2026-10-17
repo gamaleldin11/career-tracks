@@ -42,7 +42,7 @@ They all use one shape:
 | Large (videos, big CSVs, hundreds of MB) | **Direct-to-storage upload** with a short-lived **pre-signed URL** (an Azure SAS URL, an S3 pre-signed URL): the file never passes through your API |
 | Unreliable networks, very large files | **Resumable / chunked** uploads (Azure block blobs, the tus protocol) |
 
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="Direct upload: request SAS URL from API, upload to blob storage, notify API, worker processes file">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: direct upload: the browser asks the API for an upload URL, uploads the file straight to blob storage with the SAS URL, tells the API it is uploaded, the API queues a message and the import worker processes the file from blob storage">
 <rect class="sB" x="10" y="70" width="110" height="50" rx="8"/><text class="sT" x="65" y="100" text-anchor="middle">Browser</text>
 <rect class="sA" x="250" y="10" width="130" height="50" rx="8"/><text class="sT" x="315" y="40" text-anchor="middle">API</text>
 <rect class="sG" x="250" y="130" width="130" height="50" rx="8"/><text class="sT" x="315" y="160" text-anchor="middle">Blob Storage</text>
@@ -52,6 +52,12 @@ They all use one shape:
 <line class="sL" x1="120" y1="105" x2="250" y2="155"/><text class="sM" x="128" y="150">② PUT file (SAS)</text>
 <line class="sD" x1="120" y1="95" x2="250" y2="45"/><text class="sM" x="150" y="78">③ "uploaded"</text>
 <line class="sL" x1="380" y1="35" x2="480" y2="35"/><line class="sL" x1="535" y1="60" x2="540" y2="130"/><line class="sD" x1="480" y1="155" x2="380" y2="155"/>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M120 80 L250 35"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.280;1" path="M250 35 L120 80"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.280;0.282;1"/></circle>
+<circle class="sPv" r="6" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.480;1" path="M120 105 L250 155"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.480;0.482;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M120 95 L250 45"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.800;1" path="M380 35 L480 35 L535 60 L540 130"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.800;0.802;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.820;0.960;1" path="M480 155 L380 155"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.818;0.822;0.960;0.962;1"/></circle>
 </svg><figcaption>The API only issues a narrowly scoped, short-lived upload URL and later queues the processing; the bytes go straight to storage.</figcaption></figure>
 
 ```csharp
