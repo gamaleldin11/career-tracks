@@ -76,6 +76,19 @@ ANN/
     └── metrics.txt
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="How the ANN project is layered: main.py reads the CSV from data, calls preprocess.py to turn data into features and train.py to turn features into a model, and writes the model, preprocessor and metrics to artifacts">
+<rect class="sN" x="14" y="70" width="140" height="56" rx="8"/><text class="sT" x="84" y="96" text-anchor="middle">data/</text><text class="sC" x="84" y="112" text-anchor="middle">Churn_Modelling.csv</text>
+<rect class="sB" x="214" y="20" width="160" height="56" rx="8"/><text class="sT" x="294" y="46" text-anchor="middle">preprocess.py</text><text class="sC" x="294" y="62" text-anchor="middle">data → features</text>
+<rect class="sV" x="214" y="120" width="160" height="56" rx="8"/><text class="sT" x="294" y="146" text-anchor="middle">train.py</text><text class="sC" x="294" y="162" text-anchor="middle">features → model</text>
+<rect class="sA" x="436" y="70" width="130" height="56" rx="8"/><text class="sT" x="501" y="96" text-anchor="middle">main.py</text><text class="sC" x="501" y="112" text-anchor="middle">wires it, owns I/O</text>
+<rect class="sG" x="606" y="70" width="100" height="56" rx="8"/><text class="sT" x="656" y="96" text-anchor="middle">artifacts/</text><text class="sC" x="656" y="112" text-anchor="middle">model, metrics</text>
+<line class="sLm" x1="154" y1="98" x2="434" y2="98" marker-end="url(#ahm)"/>
+<line class="sLm" x1="436" y1="85" x2="376" y2="50" marker-end="url(#ahm)"/>
+<line class="sLm" x1="436" y1="112" x2="376" y2="148" marker-end="url(#ahm)"/>
+<line class="sLm" x1="566" y1="98" x2="604" y2="98" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="204" text-anchor="middle">preprocess knows nothing about models; train knows nothing about CSVs: each part is testable alone</text>
+</svg><figcaption>The same split as a web service (repository, domain logic, controller), applied to a training script.</figcaption></figure>
+
 **Why this matters more than the model.** A notebook is a scratchpad: hidden state, out-of-order execution, no reuse, no tests, terrible diffs in git. A module structure gives you importable functions, a reproducible entry point, and code review that works.
 
 The separation is also principled — each module has one job:

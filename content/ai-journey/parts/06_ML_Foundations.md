@@ -69,6 +69,30 @@ Three components, and every algorithm in this course is a different choice of th
 
 Once you see a model this way, new algorithms stop being a list to memorise. XGBoost is "additive trees + any differentiable loss + gradient descent in function space". A neural network is "composed affine maps and nonlinearities + cross-entropy + gradient descent".
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Every supervised algorithm as three choices: the hypothesis space, the loss and the optimiser; linear regression uses straight lines, mean squared error and a closed form or gradient descent; a decision tree uses axis-aligned boxes, Gini or entropy and greedy splitting; a neural network uses stacked layers, cross-entropy and gradient descent; XGBoost uses sums of trees, any differentiable loss and gradient boosting">
+<text class="sM" x="90" y="40" text-anchor="middle">model</text>
+<rect class="sB" x="190" y="14" width="164" height="44" rx="6" opacity=".75"/><text class="sT" x="272" y="33" text-anchor="middle">hypothesis space</text><text class="sC" x="272" y="50" text-anchor="middle">what shapes can f take?</text>
+<rect class="sR" x="366" y="14" width="164" height="44" rx="6" opacity=".75"/><text class="sT" x="448" y="33" text-anchor="middle">loss</text><text class="sC" x="448" y="50" text-anchor="middle">how wrong is f?</text>
+<rect class="sG" x="542" y="14" width="164" height="44" rx="6" opacity=".75"/><text class="sT" x="624" y="33" text-anchor="middle">optimiser</text><text class="sC" x="624" y="50" text-anchor="middle">how do we search?</text>
+<text class="sT" x="176" y="88" text-anchor="end">linear regression</text>
+<rect class="sN" x="190" y="68" width="164" height="28" rx="4"/><text class="sS" x="272" y="87" text-anchor="middle">straight lines / planes</text>
+<rect class="sN" x="366" y="68" width="164" height="28" rx="4"/><text class="sS" x="448" y="87" text-anchor="middle">MSE</text>
+<rect class="sN" x="542" y="68" width="164" height="28" rx="4"/><text class="sS" x="624" y="87" text-anchor="middle">closed form or GD</text>
+<text class="sT" x="176" y="122" text-anchor="end">decision tree</text>
+<rect class="sN" x="190" y="102" width="164" height="28" rx="4"/><text class="sS" x="272" y="121" text-anchor="middle">axis-aligned boxes</text>
+<rect class="sN" x="366" y="102" width="164" height="28" rx="4"/><text class="sS" x="448" y="121" text-anchor="middle">Gini / entropy</text>
+<rect class="sN" x="542" y="102" width="164" height="28" rx="4"/><text class="sS" x="624" y="121" text-anchor="middle">greedy splitting</text>
+<text class="sT" x="176" y="156" text-anchor="end">neural network</text>
+<rect class="sN" x="190" y="136" width="164" height="28" rx="4"/><text class="sS" x="272" y="155" text-anchor="middle">stacked layers</text>
+<rect class="sN" x="366" y="136" width="164" height="28" rx="4"/><text class="sS" x="448" y="155" text-anchor="middle">cross-entropy</text>
+<rect class="sN" x="542" y="136" width="164" height="28" rx="4"/><text class="sS" x="624" y="155" text-anchor="middle">gradient descent</text>
+<text class="sT" x="176" y="190" text-anchor="end">XGBoost</text>
+<rect class="sN" x="190" y="170" width="164" height="28" rx="4"/><text class="sS" x="272" y="189" text-anchor="middle">sums of trees</text>
+<rect class="sN" x="366" y="170" width="164" height="28" rx="4"/><text class="sS" x="448" y="189" text-anchor="middle">any differentiable</text>
+<rect class="sN" x="542" y="170" width="164" height="28" rx="4"/><text class="sS" x="624" y="189" text-anchor="middle">gradient boosting</text>
+<text class="sGt" x="360" y="220" text-anchor="middle">a new algorithm is just a new choice in one of the three columns</text>
+</svg><figcaption>Reading an unfamiliar model through these three columns tells you what it can learn, what it optimises and how fast it trains.</figcaption></figure>
+
 ### Supervised vs unsupervised
 
 | | Supervised | Unsupervised |
@@ -680,6 +704,20 @@ Géron's framing: since the job is "select a model and train it on data", only t
 **"The unreasonable effectiveness of data."** Banko & Brill (2001) showed that very different algorithms, including simple ones, performed almost identically on a language task once they had enough data. Norvig et al. (2009) popularised the idea. Géron's caveat: small and medium datasets are still the norm, *"so don't abandon algorithms just yet."*
 
 **Sampling bias, the classic story.** The 1936 *Literary Digest* poll mailed ~10 million people and got 2.4 million answers. It predicted Landon would win 57%; Roosevelt won with 62%. Two flaws: (1) the address lists (phone directories, magazine subscribers, clubs) skewed wealthy; (2) fewer than 25% responded, which is **nonresponse bias**. **Telecom translation:** a satisfaction model trained only on customers who answered an NPS survey is biased toward engaged customers. A churn model trained only on post-paid customers will not transfer to pre-paid.
+
+<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="Sampling bias versus sampling noise: the 1936 Literary Digest poll of 2.4 million answers predicted Landon 57 percent while Roosevelt won 62 percent, because the sample was skewed; random polls of a 62 percent share land within 40 to 85 percent at n equals 20, 53 to 72 at 100, 59 to 65 at 1,000 and 61.9 to 62.1 at 2.4 million">
+<text class="sM" x="180" y="20" text-anchor="middle">sampling BIAS: 1936 Literary Digest</text>
+<text class="sM" x="540" y="20" text-anchor="middle">sampling NOISE: random polls of size n</text>
+<text class="sS" x="54" y="52" text-anchor="end">poll</text><rect class="sR" x="60" y="38" width="136.8" height="20" rx="3"/><text class="sC" x="200.8" y="53">Landon 57%</text>
+<text class="sS" x="54" y="86" text-anchor="end">vote</text><rect class="sG" x="60" y="72" width="148.8" height="20" rx="3"/><text class="sC" x="212.8" y="87">Roosevelt 62%</text>
+<text class="sS" x="180" y="122" text-anchor="middle">2.4 million answers, still wrong:</text><text class="sRt" x="180" y="140" text-anchor="middle">more data cannot fix a skewed sample</text>
+<text class="sS" x="384" y="53" text-anchor="end">n = 20</text><rect class="sB" x="420" y="42" width="270" height="14" rx="3" opacity=".7"/>
+<text class="sS" x="384" y="79" text-anchor="end">n = 100</text><rect class="sB" x="498" y="68" width="114" height="14" rx="3" opacity=".7"/>
+<text class="sS" x="384" y="105" text-anchor="end">n = 1,000</text><rect class="sB" x="534" y="94" width="36.6" height="14" rx="3" opacity=".7"/>
+<text class="sS" x="384" y="131" text-anchor="end">n = 2,400,000</text><rect class="sB" x="551.4" y="120" width="1.2" height="14" rx="3" opacity=".7"/>
+<line class="sLg" x1="552" y1="34" x2="552" y2="146" stroke-dasharray="3 3"/><text class="sGt" x="552" y="160" text-anchor="middle">true 62%</text>
+<text class="sS" x="540" y="180" text-anchor="middle">95% of 2,000 simulated polls land in each bar</text>
+</svg><figcaption>Noise shrinks as samples grow (simulated with NumPy binomial draws); bias does not. A model trained on whoever was easy to collect inherits the same flaw.</figcaption></figure>
 
 ### Bad model
 
