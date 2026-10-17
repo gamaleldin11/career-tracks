@@ -104,6 +104,22 @@ type InvoiceWithMoney = Omit<Invoice, "amount"> & { total: Money };   // interse
 > [!say]
 > "Both describe object shapes. I use interfaces for object contracts that may be extended, like DTOs and component inputs, and type aliases for unions, tuples and computed types. Interfaces can merge declarations, which is handy for augmenting library types; type aliases can't."
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Interface versus type alias in TypeScript: interfaces describe object shapes and class contracts, extend other interfaces and support declaration merging; type aliases can also name unions, intersections, mapped and conditional types, tuples, primitives and function types; for plain objects both work">
+<text class="sM" x="180" y="22" text-anchor="middle">interface</text>
+<text class="sM" x="540" y="22" text-anchor="middle">type alias</text>
+<rect class="sB" x="14" y="34" width="330" height="150" rx="10" opacity=".35"/>
+<rect class="sV" x="376" y="34" width="330" height="150" rx="10" opacity=".35"/>
+<text class="sS" x="30" y="64">✓ object shapes, class contracts</text>
+<text class="sS" x="30" y="92">✓ extends another interface</text>
+<text class="sS" x="30" y="120">✓ declaration merging (libraries)</text>
+<text class="sS" x="30" y="148">✓ clear error messages</text>
+<text class="sS" x="392" y="64">✓ unions: "EGP" | "USD"</text>
+<text class="sS" x="392" y="92">✓ intersections: A &amp; B</text>
+<text class="sS" x="392" y="120">✓ mapped / conditional types</text>
+<text class="sS" x="392" y="148">✓ tuples, primitives, functions</text>
+<text class="sS" x="360" y="210" text-anchor="middle">both describe object shapes equally well; pick one convention per codebase and use type for what interfaces cannot express</text>
+</svg><figcaption>A common rule: <code>interface</code> for public object shapes, <code>type</code> for unions and compositions. Consistency matters more than the choice.</figcaption></figure>
+
 ## F5.4 Structural typing 🟢 ⭐
 
 > [!term] Structural typing
@@ -423,6 +439,15 @@ Alternatives include Valibot, ArkType, and **generating** types from the backend
 
 > [!mistake] Silencing the compiler
 > `// @ts-ignore`, `as any` and the non-null assertion `value!` hide real bugs. When you must, use `// @ts-expect-error` with a comment explaining why; it fails once the error is fixed, so it doesn't linger.
+
+<figure class="dia steps"><svg viewBox="0 0 720 180" role="img" aria-label="Reading past the end of an array, run for real: with only strict on, tsc compiles the code and node then throws TypeError cannot read properties of undefined reading toFixed; with noUncheckedIndexedAccess, tsc reports error TS2322 that number or undefined is not assignable to number">
+<rect class="sN" x="14" y="20" width="692" height="62" rx="8"/><text class="sC" x="26" y="42" xml:space="preserve" style="white-space:pre">const amounts: number[] = [120, 95];</text><text class="sC" x="26" y="60" xml:space="preserve" style="white-space:pre">const third: number = amounts[2];</text><text class="sC" x="26" y="76" xml:space="preserve" style="white-space:pre">console.log(third.toFixed(2));</text>
+<g data-s="1-1"><rect class="sR" x="14" y="96" width="692" height="74" rx="8" opacity=".85"/><text class="sT" x="30" y="118">tsc --strict: compiles with 0 errors</text><text class="sS" x="30" y="140">then at runtime:</text><text class="sC" x="30" y="160" xml:space="preserve" style="white-space:pre">TypeError: Cannot read properties of undefined (reading 'toFixed')</text></g>
+<g data-s="2-2"><rect class="sG" x="14" y="96" width="692" height="74" rx="8" opacity=".8"/><text class="sT" x="30" y="118">tsc --strict --noUncheckedIndexedAccess: caught before it ships</text><text class="sC" x="30" y="142" xml:space="preserve" style="white-space:pre">a.ts(2,7): error TS2322: Type 'number | undefined' is not</text><text class="sC" x="30" y="160" xml:space="preserve" style="white-space:pre">assignable to type 'number'.</text></g>
+</svg><ol class="dia-steps">
+<li>strict alone trusts amounts[2] to be a number, and the program crashes.</li>
+<li>noUncheckedIndexedAccess makes every index read possibly undefined, so the compiler forces the check.</li>
+</ol><figcaption>Both outputs are real: TypeScript 5 with and without the flag, then Node running the compiled file. This is the flag that pays for itself fastest.</figcaption></figure>
 
 ## F5.11 TypeScript with your frameworks 🟢
 

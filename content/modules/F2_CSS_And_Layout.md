@@ -465,6 +465,14 @@ Components use only the variables, so supporting a brand theme or a client's col
 > [!lab] Build three layouts from memory
 > Without looking anything up: (1) a header with a logo left, links centred and a button right; (2) a responsive card grid that goes from one to four columns; (3) a holy-grail page layout that collapses to one column under 760 px. Then make the cards switch to a horizontal layout with a container query. That covers most CSS layout questions.
 
+<figure class="dia"><svg viewBox="0 0 720 186" role="img" aria-label="Four ways to keep CSS maintainable: BEM naming with flat single-class selectors, component-scoped styles such as Angular encapsulation or CSS Modules so styles cannot leak, utility-first classes composed in markup as in Tailwind, and design tokens as custom properties for colours and spacing">
+<rect class="sB" x="14" y="20" width="164" height="130" rx="8" opacity=".55"/><text class="sT" x="96" y="44" text-anchor="middle">BEM</text><text class="sC" x="96" y="74" text-anchor="middle">.card__title--big</text><text class="sS" x="96" y="104" text-anchor="middle">flat names, one class each</text>
+<rect class="sA" x="190" y="20" width="164" height="130" rx="8" opacity=".55"/><text class="sT" x="272" y="44" text-anchor="middle">Scoped</text><text class="sC" x="272" y="74" text-anchor="middle">Angular encapsulation,…</text><text class="sS" x="272" y="104" text-anchor="middle">styles cannot leak out</text>
+<rect class="sG" x="366" y="20" width="164" height="130" rx="8" opacity=".55"/><text class="sT" x="448" y="44" text-anchor="middle">Utility-first</text><text class="sC" x="448" y="74" text-anchor="middle">class="flex gap-2 p-4"</text><text class="sS" x="448" y="104" text-anchor="middle">compose in markup (Tailwind)</text>
+<rect class="sV" x="542" y="20" width="164" height="130" rx="8" opacity=".55"/><text class="sT" x="624" y="44" text-anchor="middle">Tokens</text><text class="sC" x="624" y="74" text-anchor="middle">--accent, --space-2</text><text class="sS" x="624" y="104" text-anchor="middle">one source of truth</text>
+<text class="sGt" x="360" y="176" text-anchor="middle">what they share: low, flat specificity, so no rule needs !important to win</text>
+</svg><figcaption>Most CSS pain is specificity wars and styles leaking between components. Every approach here attacks one or both.</figcaption></figure>
+
 ## F2.12 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

@@ -123,6 +123,15 @@ The World Health Organization estimates that about 1.3 billion people, roughly o
 - The viewport meta tag makes mobile browsers use the device width instead of pretending to be a 980-pixel desktop.
 - A unique, descriptive `<title>` per page or route is the first thing a screen reader announces, and it's what appears in tabs and search results.
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="What each line of an HTML document head does: the doctype selects standards mode; lang and dir set pronunciation, translation and text direction; charset utf-8 makes Arabic and emoji render; the viewport meta makes phones use the device width; the title names the tab and is read first by screen readers; the description becomes the search snippet">
+<rect class="sN" x="14" y="14" width="280" height="26" rx="5"/><text class="sC" x="24" y="32" xml:space="preserve" style="white-space:pre">&lt;!doctype html&gt;</text><line class="sLm" x1="294" y1="27" x2="320" y2="27" marker-end="url(#ahm)"/><text class="sS" x="326" y="32">standards mode, not quirks mode</text>
+<rect class="sN" x="14" y="48" width="280" height="26" rx="5"/><text class="sC" x="24" y="66" xml:space="preserve" style="white-space:pre">&lt;html lang="en" dir="ltr"&gt;</text><line class="sLm" x1="294" y1="61" x2="320" y2="61" marker-end="url(#ahm)"/><text class="sS" x="326" y="66">screen-reader pronunciation, translation, text direction</text>
+<rect class="sN" x="14" y="82" width="280" height="26" rx="5"/><text class="sC" x="24" y="100" xml:space="preserve" style="white-space:pre">&lt;meta charset="utf-8"&gt;</text><line class="sLm" x1="294" y1="95" x2="320" y2="95" marker-end="url(#ahm)"/><text class="sS" x="326" y="100">Arabic and emoji render correctly</text>
+<rect class="sN" x="14" y="116" width="280" height="26" rx="5"/><text class="sC" x="24" y="134" xml:space="preserve" style="white-space:pre">&lt;meta name="viewport" …&gt;</text><line class="sLm" x1="294" y1="129" x2="320" y2="129" marker-end="url(#ahm)"/><text class="sS" x="326" y="134">phones use device width, not a 980 px desktop</text>
+<rect class="sN" x="14" y="150" width="280" height="26" rx="5"/><text class="sC" x="24" y="168" xml:space="preserve" style="white-space:pre">&lt;title&gt;</text><line class="sLm" x1="294" y1="163" x2="320" y2="163" marker-end="url(#ahm)"/><text class="sS" x="326" y="168">tab text, bookmarks, first thing a screen reader says</text>
+<rect class="sN" x="14" y="184" width="280" height="26" rx="5"/><text class="sC" x="24" y="202" xml:space="preserve" style="white-space:pre">&lt;meta name="description"&gt;</text><line class="sLm" x1="294" y1="197" x2="320" y2="197" marker-end="url(#ahm)"/><text class="sS" x="326" y="202">search-result snippet</text>
+</svg><figcaption>Six lines, each fixing a real bug if missing: mojibake, a tiny zoomed-out mobile page, or a screen reader mispronouncing everything.</figcaption></figure>
+
 ## F1.3 Forms that everyone can use 🟢 ⭐
 
 ```html
