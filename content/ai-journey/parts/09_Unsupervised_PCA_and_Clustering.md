@@ -1645,6 +1645,167 @@ joblib.dump(kmeans,     "artifacts_clustering/kmeans.joblib")
 
 > Note: `AgglomerativeClustering` has no `predict()` in sklearn, so it [cannot be applied to new data]
 
+<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="K-Means versus hierarchical clustering on 150 synthetic points in three blobs, computed with scikit-learn: both reach a silhouette of 0.762, but K-Means stores three centroids and assigns a new row to the nearest one with predict, while AgglomerativeClustering has no predict method">
+<circle class="sPg" cx="393.8" cy="156.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="79.0" cy="71.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="403.0" cy="157.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="54.7" cy="52.8" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="174.5" cy="85.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="80.9" cy="56.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="366.8" cy="178.3" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="190.4" cy="78.4" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="70.7" cy="45.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="373.6" cy="186.1" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="37.7" cy="63.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="68.6" cy="107.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="178.6" cy="83.8" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="61.0" cy="118.1" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="376.8" cy="140.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="210.0" cy="82.6" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="364.5" cy="158.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="96.6" cy="79.1" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="372.0" cy="147.4" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="74.8" cy="59.3" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="36.6" cy="108.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="197.0" cy="108.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="179.8" cy="59.7" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="97.2" cy="60.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="200.9" cy="104.7" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="61.3" cy="34.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="84.3" cy="77.1" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="386.8" cy="140.7" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="46.2" cy="94.1" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="203.8" cy="91.1" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="61.7" cy="110.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="164.8" cy="119.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="374.8" cy="144.9" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="182.2" cy="89.5" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="88.2" cy="81.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="153.4" cy="53.5" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="79.2" cy="88.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="354.3" cy="165.0" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="104.4" cy="69.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="372.2" cy="150.4" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="356.2" cy="158.5" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="384.5" cy="170.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="184.6" cy="110.0" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="64.1" cy="101.8" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="56.9" cy="77.0" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="66.1" cy="79.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="200.8" cy="72.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="381.2" cy="143.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="332.4" cy="141.4" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="367.3" cy="162.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="388.4" cy="173.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="66.8" cy="50.5" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="398.9" cy="143.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="201.1" cy="86.5" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="399.4" cy="158.5" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="30.0" cy="86.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="212.2" cy="109.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="372.5" cy="163.3" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="176.6" cy="89.8" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="367.8" cy="138.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="96.7" cy="77.8" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="373.1" cy="195.8" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="174.2" cy="96.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="70.5" cy="68.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="410.0" cy="158.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="167.1" cy="80.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="182.9" cy="86.1" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="389.9" cy="160.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="168.6" cy="103.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="73.8" cy="103.3" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="46.0" cy="45.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="399.8" cy="170.3" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="155.3" cy="86.3" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="192.2" cy="101.8" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="76.3" cy="91.6" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="364.5" cy="200.0" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="99.5" cy="70.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="67.8" cy="101.8" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="194.1" cy="129.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="78.9" cy="60.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="187.0" cy="71.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="192.1" cy="128.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="364.9" cy="167.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="399.6" cy="177.4" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="87.7" cy="62.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="381.7" cy="162.2" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="162.8" cy="78.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="66.8" cy="40.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="78.0" cy="78.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="186.8" cy="109.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="224.1" cy="102.4" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="63.0" cy="96.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="186.5" cy="87.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="365.7" cy="153.4" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="171.6" cy="129.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="371.5" cy="163.3" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="218.6" cy="90.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="64.9" cy="85.1" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="73.6" cy="83.8" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="181.9" cy="115.3" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="62.2" cy="82.8" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="345.8" cy="153.9" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="214.6" cy="74.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="186.6" cy="123.4" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="160.4" cy="73.8" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="101.7" cy="80.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="375.3" cy="146.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="178.8" cy="82.3" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="56.0" cy="74.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="171.8" cy="109.3" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="76.0" cy="101.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="384.8" cy="159.4" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="64.9" cy="108.2" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="209.4" cy="90.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="373.2" cy="168.9" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="188.2" cy="80.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="190.2" cy="75.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="407.1" cy="170.5" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="75.8" cy="30.0" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="193.6" cy="119.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="180.3" cy="100.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="197.5" cy="69.9" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="166.2" cy="79.4" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="342.6" cy="151.6" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="383.1" cy="136.1" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="211.7" cy="82.6" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="63.0" cy="48.5" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="375.4" cy="131.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="110.9" cy="56.8" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="41.7" cy="63.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="61.3" cy="90.9" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="386.7" cy="164.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="366.2" cy="146.5" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="342.4" cy="163.3" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="365.9" cy="152.9" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="52.5" cy="66.4" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="385.0" cy="173.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="350.4" cy="141.7" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="212.3" cy="60.2" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="168.8" cy="90.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="397.1" cy="165.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="156.2" cy="81.2" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="384.5" cy="180.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="68.3" cy="75.0" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="368.8" cy="143.5" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="226.6" cy="122.7" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="389.4" cy="181.6" r="2.6" opacity=".6"/>
+<circle class="sPg" cx="379.0" cy="125.2" r="2.6" opacity=".6"/>
+<circle class="sPv" cx="53.8" cy="73.6" r="2.6" opacity=".6"/>
+<circle class="sPw" cx="210.0" cy="88.1" r="2.6" opacity=".6"/>
+<rect class="sN" x="370.3" y="152.9" width="12" height="12" style="stroke-width:2"/>
+<rect class="sN" x="64.0" y="69.9" width="12" height="12" style="stroke-width:2"/>
+<rect class="sN" x="181.7" y="86.5" width="12" height="12" style="stroke-width:2"/>
+<circle class="sPr" cx="211.3" cy="73.8" r="6"/><text class="sRt" x="211.317" y="61.7799" text-anchor="middle">new row</text>
+<path class="sLr" d="M211.3 73.8 L187.7 92.5" stroke-dasharray="4 3" marker-end="url(#ahr)"/>
+<rect class="sG" x="440" y="30" width="266" height="70" rx="8" opacity=".8"/><text class="sT" x="573" y="54" text-anchor="middle">KMeans.predict(new) → nearest centroid</text><text class="sC" x="573" y="76" text-anchor="middle">silhouette 0.762</text>
+<rect class="sR" x="440" y="116" width="266" height="70" rx="8" opacity=".75"/><text class="sT" x="573" y="140" text-anchor="middle">AgglomerativeClustering: no predict()</text><text class="sC" x="573" y="162" text-anchor="middle">silhouette 0.762: same quality</text>
+<text class="sS" x="573" y="210" text-anchor="middle">fine for analysis, not for serving</text>
+</svg><figcaption>Computed with <code>make_blobs</code>, <code>KMeans</code> and <code>AgglomerativeClustering</code>: identical clustering quality, different deployability. Squares are the K-Means centroids.</figcaption></figure>
+
 **An important practical asymmetry.** K-Means learns k centroids; a new point is assigned to the nearest one — that is `predict()`. Hierarchical clustering learns no such parameters; the clustering exists only for the points it was fitted on. To assign a new point you must re-run the whole thing.
 
 So: **use hierarchical clustering for analysis, K-Means for anything that has to run in production.**

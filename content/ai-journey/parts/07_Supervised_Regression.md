@@ -539,6 +539,29 @@ preprocessor = ColumnTransformer(transformers=[
 ])
 ```
 
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: the ColumnTransformer: numeric columns pass through median imputation, IQR clipping and standard scaling; categorical columns pass through most-frequent imputation and one-hot encoding that ignores unknown categories; the two outputs are concatenated into the feature matrix">
+<rect class="sN" x="14" y="80" width="120" height="56" rx="8"/><text class="sT" x="74" y="106" text-anchor="middle">X (raw)</text><text class="sC" x="74" y="122" text-anchor="middle">mixed columns</text>
+<text class="sC" x="170" y="46" text-anchor="middle">num_cols</text>
+<text class="sC" x="170" y="182" text-anchor="middle">cat_cols</text>
+<rect class="sB" x="200" y="20" width="110" height="44" rx="8"/><text class="sT" x="255" y="40" text-anchor="middle">impute</text><text class="sC" x="255" y="56" text-anchor="middle">median</text>
+<rect class="sB" x="326" y="20" width="110" height="44" rx="8"/><text class="sT" x="381" y="40" text-anchor="middle">clip</text><text class="sC" x="381" y="56" text-anchor="middle">IQR 1.5</text>
+<rect class="sB" x="452" y="20" width="110" height="44" rx="8"/><text class="sT" x="507" y="40" text-anchor="middle">scale</text><text class="sC" x="507" y="56" text-anchor="middle">mean 0, σ 1</text>
+<rect class="sA" x="200" y="152" width="110" height="44" rx="8"/><text class="sT" x="255" y="172" text-anchor="middle">impute</text><text class="sC" x="255" y="188" text-anchor="middle">most frequent</text>
+<rect class="sA" x="326" y="152" width="236" height="44" rx="8"/><text class="sT" x="444" y="172" text-anchor="middle">one-hot</text><text class="sC" x="444" y="188" text-anchor="middle">unknown → all zeros</text>
+<rect class="sG" x="606" y="80" width="100" height="56" rx="8"/><text class="sT" x="656" y="106" text-anchor="middle">features</text><text class="sC" x="656" y="122" text-anchor="middle">concatenated</text>
+<line class="sLm" x1="134" y1="100" x2="198" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="134" y1="116" x2="198" y2="174" marker-end="url(#ahm)"/>
+<line class="sLm" x1="310" y1="42" x2="324" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="436" y1="42" x2="450" y2="42" marker-end="url(#ahm)"/>
+<line class="sLm" x1="310" y1="174" x2="324" y2="174" marker-end="url(#ahm)"/>
+<line class="sLm" x1="562" y1="42" x2="604" y2="100" marker-end="url(#ahm)"/>
+<line class="sLm" x1="562" y1="174" x2="604" y2="116" marker-end="url(#ahm)"/>
+<text class="sS" x="381" y="100" text-anchor="middle">order matters: NaN breaks clip and scale; clipping</text>
+<text class="sS" x="381" y="116" text-anchor="middle">first keeps outliers out of the mean and σ</text>
+<circle class="sPg" r="5"><animateMotion dur="5s" repeatCount="indefinite" path="M134 100 L200 42 L562 42 L606 100"/></circle>
+<circle class="sPw" r="5"><animateMotion dur="5s" begin="2.5s" repeatCount="indefinite" path="M134 116 L200 174 L562 174 L606 116"/></circle>
+</svg><figcaption>Two lanes, one object: <code>fit</code> learns every statistic (medians, bounds, means, categories) from the training rows, and <code>transform</code> reuses them everywhere else.</figcaption></figure>
+
 **The order within `numeric_pipe` is not arbitrary:**
 
 1. **Impute first** — the clipper and scaler cannot handle NaN.

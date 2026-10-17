@@ -382,6 +382,30 @@ The last four rows are the ones worth memorising: **`transform`, `shift`, `cumco
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="GROUP BY and pandas groupby do the same split-apply-combine: six order rows are split by city into Cairo, Giza and Alexandria groups, each group’s amounts are summed, giving Cairo 350, Giza 150 and Alexandria 50">
+<text class="sC" x="14" y="20" xml:space="preserve" style="white-space:pre">SELECT city, SUM(amount) FROM orders GROUP BY city</text>
+<text class="sC" x="14" y="38" xml:space="preserve" style="white-space:pre">df.groupby('city')['amount'].sum()</text>
+<rect class="sB" x="14" y="56" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="71">Cairo</text><text class="sC" x="164" y="71" text-anchor="end">120</text>
+<rect class="sA" x="14" y="80" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="95">Giza</text><text class="sC" x="164" y="95" text-anchor="end">80</text>
+<rect class="sB" x="14" y="104" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="119">Cairo</text><text class="sC" x="164" y="119" text-anchor="end">200</text>
+<rect class="sG" x="14" y="128" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="143">Alex</text><text class="sC" x="164" y="143" text-anchor="end">50</text>
+<rect class="sA" x="14" y="152" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="167">Giza</text><text class="sC" x="164" y="167" text-anchor="end">70</text>
+<rect class="sB" x="14" y="176" width="160" height="20" rx="3" opacity=".7"/><text class="sS" x="24" y="191">Cairo</text><text class="sC" x="164" y="191" text-anchor="end">30</text>
+<rect class="sB" x="260" y="56" width="200" height="68" rx="3" opacity=".35"/>
+<text class="sS" x="270" y="71">Cairo 120</text>
+<text class="sS" x="270" y="95">Cairo 200</text>
+<text class="sS" x="270" y="119">Cairo 30</text>
+<line class="sLm" x1="460" y1="90" x2="520" y2="90" marker-end="url(#ahm)"/><rect class="sB" x="522" y="78" width="184" height="24" rx="3"/><text class="sT" x="532" y="95">Cairo</text><text class="sT" x="696" y="95" text-anchor="end">350</text>
+<rect class="sA" x="260" y="134" width="200" height="44" rx="3" opacity=".35"/>
+<text class="sS" x="270" y="149">Giza 80</text>
+<text class="sS" x="270" y="173">Giza 70</text>
+<line class="sLm" x1="460" y1="156" x2="520" y2="156" marker-end="url(#ahm)"/><rect class="sA" x="522" y="144" width="184" height="24" rx="3"/><text class="sT" x="532" y="161">Giza</text><text class="sT" x="696" y="161" text-anchor="end">150</text>
+<rect class="sG" x="260" y="188" width="200" height="20" rx="3" opacity=".35"/>
+<text class="sS" x="270" y="203">Alex 50</text>
+<line class="sLm" x1="460" y1="198" x2="520" y2="198" marker-end="url(#ahm)"/><rect class="sG" x="522" y="186" width="184" height="24" rx="3"/><text class="sT" x="532" y="203">Alex</text><text class="sT" x="696" y="203" text-anchor="end">50</text>
+<text class="sS" x="97" y="230" text-anchor="middle">rows</text><text class="sS" x="360" y="230" text-anchor="middle">split by key</text><text class="sS" x="614" y="230" text-anchor="middle">apply SUM, combine</text>
+</svg><figcaption>Split, apply, combine: the mental model behind SQL <code>GROUP BY</code>, pandas <code>groupby</code> and Spark <code>groupBy</code> alike.</figcaption></figure>
+
 ## 12.4 The bridge: SQL → Pandas in code 🟢
 
 ```python

@@ -31,7 +31,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 - §13.6 statistical tests (needs the accident data), §13.9, §13.11.
 - §17.6 Géron's default configuration (a table; a figure is optional).
 - §23.5.
-- §7.2, §7.4, §7.7, §9.6, §9.9, §11.3, §12.3 (mostly notebook walkthroughs and translation tables).
+- §7.2, §7.4, §9.6, §11.3 (mostly notebook walkthroughs and translation tables).
 - §14.1, §14.5, §14.6, §25.2–25.4, §25.7 (lists, reading lists and summaries: low value for diagrams).
 
 ### Handbook sections still without a diagram (most valuable first)
