@@ -142,7 +142,7 @@ console.log("7");
 
 **Callbacks** nest ("callback hell") and make error handling scattered. A **promise** is an object representing a value that will be available later, in one of three states: **pending**, **fulfilled** or **rejected**. Once settled, it never changes.
 
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A promise starts pending and settles once, either fulfilled with a value or rejected with a reason">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: A promise starts pending and settles once, either fulfilled with a value or rejected with a reason">
 <rect class="sW" x="40" y="70" width="150" height="50" rx="8"/><text class="sT" x="115" y="93" text-anchor="middle">pending</text><text class="sC" x="115" y="109" text-anchor="middle">waiting</text>
 <rect class="sG" x="330" y="20" width="170" height="50" rx="8"/><text class="sT" x="415" y="43" text-anchor="middle">fulfilled</text><text class="sC" x="415" y="59" text-anchor="middle">has a value</text><rect class="sR" x="330" y="120" width="170" height="50" rx="8"/><text class="sT" x="415" y="143" text-anchor="middle">rejected</text><text class="sC" x="415" y="159" text-anchor="middle">has a reason (error)</text>
 <line class="sLg" x1="190" y1="88" x2="326" y2="48" marker-end="url(#ahg)"/><text class="sGt" x="258" y="56" text-anchor="middle">resolve(value)</text>
@@ -150,6 +150,10 @@ console.log("7");
 <text class="sM" x="600" y="50" text-anchor="middle">.then(onFulfilled)</text><text class="sM" x="600" y="150" text-anchor="middle">.catch(onRejected)</text>
 <line class="sLm" x1="500" y1="45" x2="530" y2="45" marker-end="url(#ahm)"/><line class="sLm" x1="500" y1="145" x2="530" y2="145" marker-end="url(#ahm)"/>
 <text class="sS" x="415" y="196" text-anchor="middle">settled: it never changes again, and late .then calls still get the result</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M190 88 L326 48"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.260;1" path="M500 45 L530 45"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.260;0.262;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M190 104 L326 142"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.760;1" path="M500 145 L530 145"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.760;0.762;1"/></circle>
 </svg><figcaption>The three states of a promise. Settling happens at most once.</figcaption></figure>
 
 ```js

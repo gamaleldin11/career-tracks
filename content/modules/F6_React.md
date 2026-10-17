@@ -201,7 +201,7 @@ useEffect(() => {
 | `[]` | Once, after mount (and its clean-up on unmount) |
 | `[a, b]` | After mount and whenever `a` or `b` changed (`Object.is` comparison) |
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Timeline of an effect: it runs after mount, cleans up and re-runs when its dependency changes, skips unrelated renders, and cleans up on unmount">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: timeline of an effect: it runs after mount, cleans up and re-runs when its dependency changes, skips unrelated renders, and cleans up on unmount">
 <line class="sLm" x1="20" y1="60" x2="700" y2="60" marker-end="url(#ahm)"/><text class="sC" x="700" y="50" text-anchor="end">time</text>
 <rect class="sA" x="40" y="38" width="110" height="44" rx="8"/><text class="sT" x="95" y="64" text-anchor="middle">mount</text>
 <rect class="sW" x="230" y="38" width="110" height="44" rx="8"/><text class="sT" x="285" y="64" text-anchor="middle">id: 7 → 9</text>
@@ -212,6 +212,7 @@ useEffect(() => {
 <text class="sC" x="475" y="121" text-anchor="middle">nothing: deps [id]</text><text class="sC" x="475" y="137" text-anchor="middle">didn't change</text>
 <rect class="sR" x="590" y="104" width="110" height="26" rx="6" opacity=".8"/><text class="sM" x="645" y="121" text-anchor="middle">clean-up(9)</text>
 <text class="sM" x="360" y="196" text-anchor="middle">useEffect(() =&gt; { subscribe(id); return () =&gt; unsubscribe(id); }, [id])</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M20 92 L700 92"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>An effect's life. The clean-up always runs before the next effect and on unmount, so subscriptions never pile up.</figcaption></figure>
 
 **Fetching in an effect without races:**

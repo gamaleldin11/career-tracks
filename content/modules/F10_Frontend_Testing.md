@@ -12,7 +12,7 @@ Testing is the gap your own audit flags most often, and interviewers know junior
 
 An automated **test** is code that runs your code with known inputs and checks that the outputs are what you expect. A **test runner** finds the test files, sets up an environment (for UI tests, a simulated DOM such as jsdom, or a real browser), runs each test in isolation and reports what passed and failed.
 
-<figure class="dia"><svg viewBox="0 0 720 116" role="img" aria-label="A test run: the runner finds test files, sets up an environment, runs your code, checks assertions and reports results">
+<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: A test run: the runner finds test files, sets up an environment, runs your code, checks assertions and reports results">
 <rect class="sB" x="8" y="26" width="108" height="50" rx="8"/><text class="sT" x="62" y="49" text-anchor="middle">test files</text><text class="sC" x="62" y="65" text-anchor="middle">*.test.ts</text>
 <line class="sLm" x1="116" y1="51" x2="125" y2="51" marker-end="url(#ahm)"/>
 <rect class="sA" x="127" y="26" width="108" height="50" rx="8"/><text class="sT" x="181" y="49" text-anchor="middle">runner</text><text class="sC" x="181" y="65" text-anchor="middle">Vitest · Jest</text>
@@ -25,6 +25,7 @@ An automated **test** is code that runs your code with known inputs and checks t
 <line class="sLm" x1="592" y1="51" x2="601" y2="51" marker-end="url(#ahm)"/>
 <rect class="sB" x="603" y="26" width="108" height="50" rx="8"/><text class="sT" x="657" y="49" text-anchor="middle">report</text><text class="sC" x="657" y="65" text-anchor="middle">✓ 41  ✗ 1</text>
 <text class="sS" x="360" y="104" text-anchor="middle">beforeEach sets up a clean state · each test arranges, acts, asserts · afterEach tears down</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M8 84 L711 84"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>What happens when you run <code>npx vitest</code>. A test is just code that runs your code with known inputs and checks the outputs.</figcaption></figure>
 
 **Why it pays:**

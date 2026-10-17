@@ -18,7 +18,7 @@ Angular is the framework most Egyptian enterprise, banking and outsourcing teams
 
 **How the app starts:**
 
-<figure class="dia"><svg viewBox="0 0 760 148" role="img" aria-label="Angular startup: index.html, main.ts bootstraps the App with appConfig providers, the App renders, and the router fills the outlet">
+<figure class="dia anim"><svg viewBox="0 0 760 148" role="img" aria-label="Animation: angular startup: index.html, main.ts bootstraps the App with appConfig providers, the App renders, and the router fills the outlet">
 <rect class="sB" x="8" y="30" width="140" height="52" rx="8"/><text class="sT" x="78" y="54" text-anchor="middle">index.html</text><text class="sC" x="78" y="70" text-anchor="middle">&lt;app-root&gt;</text>
 <line class="sLm" x1="148" y1="56" x2="156" y2="56" marker-end="url(#ahm)"/>
 <rect class="sA" x="158" y="30" width="140" height="52" rx="8"/><text class="sT" x="228" y="54" text-anchor="middle">main.ts</text><text class="sC" x="228" y="70" text-anchor="middle">bootstrapApplication</text>
@@ -30,6 +30,7 @@ Angular is the framework most Egyptian enterprise, banking and outsourcing teams
 <rect class="sG" x="608" y="30" width="140" height="52" rx="8"/><text class="sT" x="678" y="54" text-anchor="middle">router-outlet</text><text class="sC" x="678" y="70" text-anchor="middle">page for the URL</text>
 <text class="sM" x="380" y="112" text-anchor="middle">provideRouter(routes) · provideHttpClient(withInterceptors([…])) · …</text>
 <text class="sC" x="380" y="136" text-anchor="middle">after that, a signal change (or, in older apps, any async event) triggers re-rendering</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M8 90 L748 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>How a standalone Angular app starts. Everything injectable is configured once, in <code>appConfig</code>.</figcaption></figure>
 
 ## F7.1 How an Angular app is built 🟢 ⭐

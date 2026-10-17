@@ -144,7 +144,7 @@ LCP breaks into four parts. Find the big one:
 > [!mistake] Lazy-loading the hero image
 > `loading="lazy"` on the largest above-the-fold image delays the LCP itself. Lazy-load what's below the fold; give the hero `fetchpriority="high"`.
 
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Timelines: a plain script blocks HTML parsing while it downloads and runs; defer downloads in parallel and runs after parsing; async downloads in parallel and interrupts parsing to run">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: timelines: a plain script blocks HTML parsing while it downloads and runs; defer downloads in parallel and runs after parsing; async downloads in parallel and interrupts parsing to run">
 <text class="sM" x="140" y="44" text-anchor="end">&lt;script&gt;</text>
 <rect class="sB" x="150" y="26" width="98" height="26" rx="4"/><text class="sC" x="200" y="44" text-anchor="middle">parse</text>
 <rect class="sW" x="250" y="26" width="148" height="26" rx="4"/><text class="sC" x="325" y="44" text-anchor="middle">download</text>
@@ -162,6 +162,9 @@ LCP breaks into four parts. Find the big one:
 <rect class="sB" x="400" y="138" width="148" height="26" rx="4"/><text class="sC" x="475" y="156" text-anchor="middle">parse</text>
 <rect class="sW" x="200" y="168" width="150" height="10" rx="3"/><text class="sC" x="354" y="177">download (in parallel)</text>
 <text class="sWt" x="704" y="156" text-anchor="end">runs when ready, any order</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M150 22 L650 22"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M150 78 L650 78"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M150 134 L650 134"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>How a script tag affects the HTML parser. Use <code>defer</code> (or <code>type="module"</code>, deferred by default) for your own scripts.</figcaption></figure>
 
 ## F9.4 Fixing INP 🟡 ⭐
