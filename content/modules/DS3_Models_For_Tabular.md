@@ -15,7 +15,7 @@ Every model sits somewhere between two failures:
 - **Underfitting (high bias):** too simple to capture the pattern, so it's wrong on the training data and on new data alike.
 - **Overfitting (high variance):** so flexible that it memorises the noise in its training data. It looks excellent there and does worse on new data.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="The same noisy points fitted by a straight line that underfits, a smooth curve that fits well, and a jagged line through every point that overfits">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: the same noisy points fitted by a straight line that underfits, a smooth curve that fits well, and a jagged line through every point that overfits">
 <rect class="sN" x="14" y="30" width="220" height="160" rx="8"/><text class="sWt" x="124" y="22" text-anchor="middle">underfit: a straight line</text>
 <circle class="sP" cx="28.0" cy="98.4" r="4"/>
 <circle class="sP" cx="45.1" cy="84.0" r="4"/>
@@ -59,17 +59,22 @@ Every model sits somewhere between two failures:
 <circle class="sP" cx="688.1" cy="157.7" r="4"/>
 <polyline class="sLr" points="500.0,98.4 517.1,84.0 534.2,48.6 551.3,58.6 568.4,38.8 585.5,50.6 602.6,75.1 619.7,77.5 636.8,115.6 653.9,121.2 671.0,149.9 688.1,157.7" fill="none" stroke-width="2.5"/>
 <text class="sS" x="360" y="214" text-anchor="middle">the right-hand model has zero training error and will predict new points worst</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M28.0 47.8 L218.0 132.4"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M264.0 92.0 L271.6 82.6 L279.2 73.5 L286.8 65.0 L294.4 57.4 L302.0 51.0 L309.6 45.9 L317.2 42.3 L324.8 40.4 L332.4 40.1 L340.0 41.6 L347.6 44.7 L355.2 49.4 L362.8 55.5 L370.4 62.8 L378.0 71.1 L385.6 80.0 L393.2 89.4 L400.8 98.8 L408.4 108.0 L416.0 116.7 L423.6 124.6 L431.2 131.4 L438.8 136.9 L446.4 140.9 L454.0 143.3"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M500.0 98.4 L517.1 84.0 L534.2 48.6 L551.3 58.6 L568.4 38.8 L585.5 50.6 L602.6 75.1 L619.7 77.5 L636.8 115.6 L653.9 121.2 L671.0 149.9 L688.1 157.7"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Too simple, about right, too flexible. Only new data can tell the middle one from the right-hand one.</figcaption></figure>
 
 Complexity (deeper trees, more features, more boosting rounds, weaker regularisation) moves a model from the first failure towards the second. Training error keeps falling as complexity grows; **validation error** falls, bottoms out, then rises again. Every technique in this module, from regularisation to early stopping to ensembles, is a way of controlling where a model sits on that curve.
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Training error falls steadily as model complexity grows, while validation error falls, reaches a minimum and rises again">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: Training error falls steadily as model complexity grows, while validation error falls, reaches a minimum and rises again">
 <line class="sLm" x1="80" y1="190" x2="650" y2="190" marker-end="url(#ahm)"/><line class="sLm" x1="80" y1="190" x2="80" y2="34" marker-end="url(#ahm)"/>
 <polyline class="sL" points="80.0,56.5 108.0,78.8 136.0,97.2 164.0,112.4 192.0,124.9 220.0,135.3 248.0,143.8 276.0,150.8 304.0,156.6 332.0,161.4 360.0,165.4 388.0,168.6 416.0,171.3 444.0,173.5 472.0,175.4 500.0,176.9 528.0,178.1 556.0,179.2 584.0,180.0 612.0,180.7 640.0,181.3" fill="none" stroke-width="2.5"/><polyline class="sLr" points="80.0,56.5 108.0,78.3 136.0,95.4 164.0,108.5 192.0,118.2 220.0,125.0 248.0,129.3 276.0,131.4 304.0,131.6 332.0,130.1 360.0,127.1 388.0,122.7 416.0,117.1 444.0,110.5 472.0,102.8 500.0,94.1 528.0,84.6 556.0,74.2 584.0,63.0 612.0,51.0 640.0,38.3" fill="none" stroke-width="2.5"/>
 <line class="sLg" x1="304" y1="190" x2="304" y2="55" stroke-dasharray="5 4"/><text class="sGt" x="304" y="49" text-anchor="middle">best on new data</text>
 <text class="sC" x="617.6" y="173.276" text-anchor="end">training error</text><text class="sRt" x="617.6" y="30.2973" text-anchor="end">validation error</text>
 <text class="sWt" x="147.2" y="210" text-anchor="middle">← underfitting (bias)</text><text class="sRt" x="550.4" y="210" text-anchor="middle">overfitting (variance) →</text>
 <text class="sC" x="360" y="232" text-anchor="middle">model complexity: depth, features, boosting rounds, less regularisation</text><text class="sC" x="86" y="22">error</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80.0 56.5 L108.0 78.8 L136.0 97.2 L164.0 112.4 L192.0 124.9 L220.0 135.3 L248.0 143.8 L276.0 150.8 L304.0 156.6 L332.0 161.4 L360.0 165.4 L388.0 168.6 L416.0 171.3 L444.0 173.5 L472.0 175.4 L500.0 176.9 L528.0 178.1 L556.0 179.2 L584.0 180.0 L612.0 180.7 L640.0 181.3"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80.0 56.5 L108.0 78.3 L136.0 95.4 L164.0 108.5 L192.0 118.2 L220.0 125.0 L248.0 129.3 L276.0 131.4 L304.0 131.6 L332.0 130.1 L360.0 127.1 L388.0 122.7 L416.0 117.1 L444.0 110.5 L472.0 102.8 L500.0 94.1 L528.0 84.6 L556.0 74.2 L584.0 63.0 L612.0 51.0 L640.0 38.3"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The bias–variance trade-off. Regularisation, early stopping and tuning are all ways of landing at the bottom of the red curve.</figcaption></figure>
 
 ## DS3.1 Baselines first 🟢 ⭐
@@ -344,7 +349,7 @@ study = optuna.create_study(direction="maximize"); study.optimize(objective, n_t
 
 Learning curves (score vs training-set size) tell you whether more data would help. *AI Journey* Parts 6 and 7 cover these with figures.
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Two learning curves: with high variance the validation score keeps rising towards the training score as data grows; with high bias both plateau at a low score">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: two learning curves: with high variance the validation score keeps rising towards the training score as data grows; with high bias both plateau at a low score">
 <text class="sGt" x="180" y="20" text-anchor="middle">high variance: more data helps</text>
 <line class="sLm" x1="50" y1="180" x2="316" y2="180" marker-end="url(#ahm)"/><line class="sLm" x1="50" y1="180" x2="50" y2="30" marker-end="url(#ahm)"/>
 <polyline class="sL" points="76.0,34.8 102.0,36.6 128.0,38.4 154.0,40.2 180.0,42.0 206.0,43.8 232.0,45.6 258.0,47.4 284.0,49.2 310.0,51.0" fill="none" stroke-width="2.5"/><polyline class="sLr" points="76.0,86.3 102.0,77.9 128.0,71.6 154.0,66.9 180.0,63.3 206.0,60.6 232.0,58.6 258.0,57.1 284.0,55.9 310.0,55.1" fill="none" stroke-width="2.5"/>
@@ -356,6 +361,10 @@ Learning curves (score vs training-set size) tell you whether more data would he
 <text class="sC" x="660" y="74.4293" text-anchor="end">train</text><text class="sRt" x="660" y="103.172" text-anchor="end">validation</text>
 <text class="sC" x="530" y="200" text-anchor="middle">training-set size →</text>
 <text class="sS" x="360" y="226" text-anchor="middle">left: the gap is closing, so collect data · right: both plateau low, so improve features or the model</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M76.0 34.8 L102.0 36.6 L128.0 38.4 L154.0 40.2 L180.0 42.0 L206.0 43.8 L232.0 45.6 L258.0 47.4 L284.0 49.2 L310.0 51.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M76.0 86.3 L102.0 77.9 L128.0 71.6 L154.0 66.9 L180.0 63.3 L206.0 60.6 L232.0 58.6 L258.0 57.1 L284.0 55.9 L310.0 55.1"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M426.0 76.1 L452.0 78.6 L478.0 80.2 L504.0 81.1 L530.0 81.6 L556.0 82.0 L582.0 82.2 L608.0 82.3 L634.0 82.4 L660.0 82.4"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M426.0 102.5 L452.0 96.4 L478.0 92.7 L504.0 90.5 L530.0 89.1 L556.0 88.3 L582.0 87.8 L608.0 87.5 L634.0 87.3 L660.0 87.2"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>A learning curve answers "should we get more data or a better model?" before anyone spends money on either.</figcaption></figure>
 
 ## DS3.8 Other models, and when they're the right call 🟢

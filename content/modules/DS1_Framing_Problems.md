@@ -189,7 +189,7 @@ Accuracy treats all errors as equal; businesses don't.
 
 With costs and benefits per cell, you choose the **threshold** (or the number of customers to contact) that **maximises expected profit**, not the one that maximises F1 ([[DS4.4]]). Your *AI Journey* Part 8 works through threshold choice from costs.
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="A cost matrix for a churn offer and the expected profit curve as more customers are contacted in order of risk, peaking near 60 thousand with a budget of 50 thousand">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: a cost matrix for a churn offer and the expected profit curve as more customers are contacted in order of risk, peaking near 60 thousand with a budget of 50 thousand">
 <text class="sM" x="160" y="22" text-anchor="middle">per customer (EGP)</text>
 <text class="sC" x="110" y="46" text-anchor="middle">churns</text><text class="sC" x="220" y="46" text-anchor="middle">stays</text>
 <text class="sC" x="46" y="80" text-anchor="end">contact</text><text class="sC" x="46" y="134" text-anchor="end">skip</text>
@@ -206,6 +206,7 @@ With costs and benefits per cell, you choose the **threshold** (or the number of
 <text class="sC" x="570" y="218" text-anchor="middle">100k</text>
 <text class="sC" x="690" y="218" text-anchor="middle">150k</text>
 <text class="sC" x="510" y="238" text-anchor="middle">customers contacted, highest risk first</text><text class="sC" x="336" y="26">expected profit</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M330 200 L354 152 L378 114 L402 88 L426 70 L450 59 L474 55 L498 57 L522 64 L570 86 L618 114 L690 167"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Put money in the four cells, then pick how many to contact from the profit curve, not from a default 0.5 threshold.</figcaption></figure>
 
 ## DS1.6 Worked framings to practise 🟡 ⭐

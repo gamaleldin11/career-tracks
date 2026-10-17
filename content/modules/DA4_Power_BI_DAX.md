@@ -294,7 +294,7 @@ RETURN COUNTROWS (
 - **Visual calculations** (generally available in 2026) are DAX written **on a visual** that can refer to the visual's own rows and columns: running sums, moving averages, "versus previous" and % of parent with simple functions like `RUNNINGSUM` and `PREVIOUS`, without fighting filter context.
 - **DAX user-defined functions** (generally available in 2026) let you define a calculation once with typed parameters and reuse it across measures, columns and visual calculations, stored as TMDL in Git.
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Monthly sales bars with a running total line rising to 1,730 by December and the three best months ranked 1 to 3: December 210, October 190 and July 175, as the Running Total and Product Rank style measures compute them">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Monthly sales bars with a running total line rising to 1,730 by December and the three best months ranked 1 to 3: December 210, October 190 and July 175, as the Running Total and Product Rank style measures compute them">
 <line class="sLm" x1="70" y1="200" x2="680" y2="200"/>
 <rect class="sB" x="66" y="161.818" width="28" height="38.1818" rx="2" opacity=".6"/><text class="sS" x="80" y="216" text-anchor="middle">J</text>
 <rect class="sB" x="116" y="169.773" width="28" height="30.2273" rx="2" opacity=".6"/><text class="sS" x="130" y="216" text-anchor="middle">F</text>
@@ -315,6 +315,7 @@ RETURN COUNTROWS (
 <circle class="sPw" cx="530" cy="125.54545454545456" r="9"/><text class="sT" x="530" y="129.545" text-anchor="middle">2</text>
 <circle class="sPw" cx="380" cy="130.3181818181818" r="9"/><text class="sT" x="380" y="134.318" text-anchor="middle">3</text>
 <text class="sS" x="360" y="236" text-anchor="middle">RANKX ranks months by sales (1–3 marked); the running total sums every date up to the current one</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80 188.9 L130 180.1 L180 167.2 L230 159.8 L280 145.0 L330 134.8 L380 118.6 L430 106.6 L480 92.7 L530 75.1 L580 59.4 L630 40.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Computed from twelve sample months: the running total ends at 1,730; ranks 1–3 go to December, October and July. Both measures re-evaluate for whatever filter the visual applies.</figcaption></figure>
 
 ## DA4.8 Storage modes 🟡 ⭐

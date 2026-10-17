@@ -142,7 +142,7 @@ SELECT month, revenue,
 FROM monthly ORDER BY month;
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 278" role="img" aria-label="Two years of seasonal monthly revenue computed with the query above in SQLite: bars with a smoother three-month moving average on top, and below the year-to-date running total that restarts each January; in December the month-over-month change is strongly negative after the November peak while the year-over-year change is positive">
+<figure class="dia anim"><svg viewBox="0 0 720 278" role="img" aria-label="Animation: two years of seasonal monthly revenue computed with the query above in SQLite: bars with a smoother three-month moving average on top, and below the year-to-date running total that restarts each January; in December the month-over-month change is strongly negative after the November peak while the year-over-year change is positive">
 <text class="sT" x="14" y="20">monthly revenue (k EGP) and 3-month moving average</text>
 <line class="sLm" x1="50" y1="130" x2="570" y2="130"/>
 <rect class="sV" x="52" y="86.3024" width="16" height="43.6976" rx="2" opacity=".8"/>
@@ -185,6 +185,9 @@ FROM monthly ORDER BY month;
 <polyline class="sLg" points="318.0,244.2 339.5,237.6 361.0,229.8 382.5,221.8 404.0,214.9 425.5,208.1 447.0,201.3 468.5,195.1 490.0,188.8 511.5,181.9 533.0,171.6 554.5,164.3" style="fill:none;stroke-width:2.5"/>
 <circle class="sPg" cx="554.5" cy="164.3" r="4"/><text class="sGt" x="548.5" y="156.286" text-anchor="end">2026: 1,683k</text>
 <rect class="sN" x="584" y="30" width="126" height="220" rx="8"/><text class="sT" x="647" y="52" text-anchor="middle">Dec 2026</text><text class="sRt" x="647" y="76" text-anchor="middle">MoM -28.6%</text><text class="sGt" x="647" y="96" text-anchor="middle">YoY +29.4%</text><text class="sS" x="647" y="128" text-anchor="middle">MoM mostly measures</text><text class="sS" x="647" y="144" text-anchor="middle">the season (after the</text><text class="sS" x="647" y="160" text-anchor="middle">November peak);</text><text class="sS" x="647" y="184" text-anchor="middle">YoY compares like</text><text class="sS" x="647" y="200" text-anchor="middle">with like</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60.0 86.3 L81.5 83.3 L103.0 78.4 L124.5 75.8 L146.0 77.4 L167.5 82.0 L189.0 81.5 L210.5 78.8 L232.0 77.0 L253.5 78.6 L275.0 71.0 L296.5 72.0 L318.0 71.1 L339.5 76.8 L361.0 70.4 L382.5 63.8 L404.0 63.0 L425.5 66.1 L447.0 69.4 L468.5 71.7 L490.0 72.9 L511.5 72.9 L533.0 60.7 L554.5 57.8"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60.0 245.1 L81.5 239.4 L103.0 232.5 L124.5 226.7 L146.0 221.6 L167.5 216.2 L189.0 210.2 L210.5 204.3 L232.0 198.3 L253.5 192.8 L275.0 184.3 L296.5 178.6"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M318.0 244.2 L339.5 237.6 L361.0 229.8 L382.5 221.8 L404.0 214.9 L425.5 208.1 L447.0 201.3 L468.5 195.1 L490.0 188.8 L511.5 181.9 L533.0 171.6 L554.5 164.3"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The query above, run in SQLite on two years of seasonal data: the moving average smooths, the YTD total resets per year, and MoM growth mostly measures the season.</figcaption></figure>
 
 Notes: `NULLIF(x, 0)` avoids division by zero; `100.0 *` avoids integer division; `LAG(…, 12)` assumes no missing months (fill them first); a moving average over **days** should use a filled daily series.
@@ -558,7 +561,7 @@ SELECT ROUND(100.0 * SUM(spend) FILTER (WHERE quintile = 1) / SUM(spend), 1) AS 
 
 **ABC analysis** (classifying products into A, B and C by cumulative revenue share: say 80%, 15% and 5%) uses a running sum over products sorted by revenue divided by the total.
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Pareto curve: cumulative share of revenue against customers sorted by spend; the top 20% of customers produce 68% of revenue">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: Pareto curve: cumulative share of revenue against customers sorted by spend; the top 20% of customers produce 68% of revenue">
 <line class="sLm" x1="80" y1="200" x2="610" y2="200" marker-end="url(#ahm)"/><line class="sLm" x1="80" y1="200" x2="80" y2="20" marker-end="url(#ahm)"/>
 <polyline class="sL" points="80,200 106,149 132,118 184,84 288,56 392,42 496,33 600,30" fill="none" stroke-width="2.5"/>
 <path class="sLw" d="M184 200 V84 H80" fill="none" stroke-dasharray="5 4"/>
@@ -573,6 +576,7 @@ SELECT ROUND(100.0 * SUM(spend) FILTER (WHERE quintile = 1) / SUM(spend), 1) AS 
 <text class="sC" x="72" y="119" text-anchor="end">50%</text>
 <text class="sC" x="72" y="34" text-anchor="end">100%</text>
 <text class="sC" x="340" y="238" text-anchor="middle">customers, sorted by spend (biggest first)</text><text class="sC" x="88" y="22">cumulative share of revenue</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80 200 L106 149 L132 118 L184 84 L288 56 L392 42 L496 33 L600 30"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>A Pareto curve from a running SUM over customers sorted by spend. The steeper the start, the more the business depends on a few customers.</figcaption></figure>
 
 ## DA3.9 Sessions, streaks and attribution 🟡 ⭐

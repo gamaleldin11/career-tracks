@@ -153,7 +153,7 @@ Compare the **change** in the treated group with the **change** in a comparable 
 | **Alexandria** (no change) | 90 | 96 | +6 |
 | **DiD estimate** | | | **+6** |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Difference-in-differences: Cairo and Alexandria trend in parallel before a policy in Cairo; afterwards Cairo rises more, and the gap to Cairo's projected path, plus 6, is the effect">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Difference-in-differences: Cairo and Alexandria trend in parallel before a policy in Cairo; afterwards Cairo rises more, and the gap to Cairo's projected path, plus 6, is the effect">
 <line class="sLm" x1="70" y1="210" x2="610" y2="210" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="210" x2="70" y2="40" marker-end="url(#ahm)"/>
 <line class="sLr" x1="335" y1="40" x2="335" y2="210" stroke-dasharray="6 4"/><text class="sRt" x="335" y="34" text-anchor="middle">new fee policy (Cairo only)</text>
 <polyline class="sLm" points="90.0,190.0 160.0,180.0 230.0,170.0 300.0,160.0 370.0,150.0 440.0,145.0 510.0,135.0 580.0,130.0" fill="none" stroke-width="2.5"/><polyline class="sL" points="90.0,140.0 160.0,130.0 230.0,120.0 300.0,110.0 370.0,80.0 440.0,70.0 510.0,60.0 580.0,50.0" fill="none" stroke-width="2.5"/>
@@ -169,6 +169,9 @@ Compare the **change** in the treated group with the **change** in a comparable 
 <text class="sC" x="510" y="228" text-anchor="middle">wk 7</text>
 <text class="sC" x="580" y="228" text-anchor="middle">wk 8</text>
 <text class="sC" x="195" y="80" text-anchor="middle">parallel before: the key assumption</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M90.0 190.0 L160.0 180.0 L230.0 170.0 L300.0 160.0 L370.0 150.0 L440.0 145.0 L510.0 135.0 L580.0 130.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M90.0 140.0 L160.0 130.0 L230.0 120.0 L300.0 110.0 L370.0 80.0 L440.0 70.0 L510.0 60.0 L580.0 50.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M300.0 110.0 L370.0 100.0 L440.0 95.0 L510.0 85.0 L580.0 80.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The dashed line is Cairo's counterfactual, borrowed from Alexandria's change. The effect is the gap at the end.</figcaption></figure>
 
 ```python
@@ -189,7 +192,7 @@ print(model.params["treated:post"])          # the DiD effect
 | **Synthetic control** | Build a weighted combination of untreated units that tracks the treated unit before the change | A campaign in one governorate vs a weighted mix of others | The pre-period fit is good; no spill-over |
 | **Interrupted time series** | Model the trend before an intervention and compare with what follows | A price change on one date with no comparison group | No other change at the same time; the trend would have continued |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Regression discontinuity: next-year spend rises smoothly with last year's spend except for a jump at the 5,000 pound Gold threshold, which estimates the effect of Gold status">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Regression discontinuity: next-year spend rises smoothly with last year's spend except for a jump at the 5,000 pound Gold threshold, which estimates the effect of Gold status">
 <line class="sLm" x1="60" y1="210" x2="670" y2="210" marker-end="url(#ahm)"/><line class="sLm" x1="60" y1="210" x2="60" y2="30" marker-end="url(#ahm)"/>
 <circle class="sP" cx="59.8" cy="183.3" r="3.5"/>
 <circle class="sP" cx="67.8" cy="169.0" r="3.5"/>
@@ -260,6 +263,8 @@ print(model.params["treated:post"])          # the DiD effect
 <text class="sC" x="510" y="228" text-anchor="middle">6,000</text>
 <text class="sC" x="660" y="228" text-anchor="middle">7,000</text>
 <text class="sC" x="66" y="26">next year's spend</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60.0 180.0 L360.0 125.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M360.0 105.0 L660.0 50.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Customers at EGP 4,950 and 5,050 are alike in every way except the badge. The jump at the line is the effect, for customers near it.</figcaption></figure>
 
 > [!say]

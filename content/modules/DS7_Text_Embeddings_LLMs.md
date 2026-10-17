@@ -59,7 +59,7 @@ The catch is that distance depends on units. Spend in pounds (thousands) swamps 
 3. **Profile** each cluster: mean and median of every feature vs the overall average, size, and value; **name** them ("weekend families", "price-sensitive occasional buyers").
 4. Check **stability**: rerun with different seeds and a different month; segments that reshuffle aren't real.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="Choosing k: inertia drops steeply until k equals 4 and then flattens, and the silhouette score peaks at k equals 4">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: Choosing k: inertia drops steeply until k equals 4 and then flattens, and the silhouette score peaks at k equals 4">
 <text class="sT" x="186" y="22" text-anchor="middle">inertia (lower = tighter)</text>
 <line class="sLm" x1="60" y1="180" x2="330" y2="180" marker-end="url(#ahm)"/><line class="sLm" x1="60" y1="180" x2="60" y2="30" marker-end="url(#ahm)"/>
 <polyline class="sL" points="60.0,40.0 96.0,103.0 132.0,140.8 168.0,160.4 204.0,163.2 240.0,165.3 276.0,166.7 312.0,167.7" fill="none" stroke-width="2.2"/>
@@ -101,6 +101,8 @@ The catch is that distance depends on units. Spend in pounds (thousands) swamps 
 <text class="sC" x="662" y="198" text-anchor="middle">8</text>
 <circle class="sPw" cx="518" cy="64" r="9" opacity=".6"/><text class="sWt" x="530" y="54.5">k = 4</text>
 <text class="sC" x="536" y="216" text-anchor="middle">number of clusters k</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60.0 40.0 L96.0 103.0 L132.0 140.8 L168.0 160.4 L204.0 163.2 L240.0 165.3 L276.0 166.7 L312.0 167.7"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M446.0 101.2 L482.0 78.5 L518.0 64.5 L554.0 89.0 L590.0 97.8 L626.0 104.8 L662.0 110.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The elbow and the silhouette point at k = 4 here. The final choice still belongs to the people who must act on the segments.</figcaption></figure>
 
 ```python
