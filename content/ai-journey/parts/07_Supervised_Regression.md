@@ -435,7 +435,7 @@ No `stratify` here, because this is regression — there are no classes to strat
 
 ---
 
-<figure class="dia"><svg viewBox="0 0 720 194" role="img" aria-label="Where the train-test split sits: raw data, then exploratory analysis that only looks, then the split; the preprocessing pipeline is fitted on the training rows only and the test rows are transformed with the training statistics, giving an honest evaluation; fitting the scaler or imputer on all rows before splitting leaks test information">
+<figure class="dia anim"><svg viewBox="0 0 720 194" role="img" aria-label="Animation: where the train-test split sits: raw data, then exploratory analysis that only looks, then the split; the preprocessing pipeline is fitted on the training rows only and the test rows are transformed with the training statistics, giving an honest evaluation; fitting the scaler or imputer on all rows before splitting leaks test information">
 <rect class="sN" x="14" y="40" width="100" height="50" rx="8"/><text class="sT" x="64" y="70" text-anchor="middle">raw data</text>
 <rect class="sB" x="140" y="40" width="100" height="50" rx="8"/><text class="sT" x="190" y="63" text-anchor="middle">EDA</text><text class="sC" x="190" y="79" text-anchor="middle">look only</text>
 <rect class="sW" x="266" y="40" width="100" height="50" rx="8"/><text class="sT" x="316" y="63" text-anchor="middle">split</text><text class="sC" x="316" y="79" text-anchor="middle">train / test</text>
@@ -450,6 +450,13 @@ No `stratify` here, because this is regression — there are no classes to strat
 <line class="sLm" x1="542" y1="98" x2="570" y2="72" marker-end="url(#ahm)"/>
 <line class="sLg" x1="467" y1="58" x2="467" y2="76" marker-end="url(#ahg)" stroke-dasharray="3 3"/>
 <rect class="sR" x="14" y="140" width="692" height="44" rx="8" opacity=".85"/><text class="sT" x="360" y="160" text-anchor="middle">leak: fitting the scaler or imputer on ALL rows before splitting</text><text class="sS" x="360" y="176" text-anchor="middle">lets test-set statistics shape training, and the score comes out too good</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.070;1" path="M114 65 L140 65"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.070;0.072;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.190;1" path="M240 65 L266 65"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.190;0.192;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.300;1" path="M366 58 L392 36"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.300;0.302;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.300;1" path="M366 72 L392 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.420;1" path="M467 58 L467 76"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.570;1" path="M542 36 L570 58"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.570;0.572;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.570;1" path="M542 98 L570 72"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.570;0.572;1"/></circle>
 </svg><figcaption>Putting preprocessing inside a <code>Pipeline</code> enforces this order automatically, including inside every cross-validation fold.</figcaption></figure>
 
 ## 7.6 A custom transformer 🟡

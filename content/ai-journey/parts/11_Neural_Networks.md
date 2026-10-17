@@ -984,7 +984,7 @@ def train(model, optimizer, criterion, train_loader, n_epochs):
 <rect class="sA" x="14" y="60" width="46" height="56" rx="8"/><text class="sC" x="37" y="84" text-anchor="middle">X, y</text><text class="sS" x="37" y="102" text-anchor="middle">batch</text><line class="sL" x1="60" y1="88" x2="66" y2="88" marker-end="url(#ah)"/>
 </svg><figcaption>The five-line heart of every PyTorch training loop, drawn as the cycle it is.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="A batch of 32 rows with 8 features flows through Linear 8 to 50, Linear 50 to 40 and Linear 40 to 1, changing shape from 32 by 8 to 32 by 50, 32 by 40 and 32 by 1, with 2,531 parameters in total">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: A batch of 32 rows with 8 features flows through Linear 8 to 50, Linear 50 to 40 and Linear 40 to 1, changing shape from 32 by 8 to 32 by 50, 32 by 40 and 32 by 1, with 2,531 parameters in total">
 <rect class="sA" x="54" y="129.6" width="80" height="40.8" rx="6"/><text class="sC" x="94" y="155" text-anchor="middle">(32, 8)</text>
 <text class="sT" x="94" y="22" text-anchor="middle">input</text>
 <rect class="sB" x="230" y="75" width="80" height="150" rx="6"/><text class="sC" x="270" y="155" text-anchor="middle">(32, 50)</text>
@@ -1000,6 +1000,9 @@ def train(model, optimizer, criterion, train_loader, n_epochs):
 <text class="sS" x="622" y="40" text-anchor="middle">40×1 + 1 = 41 params</text>
 <line class="sLm" x1="486" y1="150" x2="578" y2="150" marker-end="url(#ahm)"/>
 <text class="sGt" x="360" y="232" text-anchor="middle">total 2,531 trainable parameters; the batch size 32 passes through untouched, only the last dimension changes</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M134 150 L226 150"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.400;1" path="M310 150 L402 150"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M486 150 L578 150"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
 </svg><figcaption>Read a Sequential as shapes: each layer's input size must equal the previous output size. Parameter counts computed for 8 input features (California housing).</figcaption></figure>
 
 Speed-ups:
