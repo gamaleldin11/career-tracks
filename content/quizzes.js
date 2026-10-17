@@ -722,11 +722,13 @@ const FOUNDATIONS = {
     q('Telecom', 'A 0.92-AUC churn model drives a campaign that changes nothing. A likely reason is that it targeted…', ['Persuadable customers', 'The highest-risk customers, many of them lost causes the offer cannot keep', 'Too few customers', 'Customers with low ARPU'], 1, 'Rank by uplift, not by risk, and prove it with a holdout.', 'AI16.10'),
   ],
   AI17: [
+    q('Deep learning', 'On a long, narrow loss valley, plain SGD zig-zags. Momentum helps because it…', ['Raises the learning rate', 'Accumulates velocity along the consistent direction while oscillations across the valley cancel out', 'Adds noise', 'Normalises the inputs'], 1, 'Adam combines momentum with per-parameter step sizes; scaling the inputs also rounds the valley.', 'AI17.3'),
     q('Deep learning', 'Why is bf16 the default for training while fp16 needs loss scaling?', ['bf16 has more fraction bits', 'bf16 keeps fp32\'s 8 exponent bits, so tiny gradients do not underflow', 'bf16 is an integer format', 'fp16 is slower'], 1, 'bf16 trades precision for range; fp16 does the opposite.', 'AI17.7'),
     q('Deep learning', 'Roughly how much memory do a 7B model\'s weights take in 4-bit NF4?', ['112 GB', '28 GB', '14 GB', '3.5 GB'], 3, 'Half a byte per parameter; fp32 training with Adam needs about 112 GB.', 'AI17.7'),
     q('Deep learning', 'In a 20-layer ReLU network with the default PyTorch nn.Linear init, the gradient reaching layer 1 is about 10⁻⁸ while layer 20 gets about 10⁻³. The fix is…', ['A larger learning rate everywhere', 'He (Kaiming) initialisation for ReLU layers', 'Sigmoid activations', 'More epochs'], 1, 'He init keeps activation and gradient variance roughly constant through depth; measured here within about 7×.', 'AI17.1'),
   ],
   AI24: [
+    q('RL', 'Why does DQN train against a separate, periodically copied target network?', ['To use less memory', 'So the targets do not shift with every gradient step, which keeps training stable', 'To explore more', 'Because replay needs it'], 1, 'Random replay breaks correlation between consecutive steps; the frozen target stops the network chasing its own moving estimates.', 'AI24.8'),
     q('RL', 'In Géron\'s three-state MDP, raising γ from 0.90 to 0.95 makes the agent in s1…', ['Stay put', 'Go through the fire (−50) for the later +40', 'Stop acting', 'Pick randomly'], 1, 'Valuing the future more makes short-term pain worth paying.', 'AI24.6'),
   ],
   N4: [
@@ -825,13 +827,16 @@ const FOUNDATIONS = {
     q('Unsupervised', 'A small, distinct customer segment disappears inside a large cluster. The k-means property behind this is…', ['It needs scaled data', 'It favours clusters of similar size', 'It is deterministic', 'It uses cosine distance'], 1, 'Increase k a lot, or use a density method such as HDBSCAN that also labels noise.', 'AI9.17'),
   ],
   AI11: [
+    q('Deep learning', 'Why does a PyTorch classifier end in a plain Linear layer and use CrossEntropyLoss, rather than adding softmax itself?', ['Softmax is slow', 'The loss applies log-softmax with the log-sum-exp shift, which is numerically stable; exp(1000) would overflow', 'Softmax is only for regression', 'To save memory'], 1, 'Feed logits to the loss; apply softmax only when you need probabilities for display.', 'AI11.13'),
     q('PyTorch', 'Why sample the learning rate with suggest_float(..., log=True)?', ['It is faster', 'Uniform sampling over 1e-5 to 1e-1 almost never tries values below 1e-2', 'Optuna requires it', 'It avoids overfitting'], 1, 'Log-uniform sampling gives each order of magnitude equal attention.', 'AI11.14'),
     q('PyTorch', 'x.grad is 10 after one backward pass. You update x, run forward and backward again without zeroing, and the new gradient is 8. x.grad is now…', ['8', '18', '10', '2'], 1, 'backward() adds into .grad, so call optimizer.zero_grad() (or x.grad.zero_()) before each backward.', 'AI11.10'),
   ],
   AI19: [
+    q('Time series', 'Forecasting 24 steps ahead by feeding each prediction back as the next input…', ['Has no drawbacks', 'Compounds errors step by step; a direct multi-output model avoids that feedback', 'Is required for RNNs', 'Removes seasonality'], 1, 'Recursive forecasting reuses one model but accumulates error; direct strategies predict all horizons at once.', 'AI19.4'),
     q('Time series', 'Hourly traffic has near-zero night hours. Which error metric should the report lead with?', ['MAPE', 'WAPE or MASE', 'R²', 'Accuracy'], 1, 'MAPE divides by each actual, so a miss of 6 on an actual of 2 counts as 300%.', 'AI19.6'),
   ],
   AI21: [
+    q('LLMs', 'LoRA with rank 16 on a 4096 × 4096 projection trains about…', ['16.8 million parameters', '131 thousand parameters (two thin matrices B·A)', '4,096 parameters', 'All the weights at lower precision'], 1, 'The base weight stays frozen; only B (4096 × 16) and A (16 × 4096) learn, about 0.8% of the weights.', 'AI21.9'),
     q('LLMs', 'Grouped-query attention with 8 KV heads instead of 32 shrinks the KV cache by…', ['Nothing', '4×', '32×', '2×'], 1, 'Cache size scales with the number of KV heads: 2 × layers × KV heads × head dim × bytes per token.', 'AI21.9'),
     q('LLMs', 'LoRA with rank 16 on a 4096×4096 projection trains roughly…', ['16.8 million parameters', '131 thousand parameters, under 1%', '4096 parameters', 'All of them'], 1, 'Two thin matrices, 4096×16 and 16×4096, give a low-rank update ΔW = B·A.', 'AI21.9'),
   ],
@@ -858,6 +863,7 @@ const FOUNDATIONS = {
     q('Python', 'pipe = filter(f, map(g, nums)); first = next(pipe); rest = list(pipe). What does a second list(pipe) return?', ['The full result again', 'An empty list: the iterator is exhausted', 'An error', 'Only the first value'], 1, 'map and filter are lazy, single-pass iterators; materialise with list() if you need the values twice.', 'AI1.4'),
   ],
   AI18: [
+    q('Deep learning', 'What does the skip connection in a residual block buy?', ['Fewer parameters', 'The block only learns a correction f(x) added to x, and gradients flow straight through, so very deep stacks stay trainable', 'Faster convolutions', 'Built-in dropout'], 1, 'At initialisation f(x) ≈ 0, so a deep stack starts as the identity.', 'AI18.5'),
     q('CNNs', 'Two stacked 3×3 convolutions (128→128 channels) versus one 5×5 with the same receptive field use…', ['The same number of weights', 'About 28% fewer weights, plus an extra non-linearity', 'Twice as many weights', 'No weights'], 1, '2 × (9·128·128 + 128) = 295,168 versus 25·128·128 + 128 = 409,728.', 'AI18.4'),
   ],
 };
