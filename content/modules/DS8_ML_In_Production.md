@@ -124,7 +124,7 @@ def score(f: Features):
 def health(): return {"status": "ok"}
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 258" role="img" aria-label="Packaging and serving: the fitted pipeline with all preprocessing steps is saved as one artifact, a FastAPI container loads it once at start-up, validates each request with Pydantic, scores it and returns the probability with the model version; a .NET API calls it over HTTP">
+<figure class="dia anim"><svg viewBox="0 0 720 258" role="img" aria-label="Animation: packaging and serving: the fitted pipeline with all preprocessing is saved as one artifact and loaded once by a FastAPI container; a .NET API posts a request that is validated by Pydantic, scored with predict_proba and answered with the churn probability and model version">
 <text class="sM" x="14" y="22">training</text><text class="sM" x="250" y="22">artifact</text><text class="sM" x="420" y="22">serving (Docker image)</text>
 <rect class="sB" x="14" y="34" width="200" height="60" rx="8"/><text class="sT" x="114" y="62" text-anchor="middle">pipeline.fit(X_train)</text><text class="sC" x="114" y="78" text-anchor="middle">imputer → encoder → LightGBM</text>
 <line class="sL" x1="214" y1="64" x2="246" y2="64" marker-end="url(#ah)"/>
@@ -142,6 +142,8 @@ def health(): return {"status": "ok"}
 <line class="sLg" x1="214" y1="152" x2="432" y2="152" marker-end="url(#ahg)"/><text class="sGt" x="323" y="144" text-anchor="middle">HTTP call, with retries</text>
 <rect class="sR" x="14" y="196" width="692" height="34" rx="6" opacity=".35"/><text class="sRt" x="360" y="218" text-anchor="middle">save only the estimator, and serving must re-implement preprocessing: training/serving skew</text>
 <text class="sS" x="360" y="248" text-anchor="middle">alternative for low latency: export to ONNX and score in-process from C# with ONNX Runtime</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M214 64 L250 64 L400 64 L436 64"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.950;1" path="M214 152 L432 152 L571 54 L571 147 L432 160 L214 160"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.950;0.952;1"/></circle>
 </svg><figcaption>Ship the whole pipeline as one versioned artifact, so production transforms features exactly as training did.</figcaption></figure>
 
 Package it in a Docker image ([[S5.8]]), deploy it like any service (Container Apps, Kubernetes, Azure ML managed endpoints), and give it the production basics: input validation (Pydantic does this), structured logs of inputs and outputs, latency metrics, health checks and versioned endpoints ([[B11]]).

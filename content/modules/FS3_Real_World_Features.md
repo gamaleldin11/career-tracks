@@ -297,7 +297,7 @@ Users now expect "ask a question about my data" features, and interviewers incre
 - **Cost and abuse controls:** per-user and per-tenant rate limits and token budgets, caching of repeated questions, smaller models for simple tasks, and logs of token usage.
 - **Evaluate:** keep a set of test questions with expected answers and check quality on every prompt or model change.
 
-<figure class="dia"><svg viewBox="0 0 720 258" role="img" aria-label="AI feature architecture: the browser sends a question to the server, which authenticates and budgets it, retrieves only this tenant's data, calls the LLM with a server-side key, validates the output and streams it back">
+<figure class="dia anim"><svg viewBox="0 0 720 258" role="img" aria-label="Animation: an AI feature request: the browser’s question reaches the server, which authenticates and budgets it, retrieves only this tenant’s data, calls the LLM with a server-side key, validates the output and streams tokens back to the browser">
 <rect class="sB" x="14" y="96" width="110" height="50" rx="8"/><text class="sT" x="69" y="119" text-anchor="middle">browser</text><text class="sC" x="69" y="135" text-anchor="middle">question</text>
 <rect class="sN" x="160" y="20" width="260" height="206" rx="12"/><text class="sT" x="290" y="40" text-anchor="middle">your server</text>
 <rect class="sB" x="176" y="54" width="228" height="40" rx="6"/><text class="sC" x="290" y="79" text-anchor="middle">auth · rate limit · token budget</text>
@@ -309,6 +309,9 @@ Users now expect "ask a question about my data" features, and interviewers incre
 <line class="sL" x1="404" y1="132" x2="466" y2="132" marker-end="url(#ah)"/><line class="sLw" x1="500" y1="164" x2="408" y2="178" marker-end="url(#ahw)"/><text class="sWt" x="560" y="186" text-anchor="middle">tokens stream back</text>
 <line class="sLm" x1="176" y1="186" x2="128" y2="136" marker-end="url(#ahm)"/><text class="sC" x="100" y="200" text-anchor="middle">SSE stream</text>
 <text class="sRt" x="360" y="246" text-anchor="middle">retrieved documents may hide instructions: keep tools least-privileged and confirm side effects</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M124 110 L172 76 L290 94 L290 126 L404 120 L556 62"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.500;1" path="M404 132 L466 132"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.500;0.502;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.900;1" path="M500 164 L408 178 L290 178 L176 186 L128 136"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.900;0.902;1"/></circle>
 </svg><figcaption>The model is a powerful, untrusted component. Everything that touches users, data or money sits in your code around it.</figcaption></figure>
 
 > [!story]

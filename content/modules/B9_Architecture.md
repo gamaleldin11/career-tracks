@@ -132,7 +132,7 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 > [!term] Bounded context
 > A boundary inside which one model and one language apply consistently. "Customer" in Billing (payment terms, invoices) and "Customer" in Support (tickets, SLA) are different models with different rules; each context owns its own model, and they integrate through explicit contracts or events. Bounded contexts are the natural seams for modules or microservices.
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Two bounded contexts each with its own Customer model, integrated through an event">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: two bounded contexts each with their own Customer model; when the billing context renames a customer it publishes a CustomerRenamed event that the support context consumes to update its own model">
 <rect class="sN" x="20" y="30" width="300" height="150" rx="14"/><text class="sT" x="170" y="52" text-anchor="middle">Billing context</text>
 <rect class="sA" x="80" y="66" width="180" height="100" rx="8"/>
 <text class="sT" x="170" y="88" text-anchor="middle">Customer</text>
@@ -147,6 +147,7 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 <text class="sC" x="550" y="148" text-anchor="middle">preferred language</text>
 <line class="sLw" x1="320" y1="105" x2="396" y2="105" marker-end="url(#ahw)"/><text class="sC" x="358" y="96" text-anchor="middle">event:</text><text class="sM" x="358" y="124" text-anchor="middle">CustomerRenamed</text>
 <text class="sS" x="360" y="206" text-anchor="middle">same word, two models; each context owns its own, and they integrate through contracts or events</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.700;1" path="M260 116 L320 105 L396 105 L460 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.700;0.702;1"/></circle>
 </svg><figcaption>Bounded contexts. Trying to make one Customer class serve both teams produces a model that suits neither.</figcaption></figure>
 
 **Tactical DDD (the building blocks):**

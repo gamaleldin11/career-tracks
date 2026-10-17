@@ -386,13 +386,14 @@ public class TimeGptClient(HttpClient http) : ITimeGptClient       // typed clie
 
 Resilience (retries, circuit breakers, timeouts) is covered in [[B11]].
 
-<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="A typed client uses an HttpClient whose request passes through a resilience handler to a pooled primary handler that the factory recycles">
+<figure class="dia anim"><svg viewBox="0 0 720 172" role="img" aria-label="Animation: a typed client’s request goes through a short-lived HttpClient and a resilience handler with retry and circuit breaker to a pooled primary handler that keeps sockets and is recycled about every two minutes">
 <rect class="sA" x="10" y="50" width="130" height="50" rx="8"/><text class="sT" x="75" y="73" text-anchor="middle">TimeGptClient</text><text class="sC" x="75" y="89" text-anchor="middle">typed client</text>
 <line class="sL" x1="140" y1="75" x2="166" y2="75" marker-end="url(#ah)"/><rect class="sB" x="170" y="50" width="130" height="50" rx="8"/><text class="sT" x="235" y="73" text-anchor="middle">HttpClient</text><text class="sC" x="235" y="89" text-anchor="middle">cheap, per use</text>
 <line class="sL" x1="300" y1="75" x2="326" y2="75" marker-end="url(#ah)"/><rect class="sW" x="330" y="50" width="150" height="50" rx="8"/><text class="sT" x="405" y="73" text-anchor="middle">resilience handler</text><text class="sC" x="405" y="89" text-anchor="middle">retry · breaker</text>
 <line class="sL" x1="480" y1="75" x2="506" y2="75" marker-end="url(#ah)"/><rect class="sG" x="510" y="50" width="190" height="50" rx="8"/><text class="sT" x="605" y="73" text-anchor="middle">pooled primary handler</text><text class="sC" x="605" y="89" text-anchor="middle">sockets kept, recycled ~2 min</text>
 <text class="sS" x="355" y="140" text-anchor="middle">the factory hands out new HttpClients that share pooled handlers:</text>
 <text class="sGt" x="355" y="160" text-anchor="middle">no socket exhaustion (reuse) and no stale DNS (handlers rotate)</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.700;1" path="M75 108 L605 108"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.700;0.702;1"/></circle>
 </svg><figcaption>What <code>IHttpClientFactory</code> builds. Delegating handlers form a little pipeline of their own, like middleware for outgoing calls.</figcaption></figure>
 
 ## B3.10 Background work in the same process 🟡
