@@ -1422,7 +1422,7 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
   <li>TLS versions: 1.2 and 1.3 are acceptable; anything older is a finding. Handshake failure modes to name: expired cert, hostname mismatch, incomplete chain (missing intermediate — "works in Chrome, fails from the app"), client clock skew.</li>
   <li><code>curl -v https://site</code> shows resolve → connect → TLS → HTTP stages in one command — the fastest way to see <em>which stage</em> fails.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 192" role="img" aria-label="Where HTTP errors come from along a request path of browser, load balancer, application server and database: 4xx codes mean the request itself was rejected, such as 401, 403 and 404; 502 and 504 come from the load balancer or proxy when the backend gave a bad answer or was too slow; 500 and 503 come from the application when it crashed or is overloaded; database timeouts usually surface as a 500 or a 504 one tier up">
+<figure class="dia anim"><svg viewBox="0 0 720 192" role="img" aria-label="Animation: where HTTP errors come from along a request path of browser, load balancer, application server and database: 4xx codes mean the request itself was rejected, such as 401, 403 and 404; 502 and 504 come from the load balancer or proxy when the backend gave a bad answer or was too slow; 500 and 503 come from the application when it crashed or is overloaded; database timeouts usually surface as a 500 or a 504 one tier up">
 <rect class="sB" x="14" y="40" width="130" height="46" rx="8"/><text class="sT" x="79" y="68" text-anchor="middle">Browser</text>
 <rect class="sA" x="194" y="40" width="170" height="46" rx="8"/><text class="sT" x="279" y="68" text-anchor="middle">Load balancer / proxy</text>
 <rect class="sV" x="390" y="40" width="130" height="46" rx="8"/><text class="sT" x="455" y="68" text-anchor="middle">App server</text>
@@ -1434,6 +1434,8 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
 <text class="sS" x="641" y="112" text-anchor="middle">(timeouts)</text><text class="sS" x="641" y="132" text-anchor="middle">often surface as a 500</text><text class="sS" x="641" y="150" text-anchor="middle">or 504 one tier up</text>
 <text class="sM" x="360" y="24" text-anchor="middle">which tier produced the error code?</text>
 <text class="sGt" x="360" y="182" text-anchor="middle">a 502 or 504 means look one tier BEHIND the device that returned it</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M144 48 L576 48"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.680;1" path="M576 78 L144 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.680;0.682;1"/></circle>
 </svg><figcaption>The status code tells you which tier to open first. Combine it with <code>curl -v</code>, which shows whether DNS, TCP, TLS or HTTP is the stage that failed.</figcaption></figure>
 </div>
 
@@ -1784,7 +1786,7 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
   <tr><td><strong>BGP</strong></td><td>EGP, <strong>path-vector</strong></td><td>Chooses by <em>policy</em> and AS-path, not speed; peers over TCP 179</td><td>Runs the internet; what ISPs and multi-homed companies use. "eBGP between ASes, iBGP inside one"</td></tr>
 </table></div>
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Interior and exterior routing: inside the company’s autonomous system AS 65001 the routers run OSPF to find the fastest paths; the company’s edge router peers with the ISP’s router in AS 65002 using eBGP over TCP 179, which exchanges reachability between organisations chosen by policy and AS path; the ISP runs its own IGP inside">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: interior and exterior routing: inside the company’s autonomous system AS 65001 the routers run OSPF to find the fastest paths; the company’s edge router peers with the ISP’s router in AS 65002 using eBGP over TCP 179, which exchanges reachability between organisations chosen by policy and AS path; the ISP runs its own IGP inside">
 <ellipse class="sN" cx="190" cy="120" rx="176" ry="100"/>
 <text class="sM" x="190" y="40" text-anchor="middle">AS 65001 · your company</text>
 <ellipse class="sN" cx="560" cy="120" rx="150" ry="100"/>
@@ -1803,6 +1805,8 @@ Gi1/0/22          err-disabled  psecure-violation   <span class="c">← port sec
 <line class="sLv" x1="340" y1="120" x2="470" y2="120" style="stroke-width:3"/><text class="sT" x="405" y="112" text-anchor="middle">eBGP</text><text class="sC" x="405" y="142" text-anchor="middle">TCP 179</text>
 <text class="sS" x="560" y="200" text-anchor="middle">their own IGP inside</text>
 <text class="sS" x="360" y="236" text-anchor="middle">inside an AS: an IGP picks the best path by metric · between ASes: BGP picks by policy and AS path</text>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.180;1" path="M470 120 L340 120"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.180;0.182;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.850;1" path="M90 160 L210 120 L310 120 L500 120 L620 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.850;0.852;1"/></circle>
 </svg><figcaption>An IGP answers "what is the fastest way across my network?"; BGP answers "which networks can I reach through which organisation, and which do I prefer?". Private AS numbers (64512–65534) are used in this example.</figcaption></figure>
 
 <h3>5.4 Reading a routing decision</h3>
@@ -2480,7 +2484,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 3  permit  Mgmt-Subnet   → All-Devices    ssh,https,snmp            <span class="c"># admin plane, tight sources</span>
 4  deny    any           → RFC1918        any               log     <span class="c"># stop leaks to private ranges</span>
 5  deny    any           → any            any               log     <span class="c"># explicit final deny — logged!</span></code></pre>
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A clean firewall rulebase evaluated top down with first match winning: specific permits first, for LAN users to the DMZ web servers on 443, LAN users to the internet for web and DNS, and the management subnet to all devices for SSH and HTTPS; then a deny to private ranges and an explicit logged deny of everything; a broad permit placed too high would shadow the rules below it">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: a clean firewall rulebase evaluated top down with first match winning: specific permits first, for LAN users to the DMZ web servers on 443, LAN users to the internet for web and DNS, and the management subnet to all devices for SSH and HTTPS; then a deny to private ranges and an explicit logged deny of everything; a broad permit placed too high would shadow the rules below it">
 <rect class="sG" x="14" y="30" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="49">1</text><text class="sT" x="50" y="49">permit</text><text class="sC" x="116" y="49">LAN-Users → DMZ-Web  tcp/443</text>
 <rect class="sG" x="14" y="64" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="83">2</text><text class="sT" x="50" y="83">permit</text><text class="sC" x="116" y="83">LAN-Users → Internet  web, DNS</text>
 <rect class="sG" x="14" y="98" width="420" height="28" rx="5" opacity=".8"/><text class="sT" x="26" y="117">3</text><text class="sT" x="50" y="117">permit</text><text class="sC" x="116" y="117">Mgmt-Subnet → All-Devices  ssh, https</text>
@@ -2489,6 +2493,9 @@ access-list 110 deny   ip  any any                              <span class="c">
 <text class="sM" x="14" y="20">evaluated top-down, first match wins</text>
 <line class="sLm" x1="470" y1="30" x2="470" y2="196" marker-end="url(#ahm)"/><text class="sS" x="480" y="46">specific allows first</text><text class="sS" x="480" y="176">explicit, logged deny last</text>
 <rect class="sW" x="480" y="82" width="226" height="60" rx="8"/><text class="sT" x="593" y="104" text-anchor="middle">shadowed rule: a broad permit</text><text class="sS" x="593" y="122" text-anchor="middle">above makes a later rule dead</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M420 22 L420 44 L456 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.500;1" path="M420 22 L420 112 L456 112"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.500;0.502;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.900;1" path="M420 22 L420 180 L456 180"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.900;0.902;1"/></circle>
 </svg><figcaption>Read a rulebase like the firewall does: top to bottom, stopping at the first match. The final logged deny is what turns "it doesn’t work" into a log line you can search.</figcaption></figure>
 
 <ul>
@@ -2750,7 +2757,7 @@ sudo tcpdump -w /tmp/case123.pcap ... <span class="c"># capture to file, analyze
   <li><strong>Wi-Fi roaming mid-test</strong>: pings drop every few minutes on a laptop = roams between APs, not a network fault — check BSSID before/after.</li>
   <li><strong>The observer effect</strong>: remote-desktop into a machine to test its network = your session competes with your test. Prefer out-of-band access (console/iLO) for serious loss testing.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="A traceroute where hop 3 shows 180 milliseconds but hops 4 and 5 show 14 and 15 milliseconds: the router at hop 3 just answers ICMP slowly, so the spike is cosmetic; only latency that persists through to the final hop is a real problem">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: a traceroute where hop 3 shows 180 milliseconds but hops 4 and 5 show 14 and 15 milliseconds: the router at hop 3 just answers ICMP slowly, so the spike is cosmetic; only latency that persists through to the final hop is a real problem">
 <line class="sLm" x1="60" y1="150" x2="660" y2="150"/>
 <line class="sLm" x1="60" y1="150" x2="60" y2="30"/>
 <text class="sS" x="52" y="154" text-anchor="end">0</text>
@@ -2765,6 +2772,7 @@ sudo tcpdump -w /tmp/case123.pcap ... <span class="c"># capture to file, analyze
 <text class="sWt" x="374" y="55">← this router answers ICMP slowly (low priority)</text>
 <text class="sGt" x="360" y="196" text-anchor="middle">hops 4 and 5 are fast again → hop 3 is cosmetic; only latency that persists to the end is real</text>
 <text class="sS" x="18" y="90" text-anchor="middle" transform="rotate(-90 18 90)">ms</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M80 149 L220 147 L360 51 L500 142 L640 142"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Routers forward traffic in hardware but answer traceroute probes in software, at low priority. A spike that disappears at the next hop is the router, not the path. Illustrative values.</figcaption></figure>
 
 
@@ -3318,7 +3326,7 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li><strong>NFS</strong>: v3 = host-based trust (export lists, UID mapping — "why does user 1001 own these files?"), v4 = stateful, Kerberos-capable, single port 2049. VMware NFS datastores typically v3 — locking and permissions behave differently than v4, an L2-level detail worth recognizing.</li>
   <li>Mixed-protocol gotcha: the same NAS folder shared over SMB (Windows ACLs) and NFS (POSIX bits) has <em>two</em> permission models — mismatches create "I can see it from Windows but not from Linux" tickets.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="One NAS folder shared two ways: Windows clients use SMB 3 on port 445 and are checked against Windows ACLs with AD users and groups; Linux clients use NFS on port 2049 and are checked against POSIX permission bits with UID and GID numbers and export rules; the two models can disagree, so access may work from one side and fail from the other">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: one NAS folder shared two ways: Windows clients use SMB 3 on port 445 and are checked against Windows ACLs with AD users and groups; Linux clients use NFS on port 2049 and are checked against POSIX permission bits with UID and GID numbers and export rules; the two models can disagree, so access may work from one side and fail from the other">
 <rect class="sV" x="290" y="80" width="140" height="56" rx="8"/><text class="sT" x="360" y="106" text-anchor="middle">NAS folder</text><text class="sC" x="360" y="122" text-anchor="middle">/finance</text>
 <rect class="sB" x="14" y="30" width="170" height="50" rx="8"/><text class="sT" x="99" y="53" text-anchor="middle">Windows client</text><text class="sC" x="99" y="69" text-anchor="middle">SMB 3 · port 445</text>
 <rect class="sA" x="536" y="30" width="170" height="50" rx="8"/><text class="sT" x="621" y="53" text-anchor="middle">Linux client</text><text class="sC" x="621" y="69" text-anchor="middle">NFS v3/v4 · 2049</text>
@@ -3328,6 +3336,8 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
 <rect class="sA" x="466" y="100" width="240" height="70" rx="8" opacity=".5"/><text class="sT" x="586" y="122" text-anchor="middle">checks POSIX bits</text><text class="sS" x="586" y="140" text-anchor="middle">UID / GID numbers</text><text class="sS" x="586" y="156" text-anchor="middle">export rules (hosts allowed)</text>
 <text class="sWt" x="360" y="196" text-anchor="middle">two permission models on one folder: "fine from Windows, denied from Linux" = an ID-mapping or mode-bit mismatch</text>
 <text class="sS" x="360" y="216" text-anchor="middle">SMBv1 stays off; NFS v3 trusts the client’s UID, v4 can use Kerberos</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M184 55 L288 98"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.700;1" path="M536 55 L432 98"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.700;0.702;1"/></circle>
 </svg><figcaption>Multi-protocol shares need a decision about which permission model wins and how AD users map to UIDs. Without one, access tickets are guaranteed.</figcaption></figure>
 
 
@@ -3380,7 +3390,7 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li><strong>ALUA</strong>: both controllers accept I/O but each LUN has an "owning" controller with optimized paths — why multipath output shows prio 50 vs prio 10 path groups.</li>
   <li>Modern refinements: storage pools instead of fixed RAID groups (wide striping), always-on compression/dedupe on all-flash, QoS per LUN (cap the dev box's IOPS so it can't starve production).</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="Inside a midrange storage array: two controllers, each owning some LUNs and mirroring their write cache to each other, with front-end Fibre Channel or iSCSI ports to the hosts and redundant SAS back-end loops to the disk shelves; each host has an optimized path to the owning controller and a non-optimized path to the other">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: inside a midrange storage array: two controllers, each owning some LUNs and mirroring their write cache to each other, with front-end Fibre Channel or iSCSI ports to the hosts and redundant SAS back-end loops to the disk shelves; each host has an optimized path to the owning controller and a non-optimized path to the other">
 <rect class="sB" x="14" y="20" width="120" height="40" rx="8"/><text class="sT" x="74" y="45" text-anchor="middle">Host A</text>
 <rect class="sB" x="14" y="80" width="120" height="40" rx="8"/><text class="sT" x="74" y="105" text-anchor="middle">Host B</text>
 <rect class="sN" x="200" y="14" width="300" height="120" rx="10"/>
@@ -3401,6 +3411,14 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
 <text class="sS" x="160" y="162" text-anchor="middle">front end: FC / iSCSI ports</text>
 <text class="sS" x="633" y="150" text-anchor="middle">back end: redundant SAS loops</text>
 <text class="sS" x="360" y="186" text-anchor="middle">solid = optimized path to the owning controller (ALUA prio 50) · dashed = non-optimized (prio 10)</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M134 40 L214 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.160;1" path="M344 60 L356 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.160;0.162;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.260;1" path="M214 50 L134 40"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.260;0.262;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.400;1" path="M486 50 L560 40"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.400;0.402;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M134 100 L356 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.680;1" path="M356 90 L344 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.680;0.682;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.800;1" path="M356 100 L134 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.800;0.802;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.840;0.920;1" path="M486 100 L560 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.838;0.842;0.920;0.922;1"/></circle>
 </svg><figcaption>Everything is in pairs, and the cache is mirrored so a controller can die without losing acknowledged writes. ALUA is why multipath shows two path groups with different priorities.</figcaption></figure>
 
 <h3>Replication &amp; DR — the level above backups</h3>
