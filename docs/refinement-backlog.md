@@ -37,11 +37,9 @@ Status of the diagram and foundations refinement pass, written so the work can b
 ### Handbook sections still without a diagram (most valuable first)
 
 - **Backend:**
-  - API and ASP.NET: B4.2.
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
 - **Frontend:** F1.2; F2.8, F2.11; F5.2, F5.3, F5.10, F5.11; F6.8 React 19.
-- **System design and platform:** SD1.1.
-- **Other:** S2.7; S4.15; FS1.5, FS1.7; DS6.6.
+- **Other:** S2.7; FS1.7.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
 ### Other follow-ups

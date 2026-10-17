@@ -219,6 +219,20 @@ finsight/
   docs/adr/                # architecture decision records
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Monorepo versus polyrepo: in a monorepo one pull request changes the API and the web app together atomically; in a polyrepo the API repository releases v2 with a new field, publishes a versioned client package, and the web repository upgrades in a separate pull request">
+<text class="sM" x="180" y="22" text-anchor="middle">monorepo</text>
+<text class="sM" x="540" y="22" text-anchor="middle">polyrepo</text>
+<rect class="sN" x="30" y="36" width="300" height="120" rx="10"/><rect class="sA" x="50" y="56" width="120" height="40" rx="8"/><text class="sT" x="110" y="74" text-anchor="middle">api/</text><text class="sC" x="110" y="90" text-anchor="middle">Invoice.dueDate</text><rect class="sB" x="190" y="56" width="120" height="40" rx="8"/><text class="sT" x="250" y="74" text-anchor="middle">web/</text><text class="sC" x="250" y="90" text-anchor="middle">uses dueDate</text>
+<rect class="sG" x="50" y="110" width="260" height="30" rx="6"/><text class="sT" x="180" y="130" text-anchor="middle">one PR changes both, atomically</text>
+<rect class="sA" x="390" y="40" width="140" height="44" rx="8"/><text class="sT" x="460" y="60" text-anchor="middle">api repo</text><text class="sC" x="460" y="76" text-anchor="middle">v2 adds dueDate</text>
+<rect class="sB" x="566" y="40" width="140" height="44" rx="8"/><text class="sT" x="636" y="60" text-anchor="middle">web repo</text><text class="sC" x="636" y="76" text-anchor="middle">still on v1</text>
+<rect class="sW" x="470" y="112" width="150" height="40" rx="8"/><text class="sT" x="545" y="130" text-anchor="middle">published client</text><text class="sC" x="545" y="146" text-anchor="middle">api-client 2.0.0</text>
+<line class="sLm" x1="460" y1="84" x2="520" y2="112" marker-end="url(#ahm)"/>
+<line class="sLm" x1="570" y1="112" x2="630" y2="84" marker-end="url(#ahm)"/>
+<text class="sS" x="540" y="172" text-anchor="middle">two PRs + a versioned contract in between</text>
+<text class="sS" x="360" y="200" text-anchor="middle">monorepo: easy cross-cutting changes, CI must build only what changed · polyrepo: independent releases, slower coordination</text>
+</svg><figcaption>The deciding question is how often a change crosses the front-end/back-end line. For one team shipping one product, often: hence a monorepo.</figcaption></figure>
+
 ## FS1.6 A feature, end to end ⭐
 
 "The accountant clicks **Mark paid** on an overdue invoice." Walk every layer; this is the most common full-stack interview question in disguise.

@@ -209,6 +209,39 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 > [!say]
 > "For short or new series, a foundation model like TimeGPT or Chronos gives a strong zero-shot forecast with intervals and no per-series tuning, which suited FinSight's many small companies. But I always backtest it against seasonal naive and a tuned statistical or gradient-boosting model on our own data, because foundation models don't automatically win, especially when we know promotions or holidays that drive demand."
 
+<figure class="dia steps"><svg viewBox="0 0 720 182" role="img" aria-label="Preparing a sparse cash-flow series for a forecasting model: raw transactions exist only on some days with gaps for weekends and holidays; aggregating per day and inserting explicit zero rows produces the continuous daily series that time-series models require">
+<text class="sM" x="360" y="20" text-anchor="middle">daily cash-flow transactions, two weeks</text>
+<g data-s="1"><rect class="sB" x="48" y="60" width="24" height="60" rx="2" opacity=".8"/></g>
+<text class="sC" x="60" y="140" text-anchor="middle">1</text>
+<g data-s="1"><rect class="sB" x="92" y="84" width="24" height="36" rx="2" opacity=".8"/></g>
+<text class="sC" x="104" y="140" text-anchor="middle">2</text>
+<text class="sC" x="148" y="140" text-anchor="middle">3</text>
+<g data-s="1"><rect class="sB" x="180" y="36" width="24" height="84" rx="2" opacity=".8"/></g>
+<text class="sC" x="192" y="140" text-anchor="middle">4</text>
+<g data-s="1"><rect class="sB" x="224" y="96" width="24" height="24" rx="2" opacity=".8"/></g>
+<text class="sC" x="236" y="140" text-anchor="middle">5</text>
+<text class="sC" x="280" y="140" text-anchor="middle">6</text>
+<text class="sC" x="324" y="140" text-anchor="middle">7</text>
+<g data-s="1"><rect class="sB" x="356" y="48" width="24" height="72" rx="2" opacity=".8"/></g>
+<text class="sC" x="368" y="140" text-anchor="middle">8</text>
+<g data-s="1"><rect class="sB" x="400" y="72" width="24" height="48" rx="2" opacity=".8"/></g>
+<text class="sC" x="412" y="140" text-anchor="middle">9</text>
+<g data-s="1"><rect class="sB" x="444" y="60" width="24" height="60" rx="2" opacity=".8"/></g>
+<text class="sC" x="456" y="140" text-anchor="middle">10</text>
+<text class="sC" x="500" y="140" text-anchor="middle">11</text>
+<g data-s="1"><rect class="sB" x="532" y="84" width="24" height="36" rx="2" opacity=".8"/></g>
+<text class="sC" x="544" y="140" text-anchor="middle">12</text>
+<text class="sC" x="588" y="140" text-anchor="middle">13</text>
+<text class="sC" x="632" y="140" text-anchor="middle">14</text>
+<line class="sLm" x1="40" y1="120" x2="680" y2="120"/>
+<g data-s="2"><rect class="sW" x="136" y="116" width="24" height="4" rx="1"/><text class="sWt" x="148" y="108" text-anchor="middle">0</text><rect class="sW" x="268" y="116" width="24" height="4" rx="1"/><text class="sWt" x="280" y="108" text-anchor="middle">0</text><rect class="sW" x="312" y="116" width="24" height="4" rx="1"/><text class="sWt" x="324" y="108" text-anchor="middle">0</text><rect class="sW" x="488" y="116" width="24" height="4" rx="1"/><text class="sWt" x="500" y="108" text-anchor="middle">0</text><rect class="sW" x="576" y="116" width="24" height="4" rx="1"/><text class="sWt" x="588" y="108" text-anchor="middle">0</text><rect class="sW" x="620" y="116" width="24" height="4" rx="1"/><text class="sWt" x="632" y="108" text-anchor="middle">0</text></g>
+<g data-s="1-1"><text class="sRt" x="360" y="170" text-anchor="middle">the forecasting API rejects this: it needs one value per day, no gaps</text></g>
+<g data-s="2-2"><text class="sGt" x="360" y="170" text-anchor="middle">aggregate per day and insert explicit zeros: a continuous daily series the model accepts</text></g>
+</svg><ol class="dia-steps">
+<li>Real transactions skip days, so the series has holes.</li>
+<li>Fill every missing day with an explicit zero.</li>
+</ol><figcaption>The data step from the FinSight story: most "the model failed" moments with TimeGPT or Chronos are a series that is not continuous, not a modelling problem.</figcaption></figure>
+
 ## DS6.7 Evaluating forecasts honestly 🟢 ⭐
 
 **Backtest with a rolling origin** ([[DS4.2]]): pick several forecast origins in the past; for each, train on data up to the origin, forecast the horizon, and score against what actually happened. Average across origins and horizons, and look at error **by horizon** (day 1 vs day 14).

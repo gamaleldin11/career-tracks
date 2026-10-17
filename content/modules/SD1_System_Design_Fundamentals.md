@@ -36,6 +36,15 @@ Martin Kleppmann's *Designing Data-Intensive Applications* frames the first thre
 > [!say]
 > "System design is choosing the components of a system and how they connect, so it meets its requirements for scale, reliability and cost, and knowing the trade-off behind every choice."
 
+<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="The four questions system design answers: scalability, what happens at 100 times the traffic; reliability, what if the database goes down; maintainability, how would you add payments; and cost, can we run this for less; a design is a trade-off between them">
+<rect class="sB" x="14" y="20" width="340" height="80" rx="10" opacity=".7"/><text class="sT" x="184" y="52" text-anchor="middle">Scalability</text><text class="sS" x="184" y="76" text-anchor="middle">"What happens at 100× the traffic?"</text>
+<rect class="sR" x="366" y="20" width="340" height="80" rx="10" opacity=".7"/><text class="sT" x="536" y="52" text-anchor="middle">Reliability</text><text class="sS" x="536" y="76" text-anchor="middle">"What if the database goes down?"</text>
+<rect class="sV" x="14" y="110" width="340" height="80" rx="10" opacity=".7"/><text class="sT" x="184" y="142" text-anchor="middle">Maintainability</text><text class="sS" x="184" y="166" text-anchor="middle">"How would you add payments?"</text>
+<rect class="sG" x="366" y="110" width="340" height="80" rx="10" opacity=".7"/><text class="sT" x="536" y="142" text-anchor="middle">Cost</text><text class="sS" x="536" y="166" text-anchor="middle">"Can we run this for less?"</text>
+<rect class="sN" x="270" y="82" width="180" height="46" rx="23"/><text class="sT" x="360" y="103" text-anchor="middle">your design</text><text class="sC" x="360" y="119" text-anchor="middle">a trade-off between them</text>
+<text class="sS" x="360" y="214" text-anchor="middle">every component you add should improve at least one of the four, and you should be able to say which</text>
+</svg><figcaption>Interview questions in system design rounds map to one of these four. Naming which one a choice serves is most of a good answer.</figcaption></figure>
+
 ## SD1.2 The journey of one request 🟢 ⭐
 
 Almost every system design starts by tracing a single request. Learn this path; every building block below sits somewhere on it.

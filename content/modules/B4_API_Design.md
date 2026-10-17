@@ -67,6 +67,18 @@ REST (Roy Fielding, 2000) is an architectural style. In practice, "RESTful" HTTP
 
 **JSON shapes:** consistent casing (`camelCase` is the .NET and JavaScript default), ISO 8601 dates in UTC (`"2026-10-03T09:30:00Z"`), money as a decimal string or integer minor units plus a currency code (never a float), and enums as **strings** (`"overdue"`), not numbers, so they survive reordering.
 
+<figure class="dia"><svg viewBox="0 0 720 264" role="img" aria-label="REST methods on an invoices resource and their usual status codes: GET a list or one invoice returns 200 or 404, POST creates and returns 201 with a Location header, PUT replaces and PATCH updates returning 200 or 204, DELETE returns 204, and a non-CRUD action is a POST to a sub-resource such as payments returning 201 or 202">
+<text class="sM" x="14" y="20">nouns in the URL, verbs in the method, outcome in the status code</text>
+<rect class="sB" x="14" y="30" width="70" height="24" rx="4"/><text class="sT" x="49" y="47" text-anchor="middle">GET</text><text class="sC" x="96" y="47" xml:space="preserve" style="white-space:pre">/api/v1/invoices</text><text class="sS" x="706" y="47" text-anchor="end">200 list</text>
+<rect class="sB" x="14" y="60" width="70" height="24" rx="4"/><text class="sT" x="49" y="77" text-anchor="middle">GET</text><text class="sC" x="96" y="77" xml:space="preserve" style="white-space:pre">/api/v1/invoices/{id}</text><text class="sS" x="706" y="77" text-anchor="end">200 or 404</text>
+<rect class="sG" x="14" y="90" width="70" height="24" rx="4"/><text class="sT" x="49" y="107" text-anchor="middle">POST</text><text class="sC" x="96" y="107" xml:space="preserve" style="white-space:pre">/api/v1/invoices</text><text class="sS" x="706" y="107" text-anchor="end">201 + Location</text>
+<rect class="sA" x="14" y="120" width="70" height="24" rx="4"/><text class="sT" x="49" y="137" text-anchor="middle">PUT</text><text class="sC" x="96" y="137" xml:space="preserve" style="white-space:pre">/api/v1/invoices/{id}</text><text class="sS" x="706" y="137" text-anchor="end">200 / 204 (replace)</text>
+<rect class="sA" x="14" y="150" width="70" height="24" rx="4"/><text class="sT" x="49" y="167" text-anchor="middle">PATCH</text><text class="sC" x="96" y="167" xml:space="preserve" style="white-space:pre">/api/v1/invoices/{id}</text><text class="sS" x="706" y="167" text-anchor="end">200 / 204 (partial)</text>
+<rect class="sR" x="14" y="180" width="70" height="24" rx="4"/><text class="sT" x="49" y="197" text-anchor="middle">DELETE</text><text class="sC" x="96" y="197" xml:space="preserve" style="white-space:pre">/api/v1/invoices/{id}</text><text class="sS" x="706" y="197" text-anchor="end">204, again: 204/404</text>
+<rect class="sV" x="14" y="210" width="70" height="24" rx="4"/><text class="sT" x="49" y="227" text-anchor="middle">POST</text><text class="sC" x="96" y="227" xml:space="preserve" style="white-space:pre">/api/v1/invoices/{id}/payments</text><text class="sS" x="706" y="227" text-anchor="end">201 or 202</text>
+<text class="sS" x="360" y="254" text-anchor="middle">safe (no change): GET · idempotent (repeat = same result): GET, PUT, DELETE · neither: POST</text>
+</svg><figcaption>Idempotency is the property that matters for retries: a client can safely resend a PUT or DELETE, but a repeated POST needs an idempotency key.</figcaption></figure>
+
 ## B4.3 Pagination, filtering and sorting 🟢 🟡 ⭐
 
 | | Offset (`?page=3&pageSize=20`) | Cursor / keyset (`?after=eyJkdWUiOi…&limit=20`) |
