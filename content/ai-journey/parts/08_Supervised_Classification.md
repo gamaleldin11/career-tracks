@@ -107,6 +107,15 @@ counts = df[TARGET].value_counts()
 
 ---
 
+<figure class="dia"><svg viewBox="0 0 720 176" role="img" aria-label="Why accuracy misleads on imbalanced data, computed with scikit-learn: 1,000 rows with 50 positives; a DummyClassifier that always predicts the majority class scores 95.0 percent accuracy and 0.0 percent recall">
+<text class="sM" x="14" y="20">1,000 rows, 50 positive</text>
+<rect class="sB" x="14" y="34" width="570" height="30" rx="3" opacity=".8"/><text class="sT" x="299" y="54" text-anchor="middle">950 negative</text><rect class="sR" x="584" y="34" width="30" height="30" rx="3"/><text class="sRt" x="640" y="54">50</text>
+<rect class="sA" x="14" y="90" width="220" height="50" rx="8"/><text class="sT" x="124" y="113" text-anchor="middle">DummyClassifier</text><text class="sC" x="124" y="129" text-anchor="middle">always predicts 0</text><line class="sLm" x1="234" y1="115" x2="280" y2="115" marker-end="url(#ahm)"/>
+<rect class="sG" x="282" y="90" width="200" height="50" rx="8" opacity=".8"/><text class="sT" x="382" y="112" text-anchor="middle">accuracy 95.0%</text><text class="sS" x="382" y="130" text-anchor="middle">looks excellent</text>
+<rect class="sR" x="500" y="90" width="206" height="50" rx="8" opacity=".8"/><text class="sT" x="603" y="112" text-anchor="middle">recall 0.0%</text><text class="sS" x="603" y="130" text-anchor="middle">finds no positive at all</text>
+<text class="sS" x="360" y="166" text-anchor="middle">on imbalanced data report recall, precision, F1 or PR-AUC, and beat this dummy first</text>
+</svg><figcaption>Computed with <code>DummyClassifier(strategy="most_frequent")</code>. The dummy is the floor every real model must beat, on a metric that can see the minority class.</figcaption></figure>
+
 ## 8.3 Feature engineering 🟢
 
 ```python
