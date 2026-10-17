@@ -287,7 +287,7 @@ Every feature filter ends at `< c.cutoff`; the label looks at `[cutoff, cutoff +
 > [!term] Point-in-time join
 > Joining a slowly changing attribute (a customer's plan, a credit limit, a price) **as it was** at each snapshot date, not as it is today. Using today's value for past rows is quiet temporal leakage. Warehouses keep history with slowly changing dimensions ([[DE2.5]]); **feature stores** (Feast, Databricks Feature Store, Azure ML managed feature store) automate point-in-time correct joins and serve the same features online.
 
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="A customer's plan history, Basic until March and Premium from April; a point-in-time join gives the February snapshot Basic, while joining today's value wrongly gives it Premium">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: a customer's plan history, Basic until March and Premium from April; a point-in-time join gives the February snapshot Basic, while joining today's value wrongly gives it Premium">
 <text class="sT" x="185" y="24" text-anchor="middle">Jan</text>
 <text class="sT" x="275" y="24" text-anchor="middle">Feb</text>
 <text class="sT" x="365" y="24" text-anchor="middle">Mar</text>
@@ -300,6 +300,9 @@ Every feature filter ends at `< c.cutoff`; the label looks at `[cutoff, cutoff +
 <text class="sC" x="130" y="90" text-anchor="end">as of each date</text><rect class="sG" x="170" y="76" width="120" height="22" rx="4"/><text class="sC" x="230" y="92" text-anchor="middle">Basic ✓</text><rect class="sG" x="440" y="76" width="120" height="22" rx="4"/><text class="sC" x="500" y="92" text-anchor="middle">Premium ✓</text>
 <text class="sC" x="130" y="124" text-anchor="end">today's value</text><rect class="sR" x="170" y="110" width="120" height="22" rx="4"/><text class="sC" x="230" y="126" text-anchor="middle">Premium ✗</text><rect class="sG" x="440" y="110" width="120" height="22" rx="4" opacity=".6"/><text class="sC" x="500" y="126" text-anchor="middle">Premium</text>
 <text class="sS" x="400" y="178" text-anchor="middle">the February row would learn from an upgrade that hadn't happened yet</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M140 30 L680 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.250;1" path="M230 60 L230 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.400;1" path="M230 98 L230 110"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.400;0.402;1"/></circle>
 </svg><figcaption>Join slowly changing attributes as they were on each snapshot date: a valid-from / valid-to history table makes it a range join.</figcaption></figure>
 
 > [!story]

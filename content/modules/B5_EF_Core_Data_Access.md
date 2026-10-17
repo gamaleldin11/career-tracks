@@ -364,7 +364,7 @@ They bypass change tracking (and `SaveChanges` interceptors), so don't mix them 
 
 A **global query filter** is a `WHERE` condition EF adds automatically to every query on an entity type.
 
-<figure class="dia"><svg viewBox="0 0 720 140" role="img" aria-label="A simple LINQ query gets tenant and soft-delete conditions added automatically by global query filters">
+<figure class="dia anim"><svg viewBox="0 0 720 140" role="img" aria-label="Animation: a simple LINQ query gets tenant and soft-delete conditions added automatically by global query filters">
 <rect class="sA" x="14" y="30" width="300" height="60" rx="8"/><text class="sC" x="24" y="54" xml:space="preserve" style="white-space:pre">db.Invoices</text><text class="sC" x="24" y="74" xml:space="preserve" style="white-space:pre">  .Where(i =&gt; i.Status == Overdue)</text>
 <line class="sLm" x1="314" y1="60" x2="344" y2="60" marker-end="url(#ahm)"/><rect class="sV" x="348" y="22" width="360" height="84" rx="8"/>
 <text class="sC" x="356" y="42" xml:space="preserve" style="white-space:pre">SELECT … FROM Invoices AS i</text>
@@ -372,6 +372,7 @@ A **global query filter** is a `WHERE` condition EF adds automatically to every 
 <text class="sC" x="356" y="78" xml:space="preserve" style="white-space:pre">  AND i.IsDeleted = 0         -- "SoftDelete" filter</text>
 <text class="sC" x="356" y="96" xml:space="preserve" style="white-space:pre">  AND i.Status = 2</text>
 <text class="sS" x="360" y="128" text-anchor="middle">added to every query on Invoice, including Includes and navigations, unless explicitly ignored by name</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M314 60 L344 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
 </svg><figcaption>Global query filters make the safe thing automatic: a developer can't forget the tenant condition, because they never write it.</figcaption></figure>
 
 ```csharp

@@ -253,7 +253,7 @@ export class InvoiceApi {
 - **`InjectionToken`** provides non-class values (configuration objects, an API base URL).
 - `useClass`, `useValue`, `useFactory` and `useExisting` configure what gets injected; that's how tests swap in fakes.
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Angular injector hierarchy: a root injector with app singletons, a lazy route injector, and element injectors that give each chart component its own store">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: Angular injector hierarchy: a root injector with app singletons, a lazy route injector, and element injectors that give each chart component its own store">
 <rect class="sV" x="130" y="14" width="460" height="52" rx="8"/><text class="sT" x="360" y="38" text-anchor="middle">root injector</text><text class="sC" x="360" y="54" text-anchor="middle">providedIn: "root" · HttpClient · InvoiceApi (one each)</text>
 <rect class="sA" x="70" y="100" width="260" height="52" rx="8"/><text class="sT" x="200" y="124" text-anchor="middle">route injector (lazy /reports)</text><text class="sC" x="200" y="140" text-anchor="middle">ReportsService for that feature</text>
 <rect class="sG" x="390" y="100" width="260" height="52" rx="8"/><text class="sT" x="520" y="124" text-anchor="middle">element injectors</text><text class="sC" x="520" y="140" text-anchor="middle">providers: [ChartStore] on a component</text>
@@ -262,6 +262,8 @@ export class InvoiceApi {
 <rect class="sB" x="480" y="180" width="80" height="40" rx="6"/><text class="sC" x="520" y="198" text-anchor="middle">Chart 2</text><text class="sC" x="520" y="212" text-anchor="middle">own store</text><line class="sLm" x1="520" y1="152" x2="520" y2="178"/>
 <rect class="sB" x="570" y="180" width="80" height="40" rx="6"/><text class="sC" x="610" y="198" text-anchor="middle">Chart 3</text><text class="sC" x="610" y="212" text-anchor="middle">own store</text><line class="sLm" x1="520" y1="152" x2="610" y2="178"/>
 <text class="sS" x="200" y="200" text-anchor="middle">a lookup walks up: element → route → root</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M430 178 L520 152"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.420;1" path="M500 98 L390 66"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.420;0.422;1"/></circle>
 </svg><figcaption>Hierarchical injection. Ask for a dependency and Angular walks up from the component until an injector provides it.</figcaption></figure>
 
 ## F7.6 RxJS essentials 🟢 🟡 ⭐

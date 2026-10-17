@@ -274,7 +274,7 @@ app.MapPost("/api/payments/webhook", async (HttpRequest req, PaymentsService svc
 - Schedule recurring jobs ("every day at 08:00 Cairo time") in the user's zone, not UTC, or DST shifts them by an hour twice a year.
 - Make "today" and "this month" explicit in reports: whose midnight?
 
-<figure class="dia"><svg viewBox="0 0 720 266" role="img" aria-label="A due date stored as midnight Cairo time is the instant 22:00 UTC on 31 March, which a user in London sees as 31 March">
+<figure class="dia anim"><svg viewBox="0 0 720 266" role="img" aria-label="Animation: a due date stored as midnight Cairo time is the instant 22:00 UTC on 31 March, which a user in London sees as 31 March">
 <text class="sT" x="150" y="62" text-anchor="end">UTC</text>
 <rect class="sB" x="160" y="46" width="260" height="24" rx="4"/><text class="sC" x="290" y="62" text-anchor="middle">31 Mar</text>
 <rect class="sA" x="420" y="46" width="260" height="24" rx="4"/><text class="sC" x="550" y="62" text-anchor="middle">1 Apr</text>
@@ -293,6 +293,7 @@ app.MapPost("/api/payments/webhook", async (HttpRequest req, PaymentsService svc
 <text class="sC" x="680" y="230" text-anchor="middle">04:00Z</text>
 <text class="sRt" x="290" y="30" text-anchor="middle">stored instant</text>
 <text class="sS" x="360" y="254" text-anchor="middle">a due date is a calendar date, not an instant: store DateOnly 2026-04-01 and every zone reads 1 April</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.600;1" path="M290 36 L290 214"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.600;0.602;1"/></circle>
 </svg><figcaption>Why calendar dates and instants are different types. Stored as a Cairo-midnight timestamp, "due 1 April" becomes 31 March in London.</figcaption></figure>
 
 > [!say]
