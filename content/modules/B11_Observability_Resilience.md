@@ -263,7 +263,7 @@ Locally, the **Aspire dashboard** (a standalone container image) receives OTLP a
 > [!say]
 > "I instrument with OpenTelemetry: ASP.NET Core, HttpClient and EF Core produce spans and metrics automatically, I add my own spans and counters for business operations, and everything goes over OTLP to Application Insights or Grafana. Logs are structured and carry the trace ID, so from an alert I can jump to the slow trace and from there to the exact log lines."
 
-<figure class="dia"><svg viewBox="0 0 720 260" role="img" aria-label="A distributed trace as a waterfall: GET /api/forecast takes 1,800 ms; inside it auth takes 20 ms, an EF Core query 120 ms, a call to the payment gateway 1,600 ms, of which the gateway’s own database call takes 180 ms and waiting on the bank API 1,320 ms, and serialising the response 30 ms">
+<figure class="dia anim"><svg viewBox="0 0 720 260" role="img" aria-label="Animation: A distributed trace as a waterfall: GET /api/forecast takes 1,800 ms; inside it auth takes 20 ms, an EF Core query 120 ms, a call to the payment gateway 1,600 ms, of which the gateway’s own database call takes 180 ms and waiting on the bank API 1,320 ms, and serialising the response 30 ms">
 <text class="sM" x="14" y="20">one trace, seven spans: where did 1.8 seconds go?</text>
 <text class="sS" x="14" y="47">GET /api/forecast</text><rect class="sB" x="250" y="34" width="440" height="18" rx="3" opacity=".85"/><text class="sC" x="684" y="47" text-anchor="end">1800 ms</text>
 <text class="sS" x="28" y="73">auth middleware</text><rect class="sN" x="251.222" y="60" width="4.88889" height="18" rx="3" opacity=".85"/><text class="sC" x="262.111" y="73">20 ms</text>
@@ -277,6 +277,7 @@ Locally, the **Aspire dashboard** (a standalone container image) receives OTLP a
 <line class="sLm" x1="543.333" y1="28" x2="543.333" y2="214" opacity=".2"/><text class="sS" x="543.333" y="230" text-anchor="middle">1200 ms</text>
 <line class="sLm" x1="690" y1="28" x2="690" y2="214" opacity=".2"/><text class="sS" x="690" y="230" text-anchor="middle">1800 ms</text>
 <text class="sRt" x="360" y="250" text-anchor="middle">1.3 s of the 1.8 s is the payment gateway waiting on the bank: the problem is not in this API</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M250 216 L690 216"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>The trace answers the question metrics cannot: which hop, in which service, is slow. Illustrative timings.</figcaption></figure>
 
 ## B11.6 Health checks 🟢 🟡 ⭐

@@ -171,7 +171,7 @@ Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 | **Token bucket** | Tokens refill at a steady rate up to a capacity; each request takes one | Allows controlled bursts; the most common | Two values per key |
 | **Leaky bucket** | Requests queue and drain at a fixed rate | Smooth output | Queues add latency |
 
-<figure class="dia"><svg viewBox="0 0 720 184" role="img" aria-label="Fixed-window rate limiting allows 100 requests at the end of one minute and 100 at the start of the next, 200 in two seconds">
+<figure class="dia anim"><svg viewBox="0 0 720 184" role="img" aria-label="Animation: fixed-window rate limiting allows 100 requests at the end of one minute and 100 at the start of the next, 200 in two seconds">
 <line class="sLm" x1="60" y1="120" x2="670" y2="120" marker-end="url(#ahm)"/>
 <line class="sD" x1="60.0" y1="30" x2="60.0" y2="130"/><text class="sC" x="60" y="146" text-anchor="middle">0:00</text>
 <line class="sD" x1="360.0" y1="30" x2="360.0" y2="130"/><text class="sC" x="360" y="146" text-anchor="middle">1:00</text>
@@ -180,6 +180,16 @@ Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 <rect class="sR" x="360" y="60" width="25" height="58" rx="3"/><text class="sRt" x="389" y="54">100 more at 1:00</text>
 <text class="sS" x="360" y="172" text-anchor="middle">each window says "100, fine", yet 200 arrived within 2 seconds</text>
 <text class="sC" x="210" y="100" text-anchor="middle">window 1: limit 100</text><text class="sC" x="535" y="100" text-anchor="middle">window 2: limit 100</text>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M340 28 L340 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.450;1" path="M365 28 L365 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.450;0.452;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.230;1" path="M344 28 L344 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.230;0.232;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.480;1" path="M369 28 L369 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.480;0.482;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.110;0.260;1" path="M348 28 L348 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.108;0.112;0.260;0.262;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.510;1" path="M373 28 L373 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.510;0.512;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.290;1" path="M352 28 L352 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.290;0.292;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.390;0.540;1" path="M377 28 L377 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.388;0.392;0.540;0.542;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.320;1" path="M356 28 L356 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.320;0.322;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="6s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.570;1" path="M381 28 L381 116"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.570;0.572;1"/></circle>
 </svg><figcaption>The fixed-window edge problem. Sliding windows and token buckets smooth it out.</figcaption></figure>
 
 <figure class="dia anim" data-rest="2"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: a token bucket with capacity five refills one token per second; a burst of three requests takes three tokens, which then refill">

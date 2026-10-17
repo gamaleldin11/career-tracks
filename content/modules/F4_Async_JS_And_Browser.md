@@ -16,7 +16,7 @@ Almost everything a frontend does is asynchronous: fetching data, waiting for cl
 - **Concurrency is not parallelism.** Concurrency is juggling several jobs by interleaving them on one thread; parallelism is doing several at the same instant on different cores. Your page's JavaScript is concurrent, not parallel. The browser underneath *is* parallel (networking, image decoding and compositing run on other threads), and Web Workers give your own code real parallelism ([[F4.7]]).
 - **Where the asynchronous APIs come from.** `setTimeout`, `fetch`, DOM events and IndexedDB are provided by the **browser**, not by the JavaScript language. Node.js provides its own (files, sockets, timers) on top of a library called libuv. The event-loop idea is the same in both.
 
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="Timelines: a 600 ms busy loop delays a click by 450 ms; an awaited fetch leaves the thread free so the click is handled at once">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: timelines: a 600 ms busy loop delays a click by 450 ms; an awaited fetch leaves the thread free so the click is handled at once">
 <text class="sT" x="140" y="52" text-anchor="end">blocking</text><text class="sC" x="140" y="68" text-anchor="end">busy loop 600 ms</text>
 <rect class="sR" x="150" y="40" width="318" height="30" rx="4"/><text class="sC" x="309" y="60" text-anchor="middle">main thread busy: nothing else can run</text>
 <line class="sLw" x1="229.5" y1="24" x2="229.5" y2="40" marker-end="url(#ahw)"/><text class="sWt" x="229.5" y="20" text-anchor="middle">click</text>
@@ -32,6 +32,8 @@ Almost everything a frontend does is asynchronous: fetching data, waiting for cl
 <text class="sC" x="415" y="196" text-anchor="middle">500 ms</text>
 <text class="sC" x="547.5" y="196" text-anchor="middle">750 ms</text>
 <text class="sC" x="680" y="196" text-anchor="middle">1000 ms</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M150 76 L680 76"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M150 155 L680 155"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Waiting is the browser's job; computing is yours. Asynchronous APIs keep the main thread free while the waiting happens elsewhere.</figcaption></figure>
 
 ## F4.1 One thread and the event loop 🟢 ⭐
