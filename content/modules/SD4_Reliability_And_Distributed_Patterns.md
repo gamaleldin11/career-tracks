@@ -255,7 +255,7 @@ The defences:
 | Warm standby in another region | Seconds to minutes | Minutes to an hour | High |
 | Active-active across regions | Near zero | Near zero | Highest |
 
-<figure class="dia"><svg viewBox="0 0 720 192" role="img" aria-label="RPO and RTO on a timeline: the last good backup is at 02:00, the disaster at 06:00 and service is back at 09:00; the four hours between the backup and the disaster are the data lost, the recovery point, and the three hours from the disaster to recovery are the downtime, the recovery time">
+<figure class="dia anim"><svg viewBox="0 0 720 192" role="img" aria-label="Animation: RPO and RTO on a timeline: the last good backup is at 02:00, the disaster at 06:00 and service is back at 09:00; the four hours between the backup and the disaster are the data lost, the recovery point, and the three hours from the disaster to recovery are the downtime, the recovery time">
 <line class="sLm" x1="40" y1="110" x2="690" y2="110" style="stroke-width:2"/>
 <line class="sLm" x1="60" y1="104" x2="60" y2="116"/><text class="sS" x="60" y="132" text-anchor="middle">00:00</text>
 <line class="sLm" x1="180" y1="104" x2="180" y2="116"/><text class="sS" x="180" y="132" text-anchor="middle">02:00</text>
@@ -270,6 +270,7 @@ The defences:
 <rect class="sW" x="420" y="40" width="180" height="30" rx="4" opacity=".7"/><text class="sT" x="510" y="60" text-anchor="middle">RTO: 3 h down</text>
 <text class="sS" x="360" y="162" text-anchor="middle">RPO looks back from the disaster to the last copy; RTO looks forward to recovery</text>
 <text class="sGt" x="360" y="182" text-anchor="middle">more frequent copies shrink RPO; standbys and rehearsed restores shrink RTO</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M120 110 L660 110"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>Two different questions: how much data can we lose (RPO), and how long can we be down (RTO)? The table above prices each combination.</figcaption></figure>
 
 Rules that matter more than the table:

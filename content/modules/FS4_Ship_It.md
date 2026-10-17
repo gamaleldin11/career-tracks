@@ -210,7 +210,7 @@ jobs:
 - **Seed data for demos:** a script that creates a demo company with a year of transactions, invoices in every state and a forecast, re-runnable to reset the demo.
 - **Migrations** run from the pipeline with a dedicated, limited-permission identity, not the app's runtime identity.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Timeline: a nightly backup at 02:00, the disk is lost at 09:40 and service is restored at 11:10; the recovery point objective is the data lost since the backup and the recovery time objective is the downtime">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: timeline: a nightly backup at 02:00, the disk is lost at 09:40 and service is restored at 11:10; the recovery point objective is the data lost since the backup and the recovery time objective is the downtime">
 <line class="sLm" x1="60" y1="120" x2="670" y2="120" marker-end="url(#ahm)"/>
 <line class="sLm" x1="60" y1="116" x2="60" y2="124"/><text class="sC" x="60" y="140" text-anchor="middle">00:00</text>
 <line class="sLm" x1="160" y1="116" x2="160" y2="124"/><text class="sC" x="160" y="140" text-anchor="middle">02:00</text>
@@ -225,6 +225,7 @@ jobs:
 <path class="sLr" d="M160 96 V86 H543.3 V96" fill="none"/><text class="sRt" x="351.667" y="78" text-anchor="middle">RPO: 7 h 40 min of data lost</text>
 <path class="sLw" d="M543.3 50 V40 H618.3 V50" fill="none"/><text class="sWt" x="580.833" y="30" text-anchor="middle">RTO: 1 h 30 down</text>
 <text class="sS" x="360" y="214" text-anchor="middle">point-in-time restore (managed databases) shrinks the RPO to minutes; a rehearsed runbook shrinks the RTO</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.880;1" path="M80 120 L660 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.880;0.882;1"/></circle>
 </svg><figcaption>RPO measures data you can afford to lose; RTO measures time you can afford to be down. Both should be numbers someone agreed to.</figcaption></figure>
 
 ## FS4.6 Domains, DNS and TLS 🟢

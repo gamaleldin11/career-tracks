@@ -22,7 +22,7 @@ Every track now gets a system-design round, but it looks different in each. A fr
 
 The backend version, with four worked designs, is [[B12]]. The sections below adapt it.
 
-<figure class="dia"><svg viewBox="0 0 720 122" role="img" aria-label="Time budget for a 45-minute system design round across the seven framework steps">
+<figure class="dia anim"><svg viewBox="0 0 720 122" role="img" aria-label="Animation: time budget for a 45-minute system design round across the seven framework steps">
 <rect class="sA" x="20" y="34" width="103.778" height="40" rx="4"/><text class="sT" x="72.8889" y="59" text-anchor="middle">7′</text>
 <text class="sS" x="72.8889" y="94" text-anchor="middle">Requirements</text>
 <rect class="sB" x="125.778" y="34" width="58.4444" height="40" rx="4"/><text class="sT" x="156" y="59" text-anchor="middle">4′</text>
@@ -38,6 +38,7 @@ The backend version, with four worked designs, is [[B12]]. The sections below ad
 <rect class="sV" x="669.778" y="34" width="28.2222" height="40" rx="4"/><text class="sT" x="684.889" y="59" text-anchor="middle">2′</text>
 <text class="sS" x="684.889" y="94" text-anchor="middle">Wrap-up</text>
 <text class="sT" x="20" y="22">A 45-minute round</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.920;1" path="M20 79 L698 79"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.920;0.922;1"/></circle>
 </svg><figcaption>Where the minutes go. Most of the score is earned in the high-level design and the deep dives, but only if the requirements made them the right ones.</figcaption></figure>
 
 > [!say]

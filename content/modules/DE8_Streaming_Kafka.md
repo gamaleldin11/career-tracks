@@ -121,7 +121,7 @@ Consumers that share a **group ID** split a topic's partitions between them: **e
 
 **Producer settings that matter:** `acks=all` with `min.insync.replicas=2` (with replication factor 3) so an acknowledged write survives a broker failure; `enable.idempotence=true` (the default in modern clients) so retries don't duplicate.
 
-<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="Committing the offset before processing loses a record if the consumer crashes; processing before committing causes a duplicate after a crash">
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: committing the offset before processing loses a record if the consumer crashes; processing before committing causes a duplicate after a crash">
 <text class="sT" x="14" y="56">at-most-once</text>
 <rect class="sB" x="140" y="30" width="124" height="40" rx="6"/><text class="sC" x="202" y="55" text-anchor="middle">commit offset</text>
 <line class="sLm" x1="264" y1="50" x2="278" y2="50" marker-end="url(#ahm)"/>
@@ -137,6 +137,8 @@ Consumers that share a **group ID** split a topic's partitions between them: **e
 <rect class="sN" x="420" y="110" width="124" height="40" rx="6" stroke-dasharray="4 3"/><text class="sC" x="482" y="135" text-anchor="middle">commit offset</text>
 <text class="sC" x="560" y="135">restart redoes it</text><text class="sWt" x="560" y="153">duplicate</text>
 <text class="sS" x="360" y="200" text-anchor="middle">the usual answer: at-least-once delivery + idempotent processing (dedupe by event ID, MERGE on keys)</text>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M140 80 L544 80"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M140 160 L544 160"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
 </svg><figcaption>Where the crash falls relative to the commit decides whether you lose data or see it twice. Design for twice.</figcaption></figure>
 
 > [!say]
