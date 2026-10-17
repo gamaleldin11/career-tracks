@@ -113,7 +113,7 @@ source systems (POS, app, CRM, ERP)
    → BI tool (Power BI, Tableau, Looker) → dashboards, alerts, exports
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 134" role="img" aria-label="Analytics stack from source systems through ingestion, warehouse layers and a semantic layer to the BI tool">
+<figure class="dia anim"><svg viewBox="0 0 720 134" role="img" aria-label="Animation: an analytics stack: data moves from source systems through ingestion, warehouse layers from raw to clean to star schema, and a semantic layer to the BI tool">
 <rect class="sB" x="10" y="40" width="126" height="52" rx="8"/><text class="sT" x="73" y="64" text-anchor="middle">sources</text><text class="sC" x="73" y="80" text-anchor="middle">POS · app · CRM</text>
 <line class="sLm" x1="136" y1="66" x2="150" y2="66" marker-end="url(#ahm)"/>
 <rect class="sB" x="152" y="40" width="126" height="52" rx="8"/><text class="sT" x="215" y="64" text-anchor="middle">ingestion</text><text class="sC" x="215" y="80" text-anchor="middle">batch · CDC</text>
@@ -124,6 +124,7 @@ source systems (POS, app, CRM, ERP)
 <line class="sLm" x1="562" y1="66" x2="576" y2="66" marker-end="url(#ahm)"/>
 <rect class="sV" x="578" y="40" width="126" height="52" rx="8"/><text class="sT" x="641" y="64" text-anchor="middle">BI tool</text><text class="sC" x="641" y="80" text-anchor="middle">dashboards</text>
 <text class="sS" x="360" y="122" text-anchor="middle">freshness is set by the slowest step; correctness by the semantic layer; speed by the model and the BI storage mode</text>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M73 100 L641 100"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>The path data takes to a dashboard. "Why is this number wrong or late?" is answered by walking it from right to left.</figcaption></figure>
 
 **Decisions an analyst should be able to defend:**
@@ -201,7 +202,7 @@ The full answer structure is in [[DS9.2]] and production details in [[DS8]]. In 
 
 **Contrast two designs in one breath:** *telecom churn* is batch: score all subscribers weekly, push the top-risk list to the retention team's CRM, measure with a holdout group. *Card fraud* is online: score each transaction in under ~100 ms inside the payment flow, with features from a fast store (recent transaction counts per card), a rules fallback if the model service is down, and human review for borderline scores.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Batch scoring writes weekly churn scores to a table for the CRM; online scoring calls a model API with fresh features during each payment">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: batch versus online scoring: one slow weekly batch run scores every subscriber into a table for the CRM, while each in-flight card payment calls a model API that reads fresh features from a feature store and returns a decision in under 100 milliseconds">
 <text class="sT" x="20" y="24">Batch: churn</text>
 <rect class="sB" x="20" y="34" width="150" height="46" rx="8"/><text class="sT" x="95" y="55" text-anchor="middle">warehouse</text><text class="sC" x="95" y="71" text-anchor="middle">all subscribers</text>
 <line class="sLm" x1="170" y1="57" x2="190" y2="57" marker-end="url(#ahm)"/>
@@ -217,6 +218,10 @@ The full answer structure is in [[DS9.2]] and production details in [[DS8]]. In 
 <rect class="sV" x="536" y="132" width="150" height="46" rx="8"/><text class="sT" x="611" y="153" text-anchor="middle">decision</text><text class="sC" x="611" y="169" text-anchor="middle">approve · review</text>
 <line class="sLm" x1="170" y1="155" x2="190" y2="155" marker-end="url(#ahm)"/><line class="sLm" x1="340" y1="150" x2="362" y2="150" marker-end="url(#ahm)"/><line class="sLm" x1="362" y1="162" x2="342" y2="162" marker-end="url(#ahm)"/><path class="sLm" d="M265 178 v18 h366 v-18" marker-end="url(#ahm)"/>
 <text class="sC" x="448" y="216" text-anchor="middle">rules fallback if the model is down</text>
+<circle class="sPw" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.950;1" path="M95 86 L611 86"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.950;0.952;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M95 155 L190 155 L265 155 L340 150 L362 150 L439 150 L362 162 L342 162 L265 155 L611 155"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.530;1" path="M95 155 L190 155 L265 155 L340 150 L362 150 L439 150 L362 162 L342 162 L265 155 L611 155"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.530;0.532;1"/></circle>
+<circle class="sPg" r="6" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.860;1" path="M95 155 L190 155 L265 155 L340 150 L362 150 L439 150 L362 162 L342 162 L265 155 L611 155"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.860;0.862;1"/></circle>
 </svg><figcaption>Batch when the decision can wait; online when it can't. The online path needs a feature store, a latency budget and a fallback.</figcaption></figure>
 
 ## SD5.7 AI engineer: LLM and RAG application design 🟡 ⭐
