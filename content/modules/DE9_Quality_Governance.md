@@ -134,7 +134,7 @@ Tests catch what you anticipated; **observability** catches what you didn't, by 
 
 Contracts move quality **upstream**: instead of the data team discovering a renamed column when dashboards break, the producer's CI fails when they change the contract without a new version. Mechanisms: a schema registry with compatibility rules for events ([[DE8.5]]); dbt **model contracts** for published models ([[DE7.4]]); contract files (the open **Open Data Contract Standard**, ODCS) checked in CI; and CDC tables treated as an API with versioning.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="A data contract between an orders service team and its consumers specifies schema, semantics, quality rules, SLA and owner; a breaking rename fails the producer's CI">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: a data contract between an orders service team and its consumers specifies schema, semantics, quality rules, SLA and owner; a breaking rename fails the producer's CI">
 <rect class="sB" x="14" y="70" width="150" height="56" rx="8"/><text class="sT" x="89" y="96" text-anchor="middle">producer team</text><text class="sC" x="89" y="112" text-anchor="middle">orders service</text>
 <rect class="sV" x="220" y="30" width="330" height="140" rx="10"/><text class="sT" x="385" y="52" text-anchor="middle">orders contract v2</text>
 <text class="sC" x="236" y="80">schema: order_id, amount decimal(12,2)</text>
@@ -146,6 +146,10 @@ Contracts move quality **upstream**: instead of the data team discovering a rena
 <line class="sLm" x1="550" y1="100" x2="596" y2="102" marker-end="url(#ahm)"/><rect class="sG" x="600" y="82" width="106" height="40" rx="8"/><text class="sT" x="653" y="107" text-anchor="middle">fraud model</text>
 <line class="sLm" x1="550" y1="100" x2="596" y2="154" marker-end="url(#ahm)"/><rect class="sG" x="600" y="134" width="106" height="40" rx="8"/><text class="sT" x="653" y="159" text-anchor="middle">BI dashboards</text>
 <rect class="sR" x="14" y="188" width="536" height="34" rx="8" opacity=".85"/><text class="sC" x="282" y="210" text-anchor="middle">a breaking rename fails the producer's CI, not your dashboards</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M164 98 L216 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M550 100 L596 50"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M550 100 L596 102"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.420;1" path="M550 100 L596 154"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.420;0.422;1"/></circle>
 </svg><figcaption>Contracts move breakage to where it can be fixed cheaply: the producer's pull request.</figcaption></figure>
 
 ## DE9.7 Lineage, catalogs and documentation 🟡 ⭐
