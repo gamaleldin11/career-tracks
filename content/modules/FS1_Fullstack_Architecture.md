@@ -219,7 +219,7 @@ finsight/
   docs/adr/                # architecture decision records
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="Monorepo versus polyrepo: in a monorepo one pull request changes the API and the web app together atomically; in a polyrepo the API repository releases v2 with a new field, publishes a versioned client package, and the web repository upgrades in a separate pull request">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: monorepo versus polyrepo: in a monorepo one pull request changes the API and the web app together atomically; in a polyrepo the API repository releases v2 with a new field, publishes a versioned client package, and the web repository upgrades in a separate pull request">
 <text class="sM" x="180" y="22" text-anchor="middle">monorepo</text>
 <text class="sM" x="540" y="22" text-anchor="middle">polyrepo</text>
 <rect class="sN" x="30" y="36" width="300" height="120" rx="10"/><rect class="sA" x="50" y="56" width="120" height="40" rx="8"/><text class="sT" x="110" y="74" text-anchor="middle">api/</text><text class="sC" x="110" y="90" text-anchor="middle">Invoice.dueDate</text><rect class="sB" x="190" y="56" width="120" height="40" rx="8"/><text class="sT" x="250" y="74" text-anchor="middle">web/</text><text class="sC" x="250" y="90" text-anchor="middle">uses dueDate</text>
@@ -231,6 +231,9 @@ finsight/
 <line class="sLm" x1="570" y1="112" x2="630" y2="84" marker-end="url(#ahm)"/>
 <text class="sS" x="540" y="172" text-anchor="middle">two PRs + a versioned contract in between</text>
 <text class="sS" x="360" y="200" text-anchor="middle">monorepo: easy cross-cutting changes, CI must build only what changed · polyrepo: independent releases, slower coordination</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M50 103 L310 103"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M460 84 L520 112"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.840;1" path="M570 112 L630 84"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.840;0.842;1"/></circle>
 </svg><figcaption>The deciding question is how often a change crosses the front-end/back-end line. For one team shipping one product, often: hence a monorepo.</figcaption></figure>
 
 ## FS1.6 A feature, end to end ⭐

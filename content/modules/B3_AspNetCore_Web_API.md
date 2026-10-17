@@ -221,7 +221,7 @@ Both are first-class. Pick one per project and organise it well: minimal APIs gr
 | `[FromServices]` | DI (implicit in minimal APIs) |
 | `[AsParameters]` | Bind a group of parameters from a class (minimal APIs) |
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="Model binding: in the request PATCH /api/invoices/1043?notify=true with header X-Request-Id and a JSON body, the id 1043 binds from the route, notify from the query string, the request id from a header and the due date from the body into a DTO; validation then runs on the DTO and invalid input returns 400 with ProblemDetails before the action runs">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: model binding: in the request PATCH /api/invoices/1043?notify=true with header X-Request-Id and a JSON body, the id 1043 binds from the route, notify from the query string, the request id from a header and the due date from the body into a DTO; validation then runs on the DTO and invalid input returns 400 with ProblemDetails before the action runs">
 <rect class="sN" x="14" y="20" width="692" height="44" rx="8"/>
 <text class="sC" x="26" y="47" xml:space="preserve" style="white-space:pre">PATCH</text>
 <line class="sLm" x1="44" y1="58" x2="44" y2="84" opacity=".6"/><text class="sS" x="44" y="98" text-anchor="middle">method</text>
@@ -239,6 +239,11 @@ Both are first-class. Pick one per project and organise it well: minimal APIs gr
 <text class="sC" x="487.6" y="47" xml:space="preserve" style="white-space:pre">{ "dueDate": "2026-11-01" }</text>
 <line class="sLm" x1="584.8" y1="58" x2="584.8" y2="106" opacity=".6"/><text class="sS" x="584.8" y="120" text-anchor="middle">[FromBody] dto</text>
 <rect class="sN" x="14" y="140" width="692" height="52" rx="8"/><text class="sS" x="30" y="162">then validation runs on the DTO, before your code: dueDate in the past → 400 with</text><text class="sGt" x="30" y="182">a ProblemDetails body listing the field errors; your action never sees invalid input</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M44 58 L44 84"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.260;1" path="M209.2 58 L209.2 84"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.260;0.262;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.420;1" path="M282.8 58 L282.8 106"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.420;0.422;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.580;1" path="M406.8 58 L406.8 84"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.580;0.582;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.740;1" path="M584.8 58 L584.8 106"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.740;0.742;1"/></circle>
 </svg><figcaption>Each part of the HTTP request has its own binding source. Validation happens on the request DTO at the boundary, never on the EF entity.</figcaption></figure>
 
 **Validation** happens at the boundary, on request DTOs, **never** on EF entities:

@@ -54,7 +54,7 @@ This is the module to live in during the final week before a data-engineering in
 <circle class="sPv" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M134 102 H260 L300 46 H510"/></circle><circle class="sP" r="5"><animateMotion dur="4s" begin="1.5s" repeatCount="indefinite" path="M134 42 H260 V130 H470 L510 112"/></circle>
 </svg><figcaption>The pipeline-design answer on one page: split by latency, one copy of the truth in the lakehouse, and governance around everything.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 110" role="img" aria-label="A 25-minute pipeline-design answer split across requirements, ingestion, storage, processing, orchestration, quality, serving, and governance, cost and failure modes">
+<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: A 25-minute pipeline-design answer split across requirements, ingestion, storage, processing, orchestration, quality, serving, and governance, cost and failure modes">
 <rect class="sB" x="14" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="55.52" y="50" text-anchor="middle">requirements</text><text class="sC" x="55.52" y="66" text-anchor="middle">3 min</text>
 <rect class="sB" x="97.04" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="138.56" y="50" text-anchor="middle">ingestion</text><text class="sC" x="138.56" y="66" text-anchor="middle">3 min</text>
 <rect class="sV" x="180.08" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="221.6" y="50" text-anchor="middle">storage</text><text class="sC" x="221.6" y="66" text-anchor="middle">3 min</text>
@@ -64,6 +64,7 @@ This is the module to live in during the final week before a data-engineering in
 <rect class="sG" x="512.24" y="30" width="53.36" height="44" rx="6"/><text class="sC" x="539.92" y="50" text-anchor="middle">serving</text><text class="sC" x="539.92" y="66" text-anchor="middle">2 min</text>
 <rect class="sW" x="567.6" y="30" width="136.4" height="44" rx="6"/><text class="sT" x="636.8" y="50" text-anchor="middle">gov · cost · failures</text><text class="sC" x="636.8" y="66" text-anchor="middle">5 min</text>
 <text class="sC" x="14" y="98">consumers and latencies first</text><text class="sC" x="706" y="98" text-anchor="end">what breaks and how you'd know</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.920;1" path="M14 80 L704 80"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.920;0.922;1"/></circle>
 </svg><figcaption>Name the consumers and their latency needs before any tool. The last five minutes are where seniority shows.</figcaption></figure>
 
 > [!say]
