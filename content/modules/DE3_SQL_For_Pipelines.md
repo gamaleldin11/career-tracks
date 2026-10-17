@@ -261,7 +261,7 @@ JOIN gold.dim_customer d
 
 **Rules of thumb:** partition by the column most queries filter on (usually event date); avoid **high-cardinality** partition columns (customer ID would create millions of tiny partitions); aim for files of roughly **100 MB–1 GB**, because thousands of tiny files (the **small-files problem**) slow every engine, so compact them (`OPTIMIZE` in Delta, rewrite in Iceberg); and cluster on secondary filter columns.
 
-<figure class="dia"><svg viewBox="0 0 720 198" role="img" aria-label="A table partitioned by day: a direct date filter reads three partitions, while wrapping the column in a function reads all thirty">
+<figure class="dia anim"><svg viewBox="0 0 720 198" role="img" aria-label="Animation: A table partitioned by day: a direct date filter reads three partitions, while wrapping the column in a function reads all thirty">
 <text class="sM" x="14" y="22">fact_events partitioned by event_date</text>
 <rect class="sN" x="14" y="34" width="20" height="40" rx="2"/>
 <rect class="sN" x="37" y="34" width="20" height="40" rx="2"/>
@@ -330,6 +330,8 @@ JOIN gold.dim_customer d
 <rect class="sR" x="658" y="142" width="20" height="14" rx="2" opacity=".6"/>
 <rect class="sR" x="681" y="142" width="20" height="14" rx="2" opacity=".6"/>
 <text class="sS" x="360" y="186" text-anchor="middle">filter the partition column directly so the engine can skip whole folders</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M635 80 L701 80"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M14 162 L701 162"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Partition pruning is the cheapest optimisation there is, and the easiest to defeat by accident.</figcaption></figure>
 
 > [!say]

@@ -46,7 +46,7 @@ So data engineering builds a **second home** for the data, designed for analysis
 
 The second home is shaped differently on disk. Analytical queries read a few columns across millions of rows, so analytical engines store data **by column** rather than by row:
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Row storage keeps each row's values together; column storage keeps each column together, so an aggregation over city and amount reads only those two columns">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: row storage keeps each row's values together; column storage keeps each column together, so an aggregation over city and amount reads only those two columns">
 <text class="sM" x="14" y="24">row store (OLTP): one row's values together</text>
 <rect class="sB" x="14" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="34" y="54" text-anchor="middle">i1</text>
 <rect class="sV" x="57" y="34" width="40" height="30" rx="3" opacity=".85"/><text class="sC" x="77" y="54" text-anchor="middle">d1</text>
@@ -83,6 +83,8 @@ The second home is shaped differently on disk. Analytical queries read a few col
 <rect class="sG" x="659" y="108" width="40" height="30" rx="3"/><text class="sC" x="679" y="128" text-anchor="middle">a4</text>
 <path class="sLg" d="M358 146 V154 H699 V146" fill="none"/><text class="sGt" x="530" y="170" text-anchor="middle">read only these</text>
 <text class="sS" x="360" y="196" text-anchor="middle">SUM(amount) WHERE city = 'Cairo': the row store reads every block; the column store reads two columns, compressed</text>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M14 70 L699 70"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M358 150 L699 150"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
 </svg><figcaption>Why warehouses are column stores: analytical queries touch few columns and many rows, and similar values compress well.</figcaption></figure>
 
 ## DE1.1 What data engineers do 🟢

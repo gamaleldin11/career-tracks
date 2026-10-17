@@ -100,11 +100,13 @@ REST (Roy Fielding, 2000) is an architectural style. In practice, "RESTful" HTTP
 
 The cursor is an **opaque**, encoded position (the last row's sort key and ID). Clients pass it back; they never construct it. **Always cap** the page size on the server.
 
-<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="OFFSET pagination makes the database read and discard ten thousand rows to return page 501; keyset pagination seeks directly to the cursor through the index">
+<figure class="dia anim"><svg viewBox="0 0 720 172" role="img" aria-label="Animation: OFFSET pagination makes the database read and discard ten thousand rows to return page 501; keyset pagination seeks directly to the cursor through the index">
 <text class="sT" x="20" y="22">rows the database reads to return page 501 (20 rows each)</text>
 <text class="sM" x="160" y="58" text-anchor="end">OFFSET 10000</text><rect class="sR" x="170" y="44" width="520" height="22" rx="3" opacity=".55"/><text class="sC" x="430" y="59" text-anchor="middle">read and thrown away: 10,000 rows</text><rect class="sG" x="688" y="44" width="12" height="22" rx="2"/>
 <text class="sM" x="160" y="108" text-anchor="end">keyset (after cursor)</text><path class="sLg" d="M170.0 105 C326.0 80 534.0 80 686.0 100" marker-end="url(#ahg)"/><rect class="sG" x="688" y="94" width="12" height="22" rx="2"/><text class="sGt" x="430" y="130" text-anchor="middle">index seek straight to (dueDate, id) &gt; cursor, then read 20</text>
 <text class="sS" x="360" y="160" text-anchor="middle">page 1 costs the same either way; page 501 costs 500× more with OFFSET</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M170 72 L688 72"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M170.0 105 C326.0 80 534.0 80 686.0 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
 </svg><figcaption>Why deep offset pages get slow and keyset pages don't.</figcaption></figure>
 
 > [!say]
