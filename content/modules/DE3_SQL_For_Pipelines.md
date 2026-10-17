@@ -104,7 +104,7 @@ SET name = EXCLUDED.name, city = EXCLUDED.city, email = EXCLUDED.email, updated_
 WHERE t.updated_at < EXCLUDED.updated_at;          -- never overwrite newer data with older
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="MERGE outcomes for a staging batch against a target: unchanged matches are skipped, changed matches update, new keys insert, and target-only rows are kept or deleted">
+<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: MERGE outcomes for a staging batch against a target: unchanged matches are skipped, changed matches update, new keys insert, and target-only rows are kept or deleted">
 <text class="sM" x="130" y="22" text-anchor="middle">staging (this batch)</text><text class="sM" x="590" y="22" text-anchor="middle">target table (before)</text>
 <rect class="sB" x="60" y="34" width="140" height="28" rx="4"/><text class="sC" x="130" y="53" text-anchor="middle">id 1 · Giza</text>
 <rect class="sW" x="60" y="68" width="140" height="28" rx="4"/><text class="sC" x="130" y="87" text-anchor="middle">id 2 · Cairo</text>
@@ -116,6 +116,9 @@ WHERE t.updated_at < EXCLUDED.updated_at;          -- never overwrite newer data
 <rect class="sW" x="150" y="180" width="420" height="26" rx="5" opacity=".7"/><text class="sC" x="160" y="198">matched, changed</text><text class="sT" x="560" y="198" text-anchor="end">UPDATE id 2 → Cairo</text>
 <rect class="sG" x="150" y="210" width="420" height="26" rx="5" opacity=".7"/><text class="sC" x="160" y="228">not matched in target</text><text class="sT" x="560" y="228" text-anchor="end">INSERT id 4</text>
 <rect class="sN" x="150" y="240" width="420" height="26" rx="5" opacity=".7"/><text class="sC" x="160" y="258">only in target</text><text class="sT" x="560" y="258" text-anchor="end">keep, or DELETE if a full snapshot</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M200 48 L520 48"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.480;1" path="M200 82 L520 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.760;1" path="M200 116 L520 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.760;0.762;1"/></circle>
 </svg><figcaption>A MERGE is four decisions per key. Say all four in an interview, including what happens to rows missing from the batch.</figcaption></figure>
 
 > [!mistake] Duplicate keys in the source batch

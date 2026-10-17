@@ -53,13 +53,17 @@ Spark processes data **in parallel across a cluster**, in memory where possible.
 
 ## DE6.2 The execution model 🟢 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Spark architecture: driver with DAG scheduler, cluster manager, executors running tasks on partitions">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: spark architecture: driver with DAG scheduler, cluster manager, executors running tasks on partitions">
 <rect class="sA" x="20" y="70" width="160" height="90" rx="10"/><text class="sT" x="100" y="96" text-anchor="middle">Driver</text><text class="sS" x="100" y="116" text-anchor="middle">your program, plans</text><text class="sS" x="100" y="132" text-anchor="middle">jobs → stages → tasks</text>
 <rect class="sW" x="230" y="90" width="120" height="50" rx="8"/><text class="sT" x="290" y="112" text-anchor="middle">Cluster</text><text class="sS" x="290" y="128" text-anchor="middle">manager</text>
 <rect class="sG" x="420" y="15" width="280" height="60" rx="8"/><text class="sT" x="440" y="38">Executor 1</text><text class="sS" x="440" y="58">task · task · task  (one per core)</text>
 <rect class="sG" x="420" y="88" width="280" height="60" rx="8"/><text class="sT" x="440" y="111">Executor 2</text><text class="sS" x="440" y="131">task · task · task</text>
 <rect class="sG" x="420" y="161" width="280" height="60" rx="8"/><text class="sT" x="440" y="184">Executor N</text><text class="sS" x="440" y="204">task · task · task</text>
 <line class="sL" x1="180" y1="115" x2="230" y2="115"/><line class="sD" x1="350" y1="115" x2="420" y2="45"/><line class="sD" x1="350" y1="115" x2="420" y2="118"/><line class="sD" x1="350" y1="115" x2="420" y2="191"/>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M180 115 L230 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.320;1" path="M350 115 L420 45"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.320;0.322;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.320;1" path="M350 115 L420 118"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.320;0.322;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.320;1" path="M350 115 L420 191"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.320;0.322;1"/></circle>
 </svg><figcaption>The driver plans the work; executors on worker nodes run one task per partition per core.</figcaption></figure>
 
 | Term | Meaning |
@@ -132,7 +136,7 @@ daily = (orders.filter(F.col("status") == "paid")
 > [!term] Shuffle
 > Redistributing data across executors so that all rows with the same key end up in the same partition. It costs disk writes, network transfer, serialisation and memory, and it's where most Spark jobs spend their time. Reducing the amount of data shuffled, and the number of shuffles, is the core of Spark tuning.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Narrow transformations map each input partition to one output partition with no data movement; wide transformations like groupBy shuffle rows from every partition to the partition owning their key">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: narrow transformations map each input partition to one output partition with no data movement; wide transformations like groupBy shuffle rows from every partition to the partition owning their key">
 <text class="sM" x="180" y="22" text-anchor="middle">narrow: filter, select</text>
 <rect class="sB" x="30" y="40" width="80" height="34" rx="4"/><text class="sC" x="70" y="62" text-anchor="middle">in 1</text>
 <rect class="sB" x="250" y="40" width="80" height="34" rx="4"/><text class="sC" x="290" y="62" text-anchor="middle">out 1</text>
@@ -161,6 +165,18 @@ daily = (orders.filter(F.col("status") == "paid")
 <line class="sLm" x1="470" y1="157" x2="606" y2="107" opacity=".7"/>
 <line class="sLm" x1="470" y1="157" x2="606" y2="157" opacity=".7"/>
 <text class="sRt" x="540" y="210" text-anchor="middle">every partition sends to every other</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M110 57 L246 57"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M110 107 L246 107"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M110 157 L246 157"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.620;1" path="M470 57 L606 57"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.620;0.622;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.640;1" path="M470 57 L606 107"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.640;0.642;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.660;1" path="M470 57 L606 157"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.660;0.662;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.680;1" path="M470 107 L606 57"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.680;0.682;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.700;1" path="M470 107 L606 107"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.700;0.702;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.720;1" path="M470 107 L606 157"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.720;0.722;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.740;1" path="M470 157 L606 57"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.740;0.742;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.540;0.760;1" path="M470 157 L606 107"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.538;0.542;0.760;0.762;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.780;1" path="M470 157 L606 157"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.780;0.782;1"/></circle>
 </svg><figcaption>The shuffle is the expensive part of almost every slow Spark job. Stage boundaries are drawn exactly there.</figcaption></figure>
 
 ## DE6.5 Joins 🟡 ⭐

@@ -47,7 +47,7 @@ Use streaming when a decision or a user experience needs data within **seconds**
 > [!term] Apache Kafka
 > A distributed, **append-only commit log**. Producers write records to **topics**; each topic is split into **partitions**; each partition is an ordered, immutable sequence of records identified by an increasing **offset**. Records are **retained** for a configured time or size (not deleted when read), so many independent consumers can read the same data, and re-read it.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Kafka topic with three partitions, producers writing by key, a consumer group with consumers assigned to partitions">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: kafka topic with three partitions, producers writing by key, a consumer group with consumers assigned to partitions">
 <rect class="sB" x="10" y="80" width="110" height="60" rx="8"/><text class="sT" x="65" y="105" text-anchor="middle">Producers</text><text class="sS" x="65" y="123" text-anchor="middle">key = order_id</text>
 <rect class="sW" x="170" y="20" width="350" height="200" rx="10"/><text class="sT" x="185" y="40">topic: orders</text>
 <g class="sS">
@@ -61,6 +61,12 @@ Use streaming when a decision or a user experience needs data within **seconds**
 <rect class="sB" x="585" y="152" width="110" height="30" rx="5"/><text class="sS" x="640" y="172" text-anchor="middle">consumer C ← P2</text>
 <line class="sL" x1="120" y1="110" x2="185" y2="75"/><line class="sL" x1="120" y1="110" x2="185" y2="125"/><line class="sL" x1="120" y1="110" x2="185" y2="175"/>
 <line class="sD" x1="505" y1="75" x2="585" y2="93"/><line class="sD" x1="505" y1="125" x2="585" y2="130"/><line class="sD" x1="505" y1="175" x2="585" y2="167"/>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M120 110 L185 75"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.550;1" path="M505 75 L585 93"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.550;0.552;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.200;1" path="M120 110 L185 125"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.200;0.202;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M505 125 L585 130"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M120 110 L185 175"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.750;1" path="M505 175 L585 167"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.750;0.752;1"/></circle>
 </svg><figcaption>Records with the same key go to the same partition (so they stay in order); each partition is read by exactly one consumer in a group.</figcaption></figure>
 
 | Concept | Meaning |

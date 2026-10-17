@@ -192,7 +192,7 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 | Why | Limited, expensive warehouse compute (older era); sensitive data must be masked before landing | Cheap, elastic warehouse compute; keep raw data; analysts can write transformations in SQL (dbt) |
 | Today | Still common in enterprises (SSIS on SQL Server, Informatica) and for heavy non-SQL processing | The default in cloud platforms |
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="ETL transforms data in a separate engine before loading it; ELT loads raw data first and transforms it inside the warehouse">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: ETL transforms data in a separate engine before loading it; ELT loads raw data first and transforms it inside the warehouse">
 <text class="sT" x="14" y="60">ETL</text>
 <rect class="sB" x="70" y="30" width="130" height="48" rx="8"/><text class="sT" x="135" y="59" text-anchor="middle">extract</text>
 <line class="sLm" x1="200" y1="54" x2="218" y2="54" marker-end="url(#ahm)"/>
@@ -210,6 +210,10 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 <rect class="sN" x="212" y="112" width="296" height="64" rx="8" style="fill:none" stroke-dasharray="4 3"/><text class="sC" x="516" y="150">inside the warehouse</text>
 <text class="sC" x="70" y="190">load raw first, transform inside the warehouse (dbt)</text>
 <text class="sS" x="360" y="210" text-anchor="middle">ELT keeps the raw data, so a fixed transformation can always be replayed</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M200 54 L218 54"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M350 54 L368 54"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.530;1" path="M200 144 L218 144"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.530;0.532;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.610;0.690;1" path="M350 144 L368 144"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.608;0.612;0.690;0.692;1"/></circle>
 </svg><figcaption>The difference is where the T happens. Cheap, elastic warehouse compute made ELT the default.</figcaption></figure>
 
 | | **Batch** | **Streaming** |
