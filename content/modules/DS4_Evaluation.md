@@ -259,7 +259,7 @@ shap.plots.waterfall(sv[0])      # local: why this customer got this score
 
 **Reason codes** (credit decisions): the top features pushing a score towards decline, translated into plain language ("high utilisation of existing credit lines").
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="SHAP waterfall for one customer: starting from an average prediction of 0.08, days since recharge, complaints and spend trend push the churn score up, tenure pushes it down, ending at 0.52">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: SHAP waterfall for one customer: starting from an average prediction of 0.08, days since recharge, complaints and spend trend push the churn score up, tenure pushes it down, ending at 0.52">
 <text class="sC" x="250" y="46" text-anchor="end">average prediction (base)</text><rect class="sN" x="260" y="30" width="51.2" height="22" rx="3"/><text class="sC" x="317.2" y="46">0.08</text>
 <text class="sC" x="250" y="78" text-anchor="end">days_since_recharge = 21</text><rect class="sR" x="311.2" y="62" width="140.8" height="22" rx="3"/><text class="sRt" x="458" y="78">+0.22</text>
 <line class="sD" x1="452" y1="84" x2="452" y2="92"/>
@@ -272,6 +272,7 @@ shap.plots.waterfall(sv[0])      # local: why this customer got this score
 <text class="sC" x="250" y="198" text-anchor="end">plan = family</text><rect class="sR" x="586.4" y="182" width="6.4" height="22" rx="3"/><text class="sRt" x="598.8" y="198">+0.01</text>
 <line class="sD" x1="593" y1="204" x2="593" y2="212"/>
 <text class="sT" x="250" y="228" text-anchor="end">this customer</text><rect class="sA" x="260" y="212" width="332.8" height="22" rx="3"/><text class="sT" x="598.8" y="228">0.52</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M311 57 L452 57 L452 88 L548 88 L548 118 L625 118 L625 148 L586 148 L586 178 L593 178 L593 208"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>A local explanation: how each feature moved this customer's score away from the average. It explains the model, not the world.</figcaption></figure>
 
 > [!mistake] Reading SHAP as causal

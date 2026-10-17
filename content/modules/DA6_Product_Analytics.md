@@ -259,7 +259,7 @@ print(f"lift = {conv[0]/n[0] - conv[1]/n[1]:.3%}, 95% CI [{low:.3%}, {high:.3%}]
 - **Price elasticity** (roughly the % change in quantity ÷ % change in price) needs variation in price that isn't driven by demand itself, ideally from experiments; naive regressions of sales on price are confounded.
 - **Discount depth vs frequency:** constant discounts train customers to wait for them.
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Promotion analysis waterfall: 1,500 orders in the promo week minus 1,000 that would have happened anyway, minus 150 pulled forward from later weeks, minus 100 cannibalised from full-price products, leaving 250 incremental orders">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: Promotion analysis waterfall: 1,500 orders in the promo week minus 1,000 that would have happened anyway, minus 150 pulled forward from later weeks, minus 100 cannibalised from full-price products, leaving 250 incremental orders">
 <line class="sLm" x1="60" y1="200" x2="680" y2="200"/>
 <rect class="sB" x="80" y="20" width="80" height="180" rx="3"/><text class="sT" x="120" y="218" text-anchor="middle">promo week</text>
 <text class="sC" x="120" y="14" text-anchor="middle">1,500</text>
@@ -272,6 +272,7 @@ print(f"lift = {conv[0]/n[0] - conv[1]/n[1]:.3%}, 95% CI [{low:.3%}, {high:.3%}]
 <rect class="sG" x="568" y="170" width="80" height="30" rx="3"/><text class="sT" x="608" y="218" text-anchor="middle">incremental</text>
 <text class="sC" x="608" y="164" text-anchor="middle">250</text>
 <text class="sS" x="360" y="236" text-anchor="middle">only the last bar is what the promotion bought; compare its margin with the discount's cost</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M120 18 L242 18 L242 138 L364 138 L364 156 L486 156 L486 168 L608 168"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Promotions look best on the raw count and worst on the incremental one. Report the incremental.</figcaption></figure>
 
 ## DA6.7 Simple forecasting for analysts 🟢

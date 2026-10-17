@@ -50,7 +50,7 @@ Only immutable (more precisely, **hashable**) values can be dictionary keys or s
 
 CPython runs your code in an interpreter: every `a + b` checks the types, finds the right method and allocates a new object for the result. A Python list stores pointers to full objects scattered around memory; a NumPy array stores raw numbers of one type in one block and runs the loop in compiled C.
 
-<figure class="dia"><svg viewBox="0 0 720 245" role="img" aria-label="A Python list holds pointers to separate integer objects; a NumPy array holds raw 8-byte numbers contiguously with a small header">
+<figure class="dia anim"><svg viewBox="0 0 720 245" role="img" aria-label="Animation: a Python list holds pointers to separate integer objects; a NumPy array holds raw 8-byte numbers contiguously with a small header">
 <text class="sT" x="20" y="22">Python list [7, 3, 9]: a row of pointers</text>
 <rect class="sB" x="20" y="34" width="50" height="34" rx="3"/><circle class="sFm" cx="45" cy="51" r="3"/>
 <rect class="sB" x="70" y="34" width="50" height="34" rx="3"/><circle class="sFm" cx="95" cy="51" r="3"/>
@@ -70,6 +70,10 @@ CPython runs your code in an interpreter: every `a + b` checks the types, finds 
 <rect class="sG" x="390" y="186" width="70" height="38" rx="2"/><text class="sX" x="425" y="210" text-anchor="middle">9</text>
 <text class="sGt" x="470" y="202">8 bytes each, side by side:</text>
 <text class="sGt" x="470" y="220">one compiled loop, no type checks</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.200;1" path="M45 54 C45 100 220 56 248 56"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.220;0.420;1" path="M95 54 C95 100 390 90 418 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.218;0.222;0.420;0.422;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.640;1" path="M145 54 C145 100 550 54 578 54"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.640;0.642;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.800;1" path="M250 228 L460 228"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.800;0.802;1"/></circle>
 </svg><figcaption>Why vectorised code is fast. NumPy (and pandas, built on it) loops over raw numbers in C; a Python loop handles one full object at a time.</figcaption></figure>
 
 ### The GIL in one paragraph
