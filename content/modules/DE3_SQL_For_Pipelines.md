@@ -249,6 +249,24 @@ JOIN gold.dim_customer d
 
 **Event time vs processing time:** always keep both (`event_at` from the source, `_ingested_at` from the pipeline). Business reporting uses event time; operational monitoring uses processing time.
 
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: late-arriving data: an event from 4 October arrives on 6 October from a phone that was offline; because the table is partitioned by event date and each daily run reprocesses a three-day lookback window, the run on 6 October overwrites the 3 to 5 October partitions and the late event lands in the right day">
+<line class="sLm" x1="60" y1="150" x2="690" y2="150"/>
+<line class="sLm" x1="80" y1="146" x2="80" y2="154"/><text class="sC" x="80" y="170" text-anchor="middle">1 Oct</text>
+<line class="sLm" x1="170" y1="146" x2="170" y2="154"/><text class="sC" x="170" y="170" text-anchor="middle">2 Oct</text>
+<line class="sLm" x1="260" y1="146" x2="260" y2="154"/><text class="sC" x="260" y="170" text-anchor="middle">3 Oct</text>
+<line class="sLm" x1="350" y1="146" x2="350" y2="154"/><text class="sC" x="350" y="170" text-anchor="middle">4 Oct</text>
+<line class="sLm" x1="440" y1="146" x2="440" y2="154"/><text class="sC" x="440" y="170" text-anchor="middle">5 Oct</text>
+<line class="sLm" x1="530" y1="146" x2="530" y2="154"/><text class="sC" x="530" y="170" text-anchor="middle">6 Oct</text>
+<line class="sLm" x1="620" y1="146" x2="620" y2="154"/><text class="sC" x="620" y="170" text-anchor="middle">7 Oct</text>
+<rect class="sB" x="530" y="40" width="90" height="30" rx="4"/><text class="sT" x="575" y="60" text-anchor="middle">run on 6 Oct</text>
+<rect class="sW" x="260" y="80" width="270" height="30" rx="4" opacity=".7"/><text class="sT" x="395" y="100" text-anchor="middle">reprocess partitions 3 to 5 Oct</text>
+<path class="sLr" d="M560 196 C 470 230 330 230 370 156" style="fill:none" marker-end="url(#ahr)"/>
+<text class="sRt" x="560" y="226" text-anchor="middle">phone offline: a 4 Oct event arrives on 6 Oct</text>
+<text class="sM" x="360" y="24" text-anchor="middle">partition by event date, and re-run a lookback window each day</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M560 196 C 470 230 330 230 370 156"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.750;1" path="M260 116 L530 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.750;0.752;1"/></circle>
+</svg><figcaption>Keep both timestamps: <code>event_at</code> for reporting, <code>_ingested_at</code> for monitoring. Partition overwrites keep the lookback idempotent.</figcaption></figure>
+
 ## DE3.6 Partitioning, clustering and file layout 🟡 ⭐
 
 > [!term] Partitioning

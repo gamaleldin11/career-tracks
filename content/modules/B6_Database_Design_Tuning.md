@@ -336,6 +336,26 @@ In roughly the order you'd reach for them:
 6. **Partitioning:** split a big table by range (month) inside one database, so old partitions can be archived or dropped and queries touch fewer pages.
 7. **Sharding:** split data across **several databases** by a shard key (`company_id`). It scales writes, but cross-shard queries and transactions become hard. Choosing the shard key is the critical decision: a multi-tenant SaaS like FinSight naturally shards by tenant.
 
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: read replicas: the API sends writes to the primary and reads to replicas; replication is asynchronous, so a read sent to a replica immediately after a write can miss it, which is why a user’s own reads right after saving go to the primary">
+<rect class="sA" x="14" y="90" width="120" height="50" rx="8"/><text class="sT" x="74" y="120" text-anchor="middle">API</text>
+<rect class="sB" x="260" y="20" width="170" height="56" rx="8"/><text class="sT" x="345" y="46" text-anchor="middle">primary</text><text class="sC" x="345" y="62" text-anchor="middle">all writes</text>
+<rect class="sG" x="260" y="130" width="170" height="50" rx="8"/><text class="sT" x="345" y="153" text-anchor="middle">replica 1</text><text class="sC" x="345" y="169" text-anchor="middle">reads</text>
+<rect class="sG" x="500" y="130" width="170" height="50" rx="8"/><text class="sT" x="585" y="153" text-anchor="middle">replica 2</text><text class="sC" x="585" y="169" text-anchor="middle">reads</text>
+<line class="sLm" x1="134" y1="104" x2="258" y2="48" marker-end="url(#ahm)"/>
+<line class="sLm" x1="134" y1="126" x2="258" y2="155" marker-end="url(#ahm)"/>
+<line class="sLw" x1="345" y1="76" x2="345" y2="128" marker-end="url(#ahw)"/>
+<line class="sLw" x1="430" y1="60" x2="585" y2="128" marker-end="url(#ahw)"/>
+<text class="sC" x="190" y="66" text-anchor="middle">write</text>
+<text class="sC" x="190" y="158" text-anchor="middle">read</text>
+<text class="sWt" x="500" y="92" text-anchor="middle">async replication: lag</text>
+<text class="sS" x="360" y="214" text-anchor="middle">read-your-writes: right after saving, read that user’s data from the primary, or they may not see it</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M134 104 L258 48"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.420;1" path="M345 76 L345 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.420;0.422;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.450;1" path="M430 60 L585 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.450;0.452;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.240;1" path="M134 126 L258 155"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.240;0.242;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M134 126 L258 155"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+</svg><figcaption>Replicas scale reads, not writes. When writes are the bottleneck the next steps are partitioning and, last, sharding.</figcaption></figure>
+
 ## B6.8 SQL or NoSQL? 🟢 🟡 ⭐
 
 | Type | Examples | Model | Strong at |

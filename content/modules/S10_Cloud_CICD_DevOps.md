@@ -383,6 +383,28 @@ You can't operate what you can't see. At minimum: **health checks** that the pla
 
 A **runbook** says what to do when an alert fires. A **post-mortem** after an incident is **blameless**: what happened, why, and what we change so it can't recur.
 
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: from metric to post-mortem: a p95 latency of 2.1 seconds breaches an alert rule of more than 1 second for 10 minutes, the on-call engineer is paged and acknowledges, follows the runbook, mitigates by rolling back, and a blameless post-mortem records the actions that prevent a repeat">
+<rect class="sB" x="14" y="50" width="108" height="56" rx="8"/><text class="sT" x="68" y="76" text-anchor="middle">metric</text><text class="sC" x="68" y="92" text-anchor="middle">p95 = 2.1 s</text>
+<rect class="sW" x="132" y="50" width="108" height="56" rx="8"/><text class="sT" x="186" y="76" text-anchor="middle">alert rule</text><text class="sC" x="186" y="92" text-anchor="middle">&gt; 1 s for 10 min</text>
+<line class="sLm" x1="122" y1="78" x2="130" y2="78" marker-end="url(#ahm)"/>
+<rect class="sA" x="250" y="50" width="108" height="56" rx="8"/><text class="sT" x="304" y="76" text-anchor="middle">on-call</text><text class="sC" x="304" y="92" text-anchor="middle">paged, acks</text>
+<line class="sLm" x1="240" y1="78" x2="248" y2="78" marker-end="url(#ahm)"/>
+<rect class="sV" x="368" y="50" width="108" height="56" rx="8"/><text class="sT" x="422" y="76" text-anchor="middle">runbook</text><text class="sC" x="422" y="92" text-anchor="middle">known steps</text>
+<line class="sLm" x1="358" y1="78" x2="366" y2="78" marker-end="url(#ahm)"/>
+<rect class="sG" x="486" y="50" width="108" height="56" rx="8"/><text class="sT" x="540" y="76" text-anchor="middle">mitigate</text><text class="sC" x="540" y="92" text-anchor="middle">roll back</text>
+<line class="sLm" x1="476" y1="78" x2="484" y2="78" marker-end="url(#ahm)"/>
+<rect class="sN" x="604" y="50" width="108" height="56" rx="8"/><text class="sT" x="658" y="76" text-anchor="middle">post-mortem</text><text class="sC" x="658" y="92" text-anchor="middle">blameless</text>
+<line class="sLm" x1="594" y1="78" x2="602" y2="78" marker-end="url(#ahm)"/>
+<text class="sM" x="360" y="28" text-anchor="middle">from a number on a graph to a change that stops it happening again</text>
+<text class="sS" x="360" y="140" text-anchor="middle">alert on symptoms users feel (errors, latency), with a duration so blips do not page anyone</text>
+<text class="sS" x="360" y="160" text-anchor="middle">every alert needs a runbook; an alert nobody acts on should be deleted</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.120;1" path="M122 78 L130 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.120;0.122;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.210;0.280;1" path="M240 78 L248 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.208;0.212;0.280;0.282;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.370;0.440;1" path="M358 78 L366 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.368;0.372;0.440;0.442;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.530;0.600;1" path="M476 78 L484 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.528;0.532;0.600;0.602;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.690;0.760;1" path="M594 78 L602 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.688;0.692;0.760;0.762;1"/></circle>
+</svg><figcaption>Mitigate first, investigate second: rolling back is usually faster than fixing forward at 3 a.m.</figcaption></figure>
+
 ## S10.8 Cost is a feature 🟡
 
 Cloud bills surprise teams. Cheap habits: shut down or scale to zero non-production environments at night (Container Apps and Functions scale to zero); right-size instances by looking at actual CPU and memory use; set budgets and alerts; delete orphaned disks, IPs and snapshots; prefer managed services when the hours you'd spend running them cost more than the service. **Egress** (data leaving the cloud) is a common hidden cost.

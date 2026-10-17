@@ -142,6 +142,35 @@ if (existing is not null)
 > [!story]
 > Your template library includes **Paymob, Fawry, Kashier and Stripe** integration guides. Payment callbacks and webhooks arrive more than once, and out of order. A strong answer: "I process each payment notification idempotently, keyed by the provider's transaction ID, so a duplicate callback can't mark an order paid twice or ship it twice."
 
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: an idempotency key: the client posts a payment with key 6f1c, the API stores the key and charges the card, but the response is lost; the client retries with the same key, the API finds the key and returns the stored result, so the customer is charged once">
+<text class="sT" x="100" y="22" text-anchor="middle">client</text>
+<line class="sD" x1="100" y1="30" x2="100" y2="226"/>
+<text class="sT" x="360" y="22" text-anchor="middle">API</text>
+<line class="sD" x1="360" y1="30" x2="360" y2="226"/>
+<text class="sT" x="620" y="22" text-anchor="middle">keys table</text>
+<line class="sD" x1="620" y1="30" x2="620" y2="226"/>
+<line class="sLm" x1="100" y1="50" x2="356" y2="56" marker-end="url(#ahm)"/>
+<text class="sC" x="230" y="46" text-anchor="middle">POST /payments  key 6f1c…</text>
+<line class="sLm" x1="364" y1="66" x2="616" y2="70" marker-end="url(#ahm)"/>
+<text class="sC" x="490" y="62" text-anchor="middle">store key + charge</text>
+<line class="sLr" x1="356" y1="90" x2="180" y2="98"/>
+<text class="sRt" x="270" y="86" text-anchor="middle">response lost</text>
+<rect class="sR" x="160" y="92" width="22" height="16" rx="3" opacity=".8"/>
+<line class="sLw" x1="100" y1="130" x2="356" y2="136" marker-end="url(#ahw)"/>
+<text class="sWt" x="230" y="126" text-anchor="middle">retry, same key 6f1c…</text>
+<line class="sLm" x1="364" y1="146" x2="616" y2="150" marker-end="url(#ahm)"/>
+<text class="sC" x="490" y="142" text-anchor="middle">key seen: stored result</text>
+<line class="sLg" x1="356" y1="176" x2="104" y2="184" marker-end="url(#ahg)"/>
+<text class="sGt" x="230" y="172" text-anchor="middle">201, the original payment</text>
+<text class="sS" x="360" y="214" text-anchor="middle">charged once: the server remembers keys for a day and replays the first result</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M100 50 L356 56"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M364 66 L616 70"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.340;1" path="M356 90 L180 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.340;0.342;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.540;1" path="M100 130 L356 136"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.540;0.542;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.660;1" path="M364 146 L616 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.660;0.662;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.840;1" path="M356 176 L104 184"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.840;0.842;1"/></circle>
+</svg><figcaption>Same key and same body: replay the stored response. Same key with a different body: reject it with 422, it is a client bug.</figcaption></figure>
+
 ## B4.5 Concurrency: lost updates 🟡 ⭐
 
 Two accountants open invoice 7. Both edit and save. Without protection, the second save silently overwrites the first, a **lost update**.
