@@ -641,7 +641,7 @@ Ethernet adapter Ethernet0:
   <tr><td>Payload</td><td class="num">46–1500 B</td><td>1500 = standard MTU; jumbo = up to ~9000 (must match end-to-end or storage/vMotion breaks silently)</td></tr>
   <tr><td>FCS (CRC32)</td><td class="num">4 B</td><td>Receiver drops on mismatch → shows as <strong>CRC/input errors</strong> on the switch port</td></tr>
 </table></div>
-<figure class="dia"><svg viewBox="0 0 720 166" role="img" aria-label="The fields of an Ethernet frame in order: preamble 8 bytes, destination MAC 6 bytes, source MAC 6 bytes, an optional 802.1Q VLAN tag of 4 bytes on trunks, EtherType 2 bytes, the payload of 46 to 1500 bytes carrying the IP packet, and the 4-byte frame check sequence used for the CRC check">
+<figure class="dia anim"><svg viewBox="0 0 720 166" role="img" aria-label="Animation: the fields of an Ethernet frame in order: preamble 8 bytes, destination MAC 6 bytes, source MAC 6 bytes, an optional 802.1Q VLAN tag of 4 bytes on trunks, EtherType 2 bytes, the payload of 46 to 1500 bytes carrying the IP packet, and the 4-byte frame check sequence used for the CRC check">
 <rect class="sN" x="14" y="40" width="56" height="48" rx="4"/><text class="sS" x="42" y="62" text-anchor="middle">Preamble</text><text class="sC" x="42" y="80" text-anchor="middle">8 B</text>
 <rect class="sB" x="74" y="40" width="76" height="48" rx="4"/><text class="sT" x="112" y="62" text-anchor="middle">dst MAC</text><text class="sC" x="112" y="80" text-anchor="middle">6 B</text>
 <rect class="sB" x="154" y="40" width="76" height="48" rx="4"/><text class="sT" x="192" y="62" text-anchor="middle">src MAC</text><text class="sC" x="192" y="80" text-anchor="middle">6 B</text>
@@ -655,6 +655,7 @@ Ethernet adapter Ethernet0:
 <text class="sS" x="481" y="110" text-anchor="middle">MTU 1500 (jumbo ≈ 9000, must match end to end)</text>
 <text class="sRt" x="667" y="128" text-anchor="middle">CRC check</text>
 <text class="sC" x="360" y="156" text-anchor="middle">minimum frame 64 B (padded), maximum 1518 B, or 1522 B with the 802.1Q tag</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M14 94 L662 94"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Drawn roughly to field order, not to scale: the payload dominates every real frame. Errors in the last field (FCS) are what a switch counts as CRC errors.</figcaption></figure>
 
 <p><strong>Edge cases worth knowing:</strong> a frame under 64 B is a <strong>runt</strong>, over the max a <strong>giant</strong> — both usually mean bad NIC/cable/duplex. Minimum frame padding, and why counters matter: <mark>CRC errors + late collisions on a port = duplex mismatch or damaged cabling almost every time</mark>.</p>
@@ -795,7 +796,7 @@ Ethernet adapter Ethernet0:
 <p><strong>Worked example 1:</strong> What subnet is <code>192.168.10.37/26</code> in? /26 = 255.255.255.<strong>192</strong>. Magic number = 256 − 192 = <strong>64</strong>. Subnets: .0, .64, .128, .192. 37 falls in the <strong>.0 block</strong> → network <code>192.168.10.0</code>, broadcast <code>.63</code>, usable <code>.1–.62</code> (2⁶−2 = 62 hosts).</p>
 <p><strong>Worked example 2:</strong> Split <code>192.168.1.0/24</code> into 4 equal subnets. Need 4 subnets → borrow 2 bits (2²=4) → /26, 64 addresses each: <code>.0–.63</code>, <code>.64–.127</code>, <code>.128–.191</code>, <code>.192–.255</code>. Each has 62 usable hosts.</p>
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A /24 network split into four /26 subnets of 64 addresses: .0, .64, .128 and .192, each with its host range and broadcast address; .37 falls in the first">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: A /24 network split into four /26 subnets of 64 addresses: .0, .64, .128 and .192, each with its host range and broadcast address; .37 falls in the first">
 <rect class="sB" x="30" y="30" width="660" height="34" rx="6"/><text class="sT" x="360" y="52" text-anchor="middle">192.168.1.0/24: 256 addresses</text>
 <rect class="sA" x="32" y="84" width="161" height="60" rx="6"/><text class="sT" x="112.5" y="104" text-anchor="middle">.0/26</text><text class="sC" x="112.5" y="122" text-anchor="middle">hosts .1–.62</text><text class="sC" x="112.5" y="138" text-anchor="middle">broadcast .63</text>
 <line class="sLm" x1="360" y1="64" x2="112.5" y2="82"/>
@@ -807,6 +808,11 @@ Ethernet adapter Ethernet0:
 <line class="sLm" x1="360" y1="64" x2="607.5" y2="82"/>
 <line class="sLr" x1="125.391" y1="150" x2="125.391" y2="172" marker-end="url(#ahr)"/><text class="sRt" x="125.391" y="188" text-anchor="middle">.37 → network .0, broadcast .63</text>
 <text class="sS" x="360" y="214" text-anchor="middle">magic number = 256 − 192 = 64: subnets start at .0, .64, .128, .192</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M360 64 L112.5 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.180;1" path="M360 64 L277.5 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.180;0.182;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.260;1" path="M360 64 L442.5 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.260;0.262;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.340;1" path="M360 64 L607.5 82"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.340;0.342;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M125.391 150 L125.391 172"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
 </svg><figcaption>Borrowing two host bits turns one /24 into four /26 blocks of 64. The block size is the magic number.</figcaption></figure>
 
 <p><strong>Worked example 3:</strong> A branch needs 100 hosts — smallest subnet? Need 2<sup>h</sup>−2 ≥ 100 → h=7 (126 hosts) → mask /25 (32−7). Answer: a /25, e.g. <code>10.20.30.0/25</code>, hosts .1–.126, broadcast .127.</p>
@@ -939,7 +945,7 @@ mask= 11000000 (192)    mask= 11000000
   <li><strong>/31</strong> (RFC 3021): 2 addresses, no network/broadcast reserved — valid and standard on router point-to-point links; saves half the addresses vs /30. <strong>/32</strong> = one host — loopback interfaces on routers (stable router IDs, management targets).</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="Route summarization: the networks 192.168.0.0, 1.0, 2.0 and 3.0 slash 24 have third octets 00000000, 00000001, 00000010 and 00000011; the first six bits of the third octet are identical, so with the 16 bits of the first two octets they share 22 bits and can be advertised as the single route 192.168.0.0/22">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: route summarization: the networks 192.168.0.0, 1.0, 2.0 and 3.0 slash 24 have third octets 00000000, 00000001, 00000010 and 00000011; the first six bits of the third octet are identical, so with the 16 bits of the first two octets they share 22 bits and can be advertised as the single route 192.168.0.0/22">
 <text class="sM" x="14" y="22">third octet in binary</text>
 <text class="sC" x="14" y="50" xml:space="preserve" style="white-space:pre">192.168.0.0/24</text>
 <rect class="sG" x="190" y="34" width="26" height="24" rx="3"/><text class="sT" x="203" y="51" text-anchor="middle">0</text>
@@ -981,6 +987,9 @@ mask= 11000000 (192)    mask= 11000000
 <line class="sLw" x1="370" y1="160" x2="428" y2="160" style="stroke-width:3"/><text class="sWt" x="399" y="196" text-anchor="middle">differ</text>
 <rect class="sB" x="470" y="60" width="236" height="70" rx="8"/><text class="sS" x="588" y="86" text-anchor="middle">advertise one route:</text><text class="sT" x="588" y="110" text-anchor="middle">192.168.0.0/22</text>
 <line class="sLm" x1="440" y1="95" x2="468" y2="95" marker-end="url(#ahm)"/>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M190 162 L366 162"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.420;1" path="M370 162 L428 162"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.420;0.422;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M440 95 L468 95"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
 </svg><figcaption>Write the varying octet in binary, find where the networks stop agreeing, count the bits that match: that is the summary prefix. It only works cleanly when the block starts on a boundary (here, a multiple of 4).</figcaption></figure>
 
 <h3>D2.3 NAT — the layer below the summary</h3>
