@@ -138,7 +138,7 @@ await email.Received(1).SendAsync(Arg.Is<Email>(e => e.Subject.Contains("forecas
 
 `WebApplicationFactory<TEntryPoint>` boots your **real** app (its `Program`, middleware, DI, routing, filters, serialisation) in memory and gives you an `HttpClient` to call it. No network or deployment needed.
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="An integration test calls the real application in memory through an HttpClient; the app runs its real pipeline and EF Core against a containerised SQL Server, with only external edges replaced">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: an integration test calls the real application in memory through an HttpClient; the request runs the real pipeline and EF Core against a containerised SQL Server, while only external edges such as the forecast model are replaced, and the response returns to the test">
 <rect class="sB" x="14" y="90" width="120" height="50" rx="8"/><text class="sT" x="74" y="113" text-anchor="middle">xUnit test</text><text class="sC" x="74" y="129" text-anchor="middle">HttpClient</text><line class="sL" x1="134" y1="115" x2="166" y2="115" marker-end="url(#ah)"/>
 <rect class="sN" x="170" y="20" width="360" height="200" rx="12"/><text class="sC" x="350" y="40" text-anchor="middle">your real app, in memory (TestServer)</text>
 <rect class="sA" x="186" y="52" width="328" height="32" rx="6"/><text class="sC" x="350" y="73" text-anchor="middle">middleware: errors, auth, CORS</text>
@@ -148,6 +148,9 @@ await email.Received(1).SendAsync(Arg.Is<Email>(e => e.Subject.Contains("forecas
 <line class="sLg" x1="514" y1="196" x2="566" y2="196" marker-end="url(#ahg)"/><rect class="sG" x="570" y="172" width="136" height="48" rx="8"/><text class="sT" x="638" y="194" text-anchor="middle">SQL Server</text><text class="sC" x="638" y="210" text-anchor="middle">Testcontainers</text>
 <rect class="sV" x="570" y="30" width="136" height="120" rx="8"/><text class="sT" x="638" y="50" text-anchor="middle">replaced edges</text><text class="sC" x="638" y="74" text-anchor="middle">fake IForecastModel</text><text class="sC" x="638" y="94" text-anchor="middle">test auth handler</text><text class="sC" x="638" y="114" text-anchor="middle">spy email sender</text><text class="sC" x="638" y="134" text-anchor="middle">FakeTimeProvider</text>
 <line class="sLw" x1="514" y1="110" x2="566" y2="90" marker-end="url(#ahw)"/>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M134 115 L178 115 L178 212 L540 212 L540 196 L568 196"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.260;1" path="M514 110 L566 90"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.260;0.262;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M568 196 L540 196 L540 212 L178 212 L178 115 L134 115"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption>What an integration test exercises: everything you wrote, end to end, against the real database engine. Only the edges you don't own are swapped.</figcaption></figure>
 
 ```csharp

@@ -43,7 +43,7 @@ You can't attach a debugger to production. Instead, the running system **emits t
 | **Metrics** | Numeric measurements aggregated over time (counters, gauges, histograms) | Is something wrong, and how much? Trends, alerts | Cheap |
 | **Traces** | The path of one request through services, as a tree of timed **spans** | Where did the time go? Which service failed? | Medium (usually sampled) |
 
-<figure class="dia"><svg viewBox="0 0 720 184" role="img" aria-label="One incident through three signals: a p99 latency metric spikes, a trace shows the payment call is slow, and a log with the same trace ID shows the provider returned 503">
+<figure class="dia anim"><svg viewBox="0 0 720 184" role="img" aria-label="Animation: one incident through three signals: the p99 latency metric spikes, which leads to a trace whose payment call is slow, which leads to a log with the same trace ID showing the provider returned 503">
 <rect class="sB" x="14" y="24" width="220" height="150" rx="10"/><text class="sT" x="124" y="44" text-anchor="middle">metric: p99 latency</text>
 <polyline class="sLr" points="24,150 60,148 90,146 120,150 150,80 170,70 200,76 224,78"/><text class="sRt" x="124" y="166" text-anchor="middle">something is wrong since 14:05</text>
 <rect class="sB" x="250" y="24" width="220" height="150" rx="10"/><text class="sT" x="360" y="44" text-anchor="middle">trace: one slow request</text>
@@ -60,6 +60,10 @@ You can't attach a debugger to production. Instead, the running system **emits t
 <text class="sC" x="498" y="142" xml:space="preserve" style="white-space:pre">tenant c-42</text>
 <text class="sRt" x="596" y="166" text-anchor="middle">why: provider returning 503</text>
 <line class="sLm" x1="234" y1="100" x2="248" y2="100" marker-end="url(#ahm)"/><line class="sLm" x1="470" y1="100" x2="484" y2="100" marker-end="url(#ahm)"/>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M24 150 L60 148 L90 146 L120 150 L150 80 L170 70 L200 76 L224 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.270;0.320;1" path="M226 100 L250 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.268;0.272;0.320;0.322;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.620;1" path="M282 115 L432 115"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.620;0.622;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.690;1" path="M462 100 L486 100"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.690;0.692;1"/></circle>
 </svg><figcaption>Metrics tell you something is wrong, traces tell you where, logs tell you why. The trace ID is what links them.</figcaption></figure>
 
 ## B11.2 Structured logging 🟢 ⭐

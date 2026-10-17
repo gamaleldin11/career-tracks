@@ -42,7 +42,7 @@ Two consequences explain most of the advice that follows:
 - **What blocks the first paint:** CSS in the `<head>` (render-blocking), plain `<script>` tags (parser-blocking), and above all, for client-rendered apps, the JavaScript that must download and run before there is any content.
 - **What makes later updates expensive:** JavaScript that changes the page triggers some of style, layout, paint and composite again on the main thread. Which ones depends on what you change.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="The pixel pipeline JavaScript, style, layout, paint, composite, and which stages run when you change geometry, colour, or transform and opacity">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: the pixel pipeline JavaScript, style, layout, paint, composite, and which stages run when you change geometry, colour, or transform and opacity: a geometry change runs every stage, a colour change hops over layout, and a transform or opacity change hops straight from style to composite">
 <rect class="sB" x="210" y="20" width="92" height="36" rx="8"/><text class="sT" x="256" y="43" text-anchor="middle">JavaScript</text>
 <line class="sLm" x1="302" y1="38" x2="308" y2="38" marker-end="url(#ahm)"/>
 <rect class="sB" x="310" y="20" width="92" height="36" rx="8"/><text class="sT" x="356" y="43" text-anchor="middle">Style</text>
@@ -74,6 +74,9 @@ Two consequences explain most of the advice that follows:
 <rect class="sA" x="610" y="158" width="92" height="26" rx="5"/><text class="sC" x="656" y="176" text-anchor="middle">✓</text>
 <text class="sC" x="716" y="176" text-anchor="middle"></text>
 <text class="sC" x="16" y="214">rows: what changing each kind of property makes the browser redo</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.280;1" path="M256 91 L656 91"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.280;0.282;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.600;1" path="M256 131 L356 131 Q456 112 556 131 L656 131"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.600;0.602;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.880;1" path="M256 171 L356 171 Q506 140 656 171"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.880;0.882;1"/></circle>
 </svg><figcaption>Why animations should use <code>transform</code> and <code>opacity</code>: they skip layout and paint and run on the compositor.</figcaption></figure>
 
 ## F9.1 Core Web Vitals 🟢 ⭐

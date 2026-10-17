@@ -224,7 +224,7 @@ GET  /api/v1/report-jobs/91     → 303 See Other, Location: /api/v1/reports/91.
 
 Or push completion over SignalR, SSE or a webhook instead of polling.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Long-running request: POST returns 202 with a job URL, the client polls the job, and finally gets a 303 redirect to the result">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: a long-running request: POST returns 202 with a job URL while the job is enqueued for a worker, the client polls the job and sees it running, and finally gets a 303 redirect to the result">
 <text class="sT" x="100" y="22" text-anchor="middle">Client</text><line class="sD" x1="100" y1="32" x2="100" y2="232"/>
 <text class="sT" x="400" y="22" text-anchor="middle">API</text><line class="sD" x1="400" y1="32" x2="400" y2="232"/>
 <text class="sT" x="640" y="22" text-anchor="middle">Worker</text><line class="sD" x1="640" y1="32" x2="640" y2="232"/>
@@ -234,6 +234,13 @@ Or push completion over SignalR, SSE or a webhook instead of polling.
 <line class="sL" x1="100" y1="120" x2="396" y2="124" marker-end="url(#ah)"/><text class="sM" x="250" y="116" text-anchor="middle">GET /report-jobs/91</text><line class="sLg" x1="396" y1="132" x2="104" y2="136" marker-end="url(#ahg)"/><text class="sC" x="250" y="150" text-anchor="middle">200 {status: "running", progress: 40}</text>
 <rect class="sW" x="600" y="80" width="80" height="90" rx="6"/><text class="sC" x="640" y="128" text-anchor="middle">working</text>
 <line class="sL" x1="100" y1="180" x2="396" y2="184" marker-end="url(#ah)"/><text class="sM" x="250" y="176" text-anchor="middle">GET /report-jobs/91</text><line class="sLg" x1="396" y1="192" x2="104" y2="196" marker-end="url(#ahg)"/><text class="sGt" x="250" y="214" text-anchor="middle">303 See Other → /reports/91.pdf</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M100 48 L396 54"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M404 60 L636 66"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.250;1" path="M396 76 L104 82"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.250;0.252;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.440;1" path="M100 120 L396 124"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.440;0.442;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.540;1" path="M396 132 L104 136"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.540;0.542;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.740;1" path="M100 180 L396 184"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.740;0.742;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.760;0.840;1" path="M396 192 L104 196"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.758;0.762;0.840;0.842;1"/></circle>
 </svg><figcaption>The 202 pattern. The request returns in milliseconds; the work happens elsewhere; the client checks back (or is told by a webhook or SignalR).</figcaption></figure>
 
 **Webhooks** (your API calls the client's URL when something happens):

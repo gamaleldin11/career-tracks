@@ -276,7 +276,7 @@ const q = useDebouncedValue(searchText);   // query the API with q, not on every
 > [!term] Prop drilling
 > Passing props through several components that don't use them, just to reach a deep child. Fix it with composition or context, but don't reach for global state just to avoid two levels of props.
 
-<figure class="dia"><svg viewBox="0 0 720 288" role="img" aria-label="Three ways to get the current user from App to a deep Avatar: prop drilling passes it through Layout and Sidebar, which do not use it; composition lets App render the Avatar with the user and hand it to Layout as a prop; context provides it at App and Avatar reads it with useContext, at the cost of re-rendering every consumer when it changes">
+<figure class="dia anim"><svg viewBox="0 0 720 288" role="img" aria-label="Animation: three ways to get the current user from App to a deep Avatar: prop drilling passes it through Layout and Sidebar, which do not use it; composition lets App render the Avatar with the user and hand it to Layout as a prop; context provides it at App and Avatar reads it with useContext, at the cost of re-rendering every consumer when it changes">
 <rect class="sN" x="8" y="10" width="224" height="268" rx="8" opacity=".35"/><text class="sRt" x="120" y="30" text-anchor="middle">1 prop drilling</text>
 <rect class="sN" x="248" y="10" width="224" height="268" rx="8" opacity=".35"/><text class="sGt" x="360" y="30" text-anchor="middle">2 composition</text>
 <rect class="sN" x="488" y="10" width="224" height="268" rx="8" opacity=".35"/><text class="sGt" x="600" y="30" text-anchor="middle">3 context: useContext</text>
@@ -297,6 +297,9 @@ const q = useDebouncedValue(searchText);   // query the API with q, not on every
 <line class="sLm" x1="600" y1="194" x2="600" y2="222" marker-end="url(#ahm)"/>
 <path class="sLv" d="M 540 59 C 488 104 500 184 540 239" marker-end="url(#ahv)" style="fill:none" stroke-dasharray="5 4"/>
 <text class="sS" x="600" y="272" text-anchor="middle">every consumer re-renders on change</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M120 59 L120 239"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.560;1" path="M 420 59 C 472 104 460 184 420 222"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.560;0.562;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.820;1" path="M 540 59 C 488 104 500 184 540 239"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.820;0.822;1"/></circle>
 </svg><figcaption>Prop drilling and its two usual fixes. Lifting state and two levels of props are fine; reach for these when the middle layers start carrying data they never use.</figcaption></figure>
 
 ## F6.5 Forms 🟢 ⭐
