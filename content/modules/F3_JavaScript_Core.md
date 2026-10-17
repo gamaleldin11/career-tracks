@@ -290,7 +290,7 @@ With `var` there is **one** `i` for the whole function; by the time the callback
 
 `this` is decided by **how a function is called**, not where it's written, except for arrow functions.
 
-<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Flowchart for working out this: arrow function, new, call apply or bind, method call, or a plain call">
+<figure class="dia anim"><svg viewBox="0 0 720 272" role="img" aria-label="Animation: flowchart for working out this: arrow function, new, call apply or bind, method call, or a plain call">
 <rect class="sW" x="20" y="14" width="300" height="40" rx="20"/><text class="sS" x="170" y="39" text-anchor="middle">Is it an arrow function?</text>
 <line class="sLg" x1="320" y1="34" x2="396" y2="34" marker-end="url(#ahg)"/><text class="sGt" x="358" y="28" text-anchor="middle">yes</text>
 <rect class="sG" x="400" y="14" width="300" height="40" rx="8"/><text class="sS" x="550" y="39" text-anchor="middle">this of the code around it (lexical)</text>
@@ -307,6 +307,9 @@ With `var` there is **one** `i` for the whole function; by the time the callback
 <line class="sLg" x1="320" y1="196" x2="396" y2="196" marker-end="url(#ahg)"/><text class="sGt" x="358" y="190" text-anchor="middle">yes</text>
 <rect class="sG" x="400" y="176" width="300" height="40" rx="8"/><text class="sS" x="550" y="201" text-anchor="middle">obj, the thing before the dot</text>
 <line class="sLm" x1="170" y1="216" x2="170" y2="232" marker-end="url(#ahm)"/><text class="sC" x="180" y="230">no</text><rect class="sR" x="20" y="234" width="680" height="30" rx="8"/><text class="sS" x="360" y="254" text-anchor="middle">a plain call f(): undefined in strict code (modules, classes); globalThis in old sloppy scripts</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M11 30 L11 196"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.540;1" path="M320 196 L396 196"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.540;0.542;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.940;1" path="M11 30 L11 248"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.940;0.942;1"/></circle>
 </svg><figcaption>Ask the questions in this order. Only the call site matters, except for arrow functions, which never have their own <code>this</code>.</figcaption></figure>
 
 | Call style | `this` is | Example |
@@ -533,12 +536,15 @@ try {
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 206" role="img" aria-label="What a fetch promise does: a 200 response resolves with res.ok true; a 404 or 500 response also resolves, with res.ok false, so the code must check and throw; only a network failure, CORS block or DNS error rejects the promise and reaches the catch block">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: what a fetch promise does: a 200 response resolves with res.ok true; a 404 or 500 response also resolves, with res.ok false, so the code must check and throw; only a network failure, CORS block or DNS error rejects the promise and reaches the catch block">
 <rect class="sB" x="14" y="70" width="130" height="50" rx="8"/><text class="sT" x="79" y="100" text-anchor="middle">await fetch(url)</text>
 <line class="sLm" x1="144" y1="95" x2="220" y2="42" marker-end="url(#ahm)"/><rect class="sG" x="222" y="20" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="40" text-anchor="middle">200 OK</text><text class="sC" x="297" y="56" text-anchor="middle">resolves</text><text class="sS" x="386" y="47">res.ok = true → use res.json()</text>
 <line class="sLm" x1="144" y1="95" x2="220" y2="98" marker-end="url(#ahm)"/><rect class="sW" x="222" y="76" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="96" text-anchor="middle">404 / 500</text><text class="sC" x="297" y="112" text-anchor="middle">resolves too!</text><text class="sS" x="386" y="103">res.ok = false → you must throw</text>
 <line class="sLm" x1="144" y1="95" x2="220" y2="154" marker-end="url(#ahm)"/><rect class="sR" x="222" y="132" width="150" height="44" rx="6" opacity=".8"/><text class="sT" x="297" y="152" text-anchor="middle">network error, CORS</text><text class="sC" x="297" y="168" text-anchor="middle">rejects</text><text class="sS" x="386" y="159">catch block runs</text>
 <text class="sRt" x="360" y="196" text-anchor="middle">if (!res.ok) throw new Error(`HTTP ${res.status}`) is the line people forget</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M144 95 L220 42"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.440;1" path="M144 95 L220 98"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.440;0.442;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.740;1" path="M144 95 L220 154"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.740;0.742;1"/></circle>
 </svg><figcaption>fetch treats any HTTP response as success; only failing to get a response is an error. That is why the <code>res.ok</code> check exists.</figcaption></figure>
 
 Throw `Error` objects (they carry a stack trace), never strings. Custom error classes (`class ValidationError extends Error {}`) let callers handle cases differently.

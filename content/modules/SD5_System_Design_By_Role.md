@@ -64,7 +64,7 @@ Frontend rounds design the **client**: how it is structured, how it gets and cac
 - **Interface:** `GET /suggest?q=lap&lang=ar&limit=8` → `[{id, label, type, url}]`.
 - **Client design:** **debounce** keystrokes (~200–300 ms); **cancel** in-flight requests when the query changes (`AbortController`) so an old slow response can't overwrite a newer one; cache results per query in memory (an LRU of the last ~50 queries); show cached results instantly for a prefix the user already typed.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Timeline: without debounce six requests race and a slow old one overwrites the newest; with debounce and cancellation one request is sent after typing pauses">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: timeline: without debounce six requests race and a slow old one overwrites the newest; with debounce and cancellation one request is sent after typing pauses">
 <text class="sC" x="20" y="22">keystrokes</text>
 <rect class="sB" x="106" y="28" width="50" height="20" rx="4"/><text class="sM" x="131" y="42" text-anchor="middle">l</text>
 <rect class="sB" x="155.714" y="28" width="50" height="20" rx="4"/><text class="sM" x="180.714" y="42" text-anchor="middle">la</text>
@@ -86,6 +86,13 @@ Frontend rounds design the **client**: how it is structured, how it gets and cac
 <text class="sC" x="110" y="222" text-anchor="middle">0 ms</text>
 <text class="sC" x="317.143" y="222" text-anchor="middle">500 ms</text>
 <text class="sC" x="524.286" y="222" text-anchor="middle">1000 ms</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.216;1" path="M110.0 64 L234.3 64"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.216;0.218;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.086;0.273;1" path="M159.7 74 L267.4 74"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.084;0.088;0.273;0.275;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.172;0.819;1" path="M209.4 84 L582.3 84"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.170;0.174;0.819;0.821;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.259;0.460;1" path="M259.1 94 L375.1 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.257;0.261;0.460;0.462;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.345;0.517;1" path="M308.9 104 L408.3 104"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.343;0.347;0.517;0.519;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.431;0.589;1" path="M358.6 114 L449.7 114"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.429;0.433;0.589;0.591;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.611;0.769;1" path="M462.1 166 L553.3 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.609;0.613;0.769;0.771;1"/></circle>
 </svg><figcaption>Debounce sends fewer requests; cancellation makes sure only the newest answer can ever be shown.</figcaption></figure>
 
 - **Server side (the part to mention, not design fully):** a prefix index (search engine or an in-memory trie of popular queries), results cached at the CDN for very common prefixes.
