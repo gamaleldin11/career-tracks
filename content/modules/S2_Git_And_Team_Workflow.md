@@ -104,7 +104,7 @@ Git stores **snapshots**, not diffs. Each **commit** records the full state of t
 > [!term] HEAD
 > A pointer to "where you are now", usually to the current branch. "Detached HEAD" means it points straight at a commit rather than a branch, so new commits there belong to no branch until you create one.
 
-<figure class="dia"><svg viewBox="0 0 720 170" role="img" aria-label="Working tree, staging area and repository with the commands that move changes between them">
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: working tree, staging area and repository with the commands that move changes between them">
 <rect class="sB" x="20" y="40" width="170" height="70" rx="10"/><text class="sT" x="105" y="70" text-anchor="middle">Working tree</text><text class="sS" x="105" y="90" text-anchor="middle">the files you edit</text>
 <rect class="sW" x="275" y="40" width="170" height="70" rx="10"/><text class="sT" x="360" y="70" text-anchor="middle">Staging area (index)</text><text class="sS" x="360" y="90" text-anchor="middle">the next commit, prepared</text>
 <rect class="sA" x="530" y="40" width="170" height="70" rx="10"/><text class="sT" x="615" y="70" text-anchor="middle">Repository</text><text class="sS" x="615" y="90" text-anchor="middle">.git — commits</text>
@@ -112,6 +112,10 @@ Git stores **snapshots**, not diffs. Each **commit** records the full state of t
 <line class="sL" x1="445" y1="60" x2="530" y2="60"/><text class="sM" x="455" y="52">git commit</text>
 <line class="sD" x1="275" y1="95" x2="190" y2="95"/><text class="sM" x="196" y="125">git restore --staged</text>
 <line class="sD" x1="530" y1="95" x2="190" y2="140"/><text class="sM" x="355" y="155">git restore / switch / checkout</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M190 60 L275 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M445 60 L530 60"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.570;1" path="M275 95 L190 95"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.570;0.572;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.860;1" path="M530 95 L190 140"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.860;0.862;1"/></circle>
 </svg><figcaption>The three areas. The staging area lets you commit part of your changes as one clean, focused commit.</figcaption></figure>
 
 > [!say]

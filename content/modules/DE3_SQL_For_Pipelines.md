@@ -378,7 +378,7 @@ Readers must never see half-loaded data:
 - In classic warehouses: load into a **staging table**, validate, then swap (`ALTER TABLE … RENAME`, `ALTER TABLE … SWITCH PARTITION` in SQL Server, `SWAP WITH` in Snowflake) or wrap the write in a transaction.
 - **Write-audit-publish (WAP):** write to a staging branch or table, audit it with checks, then publish, now supported natively in Iceberg (branches) and some catalogs.
 
-<figure class="dia"><svg viewBox="0 0 720 192" role="img" aria-label="Write-audit-publish: data is written to staging, audited with checks, and published atomically; failing checks stop publication while readers keep seeing the previous version">
+<figure class="dia anim"><svg viewBox="0 0 720 192" role="img" aria-label="Animation: write-audit-publish: data is written to staging, audited with checks, and published atomically; failing checks stop publication while readers keep seeing the previous version">
 <rect class="sV" x="40" y="40" width="190" height="56" rx="8"/><text class="sT" x="135" y="66" text-anchor="middle">write</text><text class="sC" x="135" y="82" text-anchor="middle">to staging or a branch</text>
 <line class="sLm" x1="230" y1="68" x2="266" y2="68" marker-end="url(#ahm)"/>
 <rect class="sW" x="270" y="40" width="190" height="56" rx="8"/><text class="sT" x="365" y="66" text-anchor="middle">audit</text><text class="sC" x="365" y="82" text-anchor="middle">counts, nulls, keys</text>
@@ -386,6 +386,10 @@ Readers must never see half-loaded data:
 <rect class="sG" x="500" y="40" width="190" height="56" rx="8"/><text class="sT" x="595" y="66" text-anchor="middle">publish</text><text class="sC" x="595" y="82" text-anchor="middle">atomic swap or commit</text>
 <line class="sLr" x1="325" y1="96" x2="325" y2="130" marker-end="url(#ahr)"/><rect class="sR" x="240" y="132" width="170" height="46" rx="8"/><text class="sT" x="325" y="153" text-anchor="middle">checks fail</text><text class="sC" x="325" y="169" text-anchor="middle">stop; nothing published</text>
 <rect class="sB" x="500" y="130" width="206" height="50" rx="8"/><text class="sC" x="603" y="150" text-anchor="middle">readers see yesterday's</text><text class="sC" x="603" y="168" text-anchor="middle">table until the swap</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M230 68 L266 68"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M460 68 L496 68"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M230 68 L266 68"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.760;1" path="M325 96 L325 130"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.760;0.762;1"/></circle>
 </svg><figcaption>Readers should never see half-loaded or unchecked data. Table formats make the publish step a single atomic commit.</figcaption></figure>
 
 > [!lab] Build an idempotent incremental pipeline in DuckDB or PostgreSQL

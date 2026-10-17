@@ -38,7 +38,7 @@ Almost everything a frontend does is asynchronous: fetching data, waiting for cl
 
 JavaScript in the browser runs your code on **one main thread**. It can't do two pieces of JavaScript at once, yet it handles timers, network requests and clicks concurrently, because the **browser** does the waiting and the **event loop** feeds the results back.
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Event loop: call stack, web APIs, microtask queue, task queue, rendering">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: event loop: call stack, web APIs, microtask queue, task queue, rendering">
 <rect class="sA" x="20" y="30" width="150" height="190" rx="10"/><text class="sT" x="95" y="52" text-anchor="middle">Call stack</text>
 <rect class="sB" x="40" y="160" width="110" height="26" rx="5"/><text class="sS" x="95" y="178" text-anchor="middle">main()</text>
 <rect class="sB" x="40" y="128" width="110" height="26" rx="5"/><text class="sS" x="95" y="146" text-anchor="middle">handleClick()</text>
@@ -50,6 +50,11 @@ JavaScript in the browser runs your code on **one main thread**. It can't do two
 <line class="sD" x1="355" y1="110" x2="355" y2="135"/><line class="sD" x1="450" y1="70" x2="470" y2="210"/><line class="sD" x1="470" y1="210" x2="450" y2="210"/>
 <line class="sL" x1="260" y1="155" x2="170" y2="155"/><line class="sL" x1="260" y1="210" x2="170" y2="200"/>
 <text class="sS" x="180" y="244">loop: stack empty → ALL microtasks → maybe render → ONE task → repeat</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M170 70 L260 70"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.240;1" path="M355 110 L355 135"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.240;0.242;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.340;1" path="M450 70 L470 210 L450 210"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.520;1" path="M260 155 L170 155"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.520;0.522;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.760;1" path="M260 210 L170 200"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.760;0.762;1"/></circle>
 </svg><figcaption>The event loop. Promise callbacks are microtasks and all of them run before the next task, such as a timer, and before the next render.</figcaption></figure>
 
 The loop, in order:

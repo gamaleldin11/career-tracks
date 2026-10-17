@@ -160,7 +160,7 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 
 ### The medallion architecture ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 170" role="img" aria-label="Medallion architecture: sources to bronze, silver, gold, then consumers">
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: medallion architecture: sources to bronze, silver, gold, then consumers">
 <rect class="sB" x="10" y="55" width="110" height="60" rx="8"/><text class="sT" x="65" y="80" text-anchor="middle">Sources</text><text class="sS" x="65" y="98" text-anchor="middle">apps, APIs, files</text>
 <rect class="sW" x="160" y="45" width="140" height="80" rx="10"/><text class="sT" x="230" y="72" text-anchor="middle">Bronze</text><text class="sS" x="230" y="92" text-anchor="middle">raw, as received,</text><text class="sS" x="230" y="108" text-anchor="middle">append-only</text>
 <rect class="sB" x="330" y="45" width="140" height="80" rx="10"/><text class="sT" x="400" y="72" text-anchor="middle">Silver</text><text class="sS" x="400" y="92" text-anchor="middle">cleaned, deduplicated,</text><text class="sS" x="400" y="108" text-anchor="middle">conformed</text>
@@ -168,6 +168,10 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 <rect class="sA" x="645" y="55" width="70" height="60" rx="8"/><text class="sS" x="680" y="80" text-anchor="middle">BI · ML</text><text class="sS" x="680" y="98" text-anchor="middle">apps</text>
 <line class="sL" x1="120" y1="85" x2="160" y2="85"/><line class="sL" x1="300" y1="85" x2="330" y2="85"/><line class="sL" x1="470" y1="85" x2="500" y2="85"/><line class="sL" x1="620" y1="85" x2="645" y2="85"/>
 <text class="sS" x="160" y="150">Keep bronze so silver and gold can always be rebuilt (replayed) from the raw data.</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M120 85 L160 85"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.350;1" path="M300 85 L330 85"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.550;1" path="M470 85 L500 85"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.550;0.552;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.750;1" path="M620 85 L645 85"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.750;0.752;1"/></circle>
 </svg><figcaption>Medallion (multi-hop) layers: each layer increases quality and structure; raw data is kept for replays and audits.</figcaption></figure>
 
 | Layer | Contains | Typical work |
