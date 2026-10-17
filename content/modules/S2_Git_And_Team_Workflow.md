@@ -309,6 +309,23 @@ That's the **Conventional Commits** style (`type(scope): summary`, with types li
 
 **Being a good reviewer:** comment on the code, not the person; separate "must fix" from "nit"; ask questions ("what happens if this list is empty?") rather than issuing orders; approve when it's better than before, not when it's how you'd have written it.
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Anatomy of a good commit message: a conventional type such as fix, a scope such as forecast, an imperative summary under 72 characters, a body that explains why the change was needed, and a ticket reference">
+<rect class="sN" x="14" y="20" width="692" height="140" rx="8"/>
+<rect class="sB" x="22" y="28" width="60" height="22" rx="4"/><text class="sC" x="26" y="44" xml:space="preserve" style="white-space:pre">fix</text>
+<text class="sC" x="84" y="44" xml:space="preserve" style="white-space:pre">(forecast):</text>
+<text class="sC" x="176" y="44" xml:space="preserve" style="white-space:pre">fill missing days before calling TimeGPT</text>
+<text class="sC" x="26" y="80" xml:space="preserve" style="white-space:pre">TimeGPT needs a continuous daily series, but real transactions</text>
+<text class="sC" x="26" y="98" xml:space="preserve" style="white-space:pre">skip weekends and holidays. Aggregate per day and insert zero rows</text>
+<text class="sC" x="26" y="116" xml:space="preserve" style="white-space:pre">for gaps so the API stops rejecting sparse tenants.</text>
+<rect class="sV" x="22" y="128" width="110" height="22" rx="4" opacity=".6"/><text class="sC" x="26" y="144" xml:space="preserve" style="white-space:pre">Refs: KAN-162</text>
+<text class="sC" x="52" y="182" text-anchor="middle">type</text>
+<text class="sC" x="130" y="182" text-anchor="middle">scope</text>
+<text class="sC" x="420" y="182" text-anchor="middle">imperative summary ≤ 72 chars</text>
+<text class="sC" x="77" y="200" text-anchor="middle">ticket</text>
+<text class="sGt" x="640" y="98" text-anchor="end">body: WHY,</text><text class="sGt" x="640" y="116" text-anchor="end">not what</text>
+<text class="sS" x="360" y="226" text-anchor="middle">the diff already shows what changed; the message is for the reason, which nobody can recover later</text>
+</svg><figcaption>Conventional-commit prefixes (feat, fix, refactor, docs) also let tools build changelogs and pick version numbers automatically.</figcaption></figure>
+
 ## S2.8 Secrets, large files and things that must not be in Git 🟢 🟡 ⭐
 
 **What goes in `.gitignore`:** build output (`bin/`, `obj/`, `dist/`, `node_modules/`), local settings (`appsettings.Development.json` if it holds secrets, `.env`), IDE folders, data dumps.

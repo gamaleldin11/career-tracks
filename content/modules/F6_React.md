@@ -436,6 +436,22 @@ Error boundaries don't catch errors in event handlers or async code; handle thos
 > [!warning] Server Components need patching discipline
 > In December 2025 the React team disclosed a **critical, unauthenticated remote-code-execution vulnerability in React Server Components**, fixed in 19.0.1, 19.1.2 and 19.2.1, followed by further fixes the same month. If an app uses Server Components (Next.js App Router, for instance), keeping React and the framework patched is a security task, not a chore. That's a good real example for supply-chain questions ([[S9.10]]).
 
+<figure class="dia steps"><svg viewBox="0 0 720 176" role="img" aria-label="Optimistic updates with React 19 useOptimistic: clicking Mark paid shows Paid immediately while the server action runs; if the server confirms, the real state replaces the optimistic one with no flicker; if it fails, React drops the optimistic value and the invoice returns to Overdue with an error message">
+
+<rect class="sA" x="280" y="30" width="160" height="50" rx="8"/><text class="sT" x="360" y="53" text-anchor="middle">server action</text><text class="sC" x="360" y="69" text-anchor="middle">POST /payments</text>
+<rect class="sN" x="546" y="30" width="160" height="50" rx="8"/><text class="sT" x="626" y="60" text-anchor="middle">database</text>
+<line class="sLm" x1="174" y1="55" x2="280" y2="55"/>
+<line class="sLm" x1="440" y1="55" x2="546" y2="55"/>
+<rect class="sN" x="14" y="104" width="692" height="64" rx="8"/>
+<g data-s="1-1"><rect class="sG" x="14" y="30" width="160" height="50" rx="8"/><text class="sT" x="94" y="53" text-anchor="middle">Paid ✓ (optimistic)</text><text class="sC" x="94" y="69" text-anchor="middle">shown at once</text><g class="pk" data-s="1"><circle class="sPg" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M174 55 L546 55"/></circle></g><text class="sS" x="30" y="128">useOptimistic shows the expected result immediately while the request is still in flight.</text><text class="sS" x="30" y="150">The user sees the change in one frame instead of waiting a network round trip.</text></g>
+<g data-s="2-2"><rect class="sG" x="14" y="30" width="160" height="50" rx="8"/><text class="sT" x="94" y="53" text-anchor="middle">Paid ✓</text><text class="sC" x="94" y="69" text-anchor="middle">confirmed</text><g class="pk" data-s="2"><circle class="sPg" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M546 62 L174 62"/></circle></g><text class="sGt" x="30" y="128">The server confirms: the real state replaces the optimistic one (they match, nothing flickers).</text></g>
+<g data-s="3-3"><rect class="sR" x="14" y="30" width="160" height="50" rx="8"/><text class="sT" x="94" y="53" text-anchor="middle">Overdue</text><text class="sC" x="94" y="69" text-anchor="middle">rolled back + toast</text><g class="pk" data-s="3"><circle class="sPr" r="5"><animateMotion dur="1.2s" begin="indefinite" fill="freeze" path="M546 62 L174 62"/></circle></g><text class="sRt" x="30" y="128">Or the server rejects it: React drops the optimistic value automatically and the UI</text><text class="sS" x="30" y="150">returns to the real state; show an error so the user knows why.</text></g>
+</svg><ol class="dia-steps">
+<li>Show the expected result at once.</li>
+<li>Success: real state takes over.</li>
+<li>Failure: automatic rollback, plus an error.</li>
+</ol><figcaption>Use it for actions that almost always succeed (likes, ticks, renames). For payments and other risky actions, show a pending state instead.</figcaption></figure>
+
 ### Which way to start a React app? 🟢 ⭐
 
 **Create React App was deprecated in February 2025.** Today:

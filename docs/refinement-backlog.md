@@ -38,8 +38,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - **Backend:**
   - B4.4 is deliberately skipped (SD4 already has the idempotency-key figure).
-- **Frontend:** F2.8; F5.2, F5.11; F6.8 React 19.
-- **Other:** S2.7; FS1.7.
+- **Frontend:** F5.2, F5.11.
 - Interview hubs, take-home sections and drills are intentionally text-only.
 
 ### Other follow-ups

@@ -418,6 +418,19 @@ All of these are **Baseline** features, meaning supported in the current version
 > [!tip] Check support quickly
 > MDN pages show a **Baseline** badge; [caniuse.com](https://caniuse.com) gives version details. "Baseline widely available" means it has worked everywhere for at least 30 months.
 
+<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="The CSS :has() parent selector: before it, JavaScript listened for input and toggled a class on the field wrapper; with :has(), a rule like .field:has(input:user-invalid) styles the wrapper directly from the state of the input inside it">
+<rect class="sN" x="14" y="20" width="330" height="150" rx="8"/><text class="sT" x="179" y="42" text-anchor="middle">before :has() — JavaScript toggles a class</text>
+<text class="sC" x="26" y="70" xml:space="preserve" style="white-space:pre">input.addEventListener("input", …)</text>
+<text class="sC" x="26" y="90" xml:space="preserve" style="white-space:pre">field.classList.toggle("bad", …)</text>
+<text class="sC" x="26" y="110" xml:space="preserve" style="white-space:pre">.field.bad { border-color: red }</text>
+<text class="sRt" x="179" y="150" text-anchor="middle">state lives in two places</text>
+<rect class="sG" x="376" y="20" width="330" height="150" rx="8" opacity=".35"/><text class="sT" x="541" y="42" text-anchor="middle">with :has() — CSS reads the child</text>
+<text class="sC" x="388" y="80" xml:space="preserve" style="white-space:pre">.field:has(input:user-invalid) {</text>
+<text class="sC" x="388" y="100" xml:space="preserve" style="white-space:pre">  border-color: var(--senior);</text>
+<text class="sC" x="388" y="120" xml:space="preserve" style="white-space:pre">}</text>
+<text class="sGt" x="541" y="150" text-anchor="middle">the parent styles itself from its content</text>
+</svg><figcaption><code>:has()</code> is Baseline in every current browser. Pair it with <code>:user-invalid</code> so fields only turn red after the user has interacted.</figcaption></figure>
+
 ## F2.9 Theming and dark mode 🟢 🟡
 
 The pattern this handbook itself uses: colours as custom properties, redefined for dark mode, with a manual override.
