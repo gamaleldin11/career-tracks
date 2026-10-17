@@ -120,7 +120,7 @@ For "investigate a drop", use [[DA1.8]]. For "how would you measure feature X?" 
 6. **Decision rule**: what result leads to what action.
 7. **Risks**: cannibalisation, novelty effects, data quality, operational capacity.
 
-<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="A seven-step structure for measurement and should-we cases: goal and user, success metric, hypotheses, data, method, decision rule, risks">
+<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: A seven-step structure for measurement and should-we cases: goal and user, success metric, hypotheses, data, method, decision rule, risks">
 <rect class="sB" x="14" y="30" width="160" height="44" rx="8"/><text class="sT" x="94" y="57" text-anchor="middle">1 goal &amp; user</text>
 <line class="sLm" x1="174" y1="52" x2="188" y2="52" marker-end="url(#ahm)"/>
 <rect class="sA" x="190" y="30" width="160" height="44" rx="8"/><text class="sT" x="270" y="57" text-anchor="middle">2 success metric</text>
@@ -135,6 +135,12 @@ For "investigate a drop", use [[DA1.8]]. For "how would you measure feature X?" 
 <rect class="sR" x="454" y="106" width="160" height="44" rx="8"/><text class="sT" x="534" y="133" text-anchor="middle">7 risks</text>
 <path class="sLm" d="M630 74 V90 H180 V104" fill="none" marker-end="url(#ahm)"/>
 <text class="sS" x="360" y="190" text-anchor="middle">say the decision rule before the data exists: "if margin per user rises 5%+, roll out"</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.040;0.120;1" path="M174 52 L188 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.038;0.042;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.260;1" path="M350 52 L364 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.260;0.262;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.400;1" path="M526 52 L540 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.620;1" path="M630 74 V90 H180 V104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.620;0.622;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.680;1" path="M262 128 L276 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.680;0.682;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.740;0.820;1" path="M438 128 L452 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.738;0.742;0.820;0.822;1"/></circle>
 </svg><figcaption>One structure for "how would you measure X?" and "should we do Y?". Interviewers listen for steps 2 and 6.</figcaption></figure>
 
 **Practise these:**

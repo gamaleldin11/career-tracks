@@ -166,7 +166,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 | One number that matters | A **KPI card** with comparison (vs target, vs last period) and a sparkline | Context makes a number meaningful |
 | Exact values to look up | A **table** with conditional formatting | Not everything should be a chart |
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Revenue bridge waterfall: last year 100, price plus 15, volume minus 10, mix plus 5, this year 110">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: revenue bridge waterfall: last year 100, price plus 15, volume minus 10, mix plus 5, this year 110">
 <line class="sLm" x1="60" y1="210" x2="660" y2="210"/>
 <rect class="sB" x="90" y="60" width="70" height="150" rx="3"/><text class="sT" x="125" y="228" text-anchor="middle">last year</text>
 <text class="sC" x="125" y="54" text-anchor="middle">100</text>
@@ -182,6 +182,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <line class="sD" x1="505" y1="45" x2="550" y2="45"/>
 <rect class="sB" x="550" y="45" width="70" height="165" rx="3"/><text class="sT" x="585" y="228" text-anchor="middle">this year</text>
 <text class="sC" x="585" y="39" text-anchor="middle">110</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M90 60 L205 60 L205 37.5 L320 37.5 L320 52.5 L435 52.5 L435 45 L620 45"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>A revenue bridge. Each floating bar is one driver, so "why did revenue grow 10%?" is answered in one picture.</figcaption></figure>
 
 > [!say]

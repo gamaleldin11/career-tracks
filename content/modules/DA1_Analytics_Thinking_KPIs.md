@@ -92,7 +92,7 @@ Now the question is answerable: *"Did 90-day retention for small-business custom
 > [!term] Issue tree (hypothesis tree)
 > Breaking a problem into sub-questions that are **MECE**: **M**utually **E**xclusive (no overlap) and **C**ollectively **E**xhaustive (nothing missing). "Why is profit down?" → revenue down or costs up? Revenue → fewer customers, fewer orders per customer, or a lower order value? Each branch becomes a query. Consultancies use this structure in case interviews.
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Issue tree: profit down splits into revenue down or costs up; revenue into fewer customers, fewer orders each or lower order value; costs into cost of goods, delivery and marketing">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: issue tree: profit down splits into revenue down or costs up; revenue into fewer customers, fewer orders each or lower order value; costs into cost of goods, delivery and marketing">
 <rect class="sR" x="14" y="98" width="150" height="44" rx="8"/><text class="sT" x="89" y="125" text-anchor="middle">why is profit down?</text>
 <rect class="sW" x="214" y="46" width="140" height="40" rx="8"/><text class="sT" x="284" y="71" text-anchor="middle">revenue down</text><rect class="sW" x="214" y="156" width="140" height="40" rx="8"/><text class="sT" x="284" y="181" text-anchor="middle">costs up</text>
 <path class="sLm" d="M164 120 H190 V66 H212 M190 120 V176 H212" fill="none"/>
@@ -105,6 +105,14 @@ Now the question is answerable: *"Did 90-day retention for small-business custom
 <path class="sLm" d="M354 66 H380 V24 H402 M380 66 V64 H402 M380 66 V104 H402" fill="none"/>
 <path class="sLm" d="M354 176 H380 V142 H402 M380 176 V182 H402 M380 176 V222 H402" fill="none"/>
 <text class="sGt" x="612" y="120">no overlaps,</text><text class="sGt" x="612" y="138">no gaps</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M164 120 H190 V66 H212"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M164 120 H190 V176 H212"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.350;1" path="M354 66 H380 V24 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.350;0.352;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.430;1" path="M354 66 H380 V64 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.430;0.432;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.410;0.510;1" path="M354 66 H380 V104 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.408;0.412;0.510;0.512;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M354 176 H380 V142 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.730;1" path="M354 176 H380 V182 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.730;0.732;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.710;0.810;1" path="M354 176 H380 V222 H402"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.708;0.712;0.810;0.812;1"/></circle>
 </svg><figcaption>A MECE issue tree. Each branch is a hypothesis you can check with one query.</figcaption></figure>
 
 ## DA1.4 Metrics, KPIs and metric trees 🟢 🟡 ⭐
@@ -133,7 +141,7 @@ Now the question is answerable: *"Did 90-day retention for small-business custom
 
 **Metric trees** decompose a top metric into its drivers, which is how you investigate changes and pick levers:
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="Metric tree: revenue equals customers times orders per customer times average order value; customers split into new and retained; AOV into items per order, item price and one minus discount">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: metric tree: revenue equals customers times orders per customer times average order value; customers split into new and retained; AOV into items per order, item price and one minus discount">
 <rect class="sA" x="290" y="14" width="140" height="42" rx="8"/><text class="sT" x="360" y="40" text-anchor="middle">revenue</text>
 <line class="sLm" x1="360" y1="56" x2="145" y2="94"/><rect class="sB" x="60" y="96" width="170" height="40" rx="8"/><text class="sT" x="145" y="121" text-anchor="middle">customers</text>
 <line class="sLm" x1="360" y1="56" x2="360" y2="94"/><rect class="sB" x="275" y="96" width="170" height="40" rx="8"/><text class="sT" x="360" y="121" text-anchor="middle">orders / customer</text>
@@ -145,6 +153,14 @@ Now the question is answerable: *"Did 90-day retention for small-business custom
 <line class="sLm" x1="575" y1="136" x2="553" y2="174"/><rect class="sV" x="508" y="176" width="90" height="40" rx="8"/><text class="sT" x="553" y="201" text-anchor="middle">item price</text>
 <line class="sLm" x1="575" y1="136" x2="661" y2="174"/><rect class="sV" x="616" y="176" width="90" height="40" rx="8"/><text class="sT" x="661" y="201" text-anchor="middle">1 − discount</text>
 <text class="sT" x="503" y="202" text-anchor="middle">×</text><text class="sT" x="611" y="202" text-anchor="middle">×</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M360 56 L145 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M360 56 L360 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M360 56 L575 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.370;1" path="M145 136 L64 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.370;0.372;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.370;1" path="M145 136 L185 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.370;0.372;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.570;1" path="M575 136 L445 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.570;0.572;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.570;1" path="M575 136 L553 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.570;0.572;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.570;1" path="M575 136 L661 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.570;0.572;1"/></circle>
 </svg><figcaption>A metric tree turns "revenue moved" into "which lever moved". Each leaf usually has an owner who can act on it.</figcaption></figure>
 
 ```text
