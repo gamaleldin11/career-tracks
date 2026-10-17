@@ -288,7 +288,7 @@ A request is a **method**, a **target**, **headers** and an optional **body**. A
 > [!mistake] 401 versus 403
 > The names are historical and confusing. **401 means "who are you?"** (log in). **403 means "I know who you are, and no."** A logged-in accountant calling an admin-only endpoint gets 403, not 401.
 
-<figure class="dia"><svg viewBox="0 0 720 274" role="img" aria-label="A decision chain for client errors: over the rate limit gives 429, malformed request 400, not authenticated 401, not allowed 403, missing resource 404, invalid content 422, state conflict 409, otherwise success">
+<figure class="dia anim"><svg viewBox="0 0 720 274" role="img" aria-label="Animation: A decision chain for client errors: over the rate limit gives 429, malformed request 400, not authenticated 401, not allowed 403, missing resource 404, invalid content 422, state conflict 409, otherwise success">
 <rect class="sB" x="40" y="22" width="200" height="24" rx="12"/><text class="sC" x="140" y="38" text-anchor="middle">under the rate limit?</text>
 <line class="sLr" x1="240" y1="34" x2="300" y2="34" marker-end="url(#ahr)"/><text class="sRt" x="270" y="30" text-anchor="middle">no</text>
 <rect class="sR" x="304" y="22" width="150" height="24" rx="4" opacity=".8"/><text class="sC" x="379" y="38" text-anchor="middle">429 Too Many</text>
@@ -320,6 +320,9 @@ A request is a **method**, a **target**, **headers** and an optional **body**. A
 <rect class="sN" x="490" y="40" width="216" height="132" rx="8"/><text class="sT" x="598" y="62" text-anchor="middle">the order matters</text>
 <text class="sS" x="502" y="88">401 before 403: you can't</text><text class="sS" x="502" y="104">be refused before you are known</text>
 <text class="sS" x="502" y="130">403 vs 404: return 404 to hide</text><text class="sS" x="502" y="146">what the caller may not see</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.220;1" path="M250 22 L250 94 L302 94"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.220;0.222;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.550;1" path="M250 22 L250 154 L302 154"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.550;0.552;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.920;1" path="M250 22 L250 230 L222 249"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.920;0.922;1"/></circle>
 </svg><figcaption>Picking the 4xx: walk the checks in a typical server order. Rate limiting usually happens first, at the gateway.</figcaption></figure>
 
 ### Headers worth knowing

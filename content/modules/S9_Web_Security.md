@@ -23,7 +23,7 @@ They map onto 401 and 403 ([[S1.4]]). Most broken-access-control breaches (A01) 
 
 A **trust boundary** is any line where data passes from something you don't control to something you do. The biggest is between the user's browser and your server: the user can read and change everything on their side.
 
-<figure class="dia"><svg viewBox="0 0 720 255" role="img" aria-label="Trust boundaries: the client is untrusted, the server validates and authorises every request, and data from other services also crosses a boundary">
+<figure class="dia anim"><svg viewBox="0 0 720 255" role="img" aria-label="Animation: trust boundaries: the client is untrusted, the server validates and authorises every request, and data from other services also crosses a boundary">
 <rect class="sR" x="10" y="30" width="200" height="190" rx="12" opacity=".55"/><text class="sRt" x="110" y="52" text-anchor="middle">Client: UNTRUSTED</text>
 <rect class="sG" x="270" y="30" width="230" height="190" rx="12" opacity=".55"/><text class="sGt" x="385" y="52" text-anchor="middle">Your server: trusted</text>
 <rect class="sB" x="560" y="30" width="150" height="190" rx="12"/><text class="sT" x="635" y="52" text-anchor="middle">Data &amp; services</text>
@@ -41,6 +41,9 @@ A **trust boundary** is any line where data passes from something you don't cont
 <line class="sLr" x1="240" y1="20" x2="240" y2="232" stroke-dasharray="6 4"/><text class="sRt" x="240" y="246" text-anchor="middle">trust boundary</text>
 <line class="sLw" x1="530" y1="20" x2="530" y2="232" stroke-dasharray="6 4"/><text class="sWt" x="530" y="246" text-anchor="middle">another boundary</text>
 <line class="sL" x1="212" y1="130" x2="266" y2="130" marker-end="url(#ah)"/><line class="sL" x1="502" y1="97" x2="576" y2="97" marker-end="url(#ah)"/><line class="sL" x1="502" y1="157" x2="576" y2="157" marker-end="url(#ah)"/>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M212 130 L266 130"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.580;1" path="M502 97 L576 97"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.580;0.582;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.750;1" path="M502 157 L576 157"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.750;0.752;1"/></circle>
 </svg><figcaption>Security checks belong on the trusted side of each boundary. Client-side validation improves the user experience; it protects nothing.</figcaption></figure>
 
 The same applies between services: a message from another team's API or from a queue crosses a boundary too, so validate it.

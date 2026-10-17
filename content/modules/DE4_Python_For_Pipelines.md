@@ -50,7 +50,7 @@ sales-pipeline/
     fixtures/orders_sample.json
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="The shape of a well-structured pipeline: extract and load at the edges do the I/O, while the transform layer in the middle is pure functions such as clean_orders and add_vat that take a DataFrame and return a DataFrame; unit tests target the pure middle and a date-parameterised CLI runs the same code for today, backfills and reruns">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: the shape of a well-structured pipeline: extract and load at the edges do the I/O, while the transform layer in the middle is pure functions such as clean_orders and add_vat that take a DataFrame and return a DataFrame; unit tests target the pure middle and a date-parameterised CLI runs the same code for today, backfills and reruns">
 <rect class="sN" x="14" y="60" width="130" height="56" rx="8"/><text class="sT" x="79" y="86" text-anchor="middle">extract/</text><text class="sC" x="79" y="102" text-anchor="middle">API, files (I/O)</text>
 <rect class="sG" x="200" y="30" width="320" height="116" rx="10" opacity=".35"/><text class="sT" x="360" y="52" text-anchor="middle">transform/: pure functions</text>
 <rect class="sG" x="220" y="70" width="130" height="50" rx="8"/><text class="sT" x="285" y="93" text-anchor="middle">clean_orders()</text><text class="sC" x="285" y="109" text-anchor="middle">df → df</text>
@@ -61,6 +61,9 @@ sales-pipeline/
 <line class="sLm" x1="500" y1="95" x2="574" y2="88" marker-end="url(#ahm)"/>
 <text class="sS" x="360" y="170" text-anchor="middle">tests hit the pure middle with small DataFrames; the I/O edges get a few integration tests</text>
 <text class="sGt" x="360" y="190" text-anchor="middle">cli.py run --date 2026-10-02: the same code for today, a backfill or a rerun</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M144 88 L218 95"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.360;1" path="M350 95 L368 95"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.360;0.362;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.630;1" path="M500 95 L574 88"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.630;0.632;1"/></circle>
 </svg><figcaption>Keep side effects at the edges and logic in the middle: the middle becomes easy to test and reusable in Airflow, a notebook or Spark.</figcaption></figure>
 
 - **Pure transformation functions** (input → output, no hidden I/O) are easy to test and reuse in Airflow, a notebook or Spark.

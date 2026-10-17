@@ -326,7 +326,7 @@ test("accountant can record a payment", async ({ page }) => {
 > [!term] Flaky test
 > A test that sometimes passes and sometimes fails **without any code change**. Flaky tests are worse than no tests: people stop trusting red builds.
 
-<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="A fixed 500 ms wait fails when rendering takes 650 ms; a findBy query waits for the condition and passes on every run">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: A fixed 500 ms wait fails when rendering takes 650 ms; a findBy query waits for the condition and passes on every run">
 <text class="sT" x="140" y="44" text-anchor="end">app</text><rect class="sW" x="150" y="30" width="351" height="24" rx="4"/><text class="sC" x="325.5" y="47" text-anchor="middle">fetch + render (sometimes 250 ms, sometimes 650)</text><rect class="sG" x="501" y="30" width="189" height="24" rx="4"/><text class="sC" x="595.5" y="47" text-anchor="middle">rows on screen</text>
 <text class="sM" x="140" y="100" text-anchor="end">wait(500)</text><line class="sLr" x1="420.0" y1="84" x2="420.0" y2="112" stroke-width="3"/><text class="sRt" x="428" y="104">asserts too early on a slow run → red</text>
 <text class="sM" x="140" y="150" text-anchor="end">findByRole</text><rect class="sN" x="150" y="138" width="351" height="20" rx="4" stroke-dasharray="4 3"/><text class="sC" x="325.5" y="152" text-anchor="middle">polls until the row appears (or a timeout)</text><circle class="sPg" cx="501.0" cy="148" r="7"/><text class="sGt" x="513" y="152">passes every time</text>
@@ -335,6 +335,9 @@ test("accountant can record a payment", async ({ page }) => {
 <text class="sC" x="420" y="186" text-anchor="middle">500 ms</text>
 <text class="sC" x="555" y="186" text-anchor="middle">750 ms</text>
 <text class="sC" x="690" y="186" text-anchor="middle">1000 ms</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.520;1" path="M150 60 L501 60"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.520;0.522;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M150 98 L420 98"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.520;1" path="M150 133 L501 133"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.520;0.522;1"/></circle>
 </svg><figcaption>The most common cause of flaky UI tests: waiting for a time instead of for a condition.</figcaption></figure>
 
 | Cause | Fix |
