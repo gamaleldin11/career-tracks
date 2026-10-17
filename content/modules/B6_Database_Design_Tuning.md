@@ -174,7 +174,7 @@ PostgreSQL tables are **heaps** (no clustered index by default; `CLUSTER` reorde
 > [!term] Covering index
 > An index that contains **every column a query needs**, so the database answers from the index alone without touching the table (no key lookups). In SQL Server: `CREATE INDEX IX_Inv ON Invoices(CompanyId, DueDate) INCLUDE (Customer, Amount);` PostgreSQL has `INCLUDE` too, and calls the result an **index-only scan**.
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="A non-clustered index requires a key lookup into the table for each matching row; a covering index includes the needed columns and avoids the lookups">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: A non-clustered index requires a key lookup into the table for each matching row; a covering index includes the needed columns and avoids the lookups">
 <text class="sT" x="180" y="22" text-anchor="middle">non-clustered index + key lookups</text><text class="sT" x="540" y="22" text-anchor="middle">covering index (INCLUDE)</text>
 <rect class="sA" x="20" y="40" width="150" height="120" rx="8"/><text class="sC" x="95" y="60" text-anchor="middle">IX(CompanyId,</text><text class="sC" x="95" y="76" text-anchor="middle">DueDate)</text>
 <rect class="sB" x="32" y="88" width="126" height="18" rx="3"/><text class="sC" x="95" y="101" text-anchor="middle">key → row 1</text>
@@ -191,6 +191,10 @@ PostgreSQL tables are **heaps** (no clustered index by default; `CLUSTER` reorde
 <rect class="sB" x="412" y="110" width="256" height="18" rx="3"/><text class="sC" x="540" y="123" text-anchor="middle">key · Customer · Amount</text>
 <rect class="sB" x="412" y="132" width="256" height="18" rx="3"/><text class="sC" x="540" y="145" text-anchor="middle">key · Customer · Amount</text>
 <text class="sGt" x="540" y="186" text-anchor="middle">answered from the index alone</text>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M158 97 L216 97"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.270;1" path="M158 119 L216 119"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.270;0.272;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.290;0.390;1" path="M158 141 L216 141"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.288;0.292;0.390;0.392;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M412 152 L668 152"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
 </svg><figcaption>Key lookups are cheap one at a time and ruinous by the thousand. INCLUDE the columns the query selects.</figcaption></figure>
 
 > [!term] Selectivity

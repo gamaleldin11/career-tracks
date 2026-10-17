@@ -117,7 +117,7 @@ export function InvoiceList({ invoices, onPay }: Props) {
 
 **What triggers a re-render:** the component's own state changes (via its setter), its parent re-renders, or a context it reads changes. **Props changing is not a separate trigger**; props change *because* the parent re-rendered.
 
-<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="A state change in App re-renders its descendants, except memoised children whose props did not change">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: A state change in App re-renders its descendants, except memoised children whose props did not change">
 <line class="sLm" x1="370" y1="60" x2="160" y2="90"/>
 <line class="sLm" x1="370" y1="60" x2="370" y2="90"/>
 <line class="sLm" x1="370" y1="60" x2="580" y2="90"/>
@@ -132,6 +132,12 @@ export function InvoiceList({ invoices, onPay }: Props) {
 <rect class="sG" x="400" y="160" width="140" height="40" rx="8"/><text class="sC" x="470" y="178" text-anchor="middle">InvoiceTable (memo)</text><text class="sC" x="470" y="193" text-anchor="middle">skipped</text>
 <rect class="sV" x="90" y="160" width="140" height="40" rx="8"/><text class="sC" x="160" y="178" text-anchor="middle">UserBadge</text><text class="sC" x="160" y="193" text-anchor="middle">reads context</text>
 <text class="sC" x="360" y="226" text-anchor="middle">orange: re-rendered · green: skipped by memo (or the React Compiler)</text><text class="sC" x="360" y="242" text-anchor="middle">purple: re-renders when its context value changes</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M370 60 L160 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M370 60 L370 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M370 60 L580 90"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M370 130 L270 160"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M370 130 L470 160"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M160 130 L160 160"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
 </svg><figcaption>A render flows down from the component whose state changed. Memoisation cuts the branches whose props are unchanged; context consumers re-render whenever their context value changes.</figcaption></figure>
 
 **State updates are asynchronous and batched.** Inside one event handler, several `setX` calls cause one re-render, and the state variable still holds the old value until then:

@@ -196,7 +196,7 @@ public class ForecastService(IForecastModel model, IClock clock) { }
 
 Dependency **inversion** is the principle; dependency **injection** is a technique for achieving it ([[B1.11]]).
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Before, ForecastService depends directly on TimeGptHttpClient; after, it depends on IForecastModel in the core project and TimeGptModel implements it">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: before, ForecastService depends directly on TimeGptHttpClient; after, it depends on IForecastModel in the core project and TimeGptModel implements it">
 <text class="sT" x="180" y="22" text-anchor="middle">before: policy depends on a detail</text><text class="sT" x="540" y="22" text-anchor="middle">after: both depend on an abstraction</text>
 <rect class="sA" x="100" y="40" width="160" height="46" rx="8"/><text class="sT" x="180" y="61" text-anchor="middle">ForecastService</text><text class="sC" x="180" y="77" text-anchor="middle">business policy</text><line class="sLr" x1="180" y1="86" x2="180" y2="126" marker-end="url(#ahr)"/><rect class="sB" x="100" y="130" width="160" height="46" rx="8"/><text class="sT" x="180" y="151" text-anchor="middle">TimeGptHttpClient</text><text class="sC" x="180" y="167" text-anchor="middle">infrastructure detail</text>
 <text class="sRt" x="180" y="200" text-anchor="middle">can't test without TimeGPT; can't swap it</text>
@@ -205,6 +205,9 @@ Dependency **inversion** is the principle; dependency **injection** is a techniq
 <rect class="sA" x="395" y="56" width="140" height="46" rx="8"/><text class="sT" x="465" y="84" text-anchor="middle">ForecastService</text><line class="sLm" x1="535" y1="79" x2="556" y2="79" marker-end="url(#ahm)"/><rect class="sV" x="560" y="56" width="130" height="46" rx="8"/><text class="sT" x="625" y="77" text-anchor="middle">IForecastModel</text><text class="sC" x="625" y="93" text-anchor="middle">«interface»</text>
 <rect class="sB" x="560" y="150" width="130" height="46" rx="8"/><text class="sT" x="625" y="171" text-anchor="middle">TimeGptModel</text><text class="sC" x="625" y="187" text-anchor="middle">infrastructure</text><line class="sLg" x1="625" y1="150" x2="625" y2="104" stroke-dasharray="5 4" marker-end="url(#ahg)"/><text class="sGt" x="560" y="136" text-anchor="end">implements ↑</text>
 <text class="sGt" x="540" y="216" text-anchor="middle">the dependency arrow now points from detail to policy</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.150;1" path="M180 86 L180 126"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M535 79 L556 79"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M625 150 L625 104"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
 </svg><figcaption>Dependency inversion. The interface belongs to the high-level side, so infrastructure depends on the core, never the other way round.</figcaption></figure>
 
 > [!say]
