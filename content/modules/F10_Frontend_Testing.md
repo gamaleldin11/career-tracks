@@ -213,7 +213,7 @@ Plain **TestBed** (`TestBed.configureTestingModule`, `fixture.detectChanges()`) 
 > [!term] Mock Service Worker (MSW)
 > A library that intercepts requests at the network level, in the browser (with a service worker) or in Node (in tests), and answers with handlers you define. Your components and data layer run **unchanged**; only the network is fake. The same handlers can power tests, Storybook and local development without a backend.
 
-<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: mock Service Worker intercepts requests at the network layer in tests, so the component and data code are the same code that talks to the real API in production">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: Mock Service Worker intercepts requests at the network layer in tests, so the component and data code are the same code that talks to the real API in production">
 <text class="sT" x="180" y="20" text-anchor="middle">in tests and Storybook</text><text class="sT" x="540" y="20" text-anchor="middle">in production</text>
 <line class="sD" x1="360" y1="10" x2="360" y2="196"/>
 <rect class="sA" x="20" y="34" width="150" height="44" rx="8"/><text class="sT" x="95" y="54" text-anchor="middle">component</text><text class="sC" x="95" y="70" text-anchor="middle">unchanged</text><rect class="sB" x="20" y="96" width="150" height="44" rx="8"/><text class="sT" x="95" y="116" text-anchor="middle">fetch / HttpClient</text><text class="sC" x="95" y="132" text-anchor="middle">unchanged</text>
@@ -277,7 +277,7 @@ test("accountant can record a payment", async ({ page }) => {
 });
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: playwright actionability checks on a timeline: the button becomes attached at 80 milliseconds, visible at 180, stable at 300, uncovered at 420 and enabled at 470; only when all five are true does the click happen">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: Playwright actionability checks on a timeline: the button becomes attached at 80 milliseconds, visible at 180, stable at 300, uncovered at 420 and enabled at 470; only when all five are true does the click happen">
 <text class="sS" x="14" y="22" xml:space="preserve" style="white-space:pre">await row.getByRole("button", { name: "Mark paid" }).click();</text>
 <text class="sS" x="220" y="63" text-anchor="end">attached to the DOM</text>
 <rect class="sW" x="230" y="50" width="54.6667" height="20" rx="4" opacity=".35"/><rect class="sG" x="284.667" y="50" width="355.333" height="20" rx="4" opacity=".55"/>

@@ -47,7 +47,7 @@ Use streaming when a decision or a user experience needs data within **seconds**
 > [!term] Apache Kafka
 > A distributed, **append-only commit log**. Producers write records to **topics**; each topic is split into **partitions**; each partition is an ordered, immutable sequence of records identified by an increasing **offset**. Records are **retained** for a configured time or size (not deleted when read), so many independent consumers can read the same data, and re-read it.
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: kafka topic with three partitions, producers writing by key, a consumer group with consumers assigned to partitions">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Kafka topic with three partitions, producers writing by key, a consumer group with consumers assigned to partitions">
 <rect class="sB" x="10" y="80" width="110" height="60" rx="8"/><text class="sT" x="65" y="105" text-anchor="middle">Producers</text><text class="sS" x="65" y="123" text-anchor="middle">key = order_id</text>
 <rect class="sW" x="170" y="20" width="350" height="200" rx="10"/><text class="sT" x="185" y="40">topic: orders</text>
 <g class="sS">

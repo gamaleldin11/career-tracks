@@ -1207,7 +1207,7 @@ Result:
 
 With γ = 0.90, in s1 the best action is a0 ("stay put"). **With γ = 0.95 the best action in s1 becomes a2 — go through the fire**: the more you value the future, the more short- term pain you accept for later reward. (This is the answer to "can γ change the optimal policy?" — yes.)
 
-<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: géron's three-state MDP: s0 can loop for a reward of 10 or drift to s1; s1 can stay or go through fire for minus 50 into s2; s2 returns to s0 for plus 40. Q-value iteration shows the best action in s1 is to stay at gamma 0.90 but to go through the fire at gamma 0.95">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: Géron's three-state MDP: s0 can loop for a reward of 10 or drift to s1; s1 can stay or go through fire for minus 50 into s2; s2 returns to s0 for plus 40. Q-value iteration shows the best action in s1 is to stay at gamma 0.90 but to go through the fire at gamma 0.95">
 <circle class="sB" cx="90" cy="120" r="26"/><text class="sT" x="90" y="125" text-anchor="middle">s0</text>
 <circle class="sB" cx="330" cy="64" r="26"/><text class="sT" x="330" y="69" text-anchor="middle">s1</text>
 <circle class="sB" cx="330" cy="196" r="26"/><text class="sT" x="330" y="201" text-anchor="middle">s2</text>

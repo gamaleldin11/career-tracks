@@ -18,7 +18,7 @@ Angular is the framework most Egyptian enterprise, banking and outsourcing teams
 
 **How the app starts:**
 
-<figure class="dia anim"><svg viewBox="0 0 760 148" role="img" aria-label="Animation: angular startup: index.html, main.ts bootstraps the App with appConfig providers, the App renders, and the router fills the outlet">
+<figure class="dia anim"><svg viewBox="0 0 760 148" role="img" aria-label="Animation: Angular startup: index.html, main.ts bootstraps the App with appConfig providers, the App renders, and the router fills the outlet">
 <rect class="sB" x="8" y="30" width="140" height="52" rx="8"/><text class="sT" x="78" y="54" text-anchor="middle">index.html</text><text class="sC" x="78" y="70" text-anchor="middle">&lt;app-root&gt;</text>
 <line class="sLm" x1="148" y1="56" x2="156" y2="56" marker-end="url(#ahm)"/>
 <rect class="sA" x="158" y="30" width="140" height="52" rx="8"/><text class="sT" x="228" y="54" text-anchor="middle">main.ts</text><text class="sC" x="228" y="70" text-anchor="middle">bootstrapApplication</text>

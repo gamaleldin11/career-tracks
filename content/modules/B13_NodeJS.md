@@ -16,7 +16,7 @@ JavaScript was created to run inside browsers. **Node.js** (2009) took Chrome's 
 - **libuv**, a C library, provides the **event loop** and a small **thread pool**. It asks the operating system to do I/O asynchronously and tells the loop when results are ready.
 - **Node's standard library** (`http`, `fs`, `crypto`, `stream`, `timers`) is the JavaScript API you call; it hands slow work to libuv.
 
-<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: node.js layers: your JavaScript calls Node APIs, which run on the V8 engine and the libuv event loop and thread pool, which use the operating system's asynchronous I/O">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: Node.js layers: your JavaScript calls Node APIs, which run on the V8 engine and the libuv event loop and thread pool, which use the operating system's asynchronous I/O">
 <rect class="sA" x="200" y="16" width="320" height="40" rx="8"/><text class="sT" x="360" y="41" text-anchor="middle">your JavaScript (server.js)</text>
 <line class="sLm" x1="360" y1="56" x2="360" y2="76" marker-end="url(#ahm)"/>
 <rect class="sB" x="110" y="78" width="500" height="40" rx="8"/><text class="sT" x="360" y="103" text-anchor="middle">Node APIs: http · fs · crypto · stream · timers</text>

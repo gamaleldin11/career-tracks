@@ -52,7 +52,7 @@ Excel formulas point at cells. Power BI works differently, and three ideas expla
 
 **The workflow:** Get data → clean in **Power Query** → **model** (relationships, date table) → **DAX** measures → visuals → publish to a workspace → schedule refresh → share via an **app**.
 
-<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: power BI workflow: get data, Power Query, model, DAX, report in Desktop; publish, refresh and share as an app in the Service">
+<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: Power BI workflow: get data, Power Query, model, DAX, report in Desktop; publish, refresh and share as an app in the Service">
 <rect class="sB" x="8" y="30" width="80" height="40" rx="8"/><text class="sT" x="48" y="55" text-anchor="middle">get data</text>
 <line class="sLm" x1="88" y1="50" x2="96" y2="50" marker-end="url(#ahm)"/>
 <rect class="sB" x="97" y="30" width="80" height="40" rx="8"/><text class="sT" x="137" y="55" text-anchor="middle">Power Query</text>

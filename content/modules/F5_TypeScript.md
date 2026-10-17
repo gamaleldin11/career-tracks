@@ -32,7 +32,7 @@ Angular is written in TypeScript, almost every serious React codebase uses it, a
 
 **Compile time vs run time.** The checker reasons about your code; it never sees real data. After checking, the types are removed and ordinary JavaScript runs.
 
-<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: typeScript source goes to a type checker that reports errors and to an emitter that strips the types, producing JavaScript that runs">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: TypeScript source goes to a type checker that reports errors and to an emitter that strips the types, producing JavaScript that runs">
 <rect class="sA" x="10" y="70" width="110" height="50" rx="8"/><text class="sT" x="65" y="93" text-anchor="middle">invoice.ts</text><text class="sC" x="65" y="109" text-anchor="middle">types + code</text>
 <line class="sL" x1="120" y1="85" x2="176" y2="60" marker-end="url(#ah)"/><line class="sL" x1="120" y1="105" x2="176" y2="130" marker-end="url(#ah)"/>
 <rect class="sW" x="180" y="30" width="150" height="50" rx="8"/><text class="sT" x="255" y="53" text-anchor="middle">type checker</text><text class="sC" x="255" y="69" text-anchor="middle">tsc / tsgo</text><rect class="sB" x="180" y="112" width="150" height="50" rx="8"/><text class="sT" x="255" y="135" text-anchor="middle">emitter / stripper</text><text class="sC" x="255" y="151" text-anchor="middle">tsc, esbuild, swc</text>

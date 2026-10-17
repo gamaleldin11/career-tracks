@@ -370,7 +370,7 @@ BackgroundJob.Schedule<IReminderService>(s => s.SendDueReminderAsync(invoiceId),
 RecurringJob.AddOrUpdate<ICfoAgentJob>("nightly-cfo-agent", j => j.RunAsync(), Cron.Daily(2));            // 02:00 daily
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: hangfire job states: enqueued, processing, succeeded or failed; failed jobs are scheduled for automatic retries">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: Hangfire job states: enqueued, processing, succeeded or failed; failed jobs are scheduled for automatic retries">
 <rect class="sB" x="40" y="70" width="130" height="38" rx="8"/><text class="sC" x="105" y="94" text-anchor="middle">Enqueued</text>
 <rect class="sA" x="210" y="70" width="130" height="38" rx="8"/><text class="sC" x="275" y="94" text-anchor="middle">Processing</text>
 <rect class="sG" x="400" y="30" width="130" height="38" rx="8"/><text class="sC" x="465" y="54" text-anchor="middle">Succeeded</text>

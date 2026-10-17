@@ -53,7 +53,7 @@ Spark processes data **in parallel across a cluster**, in memory where possible.
 
 ## DE6.2 The execution model 🟢 ⭐
 
-<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: spark architecture: driver with DAG scheduler, cluster manager, executors running tasks on partitions">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: Spark architecture: driver with DAG scheduler, cluster manager, executors running tasks on partitions">
 <rect class="sA" x="20" y="70" width="160" height="90" rx="10"/><text class="sT" x="100" y="96" text-anchor="middle">Driver</text><text class="sS" x="100" y="116" text-anchor="middle">your program, plans</text><text class="sS" x="100" y="132" text-anchor="middle">jobs → stages → tasks</text>
 <rect class="sW" x="230" y="90" width="120" height="50" rx="8"/><text class="sT" x="290" y="112" text-anchor="middle">Cluster</text><text class="sS" x="290" y="128" text-anchor="middle">manager</text>
 <rect class="sG" x="420" y="15" width="280" height="60" rx="8"/><text class="sT" x="440" y="38">Executor 1</text><text class="sS" x="440" y="58">task · task · task  (one per core)</text>
@@ -351,7 +351,7 @@ joined = big.join(small_salted, ["merchant_id", "salt"])
 
 Spark Structured Streaming treats a stream as an **unbounded table** and runs the same DataFrame operations incrementally (as **micro-batches** by default).
 
-<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: structured Streaming treats incoming events as rows appended to an unbounded table; each micro-batch runs the same query incrementally and updates a result table">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: Structured Streaming treats incoming events as rows appended to an unbounded table; each micro-batch runs the same query incrementally and updates a result table">
 <text class="sM" x="150" y="22" text-anchor="middle">input: an unbounded table</text>
 <rect class="sB" x="60" y="32" width="180" height="22" rx="3"/><text class="sC" x="150" y="47" text-anchor="middle">10:00:01 order</text>
 <rect class="sB" x="60" y="56" width="180" height="22" rx="3"/><text class="sC" x="150" y="71" text-anchor="middle">10:00:03 order</text>

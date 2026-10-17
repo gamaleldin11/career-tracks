@@ -28,7 +28,7 @@ Every object is named by a **hash of its content** (SHA-1 by default; new reposi
 - **Snapshots are cheap.** A file that didn't change between two commits has the same content, so the same hash, so it is stored once and both trees point to it.
 - **History is tamper-evident.** Changing anything in an old commit changes its hash, which changes the parent hash recorded in its child, and so on up to the newest commit.
 
-<figure class="dia anim"><svg viewBox="0 0 720 300" role="img" aria-label="Animation: git object model: HEAD points to main, main to the newest commit; each commit points to its parent and to a tree; trees point to blobs, and unchanged blobs are shared">
+<figure class="dia anim"><svg viewBox="0 0 720 300" role="img" aria-label="Animation: Git object model: HEAD points to main, main to the newest commit; each commit points to its parent and to a tree; trees point to blobs, and unchanged blobs are shared">
 <rect class="sV" x="590" y="10" width="80" height="26" rx="13"/><text class="sT" x="630" y="28" text-anchor="middle">HEAD</text>
 <rect class="sW" x="590" y="52" width="80" height="26" rx="13"/><text class="sT" x="630" y="70" text-anchor="middle">main</text>
 <line class="sLm" x1="630" y1="36" x2="630" y2="50" marker-end="url(#ahm)"/><line class="sLm" x1="630" y1="78" x2="630" y2="94" marker-end="url(#ahm)"/>
