@@ -157,7 +157,7 @@ Contracts move quality **upstream**: instead of the data team discovering a rena
 - **Catalogs** tie it together: table and column descriptions, owners, tags (PII, certified), lineage, usage and search. Examples: **Microsoft Purview**, **Unity Catalog**, DataHub, OpenMetadata, AWS Glue Data Catalog, Google Dataplex ([[DE5.4]]).
 - **Documentation that lives with code:** dbt descriptions and docs, a README per pipeline, a glossary of business terms aligned with the metric definitions analysts use ([[DA1.4]]).
 
-<figure class="dia"><svg viewBox="0 0 720 234" role="img" aria-label="Column-level lineage from a source payments amount through a staging column to fact table columns and on to a revenue KPI, a refund rate and forecast features">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: column-level lineage from a source payments amount through a staging column to fact table columns and on to a revenue KPI, a refund rate and forecast features">
 <rect class="sB" x="14" y="90" width="162" height="36" rx="6"/><text class="sC" x="95" y="113" text-anchor="middle">payments.amount</text>
 <rect class="sV" x="192" y="90" width="162" height="36" rx="6"/><text class="sC" x="273" y="113" text-anchor="middle">stg_payments.amount_egp</text>
 <rect class="sA" x="370" y="60" width="162" height="36" rx="6"/><text class="sC" x="451" y="83" text-anchor="middle">fct_orders.net_revenue</text>
@@ -172,6 +172,12 @@ Contracts move quality **upstream**: instead of the data team discovering a rena
 <line class="sLm" x1="532" y1="138" x2="546" y2="108" marker-end="url(#ahm)"/>
 <line class="sLm" x1="532" y1="78" x2="546" y2="168" marker-end="url(#ahm)"/>
 <text class="sWt" x="14" y="222">← upstream: "why is this number wrong?"</text><text class="sGt" x="706" y="222" text-anchor="end">downstream: "what breaks if I change this?" →</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.080;1" path="M176 108 L190 108"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.080;0.082;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M354 108 L368 78"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M354 108 L368 138"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M532 78 L546 48"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M532 138 L546 108"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.480;1" path="M532 78 L546 168"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.480;0.482;1"/></circle>
 </svg><figcaption>Lineage answers two questions: trace a bad number upstream to its cause, and trace a planned change downstream to everything it touches.</figcaption></figure>
 
 ## DE9.8 Governance, security and privacy 🟡 ⭐

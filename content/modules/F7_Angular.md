@@ -279,7 +279,7 @@ When each value from one stream starts another async operation (an HTTP call), y
 | **`concatMap`** | **Queue** it; run one at a time, in order | Saves that must happen in sequence |
 | **`exhaustMap`** | **Ignore** the new value until the current call finishes | A "Pay" or "Login" button clicked repeatedly |
 
-<figure class="dia"><svg viewBox="0 0 720 276" role="img" aria-label="Marble diagram: three source values each start a two-unit request; switchMap cancels earlier ones, mergeMap overlaps, concatMap queues, exhaustMap ignores b">
+<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: marble diagram: three source values each start a two-unit request; switchMap cancels earlier ones, mergeMap overlaps, concatMap queues, exhaustMap ignores b">
 <text class="sM" x="140" y="34" text-anchor="end">source</text><line class="sLm" x1="150" y1="30" x2="700" y2="30" marker-end="url(#ahm)"/>
 <circle class="sA" cx="175.0" cy="30" r="12"/><text class="sT" x="175" y="35" text-anchor="middle">a</text>
 <circle class="sA" cx="250.0" cy="30" r="12"/><text class="sT" x="250" y="35" text-anchor="middle">b</text>
@@ -304,6 +304,11 @@ When each value from one stream starts another async operation (an HTTP call), y
 <circle class="sG" cx="400.0" cy="212" r="12"/><text class="sT" x="400" y="217" text-anchor="middle">C</text>
 <text class="sWt" x="704" y="204" text-anchor="end">ignores b while A runs</text>
 <text class="sC" x="360" y="266" text-anchor="middle">each source value starts a request that takes 2 time units; capital letters are its result</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M150 30 L700 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M150 80 L700 80"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M150 124 L700 124"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M150 168 L700 168"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M150 212 L700 212"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>The flattening operators as a marble diagram. The only difference is what happens when a new value arrives while an inner call is still running.</figcaption></figure>
 
 ```ts

@@ -333,7 +333,7 @@ When the primary database can't keep up with **writes** or **storage** even on a
 3. Run a **soak test** (hours at expected peak) to find memory leaks and slow degradation.
 4. Run a **spike test** (sudden 10× jump) to check autoscaling and queues react in time.
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Response time against utilisation for a single queue with random arrivals and 10 milliseconds of work per request, computed as 10 divided by one minus utilisation: 20 ms at 50 percent, 50 ms at 80 percent, 100 ms at 90 percent and 200 ms at 95 percent; capacity plans target roughly 60 to 80 percent">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: response time against utilisation for a single queue with random arrivals and 10 milliseconds of work per request, computed as 10 divided by one minus utilisation: 20 ms at 50 percent, 50 ms at 80 percent, 100 ms at 90 percent and 200 ms at 95 percent; capacity plans target roughly 60 to 80 percent">
 <line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
 <line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text>
@@ -355,6 +355,7 @@ When the primary database can't keep up with **writes** or **storage** even on a
 <rect class="sG" x="430" y="30" width="120" height="170" rx="0" opacity=".12"/><text class="sGt" x="490" y="46" text-anchor="middle">plan to run here</text>
 <text class="sS" x="370" y="238" text-anchor="middle">server utilisation (one queue, random arrivals, 10 ms of work per request)</text>
 <text class="sS" x="22" y="115" text-anchor="middle" transform="rotate(-90 22 115)">response time, ms</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M70.0 191.8 L88.0 191.5 L106.0 191.2 L124.0 190.9 L142.0 190.6 L160.0 190.3 L178.0 189.9 L196.0 189.6 L214.0 189.1 L232.0 188.7 L250.0 188.2 L268.0 187.7 L286.0 187.1 L304.0 186.5 L322.0 185.8 L340.0 185.0 L358.0 184.1 L376.0 183.2 L394.0 182.1 L412.0 180.8 L430.0 179.4 L448.0 177.7 L466.0 175.7 L484.0 173.4 L502.0 170.5 L520.0 167.0 L538.0 162.5 L556.0 156.6 L574.0 148.4 L592.0 136.5 L601.0 128.3 L604.0 125.0 L607.0 121.4 L610.0 117.5 L613.0 113.2 L616.0 108.3 L619.0 102.9 L622.0 96.9 L625.0 90.0 L628.0 82.1 L631.0 73.1 L634.0 62.5 L637.0 50.0 L640.0 35.0"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Computed with the M/M/1 queueing formula, response time = service time ÷ (1 − utilisation). Latency doubles from 50% to 75% busy and explodes past 90%. That is why capacity plans keep headroom and why load tests look for the knee, not the maximum.</figcaption></figure>
 
 > [!sota] Planning for a known peak

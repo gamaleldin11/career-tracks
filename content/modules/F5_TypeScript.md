@@ -480,7 +480,7 @@ export function InvoiceCard({ invoice, onSelect }: Props) {
 > [!lab] Type a real API in an evening
 > Take one FinSight endpoint, such as invoices or the dashboard summary. Write a Zod schema for its response, derive the type, and model the screen's state as a discriminated union (`idle`/`loading`/`success`/`error`) with an exhaustive `switch`. Turn on `noUncheckedIndexedAccess` and fix what it finds.
 
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="A typed component boundary: the parent passes invoice of type Invoice into InvoiceCard and receives onSelect with a string id back; the Props type checks both directions at compile time, as Angular’s typed input and output signals do">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: A typed component boundary: the parent passes invoice of type Invoice into InvoiceCard and receives onSelect with a string id back; the Props type checks both directions at compile time, as Angular’s typed input and output signals do">
 <rect class="sA" x="14" y="50" width="200" height="70" rx="8"/><text class="sT" x="114" y="83" text-anchor="middle">Parent</text><text class="sC" x="114" y="99" text-anchor="middle">&lt;InvoiceCard invoice={inv}</text>
 <text class="sC" x="114" y="140" text-anchor="middle">onSelect={id =&gt; …} /&gt;</text>
 <rect class="sB" x="506" y="50" width="200" height="70" rx="8"/><text class="sT" x="606" y="83" text-anchor="middle">InvoiceCard</text><text class="sC" x="606" y="99" text-anchor="middle">type Props = { … }</text>
@@ -490,6 +490,8 @@ export function InvoiceCard({ invoice, onSelect }: Props) {
 <text class="sWt" x="360" y="120" text-anchor="middle">onSelect(id: string): the callback type flows back</text>
 <text class="sS" x="360" y="160" text-anchor="middle">Angular: input.required&lt;Invoice&gt;() in, output&lt;string&gt;() out: the same contract</text>
 <text class="sGt" x="360" y="180" text-anchor="middle">misspell a prop or pass the wrong type and the build fails, not the user</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M214 70 L504 70"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M504 102 L216 102"/><animate attributeName="opacity" dur="7s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption>Component props are an API between two pieces of UI. Typing them turns integration mistakes into compile errors.</figcaption></figure>
 
 ## F5.12 Interview drill 🟢 ⭐
