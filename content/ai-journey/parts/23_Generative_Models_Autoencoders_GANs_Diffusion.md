@@ -328,6 +328,39 @@ image = pipe(prompt="A closeup photo of an orangutan reading a book",
 
 ## 23.5 Real-world examples 🟡
 
+<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Anomaly detection by reconstruction error, computed: eight correlated KPIs are compressed to two principal components and rebuilt; with a threshold at the 99th percentile of normal training error, 1.41, 6 of 500 normal test hours and all 40 injected faults exceed it">
+<line class="sLm" x1="60" y1="180" x2="680" y2="180"/>
+<rect class="sB" x="61" y="50" width="22" height="130" rx="1" opacity=".7"/>
+<rect class="sB" x="85.8" y="84.6008" width="22" height="95.3992" rx="1" opacity=".7"/>
+<rect class="sB" x="110.6" y="160.228" width="22" height="19.7719" rx="1" opacity=".7"/>
+<rect class="sB" x="135.4" y="178.023" width="22" height="1.97719" rx="1" opacity=".7"/>
+<rect class="sR" x="209.8" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="234.6" y="171.667" width="22" height="8.33333" rx="1" opacity=".85"/>
+<rect class="sR" x="259.4" y="155" width="22" height="25" rx="1" opacity=".85"/>
+<rect class="sR" x="284.2" y="171.667" width="22" height="8.33333" rx="1" opacity=".85"/>
+<rect class="sR" x="309" y="155" width="22" height="25" rx="1" opacity=".85"/>
+<rect class="sR" x="383.4" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="408.2" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="433" y="155" width="22" height="25" rx="1" opacity=".85"/>
+<rect class="sR" x="457.8" y="155" width="22" height="25" rx="1" opacity=".85"/>
+<rect class="sR" x="482.6" y="171.667" width="22" height="8.33333" rx="1" opacity=".85"/>
+<rect class="sR" x="507.4" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="581.8" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="606.6" y="171.667" width="22" height="8.33333" rx="1" opacity=".85"/>
+<rect class="sR" x="631.4" y="163.333" width="22" height="16.6667" rx="1" opacity=".85"/>
+<rect class="sR" x="656.2" y="80" width="22" height="100" rx="1" opacity=".85"/>
+<text class="sS" x="60" y="196" text-anchor="middle">0</text>
+<text class="sS" x="184" y="196" text-anchor="middle">2.5</text>
+<text class="sS" x="308" y="196" text-anchor="middle">5</text>
+<text class="sS" x="432" y="196" text-anchor="middle">7.5</text>
+<text class="sS" x="556" y="196" text-anchor="middle">10</text>
+<text class="sS" x="680" y="196" text-anchor="middle">12.5</text>
+<line class="sLw" x1="129.936" y1="34" x2="129.936" y2="184" style="stroke-width:2" stroke-dasharray="5 4"/><text class="sWt" x="135.936" y="44">threshold 1.41 (99th pct of normal)</text>
+<text class="sT" x="300" y="80">normal hours: 6 of 500 above threshold</text>
+<text class="sRt" x="300" y="100">injected faults: 40 of 40 above threshold</text>
+<text class="sS" x="370" y="214" text-anchor="middle">reconstruction error (squared, 8 KPIs rebuilt from 2 components)</text>
+</svg><figcaption>A linear autoencoder (PCA) learns what normal KPI combinations look like; a fault that breaks the usual correlations cannot be rebuilt, so its error jumps. Computed with scikit-learn on synthetic data; a neural autoencoder or VAE extends the same idea to non-linear patterns.</figcaption></figure>
+
 | Example | Model family | Note |
 |---|---|---|
 | Credit-card and network-intrusion anomaly detection | Autoencoder reconstruction error | Train on normal data; alert on high error |

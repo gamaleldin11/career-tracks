@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **908 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **849 self-test questions** across the eight tracks.
+- **944 diagrams** on the site (inline SVG: static, animated and step-through), up from about 600 at the start of the pass. **849 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -29,8 +29,6 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - §5.5 and §13.5 (worked EDAs). Both need the original datasets (Supermarket Sales, UK road accidents), which are not in the repo.
 - §13.6 statistical tests (needs the accident data), §13.9, §13.11.
-- §17.6 Géron's default configuration (a table; a figure is optional).
-- §23.5.
 - §7.2, §7.4, §9.6, §11.3 (mostly notebook walkthroughs and translation tables).
 - §14.1, §14.5, §14.6, §25.2–25.4, §25.7 (lists, reading lists and summaries: low value for diagrams).
 
