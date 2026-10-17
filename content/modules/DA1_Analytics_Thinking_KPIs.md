@@ -51,7 +51,7 @@ A typical week: a few ad-hoc questions from managers ("why did sales in Alexandr
 
 ## DA1.2 The analysis workflow 🟢 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 120" role="img" aria-label="Analysis workflow: question, metric, data, clean, explore, analyse, communicate, decide">
+<figure class="dia anim"><svg viewBox="0 0 720 120" role="img" aria-label="Animation: analysis workflow: question, metric, data, clean, explore, analyse, communicate, decide">
 <g class="sT" text-anchor="middle">
 <rect class="sA" x="6" y="30" width="80" height="54" rx="8"/><text x="46" y="62">Question</text>
 <rect class="sA" x="94" y="30" width="80" height="54" rx="8"/><text x="134" y="62">Metric</text>
@@ -63,6 +63,7 @@ A typical week: a few ad-hoc questions from managers ("why did sales in Alexandr
 <rect class="sG" x="632" y="30" width="80" height="54" rx="8"/><text x="672" y="62">Decide</text>
 </g>
 <text class="sS" x="6" y="108">Most wasted analysis comes from skipping the first two boxes.</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M6 92 L712 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>Question and metric first. The tools come later.</figcaption></figure>
 
 1. **Question:** what decision will this inform, and who makes it?

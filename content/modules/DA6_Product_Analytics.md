@@ -32,7 +32,7 @@ So "orders this week" can differ between the analytics tool and the database, an
 <circle class="sP" r="5"><animateMotion dur="3.5s" repeatCount="indefinite" path="M144 45 L210 80 H360 L436 108"/></circle><circle class="sPg" r="5"><animateMotion dur="3.5s" begin="1.2s" repeatCount="indefinite" path="M144 215 H360 L436 185"/></circle>
 </svg><figcaption>Two roads into the warehouse. Client events describe behaviour but leak; server records are complete for money.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="Identity stitching: events from an anonymous device ID before login are linked to the user ID after login, joining one person's journey">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: identity stitching: events from an anonymous device ID before login are linked to the user ID after login, joining one person's journey">
 <text class="sM" x="14" y="22">before stitching: two "people"</text>
 <rect class="sB" x="14" y="30" width="160" height="46" rx="8"/><text class="sC" x="24" y="49" xml:space="preserve" style="white-space:pre">dev_77f</text><text class="sC" x="94" y="68" text-anchor="middle">item_viewed</text>
 <line class="sLm" x1="174" y1="53" x2="188" y2="53" marker-end="url(#ahm)"/>
@@ -50,6 +50,10 @@ So "orders this week" can differ between the analytics tool and the database, an
 <line class="sLm" x1="526" y1="139" x2="540" y2="139" marker-end="url(#ahm)"/>
 <rect class="sA" x="542" y="116" width="160" height="46" rx="8"/><text class="sC" x="552" y="135" xml:space="preserve" style="white-space:pre">u_8231</text><text class="sC" x="622" y="154" text-anchor="middle">order_completed</text>
 <text class="sS" x="360" y="196" text-anchor="middle">the login links the device's anonymous_id to the user_id, so the browsing before it counts too</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M502 78 L502 114"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M340 78 L340 114"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.500;1" path="M168 78 L168 114"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.500;0.502;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.560;0.680;1" path="M678 78 L678 114"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.558;0.562;0.680;0.682;1"/></circle>
 </svg><figcaption>Without stitching, every funnel undercounts: the view and the purchase look like two different people.</figcaption></figure>
 
 ## DA6.1 Event tracking: the raw material 🟢 ⭐
@@ -98,7 +102,7 @@ Product analytics runs on **events**: things users do, recorded with a timestamp
 | **Referral** | Do they bring others? | Invites sent, referral sign-ups |
 | **Revenue** | Do we make money? | AOV, orders per user, contribution margin, LTV |
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="AARRR funnel: acquisition, activation, retention and revenue, with referral feeding back into acquisition">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: AARRR funnel: acquisition, activation, retention and revenue, with referral feeding back into acquisition">
 <rect class="sB" x="14" y="40" width="160" height="56" rx="8"/><text class="sT" x="94" y="66" text-anchor="middle">Acquisition</text><text class="sC" x="94" y="82" text-anchor="middle">channels · CAC</text>
 <line class="sLm" x1="174" y1="68" x2="188" y2="68" marker-end="url(#ahm)"/>
 <rect class="sV" x="190" y="40" width="160" height="56" rx="8"/><text class="sT" x="270" y="66" text-anchor="middle">Activation</text><text class="sC" x="270" y="82" text-anchor="middle">first order in 7 days</text>
@@ -109,6 +113,9 @@ Product analytics runs on **events**: things users do, recorded with a timestamp
 <rect class="sW" x="366" y="136" width="160" height="50" rx="8"/><text class="sT" x="446" y="159" text-anchor="middle">Referral</text><text class="sC" x="446" y="175" text-anchor="middle">invites · sign-ups</text>
 <path class="sLw" d="M446 96 V134" marker-end="url(#ahw)"/><path class="sLw" d="M366 161 H94 V100" fill="none" marker-end="url(#ahw)"/>
 <text class="sWt" x="220" y="154" text-anchor="middle">happy users bring new ones</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M14 34 L702 34"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.620;1" path="M446 96 V134"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.620;0.622;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.880;1" path="M366 161 H94 V100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.880;0.882;1"/></circle>
 </svg><figcaption>Pirate metrics: one shared map of the customer life cycle, with a metric at each stage.</figcaption></figure>
 
 > [!term] Activation and the "aha moment"
@@ -214,7 +221,7 @@ print(f"lift = {conv[0]/n[0] - conv[1]/n[1]:.3%}, 95% CI [{low:.3%}, {high:.3%}]
 | **Linear / time-decay / position-based** | Shared by a rule | Rules are arbitrary |
 | **Data-driven** (GA4's default) | Shared by a model of conversion paths | A black box; needs volume |
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="One customer journey from a Facebook ad to a Google search to an email to a purchase, with the EGP 1,000 credited differently by last-touch, first-touch, linear and position-based attribution">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: one customer journey from a Facebook ad to a Google search to an email to a purchase, with the EGP 1,000 credited differently by last-touch, first-touch, linear and position-based attribution">
 <rect class="sB" x="14" y="14" width="160" height="34" rx="17"/><text class="sC" x="94" y="36" text-anchor="middle">Facebook ad</text>
 <line class="sLm" x1="174" y1="31" x2="188" y2="31" marker-end="url(#ahm)"/>
 <rect class="sV" x="190" y="14" width="160" height="34" rx="17"/><text class="sC" x="270" y="36" text-anchor="middle">Google search</text>
@@ -235,6 +242,7 @@ print(f"lift = {conv[0]/n[0] - conv[1]/n[1]:.3%}, 95% CI [{low:.3%}, {high:.3%}]
 <rect class="sV" x="350" y="178" width="80" height="26" rx="3"/><text class="sC" x="390" y="196" text-anchor="middle">200</text>
 <rect class="sW" x="430" y="178" width="160" height="26" rx="3"/><text class="sC" x="510" y="196" text-anchor="middle">400</text>
 <text class="sS" x="360" y="226" text-anchor="middle">none of these says what would have happened without the ad: only an experiment measures that</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M94 57 L622 57"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Same journey, four answers to "which channel earned this sale?". Attribution assigns credit; it doesn't prove cause.</figcaption></figure>
 
 > [!term] Incrementality

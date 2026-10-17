@@ -88,7 +88,7 @@ If the complex model beats the rule by a hair, the rule may be the better produc
 
 **Linear regression** predicts a number as a weighted sum of features; **logistic regression** passes that sum through a sigmoid to predict a probability.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Logistic regression: a weighted sum of features gives the log-odds z, and the sigmoid curve turns z into a probability between 0 and 1">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: logistic regression: a weighted sum of features gives the log-odds z, and the sigmoid curve turns z into a probability between 0 and 1">
 <rect class="sB" x="14" y="30" width="300" height="70" rx="8"/><text class="sT" x="164" y="52" text-anchor="middle">weighted sum (log-odds)</text><text class="sC" x="26" y="80" xml:space="preserve" style="white-space:pre">z = −2.1 + 0.26·complaints</text>
 <text class="sC" x="26" y="96" xml:space="preserve" style="white-space:pre">      + 0.08·days_since_recharge</text>
 <line class="sLm" x1="164" y1="100" x2="164" y2="128" marker-end="url(#ahm)"/><rect class="sV" x="14" y="130" width="300" height="60" rx="8"/><text class="sT" x="164" y="152" text-anchor="middle">sigmoid: p = 1 ÷ (1 + e^−z)</text><text class="sC" x="164" y="174" text-anchor="middle">squashes any z into 0…1</text>
@@ -97,6 +97,8 @@ If the complex model beats the rule by a hair, the rule may be the better produc
 <text class="sC" x="380" y="208" text-anchor="middle">−6</text><text class="sC" x="536" y="208" text-anchor="middle">z = 0 → p = 0.5</text><text class="sC" x="692" y="208" text-anchor="middle">+6</text>
 <circle class="sPg" cx="567" cy="75" r="6"/><text class="sGt" x="555.2" y="64.7213" text-anchor="end">this customer: z = 1.2 → p = 0.77</text>
 <text class="sC" x="380" y="32">p (churn probability)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M164 100 L164 128"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.700;1" path="M380.0 189.6 L386.5 189.5 L393.0 189.4 L399.5 189.2 L406.0 189.0 L412.5 188.7 L419.0 188.4 L425.5 187.9 L432.0 187.3 L438.5 186.6 L445.0 185.6 L451.5 184.4 L458.0 182.9 L464.5 181.0 L471.0 178.6 L477.5 175.7 L484.0 172.1 L490.5 167.8 L497.0 162.6 L503.5 156.6 L510.0 149.7 L516.5 141.9 L523.0 133.4 L529.5 124.3 L536.0 115.0 L542.5 105.7 L549.0 96.6 L555.5 88.1 L562.0 80.3 L568.5 73.4"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.700;0.702;1"/></circle>
 </svg><figcaption>A linear model on the log-odds scale. e^0.26 ≈ 1.30: each extra complaint multiplies the odds of churn by about 1.3.</figcaption></figure>
 
 - **Interpretation (linear):** a coefficient is the expected change in the target for a one-unit increase in that feature, **holding the others constant**.
@@ -159,7 +161,7 @@ A **random forest** adds a second source of randomness: each split considers onl
 4. Add the tree's predictions, **scaled by a learning rate** (say 0.05), to the ensemble.
 5. Repeat for hundreds or thousands of rounds, stopping when validation error stops improving (**early stopping**).
 
-<figure class="dia"><svg viewBox="0 0 720 150" role="img" aria-label="Gradient boosting: each tree fits the residuals of the ensemble so far">
+<figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: gradient boosting: each tree fits the residuals of the ensemble so far">
 <g class="sT" text-anchor="middle">
 <rect class="sB" x="10" y="45" width="110" height="56" rx="8"/><text x="65" y="70">Base</text><text class="sS" x="65" y="88">mean / log-odds</text>
 <rect class="sA" x="160" y="45" width="110" height="56" rx="8"/><text x="215" y="70">Tree 1</text><text class="sS" x="215" y="88">fits residuals</text>
@@ -169,6 +171,10 @@ A **random forest** adds a second source of randomness: each split considers onl
 </g>
 <line class="sL" x1="120" y1="73" x2="160" y2="73"/><line class="sL" x1="270" y1="73" x2="310" y2="73"/><line class="sD" x1="420" y1="73" x2="460" y2="73"/><line class="sL" x1="570" y1="73" x2="610" y2="73"/>
 <text class="sS" x="10" y="135">Each small tree corrects what the ensemble still gets wrong; the learning rate η keeps each step small.</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M120 73 L160 73"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.350;1" path="M270 73 L310 73"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.350;0.352;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.550;1" path="M420 73 L460 73"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.550;0.552;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.750;1" path="M570 73 L610 73"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.750;0.752;1"/></circle>
 </svg><figcaption>Bagging averages independent trees to cut variance; boosting adds dependent trees to cut bias.</figcaption></figure>
 
 <figure class="dia steps" data-start="1"><svg viewBox="0 0 720 222" role="img" aria-label="Gradient boosting on toy data: start from the mean, compute residuals, add a one-split tree fitted to them, and repeat; after many rounds the model starts fitting noise">

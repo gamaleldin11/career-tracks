@@ -52,7 +52,7 @@ Excel formulas point at cells. Power BI works differently, and three ideas expla
 
 **The workflow:** Get data → clean in **Power Query** → **model** (relationships, date table) → **DAX** measures → visuals → publish to a workspace → schedule refresh → share via an **app**.
 
-<figure class="dia"><svg viewBox="0 0 720 116" role="img" aria-label="Power BI workflow: get data, Power Query, model, DAX, report in Desktop; publish, refresh and share as an app in the Service">
+<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: power BI workflow: get data, Power Query, model, DAX, report in Desktop; publish, refresh and share as an app in the Service">
 <rect class="sB" x="8" y="30" width="80" height="40" rx="8"/><text class="sT" x="48" y="55" text-anchor="middle">get data</text>
 <line class="sLm" x1="88" y1="50" x2="96" y2="50" marker-end="url(#ahm)"/>
 <rect class="sB" x="97" y="30" width="80" height="40" rx="8"/><text class="sT" x="137" y="55" text-anchor="middle">Power Query</text>
@@ -70,6 +70,7 @@ Excel formulas point at cells. Power BI works differently, and three ideas expla
 <rect class="sG" x="631" y="30" width="80" height="40" rx="8"/><text class="sT" x="671" y="55" text-anchor="middle">app</text>
 <path class="sLm" d="M8 80 V88 H350 V80" fill="none"/><text class="sC" x="179" y="104" text-anchor="middle">Power BI Desktop</text>
 <path class="sLm" d="M454 80 V88 H703 V80" fill="none"/><text class="sC" x="578" y="104" text-anchor="middle">Power BI Service (Fabric)</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M8 75 L711 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>Authoring happens in Desktop; sharing, refresh and security happen in the Service.</figcaption></figure>
 
 ## DA4.2 Power Query in Power BI 🟢 🟡

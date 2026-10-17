@@ -313,7 +313,7 @@ FROM steps;
 
 Then compute step-to-step conversion (added ÷ viewed, and so on) and overall conversion (purchased ÷ viewed). Decide and state: **per user or per session?** Within what time window between steps? (Ordered steps matter: a purchase without a recorded checkout often means a tracking gap, which is worth reporting too.)
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Funnel: 1,000 users viewed an item, 320 added to cart, 180 checked out and 140 purchased; step conversions 32%, 56% and 78%, overall 14%">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: funnel: 1,000 users viewed an item, 320 added to cart, 180 checked out and 140 purchased; step conversions 32%, 56% and 78%, overall 14%">
 <rect class="sB" x="110" y="20" width="440" height="36" rx="4"/><text class="sT" x="14" y="43">viewed</text><text class="sT" x="330" y="43" text-anchor="middle">1,000</text>
 <rect class="sA" x="259.6" y="70" width="140.8" height="36" rx="4"/><text class="sT" x="14" y="93">added to cart</text><text class="sT" x="330" y="93" text-anchor="middle">320</text>
 <text class="sC" x="630" y="68" text-anchor="middle">32% of the step above</text>
@@ -323,6 +323,11 @@ Then compute step-to-step conversion (added ÷ viewed, and so on) and overall co
 <text class="sC" x="630" y="168" text-anchor="middle">78% of the step above</text>
 <text class="sGt" x="606" y="232" text-anchor="middle">overall: 14% of viewers bought</text>
 <text class="sC" x="250" y="232" text-anchor="middle">counted only if each step's first time is after the previous step</text>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.094;1" path="M355 24 L355 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.094;0.096;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.214;1" path="M355 24 L355 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.214;0.216;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.420;1" path="M355 24 L355 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.420;0.422;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.360;0.625;1" path="M355 24 L355 150"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.358;0.362;0.625;0.627;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.830;1" path="M355 24 L355 200"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.830;0.832;1"/></circle>
 </svg><figcaption>Step conversion shows where people drop out (here, the cart); overall conversion is the headline.</figcaption></figure>
 
 ## DA3.6 Active users: DAU, WAU, MAU 🟡 ⭐
