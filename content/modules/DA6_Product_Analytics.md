@@ -320,6 +320,7 @@ A typical 30-minute case. Structure your answer:
 |---|---|
 | What is a tracking plan? | The specification of events, when they fire, their properties and owners, so data is consistent. |
 | Why track orders server-side? | Client events are lost to ad blockers and network failures; business-critical events need to be reliable. |
+| What is identity stitching? | Linking a device's anonymous ID to the user ID at login, so browsing before login joins that user's journey instead of counting as a second person. |
 | What is AARRR? | Acquisition, activation, retention, referral, revenue: the customer life-cycle funnel. |
 | Activation vs retention? | Activation is the first experience of core value; retention is coming back afterwards. |
 | N-day vs unbounded retention? | Active exactly on day N vs active on or after day N. |
