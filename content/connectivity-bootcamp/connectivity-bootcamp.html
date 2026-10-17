@@ -729,7 +729,7 @@ Ethernet adapter Ethernet0:
 <h3>2.2 Anatomy of an IPv4 address</h3>
 <p>Every IPv4 address has two parts: a <strong>network portion</strong> (which network you're on — like the street name) and a <strong>host portion</strong> (which device on that network — like the house number). The <strong>subnet mask</strong> is what draws the line: its 1-bits mark the network part, its 0-bits the host part.</p>
 
-<figure><svg viewBox="0 0 700 190" role="img" aria-label="IP address and subnet mask showing network and host portions">
+<figure class="dia anim"><svg viewBox="0 0 700 190" role="img" aria-label="Animation: IP address and subnet mask showing network and host portions">
   <text class="sM" x="20" y="24">ADDRESS</text><text class="sT" x="120" y="24">192.168.10.37 /24</text>
   <rect class="sA" x="20" y="40" width="480" height="34"/><rect class="sB" x="500" y="40" width="160" height="34"/>
   <text class="sT" x="260" y="62" text-anchor="middle">11000000 . 10101000 . 00001010</text><text class="sT" x="580" y="62" text-anchor="middle">00100101</text>
@@ -737,6 +737,8 @@ Ethernet adapter Ethernet0:
   <text class="sT" x="260" y="104" text-anchor="middle">11111111 . 11111111 . 11111111</text><text class="sT" x="580" y="104" text-anchor="middle">00000000</text>
   <text class="sM" x="20" y="136">MASK</text><text class="sT" x="120" y="136">255.255.255.0</text>
   <text class="sM" x="150" y="170">NETWORK = 192.168.10.0</text><text class="sM" x="500" y="170">HOST = .37</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M20 78 L500 78"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.700;1" path="M500 78 L660 78"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.700;0.702;1"/></circle>
 </svg><figcaption>A /24 mask means the first 24 bits are network, the last 8 are host. AND the address with the mask and you get the <strong>network address</strong> 192.168.10.0.</figcaption></figure>
 
 <p>Two addresses in every subnet are reserved: the <strong>network address</strong> (all host bits 0 — the subnet's name) and the <strong>broadcast address</strong> (all host bits 1 — reaches every host in the subnet). Usable hosts = <mark>2<sup>host bits</sup> − 2</mark>. A /24 has 8 host bits → 256 − 2 = <strong>254 usable hosts</strong>.</p>
@@ -4512,7 +4514,7 @@ top / htop               <span class="c"># live processes</span></code></pre>
 
 <h3>11.4 Permissions — guaranteed interview topic</h3>
 <p>Every file has an <strong>owner</strong>, a <strong>group</strong>, and three permission sets — user/group/others — each read/write/execute:</p>
-<figure><svg viewBox="0 0 700 170" role="img" aria-label="Breakdown of -rwxr-x r-- permission string">
+<figure class="dia anim"><svg viewBox="0 0 700 170" role="img" aria-label="Animation: Breakdown of -rwxr-x r-- permission string">
   <text style="font:600 26px 'JetBrains Mono',monospace" fill="var(--ink)" x="40" y="50">-</text>
   <rect class="sA" x="70" y="24" width="105" height="36" rx="6"/><text style="font:600 26px 'JetBrains Mono',monospace" fill="var(--ink)" x="80" y="50">rwx</text>
   <rect class="sB" x="185" y="24" width="105" height="36" rx="6"/><text style="font:600 26px 'JetBrains Mono',monospace" fill="var(--ink)" x="195" y="50">r-x</text>
@@ -4522,6 +4524,9 @@ top / htop               <span class="c"># live processes</span></code></pre>
   <text class="sM" x="80" y="100">USER = 7</text><text class="sM" x="195" y="100">GROUP = 5</text><text class="sM" x="310" y="100">OTHERS = 4</text>
   <text class="sS" x="40" y="135">r = 4 · w = 2 · x = 1 → rwx=7, r-x=5, r--=4  ⇒  chmod 754 file</text>
   <text class="sS" x="40" y="155">x on a directory = permission to enter it; r = list it; w = create/delete inside it</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M122 64 L122 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.350;1" path="M237 64 L237 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.550;1" path="M352 64 L352 86"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.550;0.552;1"/></circle>
 </svg><figcaption>Reading <code>ls -l</code> output and converting to the numeric (octal) form. Common values: <code>755</code> (executable/dir), <code>644</code> (normal file), <code>600</code> (private key), <code>777</code> (everyone everything — almost always wrong).</figcaption></figure>
 
 <figure class="dia steps"><svg viewBox="0 0 720 218" role="img" aria-label="Decoding chmod 750: the owner digit 7 is read 4 plus write 2 plus execute 1, giving rwx; the group digit 5 is read 4 plus execute 1, giving r-x; the others digit 0 gives no access; ls -l then shows -rwxr-x---">
@@ -4553,7 +4558,7 @@ sudo userdel -r olduser              <span class="c"># remove incl. home</span><
   <li>Accounts live in <code>/etc/passwd</code> (world-readable, no passwords despite the name), password hashes in <code>/etc/shadow</code> (root-only), groups in <code>/etc/group</code>. Sudo rights: <code>/etc/sudoers</code>, edited only via <code>visudo</code>.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="The seven colon-separated fields of a line in /etc/passwd for user sara: the username, an x meaning the password hash is in /etc/shadow, the user ID 1001, the primary group ID 1001, the comment Sara Ali, the home directory /home/sara and the login shell /bin/bash">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: the seven colon-separated fields of a line in /etc/passwd for user sara: the username, an x meaning the password hash is in /etc/shadow, the user ID 1001, the primary group ID 1001, the comment Sara Ali, the home directory /home/sara and the login shell /bin/bash">
 <text class="sM" x="14" y="24">/etc/passwd: one line per account, seven fields separated by colons</text>
 <rect class="sB" x="14" y="38" width="60" height="32" rx="5"/><text class="sC" x="44" y="59" text-anchor="middle">sara</text>
 <line class="sLm" x1="44" y1="70" x2="44" y2="86" opacity=".6"/><text class="sS" x="44" y="98" text-anchor="middle">username</text>
@@ -4577,6 +4582,13 @@ sudo userdel -r olduser              <span class="c"># remove incl. home</span><
 <line class="sLm" x1="529" y1="70" x2="529" y2="86" opacity=".6"/><text class="sS" x="529" y="98" text-anchor="middle">login shell</text>
 <text class="sS" x="14" y="160">UID 0 = root. Service accounts use /usr/sbin/nologin as the shell so nobody can log in as them.</text>
 <text class="sS" x="14" y="180">The hash itself lives in /etc/shadow, readable only by root.</text>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.100;1" path="M44 72 L44 86"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.100;0.102;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.220;1" path="M101 72 L101 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.220;0.222;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.270;0.340;1" path="M155 72 L155 86"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.268;0.272;0.340;0.342;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.390;0.460;1" path="M219 72 L219 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.388;0.392;0.460;0.462;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.510;0.580;1" path="M302 72 L302 86"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.508;0.512;0.580;0.582;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.700;1" path="M414 72 L414 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.700;0.702;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.750;0.820;1" path="M529 72 L529 86"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.748;0.752;0.820;0.822;1"/></circle>
 </svg><figcaption>Reading one line of <code>/etc/passwd</code> answers most "who is this account?" questions. <code>getent passwd sara</code> shows the same line, including accounts that come from LDAP or AD.</figcaption></figure>
 
 <h3>11.6 Processes &amp; services</h3>
