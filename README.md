@@ -7,7 +7,7 @@ Eight interview-preparation courses in one website: **Frontend, Backend, Full-St
 - **119 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
 - **System design on every track**: five shared modules (SD1–SD5) from fundamentals to scaling in production, choosing technologies, reliability patterns and role-specific design, placed in a *System design* stage on all eight paths.
 - **Over 1,000 diagrams** drawn as inline SVG (in the Markdown, the AI Journey parts and the Bootcamp page): static figures, ambient animations (pausable, and paused for readers who prefer reduced motion) and step-through figures with narration; about two-thirds of them move. Most modules open with an **X.0 Foundations** section that builds the background the rest of the module assumes.
-- **A self-test per track** (996 questions across the eight tracks). Every wrong answer links to the section to reread.
+- **A self-test per track** (1,008 questions across the eight tracks). Every wrong answer links to the section to reread.
 - **A network interview map** at `/interview`: the eleven topics of the network and connectivity interview in a side navbar, each with a core answer and links to its sections, diagrams and model answers, which open beside it. Built from `content/interview-map.js`; the build fails if a link points nowhere.
 - **Level filter** (Entry / Mid / Senior), full-text search, a site-wide glossary, dark and light themes, and per-module progress saved in the browser.
 - Facts in the six software and data tracks were checked against primary sources in October 2026; each module ends with its sources.
