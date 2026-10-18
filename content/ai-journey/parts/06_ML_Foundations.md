@@ -1150,7 +1150,7 @@ grid_search.fit(housing, housing_labels)
 
 `HalvingGridSearchCV` / `HalvingRandomSearchCV` (successive halving) start many candidates with **limited resources** (a small sample, or few iterations), keep the best, and give them more resources each round. Optuna (Part 11) goes further with Bayesian optimisation and pruning.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Successive halving: 27 candidates get one unit of resources, the best 9 get three, the best 3 get nine, and the winner gets 27, for 108 units instead of 729">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: successive halving: 27 candidates get one unit of resources, the best 9 get three, the best 3 get nine, and the winner gets 27, for 108 units instead of 729">
 <text class="sC" x="14" y="54">round 1: 27 candidates</text>
 <rect class="sB" x="170" y="34" width="13" height="28" rx="3" opacity="0.37"/>
 <rect class="sB" x="185" y="34" width="13" height="28" rx="3" opacity="0.37"/>
@@ -1200,6 +1200,7 @@ grid_search.fit(housing, housing_labels)
 <rect class="sG" x="170" y="166" width="13" height="28" rx="3"/>
 <text class="sS" x="706" y="186" text-anchor="end">27× resources each</text>
 <text class="sS" x="360" y="220" text-anchor="middle">total budget 108 units vs 729 to train all 27 at full size; the risk is dropping a slow starter early</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.600;1" path="M176 66 L176 110 L176 154 L176 162"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.600;0.602;1"/></circle>
 </svg><figcaption>HalvingGridSearchCV with factor 3: cheap rounds weed out bad candidates; only survivors earn more data or iterations. Computed.</figcaption></figure>
 
 ### Ensembles and error analysis
