@@ -372,7 +372,7 @@ ARIA you'll genuinely use:
 
 - **Text contrast** at AA: at least **4.5 : 1** for normal text, **3 : 1** for large text (about 24 px, or 18.66 px bold).
 - **Non-text contrast**: UI component boundaries, focus indicators and meaningful graphics need **3 : 1** against adjacent colours.
-<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Contrast ratios computed with the WCAG formula: grey 999999 on white is 2.85 to 1 and fails; 777777 is 4.48 and just fails normal text; 767676 is 4.54 and passes; 595959 is 7 to 1; white on a 1e88e5 blue is about 3.7 and only passes for large text; white on 1565c0 passes; white on e53935 red is about 4.2 and only passes for large text">
+<figure class="dia anim"><svg viewBox="0 0 720 272" role="img" aria-label="Animation: contrast ratios computed with the WCAG formula: grey 999999 on white is 2.85 to 1 and fails; 777777 is 4.48 and just fails normal text; 767676 is 4.54 and passes; 595959 is 7 to 1; white on a 1e88e5 blue is about 3.7 and only passes for large text; white on 1565c0 passes; white on e53935 red is about 4.2 and only passes for large text">
 <text class="sT" x="14" y="22">pair</text><text class="sT" x="430" y="22" text-anchor="middle">ratio</text><text class="sT" x="530" y="22" text-anchor="middle">text (4.5)</text><text class="sT" x="640" y="22" text-anchor="middle">large / UI (3)</text>
 <rect x="14" y="32" width="210" height="24" rx="5" style="fill:#ffffff;stroke:#888;stroke-width:.5"/>
 <text x="24" y="49" style="fill:#999999;font-size:13px;font-weight:600">Pay invoice · #999999</text>
@@ -403,6 +403,7 @@ ARIA you'll genuinely use:
 <text class="sS" x="234" y="228">white on red</text><text class="sT" x="430" y="228" text-anchor="middle">4.23 : 1</text>
 <text class="sRt" x="530" y="228" text-anchor="middle">fail</text><text class="sGt" x="640" y="228" text-anchor="middle">pass</text>
 <text class="sS" x="14" y="260" xml:space="preserve" style="white-space:pre">ratio = (L_light + 0.05) / (L_dark + 0.05),   L = 0.2126 R + 0.7152 G + 0.0722 B  (linearised sRGB)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.850;1" path="M478 44 L478 224"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.850;0.852;1"/></circle>
 </svg><figcaption>Contrast is a number, not a judgement: ratios computed with the WCAG 2 formula. #777 on white misses AA by a hair.</figcaption></figure>
 
 - **Don't use colour alone** to convey meaning: an error shown only by a red border fails colour-blind users. Add an icon or text.

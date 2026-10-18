@@ -14,7 +14,7 @@ Angular is written in TypeScript, almost every serious React codebase uses it, a
 
 **A type is a set of values.** This one idea makes most of TypeScript easy to reason about:
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Types as sets: unknown contains all values; string and number are sets; literal types are subsets of string; a union covers both; never is the empty set; any switches checking off">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: types as sets: unknown contains all values; string and number are sets; literal types are subsets of string; a union covers both; never is the empty set; any switches checking off">
 <rect class="sN" x="20" y="20" width="470" height="220" rx="16"/><text class="sT" x="36" y="42">unknown: every possible value</text>
 <ellipse class="sA" cx="160" cy="132" rx="110" ry="70" opacity=".8"/><text class="sT" x="160" y="86" text-anchor="middle">string</text>
 <ellipse class="sG" cx="160" cy="146" rx="52" ry="30"/><text class="sC" x="160" y="142" text-anchor="middle">"paid" | "draft"</text><text class="sC" x="160" y="158" text-anchor="middle">literal types</text>
@@ -23,6 +23,7 @@ Angular is written in TypeScript, almost every serious React codebase uses it, a
 <rect class="sB" x="510" y="30" width="190" height="60" rx="10"/><text class="sT" x="605" y="54" text-anchor="middle">never</text><text class="sC" x="605" y="74" text-anchor="middle">the empty set: no value</text>
 <rect class="sR" x="510" y="104" width="190" height="60" rx="10"/><text class="sT" x="605" y="128" text-anchor="middle">any</text><text class="sC" x="605" y="148" text-anchor="middle">not a set: checking off</text>
 <text class="sS" x="605" y="196" text-anchor="middle">A is assignable to B</text><text class="sM" x="605" y="214" text-anchor="middle">when A ⊆ B</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.600;1" path="M160 150 L160 100 L250 60 L300 42"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.600;0.602;1"/></circle>
 </svg><figcaption>Think of a type as a set of values. Unions add sets together, narrowing removes members, and "assignable" just means "is a subset of".</figcaption></figure>
 
 - `string` is the set of all strings; the literal type `"paid"` is a set with one member.
@@ -338,7 +339,7 @@ pluck(invoices.data, "amont");        // compile error: typo caught
 | `Awaited<T>` | The value inside a promise | `Awaited<ReturnType<typeof load>>` |
 | `NonNullable<T>` | T without null and undefined | After a check |
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="The Invoice type and what Partial, Pick, Omit and Readonly produce from it">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: the Invoice type and what Partial, Pick, Omit and Readonly produce from it">
 <text class="sC" x="74" y="22" text-anchor="middle">Invoice</text>
 <rect class="sB" x="8" y="32" width="134" height="24" rx="5"/><text class="sM" x="75" y="48" text-anchor="middle">id</text>
 <rect class="sB" x="8" y="62" width="134" height="24" rx="5"/><text class="sM" x="75" y="78" text-anchor="middle">customerId</text>
@@ -366,6 +367,11 @@ pluck(invoices.data, "amont");        // compile error: typo caught
 <rect class="sV" x="580" y="122" width="134" height="24" rx="5"/><text class="sM" x="647" y="138" text-anchor="middle">readonly dueDate</text>
 <rect class="sV" x="580" y="152" width="134" height="24" rx="5"/><text class="sM" x="647" y="168" text-anchor="middle">readonly notes?</text>
 <text class="sS" x="360" y="196" text-anchor="middle">each utility is a mapped type: it walks the keys of Invoice and builds a new shape</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.150;1" path="M142 44 L142 164"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M142 184 L283 184"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.370;0.490;1" path="M285 184 L426 184"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.368;0.372;0.490;0.492;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.540;0.660;1" path="M428 184 L569 184"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.538;0.542;0.660;0.662;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.710;0.830;1" path="M571 184 L712 184"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.708;0.712;0.830;0.832;1"/></circle>
 </svg><figcaption>The common utility types, as transformations of one type (the Pick here is <code>Pick&lt;Invoice, "amount" | "dueDate"&gt;</code>). None of them changes the runtime object; they only describe it.</figcaption></figure>
 
 ```ts
