@@ -158,7 +158,7 @@ On app start, call `GET /api/auth/me`: a 200 returns the user and their permissi
 > [!term] Same-site vs same-origin
 > **Same-origin** means the same scheme, host and port (`https://app.example.com` ≠ `https://api.example.com`). **Same-site** means the same **registrable domain** ("eTLD+1": `example.com`), so those two hosts **are same-site**. CORS works on **origins**; `SameSite` cookies work on **sites**. That's why `app.example.com` calling `api.example.com` needs CORS but can still send a `SameSite=Lax` cookie (with `credentials: "include"`), whereas `app.netlify.app` calling `api.azurewebsites.net` is **cross-site**, and the cookie needs `SameSite=None; Secure` and is blocked by browsers that block third-party cookies, such as Safari and Firefox by default.
 
-<figure class="dia"><svg viewBox="0 0 720 202" role="img" aria-label="app.example.com and api.example.com are different origins but the same site, example.com; evil.example is a different site">
+<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: app.example.com and api.example.com are different origins but the same site, example.com; evil.example is a different site">
 <rect class="sN" x="14" y="24" width="440" height="140" rx="14" stroke-dasharray="7 5" style="stroke:var(--accent);stroke-width:2"/><text class="sM" x="234" y="46" text-anchor="middle">one site: example.com (eTLD+1)</text>
 <rect class="sA" x="34" y="64" width="196" height="52" rx="8"/><text class="sT" x="132" y="88" text-anchor="middle">https://app.example.com</text><text class="sC" x="132" y="104" text-anchor="middle">origin 1</text><rect class="sG" x="240" y="64" width="196" height="52" rx="8"/><text class="sT" x="338" y="88" text-anchor="middle">https://api.example.com</text><text class="sC" x="338" y="104" text-anchor="middle">origin 2</text>
 <text class="sC" x="234" y="142" text-anchor="middle">cross-origin, but same-site</text>
@@ -166,6 +166,8 @@ On app start, call `GET /api/auth/me`: a 200 returns the user and their permissi
 <rect class="sR" x="496" y="64" width="190" height="52" rx="8"/><text class="sT" x="591" y="88" text-anchor="middle">https://evil.example</text><text class="sC" x="591" y="104" text-anchor="middle">origin 3</text>
 <text class="sC" x="591" y="142" text-anchor="middle">cross-origin and cross-site</text>
 <text class="sS" x="360" y="190" text-anchor="middle">CORS is about origins · SameSite cookies are about sites</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M230 90 L240 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.650;1" path="M496 90 L436 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.650;0.652;1"/></circle>
 </svg><figcaption>Two hosts under one registrable domain are same-site, so a <code>SameSite=Lax</code> cookie still flows between them, while CORS still applies.</figcaption></figure>
 
 ## FS2.3 Design B: in-memory access token + refresh cookie 🟡 ⭐

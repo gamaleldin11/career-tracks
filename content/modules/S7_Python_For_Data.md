@@ -326,7 +326,7 @@ long = wide.reset_index().melt(id_vars="month", var_name="category", value_name=
 <li><b>Transform</b> applies the same function but hands each group's result back to every row of that group, so the output has the original length: the pandas version of <code>SUM(...) OVER (PARTITION BY city)</code>.</li>
 </ol><figcaption>Split-apply-combine, the model behind every <code>groupby</code>.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="The same data in long format with one row per month and category, and wide format with one column per category">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: the same data in long format with one row per month and category, and wide format with one column per category">
 <text class="sT" x="130" y="22" text-anchor="middle">long: one row per observation</text>
 <text class="sC" x="55" y="42" text-anchor="middle">month</text>
 <text class="sC" x="130" y="42" text-anchor="middle">category</text>
@@ -365,6 +365,8 @@ long = wide.reset_index().melt(id_vars="month", var_name="category", value_name=
 <line class="sL" x1="262" y1="90" x2="440" y2="90" marker-end="url(#ah)"/><text class="sC" x="351" y="82" text-anchor="middle">pivot_table(index="month",</text><text class="sC" x="351" y="102" text-anchor="middle">columns="category")</text>
 <line class="sLg" x1="440" y1="150" x2="262" y2="150" marker-end="url(#ahg)"/><text class="sGt" x="351" y="142" text-anchor="middle">melt(id_vars="month")</text>
 <text class="sS" x="360" y="210" text-anchor="middle">Tools and models usually want long; people and reports usually want wide.</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M262 90 L440 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.850;1" path="M440 150 L262 150"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.850;0.852;1"/></circle>
 </svg><figcaption>Reshaping. <code>pivot_table</code> goes long → wide (and aggregates duplicates); <code>melt</code> goes wide → long.</figcaption></figure>
 
 ## S7.6 Combining DataFrames 🟢 ⭐
@@ -492,7 +494,7 @@ df["band"] = df.apply(lambda r: "high" if r["revenue"] > 1000 else "low", axis=1
 df["band"] = np.where(df["revenue"] > 1000, "high", "low")
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="Time to label 100,000 rows as high or low revenue, measured with pandas: an iterrows loop takes about a second, a row-wise apply about a fifth of a second, a single-column map about 10 milliseconds and np.where under a millisecond, hundreds to over a thousand times faster than the row loops">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: time to label 100,000 rows as high or low revenue, measured with pandas: an iterrows loop takes about a second, a row-wise apply about a fifth of a second, a single-column map about 10 milliseconds and np.where under a millisecond, hundreds to over a thousand times faster than the row loops">
 <text class="sT" x="14" y="22">label 100,000 rows "high"/"low" (same result every time), best of several runs</text>
 <line class="sLm" x1="200" y1="34" x2="200" y2="166" opacity=".15"/><text class="sS" x="200" y="180" text-anchor="middle">0.0001 s</text>
 <line class="sLm" x1="273.333" y1="34" x2="273.333" y2="166" opacity=".15"/><text class="sS" x="273.333" y="180" text-anchor="middle">0.001 s</text>
@@ -503,6 +505,10 @@ df["band"] = np.where(df["revenue"] > 1000, "high", "low")
 <text class="sS" x="190" y="88" text-anchor="end">apply(axis=1)</text><rect class="sR" x="200" y="72" width="244.365" height="22" rx="4" opacity=".7"/><text class="sT" x="450.365" y="88">214.9 ms  (291× np.where)</text>
 <text class="sS" x="190" y="120" text-anchor="end">Series.map (one column)</text><rect class="sW" x="200" y="104" width="152.645" height="22" rx="4" opacity=".7"/><text class="sT" x="358.645" y="120">12.1 ms  (16× np.where)</text>
 <text class="sS" x="190" y="152" text-anchor="end">np.where</text><rect class="sG" x="200" y="136" width="63.6747" height="22" rx="4" opacity=".7"/><text class="sT" x="269.675" y="152">0.7 ms</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.750;1" path="M200 51 L494 51"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.750;0.752;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.632;1" path="M200 83 L444 83"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.632;0.634;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.413;1" path="M200 115 L353 115"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.413;0.415;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.202;1" path="M200 147 L264 147"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.202;0.204;1"/></circle>
 </svg><figcaption>The "slow" and "fast" lines above, timed on 100,000 rows (log scale): row-wise Python is the cost, not pandas itself.</figcaption></figure>
 
 > [!say]

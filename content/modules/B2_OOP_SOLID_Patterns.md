@@ -101,7 +101,7 @@ Inheritance creates the **tightest** coupling there is: a subclass depends on it
 INotifier notifier = new LoggingNotifier(new RetryingNotifier(new SmsNotifier(client), retries: 3), logger);
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Inheritance needs a subclass for every combination of features; composition stacks small decorators that share one interface">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: inheritance needs a subclass for every combination of features; composition stacks small decorators that share one interface">
 <text class="sT" x="180" y="22" text-anchor="middle">inheritance: a class per combination</text><text class="sT" x="540" y="22" text-anchor="middle">composition: combine at runtime</text>
 <rect class="sB" x="110" y="34" width="140" height="30" rx="8"/><text class="sT" x="180" y="54" text-anchor="middle">Notifier</text>
 <rect class="sB" x="30" y="90" width="140" height="28" rx="6"/><text class="sC" x="100" y="109" text-anchor="middle">EmailNotifier</text><line class="sLm" x1="100" y1="90" x2="180" y2="66"/>
@@ -118,6 +118,8 @@ INotifier notifier = new LoggingNotifier(new RetryingNotifier(new SmsNotifier(cl
 <line class="sLm" x1="596" y1="110" x2="608" y2="110" marker-end="url(#ahm)"/>
 <rect class="sG" x="610" y="90" width="96" height="40" rx="8"/><text class="sT" x="658" y="108" text-anchor="middle">Sms</text><text class="sC" x="658" y="123" text-anchor="middle">INotifier</text>
 <text class="sGt" x="540" y="160" text-anchor="middle">each piece is small and tested alone;</text><text class="sGt" x="540" y="178" text-anchor="middle">reorder or swap without new classes</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M180 66 L100 90 L100 118 L54 146"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M438 136 L548 136 L658 136 L658 131"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption>Composition over inheritance. Behaviours become pieces you combine, not branches you multiply.</figcaption></figure>
 
 ## B2.2 SOLID 🟢 ⭐
