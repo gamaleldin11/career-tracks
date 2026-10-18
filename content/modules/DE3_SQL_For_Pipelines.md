@@ -393,6 +393,31 @@ Fail the pipeline (or quarantine the bad rows) when a check fails, rather than p
 - **Sessionise** events and find **gaps and islands** ([[DA3.9]], [[S3.11]]).
 - **Running balances** from transactions with `SUM() OVER (PARTITION BY account ORDER BY ts)`.
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: compressing a status history with LAG: six rows for order 7 are compared with the previous row in time; only the rows whose status differs from LAG(status), pending at 09:00, paid at 09:12 and shipped at 11:00, are kept">
+<text class="sM" x="150" y="22" text-anchor="middle">status history, order 7</text>
+<text class="sM" x="560" y="22" text-anchor="middle">kept: change points only</text>
+<rect class="sB" x="40" y="34" width="220" height="24" rx="3"/><text class="sC" x="52" y="51" xml:space="preserve" style="white-space:pre">09:00  pending</text>
+<text class="sGt" x="300" y="51">new</text>
+<rect class="sG" x="460" y="34" width="220" height="24" rx="3"/><text class="sC" x="472" y="51" xml:space="preserve" style="white-space:pre">09:00  pending</text>
+<rect class="sN" x="40" y="62" width="220" height="24" rx="3"/><text class="sC" x="52" y="79" xml:space="preserve" style="white-space:pre">09:05  pending</text>
+<text class="sC" x="300" y="79">same as LAG</text>
+<rect class="sN" x="40" y="90" width="220" height="24" rx="3"/><text class="sC" x="52" y="107" xml:space="preserve" style="white-space:pre">09:10  pending</text>
+<text class="sC" x="300" y="107">same as LAG</text>
+<rect class="sB" x="40" y="118" width="220" height="24" rx="3"/><text class="sC" x="52" y="135" xml:space="preserve" style="white-space:pre">09:12  paid</text>
+<text class="sGt" x="300" y="135">new</text>
+<rect class="sG" x="460" y="62" width="220" height="24" rx="3"/><text class="sC" x="472" y="79" xml:space="preserve" style="white-space:pre">09:12  paid</text>
+<rect class="sN" x="40" y="146" width="220" height="24" rx="3"/><text class="sC" x="52" y="163" xml:space="preserve" style="white-space:pre">09:30  paid</text>
+<text class="sC" x="300" y="163">same as LAG</text>
+<rect class="sB" x="40" y="174" width="220" height="24" rx="3"/><text class="sC" x="52" y="191" xml:space="preserve" style="white-space:pre">11:00  shipped</text>
+<text class="sGt" x="300" y="191">new</text>
+<rect class="sG" x="460" y="90" width="220" height="24" rx="3"/><text class="sC" x="472" y="107" xml:space="preserve" style="white-space:pre">11:00  shipped</text>
+<text class="sC" x="40" y="222" xml:space="preserve" style="white-space:pre">WHERE status IS DISTINCT FROM LAG(status) OVER (PARTITION BY order_id ORDER BY changed_at)</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.700;1" path="M30 40 L30 182"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M260 46 L458 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.520;1" path="M260 130 L458 74"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.520;0.522;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.800;1" path="M260 186 L458 102"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.800;0.802;1"/></circle>
+</svg><figcaption>The same comparison with <code>LEAD</code> builds <code>valid_from</code> and <code>valid_to</code> ranges for a slowly changing dimension.</figcaption></figure>
+
 ## DE3.10 Publishing atomically 🟡
 
 Readers must never see half-loaded data:

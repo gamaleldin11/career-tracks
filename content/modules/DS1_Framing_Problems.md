@@ -245,6 +245,28 @@ A structure that works for "build a model to X" in 20–30 minutes:
 > [!lab] Frame three problems on one page each
 > Write a one-page framing (decision, unit, prediction time, target window, task, baseline, metric, data, risks) for: telecom churn, BNPL credit default, and FinSight's "which invoices will be paid late?". The third one is yours: it would make a strong new feature and portfolio project.
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: an eight-step structure for a data-science case question: goal and decision, framing, data, baseline and approach, evaluation, deployment, measuring impact, and risks and monitoring">
+<text class="sM" x="360" y="22" text-anchor="middle">a "build a model to…" case in 20 to 30 minutes</text>
+<rect class="sB" x="14" y="40" width="160" height="56" rx="8"/><text class="sT" x="94" y="66" text-anchor="middle">1 goal</text><text class="sC" x="94" y="82" text-anchor="middle">who acts on it</text>
+<rect class="sB" x="190" y="40" width="160" height="56" rx="8"/><text class="sT" x="270" y="66" text-anchor="middle">2 framing</text><text class="sC" x="270" y="82" text-anchor="middle">unit, target, time</text>
+<rect class="sA" x="366" y="40" width="160" height="56" rx="8"/><text class="sT" x="446" y="66" text-anchor="middle">3 data</text><text class="sC" x="446" y="82" text-anchor="middle">available when?</text>
+<rect class="sA" x="542" y="40" width="160" height="56" rx="8"/><text class="sT" x="622" y="66" text-anchor="middle">4 baseline</text><text class="sC" x="622" y="82" text-anchor="middle">rule, then model</text>
+<rect class="sV" x="542" y="140" width="160" height="56" rx="8"/><text class="sT" x="622" y="166" text-anchor="middle">5 evaluation</text><text class="sC" x="622" y="182" text-anchor="middle">time split, metric</text>
+<rect class="sV" x="366" y="140" width="160" height="56" rx="8"/><text class="sT" x="446" y="166" text-anchor="middle">6 deployment</text><text class="sC" x="446" y="182" text-anchor="middle">batch or real time</text>
+<rect class="sG" x="190" y="140" width="160" height="56" rx="8"/><text class="sT" x="270" y="166" text-anchor="middle">7 impact</text><text class="sC" x="270" y="182" text-anchor="middle">holdout test</text>
+<rect class="sW" x="14" y="140" width="160" height="56" rx="8"/><text class="sT" x="94" y="166" text-anchor="middle">8 risks</text><text class="sC" x="94" y="182" text-anchor="middle">drift, fairness</text>
+<line class="sLm" x1="174" y1="68" x2="188" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="350" y1="68" x2="364" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="526" y1="68" x2="540" y2="68" marker-end="url(#ahm)"/>
+<line class="sLm" x1="622" y1="96" x2="622" y2="138" marker-end="url(#ahm)"/>
+<line class="sLm" x1="542" y1="168" x2="528" y2="168" marker-end="url(#ahm)"/>
+<line class="sLm" x1="366" y1="168" x2="352" y2="168" marker-end="url(#ahm)"/>
+<line class="sLm" x1="190" y1="168" x2="176" y2="168" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="226" text-anchor="middle">say the decision and the metric before any algorithm: that is what the interviewer is scoring</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="16s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.450;1" path="M94 102 L622 102"/><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.450;0.452;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="16s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.950;1" path="M622 134 L94 134"/><animate attributeName="opacity" dur="16s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.950;0.952;1"/></circle>
+</svg><figcaption>Spend the first five minutes on steps 1 and 2; most weak answers jump straight to step 4.</figcaption></figure>
+
 ## DS1.9 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |

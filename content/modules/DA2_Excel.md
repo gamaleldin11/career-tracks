@@ -357,6 +357,27 @@ With **Power Pivot** (Data → Data Model), you can load several tables, create 
 | **Solver** (add-in) | Optimise with constraints: the best product mix given capacity |
 | **Forecast Sheet** | A quick exponential-smoothing forecast with confidence bounds |
 
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: Goal Seek: with a cost of 150, the margin (price minus cost) divided by price rises with price; asking Goal Seek for a 25 percent margin moves along the curve until it meets the target at a price of 200">
+<line class="sLm" x1="80" y1="190" x2="640" y2="190"/>
+<line class="sLm" x1="80" y1="190" x2="80" y2="30"/>
+<text class="sC" x="80" y="206" text-anchor="middle">160</text>
+<text class="sC" x="188" y="206" text-anchor="middle">180</text>
+<text class="sC" x="296" y="206" text-anchor="middle">200</text>
+<text class="sC" x="404" y="206" text-anchor="middle">220</text>
+<text class="sC" x="512" y="206" text-anchor="middle">240</text>
+<text class="sC" x="620" y="206" text-anchor="middle">260</text>
+<text class="sC" x="72" y="154" text-anchor="end">10%</text>
+<text class="sC" x="72" y="114" text-anchor="end">20%</text>
+<text class="sC" x="72" y="74" text-anchor="end">30%</text>
+<text class="sC" x="72" y="34" text-anchor="end">40%</text>
+<polyline class="sLg" points="80.0,165.0 101.6,155.9 123.2,147.1 144.8,138.8 166.4,130.9 188.0,123.3 209.6,116.1 231.2,109.1 252.8,102.5 274.4,96.1 296.0,90.0 317.6,84.1 339.2,78.5 360.8,73.0 382.4,67.8 404.0,62.7 425.6,57.9 447.2,53.2 468.8,48.6 490.4,44.2 512.0,40.0 533.6,35.9 555.2,31.9 576.8,28.1 598.4,24.4 620.0,20.8" style="fill:none;stroke-width:2.5"/>
+<line class="sLw" x1="80" y1="90" x2="640" y2="90" stroke-dasharray="5 4"/><text class="sWt" x="636" y="84" text-anchor="end">target margin 25%</text>
+<line class="sLr" x1="296" y1="90" x2="296" y2="190" stroke-dasharray="3 3"/><text class="sRt" x="302" y="178">price = 200</text>
+<text class="sM" x="360" y="22" text-anchor="middle">Goal Seek: set cell margin to 25% by changing cell price (cost 150)</text>
+<text class="sS" x="360" y="228" text-anchor="middle">margin = (price − cost) / price; Excel iterates the price until the target is met</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.600;1" path="M80.0 165.0 L101.6 155.9 L123.2 147.1 L144.8 138.8 L166.4 130.9 L188.0 123.3 L209.6 116.1 L231.2 109.1 L252.8 102.5 L274.4 96.1 L296.0 90.0"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.600;0.602;1"/></circle>
+</svg><figcaption>Goal Seek solves one input for one target; a Data Table shows the whole curve, and Solver handles several inputs with constraints.</figcaption></figure>
+
 ## DA2.10 Automation 🟡
 
 - **Macros / VBA:** record repetitive steps, then edit the code (loops over sheets, formatting, exporting PDFs). Many Egyptian finance and operations teams still run on VBA.

@@ -361,6 +361,21 @@ public class CachedRatesProvider(IRatesProvider inner, IMemoryCache cache) : IRa
 - **CQRS:** separate commands (writes) from queries (reads), possibly with different models ([[B9]]).
 - **Outbox:** save business data and outgoing messages in one transaction, publish later ([[B8]]).
 
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: the Result pattern: the endpoint calls CreateInvoice, which returns a Result; a success maps to 201 Created with a Location header and a failure with its list of errors maps to a 400 ProblemDetails response, without throwing an exception">
+<rect class="sB" x="14" y="80" width="140" height="56" rx="8"/><text class="sT" x="84" y="106" text-anchor="middle">endpoint</text><text class="sC" x="84" y="122" text-anchor="middle">POST /invoices</text>
+<rect class="sV" x="210" y="80" width="170" height="56" rx="8"/><text class="sT" x="295" y="106" text-anchor="middle">CreateInvoice</text><text class="sC" x="295" y="122" text-anchor="middle">returns Result&lt;Invoice&gt;</text>
+<rect class="sG" x="450" y="20" width="256" height="50" rx="8"/><text class="sT" x="578" y="43" text-anchor="middle">Success(invoice)</text><text class="sC" x="578" y="59" text-anchor="middle">201 Created + Location</text>
+<rect class="sR" x="450" y="140" width="256" height="50" rx="8"/><text class="sT" x="578" y="163" text-anchor="middle">Failure(errors)</text><text class="sC" x="578" y="179" text-anchor="middle">400 ProblemDetails, no exception</text>
+<line class="sLm" x1="154" y1="108" x2="208" y2="108" marker-end="url(#ahm)"/>
+<line class="sLg" x1="380" y1="98" x2="448" y2="46" marker-end="url(#ahg)"/>
+<line class="sLr" x1="380" y1="118" x2="448" y2="164" marker-end="url(#ahr)"/>
+<text class="sS" x="360" y="220" text-anchor="middle">expected failures (validation, a duplicate number) are values; exceptions stay for the unexpected</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M154 108 L208 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.280;1" path="M380 98 L448 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.280;0.282;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.480;0.580;1" path="M154 108 L208 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.478;0.482;0.580;0.582;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.640;0.760;1" path="M380 118 L448 164"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.638;0.642;0.760;0.762;1"/></circle>
+</svg><figcaption>Control flow stays visible in the signature: a caller cannot forget that creation can fail.</figcaption></figure>
+
 ## B2.7 Code smells and refactoring 🟡
 
 | Smell | Symptom | Typical refactoring |
