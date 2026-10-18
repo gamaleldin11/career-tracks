@@ -91,7 +91,7 @@ Three facts about the network shape every design:
 - **The network fails.** Packets drop, connections time out, a service is reachable from one place and not another. Designs that assume it never fails break in production (the "fallacies of distributed computing", collected at Sun Microsystems in the 1990s, start with "the network is reliable").
 - **The client is not under your control.** Old phones, flaky mobile data and users who double-click the Pay button are normal. Validate on the server, make operations safe to retry ([[SD4.3]]), and never trust the client with secrets.
 
-<figure class="dia"><svg viewBox="0 0 720 268" role="img" aria-label="Latency numbers on a logarithmic scale from a nanosecond cache hit to a 170 millisecond intercontinental round trip">
+<figure class="dia anim"><svg viewBox="0 0 720 268" role="img" aria-label="Animation: latency numbers on a logarithmic scale from a nanosecond cache hit to a 170 millisecond intercontinental round trip">
 <text class="sS" x="240" y="45" text-anchor="end">L1 cache reference</text>
 <rect class="sG" x="250" y="32" width="11.9318" height="18" rx="3"/>
 <text class="sM" x="269.932" y="45">~1 ns</text>
@@ -117,12 +117,19 @@ Three facts about the network shape every design:
 <line class="sD" x1="381.2" y1="24" x2="381.2" y2="244" opacity=".6"/><text class="sC" x="381.25" y="258" text-anchor="middle">1 µs</text>
 <line class="sD" x1="500.6" y1="24" x2="500.6" y2="244" opacity=".6"/><text class="sC" x="500.568" y="258" text-anchor="middle">1 ms</text>
 <text class="sC" x="20" y="16">log scale: each gridline is 1,000× the previous one</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.052;1" path="M250 41 L262 41"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.052;0.054;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.140;0.189;1" path="M250 71 L342 71"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.138;0.142;0.189;0.191;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.331;1" path="M250 101 L449 101"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.331;0.333;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.459;1" path="M250 131 L489 131"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.459;0.461;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.587;1" path="M250 161 L528 161"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.587;0.589;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.717;1" path="M250 191 L573 191"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.717;0.719;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.740;0.840;1" path="M250 221 L589 221"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.738;0.742;0.840;0.842;1"/></circle>
 </svg><figcaption>Orders of magnitude worth remembering. Memory is about a million times faster than a trip across the Mediterranean, which is why chatty designs and remote calls in loops hurt.</figcaption></figure>
 
 > [!term] Latency
 > How long one operation takes, from request to response; usually reported as percentiles (**p50**, **p95**, **p99**), because the average hides the slow requests users actually notice.
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Histogram of request latencies with a long right tail and markers at p50, p95 and p99">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: histogram of request latencies with a long right tail and markers at p50, p95 and p99">
 <rect class="sA" x="40" y="190" width="14" height="0" rx="1"/>
 <rect class="sA" x="56" y="188.614" width="14" height="1.38632" rx="1"/>
 <rect class="sA" x="72" y="174.473" width="14" height="15.5268" rx="1"/>
@@ -176,6 +183,9 @@ Three facts about the network shape every design:
 <text class="sC" x="360" y="210" text-anchor="middle">200</text>
 <text class="sC" x="520" y="210" text-anchor="middle">300</text>
 <text class="sS" x="360" y="236" text-anchor="middle">Half the requests beat p50; one in a hundred is slower than p99. The mean hides that tail.</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M40 190 L166 190"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.500;1" path="M166 190 L300 190"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.500;0.502;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.720;1" path="M300 190 L411 190"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.720;0.722;1"/></circle>
 </svg><figcaption>Latency percentiles. A user who loads a page making 20 API calls is likely to hit at least one request slower than the p95.</figcaption></figure>
 
 > [!term] Throughput

@@ -696,7 +696,7 @@ SELECT category, name, units FROM sales WHERE rk <= 3 ORDER BY category, rk;
 
 A window function can sit over an aggregate in the same SELECT because windows run after GROUP BY.
 
-<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Top two products per category: DENSE_RANK restarts within phones and routers; two phones tie at rank 2, so three phones and two routers are kept">
+<figure class="dia anim"><svg viewBox="0 0 720 272" role="img" aria-label="Animation: top two products per category: DENSE_RANK restarts within phones and routers; two phones tie at rank 2, so three phones and two routers are kept">
 <text class="sM" x="14" y="36">PARTITION BY category = phones</text>
 <rect class="sG" x="40" y="44" width="420" height="22" rx="3"/><text class="sC" x="52" y="59">Galaxy A15</text><text class="sC" x="330" y="59" text-anchor="end">410 units</text><text class="sT" x="400" y="59" text-anchor="middle">rk 1</text>
 <text class="sGt" x="476" y="59">kept (rk &lt;= 2)</text>
@@ -714,6 +714,8 @@ A window function can sit over an aggregate in the same SELECT because windows r
 <rect class="sN" x="40" y="220" width="420" height="22" rx="3" opacity=".5"/><text class="sC" x="52" y="235">ZTE MF286</text><text class="sC" x="330" y="235" text-anchor="end">90 units</text><text class="sT" x="400" y="235" text-anchor="middle">rk 3</text>
 <text class="sS" x="476" y="235">filtered out</text>
 <text class="sS" x="360" y="260" text-anchor="middle">the ranking restarts in every partition; with a tie at rank 2, "top 2 per group" returns three phones</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M32 48 L32 136"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M32 176 L32 240"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
 </svg><figcaption>Top-N per group: rank inside each partition, then filter in an outer query. Decide up front whether ties should widen the result.</figcaption></figure>
 
 **4. Customers who ordered in consecutive months**, or more generally **gaps and islands**. Subtracting a row number from a date gives a constant for each unbroken run:

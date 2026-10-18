@@ -56,7 +56,7 @@ These three are variations of one idea:
 > [!term] The dependency rule
 > Source-code dependencies point **inwards**, toward the business core. The **domain** (entities, rules) depends on nothing; the **application** layer (use cases) depends on the domain; **infrastructure** (EF Core, email, payment providers) and the **API** depend on the inner layers, implementing interfaces the inner layers define. The database and the web framework become replaceable details.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Clean architecture rings: domain, application, infrastructure and API with dependencies pointing inward">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: clean architecture rings: domain, application, infrastructure and API with dependencies pointing inward">
 <circle class="sB" cx="210" cy="120" r="110"/><circle class="sW" cx="210" cy="120" r="80"/><circle class="sA" cx="210" cy="120" r="50"/><circle class="sG" cx="210" cy="120" r="24"/>
 <text class="sT" x="210" y="124" text-anchor="middle">Domain</text>
 <text class="sS" x="210" y="86" text-anchor="middle">Application</text>
@@ -66,6 +66,9 @@ These three are variations of one idea:
 <text class="sT" x="380" y="100">FinSight.Application</text><text class="sS" x="380" y="118">use cases, DTOs, interfaces: IForecastModel, IEmailSender</text>
 <text class="sT" x="380" y="150">FinSight.Infrastructure</text><text class="sS" x="380" y="168">EF Core DbContext, TimeGPT client, SMTP, Hangfire</text>
 <text class="sT" x="380" y="200">FinSight.Api</text><text class="sS" x="380" y="218">endpoints, auth, DI composition root</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M284.235 194.235 L229.796 139.796"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.550;1" path="M135.765 194.235 L190.204 139.796"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.550;0.552;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.700;1" path="M210 225 L210 148"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.700;0.702;1"/></circle>
 </svg><figcaption>Clean Architecture as four projects. Arrows of dependency point inward; the API project wires implementations to interfaces at start-up (the composition root).</figcaption></figure>
 
 | Variant | Emphasis |
@@ -223,7 +226,7 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 | Operational cost | Low | Low | **High**: deployment, monitoring, tracing, networking, versioning |
 | Team fit | Small team | Small to medium teams | Many teams needing to deploy independently |
 
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Three architectures side by side: a monolith with all features mixed in one deployable and one database; a modular monolith with orders, billing, catalogue and users as enforced modules in one deployable, each owning its schema in one database; and microservices, where each of the four is a separately deployed service with its own database, talking over the network">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: three architectures side by side: a monolith with all features mixed in one deployable and one database; a modular monolith with orders, billing, catalogue and users as enforced modules in one deployable, each owning its schema in one database; and microservices, where each of the four is a separately deployed service with its own database, talking over the network">
 <text class="sM" x="120" y="22" text-anchor="middle">Monolith</text>
 <text class="sM" x="360" y="22" text-anchor="middle">Modular monolith</text>
 <text class="sM" x="600" y="22" text-anchor="middle">Microservices</text>
@@ -241,6 +244,12 @@ DDD is a way to tackle **complex business domains** by modelling software closel
 <rect class="sV" x="604" y="124" width="92" height="36" rx="6"/><text class="sT" x="650" y="147" text-anchor="middle">users</text><rect class="sN" x="620" y="168" width="60" height="22" rx="4"/><text class="sC" x="650" y="183" text-anchor="middle">own DB</text>
 <line class="sLm" x1="592" y1="58" x2="604" y2="58"/><line class="sLm" x1="592" y1="142" x2="604" y2="142"/><line class="sLm" x1="546" y1="76" x2="546" y2="124" stroke-dasharray="3 3"/><line class="sLm" x1="650" y1="76" x2="650" y2="124" stroke-dasharray="3 3"/>
 <text class="sS" x="120" y="226" text-anchor="middle">one deploy, blurry boundaries</text><text class="sGt" x="360" y="226" text-anchor="middle">one deploy, enforced boundaries</text><text class="sS" x="600" y="226" text-anchor="middle">many deploys, network between</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M80 60 L160 120 L90 130 L150 70"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.450;1" path="M354 67 L366 67"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.450;0.452;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.450;1" path="M308 88 L308 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.450;0.452;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M592 58 L604 58"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M546 76 L546 124"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M650 76 L650 124"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
 </svg><figcaption>The modular monolith keeps the boundaries of microservices without the network: the usual recommendation until independent team deployments are the real bottleneck.</figcaption></figure>
 
 **Why microservices:** independent deployment and scaling per service, fault isolation, freedom of technology per service, and **team autonomy**, often the real driver (Conway's law: system structure mirrors the organisation's communication structure).
