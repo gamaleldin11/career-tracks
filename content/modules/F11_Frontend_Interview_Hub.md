@@ -82,7 +82,7 @@ This is the module to live in during the final week before a frontend interview.
 | Nested file tree | Recursion, expand and collapse state |
 | Kanban board | Lists of lists, moving items, a non-drag alternative |
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Typeahead component: its state, an input with the combobox role, and a listbox of options with the active one marked">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: typeahead component: its state, an input with the combobox role, and a listbox of options with the active one marked">
 <rect class="sA" x="20" y="20" width="300" height="200" rx="12"/><text class="sT" x="170" y="42" text-anchor="middle">Typeahead</text>
 <text class="sC" x="36" y="66" xml:space="preserve" style="white-space:pre">query: string</text>
 <text class="sC" x="36" y="86" xml:space="preserve" style="white-space:pre">items: Item[]</text>
@@ -97,6 +97,9 @@ This is the module to live in during the final week before a frontend interview.
 <rect class="sN" x="400" y="186" width="280" height="22" rx="4"/><text class="sC" x="540" y="201" text-anchor="middle">&lt;li role="option"&gt;</text>
 <line class="sL" x1="320" y1="50" x2="376" y2="50" marker-end="url(#ah)"/><line class="sL" x1="320" y1="140" x2="376" y2="140" marker-end="url(#ah)"/>
 <text class="sS" x="360" y="238" text-anchor="middle">typing → debounce → abort the previous request → fetch → items; ↑ ↓ move active, Enter picks, Esc closes</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.120;1" path="M320 50 L376 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.240;1" path="M320 140 L376 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.240;0.242;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.750;1" path="M394 141 L394 169 L394 197"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.750;0.752;1"/></circle>
 </svg><figcaption>The typeahead as a sketch you would draw in the first three minutes: one owner of state, and the ARIA combobox pattern for the markup.</figcaption></figure>
 
 ### Worked example: an accessible typeahead in React ⭐
@@ -204,7 +207,7 @@ Mid-level frontend interviews increasingly include "design the frontend of X". U
 | **I**nterface (API) | Endpoints or messages between client and server: pagination, real-time events, error shapes | ~15% |
 | **O**ptimisations | Performance, accessibility, security, i18n, observability, testing: the deep dives | ~40% |
 
-<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time split across the RADIO framework: requirements, architecture, data model, interface, optimisations">
+<figure class="dia anim"><svg viewBox="0 0 720 118" role="img" aria-label="Animation: time split across the RADIO framework: requirements, architecture, data model, interface, optimisations">
 <text class="sT" x="20" y="22">RADIO in a 45-minute round</text>
 <rect class="sA" x="20" y="34" width="103.778" height="40" rx="4"/><text class="sT" x="72.8889" y="59" text-anchor="middle">7′</text>
 <text class="sS" x="72.8889" y="94" text-anchor="middle">Requirements</text>
@@ -216,6 +219,7 @@ Mid-level frontend interviews increasingly include "design the frontend of X". U
 <text class="sS" x="375.111" y="110" text-anchor="middle">Interface</text>
 <rect class="sG" x="428" y="34" width="270" height="40" rx="4"/><text class="sT" x="564" y="59" text-anchor="middle">18′</text>
 <text class="sS" x="564" y="94" text-anchor="middle">Optimisations</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M20 78 L698 78"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>The deep dives (optimisations) are where mid-level candidates are separated, so protect their time.</figcaption></figure>
 
 ### Worked example: "Design FinSight's dashboard" ⭐

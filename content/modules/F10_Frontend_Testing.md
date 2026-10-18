@@ -57,7 +57,7 @@ An automated **test** is code that runs your code with known inputs and checks t
 > [!term] Testing pyramid vs testing trophy
 > The **pyramid** says: many unit tests, fewer integration tests, very few E2E tests, because higher tests are slower and more brittle. The **trophy** (Kent C. Dodds) argues that for UI code the bulk should be **integration/component tests**, on top of static checks, because they give the most confidence per minute. Both agree: a few E2E tests for the critical journeys, not hundreds.
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="The testing pyramid with many unit tests and few end-to-end tests, and the testing trophy with most effort in integration tests on top of static checks">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: the testing pyramid with many unit tests and few end-to-end tests, and the testing trophy with most effort in integration tests on top of static checks">
 <text class="sT" x="180" y="20" text-anchor="middle">Testing pyramid</text><text class="sT" x="540" y="20" text-anchor="middle">Testing trophy (for UI code)</text>
 <rect class="sR" x="105" y="34" width="150" height="46" rx="6"/><text class="sT" x="180" y="62" text-anchor="middle">E2E</text>
 <rect class="sW" x="65" y="86" width="230" height="46" rx="6"/><text class="sT" x="180" y="114" text-anchor="middle">integration</text>
@@ -67,6 +67,8 @@ An automated **test** is code that runs your code with known inputs and checks t
 <rect class="sG" x="465" y="140" width="150" height="36" rx="6"/><text class="sT" x="540" y="163" text-anchor="middle">unit</text>
 <rect class="sB" x="430" y="180" width="220" height="34" rx="6"/><text class="sT" x="540" y="202" text-anchor="middle">static: types + lint</text>
 <text class="sC" x="180" y="206" text-anchor="middle">many small fast tests at the base</text><text class="sC" x="540" y="228" text-anchor="middle">most effort where confidence per minute is highest</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.350;1" path="M112 40 L112 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.350;0.352;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M405 84 L405 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
 </svg><figcaption>Two shapes, one agreement: few end-to-end tests, and plenty of fast tests below them. The trophy just moves the bulk up one level for UI code.</figcaption></figure>
 
 > [!say]
@@ -128,7 +130,7 @@ vi.useFakeTimers(); vi.advanceTimersByTime(300);         // control debounce tim
 
 **What to mock:** the **edges** you don't control (the network, time, randomness, browser APIs like `localStorage`, third-party SDKs). **What not to mock:** your own child components and internal modules, in most cases. Mocking them makes tests pass while the real integration is broken.
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="The component under test surrounded by test doubles: a stub API, a spy for analytics, a fake store and a fake clock">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: the component under test surrounded by test doubles: a stub API, a spy for analytics, a fake store and a fake clock">
 <rect class="sA" x="270" y="80" width="180" height="60" rx="8"/><text class="sT" x="360" y="108" text-anchor="middle">InvoicesPage</text><text class="sC" x="360" y="124" text-anchor="middle">the code under test</text>
 <rect class="sG" x="20" y="20" width="190" height="50" rx="8"/><text class="sT" x="115" y="43" text-anchor="middle">stub: api.getInvoices</text><text class="sC" x="115" y="59" text-anchor="middle">returns canned rows</text>
 <rect class="sV" x="510" y="20" width="190" height="50" rx="8"/><text class="sT" x="605" y="43" text-anchor="middle">spy: analytics.track</text><text class="sC" x="605" y="59" text-anchor="middle">records its calls</text>
@@ -136,6 +138,10 @@ vi.useFakeTimers(); vi.advanceTimersByTime(300);         // control debounce tim
 <rect class="sB" x="510" y="160" width="190" height="50" rx="8"/><text class="sT" x="605" y="183" text-anchor="middle">fake clock</text><text class="sC" x="605" y="199" text-anchor="middle">vi.useFakeTimers()</text>
 <line class="sLm" x1="270" y1="100" x2="212" y2="50" marker-end="url(#ahm)"/><line class="sLm" x1="450" y1="100" x2="508" y2="50" marker-end="url(#ahm)"/><line class="sLm" x1="270" y1="122" x2="212" y2="180" marker-end="url(#ahm)"/><line class="sLm" x1="450" y1="122" x2="508" y2="180" marker-end="url(#ahm)"/>
 <text class="sS" x="360" y="232" text-anchor="middle">replace what you don't control (network, time, third parties); keep your own components real</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M270 100 L212 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.370;1" path="M450 100 L508 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.370;0.372;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.470;0.590;1" path="M270 122 L212 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.468;0.472;0.590;0.592;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.690;0.810;1" path="M450 122 L508 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.688;0.692;0.810;0.812;1"/></circle>
 </svg><figcaption>Test doubles stand in for the edges. Mock your own child components and you test a world that doesn't exist.</figcaption></figure>
 
 ## F10.4 Component tests with Testing Library 🟢 ⭐
