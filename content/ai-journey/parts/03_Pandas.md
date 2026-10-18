@@ -338,6 +338,42 @@ Exactly the NumPy mechanism from §2.7, now with labels. Same two rules:
 
 **SQL mapping:** `df[df.country == 'Germany']` is `SELECT * FROM df WHERE country = 'Germany'`. `.isin(['Germany','France'])` is `IN (...)`.
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: boolean masking in pandas: two conditions, Bundle equals Video and monthly usage of at least 8,000 megabytes, each give a True or False Series; combined with an ampersand they are True for two of five rows, and the filtered frame keeps exactly those rows">
+<text class="sC" x="14" y="22" xml:space="preserve" style="white-space:pre">df[(df['Bundle'] == 'Video') &amp; (df['Monthly_Usage_MB'] &gt;= 8000)]</text>
+<text class="sT" x="90" y="48" text-anchor="middle">Bundle</text>
+<text class="sT" x="210" y="48" text-anchor="middle">Usage_MB</text>
+<text class="sC" x="330" y="48" text-anchor="middle">== Video</text>
+<text class="sC" x="420" y="48" text-anchor="middle">&gt;= 8000</text>
+<text class="sC" x="510" y="48" text-anchor="middle">&amp;</text>
+<rect class="sN" x="40" y="56" width="100" height="26" rx="3"/><text class="sC" x="90" y="74" text-anchor="middle">Video</text><rect class="sN" x="150" y="56" width="120" height="26" rx="3"/><text class="sC" x="210" y="74" text-anchor="middle">9,200</text>
+<rect class="sG" x="298" y="56" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="330" y="74" text-anchor="middle">True</text>
+<rect class="sG" x="388" y="56" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="420" y="74" text-anchor="middle">True</text>
+<rect class="sG" x="478" y="56" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="510" y="74" text-anchor="middle">True</text>
+<rect class="sN" x="40" y="86" width="100" height="26" rx="3"/><text class="sC" x="90" y="104" text-anchor="middle">Social</text><rect class="sN" x="150" y="86" width="120" height="26" rx="3"/><text class="sC" x="210" y="104" text-anchor="middle">3,100</text>
+<rect class="sR" x="298" y="86" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="330" y="104" text-anchor="middle">False</text>
+<rect class="sR" x="388" y="86" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="420" y="104" text-anchor="middle">False</text>
+<rect class="sR" x="478" y="86" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="510" y="104" text-anchor="middle">False</text>
+<rect class="sN" x="40" y="116" width="100" height="26" rx="3"/><text class="sC" x="90" y="134" text-anchor="middle">Video</text><rect class="sN" x="150" y="116" width="120" height="26" rx="3"/><text class="sC" x="210" y="134" text-anchor="middle">6,400</text>
+<rect class="sG" x="298" y="116" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="330" y="134" text-anchor="middle">True</text>
+<rect class="sR" x="388" y="116" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="420" y="134" text-anchor="middle">False</text>
+<rect class="sR" x="478" y="116" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="510" y="134" text-anchor="middle">False</text>
+<rect class="sN" x="40" y="146" width="100" height="26" rx="3"/><text class="sC" x="90" y="164" text-anchor="middle">Gaming</text><rect class="sN" x="150" y="146" width="120" height="26" rx="3"/><text class="sC" x="210" y="164" text-anchor="middle">12,800</text>
+<rect class="sR" x="298" y="146" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="330" y="164" text-anchor="middle">False</text>
+<rect class="sG" x="388" y="146" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="420" y="164" text-anchor="middle">True</text>
+<rect class="sR" x="478" y="146" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="510" y="164" text-anchor="middle">False</text>
+<rect class="sN" x="40" y="176" width="100" height="26" rx="3"/><text class="sC" x="90" y="194" text-anchor="middle">Video</text><rect class="sN" x="150" y="176" width="120" height="26" rx="3"/><text class="sC" x="210" y="194" text-anchor="middle">15,100</text>
+<rect class="sG" x="298" y="176" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="330" y="194" text-anchor="middle">True</text>
+<rect class="sG" x="388" y="176" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="420" y="194" text-anchor="middle">True</text>
+<rect class="sG" x="478" y="176" width="64" height="26" rx="3" opacity=".7"/><text class="sC" x="510" y="194" text-anchor="middle">True</text>
+<rect class="sG" x="580" y="86" width="126" height="26" rx="3"/><text class="sC" x="643" y="104" text-anchor="middle">Video  9,200</text>
+<rect class="sG" x="580" y="116" width="126" height="26" rx="3"/><text class="sC" x="643" y="134" text-anchor="middle">Video  15,100</text>
+<text class="sT" x="643" y="72" text-anchor="middle">kept rows</text>
+<text class="sS" x="360" y="222" text-anchor="middle">each condition is a True/False Series; &amp; combines them row by row; the frame keeps the True rows</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M298 210 L542 210"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M542 69 L578 99"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.820;1" path="M542 189 L578 129"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.820;0.822;1"/></circle>
+</svg><figcaption>Parenthesise every condition: <code>&amp;</code> binds tighter than <code>&gt;=</code>.</figcaption></figure>
+
 ---
 
 ## 3.5 The inspection toolkit 🟢

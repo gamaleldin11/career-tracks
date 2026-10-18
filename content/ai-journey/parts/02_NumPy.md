@@ -192,6 +192,31 @@ Four attributes worth committing to muscle memory, because 90% of NumPy errors a
 
 `nbytes` is your tool for the memory question that will eventually matter: `arr.nbytes / 1024**3` gives gigabytes.
 
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: NumPy array anatomy: a 2 by 3 int16 array shows as a grid but is stored as six 2-byte values side by side in memory; strides of 6 and 2 bytes say how far to jump for the next row and the next column; ndim 2, size 6, nbytes 12">
+<text class="sC" x="14" y="22" xml:space="preserve" style="white-space:pre">a = np.array([[7, 3, 9], [4, 1, 6]], dtype='int16')</text>
+<text class="sT" x="150" y="50" text-anchor="middle">what you see: shape (2, 3)</text>
+<rect class="sB" x="60" y="60" width="56" height="40" rx="4"/><text class="sT" x="88" y="85" text-anchor="middle">7</text>
+<rect class="sB" x="120" y="60" width="56" height="40" rx="4"/><text class="sT" x="148" y="85" text-anchor="middle">3</text>
+<rect class="sB" x="180" y="60" width="56" height="40" rx="4"/><text class="sT" x="208" y="85" text-anchor="middle">9</text>
+<rect class="sB" x="60" y="104" width="56" height="40" rx="4"/><text class="sT" x="88" y="129" text-anchor="middle">4</text>
+<rect class="sB" x="120" y="104" width="56" height="40" rx="4"/><text class="sT" x="148" y="129" text-anchor="middle">1</text>
+<rect class="sB" x="180" y="104" width="56" height="40" rx="4"/><text class="sT" x="208" y="129" text-anchor="middle">6</text>
+<text class="sT" x="470" y="50" text-anchor="middle">what is in memory: 6 × 2 bytes, side by side</text>
+<rect class="sG" x="300" y="70" width="62" height="36" rx="3"/><text class="sT" x="331" y="93" text-anchor="middle">7</text><text class="sC" x="331" y="122" text-anchor="middle">+0 B</text>
+<rect class="sG" x="366" y="70" width="62" height="36" rx="3"/><text class="sT" x="397" y="93" text-anchor="middle">3</text><text class="sC" x="397" y="122" text-anchor="middle">+2 B</text>
+<rect class="sG" x="432" y="70" width="62" height="36" rx="3"/><text class="sT" x="463" y="93" text-anchor="middle">9</text><text class="sC" x="463" y="122" text-anchor="middle">+4 B</text>
+<rect class="sA" x="498" y="70" width="62" height="36" rx="3"/><text class="sT" x="529" y="93" text-anchor="middle">4</text><text class="sC" x="529" y="122" text-anchor="middle">+6 B</text>
+<rect class="sA" x="564" y="70" width="62" height="36" rx="3"/><text class="sT" x="595" y="93" text-anchor="middle">1</text><text class="sC" x="595" y="122" text-anchor="middle">+8 B</text>
+<rect class="sA" x="630" y="70" width="62" height="36" rx="3"/><text class="sT" x="661" y="93" text-anchor="middle">6</text><text class="sC" x="661" y="122" text-anchor="middle">+10 B</text>
+<text class="sS" x="470" y="150" text-anchor="middle">strides (6, 2): 6 bytes to the next row, 2 to the next column</text>
+<text class="sC" x="300" y="180" xml:space="preserve" style="white-space:pre">ndim 2   size 6   dtype int16   nbytes 12</text>
+<text class="sS" x="360" y="214" text-anchor="middle">reshape and transpose usually just change shape and strides; no data is copied</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M88 80 L148 80 L208 80"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M331 88 L463 88"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.650;1" path="M88 124 L148 124 L208 124"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.650;0.652;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.650;1" path="M529 88 L661 88"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.650;0.652;1"/></circle>
+</svg><figcaption>One dtype for every element is what allows the contiguous block, and the block is what makes vectorised operations fast.</figcaption></figure>
+
 ---
 
 ## 2.4 Indexing and slicing 🟢 ⭐

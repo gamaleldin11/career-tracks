@@ -1707,6 +1707,24 @@ A churn model outputs probabilities for 1,000,000 post-paid subscribers. The ret
 
 Being able to produce this kind of calculation in an interview is what moves you from "knows sklearn" to "can be trusted with a business problem".
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: turning a churn model into money: calling the top 20,000 of 1,000,000 subscribers with the model reaches 5,000 churners, worth 2.25 million pounds in saved value against 1 million in offers, net plus 1.25 million a month; random targeting reaches 600 churners, worth 0.27 million against the same 1 million, net minus 0.73 million">
+<text class="sM" x="360" y="22" text-anchor="middle">top 20,000 of 1M called · offer EGP 50 · 30% saved · EGP 1,500 each</text>
+<line class="sLm" x1="360" y1="40" x2="360" y2="190"/>
+<text class="sT" x="14" y="56">model, precision@20k 25%</text><text class="sC" x="14" y="72">5,000 churners reached</text>
+<rect class="sG" x="360" y="80" width="225" height="14" rx="3" opacity=".8"/><text class="sC" x="591" y="91">+2.25M</text>
+<rect class="sW" x="260" y="96" width="100" height="14" rx="3" opacity=".8"/><text class="sC" x="254" y="107" text-anchor="end">−1.00M offers</text>
+<text class="sGt" x="706" y="72" text-anchor="end">+EGP 1.25M / month</text>
+<text class="sT" x="14" y="126">random, base churn 3%</text><text class="sC" x="14" y="142">600 churners reached</text>
+<rect class="sG" x="360" y="150" width="27" height="14" rx="3" opacity=".8"/><text class="sC" x="393" y="161">+0.27M</text>
+<rect class="sW" x="260" y="166" width="100" height="14" rx="3" opacity=".8"/><text class="sC" x="254" y="177" text-anchor="end">−1.00M offers</text>
+<text class="sRt" x="706" y="142" text-anchor="end">−EGP 0.73M / month</text>
+<text class="sS" x="360" y="210" text-anchor="middle">the model is worth the difference, about EGP 2M a month, not its AUC</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M360.0 87 L585.0 87"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.320;0.500;1" path="M360.0 103 L260.0 103"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.318;0.322;0.500;0.502;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M360.0 157 L387.0 157"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.900;1" path="M360.0 173 L260.0 173"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.900;0.902;1"/></circle>
+</svg><figcaption>The same arithmetic as the worked example: expected value = churners reached × save rate × customer value − contact cost.</figcaption></figure>
+
 ---
 
 ## 8.16 Support Vector Machines — what you need for interviews 🟡
