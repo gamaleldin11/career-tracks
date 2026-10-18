@@ -62,7 +62,7 @@ For churn-like problems, the strongest features usually describe **behaviour ove
 | **Tenure and lifecycle** | Days since sign-up; plan changes |
 | **Context** | Region, device, acquisition channel, plan type |
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="A subscriber's recharges over 90 days with 7, 30 and 90 day windows ending at the cut-off, and the recency, frequency, spend and trend features computed from them">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: a subscriber's recharges over 90 days with 7, 30 and 90 day windows ending at the cut-off, and the recency, frequency, spend and trend features computed from them">
 <line class="sLm" x1="46.8" y1="150" x2="480" y2="150" marker-end="url(#ahm)"/>
 <circle class="sP" cx="102" cy="150" r="5.0"/>
 <circle class="sP" cx="185" cy="150" r="5.0"/>
@@ -89,6 +89,9 @@ For churn-like problems, the strongest features usually describe **behaviour ove
 <text class="sC" x="522" y="142">trend: 260 ÷ 400 = 0.65</text>
 <text class="sGt" x="522" y="164">→ slowing down</text>
 <text class="sS" x="360" y="206" text-anchor="middle">dot size = recharge amount; each window ends exactly at the cut-off</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M56 115 L470 115"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.500;1" path="M332 85 L470 85"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.620;1" path="M437.8 55 L470 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.620;0.622;1"/></circle>
 </svg><figcaption>Several windows of the same behaviour, plus a ratio between them, capture "who is drifting away" better than any single total.</figcaption></figure>
 
 > [!say]

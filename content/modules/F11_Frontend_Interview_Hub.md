@@ -48,7 +48,7 @@ This is the module to live in during the final week before a frontend interview.
 5. **Refine:** accessibility attributes, small refactors, a test if time allows.
 6. **Summarise:** what works, what you'd do next, and trade-offs you made.
 
-<figure class="dia"><svg viewBox="0 0 720 118" role="img" aria-label="Time budget for a 60-minute machine-coding round">
+<figure class="dia anim"><svg viewBox="0 0 720 118" role="img" aria-label="Animation: time budget for a 60-minute machine-coding round">
 <text class="sT" x="20" y="22">A 60-minute machine-coding round</text>
 <rect class="sA" x="20" y="34" width="54.6667" height="40" rx="4"/><text class="sT" x="48.3333" y="59" text-anchor="middle">5′</text>
 <text class="sS" x="48.3333" y="94" text-anchor="middle">clarify</text>
@@ -62,6 +62,7 @@ This is the module to live in during the final week before a frontend interview.
 <text class="sS" x="620.667" y="94" text-anchor="middle">refine</text>
 <rect class="sB" x="654.667" y="34" width="43.3333" height="40" rx="4"/><text class="sT" x="677.333" y="59" text-anchor="middle">4′</text>
 <text class="sS" x="677.333" y="110" text-anchor="middle">wrap up</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M20 78 L698 78"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
 </svg><figcaption>Get something working by the half-way mark. A polished half-feature scores worse than a plain whole one.</figcaption></figure>
 
 **Practise these classics** (each in under 60 minutes, in both React and Angular if you can):

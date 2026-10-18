@@ -54,7 +54,7 @@ JOIN m prev ON prev.customer_id = cur.customer_id AND prev.month = cur.month - i
 GROUP BY cur.month ORDER BY cur.month;
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="Four customers' order months with arrows wherever a customer ordered in consecutive months; the retained count is 1 in February, 2 in March and 1 in April">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: four customers' order months with arrows wherever a customer ordered in consecutive months; the retained count is 1 in February, 2 in March and 1 in April">
 <text class="sT" x="200" y="24" text-anchor="middle">Jan</text>
 <text class="sT" x="310" y="24" text-anchor="middle">Feb</text>
 <text class="sT" x="420" y="24" text-anchor="middle">Mar</text>
@@ -83,6 +83,13 @@ GROUP BY cur.month ORDER BY cur.month;
 <rect class="sG" x="506" y="182" width="48" height="28" rx="6"/><text class="sT" x="530" y="201" text-anchor="middle">1</text>
 <text class="sC" x="620" y="70" text-anchor="middle">a green arrow =</text><text class="sC" x="620" y="88" text-anchor="middle">ordered last month</text><text class="sC" x="620" y="106" text-anchor="middle">and this month</text>
 <text class="sC" x="140" y="236" xml:space="preserve" style="white-space:pre">JOIN m prev ON prev.customer_id = cur.customer_id AND prev.month = cur.month - 1 month</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M208 46 L300 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.400;1" path="M318 46 L410 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.400;1" path="M318 80 L410 80"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M428 114 L520 114"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.270;1" path="M310 56 L310 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.270;0.272;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.520;1" path="M420 90 L420 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.520;0.522;1"/></circle>
+<circle class="sP" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.670;0.770;1" path="M530 124 L530 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.668;0.672;0.770;0.772;1"/></circle>
 </svg><figcaption>The self-join pairs each customer-month with the same customer's previous month. Count the pairs per month.</figcaption></figure>
 
 ## DA7.3 The Excel or Power BI task 🟢 ⭐

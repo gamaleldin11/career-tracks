@@ -192,7 +192,7 @@ Press **F4** to cycle through them.
 
 In Microsoft 365, a formula can return many values that **spill** into neighbouring cells. If something is in the way, you get `#SPILL!`.
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="A dynamic array formula spills a sorted list of regions down five cells; when a cell in that range is occupied, the formula shows #SPILL!">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: a dynamic array formula spills a sorted list of regions down five cells; when a cell in that range is occupied, the formula shows #SPILL!">
 <text class="sM" x="170" y="22" text-anchor="middle">=SORT(UNIQUE(Sales[Region]))</text>
 <rect class="sN" x="30" y="34" width="150" height="28" rx="0"/><rect class="sN" x="180" y="34" width="130" height="28" rx="0"/>
 <rect class="sN" x="30" y="62" width="150" height="28" rx="0"/><rect class="sN" x="180" y="62" width="130" height="28" rx="0"/>
@@ -221,6 +221,8 @@ In Microsoft 365, a formula can return many values that **spill** into neighbour
 <rect class="sN" x="390" y="34" width="150" height="140" rx="0" style="fill:none;stroke:var(--senior);stroke-width:2" stroke-dasharray="6 4"/>
 <text class="sRt" x="605" y="110" text-anchor="middle">clear it to spill</text>
 <text class="sS" x="360" y="210" text-anchor="middle">one formula, many results: the range grows and shrinks as the data changes</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M105 48 L105 160"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M465 48 L465 88"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
 </svg><figcaption>Dynamic arrays: write the formula once, in one cell. Refer to the whole result with <code>F2#</code>.</figcaption></figure>
 
 ```text
