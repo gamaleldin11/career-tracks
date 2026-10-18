@@ -62,7 +62,7 @@ File **formats** (CSV, Avro, Parquet) decide how bytes are laid out inside each 
 - **Encodings:** **dictionary encoding** (store each distinct city once, then small integer codes), run-length encoding, delta encoding; then **compression** with Snappy (fast) or **Zstandard** (better ratio, now a common default).
 - Parquet files are **immutable**: "updating" a row means writing new files, which is why table formats exist.
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Dictionary encoding stores each distinct city once and replaces values with small codes; run-length encoding then stores runs of repeated codes as value and count">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: dictionary encoding stores each distinct city once and replaces values with small codes; run-length encoding then stores runs of repeated codes as value and count">
 <text class="sM" x="80" y="22" text-anchor="middle">city column</text>
 <rect class="sB" x="30" y="30" width="100" height="20" rx="3"/><text class="sC" x="80" y="45" text-anchor="middle">Cairo</text>
 <rect class="sB" x="30" y="52" width="100" height="20" rx="3"/><text class="sC" x="80" y="67" text-anchor="middle">Cairo</text>
@@ -86,6 +86,9 @@ File **formats** (CSV, Avro, Parquet) decide how bytes are laid out inside each 
 <line class="sL" x1="490" y1="110" x2="536" y2="110" marker-end="url(#ah)"/>
 <text class="sM" x="620" y="22" text-anchor="middle">run-length</text><rect class="sG" x="560" y="30" width="120" height="22" rx="4"/><text class="sC" x="620" y="46" text-anchor="middle">0 × 3</text><rect class="sG" x="560" y="56" width="120" height="22" rx="4"/><text class="sC" x="620" y="72" text-anchor="middle">1 × 2</text><rect class="sG" x="560" y="82" width="120" height="22" rx="4"/><text class="sC" x="620" y="98" text-anchor="middle">2 × 1</text><rect class="sG" x="560" y="108" width="120" height="22" rx="4"/><text class="sC" x="620" y="124" text-anchor="middle">0 × 2</text>
 <text class="sS" x="360" y="226" text-anchor="middle">then a general compressor (Snappy, Zstandard) squeezes what's left</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M140 110 L186 110"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPv" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.380;1" path="M320 41 L418 41"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.380;0.382;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.650;1" path="M490 110 L536 110"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.650;0.652;1"/></circle>
 </svg><figcaption>Why columnar files are small: a column of one type with repeated values encodes into almost nothing.</figcaption></figure>
 
 ## DE5.3 Table formats: Delta Lake and Apache Iceberg 🟡 ⭐

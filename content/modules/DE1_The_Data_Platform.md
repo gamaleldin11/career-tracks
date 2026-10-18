@@ -112,7 +112,7 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 > [!term] Columnar storage
 > Storing each column's values together rather than each row's. Analytical queries read only the few columns they need, values of one type compress very well (often 5–10×), and engines process them in vectorised batches. That's why `SELECT region, SUM(amount)` over a billion rows is fast in a warehouse and painful in an OLTP database.
 
-<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="An aggregate over two of eight columns, measured on two million orders: the CSV is 137 megabytes and takes about 1.8 seconds to aggregate, 0.7 seconds with usecols, while Parquet is 49 megabytes, the two needed columns are under 10 megabytes, and the aggregate takes about 0.15 seconds">
+<figure class="dia anim"><svg viewBox="0 0 720 272" role="img" aria-label="Animation: an aggregate over two of eight columns, measured on two million orders: the CSV is 137 megabytes and takes about 1.8 seconds to aggregate, 0.7 seconds with usecols, while Parquet is 49 megabytes, the two needed columns are under 10 megabytes, and the aggregate takes about 0.15 seconds">
 <text class="sT" x="18" y="24">SUM(amount) BY region over 2,000,000 orders (8 columns), measured</text>
 <text class="sS" x="18" y="50">bytes read</text>
 <text class="sS" x="210" y="72" text-anchor="end">CSV file (all of it is parsed)</text><rect class="sR" x="220" y="58" width="391.699" height="18" rx="3" opacity=".7"/><text class="sT" x="617.699" y="72">137.1 MB</text>
@@ -123,6 +123,12 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 <text class="sS" x="210" y="204" text-anchor="end">read_csv(usecols=2 columns)</text><rect class="sW" x="220" y="190" width="126.078" height="18" rx="3" opacity=".7"/><text class="sT" x="352.078" y="204">0.75 s</text>
 <text class="sS" x="210" y="230" text-anchor="end">read_parquet(columns=2)</text><rect class="sG" x="220" y="216" width="25.1485" height="18" rx="3" opacity=".7"/><text class="sT" x="251.148" y="230">0.15 s</text>
 <text class="sS" x="18" y="262">usecols still parses every CSV line; the region column compresses to 0.76 MB in Parquet</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M220 67 L612 67"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.174;1" path="M220 93 L359 93"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.174;0.176;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.075;1" path="M220 119 L248 119"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.075;0.077;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.765;1" path="M220 173 L516 173"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.765;0.767;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.613;1" path="M220 199 L346 199"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.613;0.615;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.522;1" path="M220 225 L245 225"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.522;0.524;1"/></circle>
 </svg><figcaption>Why analytical engines store columns: the same question over the same data, as a row-oriented CSV and a columnar Parquet file (pandas and pyarrow on this machine).</figcaption></figure>
 
 > [!say]
@@ -141,7 +147,7 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 > [!term] Open table format
 > A specification (Delta Lake, Apache Iceberg, Apache Hudi) that layers a **transaction log and metadata** over Parquet files in object storage, giving **ACID transactions**, schema evolution, **time travel** (query a table as of yesterday), efficient updates and deletes, and partition pruning. Several engines (Spark, Trino, Snowflake, Fabric, DuckDB) can read the same tables. Details are in [[DE5]].
 
-<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="The lakehouse stack: object storage at the bottom, Parquet files, an open table format adding a transaction log, and many query engines on top">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: the lakehouse stack: object storage at the bottom, Parquet files, an open table format adding a transaction log, and many query engines on top">
 <rect class="sA" x="14" y="20" width="692" height="46" rx="8"/><text class="sT" x="360" y="48" text-anchor="middle">engines: Spark · SQL warehouses · Trino · DuckDB · Power BI (Direct Lake)</text>
 <rect class="sV" x="14" y="78" width="692" height="62" rx="8"/><text class="sT" x="360" y="100" text-anchor="middle">open table format: Delta Lake · Apache Iceberg</text><text class="sC" x="360" y="120" text-anchor="middle">a transaction log over the files: ACID commits · schema enforcement · time travel</text>
 <rect class="sW" x="14" y="152" width="692" height="62" rx="8"/><text class="sT" x="360" y="174" text-anchor="middle">files: Parquet (columnar, compressed)</text>
@@ -155,6 +161,7 @@ In Egypt, data-engineering roles cluster in telecoms (huge event volumes: call r
 <rect class="sN" x="544" y="184" width="60" height="22" rx="3"/><text class="sC" x="574" y="199" text-anchor="middle">part-7</text>
 <rect class="sN" x="616" y="184" width="60" height="22" rx="3"/><text class="sC" x="646" y="199" text-anchor="middle">part-8</text>
 <rect class="sB" x="14" y="226" width="692" height="34" rx="8"/><text class="sT" x="360" y="248" text-anchor="middle">cheap object storage: ADLS Gen2 · S3 · OneLake</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.600;1" path="M700 43 L700 109 L700 183 L700 243"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.600;0.602;1"/></circle>
 </svg><figcaption>A lakehouse is files plus a log. The log is what turns "a folder of Parquet" into a table many engines can trust.</figcaption></figure>
 
 > [!say]

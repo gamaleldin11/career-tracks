@@ -315,13 +315,14 @@ def test_dedupe_keeps_latest_version():
 > [!story]
 > CS Visualizer's **golden and differential tests** in CI are exactly the discipline data teams want and rarely have. Saying "I'd test the pipeline the way I tested my interpreter: golden outputs on fixture data, checked in CI, so any change in results needs explicit approval" is a strong, differentiating answer.
 
-<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="A testing pyramid for data pipelines: many fast unit tests of pure functions with tiny DataFrames at the base, then contract and schema tests, integration tests with Testcontainers, end-to-end runs on sample data against a golden output, and at the top a few data tests running in production">
+<figure class="dia anim"><svg viewBox="0 0 720 216" role="img" aria-label="Animation: a testing pyramid for data pipelines: many fast unit tests of pure functions with tiny DataFrames at the base, then contract and schema tests, integration tests with Testcontainers, end-to-end runs on sample data against a golden output, and at the top a few data tests running in production">
 <rect class="sR" x="250" y="20" width="220" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="35" text-anchor="middle">data tests in production</text><text class="sC" x="360" y="48" text-anchor="middle">dbt, Great Expectations</text>
 <rect class="sW" x="220" y="58" width="280" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="73" text-anchor="middle">end-to-end on sample data</text><text class="sC" x="360" y="86" text-anchor="middle">golden output</text>
 <rect class="sV" x="190" y="96" width="340" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="111" text-anchor="middle">integration</text><text class="sC" x="360" y="124" text-anchor="middle">Testcontainers</text>
 <rect class="sA" x="160" y="134" width="400" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="149" text-anchor="middle">contract / schema</text><text class="sC" x="360" y="162" text-anchor="middle">pandera, Pydantic</text>
 <rect class="sG" x="130" y="172" width="460" height="32" rx="5" opacity=".85"/><text class="sT" x="360" y="187" text-anchor="middle">unit</text><text class="sC" x="360" y="200" text-anchor="middle">pure functions, tiny DataFrames</text>
 <text class="sS" x="14" y="40">few, slow,</text><text class="sS" x="14" y="56">on real data</text><text class="sS" x="14" y="186">many, fast,</text><text class="sS" x="14" y="202">every commit</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.700;1" path="M140 188 L170 150 L200 112 L230 74 L260 36"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.700;0.702;1"/></circle>
 </svg><figcaption>Code tests prove the pipeline does what you wrote; data tests prove the data is what you expected. You need both, because the data changes without a commit.</figcaption></figure>
 
 ## DE4.9 Concurrency and performance 🟡
