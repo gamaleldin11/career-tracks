@@ -138,7 +138,7 @@ A **factless fact table** records events or coverage with no measures, for examp
 > [!mistake] Summing balances over time
 > Adding up thirty daily account balances gives a meaningless number thirty times too large. Semi-additive measures need `AVERAGE` or "closing balance" (`LASTNONBLANK` in DAX) across time.
 
-<figure class="dia"><svg viewBox="0 0 720 182" role="img" aria-label="Five daily balances of one account; summing them across days gives a meaningless 3,800, while the closing balance or the average is correct">
+<figure class="dia anim"><svg viewBox="0 0 720 182" role="img" aria-label="Animation: five daily balances of one account; summing them across days gives a meaningless 3,800, while the closing balance or the average is correct">
 <rect class="sV" x="40" y="37.5" width="50" height="112.5" rx="3"/><text class="sC" x="65" y="31.5" text-anchor="middle">900</text><text class="sC" x="65" y="168" text-anchor="middle">day 1</text>
 <rect class="sV" x="110" y="37.5" width="50" height="112.5" rx="3"/><text class="sC" x="135" y="31.5" text-anchor="middle">900</text><text class="sC" x="135" y="168" text-anchor="middle">day 2</text>
 <rect class="sV" x="180" y="68.75" width="50" height="81.25" rx="3"/><text class="sC" x="205" y="62.75" text-anchor="middle">650</text><text class="sC" x="205" y="168" text-anchor="middle">day 3</text>
@@ -148,6 +148,8 @@ A **factless fact table** records events or coverage with no measures, for examp
 <rect class="sR" x="430" y="30" width="276" height="44" rx="8" opacity=".85"/><text class="sT" x="568" y="50" text-anchor="middle">SUM over days = 3,800</text><text class="sC" x="568" y="66" text-anchor="middle">a balance nobody ever had ✗</text>
 <rect class="sG" x="430" y="86" width="276" height="44" rx="8"/><text class="sT" x="568" y="106" text-anchor="middle">closing (last day) = 700 ✓</text><text class="sC" x="568" y="122" text-anchor="middle">or average over the period = 760</text>
 <text class="sC" x="568" y="156" text-anchor="middle">across accounts on one day, SUM is fine</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.400;1" path="M65 150 L135 150 L205 150 L275 150 L345 150 L430 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M345 62 L430 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
 </svg><figcaption>Semi-additive measures: add across accounts, never across time. Tell the BI layer which aggregation applies.</figcaption></figure>
 
 ## DE2.4 Designing dimensions 🟢 🟡 ⭐

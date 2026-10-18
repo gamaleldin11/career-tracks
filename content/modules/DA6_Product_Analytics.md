@@ -129,7 +129,7 @@ Product analytics runs on **events**: things users do, recorded with a timestamp
 | **Unbounded (on or after)** | Active **on or after** day N | Infrequent products (travel, insurance) |
 | **Bracket / rolling** | Active within a window (days 7–13, 14–20…) | Weekly-use products |
 
-<figure class="dia"><svg viewBox="0 0 720 208" role="img" aria-label="One user active on days 0, 3, 9, 16 and 24 judged by three retention definitions: not retained on exactly day 14, retained on or after day 14, retained in the day 14 to 20 bracket">
+<figure class="dia anim"><svg viewBox="0 0 720 208" role="img" aria-label="Animation: one user active on days 0, 3, 9, 16 and 24 judged by three retention definitions: not retained on exactly day 14, retained on or after day 14, retained in the day 14 to 20 bracket">
 <line class="sLm" x1="120" y1="40" x2="606" y2="40" marker-end="url(#ahm)"/>
 <circle class="sP" cx="120" cy="40" r="6"/>
 <circle class="sP" cx="168" cy="40" r="6"/>
@@ -149,6 +149,10 @@ Product analytics runs on **events**: things users do, recorded with a timestamp
 <text class="sT" x="110" y="163" text-anchor="end">bracket</text><rect class="sW" x="336" y="146" width="112" height="24" rx="4" opacity=".55"/><text class="sGt" x="454" y="163">✓ counted</text>
 <circle class="sPg" cx="376" cy="158" r="5"/>
 <text class="sS" x="360" y="196" text-anchor="middle">same user, same data: "retained at day 14?" depends entirely on the definition</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M120 40 L168 40 L264 40 L376 40 L504 40"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.500;1" path="M344 50 L344 82"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M344 82 L344 120"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.700;0.800;1" path="M344 120 L344 158"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.698;0.702;0.800;0.802;1"/></circle>
 </svg><figcaption>Pick the definition that matches how often people naturally use the product, then never change it silently.</figcaption></figure>
 
 Always define **active** (opened the app? placed an order?), the start event, and the time zone. Plot retention curves by cohort ([[DA3.4]]); a curve that flattens means a retained core.

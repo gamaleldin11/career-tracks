@@ -202,7 +202,7 @@ All modern platforms **separate storage from compute**: data sits in cheap durab
 
 **Deleting personal data** (a data-protection request) in a lakehouse: `DELETE` the rows, then **vacuum** or **expire snapshots** past the retention, or the data still exists in old files and versions.
 
-<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="Fifteen daily table versions; vacuum with a seven-day retention removes the files behind the first week, so time travel only reaches back seven days">
+<figure class="dia anim"><svg viewBox="0 0 720 172" role="img" aria-label="Animation: fifteen daily table versions; vacuum with a seven-day retention removes the files behind the first week, so time travel only reaches back seven days">
 <line class="sLm" x1="60" y1="100" x2="656" y2="100" marker-end="url(#ahm)"/>
 <circle class="sPr" cx="60" cy="100" r="7" opacity=".5"/>
 <text class="sC" x="60" y="126" text-anchor="middle">day 1</text>
@@ -231,6 +231,7 @@ All modern platforms **separate storage from compute**: data sits in cheap durab
 <rect class="sG" x="342" y="60" width="318" height="24" rx="6" opacity=".6"/><text class="sC" x="501" y="77" text-anchor="middle">retention: 7 days of versions</text>
 <text class="sM" x="360" y="30" text-anchor="middle">VACUUM with 7-day retention, run on day 15</text>
 <text class="sS" x="360" y="160" text-anchor="middle">deleting personal data also needs this step, or the old files still hold it</text>
+<circle class="sPr" r="9" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.500;1" path="M48 100 L324 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.500;0.502;1"/></circle>
 </svg><figcaption>Retention is a trade between storage cost, how far back you can roll back, and how quickly deleted data really disappears.</figcaption></figure>
 
 ## DE5.7 Choosing a platform 🟡

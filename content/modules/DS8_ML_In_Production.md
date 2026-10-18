@@ -62,7 +62,7 @@ New failure modes appear:
 | Pros | Simple, cheap, easy to monitor and rerun; heavy features are fine | Uses the freshest context |
 | Cons | Scores can be stale | Latency budget, availability, features must be computable fast online, more ops |
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Batch scoring runs a weekly job that scores every subscriber into a table for the CRM; real-time scoring answers each card payment through a fast API with online features">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: batch scoring runs a weekly job that scores every subscriber into a table for the CRM; real-time scoring answers each card payment through a fast API with online features">
 <text class="sM" x="14" y="30">batch</text>
 <rect class="sB" x="14" y="40" width="160" height="54" rx="8"/><text class="sT" x="94" y="65" text-anchor="middle">Sunday 01:00 job</text><text class="sC" x="94" y="81" text-anchor="middle">scheduled</text>
 <line class="sLm" x1="174" y1="67" x2="188" y2="67" marker-end="url(#ahm)"/>
@@ -80,6 +80,9 @@ New failure modes appear:
 <line class="sLm" x1="526" y1="167" x2="540" y2="167" marker-end="url(#ahm)"/>
 <rect class="sG" x="542" y="140" width="160" height="54" rx="8"/><text class="sT" x="622" y="165" text-anchor="middle">allow · OTP · block</text><text class="sC" x="622" y="181" text-anchor="middle">instant</text>
 <text class="sS" x="360" y="220" text-anchor="middle">choose by when the decision is made, not by which sounds more advanced</text>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M174 67 L540 67"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.120;1" path="M174 167 L540 167"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.120;0.122;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.470;1" path="M174 167 L540 167"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.470;0.472;1"/></circle>
 </svg><figcaption>Most business models are batch. Real time is for decisions that happen inside a user's click.</figcaption></figure>
 
 > [!say]

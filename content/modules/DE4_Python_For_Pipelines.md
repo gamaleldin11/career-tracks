@@ -201,7 +201,7 @@ subset = dataset.to_table(columns=["order_id", "amount"], filter=ds.field("order
 
 ## DE4.4 Choosing the processing engine 🟢 🟡 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="Processing tools by data size on a log scale from 1 MB to 10 TB: pandas up to a few GB, Polars and DuckDB to hundreds of GB on one machine, PySpark from tens of GB to terabytes, warehouse SQL across the range">
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: processing tools by data size on a log scale from 1 MB to 10 TB: pandas up to a few GB, Polars and DuckDB to hundreds of GB on one machine, PySpark from tens of GB to terabytes, warehouse SQL across the range">
 <line class="sLm" x1="60" y1="150" x2="670" y2="150" marker-end="url(#ahm)"/>
 <line class="sLm" x1="60" y1="146" x2="60" y2="154"/><text class="sC" x="60" y="170" text-anchor="middle">1 MB</text>
 <line class="sLm" x1="146" y1="146" x2="146" y2="154"/><text class="sC" x="146" y="170" text-anchor="middle">10 MB</text>
@@ -216,6 +216,7 @@ subset = dataset.to_table(columns=["order_id", "amount"], filter=ds.field("order
 <rect class="sV" x="404" y="94" width="258" height="24" rx="12"/><text class="sT" x="533" y="111" text-anchor="middle">PySpark (a cluster)</text>
 <rect class="sG" x="232" y="122" width="430" height="24" rx="12"/><text class="sT" x="447" y="139" text-anchor="middle">dbt + warehouse SQL</text>
 <text class="sS" x="360" y="200" text-anchor="middle">use the smallest tool that fits: a cluster has a fixed cost in start-up time, money and complexity</text>
+<circle class="sP" r="6" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M60 150 L670 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Approximate, overlapping ranges. A modern laptop with DuckDB handles far more than most people expect.</figcaption></figure>
 
 | Data size and shape | Choose | Why |
