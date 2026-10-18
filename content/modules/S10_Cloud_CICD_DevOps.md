@@ -62,6 +62,22 @@ The portal, the command line and infrastructure-as-code tools all call the same 
 > [!term] Twelve-factor app
 > A set of principles for cloud-friendly services. The ones interviewers quote: store **config in the environment** (not in code), treat backing services (databases, queues) as attached resources, keep processes **stateless**, make dev and prod as similar as possible, and treat logs as event streams.
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: the DevOps loop: plan, code, build and test on the development side, then release, deploy, operate and monitor on the operations side, with what monitoring shows feeding the next plan">
+<path class="sLm" d="M360 120 C300 40 120 40 120 120 C120 200 300 200 360 120 C420 40 600 40 600 120 C600 200 420 200 360 120" style="fill:none;stroke-width:3" opacity=".6"/>
+<text class="sT" x="150" y="30" text-anchor="middle">Dev</text>
+<text class="sT" x="570" y="30" text-anchor="middle">Ops</text>
+<rect class="sN" x="186" y="48" width="68" height="22" rx="11"/><text class="sC" x="220" y="64" text-anchor="middle">plan</text>
+<rect class="sN" x="92" y="106" width="68" height="22" rx="11"/><text class="sC" x="126" y="122" text-anchor="middle">code</text>
+<rect class="sN" x="186" y="168" width="68" height="22" rx="11"/><text class="sC" x="220" y="184" text-anchor="middle">build</text>
+<rect class="sN" x="284" y="136" width="68" height="22" rx="11"/><text class="sC" x="318" y="152" text-anchor="middle">test</text>
+<rect class="sN" x="368" y="78" width="68" height="22" rx="11"/><text class="sC" x="402" y="94" text-anchor="middle">release</text>
+<rect class="sN" x="466" y="48" width="68" height="22" rx="11"/><text class="sC" x="500" y="64" text-anchor="middle">deploy</text>
+<rect class="sN" x="560" y="106" width="68" height="22" rx="11"/><text class="sC" x="594" y="122" text-anchor="middle">operate</text>
+<rect class="sN" x="466" y="168" width="68" height="22" rx="11"/><text class="sC" x="500" y="184" text-anchor="middle">monitor</text>
+<text class="sS" x="360" y="222" text-anchor="middle">small changes, automated build-test-deploy, and monitoring that feeds the next plan</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.950;1" path="M360 120 C300 40 120 40 120 120 C120 200 300 200 360 120 C420 40 600 40 600 120 C600 200 420 200 360 120"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.950;0.952;1"/></circle>
+</svg><figcaption>DevOps is the shortening of this loop: the faster a change reaches users safely, and the faster you learn from production, the better.</figcaption></figure>
+
 ## S10.2 CI and CD 🟢 ⭐
 
 > [!term] Continuous integration (CI)

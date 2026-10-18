@@ -105,6 +105,80 @@ For churn-like problems, the strongest features usually describe **behaviour ove
 | **Ratios and differences** | Domain knowledge: debt-to-income, usage change, price relative to category average |
 | **Interactions** | For linear models; tree ensembles find many interactions themselves |
 
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: a log transform, computed on 5,000 simulated monthly spends: the raw values have a long right tail with skewness 4.6; after log1p the distribution is a symmetric bump with skewness close to 0">
+<text class="sM" x="180" y="22" text-anchor="middle">monthly spend: skewness 4.6</text>
+<text class="sM" x="540" y="22" text-anchor="middle">log1p(spend): skewness 0.02</text>
+<rect class="sW" x="30" y="92.8077" width="9" height="97.1923" rx="1" opacity=".85"/>
+<rect class="sW" x="40" y="50" width="9" height="140" rx="1" opacity=".85"/>
+<rect class="sW" x="50" y="87.2885" width="9" height="102.712" rx="1" opacity=".85"/>
+<rect class="sW" x="60" y="114.346" width="9" height="75.6538" rx="1" opacity=".85"/>
+<rect class="sW" x="70" y="138.038" width="9" height="51.9615" rx="1" opacity=".85"/>
+<rect class="sW" x="80" y="147.058" width="9" height="42.9423" rx="1" opacity=".85"/>
+<rect class="sW" x="90" y="156.346" width="9" height="33.6538" rx="1" opacity=".85"/>
+<rect class="sW" x="100" y="168.462" width="9" height="21.5385" rx="1" opacity=".85"/>
+<rect class="sW" x="110" y="171.019" width="9" height="18.9808" rx="1" opacity=".85"/>
+<rect class="sW" x="120" y="174.115" width="9" height="15.8846" rx="1" opacity=".85"/>
+<rect class="sW" x="130" y="179.769" width="9" height="10.2308" rx="1" opacity=".85"/>
+<rect class="sW" x="140" y="179.365" width="9" height="10.6346" rx="1" opacity=".85"/>
+<rect class="sW" x="150" y="183.538" width="9" height="6.46154" rx="1" opacity=".85"/>
+<rect class="sW" x="160" y="183.673" width="9" height="6.32692" rx="1" opacity=".85"/>
+<rect class="sW" x="170" y="184.75" width="9" height="5.25" rx="1" opacity=".85"/>
+<rect class="sW" x="180" y="185.962" width="9" height="4.03846" rx="1" opacity=".85"/>
+<rect class="sW" x="190" y="185.962" width="9" height="4.03846" rx="1" opacity=".85"/>
+<rect class="sW" x="200" y="186.769" width="9" height="3.23077" rx="1" opacity=".85"/>
+<rect class="sW" x="210" y="187.442" width="9" height="2.55769" rx="1" opacity=".85"/>
+<rect class="sW" x="220" y="188.519" width="9" height="1.48077" rx="1" opacity=".85"/>
+<rect class="sW" x="230" y="187.846" width="9" height="2.15385" rx="1" opacity=".85"/>
+<rect class="sW" x="240" y="188.788" width="9" height="1.21154" rx="1" opacity=".85"/>
+<rect class="sW" x="250" y="189.058" width="9" height="0.942308" rx="1" opacity=".85"/>
+<rect class="sW" x="260" y="188.385" width="9" height="1.61538" rx="1" opacity=".85"/>
+<rect class="sW" x="270" y="188.923" width="9" height="1.07692" rx="1" opacity=".85"/>
+<rect class="sW" x="280" y="188.923" width="9" height="1.07692" rx="1" opacity=".85"/>
+<rect class="sW" x="290" y="188.923" width="9" height="1.07692" rx="1" opacity=".85"/>
+<rect class="sW" x="300" y="189.327" width="9" height="0.673077" rx="1" opacity=".85"/>
+<rect class="sW" x="310" y="188.788" width="9" height="1.21154" rx="1" opacity=".85"/>
+<rect class="sW" x="320" y="189.327" width="9" height="0.673077" rx="1" opacity=".85"/>
+<line class="sLm" x1="30" y1="190" x2="330" y2="190"/>
+<rect class="sG" x="390" y="190" width="9" height="0" rx="1" opacity=".85"/>
+<rect class="sG" x="400" y="189.415" width="9" height="0.584551" rx="1" opacity=".85"/>
+<rect class="sG" x="410" y="188.246" width="9" height="1.75365" rx="1" opacity=".85"/>
+<rect class="sG" x="420" y="187.662" width="9" height="2.3382" rx="1" opacity=".85"/>
+<rect class="sG" x="430" y="185.031" width="9" height="4.96868" rx="1" opacity=".85"/>
+<rect class="sG" x="440" y="176.263" width="9" height="13.737" rx="1" opacity=".85"/>
+<rect class="sG" x="450" y="173.34" width="9" height="16.6597" rx="1" opacity=".85"/>
+<rect class="sG" x="460" y="155.219" width="9" height="34.7808" rx="1" opacity=".85"/>
+<rect class="sG" x="470" y="146.159" width="9" height="43.8413" rx="1" opacity=".85"/>
+<rect class="sG" x="480" y="127.453" width="9" height="62.547" rx="1" opacity=".85"/>
+<rect class="sG" x="490" y="113.716" width="9" height="76.2839" rx="1" opacity=".85"/>
+<rect class="sG" x="500" y="94.1336" width="9" height="95.8664" rx="1" opacity=".85"/>
+<rect class="sG" x="510" y="73.6743" width="9" height="116.326" rx="1" opacity=".85"/>
+<rect class="sG" x="520" y="69.2902" width="9" height="120.71" rx="1" opacity=".85"/>
+<rect class="sG" x="530" y="59.3528" width="9" height="130.647" rx="1" opacity=".85"/>
+<rect class="sG" x="540" y="50" width="9" height="140" rx="1" opacity=".85"/>
+<rect class="sG" x="550" y="71.9207" width="9" height="118.079" rx="1" opacity=".85"/>
+<rect class="sG" x="560" y="67.8288" width="9" height="122.171" rx="1" opacity=".85"/>
+<rect class="sG" x="570" y="87.4113" width="9" height="102.589" rx="1" opacity=".85"/>
+<rect class="sG" x="580" y="110.501" width="9" height="79.499" rx="1" opacity=".85"/>
+<rect class="sG" x="590" y="126.868" width="9" height="63.1315" rx="1" opacity=".85"/>
+<rect class="sG" x="600" y="148.497" width="9" height="41.5031" rx="1" opacity=".85"/>
+<rect class="sG" x="610" y="159.896" width="9" height="30.1044" rx="1" opacity=".85"/>
+<rect class="sG" x="620" y="173.925" width="9" height="16.0752" rx="1" opacity=".85"/>
+<rect class="sG" x="630" y="176.848" width="9" height="13.1524" rx="1" opacity=".85"/>
+<rect class="sG" x="640" y="183.57" width="9" height="6.43006" rx="1" opacity=".85"/>
+<rect class="sG" x="650" y="187.077" width="9" height="2.92276" rx="1" opacity=".85"/>
+<rect class="sG" x="660" y="187.37" width="9" height="2.63048" rx="1" opacity=".85"/>
+<rect class="sG" x="670" y="188.831" width="9" height="1.1691" rx="1" opacity=".85"/>
+<rect class="sG" x="680" y="189.708" width="9" height="0.292276" rx="1" opacity=".85"/>
+<line class="sLm" x1="390" y1="190" x2="690" y2="190"/>
+<text class="sC" x="30" y="206">0</text>
+<text class="sC" x="330" y="206" text-anchor="end">EGP 2,500</text>
+<text class="sC" x="390" y="206">log 2</text>
+<text class="sC" x="690" y="206" text-anchor="end">log 9</text>
+<text class="sS" x="360" y="228" text-anchor="middle">a long right tail squeezed into a symmetric bump: linear models and distances behave far better</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M30 196 L330 196"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.900;1" path="M390 196 L690 196"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.900;0.902;1"/></circle>
+</svg><figcaption>Simulated with NumPy. Trees do not care about monotonic transforms; linear models, k-NN and neural networks do.</figcaption></figure>
+
 ## DS2.3 Categorical encoding 🟢 🟡 ⭐
 
 | Encoding | How | Use | Watch out |
@@ -471,6 +545,21 @@ With 2% fraud or 5% churn, a model predicting "no" always is 95–98% accurate a
 - **Correlated features** split importance between them; **VIF** checks multicollinearity for linear models (which your capstone used).
 - L1 regularisation (Lasso) for sparse linear models; recursive feature elimination when features are expensive.
 - Drop features that are unstable over time, unavailable in production, or legally sensitive.
+
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: permutation importance computed for a gradient-boosting churn model: shuffling days since recharge costs 0.182 of AUC, tenure 0.030, complaints 0.023, while monthly spend and a random-noise column each cost only 0.008, so spend carries no more signal than noise">
+<text class="sM" x="360" y="22" text-anchor="middle">permutation importance: AUC lost when one column is shuffled</text>
+<text class="sC" x="200" y="58" text-anchor="end">days_since_recharge</text><rect class="sG" x="210" y="40" width="437.981" height="24" rx="3" opacity=".85"/><text class="sC" x="653.981" y="58">0.182</text>
+<text class="sC" x="200" y="92" text-anchor="end">tenure_months</text><rect class="sG" x="210" y="74" width="70.9361" height="24" rx="3" opacity=".85"/><text class="sC" x="286.936" y="92">0.030</text>
+<text class="sC" x="200" y="126" text-anchor="end">complaints_30d</text><rect class="sG" x="210" y="108" width="55.8593" height="24" rx="3" opacity=".85"/><text class="sC" x="271.859" y="126">0.023</text>
+<text class="sC" x="200" y="160" text-anchor="end">monthly_spend</text><rect class="sN" x="210" y="142" width="18.4352" height="24" rx="3" opacity=".85"/><text class="sC" x="234.435" y="160">0.008</text>
+<text class="sC" x="200" y="194" text-anchor="end">random_noise</text><rect class="sN" x="210" y="176" width="18.2353" height="24" rx="3" opacity=".85"/><text class="sC" x="234.235" y="194">0.008</text>
+<text class="sS" x="360" y="222" text-anchor="middle">monthly spend scores the same as pure noise: it carries no signal here, so it is a candidate to drop</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.170;1" path="M210 52 L647.9814376039062 52"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.170;0.172;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M210 86 L280.9361050385517 86"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.470;1" path="M210 120 L265.8592853433869 120"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.470;0.472;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M210 154 L228.4351559738713 154"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.770;1" path="M210 188 L228.23530695151698 188"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.770;0.772;1"/></circle>
+</svg><figcaption>Computed with scikit-learn on synthetic data where churn depends on recharge recency, complaints and tenure only. Score importance on held-out data, and add a random column as a reference line.</figcaption></figure>
 
 ## DS2.10 Other feature types, briefly 🟢
 

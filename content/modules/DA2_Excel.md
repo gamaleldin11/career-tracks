@@ -347,6 +347,37 @@ With **Power Pivot** (Data → Data Model), you can load several tables, create 
 - **Conditional formatting** for exceptions: highlight late orders, colour scales on a heat map of region × month, data bars, icon sets; rules with formulas (`=$F2>$G2`) to highlight whole rows.
 - **Sparklines** for tiny in-cell trends.
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: conditional formatting on a small revenue table: a green colour scale makes the highest quarterly revenues, Alex in Q2 and Delta in Q3, stand out, and data bars show margin by region, highest in Alex at 24 percent">
+<text class="sM" x="360" y="22" text-anchor="middle">conditional formatting: a colour scale on revenue and data bars on margin</text>
+<text class="sT" x="110" y="50" text-anchor="middle">Region</text>
+<text class="sT" x="230" y="50" text-anchor="middle">Q1</text>
+<text class="sT" x="330" y="50" text-anchor="middle">Q2</text>
+<text class="sT" x="430" y="50" text-anchor="middle">Q3</text>
+<text class="sT" x="590" y="50" text-anchor="middle">margin</text>
+<rect class="sN" x="60" y="60" width="100" height="30" rx="2"/><text class="sC" x="110" y="80" text-anchor="middle">Cairo</text>
+<rect class="sG" x="180" y="60" width="96" height="30" rx="2" opacity="0.22"/><text class="sC" x="228" y="80" text-anchor="middle">120</text>
+<rect class="sG" x="280" y="60" width="96" height="30" rx="2" opacity="0.55"/><text class="sC" x="328" y="80" text-anchor="middle">340</text>
+<rect class="sG" x="380" y="60" width="96" height="30" rx="2" opacity="0.17"/><text class="sC" x="428" y="80" text-anchor="middle">90</text>
+<rect class="sN" x="500" y="60" width="180" height="30" rx="2"/><rect class="sB" x="502" y="64" width="126" height="22" rx="2" opacity=".8"/><text class="sC" x="636" y="80">18%</text>
+<rect class="sN" x="60" y="94" width="100" height="30" rx="2"/><text class="sC" x="110" y="114" text-anchor="middle">Giza</text>
+<rect class="sG" x="180" y="94" width="96" height="30" rx="2" opacity="0.65"/><text class="sC" x="228" y="114" text-anchor="middle">410</text>
+<rect class="sG" x="280" y="94" width="96" height="30" rx="2" opacity="0.43"/><text class="sC" x="328" y="114" text-anchor="middle">260</text>
+<rect class="sG" x="380" y="94" width="96" height="30" rx="2" opacity="0.31"/><text class="sC" x="428" y="114" text-anchor="middle">180</text>
+<rect class="sN" x="500" y="94" width="180" height="30" rx="2"/><rect class="sB" x="502" y="98" width="63" height="22" rx="2" opacity=".8"/><text class="sC" x="573" y="114">9%</text>
+<rect class="sN" x="60" y="128" width="100" height="30" rx="2"/><text class="sC" x="110" y="148" text-anchor="middle">Alex</text>
+<rect class="sG" x="180" y="128" width="96" height="30" rx="2" opacity="0.15"/><text class="sC" x="228" y="148" text-anchor="middle">75</text>
+<rect class="sG" x="280" y="128" width="96" height="30" rx="2" opacity="0.82"/><text class="sC" x="328" y="148" text-anchor="middle">520</text>
+<rect class="sG" x="380" y="128" width="96" height="30" rx="2" opacity="0.49"/><text class="sC" x="428" y="148" text-anchor="middle">300</text>
+<rect class="sN" x="500" y="128" width="180" height="30" rx="2"/><rect class="sB" x="502" y="132" width="168" height="22" rx="2" opacity=".8"/><text class="sC" x="678" y="148">24%</text>
+<rect class="sN" x="60" y="162" width="100" height="30" rx="2"/><text class="sC" x="110" y="182" text-anchor="middle">Delta</text>
+<rect class="sG" x="180" y="162" width="96" height="30" rx="2" opacity="0.38"/><text class="sC" x="228" y="182" text-anchor="middle">230</text>
+<rect class="sG" x="280" y="162" width="96" height="30" rx="2" opacity="0.26"/><text class="sC" x="328" y="182" text-anchor="middle">150</text>
+<rect class="sG" x="380" y="162" width="96" height="30" rx="2" opacity="0.95"/><text class="sC" x="428" y="182" text-anchor="middle">610</text>
+<rect class="sN" x="500" y="162" width="180" height="30" rx="2"/><rect class="sB" x="502" y="166" width="91" height="22" rx="2" opacity=".8"/><text class="sC" x="601" y="182">13%</text>
+<text class="sS" x="360" y="210" text-anchor="middle">the eye finds Alex Q2 and Delta Q3 at once; keep one scale per measure and no more than one rule per column</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.500;1" path="M180 202 L476 202"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.500;0.502;1"/></circle>
+</svg><figcaption>Formatting should answer one question at a glance; a rainbow of rules answers none.</figcaption></figure>
+
 ## DA2.9 What-if analysis 🟡
 
 | Tool | Answers |
