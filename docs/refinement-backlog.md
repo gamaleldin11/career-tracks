@@ -41,7 +41,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - Copy this pass's AI Journey and Bootcamp changes into `E:\AI Journey - Written Course` and `E:\interview prep` if the mirror should show them too.
 - Add quiz questions for the newest figures that still have none: AI16, AI21, AI24 §24.3, SD1.5, DE2.4 and others as figures land. Questions go in `content/quizzes.js`, FOUNDATIONS object, keyed by module id. Inside single-quoted strings, use the typographic apostrophe `’`, not `\'`.
-- Keep the README counts in step: "Over 900 diagrams", "980 questions".
+- Keep the README counts in step: "Over 1,000 diagrams", "980 questions".
 
 ## How the work was done (to continue in the same style)
 
