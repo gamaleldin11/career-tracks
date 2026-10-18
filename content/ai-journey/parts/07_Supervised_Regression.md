@@ -902,7 +902,7 @@ The `neg_` prefix — sklearn negates error metrics so that "higher is better" h
 
 ---
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Five-fold cross-validation on scikit-learn’s diabetes dataset, each fold held out once: a scaled linear regression scores RMSE 53.9, 51.6, 57.6, 52.9 and 58.3, mean 54.9 plus or minus 2.9; a KNN regressor with k equal to 10 scores 56.3, 59.1, 61.5, 58.0 and 56.8, mean 58.3 plus or minus 2.1">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: five-fold cross-validation on scikit-learn’s diabetes dataset, each fold held out once: a scaled linear regression scores RMSE 53.9, 51.6, 57.6, 52.9 and 58.3, mean 54.9 plus or minus 2.9; a KNN regressor with k equal to 10 scores 56.3, 59.1, 61.5, 58.0 and 56.8, mean 58.3 plus or minus 2.1">
 <text class="sM" x="14" y="12">KFold(5): each row held out once</text>
 <rect class="sW" x="80" y="34" width="60" height="22" rx="3"/>
 <rect class="sB" x="144" y="34" width="60" height="22" rx="3" opacity=".55"/>
@@ -942,6 +942,7 @@ The `neg_` prefix — sklearn negates error metrics so that "higher is better" h
 <text class="sT" x="400" y="26" text-anchor="end">linear</text><text class="sT" x="500" y="26" text-anchor="end">KNN (k=10)</text>
 <line class="sLm" x1="330" y1="190" x2="510" y2="190"/><text class="sGt" x="420" y="208" text-anchor="end">54.9 ± 2.9</text><text class="sWt" x="500" y="208" text-anchor="end">58.3 ± 2.1</text>
 <rect class="sN" x="540" y="40" width="166" height="150" rx="8"/><text class="sT" x="623" y="64" text-anchor="middle">RMSE per fold</text><text class="sS" x="623" y="90" text-anchor="middle">orange = held out,</text><text class="sS" x="623" y="106" text-anchor="middle">blue = fitted on</text><text class="sS" x="623" y="136" text-anchor="middle">the spread is the</text><text class="sS" x="623" y="152" text-anchor="middle">honest uncertainty</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.750;1" path="M110 45 L174 75 L238 105 L302 135 L366 165"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.750;0.752;1"/></circle>
 </svg><figcaption>Computed with <code>cross_validate</code> on the diabetes dataset (442 rows). The fold-to-fold spread is as large as the gap between the models, which is why one train/test split can mislead.</figcaption></figure>
 
 ## 7.10 Model 2 — K-Nearest Neighbours Regressor 🟢

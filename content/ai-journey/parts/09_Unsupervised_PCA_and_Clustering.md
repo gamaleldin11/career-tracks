@@ -1573,7 +1573,7 @@ dendrogram(Z)
 | **average** | Mean of all pairwise distances | A compromise |
 | **ward** | Increase in total within-cluster variance | **Usually best**; K-Means-like results |
 
-<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Twelve points in three loose groups and their ward-linkage dendrogram: points merge within groups at small distances, the three groups merge at much larger ones, and a cut below the two tallest links gives three clusters">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: twelve points in three loose groups and their ward-linkage dendrogram: points merge within groups at small distances, the three groups merge at much larger ones, and a cut below the two tallest links gives three clusters">
 <circle class="sP" cx="58.8" cy="178.7" r="5"/>
 <circle class="sP" cx="90.9" cy="173.1" r="5"/>
 <circle class="sP" cx="93.3" cy="155.0" r="5"/>
@@ -1624,6 +1624,10 @@ dendrogram(Z)
 <text class="sS" x="690" y="224" text-anchor="middle">11</text>
 <line class="sLr" x1="316" y1="123.442" x2="700" y2="123.442" stroke-dasharray="6 4"/><text class="sRt" x="700" y="117.442" text-anchor="end">cut here → 3 clusters</text>
 <text class="sT" x="505" y="20" text-anchor="middle">dendrogram (ward linkage)</text><text class="sS" x="326" y="40">merge distance</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.450;1" path="M336.8 196 L336.8 181.4 L370.5 181.4 L370.5 40"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.450;0.452;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.450;1" path="M471.4 200 L471.4 180 L505 180 L505 76.3"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.450;0.452;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.450;1" path="M656.4 200 L656.4 192.7 L648 192.7 L648 170.6 L618.5 170.6 L618.5 76.3"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.450;0.452;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.800;1" path="M316 123.4 L700 123.4"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.800;0.802;1"/></circle>
 </svg><figcaption>Reading a dendrogram: the long vertical lines are the expensive merges, so cut just below them. Computed with SciPy.</figcaption></figure>
 
 ### Reading a dendrogram
@@ -3528,7 +3532,7 @@ Or let the model decide: **`BayesianGaussianMixture(n_components=10)`** pushes t
 | **PCA reconstruction error** | Anomalies reconstruct badly from the top PCs | Simple, fast baseline; also autoencoders |
 | DBSCAN / HDBSCAN | Label −1 = noise | Spatial and behavioural data |
 
-<figure class="dia"><svg viewBox="0 0 720 256" role="img" aria-label="Random axis-aligned splits isolating one point: an outlier far from the cloud is isolated after a few splits, a point in the middle of the cloud needs many; averaged over 300 random trees the outlier's path is much shorter">
+<figure class="dia anim"><svg viewBox="0 0 720 256" role="img" aria-label="Animation: random axis-aligned splits isolating one point: an outlier far from the cloud is isolated after a few splits, a point in the middle of the cloud needs many; averaged over 300 random trees the outlier's path is much shorter">
 <rect class="sN" x="20" y="34" width="320" height="170" rx="0" style="fill:none"/><text class="sRt" x="180" y="24" text-anchor="middle">isolating the outlier</text>
 <line class="sLv" x1="31.6948" y1="56.4375" x2="328.305" y2="56.4375" opacity=".7"/>
 <line class="sLv" x1="31.6948" y1="41.2481" x2="328.305" y2="41.2481" opacity=".7"/>
@@ -3711,6 +3715,8 @@ Or let the model decide: **`BayesianGaussianMixture(n_components=10)`** pushes t
 <circle class="sP" cx="678.3" cy="40.2" r="2.6" opacity="0.5"/>
 <text class="sC" x="530" y="224" text-anchor="middle">this tree: 13 splits · average over 300 trees: 10.4</text>
 <text class="sS" x="360" y="244" text-anchor="middle">short average path = easy to isolate = anomalous; that path length is what score_samples turns into a score</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M180 56.4 L328 56.4 L328 41.2"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.850;1" path="M530 56.4 L530 94.9 L600.9 94.9 L600.9 109.3 L559.8 109.3 L559.8 142.1 L513.6 142.1 L513.6 124.9 L480.7 124.9"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.850;0.852;1"/></circle>
 </svg><figcaption>The Isolation Forest idea, computed: anomalies are the points that random cuts separate quickly.</figcaption></figure>
 
 **Anomaly vs novelty detection:** anomaly (outlier) detection assumes the training data may be **contaminated** and is often used to clean it. Novelty detection assumes a **clean** training set and flags new points unlike anything seen.
