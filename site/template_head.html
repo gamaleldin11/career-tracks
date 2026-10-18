@@ -260,7 +260,7 @@ figure.dia.anim{padding-top:40px} /* room for the pause button above the drawing
 /* step-through diagrams: data-s="3" appears at step 3; data-s="2-4" shows for steps 2 to 4 */
 figure.dia [data-s]{transition:opacity .35s ease}
 figure.dia.stepping [data-s].off{opacity:.08}
-figure.dia.stepping [data-s].gone{opacity:0}
+figure.dia [data-s].gone{opacity:0} /* also in the overview (k = 0): a step that is replaced later is not part of the finished picture */
 figure.dia.stepping [data-s].now{filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent) 55%,transparent))}
 figure.dia .pk{display:none}
 figure.dia.stepping .pk.now{display:inline}

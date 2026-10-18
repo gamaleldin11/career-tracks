@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **1024 diagrams** on the site (inline SVG: static, animated and step-through; 803 of them animated or stepped), up from about 600 at the start of the pass. **1,008 self-test questions** across the eight tracks.
+- **1027 diagrams** on the site (inline SVG: static, animated and step-through; 806 of them animated or stepped), up from about 600 at the start of the pass. **1,008 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -48,7 +48,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 1. Read the section. Pick a picture that teaches something the text only states: a mechanism, a trade-off, a trap. Prefer computing it (run the real code, measure, simulate) and quote the numbers in the caption and alt text.
 2. Write the SVG with the classes in the README "Writing conventions" table. Width is 720. Use `<figure class="dia steps">` with `data-s` for step-throughs, and `dia anim` for SMIL animations.
 3. Pitfalls:
-   - A persistent `data-s="3"` part is previewed faintly before step 3, so replacing text must be ranged (`data-s="3-N"`).
+   - A persistent `data-s="3"` part is previewed faintly before step 3, so replacing text must be ranged (`data-s="3-N"`). Ranged parts that end before the last step are hidden in the overview (k = 0), which shows the finished picture.
    - Never put "Part N" or "§x.y" inside SVG text in the AI Journey (sources.js rewrites them into links).
    - SVG class fill overrides the `fill` attribute; use `style="fill:none"`.
    - Leave a blank line after `</figure>`.
