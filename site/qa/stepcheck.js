@@ -13,6 +13,10 @@
       const N = f.querySelectorAll('.dia-steps li').length;
       const parts = [...f.querySelectorAll('svg [data-s]')].filter(e => !e.classList.contains('pk')).map(e => ({ el: e, ...parse(e.getAttribute('data-s')) }));
       const texts = [...f.querySelectorAll('svg text')].map(tx => ({ tx, b: tx.getBBox() })).filter(o => o.b.width > 0);
+      // the model below assumes the CSS really hides what it marks gone; check that on the rendered overview
+      if (!f.classList.contains('stepping'))
+        for (const p of parts) if (p.b < N && parseFloat(getComputedStyle(p.el).opacity) > 0.5)
+          out.push(`${art.dataset.mod} "${f.querySelector('svg').getAttribute('aria-label').slice(0, 30)}" overview: part ${p.el.getAttribute('data-s')} is drawn although it ends before the last step`);
       for (let k = 0; k <= N; k++) {
         const state = o => {
           let st = 'vis';
