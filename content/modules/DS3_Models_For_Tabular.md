@@ -153,6 +153,30 @@ A **random forest** adds a second source of randomness: each split considers onl
 - **Strengths:** strong out of the box, hard to overfit badly by adding trees, few sensitive hyperparameters, parallel training, built-in **out-of-bag (OOB)** validation (each tree is scored on the samples it didn't see).
 - **Weaknesses:** large models, slower prediction; usually beaten by well-tuned boosting on tabular data; probability estimates often need calibration.
 
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: bagging and random forests: from 1,000 training rows, bootstrap samples are drawn with replacement, a deep tree is grown on each using random feature subsets at every split, and their predictions are averaged or voted, which cancels much of the variance of the individual trees">
+<rect class="sN" x="14" y="90" width="120" height="56" rx="8"/><text class="sT" x="74" y="116" text-anchor="middle">training rows</text><text class="sC" x="74" y="132" text-anchor="middle">1,000</text>
+<rect class="sB" x="190" y="30" width="150" height="50" rx="8"/><text class="sT" x="265" y="53" text-anchor="middle">bootstrap sample 1</text><text class="sC" x="265" y="69" text-anchor="middle">drawn with replacement</text>
+<rect class="sA" x="400" y="30" width="130" height="50" rx="8"/><text class="sT" x="465" y="53" text-anchor="middle">deep tree 1</text><text class="sC" x="465" y="69" text-anchor="middle">random features</text>
+<line class="sLm" x1="134" y1="118" x2="188" y2="55" marker-end="url(#ahm)"/><line class="sLm" x1="340" y1="55" x2="398" y2="55" marker-end="url(#ahm)"/><line class="sLm" x1="530" y1="55" x2="588" y2="118" marker-end="url(#ahm)"/>
+<rect class="sB" x="190" y="100" width="150" height="50" rx="8"/><text class="sT" x="265" y="123" text-anchor="middle">bootstrap sample 2</text><text class="sC" x="265" y="139" text-anchor="middle">drawn with replacement</text>
+<rect class="sA" x="400" y="100" width="130" height="50" rx="8"/><text class="sT" x="465" y="123" text-anchor="middle">deep tree 2</text><text class="sC" x="465" y="139" text-anchor="middle">random features</text>
+<line class="sLm" x1="134" y1="118" x2="188" y2="125" marker-end="url(#ahm)"/><line class="sLm" x1="340" y1="125" x2="398" y2="125" marker-end="url(#ahm)"/><line class="sLm" x1="530" y1="125" x2="588" y2="118" marker-end="url(#ahm)"/>
+<rect class="sB" x="190" y="170" width="150" height="50" rx="8"/><text class="sT" x="265" y="193" text-anchor="middle">bootstrap sample 3</text><text class="sC" x="265" y="209" text-anchor="middle">drawn with replacement</text>
+<rect class="sA" x="400" y="170" width="130" height="50" rx="8"/><text class="sT" x="465" y="193" text-anchor="middle">deep tree 3</text><text class="sC" x="465" y="209" text-anchor="middle">random features</text>
+<line class="sLm" x1="134" y1="118" x2="188" y2="195" marker-end="url(#ahm)"/><line class="sLm" x1="340" y1="195" x2="398" y2="195" marker-end="url(#ahm)"/><line class="sLm" x1="530" y1="195" x2="588" y2="118" marker-end="url(#ahm)"/>
+<rect class="sG" x="590" y="90" width="116" height="56" rx="8"/><text class="sT" x="648" y="116" text-anchor="middle">average</text><text class="sC" x="648" y="132" text-anchor="middle">or majority vote</text>
+<text class="sS" x="360" y="236" text-anchor="middle">each tree overfits differently; averaging cancels much of that variance. Rows a tree never saw score it (out-of-bag).</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M134 118 L188 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M340 55 L398 55"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.650;1" path="M530 55 L588 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.650;0.652;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.130;0.230;1" path="M134 118 L188 125"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.128;0.132;0.230;0.232;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.460;1" path="M340 125 L398 125"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.460;0.462;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.730;1" path="M530 125 L588 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.730;0.732;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.210;0.310;1" path="M134 118 L188 195"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.208;0.212;0.310;0.312;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.460;0.540;1" path="M340 195 L398 195"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.458;0.462;0.540;0.542;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.710;0.810;1" path="M530 195 L588 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.708;0.712;0.810;0.812;1"/></circle>
+</svg><figcaption>Adding trees never makes a random forest overfit more; it only stops helping. Tune <code>max_features</code> and leaf size, not the tree count.</figcaption></figure>
+
 ## DS3.5 Gradient boosting 🟢 🟡 ⭐
 
 > [!term] Boosting
@@ -388,6 +412,26 @@ Learning curves (score vs training-set size) tell you whether more data would he
 
 > [!lab] The tabular leaderboard
 > On the road-accident data (or Telco churn): dummy baseline → logistic regression pipeline → random forest → HistGradientBoosting → LightGBM with early stopping → CatBoost with native categoricals → Optuna-tuned LightGBM. Record PR-AUC (or F1-macro) on the same validation folds, plus training time, in one table. Then pick the model you'd actually deploy and justify it in three sentences (performance, explainability, cost to maintain).
+
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: stacking: logistic regression, a random forest and gradient boosting each produce out-of-fold predictions, which become the columns of a new table with the true label, and a simple meta-model such as logistic regression learns how to combine them">
+<rect class="sB" x="14" y="30" width="150" height="46" rx="8"/><text class="sT" x="89" y="51" text-anchor="middle">logistic regression</text><text class="sC" x="89" y="67" text-anchor="middle">out-of-fold preds</text>
+<rect class="sA" x="14" y="96" width="150" height="46" rx="8"/><text class="sT" x="89" y="117" text-anchor="middle">random forest</text><text class="sC" x="89" y="133" text-anchor="middle">out-of-fold preds</text>
+<rect class="sV" x="14" y="162" width="150" height="46" rx="8"/><text class="sT" x="89" y="183" text-anchor="middle">gradient boosting</text><text class="sC" x="89" y="199" text-anchor="middle">out-of-fold preds</text>
+<rect class="sN" x="230" y="60" width="200" height="118" rx="8"/><text class="sT" x="330" y="82" text-anchor="middle">new table</text>
+<text class="sC" x="244" y="106" xml:space="preserve" style="white-space:pre">p_lr   p_rf   p_gb   y</text>
+<text class="sC" x="244" y="128" xml:space="preserve" style="white-space:pre">0.12   0.20   0.18   0</text>
+<text class="sC" x="244" y="150" xml:space="preserve" style="white-space:pre">0.71   0.64   0.80   1</text>
+<rect class="sG" x="500" y="96" width="170" height="46" rx="8"/><text class="sT" x="585" y="117" text-anchor="middle">meta-model</text><text class="sC" x="585" y="133" text-anchor="middle">simple: logistic</text>
+<line class="sLm" x1="164" y1="53" x2="228" y2="90" marker-end="url(#ahm)"/>
+<line class="sLm" x1="164" y1="119" x2="228" y2="119" marker-end="url(#ahm)"/>
+<line class="sLm" x1="164" y1="185" x2="228" y2="150" marker-end="url(#ahm)"/>
+<line class="sLg" x1="430" y1="119" x2="498" y2="119" marker-end="url(#ahg)"/>
+<text class="sS" x="360" y="230" text-anchor="middle">out-of-fold, never in-sample: otherwise the meta-model learns to trust overfitted predictions</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M164 53 L228 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.200;1" path="M164 119 L228 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.200;0.202;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.280;1" path="M164 185 L228 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.600;1" path="M430 119 L498 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.600;0.602;1"/></circle>
+</svg><figcaption>scikit-learn’s <code>StackingClassifier</code> does the out-of-fold step for you; the gain over the best single model is usually small.</figcaption></figure>
 
 ## DS3.10 Interview drill 🟢 ⭐
 

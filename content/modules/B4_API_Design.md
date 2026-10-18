@@ -243,6 +243,25 @@ In ASP.NET Core, the `Asp.Versioning.Http` / `Asp.Versioning.Mvc` packages imple
 
 Use **ProblemDetails** everywhere (RFC 9457, [[B3.5]]): validation errors with an `errors` dictionary per field, domain errors with a stable `type` URI or `code` the client can switch on, and always a `traceId`. Never return 200 with `{ "success": false }`.
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: a validation error as ProblemDetails: the form posts an invalid email, the API validates before the handler runs and returns 400 with application/problem+json containing an errors dictionary keyed by field and a trace ID, and the client shows each message next to its field">
+<rect class="sB" x="14" y="70" width="150" height="56" rx="8"/><text class="sT" x="89" y="96" text-anchor="middle">form</text><text class="sC" x="89" y="112" text-anchor="middle">email: "nile@"</text>
+<rect class="sV" x="250" y="70" width="150" height="56" rx="8"/><text class="sT" x="325" y="96" text-anchor="middle">API validation</text><text class="sC" x="325" y="112" text-anchor="middle">before the handler</text>
+<rect class="sR" x="470" y="20" width="236" height="160" rx="8" opacity=".9"/>
+<text class="sC" x="482" y="42" xml:space="preserve" style="white-space:pre">400 application/problem+json</text>
+<text class="sC" x="482" y="66" xml:space="preserve" style="white-space:pre">{ "title": "Validation failed",</text>
+<text class="sC" x="482" y="86" xml:space="preserve" style="white-space:pre">  "errors": {</text>
+<text class="sC" x="482" y="106" xml:space="preserve" style="white-space:pre">    "email": ["Invalid email"],</text>
+<text class="sC" x="482" y="126" xml:space="preserve" style="white-space:pre">    "dueDate": ["In the past"] },</text>
+<text class="sC" x="482" y="146" xml:space="preserve" style="white-space:pre">  "traceId": "00-4bf9…" }</text>
+<line class="sLm" x1="164" y1="98" x2="248" y2="98" marker-end="url(#ahm)"/>
+<line class="sLr" x1="400" y1="98" x2="468" y2="98" marker-end="url(#ahr)"/>
+<path class="sLw" d="M588 182 C588 226 90 226 89 128" style="fill:none" marker-end="url(#ahw)"/>
+<text class="sWt" x="330" y="212" text-anchor="middle">the client maps each key to its field; the traceId finds the log line</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.120;1" path="M164 98 L248 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.120;0.122;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M400 98 L468 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M588 182 C588 226 90 226 89 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
+</svg><figcaption>One error shape for every endpoint means one error-handling path in every client.</figcaption></figure>
+
 ## B4.8 Long-running work and webhooks 🟡 ⭐
 
 **Long-running operations** (generating a large report, re-forecasting a year of data):

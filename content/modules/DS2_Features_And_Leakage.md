@@ -315,6 +315,34 @@ Every feature filter ends at `< c.cutoff`; the label looks at `[cutoff, cutoff +
 - **Gradient-boosted trees** (XGBoost, LightGBM, HistGradientBoosting) handle missing values natively by learning which branch they go down.
 - Outliers: investigate first (errors or genuine extremes?); then cap, transform, or use robust models and losses (MAE, Huber).
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: imputing with a missing indicator: two missing incomes are filled with the median, 6,900, and a new 0 or 1 column income_missing records which rows were missing so the model can still use that fact">
+<text class="sM" x="110" y="22" text-anchor="middle">income (raw)</text>
+<text class="sM" x="380" y="22" text-anchor="middle">income (imputed)</text>
+<text class="sM" x="600" y="22" text-anchor="middle">income_missing</text>
+<rect class="sN" x="40" y="32" width="140" height="26" rx="3"/><text class="sC" x="110" y="50" text-anchor="middle">8,200</text>
+<rect class="sN" x="310" y="32" width="140" height="26" rx="3"/><text class="sC" x="380" y="50" text-anchor="middle">8,200</text>
+<rect class="sN" x="540" y="32" width="120" height="26" rx="3"/><text class="sC" x="600" y="50" text-anchor="middle">0</text>
+<rect class="sR" x="40" y="62" width="140" height="26" rx="3"/><text class="sC" x="110" y="80" text-anchor="middle">NaN</text>
+<rect class="sW" x="310" y="62" width="140" height="26" rx="3"/><text class="sC" x="380" y="80" text-anchor="middle">6,900</text>
+<rect class="sV" x="540" y="62" width="120" height="26" rx="3"/><text class="sC" x="600" y="80" text-anchor="middle">1</text>
+<rect class="sN" x="40" y="92" width="140" height="26" rx="3"/><text class="sC" x="110" y="110" text-anchor="middle">5,100</text>
+<rect class="sN" x="310" y="92" width="140" height="26" rx="3"/><text class="sC" x="380" y="110" text-anchor="middle">5,100</text>
+<rect class="sN" x="540" y="92" width="120" height="26" rx="3"/><text class="sC" x="600" y="110" text-anchor="middle">0</text>
+<rect class="sR" x="40" y="122" width="140" height="26" rx="3"/><text class="sC" x="110" y="140" text-anchor="middle">NaN</text>
+<rect class="sW" x="310" y="122" width="140" height="26" rx="3"/><text class="sC" x="380" y="140" text-anchor="middle">6,900</text>
+<rect class="sV" x="540" y="122" width="120" height="26" rx="3"/><text class="sC" x="600" y="140" text-anchor="middle">1</text>
+<rect class="sN" x="40" y="152" width="140" height="26" rx="3"/><text class="sC" x="110" y="170" text-anchor="middle">12,400</text>
+<rect class="sN" x="310" y="152" width="140" height="26" rx="3"/><text class="sC" x="380" y="170" text-anchor="middle">12,400</text>
+<rect class="sN" x="540" y="152" width="120" height="26" rx="3"/><text class="sC" x="600" y="170" text-anchor="middle">0</text>
+<text class="sWt" x="245" y="196" text-anchor="middle">median</text>
+<text class="sC" x="495" y="196" text-anchor="middle">flag</text>
+<text class="sS" x="360" y="222" text-anchor="middle">the model keeps the fact that it was missing, which is often a signal in itself</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.320;1" path="M180 75 L308 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.320;0.322;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M450 75 L538 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.520;1" path="M180 135 L308 135"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.520;0.522;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.720;1" path="M450 135 L538 135"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.720;0.722;1"/></circle>
+</svg><figcaption><code>SimpleImputer(strategy="median", add_indicator=True)</code>, fitted inside the pipeline on training rows only.</figcaption></figure>
+
 ## DS2.8 Imbalanced classes 🟢 ⭐
 
 With 2% fraud or 5% churn, a model predicting "no" always is 95–98% accurate and useless.

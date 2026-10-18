@@ -107,6 +107,36 @@ The mnemonic for 3NF: every column depends on "the key, the whole key, and nothi
 
 **Data types that matter:** `decimal(18,2)` or larger for money, never `float`; `datetime2` or `datetimeoffset` in SQL Server (store UTC); `nvarchar` for text that may contain Arabic (in SQL Server, `varchar` can't hold it unless a UTF-8 collation is used); the smallest type that fits.
 
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: inserting into a clustered index: identity integers and sequential version-7 GUIDs always append to the last page, while random version-4 GUIDs land on random pages, splitting full pages and fragmenting the index">
+<text class="sGt" x="180" y="22" text-anchor="middle">identity / GUID v7: append at the end</text>
+<text class="sRt" x="540" y="22" text-anchor="middle">random GUID v4: anywhere</text>
+<line class="sD" x1="360" y1="12" x2="360" y2="200"/>
+<rect class="sB" x="30" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="58" y="150" text-anchor="middle">page 1</text>
+<rect class="sB" x="390" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="418" y="150" text-anchor="middle">page 1</text>
+<rect class="sB" x="92" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="120" y="150" text-anchor="middle">page 2</text>
+<rect class="sB" x="452" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="480" y="150" text-anchor="middle">page 2</text>
+<rect class="sB" x="154" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="182" y="150" text-anchor="middle">page 3</text>
+<rect class="sB" x="514" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="542" y="150" text-anchor="middle">page 3</text>
+<rect class="sB" x="216" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="244" y="150" text-anchor="middle">page 4</text>
+<rect class="sB" x="576" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="604" y="150" text-anchor="middle">page 4</text>
+<rect class="sB" x="278" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="306" y="150" text-anchor="middle">page 5</text>
+<rect class="sB" x="638" y="60" width="56" height="70" rx="4" opacity=".7"/><text class="sC" x="666" y="150" text-anchor="middle">page 5</text>
+<rect class="sG" x="278" y="60" width="56" height="70" rx="4" style="fill:none;stroke-width:2"/>
+<rect class="sR" x="452" y="60" width="56" height="70" rx="4" style="fill:none;stroke-width:2"/>
+<rect class="sR" x="576" y="60" width="56" height="70" rx="4" style="fill:none;stroke-width:2"/>
+<text class="sS" x="180" y="180" text-anchor="middle">the last page fills, then a new one</text>
+<text class="sS" x="540" y="180" text-anchor="middle">full pages split in two: fragmentation</text>
+<text class="sS" x="360" y="214" text-anchor="middle">use int/bigint identity or sequential GUIDs (Guid.CreateVersion7()) for clustered keys</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M180 40 L306 70"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M180 40 L306 84"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M180 40 L306 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M180 40 L306 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M540 40 L480 70"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.280;1" path="M540 40 L604 84"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.280;0.282;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.430;1" path="M540 40 L418 98"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.430;0.432;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.580;1" path="M540 40 L542 112"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.580;0.582;1"/></circle>
+</svg><figcaption>Random keys are fine as a public ID; keep the clustered key ordered.</figcaption></figure>
+
 ## B6.3 How indexes work 🟢 🟡 ⭐
 
 A **B-tree index** keeps keys sorted in a balanced tree, so finding a value takes a handful of page reads (O(log n)) instead of scanning the table.

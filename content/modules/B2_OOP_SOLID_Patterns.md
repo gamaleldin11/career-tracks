@@ -336,6 +336,23 @@ public class CachedRatesProvider(IRatesProvider inner, IMemoryCache cache) : IRa
 > [!story]
 > FinSight used a generic repository plus Unit of Work. A teammate (AhmedMosad0) built that layer; you integrated and used it. A mature answer: "it gave the team a consistent pattern, but in hindsight I'd use DbContext directly with a few specific query methods, because the generic repository made projections and AsNoTracking awkward." Be clear about who built what.
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: the unit of work in EF Core: marking an invoice paid, adding a payment and adding an outbox event are all recorded by the DbContext change tracker, and one SaveChanges call commits them together in a single transaction">
+<rect class="sB" x="14" y="30" width="170" height="40" rx="8"/><text class="sT" x="99" y="48" text-anchor="middle">invoice.MarkPaid()</text><text class="sC" x="99" y="64" text-anchor="middle">modified</text>
+<rect class="sB" x="14" y="84" width="170" height="40" rx="8"/><text class="sT" x="99" y="102" text-anchor="middle">db.Payments.Add(p)</text><text class="sC" x="99" y="118" text-anchor="middle">added</text>
+<rect class="sB" x="14" y="138" width="170" height="40" rx="8"/><text class="sT" x="99" y="156" text-anchor="middle">db.Outbox.Add(evt)</text><text class="sC" x="99" y="172" text-anchor="middle">added</text>
+<rect class="sV" x="260" y="70" width="170" height="66" rx="8"/><text class="sT" x="345" y="101" text-anchor="middle">DbContext</text><text class="sC" x="345" y="117" text-anchor="middle">change tracker</text>
+<rect class="sG" x="500" y="70" width="206" height="66" rx="8"/><text class="sT" x="603" y="101" text-anchor="middle">SaveChanges()</text><text class="sC" x="603" y="117" text-anchor="middle">one transaction: all or none</text>
+<line class="sLm" x1="184" y1="50" x2="258" y2="90" marker-end="url(#ahm)"/>
+<line class="sLm" x1="184" y1="104" x2="258" y2="104" marker-end="url(#ahm)"/>
+<line class="sLm" x1="184" y1="158" x2="258" y2="118" marker-end="url(#ahm)"/>
+<line class="sLg" x1="430" y1="103" x2="498" y2="103" marker-end="url(#ahg)"/>
+<text class="sS" x="360" y="210" text-anchor="middle">DbSet is already a repository and DbContext already a unit of work; wrap them only to add real domain intent</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.100;1" path="M184 50 L258 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.220;1" path="M184 104 L258 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.220;0.222;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.340;1" path="M184 158 L258 118"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M430 103 L498 103"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
+</svg><figcaption>One business operation, one <code>SaveChanges</code>: that is the unit of work, and it is why the outbox row commits atomically with the payment.</figcaption></figure>
+
 ## B2.6 Patterns at the application level 🟡
 
 - **Options pattern:** strongly typed configuration (`IOptions<SmtpSettings>`) validated at startup.
