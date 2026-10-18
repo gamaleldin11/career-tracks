@@ -22,7 +22,7 @@ Interviewers rarely care whether you pick PostgreSQL or MongoDB, Kafka or Rabbit
 > [!term] One-way and two-way doors
 > Amazon's framing (from Jeff Bezos's shareholder letters) for decisions that are hard to reverse (choosing a primary database, a public API contract, a data model that customers depend on) versus easy to reverse (a library, a cache, an internal service boundary). Spend time on one-way doors; decide two-way doors quickly and change them if wrong.
 
-<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Decisions placed by how costly they are to reverse: two-way doors such as a library, a cache, an internal service boundary or a CI tool can be decided fast; one-way doors such as the primary database, a public API contract, a data model customers depend on or a cloud provider deserve time and an architecture decision record; an example ADR lists context, options, decision, consequences and the signal to revisit">
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: decisions placed by how costly they are to reverse: two-way doors such as a library, a cache, an internal service boundary or a CI tool can be decided fast; one-way doors such as the primary database, a public API contract, a data model customers depend on or a cloud provider deserve time and an architecture decision record; an example ADR lists context, options, decision, consequences and the signal to revisit">
 <rect class="sG" x="30" y="20" width="200" height="200" rx="8" opacity=".15"/><rect class="sR" x="230" y="20" width="200" height="200" rx="8" opacity=".15"/>
 <text class="sGt" x="130" y="42" text-anchor="middle">two-way doors</text><text class="sS" x="130" y="58" text-anchor="middle">decide fast, change if wrong</text>
 <text class="sRt" x="330" y="42" text-anchor="middle">one-way doors</text><text class="sS" x="330" y="58" text-anchor="middle">slow down, write an ADR</text>
@@ -47,6 +47,7 @@ Interviewers rarely care whether you pick PostgreSQL or MongoDB, Kafka or Rabbit
 <text class="sS" x="472" y="168" xml:space="preserve" style="white-space:pre">Consequences: JSON columns OK;</text>
 <text class="sS" x="472" y="189" xml:space="preserve" style="white-space:pre">  no global multi-region writes</text>
 <text class="sS" x="472" y="210" xml:space="preserve" style="white-space:pre">Revisit if: write volume &gt; 5k/s</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.600;1" path="M30 232 L430 232"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.600;0.602;1"/></circle>
 </svg><figcaption>Where to spend decision time, and what a one-page ADR for a one-way door looks like (example).</figcaption></figure>
 
 > [!term] Choose boring technology

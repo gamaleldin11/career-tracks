@@ -64,7 +64,7 @@ CREATE TABLE orders (                                    -- PostgreSQL
 - **Many-to-many** (an order has many products, a product is in many orders): needs a **junction table**. `order_items` is exactly that: its primary key is the pair `(order_id, product_id)`.
 - **One-to-one** is rare: usually a table split in two to move large or sensitive columns away from the main one.
 
-<figure class="dia"><svg viewBox="0 0 720 310" role="img" aria-label="Entity-relationship diagram of the practice schema: customers one-to-many orders, orders one-to-many order_items, products one-to-many order_items">
+<figure class="dia anim"><svg viewBox="0 0 720 310" role="img" aria-label="Animation: entity-relationship diagram of the practice schema: customers one-to-many orders, orders one-to-many order_items, products one-to-many order_items">
 <rect class="sB" x="20" y="40" width="160" height="112" rx="8"/><text class="sT" x="100" y="60" text-anchor="middle">customers</text><line class="sN" x1="20" y1="68" x2="180" y2="68"/>
 <text class="sM" x="32" y="88">customer_id PK</text><text class="sC" x="32" y="106">name</text><text class="sC" x="32" y="124">city</text><text class="sC" x="32" y="142">signup_date</text>
 <rect class="sB" x="270" y="40" width="160" height="112" rx="8"/><text class="sT" x="350" y="60" text-anchor="middle">orders</text><line class="sN" x1="270" y1="68" x2="430" y2="68"/>
@@ -80,6 +80,9 @@ CREATE TABLE orders (                                    -- PostgreSQL
 <text class="sS" x="20" y="224">order_items turns the many-to-many between orders and</text>
 <text class="sS" x="20" y="242">products into two one-to-many relationships.</text>
 <text class="sGt" x="20" y="272">Grain of order_items: one row per product in an order.</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.180;1" path="M180 100 L270 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.180;0.182;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.400;1" path="M430 100 L520 100"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.620;1" path="M610 190 L610 152"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.620;0.622;1"/></circle>
 </svg><figcaption>The practice schema as an entity-relationship diagram (crow's foot notation). Say each table's grain out loud before you join it.</figcaption></figure>
 
 > [!term] Grain

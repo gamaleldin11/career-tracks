@@ -15,7 +15,7 @@ An application database and a warehouse can hold exactly the same facts, arrange
 - The **application** needs every write to be correct and cheap: change a customer's city in **one** place, never leave an order pointing at a missing product. So it **normalises**: many narrow tables, each fact stored once, linked by keys ([[B6.1]]).
 - The **analyst** needs reads to be easy and fast: "revenue by city and category, by month" without a page of joins, over years of history. So the warehouse **denormalises** into a few wide, descriptive tables around central tables of measurements.
 
-<figure class="dia"><svg viewBox="0 0 720 270" role="img" aria-label="The same order data as a normalised schema of six related tables needing many joins, and as a star schema with one fact table and four dimensions">
+<figure class="dia anim"><svg viewBox="0 0 720 270" role="img" aria-label="Animation: the same order data as a normalised schema of six related tables needing many joins, and as a star schema with one fact table and four dimensions">
 <text class="sM" x="176" y="20" text-anchor="middle">normalised (OLTP): write each fact once</text>
 <rect class="sB" x="20" y="40" width="96" height="36" rx="8"/><text class="sT" x="68" y="63" text-anchor="middle">customers</text>
 <rect class="sB" x="20" y="120" width="96" height="36" rx="8"/><text class="sT" x="68" y="143" text-anchor="middle">cities</text>
@@ -41,6 +41,8 @@ An application database and a warehouse can hold exactly the same facts, arrange
 <rect class="sG" x="600" y="200" width="110" height="36" rx="8"/><text class="sT" x="655" y="223" text-anchor="middle">dim_restaurant</text>
 <line class="sLm" x1="655" y1="200" x2="540" y2="145"/>
 <text class="sGt" x="540" y="256" text-anchor="middle">one fact, a handful of dimensions: 2 joins</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.450;1" path="M68 118 L68 76 L116 58 L130 58 L178 76 L178 118 L226 138 L240 138 L288 156 L288 198"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.450;0.452;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.750;1" path="M655 76 L540 145 L435 200"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.750;0.752;1"/></circle>
 </svg><figcaption>Same data, two shapes. Normalisation protects writes; a star schema serves reads, which is the warehouse's job.</figcaption></figure>
 
 The rest of this module is the vocabulary and the decisions of that second shape: grain, facts, dimensions, and what to do when the world they describe changes.
@@ -88,7 +90,7 @@ Kimball's process, which works as an interview structure:
 
 A **factless fact table** records events or coverage with no measures, for example which students attended which class, or which products were on promotion in which stores.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Three kinds of fact table: transaction facts as individual events, a periodic snapshot with one balance per account per day, and an accumulating snapshot with one row per order updated at each milestone">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: three kinds of fact table: transaction facts as individual events, a periodic snapshot with one balance per account per day, and an accumulating snapshot with one row per order updated at each milestone">
 <text class="sC" x="200" y="22" text-anchor="middle">day 1</text>
 <text class="sC" x="260" y="22" text-anchor="middle">day 2</text>
 <text class="sC" x="320" y="22" text-anchor="middle">day 3</text>
@@ -125,6 +127,9 @@ A **factless fact table** records events or coverage with no measures, for examp
 <circle class="sPg" cx="338" cy="186" r="7"/><text class="sC" x="338" y="212" text-anchor="middle">picked up</text>
 <circle class="sPg" cx="410" cy="186" r="7"/><text class="sC" x="410" y="212" text-anchor="middle">delivered</text>
 <text class="sC" x="560" y="166" text-anchor="middle">durations between milestones become measures</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M200 82 L680 82"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.620;1" path="M200 142 L680 142"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.620;0.622;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.900;1" path="M212 186 L266 186 L338 186 L410 186"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.900;0.902;1"/></circle>
 </svg><figcaption>Pick the fact type from the question: events, states over time, or a process moving through stages.</figcaption></figure>
 
 ### Additivity ⭐
