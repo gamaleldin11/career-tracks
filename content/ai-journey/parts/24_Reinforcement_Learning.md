@@ -96,6 +96,22 @@ An **agent** observes a **state** (observation) of an **environment**, takes an 
 
 ---
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: the reinforcement-learning loop: the agent’s policy picks an action, the environment returns the next state and a reward, and the loop repeats; the agent learns to maximise the discounted sum of future rewards">
+<rect class="sA" x="80" y="80" width="180" height="70" rx="8"/><text class="sT" x="170" y="113" text-anchor="middle">agent</text><text class="sC" x="170" y="129" text-anchor="middle">policy: state → action</text>
+<rect class="sB" x="460" y="80" width="180" height="70" rx="8"/><text class="sT" x="550" y="113" text-anchor="middle">environment</text><text class="sC" x="550" y="129" text-anchor="middle">CartPole, a game, a market</text>
+<path class="sLg" d="M260 100 C340 40 380 40 460 100" style="fill:none" marker-end="url(#ahg)"/>
+<path class="sLv" d="M460 130 C380 190 340 190 260 130" style="fill:none" marker-end="url(#ahv)"/>
+<text class="sGt" x="360" y="46" text-anchor="middle">action</text>
+<text class="sC" x="360" y="196" text-anchor="middle">next state + reward</text>
+<text class="sS" x="360" y="226" text-anchor="middle">the agent learns to maximise the sum of future rewards, discounted by γ</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.140;1" path="M260 100 C340 40 380 40 460 100"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.140;0.142;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.160;0.300;1" path="M460 130 C380 190 340 190 260 130"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.158;0.162;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.473;1" path="M260 100 C340 40 380 40 460 100"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.331;0.335;0.473;0.475;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.493;0.633;1" path="M460 130 C380 190 340 190 260 130"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.491;0.495;0.633;0.635;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.807;1" path="M260 100 C340 40 380 40 460 100"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.665;0.669;0.807;0.809;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="8s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.827;0.967;1" path="M460 130 C380 190 340 190 260 130"/><animate attributeName="opacity" dur="8s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.825;0.829;0.967;0.969;1"/></circle>
+</svg><figcaption>Unlike supervised learning there are no labels: the only feedback is a reward, often delayed many steps after the action that earned it.</figcaption></figure>
+
 ## 24.2 Policy search 🔴
 
 > [!info] 📖 Géron Ch. 19 · “Policy Gradients”, “Introduction to the Gymnasium Library” · pp. 744–749

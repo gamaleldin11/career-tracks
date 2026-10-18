@@ -468,6 +468,52 @@ Two syntax details:
 
 ---
 
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: five-fold cross-validation: the training data is cut into five folds; in each of five splits a different fold validates while the other four train, giving scores 0.81, 0.84, 0.79, 0.83 and 0.82, reported as a mean of 0.82 with a spread of about 0.02">
+<text class="sM" x="360" y="20" text-anchor="middle">five folds: every row is used for validation exactly once</text>
+<text class="sC" x="70" y="48" text-anchor="end">split 1</text>
+<rect class="sW" x="80" y="30" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="184" y="30" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="288" y="30" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="392" y="30" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="496" y="30" width="100" height="26" rx="3" opacity=".85"/>
+<text class="sC" x="130" y="48" text-anchor="middle">validate</text><text class="sC" x="640" y="48">0.81</text>
+<text class="sC" x="70" y="80" text-anchor="end">split 2</text>
+<rect class="sB" x="80" y="62" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sW" x="184" y="62" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="288" y="62" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="392" y="62" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="496" y="62" width="100" height="26" rx="3" opacity=".85"/>
+<text class="sC" x="234" y="80" text-anchor="middle">validate</text><text class="sC" x="640" y="80">0.84</text>
+<text class="sC" x="70" y="112" text-anchor="end">split 3</text>
+<rect class="sB" x="80" y="94" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="184" y="94" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sW" x="288" y="94" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="392" y="94" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="496" y="94" width="100" height="26" rx="3" opacity=".85"/>
+<text class="sC" x="338" y="112" text-anchor="middle">validate</text><text class="sC" x="640" y="112">0.79</text>
+<text class="sC" x="70" y="144" text-anchor="end">split 4</text>
+<rect class="sB" x="80" y="126" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="184" y="126" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="288" y="126" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sW" x="392" y="126" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="496" y="126" width="100" height="26" rx="3" opacity=".85"/>
+<text class="sC" x="442" y="144" text-anchor="middle">validate</text><text class="sC" x="640" y="144">0.83</text>
+<text class="sC" x="70" y="176" text-anchor="end">split 5</text>
+<rect class="sB" x="80" y="158" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="184" y="158" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="288" y="158" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sB" x="392" y="158" width="100" height="26" rx="3" opacity=".85"/>
+<rect class="sW" x="496" y="158" width="100" height="26" rx="3" opacity=".85"/>
+<text class="sC" x="546" y="176" text-anchor="middle">validate</text><text class="sC" x="640" y="176">0.82</text>
+<text class="sT" x="640" y="22">score</text>
+<text class="sS" x="360" y="210" text-anchor="middle">report the mean, 0.82, and the spread, ±0.02; then refit on all the training data</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.170;1" path="M130 43 L630 43"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.170;0.172;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.350;1" path="M234 75 L630 75"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.350;0.352;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.410;0.530;1" path="M338 107 L630 107"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.408;0.412;0.530;0.532;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.590;0.710;1" path="M442 139 L630 139"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.588;0.592;0.710;0.712;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.770;0.890;1" path="M546 171 L630 171"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.768;0.772;0.890;0.892;1"/></circle>
+</svg><figcaption>Illustrative scores. Use stratified folds for imbalanced classes, group folds when rows share a customer, and time-ordered folds for time series.</figcaption></figure>
+
 ## 6.6 Metrics 🟢 ⭐
 
 > [!info] 📖 Géron Ch. 2 · “Select a Performance Measure” pp. 45–47; Ch. 3 · “Performance Measures” pp. 111–124

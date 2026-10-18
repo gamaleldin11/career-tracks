@@ -58,6 +58,76 @@ The hierarchy follows: edges → textures → parts → objects. **End-to-end le
 
 ---
 
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: a convolution: a 3 by 3 kernel slides over a 6 by 6 input one position at a time, and each position gives one value of the 4 by 4 output, the weighted sum of that 3 by 3 patch with the same nine kernel weights">
+<text class="sM" x="130" y="22" text-anchor="middle">input 6×6</text>
+<text class="sM" x="440" y="22" text-anchor="middle">kernel 3×3 (sharpen)</text>
+<text class="sM" x="600" y="22" text-anchor="middle">output 4×4</text>
+<rect class="sB" x="40" y="30" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="54" y="49" text-anchor="middle">0</text>
+<rect class="sB" x="70" y="30" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="84" y="49" text-anchor="middle">0</text>
+<rect class="sB" x="100" y="30" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="114" y="49" text-anchor="middle">1</text>
+<rect class="sB" x="130" y="30" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="144" y="49" text-anchor="middle">1</text>
+<rect class="sB" x="160" y="30" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="174" y="49" text-anchor="middle">0</text>
+<rect class="sB" x="190" y="30" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="204" y="49" text-anchor="middle">0</text>
+<rect class="sB" x="40" y="60" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="54" y="79" text-anchor="middle">0</text>
+<rect class="sB" x="70" y="60" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="84" y="79" text-anchor="middle">1</text>
+<rect class="sB" x="100" y="60" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="114" y="79" text-anchor="middle">2</text>
+<rect class="sB" x="130" y="60" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="144" y="79" text-anchor="middle">2</text>
+<rect class="sB" x="160" y="60" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="174" y="79" text-anchor="middle">1</text>
+<rect class="sB" x="190" y="60" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="204" y="79" text-anchor="middle">0</text>
+<rect class="sB" x="40" y="90" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="54" y="109" text-anchor="middle">1</text>
+<rect class="sB" x="70" y="90" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="84" y="109" text-anchor="middle">2</text>
+<rect class="sB" x="100" y="90" width="28" height="28" rx="2" opacity="0.89"/><text class="sC" x="114" y="109" text-anchor="middle">4</text>
+<rect class="sB" x="130" y="90" width="28" height="28" rx="2" opacity="0.89"/><text class="sC" x="144" y="109" text-anchor="middle">4</text>
+<rect class="sB" x="160" y="90" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="174" y="109" text-anchor="middle">2</text>
+<rect class="sB" x="190" y="90" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="204" y="109" text-anchor="middle">1</text>
+<rect class="sB" x="40" y="120" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="54" y="139" text-anchor="middle">1</text>
+<rect class="sB" x="70" y="120" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="84" y="139" text-anchor="middle">2</text>
+<rect class="sB" x="100" y="120" width="28" height="28" rx="2" opacity="0.89"/><text class="sC" x="114" y="139" text-anchor="middle">4</text>
+<rect class="sB" x="130" y="120" width="28" height="28" rx="2" opacity="0.89"/><text class="sC" x="144" y="139" text-anchor="middle">4</text>
+<rect class="sB" x="160" y="120" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="174" y="139" text-anchor="middle">2</text>
+<rect class="sB" x="190" y="120" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="204" y="139" text-anchor="middle">1</text>
+<rect class="sB" x="40" y="150" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="54" y="169" text-anchor="middle">0</text>
+<rect class="sB" x="70" y="150" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="84" y="169" text-anchor="middle">1</text>
+<rect class="sB" x="100" y="150" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="114" y="169" text-anchor="middle">2</text>
+<rect class="sB" x="130" y="150" width="28" height="28" rx="2" opacity="0.57"/><text class="sC" x="144" y="169" text-anchor="middle">2</text>
+<rect class="sB" x="160" y="150" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="174" y="169" text-anchor="middle">1</text>
+<rect class="sB" x="190" y="150" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="204" y="169" text-anchor="middle">0</text>
+<rect class="sB" x="40" y="180" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="54" y="199" text-anchor="middle">0</text>
+<rect class="sB" x="70" y="180" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="84" y="199" text-anchor="middle">0</text>
+<rect class="sB" x="100" y="180" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="114" y="199" text-anchor="middle">1</text>
+<rect class="sB" x="130" y="180" width="28" height="28" rx="2" opacity="0.41"/><text class="sC" x="144" y="199" text-anchor="middle">1</text>
+<rect class="sB" x="160" y="180" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="174" y="199" text-anchor="middle">0</text>
+<rect class="sB" x="190" y="180" width="28" height="28" rx="2" opacity="0.25"/><text class="sC" x="204" y="199" text-anchor="middle">0</text>
+<rect class="sV" x="395" y="70" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="409" y="89" text-anchor="middle">0</text>
+<rect class="sV" x="425" y="70" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="439" y="89" text-anchor="middle">-1</text>
+<rect class="sV" x="455" y="70" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="469" y="89" text-anchor="middle">0</text>
+<rect class="sV" x="395" y="100" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="409" y="119" text-anchor="middle">-1</text>
+<rect class="sV" x="425" y="100" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="439" y="119" text-anchor="middle">5</text>
+<rect class="sV" x="455" y="100" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="469" y="119" text-anchor="middle">-1</text>
+<rect class="sV" x="395" y="130" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="409" y="149" text-anchor="middle">0</text>
+<rect class="sV" x="425" y="130" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="439" y="149" text-anchor="middle">-1</text>
+<rect class="sV" x="455" y="130" width="28" height="28" rx="2" opacity=".6"/><text class="sC" x="469" y="149" text-anchor="middle">0</text>
+<rect class="sG" x="540" y="60" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="570" y="60" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="600" y="60" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="630" y="60" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="540" y="90" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="570" y="90" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="600" y="90" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="630" y="90" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="540" y="120" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="570" y="120" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="600" y="120" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="630" y="120" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="540" y="150" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="570" y="150" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="600" y="150" width="28" height="28" rx="2" opacity=".35"/>
+<rect class="sG" x="630" y="150" width="28" height="28" rx="2" opacity=".35"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;30 0;60 0;90 0;0 30;30 30;60 30;90 30;0 60;30 60;60 60;90 60;0 90;30 90;60 90;90 90" keyTimes="0.0000;0.0625;0.1250;0.1875;0.2500;0.3125;0.3750;0.4375;0.5000;0.5625;0.6250;0.6875;0.7500;0.8125;0.8750;0.9375" dur="9s" calcMode="discrete" repeatCount="indefinite"/><rect x="39" y="29" width="90" height="90" rx="3" class="sR" style="fill:none;stroke-width:3"/></g>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;30 0;60 0;90 0;0 30;30 30;60 30;90 30;0 60;30 60;60 60;90 60;0 90;30 90;60 90;90 90" keyTimes="0.0000;0.0625;0.1250;0.1875;0.2500;0.3125;0.3750;0.4375;0.5000;0.5625;0.6250;0.6875;0.7500;0.8125;0.8750;0.9375" dur="9s" calcMode="discrete" repeatCount="indefinite"/><rect x="539" y="59" width="30" height="30" rx="3" class="sR" style="fill:none;stroke-width:3"/></g>
+<text class="sS" x="360" y="222" text-anchor="middle">the same 9 weights slide over every position: each output is a weighted sum of one 3×3 patch</text>
+</svg><figcaption>Sharing one small kernel across the whole image is why a convolutional layer has so few parameters and finds a pattern wherever it appears.</figcaption></figure>
+
 ## 18.2 Convolutional layers 🟡 ⭐
 
 > [!info] 📖 Géron Ch. 12 · “Convolutional Layers” · pp. 419–429
