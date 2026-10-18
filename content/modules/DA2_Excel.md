@@ -416,6 +416,22 @@ With **Power Pivot** (Data → Data Model), you can load several tables, create 
 - **Python in Excel** (Microsoft 365) runs Python (pandas, matplotlib) in cells, with computation in the Microsoft cloud.
 - **Copilot in Excel** can suggest formulas, highlight patterns and create PivotTables from prompts; you still need to check the results.
 
+<figure class="dia anim"><svg viewBox="0 0 720 162" role="img" aria-label="Animation: automating a monthly Excel report: a sales file lands in SharePoint, Power Automate triggers on the new file, an Office Script cleans it and refreshes the PivotTables, and a PDF is emailed to the regional managers">
+<text class="sM" x="360" y="22" text-anchor="middle">a monthly report that used to take an hour, now on its own</text>
+<rect class="sB" x="14" y="44" width="162" height="56" rx="8"/><text class="sT" x="95" y="70" text-anchor="middle">file lands</text><text class="sC" x="95" y="86" text-anchor="middle">in SharePoint</text>
+<rect class="sV" x="192" y="44" width="162" height="56" rx="8"/><text class="sT" x="273" y="70" text-anchor="middle">Power Automate</text><text class="sC" x="273" y="86" text-anchor="middle">trigger: new file</text>
+<line class="sLm" x1="178" y1="72" x2="190" y2="72" marker-end="url(#ahm)"/>
+<rect class="sA" x="370" y="44" width="162" height="56" rx="8"/><text class="sT" x="451" y="70" text-anchor="middle">Office Script</text><text class="sC" x="451" y="86" text-anchor="middle">clean, refresh pivots</text>
+<line class="sLm" x1="356" y1="72" x2="368" y2="72" marker-end="url(#ahm)"/>
+<rect class="sG" x="548" y="44" width="162" height="56" rx="8"/><text class="sT" x="629" y="70" text-anchor="middle">PDF + email</text><text class="sC" x="629" y="86" text-anchor="middle">to the regional managers</text>
+<line class="sLm" x1="534" y1="72" x2="546" y2="72" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="132" text-anchor="middle">desktop Excel with macros (VBA) can do the same on a schedule, but only where that PC is on</text>
+<text class="sRt" x="360" y="152" text-anchor="middle">log each run and alert on failure, or nobody notices the month it silently broke</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.180;1" path="M176 72 L190 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.180;0.182;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.430;1" path="M354 72 L368 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.430;0.432;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.580;0.680;1" path="M532 72 L546 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.578;0.582;0.680;0.682;1"/></circle>
+</svg><figcaption>Automate a task you have done by hand at least three times, and only after the manual steps are stable.</figcaption></figure>
+
 ## DA2.11 The practical Excel test 🟢 ⭐
 
 A typical 30–60-minute test with a sales file:
