@@ -2434,7 +2434,7 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Least privilege &amp; defense in depth</strong> — give the minimum access needed, and layer controls (firewall + segmentation + endpoint + patching) so one failure isn't fatal.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 268" role="img" aria-label="The CIA triad drawn as a triangle: confidentiality, protected by encryption, permissions, MFA and segmentation; integrity, protected by hashes, checksums, signatures and change logs; availability, protected by RAID, backups, clustering, redundant power supplies and DDoS protection">
+<figure class="dia anim"><svg viewBox="0 0 720 268" role="img" aria-label="Animation: the CIA triad drawn as a triangle: confidentiality, protected by encryption, permissions, MFA and segmentation; integrity, protected by hashes, checksums, signatures and change logs; availability, protected by RAID, backups, clustering, redundant power supplies and DDoS protection">
 <polygon class="sN" points="360,30 560,236 160,236" style="stroke-width:1.5"/>
 <rect class="sB" x="290" y="14" width="140" height="44" rx="8"/><text class="sT" x="360" y="34" text-anchor="middle">Confidentiality</text><text class="sS" x="360" y="50" text-anchor="middle">only the right eyes</text>
 <rect class="sG" x="84" y="214" width="140" height="44" rx="8"/><text class="sT" x="154" y="234" text-anchor="middle">Integrity</text><text class="sS" x="154" y="250" text-anchor="middle">unaltered, provable</text>
@@ -2447,6 +2447,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 <text class="sS" x="16" y="196">signatures, change logs</text>
 <text class="sS" x="704" y="180" text-anchor="end">RAID, backups, clustering,</text>
 <text class="sS" x="704" y="196" text-anchor="end">redundant PSUs, DDoS protection</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M360 60 L540 214 L224 236 L360 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Classify any control by the corner it protects. Ransomware hits all three: it reads data (C), encrypts it (I) and takes systems down (A).</figcaption></figure>
 
 <h3>7.2 Firewalls</h3>
@@ -3136,7 +3137,7 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
   <li>The three performance metrics — use them precisely: <strong>IOPS</strong> (I/O operations per second — how many reads/writes), <strong>throughput</strong> (MB/s — how much data), <strong>latency</strong> (ms — how long each operation takes). A database cares about IOPS and latency; a backup job cares about throughput.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Typical random 4K performance on log scales: a 7,200 rpm hard disk does about 80 IOPS at about 8 milliseconds; a 15,000 rpm disk about 200 IOPS at 4 milliseconds; a SATA SSD about 90,000 IOPS at 0.1 milliseconds; an NVMe SSD about 800,000 IOPS at 0.02 milliseconds">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: typical random 4K performance on log scales: a 7,200 rpm hard disk does about 80 IOPS at about 8 milliseconds; a 15,000 rpm disk about 200 IOPS at 4 milliseconds; a SATA SSD about 90,000 IOPS at 0.1 milliseconds; an NVMe SSD about 800,000 IOPS at 0.02 milliseconds">
 <text class="sM" x="240" y="22" text-anchor="middle">random 4K IOPS (more is better)</text>
 <text class="sM" x="540" y="22" text-anchor="middle">latency (less is better)</text>
 <text class="sS" x="130" y="58" text-anchor="end">HDD 7,200 rpm</text><rect class="sN" x="140" y="40" width="63.4363" height="24" rx="3"/><text class="sC" x="209.436" y="57">80</text>
@@ -3154,6 +3155,14 @@ containerlab deploy -t lab.yml        <span class="c"># spin a virtual multi-ven
 <text class="sS" x="506.667" y="220" text-anchor="middle">0.1 ms</text><line class="sLm" x1="506.667" y1="36" x2="506.667" y2="204" opacity=".2"/>
 <text class="sS" x="573.333" y="220" text-anchor="middle">1 ms</text><line class="sLm" x1="573.333" y1="36" x2="573.333" y2="204" opacity=".2"/>
 <text class="sS" x="640" y="220" text-anchor="middle">10 ms</text><line class="sLm" x1="640" y1="36" x2="640" y2="204" opacity=".2"/>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.130;1" path="M140 52 L203 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.130;0.132;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.130;1" path="M440 52 L634 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.130;0.132;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.330;1" path="M140 92 L217 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.330;0.332;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.330;1" path="M440 92 L614 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.330;0.332;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.530;1" path="M140 132 L305 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.530;0.532;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.530;1" path="M440 132 L507 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.530;0.532;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.730;1" path="M140 172 L337 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.730;0.732;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.730;1" path="M440 172 L460 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.730;0.732;1"/></circle>
 </svg><figcaption>Log scales: each grid line is ten times more. A spinning disk waits for the platter to rotate and the head to move; flash has no moving parts. Order-of-magnitude figures — real drives vary by model, queue depth and read/write mix.</figcaption></figure>
 
 <h3>9.2 RAID — surviving disk failure</h3>
@@ -4823,7 +4832,7 @@ sudo lvextend -r -L +20G /dev/vg_data/lv_var   <span class="c"># grow LV AND fil
 MiB Mem: 15843 total, 320 free, 14200 used, 1323 buff/cache
                       <span class="c">└ “free” low is NORMAL — Linux uses spare RAM as cache.</span>
                       <span class="c">  The number that matters is “available” (free -h) ≈ free + reclaimable cache.</span></code></pre>
-<figure class="dia"><svg viewBox="0 0 720 160" role="img" aria-label="Linux memory as free reports it on a 16 gigabyte server: 9.2 gigabytes used by applications, 6.3 gigabytes of buffer and page cache and only 0.3 gigabytes free; the available figure of about 6.5 gigabytes includes the cache because the kernel gives it back as soon as applications need memory">
+<figure class="dia anim"><svg viewBox="0 0 720 160" role="img" aria-label="Animation: Linux memory as free reports it on a 16 gigabyte server: 9.2 gigabytes used by applications, 6.3 gigabytes of buffer and page cache and only 0.3 gigabytes free; the available figure of about 6.5 gigabytes includes the cache because the kernel gives it back as soon as applications need memory">
 <text class="sM" x="14" y="22">free -h  on a 16 GB server</text>
 <rect class="sR" x="14" y="32" width="401.843" height="36" rx="0" opacity=".85"/>
 <rect class="sW" x="415.843" y="32" width="276.18" height="36" rx="0" opacity=".85"/>
@@ -4832,6 +4841,7 @@ MiB Mem: 15843 total, 320 free, 14200 used, 1323 buff/cache
 <text class="sGt" x="702" y="84" text-anchor="end">"free" 0.3 GB</text>
 <path class="sLg" d="M416 96 L416 104 L706 104 L706 96" style="fill:none;stroke-width:2"/><text class="sGt" x="706" y="122" text-anchor="end">"available" ≈ 6.5 GB: cache is handed back when apps need it</text>
 <text class="sS" x="360" y="150" text-anchor="middle">worry when "available" is low AND swap is being used — not when "free" is low</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.500;1" path="M690 50 L420 50"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.500;0.502;1"/></circle>
 </svg><figcaption>Linux deliberately fills spare RAM with disk cache: unused RAM is wasted RAM. Read the <em>available</em> column, and check <code>si</code>/<code>so</code> in <code>vmstat</code> for real memory pressure.</figcaption></figure>
 
 <ul>
@@ -5807,7 +5817,7 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 </ul>
 <p>Deployment models: <strong>public</strong> cloud (Azure, AWS, Google Cloud), <strong>private</strong> cloud (your own VMware or Azure Local estate run cloud-style), and <strong>hybrid</strong> — both, connected — which is what most enterprises actually run.</p>
 
-<figure class="dia"><svg viewBox="0 0 720 306" role="img" aria-label="The shared responsibility model: on premises the customer manages every layer; with IaaS the provider manages the physical datacenter, network, hosts and virtualization while the customer manages the operating system, applications, identity and data; with PaaS the provider also manages the operating system and runtime; with SaaS the provider manages everything except the customer's data and identities, which always remain the customer's responsibility">
+<figure class="dia anim"><svg viewBox="0 0 720 306" role="img" aria-label="Animation: the shared responsibility model: on premises the customer manages every layer; with IaaS the provider manages the physical datacenter, network, hosts and virtualization while the customer manages the operating system, applications, identity and data; with PaaS the provider also manages the operating system and runtime; with SaaS the provider manages everything except the customer's data and identities, which always remain the customer's responsibility">
 <text class="sS" x="150" y="50" text-anchor="end">Data</text>
 <text class="sS" x="150" y="78" text-anchor="end">Identities, accounts</text>
 <text class="sS" x="150" y="106" text-anchor="end">Applications</text>
@@ -5840,6 +5850,7 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 <rect class="sB" x="160" y="287" width="12" height="12" rx="3"/><text class="sS" x="178" y="298">you</text>
 <rect class="sA" x="232" y="287" width="12" height="12" rx="3"/><text class="sS" x="250" y="298">cloud provider</text>
 <rect class="sW" x="372" y="287" width="12" height="12" rx="3"/><text class="sS" x="390" y="298">shared</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.750;1" path="M220 282 L352 172 L484 144 L616 88"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.750;0.752;1"/></circle>
 </svg><figcaption>The <strong>shared responsibility model</strong>. The provider secures the cloud itself; you secure what you put in it. Most real cloud breaches are on the customer's side of this line: a public storage bucket, an over-privileged account, a leaked access key.</figcaption></figure>
 
 <h3>19.2 Regions, availability zones and the global map</h3>
@@ -6402,7 +6413,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 </table></div>
 <p>Availability math (memorize one row and derive the rest): <strong>99.9%</strong> = 8h 46m downtime/year · <strong>99.99%</strong> = 52 min · <strong>99.999%</strong> = 5 min. "Three nines vs four nines" is the difference between a maintenance window and full redundancy — good vocabulary for SLA talk.</p>
 
-<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Allowed downtime per year for availability targets: 99 percent is 3.7 days, 99.9 percent 8 hours 46 minutes, 99.99 percent 53 minutes, 99.999 percent about 5 minutes">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: allowed downtime per year for availability targets: 99 percent is 3.7 days, 99.9 percent 8 hours 46 minutes, 99.99 percent 53 minutes, 99.999 percent about 5 minutes">
 <text class="sM" x="14" y="22">allowed downtime per year (log scale)</text>
 <text class="sT" x="150" y="52" text-anchor="end">99%</text><rect class="sW" x="160" y="36" width="286.028" height="20" rx="3"/><text class="sC" x="452.028" y="51">3.7 days / year</text>
 <text class="sS" x="706" y="51" text-anchor="end">7 h 18 min / month</text>
@@ -6417,6 +6428,12 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <text class="sT" x="150" y="192" text-anchor="end">99.999%</text><rect class="sG" x="160" y="176" width="77.6992" height="20" rx="3"/><text class="sC" x="243.699" y="191">5.3 min / year</text>
 <text class="sS" x="706" y="191" text-anchor="end">26 s / month</text>
 <text class="sS" x="360" y="218" text-anchor="middle">each extra nine divides the budget by ten, and roughly multiplies the cost: four nines means no maintenance window</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.130;1" path="M160 46 L446 46"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.130;0.132;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.170;0.263;1" path="M160 74 L425 74"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.168;0.172;0.263;0.265;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.310;0.386;1" path="M160 102 L377 102"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.308;0.312;0.386;0.388;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.518;1" path="M160 130 L356 130"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.518;0.520;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.590;0.641;1" path="M160 158 L307 158"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.588;0.592;0.641;0.643;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.730;0.757;1" path="M160 186 L238 186"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.728;0.732;0.757;0.759;1"/></circle>
 </svg><figcaption>The nines, computed: memorise 99.9% ≈ 8 h 46 min a year and divide by ten for each extra nine.</figcaption></figure>
 
 <h3>D13.2 Major incidents &amp; RCA — how grown-up ops behaves</h3>
