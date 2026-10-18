@@ -2231,7 +2231,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 </table></div>
 <p>Common Wi-Fi tickets: weak signal/dead zones (coverage), channel interference (co-channel APs), wrong PSK, 802.1X certificate expired, DHCP scope exhausted on the guest VLAN, and "connected but no internet" (usually DHCP/DNS, not radio).</p>
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="The eleven 2.4 GHz Wi-Fi channels drawn as overlapping arcs; only channels 1, 6 and 11 do not overlap">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: the eleven 2.4 GHz Wi-Fi channels drawn as overlapping arcs; only channels 1, 6 and 11 do not overlap">
 <path class="sLg" d="M70 170 Q 154 40 238 170" fill="none" stroke-width="3"/>
 <text class="sT" x="154" y="192" text-anchor="middle">1</text>
 <path class="sLm" d="M108 170 Q 192 70 276 170" fill="none" stroke-width="1.2" opacity=".6"/>
@@ -2257,6 +2257,9 @@ access-list 110 deny   ip  any any                              <span class="c">
 <line class="sLm" x1="30" y1="170" x2="700" y2="170"/>
 <text class="sC" x="360" y="22" text-anchor="middle">2.4 GHz: each channel is ~22 MHz wide but channels are only 5 MHz apart</text>
 <text class="sGt" x="360" y="214" text-anchor="middle">only 1, 6 and 11 don't overlap: plan neighbouring access points on those three</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.230;1" path="M70 170 Q 154 40 238 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.230;0.232;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.480;1" path="M260 170 Q 344 40 428 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.480;0.482;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.530;0.730;1" path="M450 170 Q 534 40 618 170"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.528;0.532;0.730;0.732;1"/></circle>
 </svg><figcaption>Why 2.4 GHz has only three usable channels. Two access points on channels 3 and 4 interfere with each other and with 1 and 6.</figcaption></figure>
 
 <h3>6.2 WAN technologies</h3>
@@ -2336,7 +2339,7 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li>Controller architectures: autonomous APs vs controller-based (<strong>CAPWAP</strong> tunnels to a WLC) vs cloud-managed (Meraki, Mist). In centrally-switched setups <em>user traffic rides the tunnel to the controller</em> — a WLC outage takes Wi-Fi down even with APs powered.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 170" role="img" aria-label="Wi-Fi signal strength scale in dBm from minus 30 to minus 90: minus 30 to minus 55 is excellent, minus 55 to minus 67 is good and is the design target for voice and video, minus 67 to minus 75 is marginal, and below minus 75 is poor to unusable; every 3 decibels halves the power">
+<figure class="dia anim"><svg viewBox="0 0 720 170" role="img" aria-label="Animation: Wi-Fi signal strength scale in dBm from minus 30 to minus 90: minus 30 to minus 55 is excellent, minus 55 to minus 67 is good and is the design target for voice and video, minus 67 to minus 75 is marginal, and below minus 75 is poor to unusable; every 3 decibels halves the power">
 <rect class="sG" x="40" y="40" width="266.667" height="30" rx="0" opacity=".8"/><text class="sS" x="173.333" y="92" text-anchor="middle">excellent</text>
 <rect class="sG" x="306.667" y="40" width="128" height="30" rx="0" opacity=".8"/><text class="sS" x="370.667" y="92" text-anchor="middle">good: voice/video OK</text>
 <rect class="sW" x="434.667" y="40" width="85.3333" height="30" rx="0" opacity=".8"/><text class="sS" x="477.333" y="92" text-anchor="middle">marginal</text>
@@ -2354,6 +2357,7 @@ access-list 110 deny   ip  any any                              <span class="c">
 <line class="sLm" x1="680" y1="70" x2="680" y2="76"/><text class="sC" x="680" y="118" text-anchor="middle">-90</text>
 <text class="sS" x="360" y="140" text-anchor="middle">every −3 dB halves the power: −67 dBm carries 1/16th the power of −55 dBm</text>
 <text class="sGt" x="360" y="160" text-anchor="middle">design target for voice: ≥ −67 dBm and SNR ≥ 25 dB everywhere people sit</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M40 55 L680 55"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>dBm is logarithmic and negative: closer to zero is stronger. A user at −78 dBm with "full bars" on a phone is still a coverage problem.</figcaption></figure>
 
 <h3>D6.2 VPN internals &amp; failure signatures</h3>
@@ -3577,7 +3581,7 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
   <li><strong>Replication ≠ backup</strong>: replication copies changes fast — including the encryption/deletion. Replication answers RTO (fast failover); backups answer RPO/history. You want both, for different reasons.</li>
   <li>Restore drills: file-level, VM-level, and the full "restore AD + app tier in the DR site" exercise. Mentioning you'd <em>time</em> the restore against RTO shows operational maturity.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 190" role="img" aria-label="Grandfather-father-son backup retention: seven daily restore points, four weekly and twelve monthly, 23 points covering a whole year with coarser granularity for older data, plus one immutable or offline copy that ransomware cannot delete">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: grandfather-father-son backup retention: seven daily restore points, four weekly and twelve monthly, 23 points covering a whole year with coarser granularity for older data, plus one immutable or offline copy that ransomware cannot delete">
 <text class="sM" x="14" y="22">Grandfather-father-son retention: 7 daily + 4 weekly + 12 monthly restore points</text>
 <rect class="sB" x="120" y="36" width="26" height="26" rx="4"/><text class="sC" x="133" y="54" text-anchor="middle">M</text>
 <rect class="sB" x="150" y="36" width="26" height="26" rx="4"/><text class="sC" x="163" y="54" text-anchor="middle">T</text>
@@ -3607,6 +3611,9 @@ size=2.0T features='3 queue_if_no_path' hwhandler='1 alua'
 <text class="sS" x="110" y="138" text-anchor="end">monthly</text><text class="sS" x="110" y="152" text-anchor="end">(grandfathers)</text>
 <rect class="sN" x="370" y="36" width="336" height="68" rx="8"/><text class="sT" x="538" y="58" text-anchor="middle">23 restore points cover a whole year,</text><text class="sS" x="538" y="78" text-anchor="middle">not 365 copies — each older point is</text><text class="sS" x="538" y="94" text-anchor="middle">coarser but cheaper to keep</text>
 <text class="sGt" x="360" y="180" text-anchor="middle">plus one copy that is immutable or offline (3-2-1-1-0): the one ransomware cannot delete</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M133 66 L313 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.500;1" path="M143 108 L299 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.500;0.502;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.900;1" path="M141 150 L669 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.900;0.902;1"/></circle>
 </svg><figcaption>Retention answers "how far back can we go, and how precisely?". Yesterday is restorable to the day; last March only to the month.</figcaption></figure>
 </div>
 
@@ -4021,7 +4028,7 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
   <li>Watch in the client / <code>esxtop</code>: CPU ready, ballooning/swap, datastore latency, and alarms in vCenter.</li>
 </ul>
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Three VMs competing for 12 GHz: VM A with 2000 shares and a 2 GHz reservation, VM B with 1000 shares and a 1 GHz limit, VM C with 1000 shares and a 4 GHz reservation; the computed split honours the reservations, caps B at its limit and divides the rest by shares">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: three VMs competing for 12 GHz: VM A with 2000 shares and a 2 GHz reservation, VM B with 1000 shares and a 1 GHz limit, VM C with 1000 shares and a 4 GHz reservation; the computed split honours the reservations, caps B at its limit and divides the rest by shares">
 <text class="sM" x="14" y="22">host with 12 GHz of CPU, every VM wants 8 GHz: the scheduler splits it like this</text>
 <text class="sT" x="80" y="64" text-anchor="end">VM A</text><text class="sS" x="80" y="80" text-anchor="end">shares 2000</text>
 <rect class="sN" x="90" y="50" width="416" height="26" rx="4"/>
@@ -4036,6 +4043,9 @@ kubernetes: PersistentVolumeClaim → CSI driver carves array storage automatica
 <rect class="sA" x="90" y="150" width="294.667" height="26" rx="4"/><text class="sT" x="390.667" y="168">5.7 GHz</text>
 <rect class="sG" x="90" y="150" width="208" height="26" rx="4" opacity=".7"/><text class="sS" x="194" y="167" text-anchor="middle">reserved</text>
 <text class="sS" x="360" y="210" text-anchor="middle">reservations are paid first, the rest is split 2 : 1 : 1 by shares, and a limit caps a VM even when CPU is idle</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M90 63 L367 63"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.120;1" path="M90 113 L142 113"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.120;0.122;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.420;1" path="M90 163 L385 163"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.420;0.422;1"/></circle>
 </svg><figcaption>Shares only matter under contention; reservations are a floor, limits a ceiling. Allocation computed by proportional share with those bounds.</figcaption></figure>
 
 <h3>10.8 Everyday associate tasks &amp; troubleshooting</h3>
@@ -6012,7 +6022,7 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
   <li><strong>Evidence</strong>: a script's output (a CSV, a log) is proof for a ticket, an audit or an RCA.</li>
   <li>Use <strong>PowerShell</strong> for Windows, Active Directory, Hyper-V, Microsoft 365, Azure and VMware (PowerCLI). Use <strong>Bash</strong> for Linux, ESXi shell basics, network appliances and containers. PowerShell 7 also runs on Linux and macOS.</li>
 </ul>
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="When a script pays off: checking servers by hand at 5 minutes each grows to 500 minutes for 100 servers, while a script that takes 60 minutes to write then costs about 6 seconds per server; the lines cross at about 12 servers, and the script can be rerun later at no extra cost">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: when a script pays off: checking servers by hand at 5 minutes each grows to 500 minutes for 100 servers, while a script that takes 60 minutes to write then costs about 6 seconds per server; the lines cross at about 12 servers, and the script can be rerun later at no extra cost">
 <line class="sLm" x1="80" y1="200" x2="650" y2="200"/>
 <line class="sLm" x1="80" y1="200" x2="80" y2="26"/>
 <text class="sS" x="72" y="204" text-anchor="end">0</text>
@@ -6030,6 +6040,8 @@ ipmitool -I lanplus -H 10.0.99.21 -U admin -P '***' sel list</code></pre>
 <line class="sLr" x1="80" y1="200" x2="640" y2="30" style="stroke-width:3"/><text class="sRt" x="572.8" y="40.2" text-anchor="end">by hand: 5 min each</text>
 <line class="sLg" x1="80" y1="179.6" x2="640" y2="176.2" style="stroke-width:3"/><text class="sGt" x="640" y="166.2" text-anchor="end">script: 60 min to write, then ~6 s each</text>
 <circle class="sPw" cx="148.6" cy="179.2" r="6"/><text class="sWt" x="158.571" y="201.184">break-even ≈ 12 servers — and the script runs again tomorrow for free</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.750;1" path="M80 200 L640 30"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.750;0.752;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.750;1" path="M80 179.6 L640 176.2"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.750;0.752;1"/></circle>
 </svg><figcaption>Break-even = writing time ÷ (manual minutes − scripted minutes per server) = 60 ÷ 4.9 ≈ 12. The real win is the second and every later run. Illustrative numbers.</figcaption></figure>
 
 
