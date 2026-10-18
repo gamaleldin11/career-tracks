@@ -409,6 +409,22 @@ A **runbook** says what to do when an alert fires. A **post-mortem** after an in
 
 Cloud bills surprise teams. Cheap habits: shut down or scale to zero non-production environments at night (Container Apps and Functions scale to zero); right-size instances by looking at actual CPU and memory use; set budgets and alerts; delete orphaned disks, IPs and snapshots; prefer managed services when the hours you'd spend running them cost more than the service. **Egress** (data leaving the cloud) is a common hidden cost.
 
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: scaling a development environment to zero: always on, it is billed for 24 hours a day; scaled to zero outside working hours, it is billed for about 10 hours on a weekday and nothing at weekends, roughly 70 percent less">
+<line class="sLm" x1="110" y1="160" x2="686" y2="160"/>
+<text class="sM" x="360" y="22" text-anchor="middle">a dev environment over one weekday</text>
+<line class="sLm" x1="110" y1="156" x2="110" y2="164"/><text class="sC" x="110" y="180" text-anchor="middle">00:00</text>
+<line class="sLm" x1="254" y1="156" x2="254" y2="164"/><text class="sC" x="254" y="180" text-anchor="middle">06:00</text>
+<line class="sLm" x1="398" y1="156" x2="398" y2="164"/><text class="sC" x="398" y="180" text-anchor="middle">12:00</text>
+<line class="sLm" x1="542" y1="156" x2="542" y2="164"/><text class="sC" x="542" y="180" text-anchor="middle">18:00</text>
+<line class="sLm" x1="686" y1="156" x2="686" y2="164"/><text class="sC" x="686" y="180" text-anchor="middle">24:00</text>
+<text class="sT" x="100" y="64" text-anchor="end">always on</text>
+<rect class="sR" x="110" y="46" width="576" height="28" rx="4" opacity=".75"/><text class="sT" x="398" y="65" text-anchor="middle">24 h billed</text>
+<text class="sT" x="100" y="124" text-anchor="end">scale to zero</text>
+<rect class="sG" x="326" y="106" width="240" height="28" rx="4" opacity=".85"/><text class="sT" x="446" y="125" text-anchor="middle">~10 h billed</text>
+<text class="sS" x="360" y="204" text-anchor="middle">nights and weekends off: about 70% less for the same work; add budgets and alerts so a bill never surprises you</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M110 92 L686 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+</svg><figcaption>Container Apps and Functions scale to zero on their own; for VMs and databases, schedule stop and start.</figcaption></figure>
+
 ## S10.9 Certifications worth knowing about (October 2026) 🟢
 
 Microsoft retired several popular certifications in 2025–26, so check the current list before paying for one.

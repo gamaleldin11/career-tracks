@@ -89,6 +89,19 @@ Every model needs something to beat:
 
 If the complex model beats the rule by a hair, the rule may be the better product (transparent, cheap, already trusted). Reporting the baseline is also how you show the model's value honestly: "the model catches 62% of churners in the top 10%, vs 38% for the current rule."
 
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: a baseline ladder computed on synthetic churn data: calling the top 10 percent of 5,000 customers reaches 12 percent of churners in random order, 37 percent with a one-feature business rule, 41 percent with logistic regression and 62 percent with gradient boosting">
+<text class="sM" x="360" y="22" text-anchor="middle">share of churners reached when the team can call only 10% of customers</text>
+<text class="sT" x="170" y="60" text-anchor="end">random order</text><rect class="sN" x="180" y="40" width="73.6134" height="28" rx="4" opacity=".85"/><text class="sC" x="259.613" y="60">12%</text>
+<text class="sT" x="170" y="100" text-anchor="end">business rule</text><rect class="sW" x="180" y="80" width="218.824" height="28" rx="4" opacity=".85"/><text class="sC" x="404.824" y="100">36%</text>
+<text class="sT" x="170" y="140" text-anchor="end">logistic regression</text><rect class="sB" x="180" y="120" width="243.025" height="28" rx="4" opacity=".85"/><text class="sC" x="429.025" y="140">41%</text>
+<text class="sT" x="170" y="180" text-anchor="end">gradient boosting</text><rect class="sG" x="180" y="160" width="369.076" height="28" rx="4" opacity=".85"/><text class="sC" x="555.076" y="180">62%</text>
+<text class="sS" x="360" y="214" text-anchor="middle">synthetic churn data, 12% churners, 5,000 test customers; computed with scikit-learn</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M180 54 L253.61344537815125 54"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.380;1" path="M180 94 L398.8235294117647 94"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.380;0.382;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.410;0.560;1" path="M180 134 L423.0252100840336 134"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.408;0.412;0.560;0.562;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.590;0.740;1" path="M180 174 L549.0756302521008 174"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.588;0.592;0.740;0.742;1"/></circle>
+</svg><figcaption>Report every rung. Here the rule already triples random targeting, and boosting adds another 25 points: that gap, not the AUC, is the model’s value.</figcaption></figure>
+
 ## DS3.2 Linear and logistic regression 🟢 ⭐
 
 **Linear regression** predicts a number as a weighted sum of features; **logistic regression** passes that sum through a sigmoid to predict a probability.

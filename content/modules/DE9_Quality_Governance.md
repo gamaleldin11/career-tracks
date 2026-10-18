@@ -60,6 +60,56 @@ So data quality can't rely on things failing loudly. It needs **explicit checks*
 > [!say]
 > "I think of data quality as completeness, uniqueness, validity, consistency, accuracy and freshness, and I turn each into an automated check: unique and not-null keys, accepted values, referential integrity between facts and dimensions, reconciliation of totals against the source, and freshness and volume checks against expectations."
 
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: data-quality dimensions on six order rows: a null customer ID fails completeness, a duplicated order ID fails uniqueness, a four-digit phone number and a negative amount fail validity, and a product key with no matching product fails consistency; accuracy and freshness are checked against other systems and load times">
+<text class="sT" x="60" y="30" text-anchor="middle">order_id</text>
+<text class="sT" x="149" y="30" text-anchor="middle">customer_id</text>
+<text class="sT" x="258" y="30" text-anchor="middle">phone</text>
+<text class="sT" x="367" y="30" text-anchor="middle">product_sk</text>
+<text class="sT" x="451" y="30" text-anchor="middle">amount</text>
+<rect class="sN" x="20" y="40" width="80" height="24" rx="3"/><text class="sC" x="60" y="57" text-anchor="middle">1001</text>
+<rect class="sN" x="104" y="40" width="90" height="24" rx="3"/><text class="sC" x="149" y="57" text-anchor="middle">C-42</text>
+<rect class="sN" x="198" y="40" width="120" height="24" rx="3"/><text class="sC" x="258" y="57" text-anchor="middle">01012345678</text>
+<rect class="sN" x="322" y="40" width="90" height="24" rx="3"/><text class="sC" x="367" y="57" text-anchor="middle">77</text>
+<rect class="sN" x="416" y="40" width="70" height="24" rx="3"/><text class="sC" x="451" y="57" text-anchor="middle">900</text>
+<rect class="sN" x="20" y="68" width="80" height="24" rx="3"/><text class="sC" x="60" y="85" text-anchor="middle">1002</text>
+<rect class="sR" x="104" y="68" width="90" height="24" rx="3" opacity=".85"/><text class="sC" x="149" y="85" text-anchor="middle">NULL</text>
+<rect class="sN" x="198" y="68" width="120" height="24" rx="3"/><text class="sC" x="258" y="85" text-anchor="middle">01198765432</text>
+<rect class="sN" x="322" y="68" width="90" height="24" rx="3"/><text class="sC" x="367" y="85" text-anchor="middle">81</text>
+<rect class="sN" x="416" y="68" width="70" height="24" rx="3"/><text class="sC" x="451" y="85" text-anchor="middle">450</text>
+<rect class="sR" x="20" y="96" width="80" height="24" rx="3" opacity=".85"/><text class="sC" x="60" y="113" text-anchor="middle">1002</text>
+<rect class="sN" x="104" y="96" width="90" height="24" rx="3"/><text class="sC" x="149" y="113" text-anchor="middle">C-17</text>
+<rect class="sN" x="198" y="96" width="120" height="24" rx="3"/><text class="sC" x="258" y="113" text-anchor="middle">01198765432</text>
+<rect class="sN" x="322" y="96" width="90" height="24" rx="3"/><text class="sC" x="367" y="113" text-anchor="middle">81</text>
+<rect class="sN" x="416" y="96" width="70" height="24" rx="3"/><text class="sC" x="451" y="113" text-anchor="middle">450</text>
+<rect class="sN" x="20" y="124" width="80" height="24" rx="3"/><text class="sC" x="60" y="141" text-anchor="middle">1004</text>
+<rect class="sN" x="104" y="124" width="90" height="24" rx="3"/><text class="sC" x="149" y="141" text-anchor="middle">C-09</text>
+<rect class="sR" x="198" y="124" width="120" height="24" rx="3" opacity=".85"/><text class="sC" x="258" y="141" text-anchor="middle">0123</text>
+<rect class="sN" x="322" y="124" width="90" height="24" rx="3"/><text class="sC" x="367" y="141" text-anchor="middle">77</text>
+<rect class="sN" x="416" y="124" width="70" height="24" rx="3"/><text class="sC" x="451" y="141" text-anchor="middle">120</text>
+<rect class="sN" x="20" y="152" width="80" height="24" rx="3"/><text class="sC" x="60" y="169" text-anchor="middle">1005</text>
+<rect class="sN" x="104" y="152" width="90" height="24" rx="3"/><text class="sC" x="149" y="169" text-anchor="middle">C-31</text>
+<rect class="sN" x="198" y="152" width="120" height="24" rx="3"/><text class="sC" x="258" y="169" text-anchor="middle">01555555555</text>
+<rect class="sR" x="322" y="152" width="90" height="24" rx="3" opacity=".85"/><text class="sC" x="367" y="169" text-anchor="middle">999</text>
+<rect class="sN" x="416" y="152" width="70" height="24" rx="3"/><text class="sC" x="451" y="169" text-anchor="middle">75</text>
+<rect class="sN" x="20" y="180" width="80" height="24" rx="3"/><text class="sC" x="60" y="197" text-anchor="middle">1006</text>
+<rect class="sN" x="104" y="180" width="90" height="24" rx="3"/><text class="sC" x="149" y="197" text-anchor="middle">C-88</text>
+<rect class="sN" x="198" y="180" width="120" height="24" rx="3"/><text class="sC" x="258" y="197" text-anchor="middle">01022223333</text>
+<rect class="sN" x="322" y="180" width="90" height="24" rx="3"/><text class="sC" x="367" y="197" text-anchor="middle">81</text>
+<rect class="sR" x="416" y="180" width="70" height="24" rx="3" opacity=".85"/><text class="sC" x="451" y="197" text-anchor="middle">-40</text>
+<text class="sRt" x="500" y="85">completeness: null key</text>
+<text class="sRt" x="500" y="113">uniqueness: duplicate id</text>
+<text class="sRt" x="500" y="141">validity: bad phone</text>
+<text class="sRt" x="500" y="169">consistency: unknown product</text>
+<text class="sRt" x="500" y="197">validity: amount &lt; 0</text>
+<text class="sS" x="360" y="226" text-anchor="middle">plus accuracy (reconcile totals with finance) and freshness (latest load under 2 hours old)</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M20 214 L486 214"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.120;0.200;1" path="M194 80 L496 80"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.118;0.122;0.200;0.202;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.270;0.350;1" path="M100 108 L496 108"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.268;0.272;0.350;0.352;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.500;1" path="M318 136 L496 136"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.500;0.502;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.570;0.650;1" path="M412 164 L496 164"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.568;0.572;0.650;0.652;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.800;1" path="M486 192 L496 192"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.800;0.802;1"/></circle>
+</svg><figcaption>Each dimension becomes a test that runs on every load; the failing rows go into the alert so the owner can see them.</figcaption></figure>
+
 ## DE9.2 Where to check 🟢 🟡 ⭐
 
 <figure class="dia anim"><svg viewBox="0 0 720 150" role="img" aria-label="Animation: a batch of data passes the checks along a pipeline: a contract at ingestion, tests after transformation, an audit before publishing and monitoring in production">
