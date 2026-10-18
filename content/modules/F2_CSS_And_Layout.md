@@ -45,7 +45,7 @@ For every element and every property, the browser collects the matching declarat
 
 Before any flexbox or grid, elements are laid out in **normal flow**. Flex and grid replace it only for the direct children of the container that asks for them.
 
-<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: Normal flow: block boxes stack vertically at full width; inline boxes flow along lines and wrap">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: normal flow: block boxes stack vertically at full width; inline boxes flow along lines and wrap">
 <rect class="sN" x="20" y="14" width="680" height="196" rx="10"/><text class="sC" x="30" y="32">&lt;article&gt;  (a block container)</text>
 <rect class="sA" x="36" y="42" width="648" height="30" rx="4"/><text class="sC" x="46" y="62">&lt;h1&gt; block: full width, starts a new line</text>
 <rect class="sB" x="36" y="80" width="648" height="78" rx="4"/><text class="sC" x="46" y="96">&lt;p&gt; block, containing inline boxes that flow in lines and wrap:</text>
@@ -137,7 +137,7 @@ When several rules set the same property on an element, the browser picks one by
 
 Every element is a box: **content**, then **padding**, then **border**, then **margin**.
 
-<figure class="dia anim"><svg viewBox="0 0 800 210" role="img" aria-label="Animation: Box model: margin, border, padding and content nested boxes">
+<figure class="dia anim"><svg viewBox="0 0 800 210" role="img" aria-label="Animation: box model: margin, border, padding and content nested boxes">
 <rect class="sW" x="150" y="10" width="420" height="190" rx="4"/><text class="sM" x="160" y="28">margin</text>
 <rect class="sR" x="180" y="38" width="360" height="134" rx="4"/><text class="sM" x="190" y="56">border</text>
 <rect class="sG" x="200" y="64" width="320" height="90" rx="4"/><text class="sM" x="210" y="82">padding</text>
@@ -151,10 +151,12 @@ Every element is a box: **content**, then **padding**, then **border**, then **m
 *, *::before, *::after { box-sizing: border-box; }   /* width now includes padding and border */
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="The same width, padding and border take 350 pixels with content-box and exactly 300 pixels with border-box">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: the same width, padding and border take 350 pixels with content-box and exactly 300 pixels with border-box">
 <text class="sM" x="20" y="22">width: 300px; padding: 20px; border: 5px</text>
 <text class="sM" x="20" y="58">content-box</text><rect class="sR" x="170" y="36" width="6.5" height="34" rx="2"/><rect class="sG" x="176.5" y="36" width="26" height="34" rx="2"/><text class="sC" x="189.5" y="58" text-anchor="middle">20</text><rect class="sA" x="202.5" y="36" width="390" height="34" rx="2"/><text class="sC" x="397.5" y="58" text-anchor="middle">content 300</text><rect class="sG" x="592.5" y="36" width="26" height="34" rx="2"/><text class="sC" x="605.5" y="58" text-anchor="middle">20</text><rect class="sR" x="618.5" y="36" width="6.5" height="34" rx="2"/><path class="sLm" d="M170 78 v6 H625.0 v-6"/><text class="sS" x="397.5" y="98" text-anchor="middle">takes 350px: padding and border are added on top</text>
 <text class="sM" x="20" y="142">border-box</text><rect class="sR" x="170" y="120" width="6.5" height="34" rx="2"/><rect class="sG" x="176.5" y="120" width="26" height="34" rx="2"/><text class="sC" x="189.5" y="142" text-anchor="middle">20</text><rect class="sA" x="202.5" y="120" width="325" height="34" rx="2"/><text class="sC" x="365" y="142" text-anchor="middle">content 250</text><rect class="sG" x="527.5" y="120" width="26" height="34" rx="2"/><text class="sC" x="540.5" y="142" text-anchor="middle">20</text><rect class="sR" x="553.5" y="120" width="6.5" height="34" rx="2"/><path class="sLm" d="M170 162 v6 H560.0 v-6"/><text class="sS" x="365" y="182" text-anchor="middle">takes exactly 300px: the content shrinks to fit</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M170 84 L625 84"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M170 168 L560 168"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
 </svg><figcaption>Why every project sets <code>box-sizing: border-box</code>: the width you write is the width you get.</figcaption></figure>
 
 > [!term] Margin collapsing
@@ -291,10 +293,12 @@ Grid lays children out in **rows and columns at once**.
 
 **`auto-fill` vs `auto-fit`:** both create as many columns as fit. With few items, `auto-fill` keeps empty column tracks, so the items stay at their minimum size; `auto-fit` collapses empty tracks, so items stretch to fill the row.
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="auto-fill keeps empty column tracks so two cards stay narrow; auto-fit collapses the empty tracks so the two cards stretch">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: auto-fill keeps empty column tracks so two cards stay narrow; auto-fit collapses the empty tracks so the two cards stretch">
 <text class="sM" x="20" y="22">repeat(auto-fill, minmax(150px, 1fr))</text><rect class="sN" x="20" y="30" width="680" height="54" rx="8"/><rect class="sA" x="27" y="37" width="158" height="40" rx="6"/><text class="sC" x="106" y="62" text-anchor="middle">card 1</text><rect class="sA" x="195" y="37" width="158" height="40" rx="6"/><text class="sC" x="274" y="62" text-anchor="middle">card 2</text><rect class="sN" x="363" y="37" width="158" height="40" rx="6" stroke-dasharray="5 4"/><text class="sC" x="442" y="62" text-anchor="middle">empty track</text><rect class="sN" x="531" y="37" width="160" height="40" rx="6" stroke-dasharray="5 4"/><text class="sC" x="611" y="62" text-anchor="middle">empty track</text>
 <text class="sM" x="20" y="122">repeat(auto-fit, minmax(150px, 1fr))</text><rect class="sN" x="20" y="130" width="680" height="54" rx="8"/><rect class="sG" x="27" y="137" width="326" height="40" rx="6"/><text class="sC" x="190" y="162" text-anchor="middle">card 1</text><rect class="sG" x="363" y="137" width="328" height="40" rx="6"/><text class="sC" x="527" y="162" text-anchor="middle">card 2</text>
 <text class="sS" x="360" y="204" text-anchor="middle">With many items both behave the same; the difference shows when items are few.</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.400;1" path="M27 30 L106 30 L274 30 L442 30 L611 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M27 130 L190 130 L527 130"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
 </svg><figcaption><code>auto-fill</code> keeps the empty tracks; <code>auto-fit</code> collapses them and lets the items grow.</figcaption></figure>
 
 ### Flexbox or grid? 🟢 ⭐
@@ -354,7 +358,7 @@ Grid lays children out in **rows and columns at once**.
 | `dvh` / `svh` / `lvh` | The dynamic / small / large viewport height | Mobile, where browser toolbars change the visible height (`100vh` overflows on phones) |
 | `ch` | Width of "0" in the current font | Line length: `max-width: 65ch` for readable text |
 
-<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: Left: nested list items with font-size 1.2em grow 19.2, 23, 27.6 and 33.2 pixels because em compounds, while 1.2rem stays at 19.2 pixels. Right: clamp(1.5rem, 1rem + 2vw, 2.5rem) stays at 24 pixels below a 400 pixel viewport, grows linearly, and caps at 40 pixels from 1,200 pixels">
+<figure class="dia anim"><svg viewBox="0 0 720 236" role="img" aria-label="Animation: left: nested list items with font-size 1.2em grow 19.2, 23, 27.6 and 33.2 pixels because em compounds, while 1.2rem stays at 19.2 pixels. Right: clamp(1.5rem, 1rem + 2vw, 2.5rem) stays at 24 pixels below a 400 pixel viewport, grows linearly, and caps at 40 pixels from 1,200 pixels">
 <text class="sM" x="14" y="22">each nested level: 1.2em vs 1.2rem (root 16px)</text>
 <text class="sC" x="70" y="58" text-anchor="end">level 1</text>
 <rect class="sW" x="80" y="38" width="115.2" height="14" rx="3"/><text class="sWt" x="201.2" y="50">19.2px (em)</text>
@@ -423,7 +427,7 @@ All of these are **Baseline** features, meaning supported in the current version
 > [!tip] Check support quickly
 > MDN pages show a **Baseline** badge; [caniuse.com](https://caniuse.com) gives version details. "Baseline widely available" means it has worked everywhere for at least 30 months.
 
-<figure class="dia"><svg viewBox="0 0 720 180" role="img" aria-label="The CSS :has() parent selector: before it, JavaScript listened for input and toggled a class on the field wrapper; with :has(), a rule like .field:has(input:user-invalid) styles the wrapper directly from the state of the input inside it">
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: the CSS :has() parent selector: before it, JavaScript listened for input and toggled a class on the field wrapper; with :has(), a rule like .field:has(input:user-invalid) styles the wrapper directly from the state of the input inside it">
 <rect class="sN" x="14" y="20" width="330" height="150" rx="8"/><text class="sT" x="179" y="42" text-anchor="middle">before :has() — JavaScript toggles a class</text>
 <text class="sC" x="26" y="70" xml:space="preserve" style="white-space:pre">input.addEventListener("input", …)</text>
 <text class="sC" x="26" y="90" xml:space="preserve" style="white-space:pre">field.classList.toggle("bad", …)</text>
@@ -434,6 +438,8 @@ All of these are **Baseline** features, meaning supported in the current version
 <text class="sC" x="388" y="100" xml:space="preserve" style="white-space:pre">  border-color: var(--senior);</text>
 <text class="sC" x="388" y="120" xml:space="preserve" style="white-space:pre">}</text>
 <text class="sGt" x="541" y="150" text-anchor="middle">the parent styles itself from its content</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.350;1" path="M30 74 L30 94 L30 114"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M392 84 L392 104"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
 </svg><figcaption><code>:has()</code> is Baseline in every current browser. Pair it with <code>:user-invalid</code> so fields only turn red after the user has interacted.</figcaption></figure>
 
 ## F2.9 Theming and dark mode 🟢 🟡

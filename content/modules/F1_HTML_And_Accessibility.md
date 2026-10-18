@@ -79,7 +79,7 @@ The World Health Organization estimates that about 1.3 billion people, roughly o
 | `<ul>`/`<ol>`, `<table>` | Lists and **tabular data** (never tables for layout) |
 | `<time datetime="2026-10-03">` | Machine-readable dates |
 
-<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="Page wireframe with header, nav, main, aside and footer and the landmark role each one exposes">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: page wireframe with header, nav, main, aside and footer and the landmark role each one exposes">
 <rect class="sN" x="20" y="14" width="680" height="230" rx="10"/>
 <rect class="sB" x="30" y="24" width="660" height="34" rx="6"/><text class="sM" x="40" y="46">&lt;header&gt;</text><text class="sGt" x="680" y="46" text-anchor="end">banner</text>
 <rect class="sB" x="30" y="64" width="660" height="26" rx="6"/><text class="sM" x="40" y="82">&lt;nav&gt;</text><text class="sGt" x="680" y="82" text-anchor="end">navigation</text>
@@ -87,6 +87,7 @@ The World Health Organization estimates that about 1.3 billion people, roughly o
 <text class="sC" x="48" y="140">h1 Invoices</text><rect class="sB" x="44" y="148" width="210" height="46" rx="4"/><text class="sC" x="54" y="166">&lt;section&gt; h2 Overdue</text><rect class="sB" x="270" y="148" width="220" height="46" rx="4"/><text class="sC" x="280" y="166">&lt;section&gt; h2 Paid</text>
 <rect class="sB" x="510" y="96" width="180" height="106" rx="6"/><text class="sM" x="520" y="116">&lt;aside&gt;</text><text class="sGt" x="680" y="116" text-anchor="end">complementary</text>
 <rect class="sB" x="30" y="208" width="660" height="28" rx="6"/><text class="sM" x="40" y="227">&lt;footer&gt;</text><text class="sGt" x="680" y="227" text-anchor="end">contentinfo</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M690 41 L690 77 L500 110 L690 110 L690 222"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Landmarks: each element on the left exposes the role on the right, which screen-reader users jump between with one key (D in NVDA, the rotor in VoiceOver).</figcaption></figure>
 
 ### Button, link or div? 🟢 ⭐
@@ -202,7 +203,7 @@ Never write "image of…"; the screen reader already says "image".
      loading="lazy" decoding="async">
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 296" role="img" aria-label="Animation: Which srcset candidate each device downloads: phones get a slot of 100vw and tablets and computers 50vw; multiplying by the device pixel ratio gives the pixels needed, and the browser takes the smallest file at least that wide, so a 360-pixel phone at 1x gets the 400-pixel file, a 375-pixel phone at 2x, a tablet and a 1366-pixel laptop get the 800-pixel file, and a 390-pixel phone at 3x, a 1920-pixel desktop and a high-density laptop get the 1600-pixel file">
+<figure class="dia anim"><svg viewBox="0 0 720 296" role="img" aria-label="Animation: which srcset candidate each device downloads: phones get a slot of 100vw and tablets and computers 50vw; multiplying by the device pixel ratio gives the pixels needed, and the browser takes the smallest file at least that wide, so a 360-pixel phone at 1x gets the 400-pixel file, a 375-pixel phone at 2x, a tablet and a 1366-pixel laptop get the 800-pixel file, and a 390-pixel phone at 3x, a 1920-pixel desktop and a high-density laptop get the 1600-pixel file">
 <text class="sT" x="14" y="22">device</text>
 <text class="sT" x="128" y="22" text-anchor="middle">slot (sizes)</text>
 <text class="sT" x="200" y="22" text-anchor="middle">× DPR</text>
