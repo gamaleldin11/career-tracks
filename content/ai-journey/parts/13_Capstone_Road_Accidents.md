@@ -1126,7 +1126,7 @@ The improvement over built-in feature importance is substantial:
 
 Per-prediction explanation is what lets you answer "why did the model say *this* accident would be serious?" — which is the question a stakeholder actually asks.
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="A SHAP-style waterfall for one accident: starting from the average predicted risk, motorcycle, speed limit and darkness each push the probability of a serious outcome up, a dry road pushes it slightly down, and the contributions add up exactly to the prediction">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: a SHAP-style waterfall for one accident: starting from the average predicted risk, motorcycle, speed limit and darkness each push the probability of a serious outcome up, a dry road pushes it slightly down, and the contributions add up exactly to the prediction">
 <line class="sD" x1="248.571" y1="30" x2="248.571" y2="196"/><text class="sS" x="248.571" y="210" text-anchor="middle">base 0.13</text>
 <line class="sD" x1="611.959" y1="30" x2="611.959" y2="196"/><text class="sGt" x="611.959" y="210" text-anchor="middle">prediction 0.65</text>
 <rect class="sR" x="248.571" y="40" width="216.453" height="24" rx="3" opacity=".75"/>
@@ -1138,6 +1138,10 @@ Per-prediction explanation is what lets you answer "why did the model say *this*
 <rect class="sG" x="611.959" y="154" width="13.8178" height="24" rx="3" opacity=".75"/>
 <text class="sC" x="605.959" y="170" text-anchor="end">wet road = 0</text><text class="sS" x="631.777" y="170">-0.020</text>
 <text class="sS" x="360" y="232" text-anchor="middle">contributions sum exactly to prediction − base: +0.519 = +0.519</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.250;1" path="M248.6 52 L465 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.400;1" path="M465 90 L558.7 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.400;0.402;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.520;1" path="M558.7 128 L625.8 128"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.520;0.522;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.600;1" path="M625.8 166 L612 166"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.600;0.602;1"/></circle>
 </svg><figcaption>Shapley values computed exactly by enumerating every feature coalition, for one prediction of a small illustrative model. Red pushes towards "serious".</figcaption></figure>
 
 ⚠️ `shap.TreeExplainer(best_pipe)` will not work on a Pipeline directly — it needs the raw tree model and the transformed feature matrix:
@@ -1170,7 +1174,7 @@ AI_Project/
 └── *.png              # saved figures
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="The team project as modules: the collective notebook imports data_handling for loading and cleaning, EDA for plots, training for fitting models and evaluation for metrics, and the findings and figures are written to readme.md and PNG files">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: the team project as modules: the collective notebook imports data_handling for loading and cleaning, EDA for plots, training for fitting models and evaluation for metrics, and the findings and figures are written to readme.md and PNG files">
 <rect class="sA" x="270" y="14" width="180" height="46" rx="8"/><text class="sT" x="360" y="35" text-anchor="middle">collective_project.ipynb</text><text class="sC" x="360" y="51" text-anchor="middle">the narrative</text>
 <rect class="sB" x="14" y="104" width="164" height="46" rx="8"/><text class="sT" x="96" y="125" text-anchor="middle">data_handling.py</text><text class="sC" x="96" y="141" text-anchor="middle">load + clean</text><line class="sLm" x1="360" y1="60" x2="96" y2="104" marker-end="url(#ahm)"/>
 <rect class="sV" x="190" y="104" width="164" height="46" rx="8"/><text class="sT" x="272" y="125" text-anchor="middle">EDA.py</text><text class="sC" x="272" y="141" text-anchor="middle">plots</text><line class="sLm" x1="360" y1="60" x2="272" y2="104" marker-end="url(#ahm)"/>
@@ -1178,6 +1182,10 @@ AI_Project/
 <rect class="sW" x="542" y="104" width="164" height="46" rx="8"/><text class="sT" x="624" y="125" text-anchor="middle">evaluation.py</text><text class="sC" x="624" y="141" text-anchor="middle">metrics</text><line class="sLm" x1="360" y1="60" x2="624" y2="104" marker-end="url(#ahm)"/>
 <rect class="sN" x="270" y="180" width="180" height="40" rx="8"/><text class="sT" x="360" y="198" text-anchor="middle">readme.md + *.png</text><text class="sC" x="360" y="214" text-anchor="middle">findings, figures</text>
 <text class="sS" x="360" y="240" text-anchor="middle">logic lives in reviewable modules; the notebook imports them and tells the story</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M96 104 L360 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.210;0.330;1" path="M272 104 L360 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.208;0.212;0.330;0.332;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.390;0.510;1" path="M448 104 L360 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.388;0.392;0.510;0.512;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.570;0.690;1" path="M624 104 L360 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.568;0.572;0.690;0.692;1"/></circle>
 </svg><figcaption>The same layering as the single-person project, scaled to a team: each file can be reviewed and diffed on its own.</figcaption></figure>
 
 **This is the right pattern for team work.** Logic lives in modules that can be reviewed and diffed; the notebook is the narrative layer that imports them. Four people can work on four modules without merge conflicts in JSON.

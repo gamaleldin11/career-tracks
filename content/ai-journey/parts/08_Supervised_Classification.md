@@ -146,7 +146,7 @@ df["hour_cos"] = np.cos(2 * np.pi * df["hour"] / 24)
 
 Now midnight and 11pm are close in feature space. Matters for linear models and KNN; trees can carve the discontinuity themselves.
 
-<figure class="dia"><svg viewBox="0 0 720 266" role="img" aria-label="Hours as integers put 23 and 0 at opposite ends of a line, 23 units apart; encoded as sine and cosine they sit on a circle where 23:00 and 00:00 are neighbours at the same distance as any two consecutive hours">
+<figure class="dia anim"><svg viewBox="0 0 720 266" role="img" aria-label="Animation: hours as integers put 23 and 0 at opposite ends of a line, 23 units apart; encoded as sine and cosine they sit on a circle where 23:00 and 00:00 are neighbours at the same distance as any two consecutive hours">
 <text class="sT" x="180" y="22" text-anchor="middle">hour as an integer</text><line class="sLm" x1="30" y1="80" x2="330" y2="80"/>
 <circle class="sPr" cx="30.0" cy="80" r="5"/>
 <text class="sS" x="30" y="100" text-anchor="middle">0</text>
@@ -220,6 +220,8 @@ Now midnight and 11pm are close in feature space. Matters for linear models and 
 <text class="sS" x="516.706" y="43.0667" text-anchor="middle">23</text>
 <text class="sGt" x="540" y="238" text-anchor="middle">23:00 ↔ 00:00 distance 0.26, the same as 11:00 ↔ 12:00 (0.26)</text>
 <text class="sS" x="540" y="256" text-anchor="middle">opposite hours (00:00 ↔ 12:00) are the farthest apart: 2</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.400;1" path="M30 80 L330 80"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.400;0.402;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.920;1" path="M540 52 A74 74 0 1 1 520.8 54.5 L540 52"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.920;0.922;1"/></circle>
 </svg><figcaption>Cyclic encoding, computed: two columns place the 24 hours on a circle, so the wrap-around at midnight disappears.</figcaption></figure>
 
 **B — Text length as a proxy.** The full ad topic line is high-cardinality free text. Its *length* is one clean numeric feature that may carry signal (long headlines vs short) at almost no cost. A cheap way to extract something from text without going full NLP — see Part 10 for the full treatment.
@@ -1545,7 +1547,7 @@ Some classifiers are **natively multiclass** (`LogisticRegression`, Random Fores
 
 Force a strategy with `OneVsRestClassifier(...)` / `OneVsOneClassifier(...)`. After fitting, `clf.classes_` maps score columns to labels. Use `clf.classes_[scores.argmax()]`, never assume index = label.
 
-<figure class="dia"><svg viewBox="0 0 720 246" role="img" aria-label="Multiclass with binary classifiers: one-vs-rest trains one model per class against all others; one-vs-one trains one model per pair of classes and takes a vote">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: multiclass with binary classifiers: one-vs-rest trains one model per class against all others; one-vs-one trains one model per pair of classes and takes a vote">
 <text class="sT" x="176" y="22" text-anchor="middle">one-vs-rest: N models</text><text class="sT" x="540" y="22" text-anchor="middle">one-vs-one: N(N−1)/2 models</text>
 <rect class="sA" x="30" y="40" width="70" height="36" rx="6"/><text class="sT" x="65" y="63" text-anchor="middle">cat</text><text class="sC" x="116" y="63" text-anchor="middle">vs</text><rect class="sN" x="132" y="40" width="190" height="36" rx="6"/><text class="sC" x="227" y="63" text-anchor="middle">all the others</text>
 <rect class="sV" x="30" y="92" width="70" height="36" rx="6"/><text class="sT" x="65" y="115" text-anchor="middle">dog</text><text class="sC" x="116" y="115" text-anchor="middle">vs</text><rect class="sN" x="132" y="92" width="190" height="36" rx="6"/><text class="sC" x="227" y="115" text-anchor="middle">all the others</text>
@@ -1555,6 +1557,8 @@ Force a strategy with `OneVsRestClassifier(...)` / `OneVsOneClassifier(...)`. Af
 <rect class="sV" x="410" y="144" width="90" height="36" rx="6"/><text class="sT" x="455" y="167" text-anchor="middle">dog</text><text class="sC" x="520" y="167" text-anchor="middle">vs</text><rect class="sG" x="540" y="144" width="90" height="36" rx="6"/><text class="sT" x="585" y="167" text-anchor="middle">fox</text>
 <text class="sC" x="176" y="210" text-anchor="middle">pick the class whose model is most confident</text><text class="sC" x="540" y="210" text-anchor="middle">each model votes; most votes wins</text>
 <text class="sS" x="360" y="234" text-anchor="middle">10 digits: 10 models (OvR) vs 45 models on smaller datasets (OvO, scikit-learn's choice for SVC)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.350;1" path="M14 58 L14 110 L14 162"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.350;0.352;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M394 58 L394 110 L394 162"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
 </svg><figcaption>Two ways to make a binary classifier handle many classes.</figcaption></figure>
 
 Géron's multiclass SGD gets ~86–87% CV accuracy on MNIST, and **simply adding `StandardScaler` lifts it to ~89–90%**. Scaling matters for linear gradient-based models.
