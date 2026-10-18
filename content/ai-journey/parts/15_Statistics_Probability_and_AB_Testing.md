@@ -1348,6 +1348,25 @@ The convention is power = 0.8, α = 0.05.
 
 ---
 
+<figure class="dia anim"><svg viewBox="0 0 720 160" role="img" aria-label="Animation: the logic of a hypothesis test: assume the null hypothesis of no difference, work out the results it would produce, see where the observed result falls, take the share of results at least as extreme as the p-value, and reject the null when p is below alpha">
+<text class="sM" x="360" y="24" text-anchor="middle">a test is a proof by contradiction with uncertainty</text>
+<rect class="sN" x="14" y="44" width="128" height="56" rx="8"/><text class="sT" x="78" y="70" text-anchor="middle">assume H0</text><text class="sC" x="78" y="86" text-anchor="middle">no difference</text>
+<rect class="sB" x="156" y="44" width="128" height="56" rx="8"/><text class="sT" x="220" y="70" text-anchor="middle">simulate H0</text><text class="sC" x="220" y="86" text-anchor="middle">expected results</text>
+<line class="sLm" x1="144" y1="72" x2="154" y2="72" marker-end="url(#ahm)"/>
+<rect class="sA" x="298" y="44" width="128" height="56" rx="8"/><text class="sT" x="362" y="70" text-anchor="middle">compare</text><text class="sC" x="362" y="86" text-anchor="middle">ours vs those</text>
+<line class="sLm" x1="286" y1="72" x2="296" y2="72" marker-end="url(#ahm)"/>
+<rect class="sW" x="440" y="44" width="128" height="56" rx="8"/><text class="sT" x="504" y="70" text-anchor="middle">p-value</text><text class="sC" x="504" y="86" text-anchor="middle">share as extreme</text>
+<line class="sLm" x1="428" y1="72" x2="438" y2="72" marker-end="url(#ahm)"/>
+<rect class="sG" x="582" y="44" width="128" height="56" rx="8"/><text class="sT" x="646" y="70" text-anchor="middle">decide</text><text class="sC" x="646" y="86" text-anchor="middle">p &lt; α: reject H0</text>
+<line class="sLm" x1="570" y1="72" x2="580" y2="72" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="130" text-anchor="middle">p = 0.03 means: if there were truly no difference, results this extreme would happen 3% of the time</text>
+<text class="sRt" x="360" y="150" text-anchor="middle">it is not the probability that H0 is true, and it says nothing about how big the effect is</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M142 72 L154 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.330;1" path="M284 72 L296 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.330;0.332;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.530;1" path="M426 72 L438 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.530;0.532;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.730;1" path="M568 72 L580 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.730;0.732;1"/></circle>
+</svg><figcaption>Report the effect size and its confidence interval next to the p-value; the decision needs both.</figcaption></figure>
+
 ## 15.6 Which test? The decision table 🟡
 
 | Question | Data | Test | Python |

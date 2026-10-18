@@ -626,27 +626,6 @@ dpo.train()
 
 ---
 
-<figure class="dia anim"><svg viewBox="0 0 720 176" role="img" aria-label="Animation: from base model to chatbot: pretraining on trillions of tokens of web text for next-token prediction gives a base model that completes text; supervised fine-tuning on thousands of instruction examples and preference tuning with RLHF or DPO on ranked answer pairs turn it into a chat model">
-<rect class="sB" x="14" y="50" width="128" height="56" rx="8"/><text class="sT" x="78" y="76" text-anchor="middle">pretraining</text><text class="sC" x="78" y="92" text-anchor="middle">next-token loss</text>
-<rect class="sN" x="156" y="50" width="128" height="56" rx="8"/><text class="sT" x="220" y="76" text-anchor="middle">base model</text><text class="sC" x="220" y="92" text-anchor="middle">completes text</text>
-<line class="sLm" x1="144" y1="78" x2="154" y2="78" marker-end="url(#ahm)"/>
-<rect class="sA" x="298" y="50" width="128" height="56" rx="8"/><text class="sT" x="362" y="76" text-anchor="middle">SFT</text><text class="sC" x="362" y="92" text-anchor="middle">instructions</text>
-<line class="sLm" x1="286" y1="78" x2="296" y2="78" marker-end="url(#ahm)"/>
-<rect class="sV" x="440" y="50" width="128" height="56" rx="8"/><text class="sT" x="504" y="76" text-anchor="middle">preference tuning</text><text class="sC" x="504" y="92" text-anchor="middle">RLHF or DPO</text>
-<line class="sLm" x1="428" y1="78" x2="438" y2="78" marker-end="url(#ahm)"/>
-<rect class="sG" x="582" y="50" width="128" height="56" rx="8"/><text class="sT" x="646" y="76" text-anchor="middle">chat model</text><text class="sC" x="646" y="92" text-anchor="middle">an assistant</text>
-<line class="sLm" x1="570" y1="78" x2="580" y2="78" marker-end="url(#ahm)"/>
-<text class="sM" x="360" y="28" text-anchor="middle">the expensive step happens once; the cheaper steps shape behaviour</text>
-<text class="sC" x="78" y="130" text-anchor="middle">trillions of tokens</text>
-<text class="sC" x="362" y="130" text-anchor="middle">thousands of examples</text>
-<text class="sC" x="504" y="130" text-anchor="middle">ranked answer pairs</text>
-<text class="sS" x="360" y="166" text-anchor="middle">a product then adds a system prompt, retrieval (RAG), tools and guardrails around the chat model</text>
-<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.130;1" path="M142 78 L154 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.130;0.132;1"/></circle>
-<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.330;1" path="M284 78 L296 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.330;0.332;1"/></circle>
-<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.530;1" path="M426 78 L438 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.530;0.532;1"/></circle>
-<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.730;1" path="M568 78 L580 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.730;0.732;1"/></circle>
-</svg><figcaption>A base model continues your text; a chat model answers it. The difference is mostly the last two, much cheaper, steps.</figcaption></figure>
-
 ## 21.6 From a chatbot model to a chatbot system 🟡
 
 > [!info] 📖 Géron Ch. 15 · “From a Chatbot Model to a Full Chatbot System”, “Model Context Protocol” · pp. 633–639
