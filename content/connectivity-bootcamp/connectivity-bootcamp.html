@@ -1700,6 +1700,26 @@ $ dig +short -t MX capgemini.com   <span class="c"># Linux: just the answer</spa
 <text class="sS" x="360" y="216" text-anchor="middle">so one big file copy never exceeds 10G, but many flows together can use all 40G</text>
 </svg><figcaption>LACP gives bandwidth for many flows and survives a member failure, but it does not make one flow faster. That is the answer to "we bonded four links and the backup copy is still 10G".</figcaption></figure>
 
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: port security on an access port allowing one sticky MAC address: frames from the office PC pass to the network; when a rogue laptop on a desk switch sends from a second MAC address, the violation action applies: protect drops its frames silently, restrict drops, logs and counts them, and shutdown, the default, puts the port into err-disabled until someone clears it">
+<rect class="sB" x="14" y="36" width="160" height="44" rx="8"/><text class="sT" x="94" y="56" text-anchor="middle">office PC</text><text class="sC" x="94" y="72" text-anchor="middle">MAC …4a:10 (sticky)</text>
+<rect class="sR" x="14" y="112" width="160" height="44" rx="8"/><text class="sT" x="94" y="132" text-anchor="middle">rogue laptop</text><text class="sC" x="94" y="148" text-anchor="middle">MAC …9e:77</text>
+<rect class="sN" x="206" y="74" width="96" height="44" rx="8"/><text class="sT" x="254" y="101" text-anchor="middle">desk switch</text>
+<line class="sLm" x1="174" y1="58" x2="206" y2="90"/>
+<line class="sLm" x1="174" y1="134" x2="206" y2="102"/>
+<line class="sLm" x1="302" y1="96" x2="340" y2="96"/>
+<rect class="sA" x="340" y="64" width="180" height="64" rx="8"/><text class="sT" x="430" y="94" text-anchor="middle">access switch</text><text class="sC" x="430" y="110" text-anchor="middle">Gi1/0/22 · max 1 MAC</text>
+<line class="sLm" x1="520" y1="96" x2="560" y2="96"/>
+<rect class="sG" x="560" y="74" width="146" height="44" rx="8"/><text class="sT" x="633" y="101" text-anchor="middle">network</text>
+<text class="sRt" x="430" y="148" text-anchor="middle">second MAC seen → violation</text>
+<rect class="sN" x="14" y="170" width="222" height="44" rx="8"/><text class="sT" x="125" y="190" text-anchor="middle">protect</text><text class="sC" x="125" y="206" text-anchor="middle">drop unknown frames silently</text>
+<rect class="sW" x="249" y="170" width="222" height="44" rx="8"/><text class="sT" x="360" y="190" text-anchor="middle">restrict</text><text class="sC" x="360" y="206" text-anchor="middle">drop, log and count</text>
+<rect class="sR" x="484" y="170" width="222" height="44" rx="8"/><text class="sT" x="595" y="190" text-anchor="middle">shutdown (default)</text><text class="sC" x="595" y="206" text-anchor="middle">port err-disabled until cleared</text>
+<text class="sC" x="14" y="240" xml:space="preserve" style="white-space:pre">switchport port-security maximum 1 · mac-address sticky · violation shutdown</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M174 58 L206 84 L254 79 L302 92 L340 96 L520 96 L560 96"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.620;1" path="M174 134 L206 108 L254 113 L302 100 L338 96"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.620;0.622;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.660;0.780;1" path="M595 140 L595 168"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.658;0.662;0.780;0.782;1"/></circle>
+</svg><figcaption>Recover with <code>shutdown</code> then <code>no shutdown</code> on the port, after removing the cause. MAC addresses can be spoofed, so for real access control use 802.1X.</figcaption></figure>
+
 <h3>4.6 Commands you can name-drop</h3>
 <pre><code><span class="c"># Cisco IOS — the vocabulary interviewers recognize</span>
 show mac address-table          <span class="c"># who's on which port</span>
@@ -5244,6 +5264,23 @@ C:\&gt; klist                       <span class="c"># my Kerberos tickets (klist
   <li><strong>Kerberos flow</strong> in one breath: logon → KDC (a DC) issues a <strong>TGT</strong>; accessing a server → present TGT, receive a <strong>service ticket</strong> for that server's <strong>SPN</strong>; the server validates it — passwords never cross the wire. Requires DNS + time within 5 minutes (both again!).</li>
   <li><strong>Trust relationship failed</strong>: the <em>computer</em> account's password (rotated every 30 days) fell out of sync — commonly after restoring an old VM snapshot of the machine. Fix: <code>Reset-ComputerMachinePassword</code> or rejoin. And that's why <mark>you don't revert old snapshots of domain controllers or domain members casually — and never DCs (USN rollback)</mark>.</li>
 </ul>
+
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: the five FSMO roles: per forest, the schema master and the domain naming master; per domain, the PDC emulator, which is the time source and handles password changes and lockouts, the RID master, which hands out pools of IDs, and the infrastructure master; the first DC holds all five, a password change on DC2 is forwarded to the PDC emulator, and DC3 asks the RID master for a new pool when its own runs low">
+<text class="sM" x="360" y="22" text-anchor="middle">five jobs only one domain controller does at a time: netdom query fsmo shows who holds each</text>
+<text class="sT" x="144" y="48" text-anchor="middle">one per forest</text>
+<text class="sT" x="498" y="48" text-anchor="middle">one per domain</text>
+<rect class="sV" x="14" y="58" width="260" height="44" rx="8"/><text class="sT" x="144" y="78" text-anchor="middle">schema master</text><text class="sC" x="144" y="94" text-anchor="middle">changes to the AD schema</text>
+<rect class="sV" x="14" y="110" width="260" height="44" rx="8"/><text class="sT" x="144" y="130" text-anchor="middle">domain naming master</text><text class="sC" x="144" y="146" text-anchor="middle">adds or removes domains</text>
+<rect class="sW" x="290" y="58" width="416" height="44" rx="8"/><text class="sT" x="498" y="78" text-anchor="middle">PDC emulator</text><text class="sC" x="498" y="94" text-anchor="middle">time source · password changes · account lockouts</text>
+<rect class="sB" x="290" y="110" width="200" height="44" rx="8"/><text class="sT" x="390" y="130" text-anchor="middle">RID master</text><text class="sC" x="390" y="146" text-anchor="middle">ID pools for new objects</text>
+<rect class="sB" x="506" y="110" width="200" height="44" rx="8"/><text class="sT" x="606" y="130" text-anchor="middle">infrastructure master</text><text class="sC" x="606" y="146" text-anchor="middle">cross-domain links</text>
+<rect class="sN" x="14" y="186" width="200" height="44" rx="8"/><text class="sT" x="114" y="206" text-anchor="middle">DC1</text><text class="sC" x="114" y="222" text-anchor="middle">first DC: holds all five</text>
+<rect class="sG" x="260" y="186" width="200" height="44" rx="8"/><text class="sT" x="360" y="206" text-anchor="middle">DC2</text><text class="sC" x="360" y="222" text-anchor="middle">a user changes a password</text>
+<rect class="sG" x="506" y="186" width="200" height="44" rx="8"/><text class="sT" x="606" y="206" text-anchor="middle">DC3</text><text class="sC" x="606" y="222" text-anchor="middle">its RID pool runs low</text>
+<text class="sS" x="360" y="252" text-anchor="middle">planned work: transfer a role; holder dead for good: seize it on another DC and never bring the old one back</text>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M360 186 L360 172 L498 172 L498 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M606 186 L606 176 L390 176 L390 156"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
+</svg><figcaption>Of the five, the PDC emulator is the one users feel within minutes when it is down: lockouts, password changes and time all depend on it.</figcaption></figure>
 
 <figure class="dia steps"><svg viewBox="0 0 720 284" role="img" aria-label="Kerberos in three exchanges: the client proves the user’s identity to the domain controller’s KDC with a timestamp sealed by the password-derived key and receives a ticket-granting ticket; it presents the TGT to ask for a service ticket for the file server’s SPN; it presents the service ticket to the file server, which can decrypt it and checks share and NTFS permissions; the password itself never crosses the network; failures come from clock skew over five minutes, DNS, or SPN problems">
 <rect class="sB" x="10" y="10" width="160" height="42" rx="8"/><text class="sT" x="90" y="29" text-anchor="middle">Client PC</text><text class="sC" x="90" y="45" text-anchor="middle">user a.hassan</text>
