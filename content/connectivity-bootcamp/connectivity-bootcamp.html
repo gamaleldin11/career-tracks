@@ -6758,7 +6758,7 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 
 <div class="qa"><details><summary>Example STAR answer — "Tell me about a time you solved a problem under pressure"</summary><div class="a"><p>"<strong>S:</strong> In my graduation project, our demo server stopped responding the morning of the presentation. <strong>T:</strong> I had 90 minutes to get the system back before our slot. <strong>A:</strong> Instead of panicking and rebooting things randomly, I worked it in layers: the VM was up, SSH worked, so the network was fine; <code>systemctl status</code> showed our app service failed; the log showed the disk was 100% full from debug logging we'd left on. I cleared the logs, disabled debug mode, added a size limit, restarted the service, and verified the app end-to-end. <strong>R:</strong> We presented on time and got an A. It taught me two habits I still keep: check the logs before touching anything, and after every fix, remove the root cause — not just the symptom."</p></div></details></div>
 
-<h3>14.5 Rapid-fire drill — 40 one-liners across all four topics</h3>
+<h3>14.5 Rapid-fire drill — 64 one-liners across every topic</h3>
 <p>Cover the right column and answer aloud. These are the short-form questions technical screeners fire in sequence; the goal is a crisp first sentence, not an essay.</p>
 <div class="qa" id="qa14r">
 <details><summary>Networks — 14 rapid answers</summary><div class="a">
@@ -6808,6 +6808,34 @@ exit "$status"                         <span class="c">← 0 = all fine; monitor
 <p><strong>IP and routes?</strong> <code>ip a</code> · <code>ip r</code>.</p>
 <p><strong>Root's UID? Superuser practice?</strong> 0; use sudo, not root logins.</p>
 <p><strong>Where are configs? Logs?</strong> <code>/etc</code> · <code>/var/log</code>.</p>
+</div></details>
+<details><summary>Networks, round two — 12 rapid answers</summary><div class="a">
+<p><strong>Port of NTP / SNMP / syslog?</strong> UDP 123 · 161 (traps 162) · 514.</p>
+<p><strong>LDAP / LDAPS / Kerberos / SMB?</strong> 389 · 636 · 88 · 445.</p>
+<p><strong>RADIUS vs TACACS+ ports?</strong> UDP 1812/1813 · TCP 49.</p>
+<p><strong>HSRP or VRRP gives?</strong> One virtual gateway IP shared by two routers; the standby takes over.</p>
+<p><strong>LACP does?</strong> Bundles 2–8 links into one logical port channel: bandwidth plus redundancy.</p>
+<p><strong>PoE vs PoE+?</strong> 15.4 W vs 30 W per port (802.3af · 802.3at).</p>
+<p><strong>PAT in one line?</strong> Many private hosts share one public IP, told apart by source port.</p>
+<p><strong>AD of static / OSPF?</strong> 1 · 110 (lower wins).</p>
+<p><strong>Usable hosts in a /30?</strong> 2: point-to-point links.</p>
+<p><strong>Ethernet MTU?</strong> 1,500 bytes; VPN overhead makes it smaller.</p>
+<p><strong>Split tunnel?</strong> Only company traffic uses the VPN; the rest goes out locally.</p>
+<p><strong>WPA2-Enterprise uses?</strong> 802.1X and RADIUS: a login per user, not one shared key.</p>
+</div></details>
+<details><summary>Windows, security, cloud &amp; ops — 12 rapid answers</summary><div class="a">
+<p><strong>Which service does AD depend on most?</strong> DNS: clients find domain controllers through SRV records.</p>
+<p><strong>Kerberos clock tolerance?</strong> 5 minutes; more and logons fail.</p>
+<p><strong>Account lockout event ID?</strong> 4740, on the PDC emulator.</p>
+<p><strong>GPO processing order?</strong> Local, site, domain, OU (LSDOU): the last one applied wins.</p>
+<p><strong>Share vs NTFS permissions?</strong> Both apply over the network; the stricter wins.</p>
+<p><strong>Stateful firewall?</strong> Tracks connections, so replies are allowed back automatically.</p>
+<p><strong>IDS vs IPS?</strong> IDS alerts on a copy of the traffic; IPS sits inline and blocks.</p>
+<p><strong>MFA?</strong> Two different kinds of factor: know, have, are.</p>
+<p><strong>IaaS · PaaS · SaaS?</strong> You run the OS · you run the code · you just use it.</p>
+<p><strong>AWS security group vs NACL?</strong> Stateful, per instance · stateless, per subnet.</p>
+<p><strong>Incident vs problem?</strong> Restore service fast · find and remove the root cause.</p>
+<p><strong>A P1 is…?</strong> A whole site or critical service down with no workaround.</p>
 </div></details>
 </div>
 

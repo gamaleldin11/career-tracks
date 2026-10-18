@@ -283,7 +283,7 @@ const TOPICS = [
 // Not one of the eleven topics: the material for the last hour before the interview.
 const FINAL = [
   ['How the interview will flow', 'N0-how-the-interview-will-likely-flow'],
-  ['Rapid-fire drill: 40 one-liners', 's-N14.5', 'drill'],
+  ['Rapid-fire drill: 64 one-liners', 's-N14.5', 'drill'],
   ['A simulated technical interview', 's-N14.6', 'drill'],
   ['The 60-second summaries', 'N15-the-60-second-summaries', 'drill'],
   ['Ports table', 'N15-ports-table-the-memorization-set', 'drill'],
