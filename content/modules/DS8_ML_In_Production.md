@@ -237,7 +237,7 @@ Managed equivalents: Azure Machine Learning (which uses MLflow tracking), Databr
 > [!term] Population Stability Index (PSI)
 > A drift score comparing a feature's (or score's) binned distribution now vs at training: Σ (actual% − expected%) × ln(actual% ÷ expected%). A common rule of thumb from credit scoring: below 0.1 little change, 0.1–0.25 some change worth watching, above 0.25 a significant shift worth investigating.
 
-<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Population stability index for monthly spend comparing training and this month's distributions, and a timeline showing churn labels arriving weeks after scoring">
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: population stability index for monthly spend comparing training and this month's distributions, and a timeline showing churn labels arriving weeks after scoring">
 <rect class="sB" x="40" y="150" width="26" height="40" rx="2"/><rect class="sW" x="68" y="170" width="26" height="20" rx="2"/><text class="sC" x="67" y="206" text-anchor="middle">&lt; 100</text>
 <rect class="sB" x="104" y="110" width="26" height="80" rx="2"/><rect class="sW" x="132" y="142" width="26" height="48" rx="2"/><text class="sC" x="131" y="206" text-anchor="middle">100–200</text>
 <rect class="sB" x="168" y="70" width="26" height="120" rx="2"/><rect class="sW" x="196" y="90" width="26" height="100" rx="2"/><text class="sC" x="195" y="206" text-anchor="middle">200–400</text>
@@ -251,6 +251,7 @@ Managed equivalents: Azure Machine Learning (which uses MLflow tracking), Databr
 <circle class="sP" cx="430" cy="110" r="7"/><text class="sC" x="430" y="136" text-anchor="middle">scored</text><circle class="sPg" cx="660" cy="110" r="7"/><text class="sC" x="660" y="136" text-anchor="middle">label known</text>
 <rect class="sW" x="440" y="70" width="212" height="26" rx="6" opacity=".6"/><text class="sC" x="546" y="88" text-anchor="middle">weeks 0–5: no labels yet</text>
 <text class="sC" x="546" y="170" text-anchor="middle">meanwhile watch inputs (PSI) and</text><text class="sC" x="546" y="188" text-anchor="middle">the score distribution, then</text><text class="sC" x="546" y="206" text-anchor="middle">performance once labels land</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.750;1" path="M430 110 L660 110"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.750;0.752;1"/></circle>
 </svg><figcaption>Drift metrics are the early warning; labelled performance is the verdict, and it arrives late. Computed PSI shown.</figcaption></figure>
 
 > [!say]

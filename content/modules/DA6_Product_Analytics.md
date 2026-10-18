@@ -175,7 +175,7 @@ The theory is in [[S6.9]]. In practice, analysts **design**, **check** and **int
 4. **Pre-planned segments** (new vs returning, platform), treating unplanned segment "wins" as hypotheses for a new test, not conclusions.
 5. **Practical significance:** is the lift worth its cost? ([[S6.10]])
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Experiment results as intervals: the primary metric rises 9% with an interval from 2% to 16%, excluding zero; three guardrails have intervals around zero and outside the harm zone">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: experiment results as intervals: the primary metric rises 9% with an interval from 2% to 16%, excluding zero; three guardrails have intervals around zero and outside the harm zone">
 <rect class="sR" x="520" y="30" width="144" height="160" rx="0" opacity=".12"/><text class="sRt" x="592" y="26" text-anchor="middle">harm zone for guardrails</text>
 <line class="sD" x1="400" y1="34" x2="400" y2="190"/>
 <text class="sT" x="200" y="55" text-anchor="end">orders per user (primary)</text>
@@ -196,6 +196,10 @@ The theory is in [[S6.9]]. In practice, analysts **design**, **check** and **int
 <text class="sC" x="520" y="206" text-anchor="middle">+10%</text>
 <text class="sC" x="640" y="206" text-anchor="middle">+20%</text>
 <text class="sC" x="400" y="226" text-anchor="middle">relative change, treatment vs control, with 95% confidence intervals</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M424 56 L592 56"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.420;1" path="M328 94 L520 94"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.420;0.422;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.470;0.550;1" path="M376 132 L448 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.468;0.472;0.550;0.552;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.800;1" path="M304 170 L568 170"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.800;0.802;1"/></circle>
 </svg><figcaption>Read the interval, not just the point: the primary metric's whole interval is above zero, and no guardrail reaches the harm zone.</figcaption></figure>
 
 ```python
@@ -298,13 +302,16 @@ A typical 30-minute case. Structure your answer:
 
 **2. Frame the economics** (a metric tree, [[DA1.4]]): contribution per order = AOV × margin − delivery cost − payment fees. Free delivery removes the fee revenue (or adds a subsidy), so it pays off only if it raises **order frequency**, **conversion** or **basket size** (with a minimum basket threshold) enough, or improves **retention** and LTV.
 
-<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="Unit economics: contribution per order falls from 77 to 57 Egyptian pounds without the delivery fee, so orders must rise about 35% to keep total contribution the same">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: unit economics: contribution per order falls from 77 to 57 Egyptian pounds without the delivery fee, so orders must rise about 35% to keep total contribution the same">
 <rect class="sB" x="14" y="18" width="330" height="92" rx="8"/><text class="sT" x="179" y="40" text-anchor="middle">per order today (EGP)</text><text class="sC" x="30" y="64" xml:space="preserve" style="white-space:pre">margin 100 − courier 35 − fees 8</text><text class="sC" x="30" y="86" xml:space="preserve" style="white-space:pre">+ delivery fee 20  =  77</text>
 <rect class="sW" x="376" y="18" width="330" height="92" rx="8"/><text class="sT" x="541" y="40" text-anchor="middle">per order with free delivery</text><text class="sC" x="392" y="64" xml:space="preserve" style="white-space:pre">margin 100 − courier 35 − fees 8</text><text class="sC" x="392" y="86" xml:space="preserve" style="white-space:pre">+ delivery fee 0   =  57</text>
 <text class="sC" x="250" y="149" text-anchor="end">today: 1,000 × 77</text><rect class="sB" x="260" y="132" width="385" height="24" rx="3"/><text class="sT" x="651" y="149">EGP 77k</text>
 <text class="sC" x="250" y="181" text-anchor="end">free, same orders: 1,000 × 57</text><rect class="sR" x="260" y="164" width="285" height="24" rx="3"/><text class="sT" x="551" y="181">EGP 57k</text>
 <text class="sC" x="250" y="213" text-anchor="end">free, break-even: 1,350 × 57</text><rect class="sG" x="260" y="196" width="385" height="24" rx="3"/><text class="sT" x="651" y="213">EGP 77k</text>
 <text class="sS" x="360" y="240" text-anchor="middle">free delivery pays only if it lifts orders by about 35%, or brings in better customers</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.250;1" path="M260 144 L645 144"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.480;1" path="M260 176 L545 176"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.780;1" path="M260 208 L645 208"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.780;0.782;1"/></circle>
 </svg><figcaption>Turn the product question into arithmetic first. The break-even lift is the bar the experiment has to clear.</figcaption></figure>
 
 **3. Use existing data first:** how does conversion vary with the delivery fee shown at checkout (natural variation by distance)? What happened in past free-delivery promotions (with cannibalisation and pull-forward)? What share of carts are abandoned at the fee step?

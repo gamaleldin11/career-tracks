@@ -248,7 +248,7 @@ In Microsoft 365, a formula can return many values that **spill** into neighbour
 
 A PivotTable summarises a table by dragging fields into **Rows**, **Columns**, **Values** and **Filters**: SQL's `GROUP BY` without writing it.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="PivotTable field wells: Region in Rows, Month in Columns, Sum of Amount in Values and Year in Filters, producing a region by month grid with totals">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: PivotTable field wells: Region in Rows, Month in Columns, Sum of Amount in Values and Year in Filters, producing a region by month grid with totals">
 <rect class="sN" x="14" y="20" width="230" height="200" rx="10"/><text class="sT" x="129" y="40" text-anchor="middle">PivotTable Fields</text>
 <text class="sM" x="26" y="74">Filters</text><rect class="sN" x="104" y="56" width="128" height="28" rx="5"/><text class="sC" x="168" y="75" text-anchor="middle">Year = 2026</text>
 <text class="sM" x="26" y="115">Columns</text><rect class="sV" x="104" y="97" width="128" height="28" rx="5"/><text class="sC" x="168" y="116" text-anchor="middle">Month</text>
@@ -281,6 +281,9 @@ A PivotTable summarises a table by dragging fields into **Rows**, **Columns**, *
 <rect class="sN" x="620" y="164" width="80" height="28" rx="0"/><text class="sT" x="660" y="183" text-anchor="middle">8,095</text>
 <line class="sLv" x1="232" y1="125" x2="296" y2="72" marker-end="url(#ahv)"/><line class="sLm" x1="232" y1="166" x2="296" y2="120" marker-end="url(#ahm)"/><line class="sLg" x1="232" y1="207" x2="296" y2="150" marker-end="url(#ahg)"/>
 <text class="sS" x="500" y="216" text-anchor="middle">GROUP BY region, month · SUM(amount), with totals</text>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M232 125 L296 72"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.370;1" path="M232 166 L296 120"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.370;0.372;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.470;0.590;1" path="M232 207 L296 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.468;0.472;0.590;0.592;1"/></circle>
 </svg><figcaption>Each well is part of a GROUP BY: Rows and Columns are the groups, Values the aggregate, Filters the WHERE.</figcaption></figure>
 
 The features interviewers check:
