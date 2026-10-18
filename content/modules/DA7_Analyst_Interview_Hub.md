@@ -19,6 +19,23 @@ This is the module to live in during the final week before an analyst interview.
 | Take-home + presentation | A dataset and a question; present findings in 10–15 minutes | [[DA5]], [[DA7.4]] |
 | Manager round | Stakeholder scenarios, prioritisation, past projects | [[S8]] |
 
+<figure class="dia anim"><svg viewBox="0 0 720 136" role="img" aria-label="Animation: the usual analyst interview process: HR screen (why analytics?), SQL test (3–6 problems), Excel / Power BI (clean, summarise), statistics (p-values, A/B), business case ("revenue dropped"), take-home (+ presentation); the highlighted rounds are SQL test, Excel / Power BI, business case">
+<text class="sM" x="360" y="22" text-anchor="middle">a typical analyst process in Egypt: highlighted rounds decide most offers</text>
+<rect class="sN" x="14" y="40" width="108" height="56" rx="8"/><text class="sT" x="68" y="66" text-anchor="middle">HR screen</text><text class="sC" x="68" y="82" text-anchor="middle">why analytics?</text>
+<rect class="sG" x="132" y="40" width="108" height="56" rx="8"/><text class="sT" x="186" y="66" text-anchor="middle">SQL test</text><text class="sC" x="186" y="82" text-anchor="middle">3–6 problems</text>
+<line class="sLm" x1="122" y1="68" x2="130" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="250" y="40" width="108" height="56" rx="8"/><text class="sT" x="304" y="66" text-anchor="middle">Excel / Power BI</text><text class="sC" x="304" y="82" text-anchor="middle">clean, summarise</text>
+<line class="sLm" x1="240" y1="68" x2="248" y2="68" marker-end="url(#ahm)"/>
+<rect class="sN" x="368" y="40" width="108" height="56" rx="8"/><text class="sT" x="422" y="66" text-anchor="middle">statistics</text><text class="sC" x="422" y="82" text-anchor="middle">p-values, A/B</text>
+<line class="sLm" x1="358" y1="68" x2="366" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="486" y="40" width="108" height="56" rx="8"/><text class="sT" x="540" y="66" text-anchor="middle">business case</text><text class="sC" x="540" y="82" text-anchor="middle">"revenue fell?"</text>
+<line class="sLm" x1="476" y1="68" x2="484" y2="68" marker-end="url(#ahm)"/>
+<rect class="sN" x="604" y="40" width="108" height="56" rx="8"/><text class="sT" x="658" y="66" text-anchor="middle">take-home</text><text class="sC" x="658" y="82" text-anchor="middle">+ presentation</text>
+<line class="sLm" x1="594" y1="68" x2="602" y2="68" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="126" text-anchor="middle">the links in the table above point to the module that prepares each round</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M14 104 L702 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+</svg><figcaption>Not every company runs every round, and smaller ones merge several into one call; prepare the highlighted ones first.</figcaption></figure>
+
 ## DA7.2 The SQL round 🟢 ⭐
 
 **Strategy under time pressure:** read all questions first; do the ones you're sure of; for each, restate the output grain ("one row per city per month"), build in CTEs, run small checks (counts before and after joins), handle NULLs and ties, then tidy.

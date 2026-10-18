@@ -18,6 +18,23 @@ This is the module to live in during the final week before a frontend interview.
 | **Frontend system design** (mid level) | Design the client side of something like a feed, a dashboard, an autocomplete | [[F11.4]] |
 | Team or manager | Project deep-dive, collaboration, "why us" | [[S8]] |
 
+<figure class="dia anim"><svg viewBox="0 0 720 136" role="img" aria-label="Animation: the usual frontend interview process: HR screen (English, salary), fundamentals (JS, CSS, framework), machine coding (or a take-home), DSA (product companies), system design (mid level), team round (project deep-dive); the highlighted rounds are machine coding, system design">
+<text class="sM" x="360" y="22" text-anchor="middle">a typical frontend process in Egypt: highlighted rounds decide most offers</text>
+<rect class="sN" x="14" y="40" width="108" height="56" rx="8"/><text class="sT" x="68" y="66" text-anchor="middle">HR screen</text><text class="sC" x="68" y="82" text-anchor="middle">English, salary</text>
+<rect class="sN" x="132" y="40" width="108" height="56" rx="8"/><text class="sT" x="186" y="66" text-anchor="middle">fundamentals</text><text class="sC" x="186" y="82" text-anchor="middle">JS, CSS, React</text>
+<line class="sLm" x1="122" y1="68" x2="130" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="250" y="40" width="108" height="56" rx="8"/><text class="sT" x="304" y="66" text-anchor="middle">machine coding</text><text class="sC" x="304" y="82" text-anchor="middle">or a take-home</text>
+<line class="sLm" x1="240" y1="68" x2="248" y2="68" marker-end="url(#ahm)"/>
+<rect class="sN" x="368" y="40" width="108" height="56" rx="8"/><text class="sT" x="422" y="66" text-anchor="middle">DSA</text><text class="sC" x="422" y="82" text-anchor="middle">some companies</text>
+<line class="sLm" x1="358" y1="68" x2="366" y2="68" marker-end="url(#ahm)"/>
+<rect class="sG" x="486" y="40" width="108" height="56" rx="8"/><text class="sT" x="540" y="66" text-anchor="middle">system design</text><text class="sC" x="540" y="82" text-anchor="middle">mid level</text>
+<line class="sLm" x1="476" y1="68" x2="484" y2="68" marker-end="url(#ahm)"/>
+<rect class="sN" x="604" y="40" width="108" height="56" rx="8"/><text class="sT" x="658" y="66" text-anchor="middle">team round</text><text class="sC" x="658" y="82" text-anchor="middle">your project</text>
+<line class="sLm" x1="594" y1="68" x2="602" y2="68" marker-end="url(#ahm)"/>
+<text class="sS" x="360" y="126" text-anchor="middle">the links in the table above point to the module that prepares each round</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.900;1" path="M14 104 L702 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.900;0.902;1"/></circle>
+</svg><figcaption>Not every company runs every round, and smaller ones merge several into one call; prepare the highlighted ones first.</figcaption></figure>
+
 ## F11.2 The machine-coding round 🟢 ⭐
 
 **What they score:** a working result, sensible component boundaries, clean state, handling of edge cases (loading, empty, errors, keyboard), readable code, and how you communicate. Visual polish comes last.
