@@ -71,7 +71,7 @@ Most of [[DS2]]–[[DS4]] assumes rows are independent. A time series breaks tha
 <circle class="sP" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M120.0 199.0 L130.4 194.9 L140.8 203.8 L151.2 196.0 L161.6 190.5 L172.0 195.4 L182.4 184.4 L192.8 207.8 L203.2 198.7 L213.6 206.1 L224.0 206.8 L234.4 201.1 L244.8 197.2 L255.2 195.3 L265.6 194.5 L276.0 178.0 L286.4 191.1 L296.8 214.6 L307.2 197.4 L317.6 205.3 L328.0 204.3 L338.4 186.9 L348.8 201.5 L359.2 218.0 L369.6 196.4 L380.0 202.1 L390.4 210.6 L400.8 208.2 L411.2 205.3 L421.6 199.6 L432.0 203.4 L442.4 198.7 L452.8 181.8 L463.2 207.0 L473.6 207.1 L484.0 201.7 L494.4 188.9 L504.8 206.1 L515.2 185.6 L525.6 211.9 L536.0 209.2 L546.4 199.9 L556.8 207.6 L567.2 205.3 L577.6 195.0 L588.0 192.4 L598.4 198.3 L608.8 202.0 L619.2 186.5 L629.6 195.5 L640.0 201.6 L650.4 187.7 L660.8 208.0 L671.2 197.8 L681.6 193.0 L692.0 199.5"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Decompose before you model: it shows what any forecast must capture, and how much is noise no model will.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="Ramadan's approximate start moving from 11 March 2024 to 28 January 2028, about eleven days earlier each Gregorian year, followed by Eid al-Fitr">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: Ramadan's approximate start moving from 11 March 2024 to 28 January 2028, about eleven days earlier each Gregorian year, followed by Eid al-Fitr">
 <line class="sD" x1="120" y1="26" x2="120" y2="196"/><text class="sC" x="126" y="20">Jan</text>
 <line class="sD" x1="263" y1="26" x2="263" y2="196"/><text class="sC" x="268.6" y="20">Feb</text>
 <line class="sD" x1="391" y1="26" x2="391" y2="196"/><text class="sC" x="397.4" y="20">Mar</text>
@@ -83,6 +83,7 @@ Most of [[DS2]]–[[DS4]] assumes rows are independent. A time series breaks tha
 <text class="sT" x="110" y="178" text-anchor="end">2028</text><rect class="sG" x="244.2" y="162" width="135.7" height="22" rx="4"/><text class="sC" x="312.2" y="178" text-anchor="middle">Ramadan</text><rect class="sW" x="382.2" y="162" width="13.8" height="22" rx="3"/>
 <text class="sC" x="700" y="116" text-anchor="end">about 11 days</text><text class="sC" x="700" y="134" text-anchor="end">earlier each year</text><text class="sWt" x="700" y="176" text-anchor="end">amber: Eid al-Fitr</text>
 <text class="sC" x="410" y="216" text-anchor="middle">approximate start dates; the exact day depends on the moon sighting</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M442 45 L391.4 77 L340.8 109 L294.8 141 L244.2 173"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
 </svg><figcaption>Why "same week last year" fails for Egyptian demand. Model Ramadan and Eid from a Hijri calendar table instead.</figcaption></figure>
 
 ## DS6.3 Baselines you must beat 🟢 ⭐
@@ -96,7 +97,7 @@ Most of [[DS2]]–[[DS4]] assumes rows are independent. A time series breaks tha
 
 A surprising number of sophisticated models fail to beat seasonal naive on real data. Report it every time.
 
-<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Naive and seasonal naive forecasts for next week against what actually happened: the seasonal naive repeats last week's shape and tracks the actuals far better">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: naive and seasonal naive forecasts for next week against what actually happened: the seasonal naive repeats last week's shape and tracks the actuals far better">
 <line class="sLm" x1="50" y1="200" x2="646" y2="200" marker-end="url(#ahm)"/>
 <polyline class="sLm" points="50.0,113.1 71.0,121.6 92.0,129.7 113.0,157.0 134.0,151.9 155.0,130.2 176.0,103.8 197.0,109.6 218.0,108.1 239.0,143.4 260.0,153.1 281.0,142.2 302.0,128.7 323.0,108.9 344.0,97.4 365.0,107.1 386.0,129.6 407.0,143.3 428.0,128.5 449.0,115.8 470.0,101.3" fill="none" stroke-width="2.2"/>
 <polyline class="sLm" points="470.0,101.3 491.0,87.5 512.0,111.6 533.0,124.0 554.0,132.5 575.0,131.4 596.0,116.4 617.0,92.6" fill="none" stroke-width="2" stroke-dasharray="2 4"/>

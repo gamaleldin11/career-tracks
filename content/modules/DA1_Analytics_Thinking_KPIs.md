@@ -247,7 +247,7 @@ Reading it: each **row** is a cohort; each **column** is the time since joining.
 
 **Retention curves** that flatten out (rather than falling to zero) mean you've found a group who keep getting value: product-market fit, in start-up language.
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="Cohort retention as a heatmap for January, February and March signups and as retention curves; March retains better after the onboarding redesign">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: cohort retention as a heatmap for January, February and March signups and as retention curves; March retains better after the onboarding redesign">
 <text class="sM" x="180" y="20" text-anchor="middle">retention by signup month</text>
 <text class="sT" x="116" y="42" text-anchor="middle">M0</text>
 <text class="sT" x="176" y="42" text-anchor="middle">M1</text>
@@ -281,6 +281,9 @@ Reading it: each **row** is a cohort; each **column** is the time since joining.
 <polyline class="sLg" points="420,40.0 506,112.0 592,124.0" fill="none" stroke-width="2.5"/>
 <text class="sGt" x="598" y="128">Mar</text>
 <text class="sC" x="560" y="50" text-anchor="middle">curves flatten: a core keeps getting value</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.250;1" path="M420 40 L506 127 L592 137.5 L678 143.5"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.520;1" path="M420 40 L506 122.5 L592 134.5 L678 140.5"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.520;0.522;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.570;0.750;1" path="M420 40 L506 112 L592 124"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.568;0.572;0.750;0.752;1"/></circle>
 </svg><figcaption>The same cohort table, twice. The heatmap is for reading numbers; the curves are for seeing the shape.</figcaption></figure>
 
 ## DA1.7 Segmentation 🟢 🟡

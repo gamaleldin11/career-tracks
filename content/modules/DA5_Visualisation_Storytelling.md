@@ -56,7 +56,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 > [!term] Pre-attentive attributes
 > Visual properties the eye notices in under a quarter of a second, before conscious attention: colour hue, intensity, size, position, orientation, enclosure. Use **one** of them deliberately (one highlighted bar in the brand colour, the rest grey) to point the audience at the insight.
 
-<figure class="dia"><svg viewBox="0 0 720 148" role="img" aria-label="A grid of grey dots with a single red dot that stands out immediately">
+<figure class="dia anim"><svg viewBox="0 0 720 148" role="img" aria-label="Animation: a grid of grey dots with a single red dot that stands out immediately">
 <circle class="sP" cx="60" cy="24" r="7" opacity=".35"/>
 <circle class="sP" cx="98" cy="24" r="7" opacity=".35"/>
 <circle class="sP" cx="136" cy="24" r="7" opacity=".35"/>
@@ -122,6 +122,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <circle class="sP" cx="592" cy="102" r="7" opacity=".35"/>
 <circle class="sP" cx="630" cy="102" r="7" opacity=".35"/>
 <text class="sS" x="360" y="136" text-anchor="middle">you found the odd one before reading this sentence: that's a pre-attentive attribute</text>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M40 63 L478 63 L478 70"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
 </svg><figcaption>One colour, used once, does the work of an arrow and a paragraph.</figcaption></figure>
 
 ## DA5.2 Choosing the chart 🟢 ⭐
@@ -199,7 +200,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 
 **Remove what doesn't help:** heavy gridlines, borders, 3-D effects, redundant legends (label the lines directly), unnecessary decimals, rotated axis labels (use horizontal bars instead), default chart titles like "Sum of Amount by Month".
 
-<figure class="dia"><svg viewBox="0 0 720 218" role="img" aria-label="Before and after: a cluttered bar chart with gridlines, a legend, decimals and four colours, and a clean sorted bar chart with direct labels, grey bars and the app highlighted under a title that states the finding">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: before and after: a cluttered bar chart with gridlines, a legend, decimals and four colours, and a clean sorted bar chart with direct labels, grey bars and the app highlighted under a title that states the finding">
 <text class="sC" x="176" y="22" text-anchor="middle">Sum of Revenue by Channel</text>
 <line class="sLm" x1="40" y1="180" x2="320" y2="180"/><text class="sC" x="34" y="184" text-anchor="end">0</text>
 <line class="sLm" x1="40" y1="150" x2="320" y2="150"/><text class="sC" x="34" y="154" text-anchor="end">20</text>
@@ -219,6 +220,8 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <text class="sC" x="470" y="130" text-anchor="end">partners</text><rect class="sN" x="478" y="112" width="76.32" height="24" rx="3"/><text class="sC" x="560.32" y="129">25k</text>
 <text class="sC" x="470" y="164" text-anchor="end">call centre</text><rect class="sN" x="478" y="146" width="54.15" height="24" rx="3"/><text class="sC" x="538.15" y="163">18k</text>
 <text class="sGt" x="540" y="206" text-anchor="middle">sorted, labelled directly, one colour for the point</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.450;1" path="M80 112 L262 46 L144 83 L272 92 L208 148"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.450;0.452;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M478 56 L663 56"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
 </svg><figcaption>Same data. The right-hand chart can be understood in five seconds because everything that doesn't carry the message is gone.</figcaption></figure>
 
 **Use the title to say the finding:**
