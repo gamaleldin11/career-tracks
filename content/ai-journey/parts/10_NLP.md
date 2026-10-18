@@ -129,7 +129,7 @@ stop_words = stop_words - negations
 
 > "The food is not good" → `["food", "good"]`
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Applying scikit-learn's English stopword list to reviews: The food was not good becomes food good, the same as The food was good, so 120 labelled reviews collapse into 60 distinct inputs that each carry both labels and no model can exceed 50 percent accuracy; removing not, no and never from the list keeps 120 distinct inputs and a 100 percent ceiling">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: applying scikit-learn's English stopword list to reviews: The food was not good becomes food good, the same as The food was good, so 120 labelled reviews collapse into 60 distinct inputs that each carry both labels and no model can exceed 50 percent accuracy; removing not, no and never from the list keeps 120 distinct inputs and a 100 percent ceiling">
 <text class="sT" x="14" y="22">scikit-learn's ENGLISH_STOP_WORDS on three reviews</text>
 <rect class="sN" x="14" y="34" width="340" height="196" rx="8" opacity=".4"/><text class="sRt" x="184" y="54" text-anchor="middle">default list (318 words)</text>
 <text class="sS" x="26" y="82">"The food was not good"</text><text class="sT" x="26" y="98" xml:space="preserve" style="white-space:pre">→ ['food', 'good']</text>
@@ -143,6 +143,8 @@ stop_words = stop_words - negations
 <text class="sS" x="378" y="150">"The staff was not rude"</text><text class="sT" x="378" y="166" xml:space="preserve" style="white-space:pre">→ ['staff', 'not', 'rude']</text>
 <text class="sT" x="536" y="190" text-anchor="middle">120 reviews → 120 distinct inputs</text>
 <text class="sGt" x="536" y="212" text-anchor="middle">best possible accuracy: 100%</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M20 76 L20 168"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M372 76 L372 168"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
 </svg><figcaption>The negation trap, measured on 120 template reviews: with the default list, a review and its negation become the same input with opposite labels.</figcaption></figure>
 
 The sentiment has been inverted. For a sentiment task this is catastrophic, and it is exactly the sort of silent bug that produces a mediocre model nobody can explain.

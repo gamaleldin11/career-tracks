@@ -699,13 +699,17 @@ QUERY:   user question → (rewrite/expand) → embed → RETRIEVE top-k (dense 
 - **Failure modes:** a retrieval miss (the answer isn't in the top-k), stale documents, conflicting sources, prompt injection *inside documents*, over-long contexts ("lost in the middle").
 - **RAG vs fine-tuning:** use **RAG for knowledge** (facts that change: tariffs, policies) and **fine-tuning for behaviour/format/style** (tone, output schema, domain phrasing). Often combine them.
 
-<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="A hybrid retrieval funnel: from 120,000 chunks, BM25 and dense search each return 50, merged to about 80 candidates, reranked by a cross-encoder to the top 5, which go into the prompt">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: a hybrid retrieval funnel: from 120,000 chunks, BM25 and dense search each return 50, merged to about 80 candidates, reranked by a cross-encoder to the top 5, which go into the prompt">
 <rect class="sN" x="14" y="16" width="692" height="36" rx="6"/><text class="sT" x="360" y="32" text-anchor="middle">120,000 chunks</text><text class="sC" x="360" y="47" text-anchor="middle">the indexed knowledge base</text>
 <rect class="sB" x="100" y="60" width="520" height="36" rx="6"/><text class="sT" x="360" y="76" text-anchor="middle">BM25 top 50 + dense top 50</text><text class="sC" x="360" y="91" text-anchor="middle">exact terms + meaning</text>
 <rect class="sV" x="170" y="104" width="380" height="36" rx="6"/><text class="sT" x="360" y="120" text-anchor="middle">≈ 80 unique candidates</text><text class="sC" x="360" y="135" text-anchor="middle">merged (reciprocal rank fusion)</text>
 <rect class="sA" x="240" y="148" width="240" height="36" rx="6"/><text class="sT" x="360" y="164" text-anchor="middle">cross-encoder rerank → top 5</text><text class="sC" x="360" y="179" text-anchor="middle">precise, slower, small k</text>
 <rect class="sG" x="180" y="192" width="360" height="36" rx="6"/><text class="sT" x="360" y="208" text-anchor="middle">prompt: question + 5 chunks + rules</text><text class="sC" x="360" y="223" text-anchor="middle">answer with citations</text>
 <text class="sC" x="14" y="244">measure retrieval (recall@k) and generation (faithfulness) separately</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.100;1" path="M60 52 L60 58 L130 58 L130 60"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.100;0.102;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.250;1" path="M130 96 L130 100 L190 100 L190 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.400;1" path="M190 140 L190 144 L260 144 L260 148"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.550;1" path="M260 184 L260 188 L200 188 L200 192"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.550;0.552;1"/></circle>
 </svg><figcaption>Recall first, precision second: cheap retrievers cast a wide net, an expensive reranker picks the few that enter the prompt.</figcaption></figure>
 
 ---
@@ -771,7 +775,7 @@ model.print_trainable_parameters()             # e.g. "trainable params: 0.2% of
 <text class="sC" x="706" y="231" text-anchor="end">per token: 512 KiB vs 128 KiB</text>
 </svg><figcaption>Why GQA and paged KV caches matter: cache size = 2 × layers × KV heads × head dim × bytes × tokens × batch. Computed; bars on a log scale.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="LoRA keeps a 4096 by 4096 weight matrix frozen and learns two thin matrices, 4096 by 16 and 16 by 4096, whose product is a low-rank update: about 131 thousand trainable parameters instead of 16.8 million, under one percent">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: LoRA keeps a 4096 by 4096 weight matrix frozen and learns two thin matrices, 4096 by 16 and 16 by 4096, whose product is a low-rank update: about 131 thousand trainable parameters instead of 16.8 million, under one percent">
 <rect class="sB" x="30" y="40" width="170" height="170" rx="4"/><text class="sT" x="115" y="120" text-anchor="middle">W (frozen)</text><text class="sC" x="115" y="140" text-anchor="middle">4096 × 4096</text><text class="sS" x="115" y="160" text-anchor="middle">16.8 M params</text>
 <text class="sT" x="222" y="130" text-anchor="middle">+</text>
 <rect class="sG" x="244" y="40" width="14" height="170" rx="3"/><text class="sT" x="251" y="226" text-anchor="middle">B</text><text class="sS" x="251" y="32" text-anchor="middle">4096×16</text>
@@ -782,6 +786,8 @@ model.print_trainable_parameters()             # e.g. "trainable params: 0.2% of
 <text class="sT" x="598" y="74" text-anchor="middle">per 4096×4096 projection</text>
 <text class="sRt" x="598" y="102" text-anchor="middle">full fine-tune: 16.8 M</text><text class="sGt" x="598" y="124" text-anchor="middle">LoRA r = 16: 131 k</text>
 <text class="sC" x="598" y="150" text-anchor="middle">0.78% of the weights</text><text class="sS" x="598" y="172" text-anchor="middle">adapter files are megabytes</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M251 44 L251 206"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.800;1" path="M290 125 L452 125"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.800;0.802;1"/></circle>
 </svg><figcaption>LoRA in shapes: the update is the product of two thin matrices, so it trains well under 1% of each projection. Computed.</figcaption></figure>
 
 **State-space models** (Mamba and others, in Géron's online SSM chapter) offer linear-time alternatives for very long sequences. Hybrids combine them with attention (Part 19 §19.6).

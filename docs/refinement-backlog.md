@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **1027 diagrams** on the site (inline SVG: static, animated and step-through; 815 of them animated or stepped), up from about 600 at the start of the pass. **1,017 self-test questions** across the eight tracks.
+- **1027 diagrams** on the site (inline SVG: static, animated and step-through; 819 of them animated or stepped), up from about 600 at the start of the pass. **1,017 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.

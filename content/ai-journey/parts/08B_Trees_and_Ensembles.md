@@ -292,7 +292,7 @@ bag_clf = BaggingClassifier(DecisionTreeClassifier(), n_estimators=500,
 - **Bagging vs pasting:** bagging adds diversity (slightly higher bias, less correlated predictors, lower variance) and usually wins. Prefer bagging when data is noisy or the model overfits; pasting is slightly cheaper.
 - **Parallel by nature.** Predictors train and predict independently across cores or servers, so it scales well.
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Three bootstrap samples drawn with replacement from ten training rows: each contains duplicates and leaves some rows out, which serve as that tree's out-of-bag validation rows">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: three bootstrap samples drawn with replacement from ten training rows: each contains duplicates and leaves some rows out, which serve as that tree's out-of-bag validation rows">
 <text class="sM" x="14" y="26">training rows</text>
 <rect class="sB" x="130" y="12" width="48" height="24" rx="4"/><text class="sC" x="154" y="29" text-anchor="middle">r1</text>
 <rect class="sB" x="186" y="12" width="48" height="24" rx="4"/><text class="sC" x="210" y="29" text-anchor="middle">r2</text>
@@ -341,6 +341,9 @@ bag_clf = BaggingClassifier(DecisionTreeClassifier(), n_estimators=500,
 <rect class="sA" x="634" y="168" width="48" height="24" rx="4"/><text class="sC" x="658" y="185" text-anchor="middle">r6</text>
 <text class="sGt" x="130" y="210">out-of-bag: r2, r7, r8, r9, r10</text>
 <text class="sS" x="360" y="232" text-anchor="middle">with replacement: duplicates (amber) appear, and 11 of 30 rows here were never drawn (~37% expected)</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.250;1" path="M130 48 L682 48"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.310;0.530;1" path="M130 102 L682 102"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.308;0.312;0.530;0.532;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.590;0.810;1" path="M130 156 L682 156"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.588;0.592;0.810;0.812;1"/></circle>
 </svg><figcaption>Bagging, concretely: each tree sees a resampled training set. The rows it never saw score it for free (OOB evaluation).</figcaption></figure>
 
 ### Out-of-bag (OOB) evaluation — free validation
