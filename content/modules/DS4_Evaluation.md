@@ -318,7 +318,7 @@ shap.plots.waterfall(sv[0])      # local: why this customer got this score
 
 **MAE vs RMSE:** if a few large misses are very costly (under-staffing on a peak day), optimise and report RMSE; if typical error matters and outliers are noisy, MAE.
 
-<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Two models with the same mean absolute error of 20: model A misses every day by 20, model B is close on four days and misses by 80 once, so its RMSE is much higher">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: two models with the same mean absolute error of 20: model A misses every day by 20, model B is close on four days and misses by 80 once, so its RMSE is much higher">
 <text class="sT" x="170" y="22" text-anchor="middle">model A</text>
 <line class="sLm" x1="40" y1="170" x2="310" y2="170"/>
 <rect class="sB" x="50" y="138" width="40" height="32" rx="3"/><text class="sC" x="70" y="132" text-anchor="middle">20</text>
@@ -336,6 +336,8 @@ shap.plots.waterfall(sv[0])      # local: why this customer got this score
 <rect class="sR" x="608" y="42" width="40" height="128" rx="3"/><text class="sC" x="628" y="36" text-anchor="middle">80</text>
 <text class="sT" x="520" y="194" text-anchor="middle">MAE 20 · RMSE 36.1</text>
 <text class="sS" x="360" y="220" text-anchor="middle">same MAE; RMSE flags the one big miss, which matters if big misses are expensive</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M50 154 L298 154"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M400 166 L596 166 L628 166 L628 44"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
 </svg><figcaption>MAE treats every unit of error equally; RMSE squares errors first, so it punishes the rare large miss.</figcaption></figure>
 
 ## DS4.8 Error analysis: where does the model fail? 🟡 ⭐

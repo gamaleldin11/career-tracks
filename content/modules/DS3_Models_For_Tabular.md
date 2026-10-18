@@ -139,7 +139,7 @@ If the complex model beats the rule by a hair, the rule may be the better produc
 
 A tree splits the data on feature thresholds to make groups as **pure** as possible (by Gini impurity or entropy for classification, variance for regression).
 
-<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="A decision tree for churn splitting on days since recharge, then complaints or tenure, ending in leaves with churn rates from 2% to 54%">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: a decision tree for churn splitting on days since recharge, then complaints or tenure, ending in leaves with churn rates from 2% to 54%">
 <rect class="sB" x="250" y="10" width="220" height="46" rx="8"/><text class="sT" x="360" y="30" text-anchor="middle">days since recharge &gt; 14?</text><text class="sC" x="360" y="47" text-anchor="middle">n = 10,000 · churn 8%</text>
 <line class="sLm" x1="300" y1="56" x2="190" y2="86" marker-end="url(#ahm)"/><line class="sLm" x1="420" y1="56" x2="530" y2="86" marker-end="url(#ahm)"/><text class="sC" x="232" y="66" text-anchor="middle">yes</text><text class="sC" x="488" y="66" text-anchor="middle">no</text>
 <rect class="sW" x="80" y="88" width="200" height="46" rx="8"/><text class="sT" x="180" y="108" text-anchor="middle">complaints_30d ≥ 2?</text><text class="sC" x="180" y="125" text-anchor="middle">n = 1,800 · 31%</text><rect class="sB" x="440" y="88" width="200" height="46" rx="8"/><text class="sT" x="540" y="108" text-anchor="middle">tenure &lt; 90 days?</text><text class="sC" x="540" y="125" text-anchor="middle">n = 8,200 · 3%</text>
@@ -149,6 +149,8 @@ A tree splits the data on feature thresholds to make groups as **pure** as possi
 <rect class="sN" x="375" y="166" width="150" height="46" rx="8"/><text class="sT" x="450" y="186" text-anchor="middle">9% churn</text><text class="sC" x="450" y="203" text-anchor="middle">n = 1,100</text>
 <rect class="sG" x="555" y="166" width="150" height="46" rx="8"/><text class="sT" x="630" y="186" text-anchor="middle">2% churn</text><text class="sC" x="630" y="203" text-anchor="middle">n = 7,100</text>
 <text class="sS" x="360" y="236" text-anchor="middle">each split picks the feature and threshold that make the groups below purest</text>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.400;1" path="M300 56 L190 86 L140 134 L100 164"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.400;0.402;1"/></circle>
+<circle class="sPg" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.850;1" path="M420 56 L530 86 L580 134 L620 164"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.850;0.852;1"/></circle>
 </svg><figcaption>A shallow tree is readable: each path is a rule. A deep one memorises the training data, which is why trees are used in ensembles.</figcaption></figure>
 
 - **Pros:** no scaling needed; handles non-linearity and interactions; readable when shallow.

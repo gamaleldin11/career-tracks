@@ -12,7 +12,7 @@ Most .NET backend bugs that reach production are data-access bugs: a query that 
 
 Your C# code works with **objects**: an invoice *has* a customer (a reference) and *has* payments (a list). A relational database stores **rows in tables** linked by **foreign keys**. The two shapes don't match: objects have identity, references and inheritance; tables have keys, joins and no nesting. This gap is called the **object–relational mismatch**.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="The same invoice as an object graph with a customer reference and a list of payments, and as rows in three tables linked by foreign keys">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: the same invoice as an object graph with a customer reference and a list of payments, and as rows in three tables linked by foreign keys">
 <text class="sT" x="170" y="22" text-anchor="middle">objects in memory</text><text class="sT" x="540" y="22" text-anchor="middle">rows in tables</text>
 <rect class="sA" x="70" y="40" width="200" height="70" rx="10"/><text class="sT" x="170" y="60" text-anchor="middle">Invoice</text><text class="sC" x="170" y="78" text-anchor="middle">Customer → (a reference)</text><text class="sC" x="170" y="96" text-anchor="middle">Payments → List&lt;Payment&gt;</text>
 <rect class="sB" x="20" y="150" width="140" height="46" rx="8"/><text class="sT" x="90" y="172" text-anchor="middle">Customer</text><text class="sC" x="90" y="188" text-anchor="middle">"Nile Foods"</text>
@@ -23,6 +23,9 @@ Your C# code works with **objects**: an invoice *has* a customer (a reference) a
 <text class="sM" x="390" y="98">Customers</text><rect class="sB" x="390" y="104" width="300" height="38" rx="4"/><text class="sC" x="396" y="118">Id</text><text class="sC" x="546" y="118">Name</text><text class="sC" x="396" y="136">31</text><text class="sC" x="546" y="136">Nile Foods</text>
 <text class="sM" x="390" y="160">Payments</text><rect class="sG" x="390" y="166" width="300" height="56" rx="4"/><text class="sC" x="396" y="180">Id</text><text class="sC" x="496" y="180">InvoiceId</text><text class="sC" x="596" y="180">Amount</text><text class="sC" x="396" y="198">1</text><text class="sC" x="496" y="198">7</text><text class="sC" x="596" y="198">300</text><text class="sC" x="396" y="216">2</text><text class="sC" x="496" y="216">7</text><text class="sC" x="596" y="216">600</text>
 <text class="sC" x="706" y="232" text-anchor="end">references → foreign keys; lists → child rows</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M270 64 L388 59"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.470;1" path="M160 172 L388 123"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.470;0.472;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.570;0.740;1" path="M320 175 L388 194"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.568;0.572;0.740;0.742;1"/></circle>
 </svg><figcaption>The object–relational mismatch. An ORM translates between the two shapes in both directions.</figcaption></figure>
 
 An **ORM** (object–relational mapper) such as EF Core bridges it:

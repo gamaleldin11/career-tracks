@@ -243,7 +243,7 @@ Contracts move quality **upstream**: instead of the data team discovering a rena
 - **Row-level security** (a regional manager sees only their region) and **column-level security / dynamic masking** (show `0100*****67` instead of the full phone number, hide salary columns), in the warehouse (Snowflake masking policies, Unity Catalog row filters and column masks, Fabric and SQL Server dynamic data masking and RLS) and in BI ([[DA4.9]]).
 - Service identities (managed identities) for pipelines, not shared passwords ([[S10.6]]).
 
-<figure class="dia"><svg viewBox="0 0 720 212" role="img" aria-label="The same customer table seen by an admin with all rows and full phone numbers, and by a Cairo analyst who sees only Cairo rows with phone numbers masked">
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: the same customer table seen by an admin with all rows and full phone numbers, and by a Cairo analyst who sees only Cairo rows with phone numbers masked">
 <text class="sM" x="180" y="20" text-anchor="middle">admin role</text>
 <rect class="sN" x="14" y="30" width="92" height="24" rx="0"/><text class="sT" x="60" y="47" text-anchor="middle">customer</text>
 <rect class="sN" x="106" y="30" width="112" height="24" rx="0"/><text class="sT" x="162" y="47" text-anchor="middle">phone</text>
@@ -276,6 +276,9 @@ Contracts move quality **upstream**: instead of the data team discovering a rena
 <rect class="sB" x="644" y="78" width="62" height="24" rx="0" opacity=".55"/><text class="sC" x="675" y="95" text-anchor="middle">5,600</text>
 <text class="sC" x="540" y="150" text-anchor="middle">Giza row filtered out (row-level security)</text><text class="sWt" x="540" y="168" text-anchor="middle">phone masked (column-level security)</text>
 <text class="sS" x="360" y="200" text-anchor="middle">one table, one copy of the data; the role decides what each person sees</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.150;1" path="M346 66 L372 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.150;0.152;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M346 90 L360 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M346 114 L372 90"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
 </svg><figcaption>Row-level security filters rows; dynamic masking hides values. Both are enforced by the platform, not by remembering to.</figcaption></figure>
 
 **Personal data (PII):**
