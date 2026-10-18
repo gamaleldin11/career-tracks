@@ -330,7 +330,7 @@ Before building, ask whether it is **core to what makes your product different**
 | Payments (Paymob, Fawry, Stripe and others, depending on market) | Internal tools specific to your process |
 | Observability (Azure Monitor, Grafana, Datadog) | |
 
-<figure class="dia"><svg viewBox="0 0 720 254" role="img" aria-label="Monthly cost of a managed service, the infrastructure price times 1.6, against self-hosting, the infrastructure price plus about 3,000 dollars a month of engineering and on-call time: managed is cheaper until about 5,000 dollars a month of infrastructure, after which self-hosting starts to pay for its team">
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: monthly cost of a managed service, the infrastructure price times 1.6, against self-hosting, the infrastructure price plus about 3,000 dollars a month of engineering and on-call time: managed is cheaper until about 5,000 dollars a month of infrastructure, after which self-hosting starts to pay for its team">
 <line class="sLm" x1="70" y1="210" x2="490" y2="210"/><line class="sLm" x1="70" y1="210" x2="70" y2="26"/>
 <text class="sS" x="70" y="226" text-anchor="middle">$0k</text>
 <text class="sS" x="210" y="226" text-anchor="middle">$5k</text>
@@ -349,6 +349,8 @@ Before building, ask whether it is **core to what makes your product different**
 <text class="sT" x="608" y="52" text-anchor="middle">managed service</text><line class="sLv" x1="530" y1="64" x2="550" y2="64" style="stroke-width:2.5"/><text class="sS" x="556" y="68">infra × 1.6</text>
 <text class="sT" x="608" y="96" text-anchor="middle">self-hosted</text><line class="sLw" x1="530" y1="108" x2="550" y2="108" style="stroke-width:2.5"/><text class="sS" x="556" y="112">infra + $3,000/month</text><text class="sS" x="556" y="128">of people time and on-call</text>
 <text class="sS" x="608" y="160" text-anchor="middle">illustrative assumptions:</text><text class="sS" x="608" y="176" text-anchor="middle">plug in your own numbers</text><text class="sS" x="608" y="192" text-anchor="middle">before deciding</text>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M70 210 L490 37.2"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M70 188.4 L490 80.4"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
 </svg><figcaption>Why managed services win at small scale and get revisited at large scale: a percentage premium against a fixed people cost (illustrative numbers).</figcaption></figure>
 
 Managed services cost more per unit than self-hosting and create some lock-in; they save engineering time, on-call and security work, which at small scale is almost always the better deal. Revisit at large scale, where the bill may justify a team.

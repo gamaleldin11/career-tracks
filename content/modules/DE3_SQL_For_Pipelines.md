@@ -151,7 +151,7 @@ QUALIFY ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY updated_at DESC, _inge
 
 Always include a **deterministic tie-breaker** (ingestion time, a sequence number), or reruns may keep a different row.
 
-<figure class="dia"><svg viewBox="0 0 720 204" role="img" aria-label="Four versions of order 7 numbered by ROW_NUMBER ordered by updated_at and then ingestion time; only the row numbered 1 is kept">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: four versions of order 7 numbered by ROW_NUMBER ordered by updated_at and then ingestion time; only the row numbered 1 is kept">
 <rect class="sN" x="60" y="20" width="90" height="24" rx="0"/><text class="sT" x="105" y="37" text-anchor="middle">order_id</text>
 <rect class="sN" x="150" y="20" width="100" height="24" rx="0"/><text class="sT" x="200" y="37" text-anchor="middle">status</text>
 <rect class="sN" x="250" y="20" width="130" height="24" rx="0"/><text class="sT" x="315" y="37" text-anchor="middle">updated_at</text>
@@ -180,6 +180,8 @@ Always include a **deterministic tie-breaker** (ingestion time, a sequence numbe
 <text class="sGt" x="580" y="64">← keep rn = 1</text><text class="sRt" x="580" y="96">a retried API call</text><text class="sRt" x="580" y="112">sent row 2 twice</text>
 <text class="sC" x="330" y="172" text-anchor="middle">ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY updated_at DESC, _ingested_at DESC)</text>
 <text class="sS" x="330" y="192" text-anchor="middle">the second ORDER BY column breaks the tie, so reruns keep the same row</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.500;1" path="M535 50 L535 142"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.700;1" path="M560 57 L576 60"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.700;0.702;1"/></circle>
 </svg><figcaption>Latest version per key, with a deterministic tie-breaker. Without it, two identical timestamps make reruns pick different rows.</figcaption></figure>
 
 ## DE3.4 SCD Type 2 in SQL 🟡 ⭐

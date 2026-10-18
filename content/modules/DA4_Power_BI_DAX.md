@@ -271,7 +271,7 @@ CALCULATE ( [Total Sales], USERELATIONSHIP ( fact_Sales[ShipDateKey], 'Date'[Dat
 
 For fiscal years, `TOTALYTD` takes a year-end argument (`"06-30"` for a July–June year).
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Time intelligence for June 2026: year to date covers January to June 2026, same period last year is June 2025, DATEADD minus one month is May 2026, and the rolling three months are April to June 2026">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: time intelligence for June 2026: year to date covers January to June 2026, same period last year is June 2025, DATEADD minus one month is May 2026, and the rolling three months are April to June 2026">
 <rect class="sN" x="170" y="40" width="26" height="26" rx="3"/><text class="sC" x="183" y="58" text-anchor="middle">J</text>
 <rect class="sN" x="199" y="40" width="26" height="26" rx="3"/><text class="sC" x="212" y="58" text-anchor="middle">F</text>
 <rect class="sN" x="228" y="40" width="26" height="26" rx="3"/><text class="sC" x="241" y="58" text-anchor="middle">M</text>
@@ -296,6 +296,10 @@ For fiscal years, `TOTALYTD` takes a year-end argument (`"06-30"` for a July–J
 <text class="sC" x="160" y="144" text-anchor="end">SAMEPERIODLASTYEAR</text><rect class="sV" x="315" y="128" width="26" height="22" rx="4"/>
 <text class="sC" x="160" y="174" text-anchor="end">DATEADD(-1, MONTH)</text><rect class="sW" x="634" y="158" width="26" height="22" rx="4"/>
 <text class="sC" x="160" y="204" text-anchor="end">DATESINPERIOD(-3, MONTH)</text><rect class="sB" x="605" y="188" width="84" height="22" rx="4"/>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M518 109 L689 109"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.270;0.420;1" path="M676 66 L328 139"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.268;0.272;0.420;0.422;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.600;1" path="M676 66 L647 169"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.600;0.602;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.680;0.800;1" path="M605 199 L689 199"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.678;0.682;0.800;0.802;1"/></circle>
 </svg><figcaption>Each time-intelligence function swaps the date filter for a different set of dates. All of them need a complete, marked date table.</figcaption></figure>
 
 ## DA4.7 Common analyst measures 🟡 ⭐

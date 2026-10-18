@@ -205,7 +205,7 @@ models:
 | `ephemeral` | Nothing; inlined as a CTE | Reusable logic without a table |
 | `materialized_view` | A warehouse-managed materialised view | Where supported |
 
-<figure class="dia"><svg viewBox="0 0 720 244" role="img" aria-label="Rows read per daily dbt run for a two-million-row fact table: a table materialisation rereads everything each day, while an incremental model with a three-day lookback reads about eighty thousand rows">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: rows read per daily dbt run for a two-million-row fact table: a table materialisation rereads everything each day, while an incremental model with a three-day lookback reads about eighty thousand rows">
 <text class="sM" x="14" y="22">rows read per daily run, fact table of 2M rows growing 20,000 a day (3-day lookback)</text>
 <text class="sC" x="60" y="50" text-anchor="end">day 1</text>
 <rect class="sW" x="70" y="36" width="217.103" height="9" rx="2"/><rect class="sG" x="70" y="46" width="8.59813" height="9" rx="2"/>
@@ -230,6 +230,10 @@ models:
 <text class="sC" x="444" y="138">26× less work, but you now own</text>
 <text class="sC" x="444" y="156">late data (the lookback), merges</text><text class="sC" x="444" y="174">and occasional --full-refresh</text>
 <text class="sS" x="360" y="232" text-anchor="middle">start with table; switch a model to incremental when its rebuild time or cost starts to hurt</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.400;1" path="M70 40 L287 40"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.400;0.402;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.070;1" path="M70 50 L78.6 50"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.070;0.072;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.820;1" path="M70 196 L300 196"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.820;0.822;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.490;1" path="M70 206 L78.6 206"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.490;0.492;1"/></circle>
 </svg><figcaption>table vs incremental, computed for a growing fact table: the incremental model trades simplicity for a large cut in work.</figcaption></figure>
 
 ### Tests, snapshots and more 🟡 ⭐

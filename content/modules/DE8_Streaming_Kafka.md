@@ -204,7 +204,7 @@ Producers and consumers evolve independently, so the record format needs a contr
 <figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: change data capture: Debezium, a Kafka Connect source, reads the database transaction log rather than the tables and publishes each insert, update and delete to a Kafka topic, from which sink connectors and consumers update a lakehouse, a search index and a cache">
 <rect class="sB" x="14" y="70" width="130" height="56" rx="8"/><text class="sT" x="79" y="96" text-anchor="middle">orders DB</text><text class="sC" x="79" y="112" text-anchor="middle">SQL / Postgres</text>
 <rect class="sN" x="14" y="140" width="130" height="26" rx="4"/><text class="sC" x="79" y="158" text-anchor="middle">transaction log</text>
-<rect class="sV" x="196" y="84" width="130" height="56" rx="8"/><text class="sT" x="261" y="110" text-anchor="middle">Debezium</text><text class="sC" x="261" y="126" text-anchor="middle">Kafka Connect source</text>
+<rect class="sV" x="196" y="84" width="130" height="56" rx="8"/><text class="sT" x="261" y="110" text-anchor="middle">Debezium</text><text class="sC" x="261" y="126" text-anchor="middle">Kafka Connect</text>
 <rect class="sW" x="378" y="84" width="130" height="56" rx="8"/><text class="sT" x="443" y="110" text-anchor="middle">Kafka topic</text><text class="sC" x="443" y="126" text-anchor="middle">db.orders changes</text>
 <rect class="sG" x="560" y="20" width="146" height="44" rx="8"/><text class="sT" x="633" y="40" text-anchor="middle">lakehouse</text><text class="sC" x="633" y="56" text-anchor="middle">sink connector</text>
 <rect class="sG" x="560" y="90" width="146" height="44" rx="8"/><text class="sT" x="633" y="110" text-anchor="middle">search index</text><text class="sC" x="633" y="126" text-anchor="middle">sink connector</text>
@@ -235,7 +235,7 @@ Producers and consumers evolve independently, so the record format needs a contr
 | **Stream–table join** | Enrich events with the latest reference data (a compacted topic or a lookup table) |
 | **Stream–stream join** | Join two streams within a time bound (an order and its payment within 30 minutes) |
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="The same events grouped by tumbling 30-second windows, overlapping hopping windows and session windows separated by 15 seconds of inactivity, with one late event">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: the same events grouped by tumbling 30-second windows, overlapping hopping windows and session windows separated by 15 seconds of inactivity, with one late event">
 <text class="sC" x="160" y="34" text-anchor="end">events</text><line class="sLm" x1="170" y1="30" x2="698" y2="30"/>
 <circle class="sP" cx="183.2" cy="30" r="4"/>
 <circle class="sP" cx="205.2" cy="30" r="4"/>
@@ -271,6 +271,8 @@ Producers and consumers evolve independently, so the record format needs a contr
 <text class="sC" x="566" y="196" text-anchor="middle">90 s</text>
 <text class="sC" x="698" y="196" text-anchor="middle">120 s</text>
 <text class="sC" x="360" y="216" text-anchor="middle">a watermark decides when a window closes; the red event arrived after its window closed</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M170 42 L698 42"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.500;1" path="M328.4 10 L328.4 24"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.500;0.502;1"/></circle>
 </svg><figcaption>Three ways to cut an endless stream into finite groups. Choose by the question: per minute, a rolling average, or per visit.</figcaption></figure>
 
 | Engine | Model | Strengths |
