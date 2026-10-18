@@ -451,6 +451,8 @@ const FOUNDATIONS = {
     q('pandas', 'Labelling 100,000 rows with df.apply(..., axis=1) versus np.where on the column is typically…', ['About the same', 'Hundreds of times slower', 'Faster', 'Only slower with strings'], 1, 'Measured here: about 215 ms versus under 1 ms; a row-wise apply is a Python loop in disguise.', 'S7.8'),
   ],
   S9: [
+    q('Security', 'How does an app on Azure read its database password without storing any secret in configuration?', ['Environment variables in the image', 'Its managed identity gets a token from Entra ID and reads the secret from Key Vault', 'A secret in appsettings.json', 'Hard-coding it'], 1, 'There is no bootstrap secret to leak; rotate the secret in the vault.', 'S9.8'),
+    q('Security', 'Which header stops other sites framing your page (clickjacking)?', ['Strict-Transport-Security', 'Content-Security-Policy with frame-ancestors', 'Referrer-Policy', 'Cache-Control'], 1, 'X-Frame-Options is the older equivalent; HSTS forces HTTPS.', 'S9.9'),
     q('Security', 'A logged-in user changes /invoices/1043 to /invoices/1044 and sees another company\'s invoice. Which check failed?', ['Authentication', 'Authorisation: the server didn\'t check that the invoice belongs to the caller', 'Input validation', 'TLS'], 1, 'They were authenticated; nothing checked ownership of that object (IDOR).', 'S9.0'),
     q('Security', 'A webhook provider signs each payload with a secret you both share. That is…', ['Encryption', 'An HMAC', 'A digital signature with a key pair', 'Base64 encoding'], 1, 'A keyed hash proves the sender knew the shared secret and the body was not changed.', 'S9.0'),
     q('Security', 'The form already validates the amount in Angular. Does the API still need to?', ['No, the UI blocks bad input', 'Yes: the client is outside the trust boundary and can send anything', 'Only in production', 'Only for admins'], 1, 'Client-side validation is for user experience; anyone can call the API directly.', 'S9.0'),
@@ -499,10 +501,13 @@ const FOUNDATIONS = {
     q('Angular', 'A user taps Pay three times quickly. Which operator stops duplicate payment requests?', ['switchMap', 'mergeMap', 'concatMap', 'exhaustMap'], 3, 'exhaustMap ignores new triggers while the current request is still running.', 'F7.6'),
   ],
   F8: [
+    q('State', 'A service worker can make an app usable offline by…', ['Storing secrets', 'Sitting between the page and the network: answering from the cache when offline and queueing writes for later', 'Replacing the server', 'Disabling fetch'], 1, 'Network-first for fresh data, cache-first for the shell; Background Sync replays an outbox.', 'F8.10'),
     q('State', 'You store the overdue count in its own state and update it by hand. What is the risk?', ['It uses more memory', 'It can drift from the invoices it was counted from; derive it instead', 'Counts cannot be state', 'Nothing'], 1, 'One source of truth; compute derived values from it.', 'F8.0'),
     q('State', 'Why can offset pagination show the same row on two pages?', ['A database bug', 'A new row inserted above shifts every later offset; a cursor ("after #48") does not', 'Browsers cache pages', 'Offsets start at 1'], 1, 'Cursors anchor to the last item seen, so inserts don\'t shift the next page.', 'F8.7'),
   ],
   F9: [
+    q('Performance', 'Which caching setup is right for a built SPA?', ['Cache everything for a year', 'Hashed assets with long immutable caching, and index.html with no-cache so it is revalidated', 'No caching at all', 'Cache only images'], 1, 'A new build produces new file names, so long caching of assets is safe; the HTML that points to them must stay fresh.', 'F9.9'),
+    q('Performance', 'An interaction has a long input delay. The usual cause is…', ['A slow API', 'Another long task already running on the main thread when the user clicked', 'A large image', 'Too many CSS rules'], 1, 'Break long tasks up and yield; long processing is your handler, long presentation is rendering.', 'F9.4'),
     q('Perf', 'Why can a big stylesheet in <head> delay the first paint?', ['Stylesheets are downloaded last', 'CSS is render-blocking: the browser waits for the CSSOM before painting', 'CSS blocks JavaScript downloads', 'It doesn\'t'], 1, 'Inline the critical CSS and load the rest without blocking.', 'F9.0'),
     q('Perf', 'Which property can be animated by the compositor alone, skipping layout and paint?', ['width', 'top', 'transform', 'margin-left'], 2, 'transform and opacity only need compositing, so they stay smooth on slow phones.', 'F9.0'),
   ],
@@ -526,6 +531,7 @@ const FOUNDATIONS = {
     q('ASP.NET', 'An unexpected exception reaches the global handler in production. The client should receive…', ['The exception message and stack trace', 'A generic 500 ProblemDetails with a traceId; details go to the log', 'An empty 200', 'A redirect to the home page'], 1, 'The traceId lets support find the logged details without leaking internals such as connection strings.', 'B3.5'),
   ],
   B4: [
+    q('API design', 'A payment POST times out and the client retries. What stops a double charge?', ['A longer timeout', 'An Idempotency-Key header: the server stores the key with the first result and replays it for the retry', 'Using PUT instead', 'Returning 409 every time'], 1, 'Same key and body: replay the stored response; same key with a different body: reject it.', 'B4.4'),
     q('API', 'Why is renaming a JSON field in a public API risky even if your own frontend is updated the same day?', ['JSON field names are case-sensitive', 'Consumers you don\'t control, like installed mobile app versions and partners, still send and expect the old name', 'It breaks OpenAPI generation', 'It isn\'t risky'], 1, 'The contract is shared; add fields, deprecate, and version breaking changes.', 'B4.0'),
     q('API', 'How should a monetary amount be sent in JSON?', ['As a float like 900.5', 'As a decimal string ("900.50") or integer minor units, plus a currency code', 'As text like "900 pounds"', 'Any number type'], 1, 'JSON has no decimal type; floats lose precision.', 'B4.0'),
   ],
@@ -534,6 +540,8 @@ const FOUNDATIONS = {
     q('EF Core', 'You change invoice.Status and call SaveChanges. How does EF know what to update?', ['It updates every column', 'It compares the tracked entity with the snapshot taken when it was loaded', 'You must call Update() first', 'It reloads the row'], 1, 'DetectChanges diffs against the snapshot and updates only changed columns.', 'B5.2'),
   ],
   B6: [
+    q('Databases', 'Right after saving a profile, a user reloads and sees the old values. Reads go to a replica. Why?', ['A cache bug', 'Replication is asynchronous, so the replica lags; read the user’s own data from the primary right after a write', 'The transaction rolled back', 'An index is missing'], 1, 'This is the read-your-writes problem with read replicas.', 'B6.7'),
+    q('Databases', 'Why can random GUIDs (v4) hurt a clustered primary key?', ['They are too long to compare', 'Inserts land on random pages, causing page splits and fragmentation; sequential keys (identity, GUID v7) append at the end', 'They cannot be indexed', 'They are not unique'], 1, 'Keep a random GUID as a public ID if you like, but cluster on an ordered key.', 'B6.2'),
     q('Database', 'How can a COMMIT be durable without writing every changed data page to disk?', ['It isn\'t durable', 'The change is appended to the transaction log (write-ahead log) and flushed; pages are written later and the log replays after a crash', 'Data is kept in RAM only', 'Replicas hold the data'], 1, 'Sequential log writes are fast; checkpoints write pages in batches.', 'B6.0'),
     q('Database', 'Two requests read balance 1000, subtract 100 and 200 in C#, and both save. The final 800 is…', ['Correct', 'A lost update: the second write overwrote the first', 'A dirty read', 'A phantom read'], 1, 'Let the database do the arithmetic, lock the row, or use a version check.', 'B6.5'),
     q('Database', 'WHERE amount * 1.14 > 2200 runs as a full index SCAN. The sargable rewrite is…', ['WHERE amount * 1.14 >= 2200', 'WHERE amount > 2200 / 1.14', 'Add another index on amount', 'WHERE CAST(amount AS INT) > 1930'], 1, 'Keep the column bare so the engine can SEARCH the index; measured here: about 29 ms versus 0.2 ms.', 'B6.4'),
@@ -603,6 +611,7 @@ const FOUNDATIONS = {
     q('Analytics', 'A month starts with 1,000 customers; 50 leave and 300 join. Monthly churn is…', ['3.8% (50 ÷ 1,300)', '5% (50 ÷ 1,000)', '4% (50 ÷ 1,250)', '4.4% (50 ÷ average)'], 1, 'Divide by customers at the start of the period; other denominators understate churn and overstate LTV in a growing business.', 'DA1.5'),
   ],
   DA2: [
+    q('Excel', 'You need the price that gives a 25% margin, with every other input fixed. The fastest tool is…', ['Solver', 'Goal Seek', 'A PivotTable', 'Power Query'], 1, 'Goal Seek solves one input for one target; Solver handles several inputs with constraints.', 'DA2.9'),
     q('Excel', 'You fill =B2*E1 down from C2. What does C3 contain?', ['=B2*E1', '=B3*E2', '=B3*E1', '=C3*E2'], 1, 'Relative references move with the formula; write $E$1 to pin the rate.', 'DA2.0'),
     q('Excel', 'Why does VLOOKUP break when someone inserts a column in the lookup range?', ['It recalculates slowly', 'It returns a column by number, which now points at a different column', 'It switches to approximate match', 'It cannot look left'], 1, 'XLOOKUP references the return column itself, so it moves with it.', 'DA2.3'),
   ],
@@ -613,6 +622,7 @@ const FOUNDATIONS = {
     q('SQL', 'For orders 120, 150, 180, 240, 400, 2,600, percentile_disc(0.5) returns…', ['210', '180', '240', '615'], 1, 'disc returns an actual value (first with cumulative share ≥ 0.5); percentile_cont interpolates to 210.', 'DA3.7'),
   ],
   DA4: [
+    q('Power BI', 'What is query folding?', ['Merging two queries', 'Power Query translating its steps into the source’s own query language, so the database filters and joins before data reaches Power BI', 'Compressing columns', 'Hiding columns from the report'], 1, 'Once a step cannot fold (for example some custom M functions), it and every later step run in Power BI.', 'DA4.2'),
     q('Power BI', 'A slicer on dim_Store[Region] changes Total Sales := SUM(fact_Sales[Amount]). Why?', ['The measure references Region', 'The filter flows along the one-to-many relationship to the fact rows', 'Slicers recompute columns', 'It does not'], 1, 'Filters flow from the one side to the many side.', 'DA4.0'),
     q('Power BI', 'What does a matrix total row show for a measure?', ['The sum of the cells above', 'The measure re-evaluated without the row filter', 'The average of the cells', 'Nothing'], 1, 'Totals are evaluated in their own filter context.', 'DA4.5'),
   ],
@@ -629,10 +639,12 @@ const FOUNDATIONS = {
     q('Data science', 'A churn feature uses support calls counted up to month end, after the prediction date. What is wrong?', ['Nothing', 'It leaks information from after the cut-off', 'It is too slow', 'It needs scaling'], 1, 'Features may only use data available at the prediction point.', 'DS1.3'),
   ],
   DS2: [
+    q('Features', 'Why add a missing indicator when imputing?', ['To fill the gaps', 'Because missingness itself is often predictive, and imputing alone hides which rows were missing', 'It is required by scikit-learn', 'To remove outliers'], 1, 'SimpleImputer(add_indicator=True) does both, fitted on the training rows only.', 'DS2.7'),
     q('Data science', 'Where must a scaler or imputer be fitted?', ['On all the data before splitting', 'On the training rows only, then applied unchanged to validation and test', 'On the test set', 'Separately on each set'], 1, 'Anything learned from data must come from training rows only.', 'DS2.0'),
     q('Data science', 'Naive target encoding gives a category the mean label including the row itself. The result?', ['Better generalisation', 'The feature contains the answer: leakage', 'Slower training', 'Nothing'], 1, 'Compute it out of fold and shrink towards a prior.', 'DS2.3'),
   ],
   DS3: [
+    q('Modelling', 'Stacking trains the meta-model on out-of-fold predictions because…', ['They are faster', 'In-sample predictions of the base models are overfitted, so the meta-model would learn to trust them too much', 'The test set is too small', 'It removes the need for cross-validation'], 1, 'StackingClassifier generates the out-of-fold predictions for you.', 'DS3.9'),
     q('Data science', 'Training error keeps falling while validation error starts rising. What is happening?', ['Underfitting', 'Overfitting: the model is fitting noise', 'Data drift', 'A bug in the metric'], 1, 'Stop at the bottom of the validation curve: regularise, early-stop.', 'DS3.0'),
     q('Data science', 'In gradient boosting, what does each new tree fit?', ['The original labels', 'The residuals (negative gradient) of the ensemble so far', 'A random subset of labels', 'The previous tree'], 1, 'Each round corrects what is still wrong, scaled by the learning rate.', 'DS3.5'),
   ],
@@ -668,6 +680,7 @@ const FOUNDATIONS = {
     q('Data modelling', 'Order lines and order fulfilment facts share the same dim_zone table. That dimension is…', ['Degenerate', 'Conformed', 'Junk', 'Role-playing'], 1, 'Conformed dimensions let you compare metrics from different facts by the same attributes.', 'DE2.8'),
   ],
   DE3: [
+    q('Pipelines', 'Mobile events can arrive up to two days late. A daily batch job should…', ['Ignore late events', 'Partition by event date and reprocess a lookback window of recent partitions on each run, with partition overwrites', 'Use processing time only', 'Append duplicates'], 1, 'Partition overwrites keep the lookback idempotent; keep both event_at and _ingested_at.', 'DE3.5'),
     q('Data engineering', 'Why read a little before the watermark (a lookback)?', ['To speed up the job', 'To catch rows committed late, which requires an idempotent write', 'To skip duplicates', 'It is never useful'], 1, 'Overlap on read, idempotency on write.', 'DE3.0'),
     q('Data engineering', 'WHERE MONTH(event_date) = 10 on a date-partitioned table usually…', ['Prunes partitions', 'Reads every partition because the function hides the column', 'Fails', 'Uses an index'], 1, 'Filter the partition column directly.', 'DE3.6'),
   ],
@@ -681,6 +694,8 @@ const FOUNDATIONS = {
     q('Data engineering', 'After VACUUM with 7-day retention, what can you no longer do?', ['Query current data', 'Time-travel to versions older than 7 days', 'Write new data', 'Read Parquet'], 1, 'Old files are gone, so older versions cannot be reconstructed.', 'DE5.6'),
   ],
   DE6: [
+    q('Spark', 'You only need fewer output files at the end of a job. Use…', ['repartition(n), which shuffles everything', 'coalesce(n), which merges partitions without a shuffle', 'cache()', 'broadcast()'], 1, 'repartition gives even sizes at the cost of a full shuffle; coalesce is cheap but can be uneven.', 'DE6.6'),
+    q('Spark', 'Adaptive Query Execution changes a running query by…', ['Rewriting your code', 'Using statistics from finished stages to coalesce small shuffle partitions, switch to broadcast joins and split skewed partitions', 'Adding executors', 'Caching every DataFrame'], 1, 'AQE has been on by default since Spark 3.2.', 'DE6.9'),
     q('Data engineering', 'What is a shuffle in Spark?', ['Random sampling', 'Moving rows between executors so equal keys meet in one partition', 'Sorting a column', 'Caching data'], 1, 'Wide operations like groupBy and big joins need it; it is usually the costly part.', 'DE6.0'),
     q('Data engineering', 'One task in a stage takes 3 minutes while the others take 10 seconds. Likely cause?', ['Too many partitions', 'Data skew: a hot key landed in one partition', 'A slow driver', 'Caching'], 1, 'Use AQE skew handling, separate hot keys, broadcast, or salting.', 'DE6.7'),
   ],
@@ -691,6 +706,8 @@ const FOUNDATIONS = {
     q('dbt', 'Why does an incremental fct_orders model reprocess the last three days on every run?', ['To warm the cache', 'To catch late-arriving or updated rows that a strict max(created_at) filter would miss', 'dbt requires it', 'To rebuild indexes'], 1, 'With a merge on the unique key, reprocessing a lookback window is idempotent.', 'DE7.4'),
   ],
   DE8: [
+    q('Streaming', 'How do you guarantee that all events for one order are consumed in order?', ['Use one consumer for everything', 'Produce them with the order ID as the key, so they land in the same partition, which is an ordered log', 'Sort them in the consumer', 'Increase the replication factor'], 1, 'Kafka only orders within a partition; there is no order across partitions.', 'DE8.4'),
+    q('Streaming', 'Change data capture with Debezium reads…', ['The tables every minute', 'The database transaction log, so it captures inserts, updates and deletes without polling', 'Application logs', 'A LastModified column'], 1, 'Polling a timestamp column misses deletes and adds load to the database.', 'DE8.6'),
     q('Streaming', 'A consumer processes a record, crashes before committing the offset, and restarts. What happens, and what makes it safe?', ['The record is lost; nothing helps', 'The record is processed again, so processing must be idempotent (dedupe by event ID or MERGE on keys)', 'Kafka deletes the record', 'The consumer group rebalances and skips it'], 1, 'Process-then-commit is at-least-once delivery: duplicates are possible, so make the write idempotent.', 'DE8.3'),
     q('Streaming', 'Consumer lag keeps growing after a downstream database slows down. Lag is…', ['The number of partitions', 'The gap between the latest offset and the committed offset', 'The network latency to the broker', 'The retention period'], 1, 'Alert on lag (or its growth) per consumer group; it is the earliest sign that consumers cannot keep up.', 'DE8.9'),
     q('Data engineering', 'How does Kafka differ from a classic message queue?', ['It is slower', 'Records stay in a log after reading; each consumer group tracks its own offset', 'It deletes on read', 'It has no partitions'], 1, 'Many groups can read and replay the same events independently.', 'DE8.0'),
@@ -864,6 +881,7 @@ const FOUNDATIONS = {
     q('Scripting', 'In Bash, set -u makes the script…', ['Run as root', 'Treat an unset variable as an error instead of an empty string', 'Use UTF-8', 'Run faster'], 1, 'It stops accidents such as rm -rf "$dir/" with $dir unset.', 'N20.5'),
   ],
   S5: [
+    q('Docker', 'An API works on your machine but refuses connections from its container’s published port. A likely cause is…', ['The image is too big', 'It listens on localhost inside the container instead of 0.0.0.0', 'Docker is out of memory', 'The port is too high'], 1, 'Inside a container localhost means the container itself; the same applies to a database URL pointing at localhost.', 'S5.12'),
     q('Linux', 'A Dockerfile uses a multi-stage build mainly to…', ['Run several apps in one container', 'Compile with the full SDK image but ship only the small runtime image with the build output', 'Speed up the network', 'Avoid writing a Dockerfile'], 1, 'Smaller images pull faster and expose less; run as a non-root user too.', 'S5.8'),
     q('Linux', 'Data a container writes to its own filesystem…', ['Is backed up automatically', 'Is lost when the container is removed, so databases need a volume', 'Is shared by all containers', 'Is read-only'], 1, 'Mount a named volume (or a bind mount) for anything that must survive a rebuild.', 'S5.10'),
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
