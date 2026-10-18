@@ -697,7 +697,32 @@ Ethernet adapter Ethernet0:
   <li>One device shows in the MAC table on two ports alternately (<strong>MAC flap log</strong>) → an L2 loop or someone bridged two wall ports via a rogue switch/AP.</li>
   <li>"Cable tester says fine but no link" → check <strong>speed hard-coding</strong>: one side forced 100/Full, other auto → auto side falls back to half duplex → late collisions.</li>
   <li>PoE budget exhaustion: switch has PoE watts per device <em>and</em> a total budget — the 25th phone doesn't boot while 24 work.</li>
-</ul></div></section>
+</ul>
+
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: a PoE budget on a 48-port PoE+ switch with 370 watts in total: 24 IP phones draw 168 watts, six Wi-Fi access points 153 watts and three cameras 39 watts, 360 in all; a fourth camera would take the total to 373 watts, so its port stays unpowered while every other device works; 802.3af gives 15.4 watts per port, 802.3at 30 watts and 802.3bt 60 to 90 watts">
+<text class="sM" x="360" y="22" text-anchor="middle">48-port PoE+ switch: 370 W budget in total, up to 30 W on any one port</text>
+<rect class="sB" x="40" y="36" width="268.8" height="34" rx="4"/><text class="sC" x="174.4" y="58" text-anchor="middle">24 phones · 168 W</text>
+<rect class="sV" x="308.8" y="36" width="244.8" height="34" rx="4"/><text class="sC" x="431.2" y="58" text-anchor="middle">6 Wi-Fi APs · 153 W</text>
+<rect class="sA" x="553.6" y="36" width="62.4" height="34" rx="4"/><text class="sC" x="584.8" y="58" text-anchor="middle">3 cams</text>
+<rect class="sR" x="616" y="36" width="20.8" height="34" rx="4"/>
+<line class="sLr" x1="632" y1="28" x2="632" y2="80" stroke-dasharray="4 3"/>
+<text class="sRt" x="632" y="94" text-anchor="middle">370 W</text>
+<line class="sLm" x1="40" y1="80" x2="680" y2="80"/>
+<text class="sC" x="40" y="94" text-anchor="middle">0</text>
+<text class="sC" x="200" y="94" text-anchor="middle">100 W</text>
+<text class="sC" x="360" y="94" text-anchor="middle">200 W</text>
+<text class="sC" x="520" y="94" text-anchor="middle">300 W</text>
+<text class="sRt" x="636.8" y="116" text-anchor="end">4th camera would make 373 W: its port stays unpowered while the rest work</text>
+<rect class="sN" x="14" y="132" width="222" height="44" rx="8"/><text class="sT" x="125" y="152" text-anchor="middle">802.3af (PoE)</text><text class="sC" x="125" y="168" text-anchor="middle">15.4 W per port: phones</text>
+<rect class="sN" x="249" y="132" width="222" height="44" rx="8"/><text class="sT" x="360" y="152" text-anchor="middle">802.3at (PoE+)</text><text class="sC" x="360" y="168" text-anchor="middle">30 W: access points, cameras</text>
+<rect class="sN" x="484" y="132" width="222" height="44" rx="8"/><text class="sT" x="595" y="152" text-anchor="middle">802.3bt (PoE++)</text><text class="sC" x="595" y="168" text-anchor="middle">60–90 W: big APs, displays</text>
+<text class="sS" x="360" y="202" text-anchor="middle">show power inline lists the budget and each port’s draw; the device that fails is the last one to ask</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.220;1" path="M40.0 53 L308.8 53"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.220;0.222;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.240;0.420;1" path="M308.8 53 L553.6 53"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.238;0.242;0.420;0.422;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.440;0.500;1" path="M553.6 53 L616.0 53"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.438;0.442;0.500;0.502;1"/></circle>
+<circle class="sPr" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.660;1" path="M616.0 53 L636.8000000000001 53"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.660;0.662;1"/></circle>
+</svg><figcaption>When one new phone or camera stays dark and the cable tests fine, check the PoE budget before the device.</figcaption></figure>
+</div></section>
 <section class="mod" id="m2"><div class="eyebrow">Module 02 · Networks</div>
 <h2>IP addressing &amp; subnetting</h2>
 <p class="goal">IPv4 from the bits up, subnetting you can do on paper under pressure, plus NAT and the IPv6 essentials.</p>
