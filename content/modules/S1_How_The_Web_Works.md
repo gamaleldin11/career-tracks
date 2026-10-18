@@ -420,7 +420,7 @@ Set-Cookie: session=abc123; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=3600
 > [!story]
 > FinSight issued a JWT and also supported an **HttpOnly cookie fallback**. That's a good discussion point: say why you added the cookie (to keep the token away from JavaScript), and what it changed (you had to think about SameSite and CORS credentials). The full picture is in [[FS2]].
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="A matrix of when a cookie is sent: Strict sends it only on same-site requests; Lax also sends it on cross-site link clicks but not on cross-site form posts, fetches or iframes; None with Secure sends it on all of them">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: a matrix of when a cookie is sent: Strict sends it only on same-site requests; Lax also sends it on cross-site link clicks but not on cross-site form posts, fetches or iframes; None with Secure sends it on all of them">
 <text class="sT" x="420" y="24" text-anchor="middle">Strict</text>
 <text class="sT" x="520" y="24" text-anchor="middle">Lax (default)</text>
 <text class="sT" x="620" y="24" text-anchor="middle">None; Secure</text>
@@ -445,6 +445,7 @@ Set-Cookie: session=abc123; Path=/; Secure; HttpOnly; SameSite=Lax; Max-Age=3600
 <rect class="sN" x="474" y="164" width="92" height="26" rx="5"/><text class="sS" x="520" y="182" text-anchor="middle">not sent</text>
 <rect class="sG" x="574" y="164" width="92" height="26" rx="5" opacity=".7"/><text class="sT" x="620" y="182" text-anchor="middle">sent</text>
 <text class="sS" x="360" y="216" text-anchor="middle">Lax blocks the cross-site POSTs and fetches that CSRF needs, while links into your site still arrive logged in</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.800;1" path="M470 49 L470 177"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.800;0.802;1"/></circle>
 </svg><figcaption>SameSite in one table: the attribute decides which cross-site requests carry your session.</figcaption></figure>
 
 ### Browser storage at a glance

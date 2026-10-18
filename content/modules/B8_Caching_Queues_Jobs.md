@@ -187,7 +187,7 @@ Redis is an in-memory data-structure server. Knowing its structures turns "I kno
 | **Streams** | A lightweight log with consumer groups |
 | **Pub/Sub** | Fire-and-forget broadcast; used as the **SignalR backplane** across servers |
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="A Redis sorted set used as a leaderboard: members mona 2,840, karim 2,610, sara 2,390, omar 1,980 and laila 1,720 kept ordered by score, with the ZADD, ZINCRBY, ZREVRANGE and ZREVRANK commands that write and read it">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: a Redis sorted set used as a leaderboard: members mona 2,840, karim 2,610, sara 2,390, omar 1,980 and laila 1,720 kept ordered by score, with the ZADD, ZINCRBY, ZREVRANGE and ZREVRANK commands that write and read it">
 <text class="sM" x="14" y="20">a sorted set keeps members ordered by score: ZADD to write, ZREVRANGE to read the top</text>
 <rect class="sG" x="14" y="34" width="320" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="51">mona</text><text class="sC" x="124" y="51">2,840</text>
 <rect class="sB" x="14" y="64" width="303.803" height="24" rx="4" opacity=".8"/><text class="sT" x="24" y="81">karim</text><text class="sC" x="124" y="81">2,610</text>
@@ -200,6 +200,8 @@ Redis is an in-memory data-structure server. Knowing its structures turns "I kno
 <text class="sC" x="412" y="116" xml:space="preserve" style="white-space:pre">ZREVRANGE leaderboard 0 4 WITHSCORES</text>
 <text class="sC" x="412" y="144" xml:space="preserve" style="white-space:pre">ZREVRANK leaderboard sara</text>
 <text class="sS" x="360" y="204" text-anchor="middle">the same structure, keyed by timestamp, drives sliding-window rate limits</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M400 84 L302 106"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.750;1" path="M8 40 L8 178"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.750;0.752;1"/></circle>
 </svg><figcaption>Redis does the sorting on write, so "top 10" and "my rank" are instant reads even with millions of members.</figcaption></figure>
 
 Also: distributed locks (with care), rate limiting, and session storage. Note the licensing history: Redis changed licence in 2024 (source-available), the community fork **Valkey** appeared under the Linux Foundation, and **Redis 8** (2025) added an open-source AGPL option. Azure's newer offering is **Azure Managed Redis**.

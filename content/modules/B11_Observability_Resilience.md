@@ -132,7 +132,7 @@ public class InvoiceMetrics
 }
 ```
 
-<figure class="dia"><svg viewBox="0 0 720 242" role="img" aria-label="Histogram of 100,000 simulated request latencies on a log scale: most requests take around 80 milliseconds, and about one percent take several seconds. The mean is about 130 milliseconds, the median about 80, p95 about 160 milliseconds, while p99 is about 3 seconds">
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: histogram of 100,000 simulated request latencies on a log scale: most requests take around 80 milliseconds, and about one percent take several seconds. The mean is about 130 milliseconds, the median about 80, p95 about 160 milliseconds, while p99 is about 3 seconds">
 <line class="sLm" x1="50" y1="196" x2="570" y2="196"/>
 <line class="sLm" x1="50" y1="196" x2="50" y2="200"/><text class="sS" x="50" y="214" text-anchor="middle">10 ms</text>
 <line class="sLm" x1="223.333" y1="196" x2="223.333" y2="200"/><text class="sS" x="223.333" y="214" text-anchor="middle">100 ms</text>
@@ -200,6 +200,9 @@ public class InvoiceMetrics
 <rect class="sN" x="590" y="30" width="116" height="166" rx="8"/>
 <text class="sT" x="648" y="52" text-anchor="middle">100,000 requests</text><text class="sS" x="648" y="76" text-anchor="middle">1.2% hit a slow</text><text class="sS" x="648" y="92" text-anchor="middle">path (cold cache,</text><text class="sS" x="648" y="108" text-anchor="middle">lock, retry)</text>
 <text class="sS" x="648" y="136" text-anchor="middle">the mean says</text><text class="sWt" x="648" y="152" text-anchor="middle">"129 ms, fine"</text><text class="sS" x="648" y="176" text-anchor="middle">p99 says 1 in 100</text><text class="sRt" x="648" y="192" text-anchor="middle">waits 2.6 s</text>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M50 199 L207 199"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sPg" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.200;0.300;1" path="M207 199 L260 199"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.198;0.202;0.300;0.302;1"/></circle>
+<circle class="sPr" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.600;1" path="M260 199 L468 199"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.600;0.602;1"/></circle>
 </svg><figcaption>Averages hide pain, simulated: a small slow path barely moves the mean but owns the p99. Alert on the percentile your users feel.</figcaption></figure>
 
 ASP.NET Core and `HttpClient` already emit standard metrics (request duration, active requests, connection counts) through `System.Diagnostics.Metrics`.
