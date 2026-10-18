@@ -212,7 +212,7 @@ FROM orders o JOIN users u USING (user_id) GROUP BY u.city ORDER BY cancel_rate 
 
 `FILTER (WHERE …)` is PostgreSQL's conditional aggregate; elsewhere write `SUM(CASE WHEN … THEN amount END)`. **The average of a 0/1 flag is a rate**, a pattern you'll use constantly.
 
-<figure class="dia"><svg viewBox="0 0 720 210" role="img" aria-label="The average of a 0 or 1 flag is a rate: cancelled orders are flagged 1 and paid orders 0, so the mean of the flags is the cancellation rate; computed on 3,000 sample orders in SQLite, Mansoura has 19.4 percent of 736 orders cancelled, Alexandria 11.4 percent of 789, Giza 8.5 percent of 697 and Cairo 6.4 percent of 778">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: the average of a 0 or 1 flag is a rate: cancelled orders are flagged 1 and paid orders 0, so the mean of the flags is the cancellation rate; computed on 3,000 sample orders in SQLite, Mansoura has 19.4 percent of 736 orders cancelled, Alexandria 11.4 percent of 789, Giza 8.5 percent of 697 and Cairo 6.4 percent of 778">
 <text class="sM" x="14" y="20">AVG(CASE WHEN status = 'cancelled' THEN 1.0 ELSE 0 END) per city</text>
 <rect class="sN" x="14" y="34" width="250" height="120" rx="8"/><text class="sC" x="26" y="56" xml:space="preserve" style="white-space:pre">status      flag</text><text class="sC" x="26" y="78" xml:space="preserve" style="white-space:pre">paid         0</text><text class="sC" x="26" y="98" xml:space="preserve" style="white-space:pre">cancelled    1</text><text class="sC" x="26" y="118" xml:space="preserve" style="white-space:pre">paid         0</text><text class="sC" x="26" y="138" xml:space="preserve" style="white-space:pre">paid         0</text>
 <text class="sGt" x="139" y="172" text-anchor="middle">mean of the flags = 1/4 = 25%</text>
@@ -222,6 +222,11 @@ FROM orders o JOIN users u USING (user_id) GROUP BY u.city ORDER BY cancel_rate 
 <text class="sT" x="390" y="117" text-anchor="end">Giza</text><rect class="sW" x="400" y="102" width="102" height="22" rx="3" opacity=".85"/><text class="sC" x="508" y="118">8.5%  of 697</text>
 <text class="sT" x="390" y="149" text-anchor="end">Cairo</text><rect class="sW" x="400" y="134" width="76.8" height="22" rx="3" opacity=".85"/><text class="sC" x="482.8" y="150">6.4%  of 778</text>
 <text class="sS" x="360" y="200" text-anchor="middle">one GROUP BY gives a rate per group: no subquery, no second COUNT</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.120;1" path="M264 94 L300 94"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.120;0.122;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.300;1" path="M400 49 L633 49"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.470;1" path="M400 81 L537 81"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.470;0.472;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.640;1" path="M400 113 L502 113"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.640;0.642;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.690;0.810;1" path="M400 145 L477 145"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.688;0.692;0.810;0.812;1"/></circle>
 </svg><figcaption>Rates computed in SQLite on 3,000 generated sample orders. The same trick gives conversion, churn and on-time rates in a single pass.</figcaption></figure>
 
 ## DA3.4 Cohort retention ⭐
@@ -350,7 +355,7 @@ FROM days d ORDER BY d.day;
 
 `COUNT(DISTINCT)` can't be a sliding window function in most databases, hence the correlated subqueries (or a self-join). **DAU ÷ MAU** ("stickiness") shows how many monthly users come back daily. On large data, warehouses offer approximate distinct counts (`APPROX_COUNT_DISTINCT`, HyperLogLog).
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Activity of five users over 28 days with windows for daily, weekly and monthly active users ending on day 28: DAU 2, WAU 4, MAU 5">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: activity of five users over 28 days with windows for daily, weekly and monthly active users ending on day 28: DAU 2, WAU 4, MAU 5">
 <text class="sC" x="106" y="74" text-anchor="end">u1</text>
 <rect class="sA" x="116" y="60" width="16" height="18" rx="2"/>
 <rect class="sA" x="134" y="60" width="16" height="18" rx="2"/>
@@ -505,6 +510,9 @@ FROM days d ORDER BY d.day;
 <text class="sT" x="630" y="40">MAU = 5</text><text class="sWt" x="630" y="70">WAU = 4</text><text class="sGt" x="630" y="100">DAU = 2</text>
 <text class="sC" x="630" y="140">stickiness</text><text class="sT" x="630" y="158">2 ÷ 5 = 40%</text>
 <text class="sS" x="370" y="212" text-anchor="middle">each count is COUNT(DISTINCT user) over a window ending today (day 28)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M116 30 L618 30"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.380;0.550;1" path="M494 42 L618 42"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.378;0.382;0.550;0.552;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.700;1" path="M602 54 L618 54"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.700;0.702;1"/></circle>
 </svg><figcaption>Same users, three window lengths. A user active every Monday counts in WAU and MAU but never in today's DAU.</figcaption></figure>
 
 ## DA3.7 Medians and percentiles 🟢 🟡 ⭐

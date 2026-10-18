@@ -100,7 +100,7 @@ Features/
 
 Many teams combine them: a Clean-style **domain core** for shared rules, with **vertical slices** in the application and API layers.
 
-<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="A grid of layers by features: organising by layer spreads one feature across four folders; a vertical slice keeps one feature's code together">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: a grid of layers by features: organising by layer spreads one feature across four folders; a vertical slice keeps one feature's code together">
 <text class="sM" x="230" y="24" text-anchor="middle">CreateInvoice</text>
 <text class="sM" x="350" y="24" text-anchor="middle">MarkPaid</text>
 <text class="sM" x="470" y="24" text-anchor="middle">GetForecast</text>
@@ -127,6 +127,7 @@ Many teams combine them: a Clean-style **domain core** for shared rules, with **
 <rect class="sB" x="536" y="154" width="108" height="34" rx="4"/>
 <rect class="sN" x="292" y="30" width="116" height="162" rx="8" style="stroke:var(--mid);stroke-width:3"/>
 <text class="sS" x="350" y="214" text-anchor="middle">a "mark paid" change touches one column (a slice) instead of one file in every layer folder</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.500;1" path="M350 34 L350 188"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.500;0.502;1"/></circle>
 </svg><figcaption>Layers are the rows; features are the columns. Folders by layer make every change a horizontal trip; vertical slices make it a vertical one.</figcaption></figure>
 
 ## B9.4 Domain-Driven Design, the essentials 🟡 ⭐
@@ -316,7 +317,7 @@ Example, checkout: reserve stock → charge payment → create shipment. If the 
 | **Database per tenant** | Strongest; easy per-tenant backup, restore and data residency | Highest | Many databases to manage; elastic pools help | Enterprise or regulated customers |
 | Hybrid | Big tenants get their own database, small ones share | Varies | More complex routing | Growing SaaS |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Three multi-tenancy models: one shared table with a tenant column, a schema per tenant, and a database per tenant">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: three multi-tenancy models: one shared table with a tenant column, a schema per tenant, and a database per tenant">
 <text class="sT" x="120" y="22" text-anchor="middle">shared schema</text><text class="sC" x="120" y="40" text-anchor="middle">one Invoices table, TenantId column</text>
 <rect class="sA" x="30" y="54" width="180" height="120" rx="8"/>
 <rect class="sB" x="40" y="62" width="160" height="18" rx="3"/><text class="sC" x="50" y="75">TenantId = A</text>
@@ -335,6 +336,9 @@ Example, checkout: reserve stock → charge payment → create shipment. If the 
 <rect class="sG" x="630" y="70" width="54" height="90" rx="8"/><text class="sX" x="657" y="120" text-anchor="middle">C</text>
 <text class="sC" x="130" y="196" text-anchor="middle">cheapest; isolation by query filter</text><text class="sC" x="368" y="196" text-anchor="middle">middle ground</text><text class="sC" x="606" y="196" text-anchor="middle">strongest isolation; most to run</text>
 <line class="sLm" x1="40" y1="214" x2="690" y2="214" marker-end="url(#ahm)"/><text class="sC" x="365" y="230" text-anchor="middle">more isolation, more cost and operations →</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M36 71 L36 115"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.330;0.480;1" path="M272 77 L272 113"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.328;0.332;0.480;0.482;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.600;0.750;1" path="M533 66 L595 66"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.598;0.602;0.750;0.752;1"/></circle>
 </svg><figcaption>Multi-tenancy models from cheapest to most isolated. FinSight used the first; many SaaS products move their largest customers to the third.</figcaption></figure>
 
 Key concerns in any model: resolving the tenant (from a JWT claim, subdomain or header) once per request; enforcing it at the data layer (global query filters, PostgreSQL row-level security); the tenant in **cache keys** and **background jobs**; per-tenant rate limits so one "noisy neighbour" can't slow others; and tests that prove isolation.
