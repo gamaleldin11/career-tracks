@@ -178,7 +178,7 @@ PostgreSQL tables are **heaps** (no clustered index by default; `CLUSTER` reorde
 - `WHERE company_id = @c AND status = 'overdue' AND due_date < @d` ✓ (equality columns first, then the range)
 - `WHERE status = 'overdue'` ✗ (the leading column is missing)
 
-<figure class="dia"><svg viewBox="0 0 720 220" role="img" aria-label="An index sorted by company, status and due date: the rows for company 7 and status overdue are contiguous, but rows with status overdue alone are scattered">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: an index sorted by company, status and due date: the rows for company 7 and status overdue are contiguous, but rows with status overdue alone are scattered">
 <text class="sT" x="130" y="22" text-anchor="middle">index sorted by (company, status, due)</text>
 <rect class="sB" x="30" y="32" width="200" height="18" rx="3"/><text class="sC" x="40" y="45">3 · overdue · Mar 2</text>
 <rect class="sR" x="262" y="32" width="14" height="18" rx="3"/>
@@ -199,6 +199,8 @@ PostgreSQL tables are **heaps** (no clustered index by default; `CLUSTER` reorde
 <rect class="sB" x="30" y="192" width="200" height="18" rx="3"/><text class="sC" x="40" y="205">9 · paid · Feb 7</text>
 <path class="sLg" d="M258 92 h28 v58 h-28"/><text class="sGt" x="300" y="112">company = 7 AND status = overdue:</text><text class="sGt" x="300" y="128">one contiguous range → a seek</text>
 <text class="sRt" x="300" y="176">status = overdue alone:</text><text class="sRt" x="300" y="192">rows scattered through the index → a scan</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M247 96 L247 146"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.800;1" path="M269 36 L269 206"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.800;0.802;1"/></circle>
 </svg><figcaption>The leftmost-prefix rule isn't a rule to memorise; it falls out of the sort order. Like a phone book sorted by surname, then first name.</figcaption></figure>
 
 > [!term] Covering index

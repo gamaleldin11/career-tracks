@@ -420,7 +420,7 @@ public class InvoiceService(AppDbContext db, IClock clock) : IInvoiceService   /
 | **Scoped** | Request (scope) | `DbContext`, unit of work, per-request user context | Not available outside a scope (background services must create one) |
 | **Transient** | Injection | Lightweight, stateless helpers | Disposable transients are tracked until the scope ends |
 
-<figure class="dia"><svg viewBox="0 0 720 252" role="img" aria-label="DI lifetimes across two requests: one singleton shared by both, one scoped DbContext per request, and a new transient instance per injection; a singleton capturing a scoped service is a bug">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: DI lifetimes across two requests: one singleton shared by both, one scoped DbContext per request, and a new transient instance per injection; a singleton capturing a scoped service is a bug">
 <text class="sT" x="240" y="22" text-anchor="middle">request 1</text><text class="sT" x="560" y="22" text-anchor="middle">request 2</text>
 <rect class="sN" x="100" y="30" width="280" height="170" rx="10"/><rect class="sN" x="420" y="30" width="280" height="170" rx="10"/>
 <text class="sM" x="90" y="66" text-anchor="end">singleton</text><rect class="sG" x="110" y="50" width="580" height="30" rx="6"/><text class="sC" x="400" y="70" text-anchor="middle">the same SystemClock for the whole app</text>
@@ -433,6 +433,10 @@ public class InvoiceService(AppDbContext db, IClock clock) : IInvoiceService   /
 <rect class="sB" x="520" y="150" width="80" height="30" rx="6"/><text class="sC" x="560" y="170" text-anchor="middle">Pdf #5</text>
 <rect class="sB" x="610" y="150" width="80" height="30" rx="6"/><text class="sC" x="650" y="170" text-anchor="middle">Pdf #6</text>
 <rect class="sR" x="100" y="212" width="600" height="30" rx="8" opacity=".85"/><text class="sC" x="400" y="232" text-anchor="middle">captive dependency: a singleton holding DbContext #1 shares it with every later request</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M110 84 L690 84"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.500;1" path="M110 134 L370 134"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.500;0.502;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.520;0.670;1" path="M430 134 L690 134"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.518;0.522;0.670;0.672;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.950;1" path="M110 184 L690 184"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.950;0.952;1"/></circle>
 </svg><figcaption>The three lifetimes over two requests, and the bug that comes from mixing them the wrong way round.</figcaption></figure>
 
 > [!term] Captive dependency

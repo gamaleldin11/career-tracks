@@ -272,7 +272,7 @@ Then use the URL-derived values as the **query key**, and the data, the cache an
 
 Server-side **sorting and filtering** belong in the API for large data sets; doing it on the client only works for what's already loaded. API design for pagination is in [[B4]].
 
-<figure class="dia"><svg viewBox="0 0 720 172" role="img" aria-label="With offset pagination a new item pushes #48 onto page 2 as well; cursor pagination continues after #48 correctly">
+<figure class="dia anim"><svg viewBox="0 0 720 172" role="img" aria-label="Animation: with offset pagination a new item pushes #48 onto page 2 as well; cursor pagination continues after #48 correctly">
 <text class="sM" x="110" y="22" text-anchor="middle">page 1 (offset 0)</text><rect class="sB" x="10" y="32" width="200" height="22" rx="4"/><text class="sC" x="20" y="47">#50</text><rect class="sB" x="10" y="58" width="200" height="22" rx="4"/><text class="sC" x="20" y="73">#49</text><rect class="sB" x="10" y="84" width="200" height="22" rx="4"/><text class="sC" x="20" y="99">#48</text>
 <text class="sWt" x="120" y="128" text-anchor="middle">then a new #51 arrives</text>
 <text class="sM" x="350" y="22" text-anchor="middle">page 2 (offset 3)</text><rect class="sR" x="250" y="32" width="200" height="22" rx="4"/><text class="sC" x="260" y="47">#48</text><rect class="sB" x="250" y="58" width="200" height="22" rx="4"/><text class="sC" x="260" y="73">#47</text><rect class="sB" x="250" y="84" width="200" height="22" rx="4"/><text class="sC" x="260" y="99">#46</text>
@@ -280,6 +280,8 @@ Server-side **sorting and filtering** belong in the API for large data sets; doi
 <text class="sM" x="590" y="22" text-anchor="middle">page 2 (after #48)</text><rect class="sB" x="490" y="32" width="200" height="22" rx="4"/><text class="sC" x="500" y="47">#47</text><rect class="sB" x="490" y="58" width="200" height="22" rx="4"/><text class="sC" x="500" y="73">#46</text><rect class="sB" x="490" y="84" width="200" height="22" rx="4"/><text class="sC" x="500" y="99">#45</text>
 <text class="sGt" x="590" y="128" text-anchor="middle">cursor: stable</text>
 <text class="sS" x="360" y="160" text-anchor="middle">Offset counts rows, so inserts and deletes shift every later page; a cursor remembers the last item seen.</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.300;1" path="M210 95 L250 43"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M210 95 L490 43"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
 </svg><figcaption>Why feeds use cursors. "Give me 3 after #48" doesn't care what was inserted above.</figcaption></figure>
 
 ## F8.8 Forms that don't lie 🟢 ⭐

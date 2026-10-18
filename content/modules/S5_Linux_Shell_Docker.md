@@ -325,7 +325,7 @@ docker exec db pg_dump -U app finsight > "$BACKUP_DIR/$(date +%F).sql"
 
 **cron** runs commands on a schedule (`crontab -e`): `0 2 * * * /opt/backup.sh` means 02:00 every day. Fields are minute, hour, day of month, month, day of week.
 
-<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="The five cron fields of 0 2 * * *: minute 0, hour 2, any day of month, any month, any day of week, meaning 02:00 every day, with three more examples">
+<figure class="dia anim"><svg viewBox="0 0 720 216" role="img" aria-label="Animation: the five cron fields of 0 2 * * *: minute 0, hour 2, any day of month, any month, any day of week, meaning 02:00 every day, with three more examples">
 <rect class="sA" x="40" y="30" width="112" height="40" rx="6"/><text class="sT" x="96" y="56" text-anchor="middle">0</text>
 <text class="sC" x="96" y="88" text-anchor="middle">minute</text><text class="sS" x="96" y="104" text-anchor="middle">0–59</text>
 <rect class="sA" x="172" y="30" width="112" height="40" rx="6"/><text class="sT" x="228" y="56" text-anchor="middle">2</text>
@@ -341,6 +341,7 @@ docker exec db pg_dump -U app finsight > "$BACKUP_DIR/$(date +%F).sql"
 <text class="sC" x="120" y="150" xml:space="preserve" style="white-space:pre">0 9 * * 1-5</text><text class="sC" x="260" y="150">09:00 Monday to Friday</text>
 <text class="sC" x="120" y="172" xml:space="preserve" style="white-space:pre">30 1 1 * *</text><text class="sC" x="260" y="172">01:30 on the 1st of each month</text>
 <text class="sS" x="360" y="204" text-anchor="middle">cron runs in the server's timezone with a minimal environment: use absolute paths and log the output</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.750;1" path="M96 74 L228 74 L360 74 L492 74 L624 74"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.750;0.752;1"/></circle>
 </svg><figcaption>Reading a crontab line: five time fields, then the command.</figcaption></figure>
 
 > [!story]
