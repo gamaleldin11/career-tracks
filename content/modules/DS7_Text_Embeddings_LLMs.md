@@ -254,7 +254,7 @@ clf.fit(train_texts, train_labels)
 > [!term] Embedding
 > A dense vector (hundreds of numbers) representing a piece of text (or an image, a product, a user) so that **similar meanings are close together**. Similarity is usually measured with **cosine similarity**. Embeddings power semantic search, clustering of texts, deduplication, recommendations, and retrieval for RAG.
 
-<figure class="dia"><svg viewBox="0 0 720 260" role="img" aria-label="Complaints in Arabic, English and Arabizi placed in an embedding space, where messages about a missing order, about refunds and about good service each sit close together">
+<figure class="dia anim"><svg viewBox="0 0 720 260" role="img" aria-label="Animation: complaints in Arabic, English and Arabizi placed in an embedding space, where messages about a missing order, about refunds and about good service each sit close together">
 <rect class="sN" x="14" y="14" width="692" height="210" rx="10"/>
 <rect class="sA" x="60" y="50" width="158.4" height="26" rx="13"/><text class="sC" x="139.2" y="68" text-anchor="middle">my order never arrived</text>
 <rect class="sA" x="110" y="90" width="93.6" height="26" rx="13"/><text class="sC" x="156.8" y="108" text-anchor="middle">الأوردر موصلش</text>
@@ -265,6 +265,9 @@ clf.fit(train_texts, train_labels)
 <rect class="sG" x="300" y="170" width="151.2" height="26" rx="13"/><text class="sC" x="375.6" y="188" text-anchor="middle">great service, thanks</text>
 <rect class="sG" x="480" y="186" width="79.2" height="26" rx="13"/><text class="sC" x="519.6" y="204" text-anchor="middle">خدمة ممتازة</text>
 <text class="sS" x="360" y="248" text-anchor="middle">close together = similar meaning, across Arabic, English and Arabizi (cosine similarity)</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.300;1" path="M139 76 L157 90 L159 130"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.300;0.302;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.620;1" path="M492 66 L516 82 L488 124"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.620;0.622;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.820;1" path="M451 183 L480 199"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.820;0.822;1"/></circle>
 </svg><figcaption>A 2-D sketch of a space with hundreds of dimensions. Clustering these points is how topic discovery works.</figcaption></figure>
 
 ```python

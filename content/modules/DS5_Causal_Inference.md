@@ -12,7 +12,7 @@ Businesses rarely want only predictions. They want to know whether an action **c
 
 Prediction asks "**what will happen?**". Causal inference asks "**what would happen if we did something different?**". The second is harder because, for any one customer, you only ever see one version of events: the one where they got the offer, or the one where they didn't.
 
-<figure class="dia"><svg viewBox="0 0 720 194" role="img" aria-label="A potential-outcomes table: each customer shows spend with or without the offer, never both, so the individual effect column is always unknown">
+<figure class="dia anim"><svg viewBox="0 0 720 194" role="img" aria-label="Animation: a potential-outcomes table: each customer shows spend with or without the offer, never both, so the individual effect column is always unknown">
 <rect class="sN" x="40" y="20" width="110" height="26" rx="0"/><text class="sT" x="95" y="38" text-anchor="middle">customer</text>
 <rect class="sN" x="150" y="20" width="120" height="26" rx="0"/><text class="sT" x="210" y="38" text-anchor="middle">got the offer?</text>
 <rect class="sN" x="270" y="20" width="140" height="26" rx="0"/><text class="sT" x="340" y="38" text-anchor="middle">spend with (Y₁)</text>
@@ -39,6 +39,10 @@ Prediction asks "**what will happen?**". Causal inference asks "**what would hap
 <rect class="sA" x="410" y="130" width="150" height="28" rx="0" opacity=".55"/><text class="sC" x="485" y="149" text-anchor="middle">650</text>
 <rect class="sN" x="560" y="130" width="110" height="28" rx="0"/><text class="sRt" x="615" y="149" text-anchor="middle">?</text>
 <text class="sS" x="360" y="182" text-anchor="middle">every row is missing one outcome, so every individual effect is unknown</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M340 73 L615 73"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.230;0.350;1" path="M485 101 L615 101"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.228;0.232;0.350;0.352;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.430;0.550;1" path="M340 129 L615 129"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.428;0.432;0.550;0.552;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.750;1" path="M485 157 L615 157"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.750;0.752;1"/></circle>
 </svg><figcaption>The fundamental problem of causal inference: one person, one world. Every method in this module estimates the missing column for groups.</figcaption></figure>
 
 So causal methods estimate effects for **groups**, by finding a comparison group that tells you what would have happened otherwise. The danger is a comparison group that differs in some other way: a **confounder**, something that affects both who gets the treatment and the outcome. **Randomisation** solves this by construction, which is why experiments come first and every other method in this module is a way of approximating one.
@@ -120,7 +124,7 @@ Randomised experiments remain the best design ([[S6.9]]). **CUPED** makes them c
 > [!term] CUPED
 > Controlled-experiment Using Pre-Experiment Data. Adjust each user's outcome Y by their pre-experiment value X of the same metric: Y′ = Y − θ(X − mean(X)), with θ = cov(X, Y) ÷ var(X). Randomisation makes X balanced across groups, so the estimate stays unbiased, while variance drops by roughly the squared correlation between X and Y. A correlation of 0.7 cuts variance by about half, which halves the sample size needed.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Raw spend distributions for control and treatment overlap heavily; after CUPED adjustment the same difference in means sits on much narrower distributions">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: raw spend distributions for control and treatment overlap heavily; after CUPED adjustment the same difference in means sits on much narrower distributions">
 <text class="sT" x="180" y="22" text-anchor="middle">raw spend: wide, overlapping</text>
 <line class="sLm" x1="40" y1="180" x2="330" y2="180"/>
 <polyline class="sLm" points="50.0,179.8 54.6,179.7 59.2,179.6 63.8,179.5 68.4,179.3 73.0,179.0 77.6,178.6 82.2,178.2 86.8,177.6 91.4,176.9 96.0,175.9 100.6,174.8 105.2,173.5 109.8,172.0 114.4,170.1 119.0,168.1 123.6,165.7 128.2,163.1 132.8,160.3 137.4,157.3 142.0,154.2 146.6,151.0 151.2,147.8 155.8,144.6 160.4,141.7 165.0,139.0 169.6,136.6 174.2,134.7 178.8,133.3 183.4,132.4 188.0,132.1 192.6,132.4 197.2,133.3 201.8,134.7 206.4,136.6 211.0,139.0 215.6,141.7 220.2,144.6 224.8,147.8 229.4,151.0 234.0,154.2 238.6,157.3 243.2,160.3 247.8,163.1 252.4,165.7 257.0,168.1 261.6,170.1 266.2,172.0 270.8,173.5 275.4,174.8 280.0,175.9 284.6,176.9 289.2,177.6 293.8,178.2 298.4,178.6 303.0,179.0 307.6,179.3 312.2,179.5 316.8,179.6 321.4,179.7 326.0,179.8" fill="none" stroke-width="2.5"/>
@@ -133,6 +137,10 @@ Randomised experiments remain the best design ([[S6.9]]). **CUPED** makes them c
 <line class="sD" x1="548" y1="40" x2="548" y2="180"/><line class="sD" x1="571" y1="40" x2="571" y2="180"/>
 <text class="sC" x="180" y="204" text-anchor="middle">control (grey) vs treatment (green)</text><text class="sC" x="540" y="204" text-anchor="middle">Y′ = Y − θ (pre-period Y − its mean)</text>
 <text class="sS" x="360" y="228" text-anchor="middle">removing what pre-experiment behaviour already predicts shrinks the variance, so the test needs fewer users</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M188 186 L211 186"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.600;1" path="M548 186 L571 186"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.600;0.602;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M50 179.8 L188 132.1 L326 179.8"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPw" r="3" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M488 180 L548 132.1 L607.8 180"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
 </svg><figcaption>CUPED doesn't change the effect, only the noise around it. Less noise means a smaller sample for the same power.</figcaption></figure>
 
 ```python
