@@ -66,7 +66,7 @@ Full-stack interviews in Egypt typically combine a frontend fundamentals round, 
 <text class="sS" x="360" y="284" text-anchor="middle">UI, contract, data, scheduled work, async delivery, real-time feedback: every layer in one answer</text>
 </svg><figcaption>The invoice-reminders answer on one page. Draw this in the first ten minutes, then go deep where the interviewer points.</figcaption></figure>
 
-<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: A 45-minute full-stack design answer: clarify, UI, API, data, background jobs, real-time and auth, then failure modes, testing and observability">
+<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: a 45-minute full-stack design answer: clarify, UI, API, data, background jobs, real-time and auth, then failure modes, testing and observability">
 <rect class="sB" x="14" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="52.4444" y="50" text-anchor="middle">clarify</text><text class="sC" x="52.4444" y="66" text-anchor="middle">5 min</text>
 <rect class="sA" x="90.8889" y="30" width="90.2667" height="44" rx="6"/><text class="sT" x="137.022" y="50" text-anchor="middle">UI</text><text class="sC" x="137.022" y="66" text-anchor="middle">6 min</text>
 <rect class="sA" x="183.156" y="30" width="74.8889" height="44" rx="6"/><text class="sT" x="221.6" y="50" text-anchor="middle">API</text><text class="sC" x="221.6" y="66" text-anchor="middle">5 min</text>

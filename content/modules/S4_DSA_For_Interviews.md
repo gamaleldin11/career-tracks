@@ -187,7 +187,7 @@ The interviewer is scoring **communication and process** as much as the answer. 
 | O(n²) | Quadratic | Nested loops over the same data | 10¹² (too slow) |
 | O(2ⁿ) | Exponential | All subsets, naive recursion | impossible |
 
-<figure class="dia anim"><svg viewBox="0 0 720 280" role="img" aria-label="Animation: Growth of 1, log n, n, n log n and n squared steps for n up to 20">
+<figure class="dia anim"><svg viewBox="0 0 720 280" role="img" aria-label="Animation: growth of 1, log n, n, n log n and n squared steps for n up to 20">
 <line class="sLm" x1="70" y1="250" x2="640" y2="250" marker-end="url(#ahm)"/>
 <line class="sLm" x1="70" y1="250" x2="70" y2="16" marker-end="url(#ahm)"/>
 <line class="sD" x1="70" y1="195.0" x2="630" y2="195.0" opacity=".5"/>

@@ -111,7 +111,7 @@ Good habits: remove unused columns and rows early, set data types explicitly, gi
 > [!term] Star schema
 > A model with central **fact tables** (events and measurements: sales lines, transactions, calls; many rows, mostly numbers and keys) surrounded by **dimension tables** (descriptions: date, product, customer, store; fewer rows, many text attributes), joined one-to-many from dimension to fact. Power BI's engine and DAX are designed for this shape.
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Star schema: Sales fact table in the centre with Date, Product, Customer and Store dimensions">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: star schema: Sales fact table in the centre with Date, Product, Customer and Store dimensions">
 <rect class="sA" x="280" y="85" width="160" height="70" rx="10"/><text class="sT" x="360" y="112" text-anchor="middle">fact_Sales</text><text class="sS" x="360" y="130" text-anchor="middle">DateKey, ProductKey,</text><text class="sS" x="360" y="145" text-anchor="middle">CustomerKey, Qty, Amount</text>
 <rect class="sB" x="30" y="20" width="170" height="54" rx="8"/><text class="sT" x="115" y="44" text-anchor="middle">dim_Date</text><text class="sS" x="115" y="62" text-anchor="middle">Date, Month, Year, Ramadan?</text>
 <rect class="sB" x="530" y="20" width="150" height="54" rx="8"/><text class="sT" x="605" y="44" text-anchor="middle">dim_Product</text><text class="sS" x="605" y="62" text-anchor="middle">Name, Category, Brand</text>
@@ -318,7 +318,7 @@ RETURN COUNTROWS (
 - **Visual calculations** (generally available in 2026) are DAX written **on a visual** that can refer to the visual's own rows and columns: running sums, moving averages, "versus previous" and % of parent with simple functions like `RUNNINGSUM` and `PREVIOUS`, without fighting filter context.
 - **DAX user-defined functions** (generally available in 2026) let you define a calculation once with typed parameters and reuse it across measures, columns and visual calculations, stored as TMDL in Git.
 
-<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Monthly sales bars with a running total line rising to 1,730 by December and the three best months ranked 1 to 3: December 210, October 190 and July 175, as the Running Total and Product Rank style measures compute them">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: monthly sales bars with a running total line rising to 1,730 by December and the three best months ranked 1 to 3: December 210, October 190 and July 175, as the Running Total and Product Rank style measures compute them">
 <line class="sLm" x1="70" y1="200" x2="680" y2="200"/>
 <rect class="sB" x="66" y="161.818" width="28" height="38.1818" rx="2" opacity=".6"/><text class="sS" x="80" y="216" text-anchor="middle">J</text>
 <rect class="sB" x="116" y="169.773" width="28" height="30.2273" rx="2" opacity=".6"/><text class="sS" x="130" y="216" text-anchor="middle">F</text>

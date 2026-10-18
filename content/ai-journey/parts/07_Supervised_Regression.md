@@ -1377,7 +1377,7 @@ The model is still **linear in its parameters**, which is why it is called linea
 
 With several features, `PolynomialFeatures` also creates **interaction terms**. With features a, b and `degree=3` you get a², a³, b², b³, **ab, a²b, ab²**. That is how a linear model captures feature interactions.
 
-<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: Left: Géron's noisy quadratic data fitted with a straight line, R squared about 0.5, and with features x and x squared, R squared about 0.78, recovering coefficients close to 2, 1 and 0.5. Right: the number of polynomial feature columns grows from 6 for two features at degree 2 to 1,771 for twenty features at degree 3 and 316,251 for fifty features at degree 4">
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: left: Géron's noisy quadratic data fitted with a straight line, R squared about 0.5, and with features x and x squared, R squared about 0.78, recovering coefficients close to 2, 1 and 0.5. Right: the number of polynomial feature columns grows from 6 for two features at degree 2 to 1,771 for twenty features at degree 3 and 316,251 for fifty features at degree 4">
 <line class="sLm" x1="40" y1="210" x2="340" y2="210"/><line class="sLm" x1="40" y1="210" x2="40" y2="30"/>
 <text class="sS" x="40" y="224" text-anchor="middle">-3</text>
 <text class="sS" x="190" y="224" text-anchor="middle">0</text>

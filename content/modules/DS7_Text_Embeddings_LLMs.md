@@ -59,7 +59,7 @@ The catch is that distance depends on units. Spend in pounds (thousands) swamps 
 3. **Profile** each cluster: mean and median of every feature vs the overall average, size, and value; **name** them ("weekend families", "price-sensitive occasional buyers").
 4. Check **stability**: rerun with different seeds and a different month; segments that reshuffle aren't real.
 
-<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: Choosing k: inertia drops steeply until k equals 4 and then flattens, and the silhouette score peaks at k equals 4">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: choosing k: inertia drops steeply until k equals 4 and then flattens, and the silhouette score peaks at k equals 4">
 <text class="sT" x="186" y="22" text-anchor="middle">inertia (lower = tighter)</text>
 <line class="sLm" x1="60" y1="180" x2="330" y2="180" marker-end="url(#ahm)"/><line class="sLm" x1="60" y1="180" x2="60" y2="30" marker-end="url(#ahm)"/>
 <polyline class="sL" points="60.0,40.0 96.0,103.0 132.0,140.8 168.0,160.4 204.0,163.2 240.0,165.3 276.0,166.7 312.0,167.7" fill="none" stroke-width="2.2"/>
@@ -143,7 +143,7 @@ When labels are rare or missing (new fraud patterns, sensor faults, data-quality
 | **Autoencoders** | High reconstruction error = unusual (*AI Journey* Part 23) |
 | **Forecast residuals** | A value far outside the forecast's prediction interval ([[DS6]]) |
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Isolation forest intuition: two random cuts isolate an outlying point while points in the dense cluster need many more cuts">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: isolation forest intuition: two random cuts isolate an outlying point while points in the dense cluster need many more cuts">
 <rect class="sN" x="40" y="30" width="300" height="180" rx="6"/>
 <circle class="sP" cx="200" cy="186" r="3.5"/>
 <circle class="sP" cx="221" cy="155" r="3.5"/>
@@ -192,6 +192,8 @@ When labels are rare or missing (new fraud patterns, sensor faults, data-quality
 <text class="sRt" x="380" y="60">the outlier is alone after 2 random cuts</text><text class="sC" x="380" y="84">a typical point needs about 8</text>
 <text class="sC" x="380" y="124">average path length over many random</text><text class="sC" x="380" y="142">trees → anomaly score</text>
 <text class="sGt" x="380" y="182">then review the top-scored cases</text><text class="sGt" x="380" y="200">within the alert budget</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.250;1" path="M278 210 L278 30"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.250;0.252;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.500;1" path="M340 90 L278 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.500;0.502;1"/></circle>
 </svg><figcaption>Isolation Forest: anomalies are easy to separate. No labels needed, which is why it suits new kinds of fraud and data faults.</figcaption></figure>
 
 **Design around an alert budget:** investigators can review, say, 200 cases a day, so rank by anomaly score and tune for **precision in the top 200**. Feed investigation outcomes back as labels; over time, move to a supervised model trained on them.

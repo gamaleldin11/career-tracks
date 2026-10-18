@@ -204,7 +204,7 @@ PostgreSQL tables are **heaps** (no clustered index by default; `CLUSTER` reorde
 > [!term] Covering index
 > An index that contains **every column a query needs**, so the database answers from the index alone without touching the table (no key lookups). In SQL Server: `CREATE INDEX IX_Inv ON Invoices(CompanyId, DueDate) INCLUDE (Customer, Amount);` PostgreSQL has `INCLUDE` too, and calls the result an **index-only scan**.
 
-<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: A non-clustered index requires a key lookup into the table for each matching row; a covering index includes the needed columns and avoids the lookups">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: a non-clustered index requires a key lookup into the table for each matching row; a covering index includes the needed columns and avoids the lookups">
 <text class="sT" x="180" y="22" text-anchor="middle">non-clustered index + key lookups</text><text class="sT" x="540" y="22" text-anchor="middle">covering index (INCLUDE)</text>
 <rect class="sA" x="20" y="40" width="150" height="120" rx="8"/><text class="sC" x="95" y="60" text-anchor="middle">IX(CompanyId,</text><text class="sC" x="95" y="76" text-anchor="middle">DueDate)</text>
 <rect class="sB" x="32" y="88" width="126" height="18" rx="3"/><text class="sC" x="95" y="101" text-anchor="middle">key → row 1</text>

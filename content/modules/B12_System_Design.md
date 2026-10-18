@@ -129,7 +129,7 @@ Each step, the signal that justifies it and what it costs, with real examples fr
 
 Base62 with 7 characters gives 62⁷ ≈ **3.5 trillion** codes, plenty.
 
-<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: Converting the number one million to Base62 by repeated division by 62, giving the code 4c92">
+<figure class="dia anim"><svg viewBox="0 0 720 212" role="img" aria-label="Animation: converting the number one million to Base62 by repeated division by 62, giving the code 4c92">
 <text class="sT" x="20" y="24">encode ID 1,000,000 in Base62 (0–9, a–z, A–Z)</text>
 <text class="sM" x="130" y="50" text-anchor="middle">division</text><text class="sM" x="300" y="50" text-anchor="middle">quotient</text><text class="sM" x="420" y="50" text-anchor="middle">remainder</text><text class="sM" x="540" y="50" text-anchor="middle">digit</text>
 <rect class="sB" x="40" y="60" width="560" height="26" rx="4"/><text class="sC" x="130" y="78" text-anchor="middle">1,000,000 ÷ 62</text><text class="sC" x="300" y="78" text-anchor="middle">16,129</text><text class="sC" x="420" y="78" text-anchor="middle">2</text><rect class="sA" x="515" y="63" width="50" height="20" rx="4"/><text class="sX" x="540" y="78" text-anchor="middle">2</text>

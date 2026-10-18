@@ -85,7 +85,7 @@ What makes a VM deployment defensible in an interview:
 - **Monitoring:** an external uptime check (one ping every minute or so; free tiers exist), container logs shipped somewhere, disk-space alerts.
 - **A runbook:** how to deploy, roll back, restore, rotate secrets, and what to do when the site is down.
 
-<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: A single VM deployment: only ports 22 (restricted), 80 and 443 are open; Caddy terminates TLS and routes to the web and API containers; SQL Server data is backed up nightly to Blob Storage">
+<figure class="dia anim"><svg viewBox="0 0 720 276" role="img" aria-label="Animation: a single VM deployment: only ports 22 (restricted), 80 and 443 are open; Caddy terminates TLS and routes to the web and API containers; SQL Server data is backed up nightly to Blob Storage">
 <rect class="sB" x="14" y="84" width="90" height="56" rx="8"/><text class="sT" x="59" y="117" text-anchor="middle">internet</text>
 <rect class="sN" x="124" y="16" width="582" height="190" rx="12"/><text class="sT" x="415" y="36" text-anchor="middle">one Azure VM (Ubuntu) running Docker Compose</text>
 <rect class="sW" x="134" y="50" width="112" height="30" rx="5"/><text class="sC" x="190" y="70" text-anchor="middle">22 · your IP only</text>

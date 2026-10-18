@@ -154,7 +154,7 @@ Your course plus this add-on targets the **top of entry, bottom of mid**. The ca
 | **Take rate / conversion** | Accepted offers / offers made |
 | **Blended vs segment ARPU** | Always ask which, because mix changes move blended ARPU |
 
-<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: Customer lifetime value as the sum of expected monthly margins of 60 pounds shrinking with 96 percent retention: about 1,440 pounds, 1,152 with 1 percent monthly discounting, and 1,940 if churn falls to 3 percent">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: customer lifetime value as the sum of expected monthly margins of 60 pounds shrinking with 96 percent retention: about 1,440 pounds, 1,152 with 1 percent monthly discounting, and 1,940 if churn falls to 3 percent">
 <text class="sM" x="14" y="20">expected margin in month t = 60 EGP × rᵗ, where r is monthly retention</text>
 <rect class="sA" x="14" y="32" width="12" height="10" rx="2"/><text class="sC" x="32" y="41">churn 4%</text><rect class="sG" x="110" y="32" width="12" height="10" rx="2"/><text class="sC" x="128" y="41">churn 4%, discounted 1%/month</text>
 <line class="sLv" x1="330" y1="37" x2="352" y2="37"/><text class="sC" x="358" y="41">churn 3%</text>

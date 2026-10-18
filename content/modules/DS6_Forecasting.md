@@ -143,7 +143,7 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 # then LightGBM on rows up to the forecast origin; validate on the following 14 days (rolling origin)
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: A daily series turned into a supervised table with lag-1, lag-2 and a shifted three-day mean as features for each day's value">
+<figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: a daily series turned into a supervised table with lag-1, lag-2 and a shifted three-day mean as features for each day's value">
 <rect class="sN" x="80" y="20" width="90" height="24" rx="0"/><text class="sT" x="125" y="37" text-anchor="middle">date</text>
 <rect class="sN" x="170" y="20" width="70" height="24" rx="0"/><text class="sT" x="205" y="37" text-anchor="middle">y</text>
 <rect class="sN" x="240" y="20" width="80" height="24" rx="0"/><text class="sT" x="280" y="37" text-anchor="middle">lag_1</text>
@@ -293,7 +293,7 @@ df["is_eid"], df["promo"], df["price_rel"] = ..., ..., ...
 - **Intermittent demand** (many zeros: slow-moving spare parts, niche products): Croston's method and its variants, or forecasting the probability of demand and its size separately; evaluate with metrics that handle zeros.
 - **Hierarchies** (country → region → store, category → product): forecasts at different levels must add up. **Reconciliation** methods (bottom-up, top-down, MinT optimal reconciliation) make them coherent.
 
-<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: A forecast hierarchy from Egypt to regions to stores where independently forecast levels do not add up and must be reconciled">
+<figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: a forecast hierarchy from Egypt to regions to stores where independently forecast levels do not add up and must be reconciled">
 <rect class="sB" x="290" y="14" width="140" height="46" rx="8"/><text class="sT" x="360" y="35" text-anchor="middle">Egypt</text><text class="sC" x="360" y="51" text-anchor="middle">forecast 1,040</text>
 <line class="sLm" x1="360" y1="60" x2="150" y2="90"/><rect class="sA" x="80" y="92" width="140" height="46" rx="8"/><text class="sT" x="150" y="113" text-anchor="middle">Cairo</text><text class="sC" x="150" y="129" text-anchor="middle">600</text>
 <line class="sLm" x1="360" y1="60" x2="360" y2="90"/><rect class="sA" x="290" y="92" width="140" height="46" rx="8"/><text class="sT" x="360" y="113" text-anchor="middle">Alexandria</text><text class="sC" x="360" y="129" text-anchor="middle">250</text>

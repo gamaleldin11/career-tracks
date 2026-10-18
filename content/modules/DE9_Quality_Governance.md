@@ -153,7 +153,7 @@ Tests catch what you anticipated; **observability** catches what you didn't, by 
 | **Distribution** | Null rates, value ranges and category mixes drifting (a currency field suddenly in piastres) |
 | **Lineage** | What's upstream and downstream, to find the cause and the blast radius |
 
-<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: Daily row counts over thirty days with a learned expected band that includes a weekly pattern; one day drops to half and is flagged">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: daily row counts over thirty days with a learned expected band that includes a weekly pattern; one day drops to half and is flagged">
 <polygon class="sG" opacity=".25" points="50,62 71,62 92,62 113,62 134,34 155,34 176,62 197,62 218,62 239,62 260,62 281,34 302,34 323,62 344,62 365,62 386,62 407,62 428,34 449,34 470,62 491,62 512,62 533,62 554,62 575,34 596,34 617,62 638,62 659,62 659,98 638,98 617,98 596,78 575,78 554,98 533,98 512,98 491,98 470,98 449,78 428,78 407,98 386,98 365,98 344,98 323,98 302,78 281,78 260,98 239,98 218,98 197,98 176,98 155,78 134,78 113,98 92,98 71,98 50,98"/>
 <polyline class="sL" points="50,76 71,75 92,80 113,83 134,63 155,54 176,80 197,76 218,82 239,76 260,83 281,52 302,53 323,81 344,79 365,77 386,84 407,79 428,52 449,59 470,76 491,77 512,75 533,82 554,86 575,52 596,138 617,81 638,86 659,84" fill="none" stroke-width="2"/>
 <circle class="sPr" cx="596" cy="138" r="7"/><text class="sRt" x="586" y="143.6" text-anchor="end">half the file arrived: alert</text>

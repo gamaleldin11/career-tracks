@@ -137,7 +137,7 @@ For "investigate a drop", use [[DA1.8]]. For "how would you measure feature X?" 
 6. **Decision rule**: what result leads to what action.
 7. **Risks**: cannibalisation, novelty effects, data quality, operational capacity.
 
-<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: A seven-step structure for measurement and should-we cases: goal and user, success metric, hypotheses, data, method, decision rule, risks">
+<figure class="dia anim"><svg viewBox="0 0 720 202" role="img" aria-label="Animation: a seven-step structure for measurement and should-we cases: goal and user, success metric, hypotheses, data, method, decision rule, risks">
 <rect class="sB" x="14" y="30" width="160" height="44" rx="8"/><text class="sT" x="94" y="57" text-anchor="middle">1 goal &amp; user</text>
 <line class="sLm" x1="174" y1="52" x2="188" y2="52" marker-end="url(#ahm)"/>
 <rect class="sA" x="190" y="30" width="160" height="44" rx="8"/><text class="sT" x="270" y="57" text-anchor="middle">2 success metric</text>

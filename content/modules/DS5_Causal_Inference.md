@@ -153,7 +153,7 @@ Compare the **change** in the treated group with the **change** in a comparable 
 | **Alexandria** (no change) | 90 | 96 | +6 |
 | **DiD estimate** | | | **+6** |
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Difference-in-differences: Cairo and Alexandria trend in parallel before a policy in Cairo; afterwards Cairo rises more, and the gap to Cairo's projected path, plus 6, is the effect">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: difference-in-differences: Cairo and Alexandria trend in parallel before a policy in Cairo; afterwards Cairo rises more, and the gap to Cairo's projected path, plus 6, is the effect">
 <line class="sLm" x1="70" y1="210" x2="610" y2="210" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="210" x2="70" y2="40" marker-end="url(#ahm)"/>
 <line class="sLr" x1="335" y1="40" x2="335" y2="210" stroke-dasharray="6 4"/><text class="sRt" x="335" y="34" text-anchor="middle">new fee policy (Cairo only)</text>
 <polyline class="sLm" points="90.0,190.0 160.0,180.0 230.0,170.0 300.0,160.0 370.0,150.0 440.0,145.0 510.0,135.0 580.0,130.0" fill="none" stroke-width="2.5"/><polyline class="sL" points="90.0,140.0 160.0,130.0 230.0,120.0 300.0,110.0 370.0,80.0 440.0,70.0 510.0,60.0 580.0,50.0" fill="none" stroke-width="2.5"/>
@@ -192,7 +192,7 @@ print(model.params["treated:post"])          # the DiD effect
 | **Synthetic control** | Build a weighted combination of untreated units that tracks the treated unit before the change | A campaign in one governorate vs a weighted mix of others | The pre-period fit is good; no spill-over |
 | **Interrupted time series** | Model the trend before an intervention and compare with what follows | A price change on one date with no comparison group | No other change at the same time; the trend would have continued |
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Regression discontinuity: next-year spend rises smoothly with last year's spend except for a jump at the 5,000 pound Gold threshold, which estimates the effect of Gold status">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: regression discontinuity: next-year spend rises smoothly with last year's spend except for a jump at the 5,000 pound Gold threshold, which estimates the effect of Gold status">
 <line class="sLm" x1="60" y1="210" x2="670" y2="210" marker-end="url(#ahm)"/><line class="sLm" x1="60" y1="210" x2="60" y2="30" marker-end="url(#ahm)"/>
 <circle class="sP" cx="59.8" cy="183.3" r="3.5"/>
 <circle class="sP" cx="67.8" cy="169.0" r="3.5"/>
@@ -291,7 +291,7 @@ A churn model ranks customers by **risk**. A retention campaign should rank them
 | **Lost causes** | Churn | Churn | No: wasted cost |
 | **Sleeping dogs** | Stay | Churn (the contact reminds them to leave) | **No**: the offer hurts |
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="Four customer types by behaviour with and without an offer: persuadables, lost causes, sure things and sleeping dogs; a churn model targets the top row while uplift targets persuadables">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: four customer types by behaviour with and without an offer: persuadables, lost causes, sure things and sleeping dogs; a churn model targets the top row while uplift targets persuadables">
 <text class="sM" x="275" y="22" text-anchor="middle">with the offer</text><text class="sT" x="200" y="44" text-anchor="middle">stays</text><text class="sT" x="350" y="44" text-anchor="middle">churns</text>
 <text class="sT" x="100" y="90" text-anchor="end">churns</text><text class="sT" x="100" y="170" text-anchor="end">stays</text><text class="sM" x="60" y="130" text-anchor="end">without</text>
 <rect class="sG" x="125" y="54" width="146" height="74" rx="8"/><text class="sT" x="198" y="86" text-anchor="middle">persuadables</text><text class="sC" x="198" y="106" text-anchor="middle">target these</text>
@@ -301,6 +301,8 @@ A churn model ranks customers by **risk**. A retention campaign should rank them
 <rect class="sN" x="116" y="50" width="310" height="82" rx="10" style="fill:none;stroke:var(--mid);stroke-width:2" stroke-dasharray="6 4"/>
 <text class="sWt" x="450" y="76">a churn model ranks the top row</text><text class="sWt" x="450" y="94">(high risk without an offer)</text>
 <text class="sGt" x="450" y="140">an uplift model ranks the</text><text class="sGt" x="450" y="158">green box only</text>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M445 85 L425 85"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M445 131 L198 131 L198 120"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
 </svg><figcaption>Risk and responsiveness are different questions. Spending the retention budget on lost causes is the most common waste in CRM.</figcaption></figure>
 
 > [!term] Uplift (heterogeneous treatment effect) modelling

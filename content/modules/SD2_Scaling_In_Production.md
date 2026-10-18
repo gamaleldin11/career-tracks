@@ -275,7 +275,7 @@ Design points that interviewers probe:
 - **Watch queue depth and the age of the oldest message**, and scale workers on them; send poison messages to a **dead-letter queue** after a few retries.
 - Queues **move** load; they don't remove it. If workers are permanently slower than producers, the queue grows until something breaks. That needs more workers or **backpressure** ([[SD4.4]]).
 
-<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: A queue absorbing a burst, computed: arrivals run at 100 jobs a minute, jump to 300 a minute for five minutes, then drop to 50; workers process 150 a minute; the queue grows to 750 jobs at minute 10 and is empty again at minute 18, while the web tier never sees the burst">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: a queue absorbing a burst, computed: arrivals run at 100 jobs a minute, jump to 300 a minute for five minutes, then drop to 50; workers process 150 a minute; the queue grows to 750 jobs at minute 10 and is empty again at minute 18, while the web tier never sees the burst">
 <line class="sLm" x1="70" y1="200" x2="670" y2="200"/>
 <line class="sLm" x1="70" y1="200" x2="70" y2="30"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text>
@@ -440,7 +440,7 @@ A popular rule says "at a million users, break the monolith into microservices".
 | Data | One database, real transactions | A database per service; consistency through events and sagas |
 | Cost to run | Low | High: platform, observability, on-call per service |
 
-<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: A modular monolith with four modules in one deployable and one database, versus four microservices each with its own database talking over the network">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: a modular monolith with four modules in one deployable and one database, versus four microservices each with its own database talking over the network">
 <text class="sT" x="170" y="22" text-anchor="middle">Modular monolith</text><text class="sT" x="540" y="22" text-anchor="middle">Microservices</text>
 <rect class="sA" x="20" y="36" width="300" height="140" rx="12"/><text class="sC" x="170" y="54" text-anchor="middle">one deployable, many copies</text>
 <rect class="sB" x="34" y="64" width="128" height="40" rx="8" stroke-dasharray="5 3"/><text class="sT" x="98" y="89" text-anchor="middle">Orders</text>
@@ -480,7 +480,7 @@ At small scale, engineers cost far more than servers. At large scale, the cloud 
 - **The usual leaks**: oversized instances running at 5% CPU, forgotten environments, **data egress** (moving data out of a cloud or between regions is billed per GB), chatty services calling each other across zones, logs kept forever at full detail, and per-request pricing (serverless functions, step functions, managed APIs) used for very high-volume work, which is exactly the Prime Video case.
 - **The usual levers**: autoscaling to zero at night for internal tools, reserved or committed-use capacity for the steady baseline, spot or preemptible instances for interruptible batch work, caching, compression, storage tiers (hot, cool, archive), and deleting what nobody uses.
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Matching cloud pricing to the shape of the load over a day: a steady baseline of two instances runs all day on reserved or committed capacity; daytime load up to four instances and an evening peak up to six are covered by autoscaled on-demand instances; interruptible batch jobs use spot capacity">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: matching cloud pricing to the shape of the load over a day: a steady baseline of two instances runs all day on reserved or committed capacity; daytime load up to four instances and an evening peak up to six are covered by autoscaled on-demand instances; interruptible batch jobs use spot capacity">
 <line class="sLm" x1="70" y1="190" x2="670" y2="190"/>
 <line class="sLm" x1="70" y1="190" x2="70" y2="30"/>
 <text class="sS" x="62" y="194" text-anchor="end">0</text>

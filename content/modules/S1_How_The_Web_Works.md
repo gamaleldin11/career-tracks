@@ -290,7 +290,7 @@ A request is a **method**, a **target**, **headers** and an optional **body**. A
 > [!mistake] 401 versus 403
 > The names are historical and confusing. **401 means "who are you?"** (log in). **403 means "I know who you are, and no."** A logged-in accountant calling an admin-only endpoint gets 403, not 401.
 
-<figure class="dia anim"><svg viewBox="0 0 720 274" role="img" aria-label="Animation: A decision chain for client errors: over the rate limit gives 429, malformed request 400, not authenticated 401, not allowed 403, missing resource 404, invalid content 422, state conflict 409, otherwise success">
+<figure class="dia anim"><svg viewBox="0 0 720 274" role="img" aria-label="Animation: a decision chain for client errors: over the rate limit gives 429, malformed request 400, not authenticated 401, not allowed 403, missing resource 404, invalid content 422, state conflict 409, otherwise success">
 <rect class="sB" x="40" y="22" width="200" height="24" rx="12"/><text class="sC" x="140" y="38" text-anchor="middle">under the rate limit?</text>
 <line class="sLr" x1="240" y1="34" x2="300" y2="34" marker-end="url(#ahr)"/><text class="sRt" x="270" y="30" text-anchor="middle">no</text>
 <rect class="sR" x="304" y="22" width="150" height="24" rx="4" opacity=".8"/><text class="sC" x="379" y="38" text-anchor="middle">429 Too Many</text>

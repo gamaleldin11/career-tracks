@@ -126,7 +126,7 @@ Kingma & Welling (2013). **Probabilistic** (random even after training) and **ge
 - **Loss = reconstruction + latent (KL) loss** pushing the codings toward 𝒩(0, I): **ℒ_latent = −½ Σᵢ (1 + γᵢ − exp(γᵢ) − μᵢ²)**.
 - Result: a smooth, dense latent space. To **generate**, sample z ~ 𝒩(0, I) and decode.
 
-<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: A variational autoencoder: the encoder outputs a mean and log-variance, a latent code is sampled as mu plus sigma times noise, and the decoder reconstructs the image; the loss adds reconstruction error and a KL term">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: a variational autoencoder: the encoder outputs a mean and log-variance, a latent code is sampled as mu plus sigma times noise, and the decoder reconstructs the image; the loss adds reconstruction error and a KL term">
 <rect class="sB" x="14" y="80" width="80" height="50" rx="8"/><text class="sT" x="54" y="103" text-anchor="middle">x</text><text class="sC" x="54" y="119" text-anchor="middle">image</text>
 <line class="sL" x1="94" y1="105" x2="116" y2="105" marker-end="url(#ah)"/><polygon class="sV" points="120,60 230,82 230,128 120,150"/><text class="sT" x="175" y="110" text-anchor="middle">encoder</text>
 <line class="sL" x1="230" y1="92" x2="262" y2="72" marker-end="url(#ah)"/><rect class="sA" x="266" y="52" width="80" height="40" rx="8"/><text class="sT" x="306" y="77" text-anchor="middle">μ</text><line class="sL" x1="230" y1="118" x2="262" y2="138" marker-end="url(#ah)"/><rect class="sA" x="266" y="118" width="80" height="40" rx="8"/><text class="sT" x="306" y="143" text-anchor="middle">log σ²</text>

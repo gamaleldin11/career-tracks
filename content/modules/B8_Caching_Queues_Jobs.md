@@ -14,7 +14,7 @@ These are the three topics your gaps file lists as blocking the most backend job
 
 The payoff is plain arithmetic:
 
-<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: Average read latency falls from 20 ms with no cache to 2.9 ms at a 90% hit ratio and about 1.2 ms at 99%">
+<figure class="dia anim"><svg viewBox="0 0 720 242" role="img" aria-label="Animation: average read latency falls from 20 ms with no cache to 2.9 ms at a 90% hit ratio and about 1.2 ms at 99%">
 <line class="sLm" x1="80" y1="196" x2="650" y2="196" marker-end="url(#ahm)"/><line class="sLm" x1="80" y1="196" x2="80" y2="34" marker-end="url(#ahm)"/>
 <polyline class="sL" points="80.0,46.0 91.2,48.8 102.4,51.7 113.6,54.6 124.8,57.4 136.0,60.2 147.2,63.1 158.4,65.9 169.6,68.8 180.8,71.6 192.0,74.5 203.2,77.3 214.4,80.2 225.6,83.0 236.8,85.9 248.0,88.7 259.2,91.6 270.4,94.5 281.6,97.3 292.8,100.1 304.0,103.0 315.2,105.8 326.4,108.7 337.6,111.5 348.8,114.4 360.0,117.2 371.2,120.1 382.4,123.0 393.6,125.8 404.8,128.6 416.0,131.5 427.2,134.4 438.4,137.2 449.6,140.1 460.8,142.9 472.0,145.8 483.2,148.6 494.4,151.4 505.6,154.3 516.8,157.2 528.0,160.0 539.2,162.8 550.4,165.7 561.6,168.6 572.8,171.4 584.0,174.2 595.2,177.1 606.4,179.9 617.6,182.8 628.8,185.7 640.0,188.5"/>
 <circle class="sPw" cx="80.0" cy="46.0" r="5"/><text class="sM" x="88" y="38">0% → 20.0 ms</text>

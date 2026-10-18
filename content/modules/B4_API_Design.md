@@ -331,7 +331,7 @@ Or push completion over SignalR, SSE or a webhook instead of polling.
 | Weaknesses | Over- or under-fetching on complex screens | Browsers need gRPC-Web or JSON transcoding; harder to debug by eye | Caching is harder; servers must guard against expensive queries; **N+1** resolver problem |
 | Best for | Public and partner APIs, CRUD, most web backends | Internal service-to-service calls, high throughput, real-time streams | Front ends with many varied screens, mobile apps, aggregating several services |
 
-<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: A screen needing an invoice, its customer name and its last three payments takes three REST calls or one GraphQL query">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: a screen needing an invoice, its customer name and its last three payments takes three REST calls or one GraphQL query">
 <text class="sT" x="180" y="22" text-anchor="middle">REST: three round trips</text><text class="sT" x="540" y="22" text-anchor="middle">GraphQL: one query, exact fields</text>
 <rect class="sB" x="20" y="40" width="200" height="36" rx="6"/><text class="sM" x="120" y="62" text-anchor="middle">GET /invoices/7</text><text class="sC" x="234" y="62">whole invoice</text>
 <rect class="sB" x="20" y="90" width="200" height="36" rx="6"/><text class="sM" x="120" y="112" text-anchor="middle">GET /customers/31</text><text class="sC" x="234" y="112">whole customer</text>

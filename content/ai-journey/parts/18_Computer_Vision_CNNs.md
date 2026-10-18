@@ -407,7 +407,7 @@ A block learns **f(x) = h(x) − x**, and the output is **f(x) + x**.
 - When the shape changes (stride 2, more channels), the skip uses a **1×1 conv with stride 2** to match.
 - **Stochastic depth:** randomly drop whole residual units during training (`torchvision.ops.stochastic_depth`). Faster training, regularisation.
 
-<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: A residual block: the input passes through convolution, batch normalisation and ReLU layers, and a skip connection adds the original input to the result before the final ReLU">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: a residual block: the input passes through convolution, batch normalisation and ReLU layers, and a skip connection adds the original input to the result before the final ReLU">
 <rect class="sB" x="14" y="90" width="70" height="44" rx="8"/><text class="sT" x="49" y="117" text-anchor="middle">x</text>
 <line class="sL" x1="84" y1="112" x2="120" y2="112" marker-end="url(#ah)"/>
 <rect class="sV" x="124" y="90" width="86" height="44" rx="8"/><text class="sT" x="167" y="117" text-anchor="middle">conv 3×3</text>

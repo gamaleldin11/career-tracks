@@ -85,7 +85,7 @@ That picture explains two later topics. **Async** ([[B1.7]]) exists so that a th
 > [!mistake] "Value types live on the stack"
 > It's a useful simplification but not the rule. A value type lives **wherever its container is**: a local `int` is usually on the stack, but an `int` field inside a class object is on the heap with that object, and a boxed `int` is on the heap. The real difference is **copy semantics**.
 
-<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: Structs are copied into each variable; class variables hold references to one shared heap object; boxing copies a value into a new heap object">
+<figure class="dia anim"><svg viewBox="0 0 720 234" role="img" aria-label="Animation: structs are copied into each variable; class variables hold references to one shared heap object; boxing copies a value into a new heap object">
 <text class="sT" x="150" y="22" text-anchor="middle">stack frame</text><text class="sT" x="500" y="22" text-anchor="middle">managed heap</text>
 <rect class="sB" x="20" y="32" width="260" height="190" rx="10"/>
 <text class="sC" x="28" y="56" xml:space="preserve" style="white-space:pre">Money m1 = new(900, "EGP")</text><rect class="sA" x="186" y="60" width="86" height="14" rx="3"/><text class="sC" x="229" y="71" text-anchor="middle">900 EGP</text>

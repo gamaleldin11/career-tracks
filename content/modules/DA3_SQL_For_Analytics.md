@@ -76,7 +76,7 @@ SELECT date_trunc('month', created_at)::date AS month, SUM(amount) FROM orders W
 
 **Fill missing days** so charts and moving averages don't skip gaps:
 
-<figure class="dia"><svg viewBox="0 0 720 224" role="img" aria-label="A daily revenue series with day 4 missing compared with the same series filled from a calendar, where day 4 is zero">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: a daily revenue series with day 4 missing compared with the same series filled from a calendar, where day 4 is zero">
 <text class="sRt" x="180" y="22" text-anchor="middle">missing day: no row at all</text>
 <line class="sLm" x1="30" y1="170" x2="340" y2="170"/>
 <text class="sC" x="55" y="188" text-anchor="middle">day 1</text>
@@ -110,6 +110,8 @@ SELECT date_trunc('month', created_at)::date AS month, SUM(amount) FROM orders W
 <text class="sC" x="667" y="188" text-anchor="middle">day 7</text>
 <rect class="sA" x="652" y="66.5" width="30" height="103.5" rx="3"/>
 <text class="sRt" x="180" y="212" text-anchor="middle">LAG on day 5 returns day 3: "growth" over two days</text><text class="sGt" x="540" y="212" text-anchor="middle">every day present; LAG and moving averages line up</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.350;1" path="M223 60 C200 30 160 30 139 70"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.350;0.352;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.800;1" path="M583 60 C570 40 555 40 541 150"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.800;0.802;1"/></circle>
 </svg><figcaption>Window functions count rows, not days. A day with no orders has no row unless you generate one.</figcaption></figure>
 
 ```sql

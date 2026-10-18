@@ -329,7 +329,7 @@ def test_dedupe_keeps_latest_version():
 - **CPU-bound work in pure Python:** `multiprocessing` or `ProcessPoolExecutor`, because of the **GIL** (global interpreter lock), which lets only one thread run Python bytecode at a time in the standard build. (Python 3.13 introduced an optional **free-threaded** build without the GIL, and 3.14 made it officially supported; libraries are still catching up.) Usually, the better fix is **vectorised** code (Polars, DuckDB, NumPy) that runs outside the interpreter.
 - Profile before optimising (`cProfile`, `py-spy`).
 
-<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: Threads help I/O-bound work because their waits overlap, but CPU-bound Python threads run one at a time under the GIL, while separate processes run in parallel">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: threads help I/O-bound work because their waits overlap, but CPU-bound Python threads run one at a time under the GIL, while separate processes run in parallel">
 <text class="sM" x="14" y="20">I/O-bound (API calls) with 4 threads: waiting overlaps</text>
 <text class="sC" x="150" y="45" text-anchor="end">thread 1</text><rect class="sA" x="160" y="30" width="13" height="22" rx="3"/><rect class="sN" x="175" y="30" width="148" height="22" rx="3"/><rect class="sA" x="325" y="30" width="13" height="22" rx="3"/>
 <text class="sC" x="150" y="71" text-anchor="end">thread 2</text><rect class="sA" x="175" y="56" width="13" height="22" rx="3"/><rect class="sN" x="190" y="56" width="148" height="22" rx="3"/><rect class="sA" x="340" y="56" width="13" height="22" rx="3"/>

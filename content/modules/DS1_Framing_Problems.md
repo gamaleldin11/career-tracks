@@ -165,7 +165,7 @@ Start with the simplest thing that could work:
 - **A SQL report** may answer the question without predicting anything.
 - ML earns its keep when patterns are complex, data is plentiful, decisions repeat at scale, and the cost of building and maintaining a model is justified by the improvement.
 
-<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: A ladder of approaches from a rule, to a SQL segment, to logistic regression, to gradient boosting, with rising accuracy and rising cost">
+<figure class="dia anim"><svg viewBox="0 0 720 262" role="img" aria-label="Animation: a ladder of approaches from a rule, to a SQL segment, to logistic regression, to gradient boosting, with rising accuracy and rising cost">
 <rect class="sB" x="14" y="170" width="170" height="50" rx="8"/><text class="sT" x="99" y="193" text-anchor="middle">a rule</text><text class="sC" x="99" y="209" text-anchor="middle">no recharge in 14 days</text>
 <rect class="sB" x="164" y="126" width="170" height="50" rx="8"/><text class="sT" x="249" y="149" text-anchor="middle">a SQL segment</text><text class="sS" x="249" y="165" text-anchor="middle">or a report, no prediction</text>
 <rect class="sA" x="314" y="82" width="170" height="50" rx="8"/><text class="sT" x="399" y="105" text-anchor="middle">logistic regression</text><text class="sC" x="399" y="121" text-anchor="middle">simple, explainable</text>

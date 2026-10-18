@@ -105,7 +105,7 @@ Object storage (ADLS, S3) offers files, not tables: no transactions, no atomic m
 
 A Delta table is Parquet data files plus a **`_delta_log/`** folder of numbered JSON **commit files** (`00000000000000000042.json`), each recording files **added** and **removed** in that transaction, plus periodic **checkpoint** files (Parquet) summarising the state. Readers reconstruct the current version from the latest checkpoint plus later commits. Writers commit by atomically creating the next-numbered log file; if two writers race, one fails and retries after checking for conflicts.
 
-<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: A Delta Lake transaction log of numbered JSON commits that add and remove Parquet files, with periodic checkpoints, and the resulting file sets for versions 40, 41 and 42">
+<figure class="dia anim"><svg viewBox="0 0 720 204" role="img" aria-label="Animation: a Delta Lake transaction log of numbered JSON commits that add and remove Parquet files, with periodic checkpoints, and the resulting file sets for versions 40, 41 and 42">
 <text class="sM" x="14" y="22">_delta_log/</text>
 <rect class="sB" x="14" y="32" width="140" height="28" rx="4"/><text class="sC" x="22" y="51" xml:space="preserve" style="white-space:pre">…040.json</text><text class="sC" x="166" y="51">add part-6 · part-7</text>
 <rect class="sB" x="14" y="66" width="140" height="28" rx="4"/><text class="sC" x="22" y="85" xml:space="preserve" style="white-space:pre">…041.json</text><text class="sC" x="166" y="85">add part-8 · remove part-3</text>

@@ -71,7 +71,7 @@ This is the module to live in during the final week before a data-engineering in
 <circle class="sPv" r="5"><animateMotion dur="4s" repeatCount="indefinite" path="M134 102 H260 L300 46 H510"/></circle><circle class="sP" r="5"><animateMotion dur="4s" begin="1.5s" repeatCount="indefinite" path="M134 42 H260 V130 H470 L510 112"/></circle>
 </svg><figcaption>The pipeline-design answer on one page: split by latency, one copy of the truth in the lakehouse, and governance around everything.</figcaption></figure>
 
-<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: A 25-minute pipeline-design answer split across requirements, ingestion, storage, processing, orchestration, quality, serving, and governance, cost and failure modes">
+<figure class="dia anim"><svg viewBox="0 0 720 110" role="img" aria-label="Animation: a 25-minute pipeline-design answer split across requirements, ingestion, storage, processing, orchestration, quality, serving, and governance, cost and failure modes">
 <rect class="sB" x="14" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="55.52" y="50" text-anchor="middle">requirements</text><text class="sC" x="55.52" y="66" text-anchor="middle">3 min</text>
 <rect class="sB" x="97.04" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="138.56" y="50" text-anchor="middle">ingestion</text><text class="sC" x="138.56" y="66" text-anchor="middle">3 min</text>
 <rect class="sV" x="180.08" y="30" width="81.04" height="44" rx="6"/><text class="sC" x="221.6" y="50" text-anchor="middle">storage</text><text class="sC" x="221.6" y="66" text-anchor="middle">3 min</text>

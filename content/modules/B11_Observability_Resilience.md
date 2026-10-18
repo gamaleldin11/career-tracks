@@ -266,7 +266,7 @@ Locally, the **Aspire dashboard** (a standalone container image) receives OTLP a
 > [!say]
 > "I instrument with OpenTelemetry: ASP.NET Core, HttpClient and EF Core produce spans and metrics automatically, I add my own spans and counters for business operations, and everything goes over OTLP to Application Insights or Grafana. Logs are structured and carry the trace ID, so from an alert I can jump to the slow trace and from there to the exact log lines."
 
-<figure class="dia anim"><svg viewBox="0 0 720 260" role="img" aria-label="Animation: A distributed trace as a waterfall: GET /api/forecast takes 1,800 ms; inside it auth takes 20 ms, an EF Core query 120 ms, a call to the payment gateway 1,600 ms, of which the gateway’s own database call takes 180 ms and waiting on the bank API 1,320 ms, and serialising the response 30 ms">
+<figure class="dia anim"><svg viewBox="0 0 720 260" role="img" aria-label="Animation: a distributed trace as a waterfall: GET /api/forecast takes 1,800 ms; inside it auth takes 20 ms, an EF Core query 120 ms, a call to the payment gateway 1,600 ms, of which the gateway’s own database call takes 180 ms and waiting on the bank API 1,320 ms, and serialising the response 30 ms">
 <text class="sM" x="14" y="20">one trace, seven spans: where did 1.8 seconds go?</text>
 <text class="sS" x="14" y="47">GET /api/forecast</text><rect class="sB" x="250" y="34" width="440" height="18" rx="3" opacity=".85"/><text class="sC" x="684" y="47" text-anchor="end">1800 ms</text>
 <text class="sS" x="28" y="73">auth middleware</text><rect class="sN" x="251.222" y="60" width="4.88889" height="18" rx="3" opacity=".85"/><text class="sC" x="262.111" y="73">20 ms</text>
@@ -334,7 +334,7 @@ app.MapHealthChecks("/health/ready", new() { Predicate = c => c.Tags.Contains("r
 
 When the budget is healthy, ship faster; when it's spent, prioritise reliability work. That turns reliability into a shared, measurable decision instead of an argument.
 
-<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: Error budget over 30 days: 216 minutes allowed at 99.5%; a bad deploy consumes 90 minutes at once">
+<figure class="dia anim"><svg viewBox="0 0 720 220" role="img" aria-label="Animation: error budget over 30 days: 216 minutes allowed at 99.5%; a bad deploy consumes 90 minutes at once">
 <line class="sLm" x1="70" y1="190" x2="680" y2="190" marker-end="url(#ahm)"/><line class="sLm" x1="70" y1="190" x2="70" y2="30" marker-end="url(#ahm)"/>
 <line class="sLr" x1="70" y1="40.0" x2="670" y2="40.0" stroke-dasharray="6 4"/><text class="sRt" x="670" y="34" text-anchor="end">budget: 216 min (99.5% of 30 days)</text>
 <polyline class="sLw" points="70.0,190.0 170.0,176.1 250.0,169.2 270.0,106.7 350.0,101.1 470.0,92.8 570.0,85.8 670.0,78.9"/>

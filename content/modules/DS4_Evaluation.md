@@ -76,7 +76,7 @@ Every decision made by looking at a set leaks a little information from it, so a
 | **Out-of-time test** | Hold out the most recent period entirely | Final check that performance survives time |
 | **Nested CV** | An inner loop for tuning inside an outer loop for evaluation | Small datasets where you need an unbiased estimate after tuning |
 
-<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: Rows from three customers split randomly put the same customers in train and test; a group split keeps each customer's rows on one side">
+<figure class="dia anim"><svg viewBox="0 0 720 218" role="img" aria-label="Animation: rows from three customers split randomly put the same customers in train and test; a group split keeps each customer's rows on one side">
 <text class="sRt" x="180" y="20" text-anchor="middle">random rows</text>
 <rect class="sA" x="30" y="50" width="26" height="26" rx="4"/><text class="sT" x="43" y="68" text-anchor="middle">A</text>
 <rect class="sA" x="240" y="50" width="26" height="26" rx="4"/><text class="sT" x="253" y="68" text-anchor="middle">A</text>
@@ -200,7 +200,7 @@ def expected_profit(t):
 best_t = max(thresholds, key=expected_profit)
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: Expected campaign profit against the decision threshold, computed with the code above on a synthetic churn set with 10 percent churners, 600 pounds saved per retained churner and a 30 percent acceptance rate: with a 50 pound offer the best threshold is 0.28, well below 0.5, and when the offer cost doubles it moves up to 0.5 and the best profit falls by more than half">
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: expected campaign profit against the decision threshold, computed with the code above on a synthetic churn set with 10 percent churners, 600 pounds saved per retained churner and a 30 percent acceptance rate: with a 50 pound offer the best threshold is 0.28, well below 0.5, and when the offer cost doubles it moves up to 0.5 and the best profit falls by more than half">
 <line class="sLm" x1="70" y1="200" x2="490" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="24"/><line class="sLm" x1="70" y1="136.25" x2="490" y2="136.25" stroke-dasharray="3 3"/>
 <text class="sS" x="70" y="216" text-anchor="middle">0</text>
 <text class="sS" x="175" y="216" text-anchor="middle">0.25</text>
@@ -233,7 +233,7 @@ Also common: fix the **capacity** (the CRM team can call 5,000 per week, so take
 
 **How to check and fix:** a **reliability diagram** (predicted probability bins vs observed rates) and the Brier score; then calibrate on held-out data with **Platt scaling** (a logistic fit, good for little data) or **isotonic regression** (non-parametric, needs more data), via `CalibratedClassifierCV`.
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Reliability diagram: an over-confident model's observed rates are flatter than its predictions, and after calibration the points lie on the diagonal">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: reliability diagram: an over-confident model's observed rates are flatter than its predictions, and after calibration the points lie on the diagonal">
 <rect class="sN" x="80" y="30" width="180" height="180" rx="0"/><line class="sD" x1="80" y1="210" x2="260" y2="30"/>
 <polyline class="sLr" points="89.0,164.6 107.0,154.7 125.0,144.8 143.0,134.9 161.0,124.9 179.0,115.0 197.0,105.1 215.0,95.2 233.0,85.3 251.0,75.4" fill="none" stroke-width="2.5"/><polyline class="sLg" points="89.0,199.4 107.0,179.5 125.0,162.2 143.0,147.0 161.0,131.8 179.0,114.5 197.0,94.5 215.0,73.4 233.0,53.5 251.0,36.2" fill="none" stroke-width="2.5"/>
 <circle class="sPr" cx="89.0" cy="164.6" r="3.5"/>

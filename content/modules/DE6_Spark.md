@@ -295,7 +295,7 @@ enriched = orders.join(broadcast(dim_city), "city_id")      # force a broadcast 
 
 **Spot it** in the Spark UI: one or a few tasks in a stage take far longer and read far more shuffle data than the median.
 
-<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: Task durations in a stage: thirty-nine tasks take about ten seconds and one task with a hot key takes three minutes; salting spreads the key over sixteen tasks">
+<figure class="dia anim"><svg viewBox="0 0 720 232" role="img" aria-label="Animation: task durations in a stage: thirty-nine tasks take about ten seconds and one task with a hot key takes three minutes; salting spreads the key over sixteen tasks">
 <rect class="sB" x="40" y="187.637" width="8" height="12.3626" rx="1"/>
 <rect class="sB" x="50" y="187.682" width="8" height="12.3183" rx="1"/>
 <rect class="sB" x="60" y="192.495" width="8" height="7.50538" rx="1"/>

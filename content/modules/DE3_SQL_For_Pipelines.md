@@ -282,7 +282,7 @@ JOIN gold.dim_customer d
 
 **Rules of thumb:** partition by the column most queries filter on (usually event date); avoid **high-cardinality** partition columns (customer ID would create millions of tiny partitions); aim for files of roughly **100 MB–1 GB**, because thousands of tiny files (the **small-files problem**) slow every engine, so compact them (`OPTIMIZE` in Delta, rewrite in Iceberg); and cluster on secondary filter columns.
 
-<figure class="dia anim"><svg viewBox="0 0 720 198" role="img" aria-label="Animation: A table partitioned by day: a direct date filter reads three partitions, while wrapping the column in a function reads all thirty">
+<figure class="dia anim"><svg viewBox="0 0 720 198" role="img" aria-label="Animation: a table partitioned by day: a direct date filter reads three partitions, while wrapping the column in a function reads all thirty">
 <text class="sM" x="14" y="22">fact_events partitioned by event_date</text>
 <rect class="sN" x="14" y="34" width="20" height="40" rx="2"/>
 <rect class="sN" x="37" y="34" width="20" height="40" rx="2"/>

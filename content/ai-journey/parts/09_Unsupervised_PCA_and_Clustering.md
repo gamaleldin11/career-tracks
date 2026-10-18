@@ -175,7 +175,7 @@ A neat idiom: `np.argmax` on a boolean array returns the index of the **first `T
 
 For the digits dataset, 95% of the variance sits in roughly 40 of the 64 components — a modest reduction. On datasets with more redundancy the ratio is far more dramatic.
 
-<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Scree and cumulative explained variance for PCA on the scaled digits data: the first components carry the most variance, and the cumulative curve reaches 80 percent at 21 components, 95 percent at 40 and 99 percent at about 54">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: scree and cumulative explained variance for PCA on the scaled digits data: the first components carry the most variance, and the cumulative curve reaches 80 percent at 21 components, 95 percent at 40 and 99 percent at about 54">
 <rect class="sB" x="56.5" y="97.7117" width="7" height="102.288" rx="1"/>
 <rect class="sB" x="65.3889" y="118.731" width="7" height="81.269" rx="1"/>
 <rect class="sB" x="74.2778" y="128.222" width="7" height="71.7775" rx="1"/>

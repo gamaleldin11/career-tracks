@@ -259,7 +259,7 @@ print(f"lift = {conv[0]/n[0] - conv[1]/n[1]:.3%}, 95% CI [{low:.3%}, {high:.3%}]
 - **Price elasticity** (roughly the % change in quantity ÷ % change in price) needs variation in price that isn't driven by demand itself, ideally from experiments; naive regressions of sales on price are confounded.
 - **Discount depth vs frequency:** constant discounts train customers to wait for them.
 
-<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: Promotion analysis waterfall: 1,500 orders in the promo week minus 1,000 that would have happened anyway, minus 150 pulled forward from later weeks, minus 100 cannibalised from full-price products, leaving 250 incremental orders">
+<figure class="dia anim"><svg viewBox="0 0 720 248" role="img" aria-label="Animation: promotion analysis waterfall: 1,500 orders in the promo week minus 1,000 that would have happened anyway, minus 150 pulled forward from later weeks, minus 100 cannibalised from full-price products, leaving 250 incremental orders">
 <line class="sLm" x1="60" y1="200" x2="680" y2="200"/>
 <rect class="sB" x="80" y="20" width="80" height="180" rx="3"/><text class="sT" x="120" y="218" text-anchor="middle">promo week</text>
 <text class="sC" x="120" y="14" text-anchor="middle">1,500</text>

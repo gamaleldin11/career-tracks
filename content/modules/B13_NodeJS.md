@@ -113,7 +113,7 @@ Fixes: async APIs, **streams** for big data, **`worker_threads`** for CPU work, 
 > [!term] Semantic versioning (semver)
 > `MAJOR.MINOR.PATCH`: major for breaking changes, minor for features, patch for fixes. **`^5.1.0`** accepts any `5.x.x` ≥ 5.1.0; **`~5.1.0`** accepts only `5.1.x`; an exact `5.1.0` pins it.
 
-<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: Version ranges on a number line: an exact pin matches only 5.1.0, a tilde range allows patch updates up to 5.2.0, a caret range allows minor updates up to 6.0.0">
+<figure class="dia anim"><svg viewBox="0 0 720 224" role="img" aria-label="Animation: version ranges on a number line: an exact pin matches only 5.1.0, a tilde range allows patch updates up to 5.2.0, a caret range allows minor updates up to 6.0.0">
 <line class="sLm" x1="150" y1="150" x2="700" y2="150" marker-end="url(#ahm)"/>
 <line class="sLm" x1="170" y1="144" x2="170" y2="156"/><text class="sC" x="170" y="172" text-anchor="middle">5.0.9</text>
 <line class="sLm" x1="240" y1="144" x2="240" y2="156"/><text class="sC" x="240" y="172" text-anchor="middle">5.1.0</text>
@@ -294,7 +294,7 @@ await prisma.$transaction(async (tx) => {
 });
 ```
 
-<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Measured query time per page on a million-row table: OFFSET pagination grows linearly to about 30 milliseconds at page 49,000, while keyset pagination on the same index stays at about 0.02 milliseconds on every page">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: measured query time per page on a million-row table: OFFSET pagination grows linearly to about 30 milliseconds at page 49,000, while keyset pagination on the same index stays at about 0.02 milliseconds on every page">
 <line class="sLm" x1="70" y1="200" x2="500" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="24"/>
 <text class="sS" x="62" y="204" text-anchor="end">0</text><line class="sLm" x1="70" y1="200" x2="500" y2="200" opacity=".15"/>
 <text class="sS" x="62" y="155.429" text-anchor="end">10</text><line class="sLm" x1="70" y1="151.429" x2="500" y2="151.429" opacity=".15"/>

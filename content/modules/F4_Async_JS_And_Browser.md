@@ -142,7 +142,7 @@ console.log("7");
 
 **Callbacks** nest ("callback hell") and make error handling scattered. A **promise** is an object representing a value that will be available later, in one of three states: **pending**, **fulfilled** or **rejected**. Once settled, it never changes.
 
-<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: A promise starts pending and settles once, either fulfilled with a value or rejected with a reason">
+<figure class="dia anim"><svg viewBox="0 0 720 206" role="img" aria-label="Animation: a promise starts pending and settles once, either fulfilled with a value or rejected with a reason">
 <rect class="sW" x="40" y="70" width="150" height="50" rx="8"/><text class="sT" x="115" y="93" text-anchor="middle">pending</text><text class="sC" x="115" y="109" text-anchor="middle">waiting</text>
 <rect class="sG" x="330" y="20" width="170" height="50" rx="8"/><text class="sT" x="415" y="43" text-anchor="middle">fulfilled</text><text class="sC" x="415" y="59" text-anchor="middle">has a value</text><rect class="sR" x="330" y="120" width="170" height="50" rx="8"/><text class="sT" x="415" y="143" text-anchor="middle">rejected</text><text class="sC" x="415" y="159" text-anchor="middle">has a reason (error)</text>
 <line class="sLg" x1="190" y1="88" x2="326" y2="48" marker-end="url(#ahg)"/><text class="sGt" x="258" y="56" text-anchor="middle">resolve(value)</text>
@@ -355,7 +355,7 @@ list.addEventListener("click", (e) => {
 
 A **long task** is anything that blocks the main thread for more than 50 ms; during it, clicks and typing feel frozen, which hurts **INP** ([[F9]]).
 
-<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: A 300 ms long task delays a tap until it ends; splitting the work into chunks with yields lets the tap run within a few milliseconds">
+<figure class="dia anim"><svg viewBox="0 0 720 180" role="img" aria-label="Animation: a 300 ms long task delays a tap until it ends; splitting the work into chunks with yields lets the tap run within a few milliseconds">
 <text class="sT" x="130" y="42" text-anchor="end">one long task</text><rect class="sR" x="140" y="28" width="420" height="26" rx="3"/><text class="sC" x="350" y="46" text-anchor="middle">processRows(10 000): 300 ms</text>
 <line class="sLw" x1="224.0" y1="10" x2="224.0" y2="26" marker-end="url(#ahw)"/><text class="sWt" x="232" y="18">tap at 60 ms</text>
 <rect class="sW" x="560" y="28" width="28" height="26" rx="3"/><text class="sRt" x="602" y="46">answered at 300 ms</text>

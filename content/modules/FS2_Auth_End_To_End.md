@@ -14,7 +14,7 @@ HTTP is **stateless**: each request arrives on its own and the server doesn't re
 
 **1. What the credential is.** A **session ID** is a random reference the server looks up; a **signed token** (usually a JWT) carries the user's claims inside and the server only checks the signature ([[B7]]).
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: A session ID is a random reference the server looks up in a session store; a signed token carries its claims and is verified with a key">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: a session ID is a random reference the server looks up in a session store; a signed token carries its claims and is verified with a key">
 <rect class="sN" x="14" y="20" width="336" height="210" rx="12"/><text class="sT" x="182" y="42" text-anchor="middle">session ID: a reference</text>
 <rect class="sB" x="30" y="60" width="140" height="34" rx="6"/><text class="sC" x="40" y="82" xml:space="preserve" style="white-space:pre">sid=8f3a91c2…</text>
 <line class="sL" x1="170" y1="77" x2="206" y2="77" marker-end="url(#ah)"/><rect class="sA" x="210" y="56" width="124" height="42" rx="8"/><text class="sT" x="272" y="82" text-anchor="middle">server</text>

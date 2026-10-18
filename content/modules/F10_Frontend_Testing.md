@@ -12,7 +12,7 @@ Testing is the gap your own audit flags most often, and interviewers know junior
 
 An automated **test** is code that runs your code with known inputs and checks that the outputs are what you expect. A **test runner** finds the test files, sets up an environment (for UI tests, a simulated DOM such as jsdom, or a real browser), runs each test in isolation and reports what passed and failed.
 
-<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: A test run: the runner finds test files, sets up an environment, runs your code, checks assertions and reports results">
+<figure class="dia anim"><svg viewBox="0 0 720 116" role="img" aria-label="Animation: a test run: the runner finds test files, sets up an environment, runs your code, checks assertions and reports results">
 <rect class="sB" x="8" y="26" width="108" height="50" rx="8"/><text class="sT" x="62" y="49" text-anchor="middle">test files</text><text class="sC" x="62" y="65" text-anchor="middle">*.test.ts</text>
 <line class="sLm" x1="116" y1="51" x2="125" y2="51" marker-end="url(#ahm)"/>
 <rect class="sA" x="127" y="26" width="108" height="50" rx="8"/><text class="sT" x="181" y="49" text-anchor="middle">runner</text><text class="sC" x="181" y="65" text-anchor="middle">Vitest · Jest</text>
@@ -170,7 +170,7 @@ it("lets the user mark an overdue invoice as paid", async () => {
 | `queryBy…` | Returns `null` if missing: use to assert something is **absent** |
 | `findBy…` | Returns a promise that **waits** for it to appear: use after async work |
 
-<figure class="dia"><svg viewBox="0 0 720 238" role="img" aria-label="Testing Library query variants on a timeline: getBy returns the element or throws immediately, queryBy returns the element or null, and findBy waits and resolves when the element appears or rejects after the one-second timeout">
+<figure class="dia anim"><svg viewBox="0 0 720 238" role="img" aria-label="Animation: Testing Library query variants on a timeline: getBy returns the element or throws immediately, queryBy returns the element or null, and findBy waits and resolves when the element appears or rejects after the one-second timeout">
 <line class="sLm" x1="236" y1="30" x2="700" y2="30"/><text class="sS" x="236" y="22">now</text><text class="sS" x="566" y="22" text-anchor="end">1 s (default findBy timeout)</text>
 <line class="sD" x1="566" y1="26" x2="566" y2="206"/>
 <text class="sC" x="14" y="70" xml:space="preserve" style="white-space:pre">getByRole</text>
@@ -187,6 +187,8 @@ it("lets the user mark an overdue invoice as paid", async () => {
 <rect class="sG" x="335" y="156" width="150" height="20" rx="4" opacity=".7"/><text class="sC" x="343" y="170">resolves at 300 ms</text>
 <rect class="sR" x="566" y="180" width="136" height="20" rx="4" opacity=".7"/><text class="sC" x="574" y="194">rejects after 1 s</text>
 <text class="sGt" x="360" y="226" text-anchor="middle">present now → getBy · asserting it is gone → queryBy · appears after async work → await findBy</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.300;1" path="M236 166 L335 166"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.300;0.302;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.700;1" path="M236 190 L566 190"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.700;0.702;1"/></circle>
 </svg><figcaption>Pick the query variant by when the element should exist.</figcaption></figure>
 
 Use **`user-event`**, not `fireEvent`: it simulates full interactions (focus, key presses, pointer events) as a browser would.
@@ -333,7 +335,7 @@ test("accountant can record a payment", async ({ page }) => {
 > [!term] Flaky test
 > A test that sometimes passes and sometimes fails **without any code change**. Flaky tests are worse than no tests: people stop trusting red builds.
 
-<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: A fixed 500 ms wait fails when rendering takes 650 ms; a findBy query waits for the condition and passes on every run">
+<figure class="dia anim"><svg viewBox="0 0 720 196" role="img" aria-label="Animation: a fixed 500 ms wait fails when rendering takes 650 ms; a findBy query waits for the condition and passes on every run">
 <text class="sT" x="140" y="44" text-anchor="end">app</text><rect class="sW" x="150" y="30" width="351" height="24" rx="4"/><text class="sC" x="325.5" y="47" text-anchor="middle">fetch + render (sometimes 250 ms, sometimes 650)</text><rect class="sG" x="501" y="30" width="189" height="24" rx="4"/><text class="sC" x="595.5" y="47" text-anchor="middle">rows on screen</text>
 <text class="sM" x="140" y="100" text-anchor="end">wait(500)</text><line class="sLr" x1="420.0" y1="84" x2="420.0" y2="112" stroke-width="3"/><text class="sRt" x="428" y="104">asserts too early on a slow run → red</text>
 <text class="sM" x="140" y="150" text-anchor="end">findByRole</text><rect class="sN" x="150" y="138" width="351" height="20" rx="4" stroke-dasharray="4 3"/><text class="sC" x="325.5" y="152" text-anchor="middle">polls until the row appears (or a timeout)</text><circle class="sPg" cx="501.0" cy="148" r="7"/><text class="sGt" x="513" y="152">passes every time</text>

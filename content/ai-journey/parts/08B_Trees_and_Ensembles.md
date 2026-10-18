@@ -663,7 +663,7 @@ Géron's closing tip: *"Random forests, AdaBoost, GBRT, and HGB are among the fi
 | Tuning effort | Low; good defaults | Higher; learning rate × trees × depth interact |
 | Typical accuracy on tabular | Very good | Usually **best** |
 
-<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: Validation log-loss as trees are added on a noisy synthetic dataset: gradient boosting with learning rate 0.3 is best after about 10 trees and then gets steadily worse, while a random forest improves and then stays flat">
+<figure class="dia anim"><svg viewBox="0 0 720 246" role="img" aria-label="Animation: validation log-loss as trees are added on a noisy synthetic dataset: gradient boosting with learning rate 0.3 is best after about 10 trees and then gets steadily worse, while a random forest improves and then stays flat">
 <line class="sLm" x1="70" y1="200" x2="590" y2="200"/><line class="sLm" x1="70" y1="200" x2="70" y2="26"/>
 <text class="sS" x="64" y="179.714" text-anchor="end">0.4</text>
 <text class="sS" x="64" y="131.143" text-anchor="end">0.6</text>
@@ -732,7 +732,7 @@ Points to narrate in an interview:
 - No scaling or imputation is needed for trees; the ordinal encoding is just the categorical representation.
 - **`class_weight="balanced"` distorts probabilities.** Recalibrate before using them as risk scores.
 
-<figure class="dia anim"><svg viewBox="0 0 720 258" role="img" aria-label="Animation: Reliability curves for three gradient-boosting models on a churn-like dataset with a 6 percent positive rate: the default model sits on the diagonal, the class-weight balanced model predicts far higher probabilities than the observed rates, with a mean prediction around 19 percent, and isotonic recalibration brings it back to the diagonal; ROC AUC is almost identical for all three">
+<figure class="dia anim"><svg viewBox="0 0 720 258" role="img" aria-label="Animation: reliability curves for three gradient-boosting models on a churn-like dataset with a 6 percent positive rate: the default model sits on the diagonal, the class-weight balanced model predicts far higher probabilities than the observed rates, with a mean prediction around 19 percent, and isotonic recalibration brings it back to the diagonal; ROC AUC is almost identical for all three">
 <line class="sLm" x1="60" y1="216" x2="360" y2="216"/><line class="sLm" x1="60" y1="216" x2="60" y2="26"/><line class="sLm" x1="60" y1="216" x2="360" y2="26" stroke-dasharray="4 4"/>
 <text class="sS" x="60" y="232" text-anchor="middle">0</text><text class="sS" x="52" y="220" text-anchor="end">0</text>
 <text class="sS" x="210" y="232" text-anchor="middle">0.5</text><text class="sS" x="52" y="125" text-anchor="end">0.5</text>

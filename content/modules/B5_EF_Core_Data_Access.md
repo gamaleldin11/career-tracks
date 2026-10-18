@@ -202,7 +202,7 @@ dotnet ef migrations bundle                   # a self-contained executable that
 
 ## B5.5 Querying well 🟢 🟡 ⭐
 
-<figure class="dia anim"><svg viewBox="0 0 720 188" role="img" aria-label="Animation: A LINQ query becomes an expression tree that EF Core translates into SQL selecting only the projected columns">
+<figure class="dia anim"><svg viewBox="0 0 720 188" role="img" aria-label="Animation: a LINQ query becomes an expression tree that EF Core translates into SQL selecting only the projected columns">
 <rect class="sA" x="14" y="30" width="230" height="120" rx="8"/><text class="sT" x="129" y="48" text-anchor="middle">C# (LINQ)</text>
 <text class="sC" x="22" y="66" xml:space="preserve" style="white-space:pre">db.Invoices</text>
 <text class="sC" x="22" y="80" xml:space="preserve" style="white-space:pre">  .Where(i =&gt; i.Status</text>
@@ -293,7 +293,7 @@ var totals = await db.Invoices.Select(i => new { i.Id, Paid = i.Payments.Sum(p =
 
 Including **two or more collections** in one query (`.Include(c => c.Invoices).Include(c => c.Contacts)`) makes the SQL JOIN multiply rows: 50 invoices × 20 contacts = 1,000 rows per customer, with every column repeated.
 
-<figure class="dia"><svg viewBox="0 0 720 216" role="img" aria-label="Including two collections in one query multiplies rows; a split query sends three queries with no duplicated data">
+<figure class="dia anim"><svg viewBox="0 0 720 216" role="img" aria-label="Animation: including two collections in one query multiplies rows; a split query sends three queries with no duplicated data">
 <text class="sT" x="180" y="22" text-anchor="middle">one query with two Includes</text><text class="sT" x="540" y="22" text-anchor="middle">AsSplitQuery()</text>
 <rect class="sW" x="30" y="34" width="300" height="22" rx="4" opacity=".75"/><text class="sC" x="40" y="49">Nile · INV-1 · Mona</text>
 <rect class="sR" x="30" y="60" width="300" height="22" rx="4" opacity=".75"/><text class="sC" x="40" y="75">Nile · INV-1 · Omar</text>
@@ -313,6 +313,14 @@ Including **two or more collections** in one query (`.Include(c => c.Invoices).I
 <rect class="sG" x="484" y="134" width="70" height="22" rx="4"/><text class="sC" x="519" y="149" text-anchor="middle">Mona</text>
 <rect class="sG" x="558" y="134" width="70" height="22" rx="4"/><text class="sC" x="593" y="149" text-anchor="middle">Omar</text>
 <text class="sGt" x="540" y="206" text-anchor="middle">3 queries, 6 rows total, no duplication</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.090;1" path="M24 45 L24 71"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.090;0.092;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.170;1" path="M24 71 L24 97"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.170;0.172;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.250;1" path="M24 97 L24 123"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.330;1" path="M24 123 L24 149"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.330;0.332;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.340;0.410;1" path="M24 149 L24 175"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.338;0.342;0.410;0.412;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.620;1" path="M470 45 L478 45"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.620;0.622;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.650;0.720;1" path="M470 95 L478 95"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.648;0.652;0.720;0.722;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.750;0.820;1" path="M470 145 L478 145"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.748;0.752;0.820;0.822;1"/></circle>
 </svg><figcaption>Cartesian explosion. With real numbers (50 invoices × 20 contacts) one customer becomes 1,000 wide rows.</figcaption></figure>
 
 ```csharp

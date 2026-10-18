@@ -16,7 +16,7 @@ HTTP remembers nothing between requests ([[S1.6]]). So "logging in" is really tw
 
 **Carrying proof** means the server issues a credential the client presents each time. There are two designs:
 
-<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: A reference token is an ID the server looks up in a session store; a self-contained token carries signed claims the server verifies without a lookup">
+<figure class="dia anim"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: a reference token is an ID the server looks up in a session store; a self-contained token carries signed claims the server verifies without a lookup">
 <text class="sT" x="180" y="22" text-anchor="middle">reference token (session ID)</text><text class="sT" x="540" y="22" text-anchor="middle">self-contained token (JWT)</text>
 <rect class="sB" x="20" y="40" width="110" height="46" rx="8"/><text class="sT" x="75" y="61" text-anchor="middle">browser</text><text class="sC" x="75" y="77" text-anchor="middle">sid=9f2c…</text><line class="sL" x1="130" y1="63" x2="196" y2="63" marker-end="url(#ah)"/><rect class="sA" x="200" y="40" width="140" height="46" rx="8"/><text class="sT" x="270" y="61" text-anchor="middle">API</text><text class="sC" x="270" y="77" text-anchor="middle">who is 9f2c?</text>
 <line class="sLw" x1="270" y1="86" x2="270" y2="116" marker-end="url(#ahw)"/><rect class="sW" x="200" y="120" width="140" height="46" rx="8"/><text class="sT" x="270" y="141" text-anchor="middle">session store</text><text class="sC" x="270" y="157" text-anchor="middle">Redis / database</text>

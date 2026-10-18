@@ -101,7 +101,7 @@ Details worth knowing:
 - **Orthogonal init** (`nn.init.orthogonal_`, Saxe et al. 2014) preserves vector norms. It is useful for RNNs and GANs.
 - **Scale down the output layer at init** (e.g. ÷10) in classifiers. Smaller initial logits mean less confident early predictions, which avoids huge early losses and gradients.
 
-<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: Norm of each layer's weight gradient after one backward pass through a 20-layer, 256-wide network: with sigmoid and Glorot initialisation the first layer gets about 12 orders of magnitude less gradient than the last; with ReLU and PyTorch's default initialisation more than 5 orders less; tanh with Glorot and ReLU with He initialisation keep the gradient roughly level through depth">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: norm of each layer's weight gradient after one backward pass through a 20-layer, 256-wide network: with sigmoid and Glorot initialisation the first layer gets about 12 orders of magnitude less gradient than the last; with ReLU and PyTorch's default initialisation more than 5 orders less; tanh with Glorot and ReLU with He initialisation keep the gradient roughly level through depth">
 <line class="sLm" x1="76" y1="196" x2="516" y2="196" opacity=".18"/><text class="sS" x="68" y="200" text-anchor="end">1e-14</text>
 <line class="sLm" x1="76" y1="172" x2="516" y2="172" opacity=".18"/><text class="sS" x="68" y="176" text-anchor="end">1e-12</text>
 <line class="sLm" x1="76" y1="148" x2="516" y2="148" opacity=".18"/><text class="sS" x="68" y="152" text-anchor="end">1e-10</text>

@@ -117,7 +117,7 @@ export function InvoiceList({ invoices, onPay }: Props) {
 
 **What triggers a re-render:** the component's own state changes (via its setter), its parent re-renders, or a context it reads changes. **Props changing is not a separate trigger**; props change *because* the parent re-rendered.
 
-<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: A state change in App re-renders its descendants, except memoised children whose props did not change">
+<figure class="dia anim"><svg viewBox="0 0 720 252" role="img" aria-label="Animation: a state change in App re-renders its descendants, except memoised children whose props did not change">
 <line class="sLm" x1="370" y1="60" x2="160" y2="90"/>
 <line class="sLm" x1="370" y1="60" x2="370" y2="90"/>
 <line class="sLm" x1="370" y1="60" x2="580" y2="90"/>

@@ -280,7 +280,7 @@ For most applications the three behave the same for cache-aside caching. The lic
 | **Serverless functions** (Azure Functions, AWS Lambda) | Your function code | Event-driven glue, spiky low-volume work, scheduled tasks | Cold starts, execution time limits, per-invocation pricing that gets expensive at constant high volume |
 | **Edge functions** (Cloudflare Workers, Vercel and CDN edge runtimes) | Small functions at CDN locations | Personalisation, redirects, auth checks, A/B routing near the user | Restricted runtimes; data still lives in one region unless replicated |
 
-<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: Monthly cost against monthly requests: a serverless function costs about one dollar per million 100-millisecond calls and grows linearly, while two always-on containers cost about 72 dollars a month regardless of traffic; the lines cross at roughly 70 million requests a month, about 27 requests per second on average">
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: monthly cost against monthly requests: a serverless function costs about one dollar per million 100-millisecond calls and grows linearly, while two always-on containers cost about 72 dollars a month regardless of traffic; the lines cross at roughly 70 million requests a month, about 27 requests per second on average">
 <line class="sLm" x1="70" y1="210" x2="510" y2="210"/><line class="sLm" x1="70" y1="210" x2="70" y2="24"/>
 <text class="sS" x="70" y="226" text-anchor="middle">1e5</text><line class="sLm" x1="70" y1="30" x2="70" y2="210" opacity=".12"/>
 <text class="sS" x="180" y="226" text-anchor="middle">1e6</text><line class="sLm" x1="180" y1="30" x2="180" y2="210" opacity=".12"/>
