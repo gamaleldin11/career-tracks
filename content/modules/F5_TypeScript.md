@@ -214,7 +214,7 @@ function render(s: LoadState<Invoice[]>) {
 
 Compare with `{ loading: boolean; error?: string; data?: T }`, which allows impossible states like `loading: true` *with* an error *and* data. Making impossible states unrepresentable is a strong mid-level talking point.
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="Three independent flags allow eight combinations, four of them impossible; a discriminated union allows exactly the four real states">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: three independent flags allow eight combinations, four of them impossible; a discriminated union allows exactly the four real states">
 <text class="sM" x="180" y="22" text-anchor="middle">{ loading: boolean; error?: string; data?: T }</text>
 <rect class="sG" x="20" y="36" width="80" height="64" rx="8"/><text class="sM" x="60" y="60" text-anchor="middle">none</text><text class="sGt" x="60" y="82" text-anchor="middle">idle</text>
 <rect class="sG" x="106" y="36" width="80" height="64" rx="8"/><text class="sM" x="146" y="60" text-anchor="middle">D</text><text class="sGt" x="146" y="82" text-anchor="middle">success</text>
@@ -232,6 +232,14 @@ Compare with `{ loading: boolean; error?: string; data?: T }`, which allows impo
 <rect class="sG" x="400" y="116" width="290" height="32" rx="8"/><text class="sM" x="414" y="137">{ status: "success"; data: T }</text>
 <rect class="sG" x="400" y="156" width="290" height="32" rx="8"/><text class="sM" x="414" y="177">{ status: "error"; error: string }</text>
 <text class="sGt" x="545" y="200" text-anchor="middle">exactly 4 states; the impossible ones can't be written</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.100;1" path="M180 200 L318 68"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.100;0.102;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.100;0.180;1" path="M180 200 L146 142"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.098;0.102;0.180;0.182;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.180;0.260;1" path="M180 200 L232 142"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.178;0.182;0.260;0.262;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.260;0.340;1" path="M180 200 L318 142"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.258;0.262;0.340;0.342;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.620;1" path="M380 52 L398 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.620;0.622;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.630;0.700;1" path="M380 92 L398 92"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.628;0.632;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.710;0.780;1" path="M380 132 L398 132"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.708;0.712;0.780;0.782;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.790;0.860;1" path="M380 172 L398 172"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.788;0.792;0.860;0.862;1"/></circle>
 </svg><figcaption>Make impossible states unrepresentable. The union lets the compiler reject the four combinations that should never exist.</figcaption></figure>
 
 ## F5.6 `any`, `unknown`, `never`, `void` 🟢 ⭐
@@ -253,7 +261,7 @@ catch (e: unknown) {                                        // the default with 
 > [!say]
 > "any switches the type checker off, so errors slip through and it spreads to everything it touches. unknown is the safe alternative: it accepts anything but forces me to check the type before using it. never represents the impossible, and I use it for exhaustive switch checks."
 
-<figure class="dia"><svg viewBox="0 0 720 200" role="img" aria-label="TypeScript types ordered by how many values they allow: never allows none, a literal type like paid allows one, string allows all strings, unknown allows anything but must be narrowed before use, and any switches checking off and spreads through the code">
+<figure class="dia anim"><svg viewBox="0 0 720 200" role="img" aria-label="Animation: TypeScript types ordered by how many values they allow: never allows none, a literal type like paid allows one, string allows all strings, unknown allows anything but must be narrowed before use, and any switches checking off and spreads through the code">
 <line class="sLm" x1="30" y1="90" x2="690" y2="90" marker-end="url(#ahm)" style="stroke-width:2"/>
 <text class="sS" x="30" y="140">fewer possible values</text>
 <text class="sS" x="690" y="140" text-anchor="end">more possible values</text>
@@ -264,6 +272,7 @@ catch (e: unknown) {                                        // the default with 
 <rect class="sN" x="550" y="40" width="100" height="34" rx="6"/><text class="sC" x="560" y="62" xml:space="preserve" style="white-space:pre">any</text><text class="sC" x="600" y="108" text-anchor="middle">checking switched off</text>
 <rect class="sR" x="500" y="150" width="206" height="40" rx="6" opacity=".85"/><text class="sT" x="603" y="175" text-anchor="middle">any flows into everything</text>
 <rect class="sG" x="14" y="150" width="300" height="40" rx="6" opacity=".7"/><text class="sT" x="164" y="175" text-anchor="middle">unknown → check → string: safe</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.800;1" path="M80 90 L200 90 L310 90 L440 90 L600 90"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.800;0.802;1"/></circle>
 </svg><figcaption>Prefer the narrowest type that fits. For data from outside use <code>unknown</code> and narrow it (a type guard or a schema); <code>any</code> silently disables the compiler for everything it touches.</figcaption></figure>
 
 ## F5.7 Generics 🟢 ⭐
@@ -485,7 +494,7 @@ export function InvoiceCard({ invoice, onSelect }: Props) {
 > [!lab] Type a real API in an evening
 > Take one FinSight endpoint, such as invoices or the dashboard summary. Write a Zod schema for its response, derive the type, and model the screen's state as a discriminated union (`idle`/`loading`/`success`/`error`) with an exhaustive `switch`. Turn on `noUncheckedIndexedAccess` and fix what it finds.
 
-<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: A typed component boundary: the parent passes invoice of type Invoice into InvoiceCard and receives onSelect with a string id back; the Props type checks both directions at compile time, as Angular’s typed input and output signals do">
+<figure class="dia anim"><svg viewBox="0 0 720 190" role="img" aria-label="Animation: a typed component boundary: the parent passes invoice of type Invoice into InvoiceCard and receives onSelect with a string id back; the Props type checks both directions at compile time, as Angular’s typed input and output signals do">
 <rect class="sA" x="14" y="50" width="200" height="70" rx="8"/><text class="sT" x="114" y="83" text-anchor="middle">Parent</text><text class="sC" x="114" y="99" text-anchor="middle">&lt;InvoiceCard invoice={inv}</text>
 <text class="sC" x="114" y="140" text-anchor="middle">onSelect={id =&gt; …} /&gt;</text>
 <rect class="sB" x="506" y="50" width="200" height="70" rx="8"/><text class="sT" x="606" y="83" text-anchor="middle">InvoiceCard</text><text class="sC" x="606" y="99" text-anchor="middle">type Props = { … }</text>

@@ -16,7 +16,7 @@ Every number an analyst reports is built the same way: **rows** of recorded even
 - **Dimensions and measures:** dimensions are what you group and filter by (date, city, channel); measures are what you aggregate (revenue, quantity, sessions).
 - **Aggregations:** `SUM`, `COUNT`, `COUNT(DISTINCT …)`, `AVG`, and ratios built from them. Sums add up across groups and days. **Distinct counts, averages and ratios don't**: a week's unique customers isn't the sum of seven daily counts, and a week's conversion rate isn't the average of seven daily rates.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="Five order-line rows grouped by city into revenue, distinct orders, line count and average order value; counting rows counts items, not orders">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: five order-line rows grouped by city into revenue, distinct orders, line count and average order value; counting rows counts items, not orders">
 <text class="sM" x="172" y="22" text-anchor="middle">order_lines: one row = one item in an order</text>
 <rect class="sN" x="14" y="32" width="316" height="24" rx="4"/><text class="sT" x="40" y="49">order_id</text><text class="sT" x="120" y="49">city</text><text class="sT" x="190" y="49">item</text><text class="sT" x="266" y="49">amount</text>
 <rect class="sA" x="14" y="60" width="316" height="22" rx="4"/><text class="sC" x="40" y="76" xml:space="preserve" style="white-space:pre">1001</text><text class="sC" x="120" y="76" xml:space="preserve" style="white-space:pre">Cairo</text><text class="sC" x="190" y="76" xml:space="preserve" style="white-space:pre">shirt</text><text class="sC" x="266" y="76" xml:space="preserve" style="white-space:pre">300</text>
@@ -30,15 +30,24 @@ Every number an analyst reports is built the same way: **rows** of recorded even
 <rect class="sG" x="390" y="134" width="316" height="22" rx="4"/><text class="sC" x="420" y="150" text-anchor="middle">Giza</text><text class="sC" x="490" y="150" text-anchor="middle">450</text><text class="sC" x="560" y="150" text-anchor="middle">1</text><text class="sC" x="620" y="150" text-anchor="middle">1</text><text class="sC" x="672" y="150" text-anchor="middle">450</text>
 <text class="sC" x="390" y="174">revenue = SUM(amount)</text><text class="sC" x="390" y="192">orders = COUNT(DISTINCT order_id)</text>
 <text class="sRt" x="390" y="210">lines = COUNT(*): items, not orders!</text><text class="sC" x="390" y="228">AOV = revenue ÷ orders, not AVG(amount)</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.200;1" path="M330 71 L388 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.200;0.202;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.130;0.280;1" path="M330 97 L388 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.128;0.132;0.280;0.282;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.210;0.360;1" path="M330 149 L388 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.208;0.212;0.360;0.362;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.290;0.440;1" path="M330 175 L388 119"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.288;0.292;0.440;0.442;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.600;1" path="M330 123 L388 145"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.600;0.602;1"/></circle>
 </svg><figcaption>Know the grain before you count. On an order-lines table, COUNT(*) gives 4 for Cairo; the business means 2 orders.</figcaption></figure>
 
-<figure class="dia"><svg viewBox="0 0 720 222" role="img" aria-label="Averaging a 50% conversion day with 10 sessions and a 2% day with 1,000 sessions gives a misleading 26%; dividing total orders by total sessions gives the true 2.5%">
+<figure class="dia anim"><svg viewBox="0 0 720 222" role="img" aria-label="Animation: averaging a 50% conversion day with 10 sessions and a 2% day with 1,000 sessions gives a misleading 26%; dividing total orders by total sessions gives the true 2.5%">
 <rect class="sB" x="14" y="30" width="240" height="70" rx="8"/><text class="sT" x="134" y="63" text-anchor="middle">Friday</text><text class="sC" x="134" y="79" text-anchor="middle">10 sessions · 5 orders · 50%</text>
 <rect class="sB" x="14" y="116" width="240" height="70" rx="8"/><text class="sT" x="134" y="149" text-anchor="middle">Saturday</text><text class="sC" x="134" y="165" text-anchor="middle">1,000 sessions · 20 orders · 2%</text>
 <line class="sLr" x1="254" y1="65" x2="300" y2="65" marker-end="url(#ahr)"/><line class="sLg" x1="254" y1="151" x2="300" y2="151" marker-end="url(#ahg)"/>
 <rect class="sR" x="304" y="36" width="402" height="58" rx="8" opacity=".85"/><text class="sT" x="505" y="60" text-anchor="middle">average of the daily rates</text><text class="sC" x="505" y="80" text-anchor="middle">(50% + 2%) ÷ 2 = 26%  ✗</text>
 <rect class="sG" x="304" y="122" width="402" height="58" rx="8"/><text class="sT" x="505" y="146" text-anchor="middle">ratio of the totals</text><text class="sC" x="505" y="166" text-anchor="middle">25 orders ÷ 1,010 sessions = 2.5%  ✓</text>
 <text class="sS" x="360" y="210" text-anchor="middle">sum the numerators and the denominators first, then divide</text>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M254 65 L302 65"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M254 151 L302 151"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M254 65 L280 65 L280 151 L302 151"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.500;0.750;1" path="M254 151 L302 151"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.498;0.502;0.750;0.752;1"/></circle>
 </svg><figcaption>Ratios don't add up or average. A tiny day weighs as much as a huge one when you average rates.</figcaption></figure>
 
 The same rules apply in Excel ([[DA2]]), SQL ([[DA3]]) and DAX ([[DA4]]). Only the syntax changes.
@@ -205,7 +214,7 @@ AOV = Items per order × Average item price × (1 − discount rate)
 > [!mistake] Churn with the wrong denominator
 > Dividing customers lost by customers at the **end** of the month (or including new customers who joined during the month in the base) understates churn. State the definition, and for fast-growing businesses prefer cohort retention curves, which aren't distorted by growth.
 
-<figure class="dia"><svg viewBox="0 0 720 214" role="img" aria-label="One month with 1,000 starting customers, 50 lost and 300 new: churn is 5 percent against the starting base, but 4 percent against the end count, 4.4 percent against the average and 3.8 percent if new joiners are included; the lifetime value computed from those churn rates rises from 1,200 to as much as 1,560 pounds">
+<figure class="dia anim"><svg viewBox="0 0 720 214" role="img" aria-label="Animation: one month with 1,000 starting customers, 50 lost and 300 new: churn is 5 percent against the starting base, but 4 percent against the end count, 4.4 percent against the average and 3.8 percent if new joiners are included; the lifetime value computed from those churn rates rises from 1,200 to as much as 1,560 pounds">
 <text class="sT" x="14" y="22">one month: 1,000 customers at the start, 50 leave, 300 join, 1,250 at the end</text>
 <text class="sS" x="250" y="53" text-anchor="end">÷ customers at the START (correct)</text><rect class="sG" x="260" y="36" width="200" height="24" rx="4" opacity=".6"/><text class="sT" x="466" y="53">churn 5.0%</text>
 <text class="sGt" x="706" y="53" text-anchor="end">LTV = EGP 1,200</text>
@@ -217,6 +226,10 @@ AOV = Items per order × Average item price × (1 − discount rate)
 <text class="sRt" x="706" y="155" text-anchor="end">LTV = EGP 1,560</text>
 <text class="sS" x="360" y="184" text-anchor="middle">LTV = ARPU × margin ÷ churn, with ARPU EGP 100 and 60% gross margin</text>
 <text class="sWt" x="360" y="204" text-anchor="middle">a growing business makes the wrong denominators look better: LTV overstated by up to 30%</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.200;1" path="M262 48 L458 48"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.200;0.202;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.250;0.420;1" path="M262 82 L418 82"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.248;0.252;0.420;0.422;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.470;0.640;1" path="M262 116 L436 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.468;0.472;0.640;0.642;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.690;0.860;1" path="M262 150 L412 150"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.688;0.692;0.860;0.862;1"/></circle>
 </svg><figcaption>The churn-denominator mistake in numbers: the same 50 lost customers, four denominators, and the lifetime value each one implies.</figcaption></figure>
 
 ## DA1.6 Cohort analysis 🟢 🟡 ⭐
@@ -351,13 +364,14 @@ The most common analyst case question. A methodical order:
 
 Use the **pyramid principle**: lead with the answer, then the supporting points, then the detail.
 
-<figure class="dia"><svg viewBox="0 0 720 228" role="img" aria-label="The pyramid principle: the answer at the top, two or three supporting points in the middle, evidence and method at the base">
+<figure class="dia anim"><svg viewBox="0 0 720 228" role="img" aria-label="Animation: the pyramid principle: the answer at the top, two or three supporting points in the middle, evidence and method at the base">
 <polygon class="sA" points="230,14 300,80 160,80"/><text class="sT" x="230" y="66" text-anchor="middle">answer</text>
 <polygon class="sB" points="157,84 303,84 370,148 90,148"/><text class="sT" x="230" y="124" text-anchor="middle">supporting points</text>
 <polygon class="sN" points="86,152 374,152 440,216 20,216"/><text class="sT" x="230" y="192" text-anchor="middle">evidence, method, caveats</text>
 <text class="sT" x="460" y="46">"Small-business retention fell 6 points</text><text class="sT" x="460" y="64">after the July price change."</text>
 <text class="sC" x="460" y="110">monthly plan only · annual unaffected ·</text><text class="sC" x="460" y="128">explains most of the revenue gap</text>
 <text class="sC" x="460" y="178">queries, cohort definitions, caveats:</text><text class="sC" x="460" y="196">in the appendix, if they ask</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.700;1" path="M230 34 L230 100 L230 170"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.700;0.702;1"/></circle>
 </svg><figcaption>Executives read top-down and stop early. Put what they need in the part they read.</figcaption></figure>
 
 > [!say]

@@ -126,7 +126,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 
 ## DA5.2 Choosing the chart 🟢 ⭐
 
-<figure class="dia"><svg viewBox="0 0 720 284" role="img" aria-label="Chart chooser: change over time to a line, comparing categories to a sorted bar, part of a whole to a 100% bar, distribution to a histogram, relationship to a scatter, explaining a change to a waterfall, one key number to a KPI card">
+<figure class="dia anim"><svg viewBox="0 0 720 284" role="img" aria-label="Animation: chart chooser: change over time to a line, comparing categories to a sorted bar, part of a whole to a 100% bar, distribution to a histogram, relationship to a scatter, explaining a change to a waterfall, one key number to a KPI card">
 <rect class="sV" x="14" y="116" width="150" height="50" rx="8"/><text class="sT" x="89" y="139" text-anchor="middle">what is the</text><text class="sT" x="89" y="155" text-anchor="middle">question?</text>
 <path class="sLm" d="M164 141 H186 V29 H206" fill="none"/>
 <rect class="sB" x="206" y="14" width="220" height="30" rx="6"/><text class="sC" x="316" y="34" text-anchor="middle">change over time</text>
@@ -149,6 +149,13 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <path class="sLm" d="M164 141 H186 V257 H206" fill="none"/>
 <rect class="sB" x="206" y="242" width="220" height="30" rx="6"/><text class="sC" x="316" y="262" text-anchor="middle">one key number</text>
 <line class="sLm" x1="426" y1="257" x2="456" y2="257" marker-end="url(#ahm)"/><rect class="sN" x="470" y="245" width="60" height="24" rx="4"/><text class="sT" x="500" y="262" text-anchor="middle">91%</text><text class="sT" x="550" y="262">KPI card</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.020;0.120;1" path="M164 141 H186 V29 H206 M426 29 L456 29"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.018;0.022;0.120;0.122;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.150;0.250;1" path="M164 141 H186 V67 H206 M426 67 L456 67"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.148;0.152;0.250;0.252;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.380;1" path="M164 141 H186 V105 H206 M426 105 L456 105"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.380;0.382;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.410;0.510;1" path="M164 141 H186 V143 H206 M426 143 L456 143"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.408;0.412;0.510;0.512;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.540;0.640;1" path="M164 141 H186 V181 H206 M426 181 L456 181"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.538;0.542;0.640;0.642;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.670;0.770;1" path="M164 141 H186 V219 H206 M426 219 L456 219"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.668;0.672;0.770;0.772;1"/></circle>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="14s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.800;0.900;1" path="M164 141 H186 V257 H206 M426 257 L456 257"/><animate attributeName="opacity" dur="14s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.798;0.802;0.900;0.902;1"/></circle>
 </svg><figcaption>Name the question first; the chart usually follows.</figcaption></figure>
 
 | The question | Chart | Notes |
@@ -227,7 +234,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 - Per-capita or rates rather than raw totals when sizes differ (orders per 1,000 users in each governorate, not total orders).
 - Don't cherry-pick start dates to manufacture a trend.
 
-<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="The same two quarterly values, 98 and 100, drawn as bars from zero and from 97; the truncated axis makes a 2% rise look like a tripling">
+<figure class="dia anim"><svg viewBox="0 0 720 240" role="img" aria-label="Animation: the same two quarterly values, 98 and 100, drawn as bars from zero and from 97; the truncated axis makes a 2% rise look like a tripling">
 <text class="sGt" x="180" y="22" text-anchor="middle">axis from 0: honest</text>
 <line class="sLm" x1="60" y1="190" x2="300" y2="190"/><line class="sLm" x1="60" y1="190" x2="60" y2="40"/>
 <text class="sC" x="54" y="194" text-anchor="end">0</text><text class="sC" x="54" y="54" text-anchor="end">100</text>
@@ -239,6 +246,10 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <rect class="sA" x="460" y="143.333" width="60" height="46.6667" rx="3"/><text class="sT" x="490" y="208" text-anchor="middle">Q1</text><text class="sC" x="490" y="137.333" text-anchor="middle">98</text>
 <rect class="sA" x="560" y="50" width="60" height="140" rx="3"/><text class="sT" x="590" y="208" text-anchor="middle">Q2</text><text class="sC" x="590" y="44" text-anchor="middle">100</text>
 <text class="sGt" x="180" y="228" text-anchor="middle">a 2% rise looks like 2%</text><text class="sRt" x="540" y="228" text-anchor="middle">the same 2% looks like tripling</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M130 188 L130 54"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.300;1" path="M230 188 L230 52"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.300;0.302;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M490 188 L490 145"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="9s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.450;0.750;1" path="M590 188 L590 52"/><animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.448;0.452;0.750;0.752;1"/></circle>
 </svg><figcaption>Bars encode values by length, so their axis must start at zero. Lines encode by position and may zoom, if the axis says so.</figcaption></figure>
 
 > [!mistake] Dual-axis charts
@@ -293,7 +304,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 - Filters in a consistent place, with their current state visible.
 - Define every metric in a tooltip or an "About" page ([[DA1.4]]).
 
-<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="Executive dashboard wireframe: KPI cards row, trend chart, breakdown bar chart, exceptions table">
+<figure class="dia anim"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: executive dashboard wireframe: KPI cards row, trend chart, breakdown bar chart, exceptions table">
 <rect class="sB" x="10" y="10" width="700" height="230" rx="10"/>
 <g class="sT" text-anchor="middle">
 <rect class="sA" x="25" y="25" width="160" height="58" rx="6"/><text x="105" y="50">Revenue</text><text class="sS" x="105" y="70">EGP 12.4M ▲ 8% vs LY</text>
@@ -304,6 +315,7 @@ That's why bar and line charts are the workhorses, and why pies (angles and area
 <rect class="sW" x="440" y="98" width="255" height="62" rx="6"/><text x="567" y="124">By region (sorted bars)</text>
 <rect class="sR" x="440" y="168" width="255" height="60" rx="6"/><text x="567" y="194">Exceptions: lowest on-time</text>
 </g>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M105 88 L280 88 L455 88 L622 88 L225 163 L567 129 L567 198"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>An executive page: KPIs with context across the top, the main trend large, a breakdown, and the exceptions someone must act on.</figcaption></figure>
 
 ## DA5.6 Telling the story 🟢 ⭐
@@ -319,7 +331,7 @@ A data story has a **point**, a **structure** and an **ask**.
 5. **Caveats and next steps:** data limitations, assumptions, what you'd analyse next.
 6. **Appendix:** method, definitions, extra charts, for questions.
 
-<figure class="dia"><svg viewBox="0 0 720 156" role="img" aria-label="A data story as slides: the answer, context, three findings, recommendation, caveats, then an appendix">
+<figure class="dia anim"><svg viewBox="0 0 720 156" role="img" aria-label="Animation: a data story as slides: the answer, context, three findings, recommendation, caveats, then an appendix">
 <rect class="sA" x="10" y="40" width="80" height="56" rx="6"/><text class="sC" x="50" y="114" text-anchor="middle">answer</text>
 <text class="sT" x="50" y="72" text-anchor="middle">one line</text>
 <rect class="sB" x="98" y="40" width="80" height="56" rx="6"/><text class="sC" x="138" y="114" text-anchor="middle">context</text>
@@ -335,6 +347,7 @@ A data story has a **point**, a **structure** and an **ask**.
 <path class="sLm" d="M10 32 V24 H530 V32" fill="none"/><text class="sC" x="269" y="16" text-anchor="middle">the five-minute version</text>
 <line class="sD" x1="622" y1="34" x2="622" y2="104"/>
 <text class="sS" x="360" y="144" text-anchor="middle">each finding slide: one chart, and a title that states the finding</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.000;0.850;1" path="M50 104 L138 104 L226 104 L314 104 L402 104 L490 104 L578 104 L666 104"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.000;0.002;0.850;0.852;1"/></circle>
 </svg><figcaption>Answer first, evidence next, the ask at the end. The appendix is for questions, not for the talk.</figcaption></figure>
 
 > [!term] Big idea
