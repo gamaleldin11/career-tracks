@@ -2239,6 +2239,36 @@ access-list 110 deny   ip  any any                              <span class="c">
 </table></div>
 <p>Common Wi-Fi tickets: weak signal/dead zones (coverage), channel interference (co-channel APs), wrong PSK, 802.1X certificate expired, DHCP scope exhausted on the guest VLAN, and "connected but no internet" (usually DHCP/DNS, not radio).</p>
 
+<figure class="dia anim"><svg viewBox="0 0 720 244" role="img" aria-label="Animation: WPA2 or WPA3 Personal versus Enterprise: in Personal mode Ali, Mona and a former employee all join with the same shared key, so the leaver still gets in until the key is changed everywhere; in Enterprise mode each person logs in with their own account through the access point to a RADIUS server backed by Active Directory, so the disabled former employee is rejected while Ali is let in">
+<text class="sT" x="180" y="18" text-anchor="middle">WPA2/3-Personal: one shared key</text>
+<text class="sT" x="545" y="18" text-anchor="middle">WPA2/3-Enterprise: 802.1X per user</text>
+<rect class="sB" x="14" y="34" width="140" height="44" rx="8"/><text class="sT" x="84" y="54" text-anchor="middle">Ali</text><text class="sC" x="84" y="70" text-anchor="middle">key: Office2024!</text>
+<line class="sLm" x1="154" y1="56" x2="220" y2="116"/>
+<rect class="sB" x="380" y="34" width="120" height="44" rx="8"/><text class="sT" x="440" y="54" text-anchor="middle">Ali</text><text class="sC" x="440" y="70" text-anchor="middle">own login</text>
+<line class="sLm" x1="500" y1="56" x2="530" y2="116"/>
+<rect class="sB" x="14" y="88" width="140" height="44" rx="8"/><text class="sT" x="84" y="108" text-anchor="middle">Mona</text><text class="sC" x="84" y="124" text-anchor="middle">key: Office2024!</text>
+<line class="sLm" x1="154" y1="110" x2="220" y2="116"/>
+<rect class="sB" x="380" y="88" width="120" height="44" rx="8"/><text class="sT" x="440" y="108" text-anchor="middle">Mona</text><text class="sC" x="440" y="124" text-anchor="middle">own login</text>
+<line class="sLm" x1="500" y1="110" x2="530" y2="116"/>
+<rect class="sR" x="14" y="142" width="140" height="44" rx="8"/><text class="sT" x="84" y="162" text-anchor="middle">ex-employee</text><text class="sC" x="84" y="178" text-anchor="middle">key: Office2024!</text>
+<line class="sLm" x1="154" y1="164" x2="220" y2="116"/>
+<rect class="sR" x="380" y="142" width="120" height="44" rx="8"/><text class="sT" x="440" y="162" text-anchor="middle">ex-employee</text><text class="sC" x="440" y="178" text-anchor="middle">disabled in AD</text>
+<line class="sLm" x1="500" y1="164" x2="530" y2="116"/>
+<rect class="sA" x="220" y="94" width="120" height="44" rx="8"/><text class="sT" x="280" y="114" text-anchor="middle">access point</text><text class="sC" x="280" y="130" text-anchor="middle">same key for all</text>
+<rect class="sA" x="530" y="94" width="80" height="44" rx="8"/><text class="sT" x="570" y="121" text-anchor="middle">AP</text>
+<line class="sLm" x1="610" y1="116" x2="626" y2="116"/>
+<rect class="sV" x="626" y="94" width="80" height="44" rx="8"/><text class="sT" x="666" y="114" text-anchor="middle">RADIUS</text><text class="sC" x="666" y="130" text-anchor="middle">NPS + AD</text>
+<text class="sRt" x="180" y="218" text-anchor="middle">a leaver still knows the key until</text>
+<text class="sRt" x="180" y="234" text-anchor="middle">someone changes it on every device</text>
+<text class="sGt" x="545" y="218" text-anchor="middle">disable one account: only that</text>
+<text class="sGt" x="545" y="234" text-anchor="middle">person loses access, and logs say who</text>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M154 56 L220 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.080;0.200;1" path="M154 110 L220 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.078;0.082;0.200;0.202;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.130;0.250;1" path="M154 164 L220 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.128;0.132;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.400;0.580;1" path="M500 56 L530 116 L626 116"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.398;0.402;0.580;0.582;1"/></circle>
+<circle class="sPr" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.620;0.880;1" path="M500 164 L530 116 L626 116 L530 140"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.618;0.622;0.880;0.882;1"/></circle>
+</svg><figcaption>Personal mode suits homes and guest networks; company Wi-Fi uses Enterprise mode, often with certificates instead of passwords (EAP-TLS).</figcaption></figure>
+
 <figure class="dia anim"><svg viewBox="0 0 720 226" role="img" aria-label="Animation: the eleven 2.4 GHz Wi-Fi channels drawn as overlapping arcs; only channels 1, 6 and 11 do not overlap">
 <path class="sLg" d="M70 170 Q 154 40 238 170" fill="none" stroke-width="3"/>
 <text class="sT" x="154" y="192" text-anchor="middle">1</text>
@@ -2317,6 +2347,32 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>Split tunnel</strong> — only corporate destinations use the tunnel, general browsing exits locally (less load, less control). <strong>Full tunnel</strong> — everything goes through the company (more control/inspection). A favorite interview distinction.</li>
   <li>Troubleshooting a "VPN connects but nothing works" ticket: check assigned IP and routes (split-tunnel config), DNS servers pushed by VPN, MTU issues, and whether the firewall permits the user's group to the resource. "VPN won't connect at all": credentials/MFA, reachability of the gateway (port blocked on hotel Wi-Fi), certificate expiry, IKE mismatch (site-to-site).</li>
 </ul>
+
+<figure class="dia anim"><svg viewBox="0 0 720 254" role="img" aria-label="Animation: full tunnel versus split tunnel on a remote-access VPN: with a full tunnel both internet traffic and file-server traffic go through the tunnel to the office firewall, which inspects everything; with a split tunnel only traffic for company networks such as the file server uses the tunnel, while internet traffic leaves the home connection directly">
+<text class="sT" x="180" y="18" text-anchor="middle">full tunnel</text>
+<text class="sT" x="540" y="18" text-anchor="middle">split tunnel</text>
+<rect class="sB" x="14" y="106" width="100" height="44" rx="8"/><text class="sT" x="64" y="126" text-anchor="middle">laptop</text><text class="sC" x="64" y="142" text-anchor="middle">home Wi-Fi</text>
+<rect class="sV" x="114" y="120" width="106" height="16" rx="8" opacity=".55"/>
+<text class="sC" x="167" y="112" text-anchor="middle">VPN tunnel</text>
+<rect class="sA" x="220" y="106" width="130" height="44" rx="8"/><text class="sT" x="285" y="126" text-anchor="middle">office firewall</text><text class="sC" x="285" y="142" text-anchor="middle">inspects all</text>
+<line class="sLm" x1="285" y1="106" x2="285" y2="78"/>
+<rect class="sN" x="220" y="34" width="130" height="44" rx="8"/><text class="sT" x="285" y="61" text-anchor="middle">internet</text>
+<line class="sLm" x1="285" y1="150" x2="285" y2="178"/>
+<rect class="sG" x="220" y="178" width="130" height="40" rx="8"/><text class="sT" x="285" y="203" text-anchor="middle">file server</text>
+<rect class="sB" x="380" y="106" width="100" height="44" rx="8"/><text class="sT" x="430" y="126" text-anchor="middle">laptop</text><text class="sC" x="430" y="142" text-anchor="middle">home Wi-Fi</text>
+<rect class="sV" x="480" y="120" width="96" height="16" rx="8" opacity=".55"/>
+<text class="sC" x="528" y="112" text-anchor="middle">VPN tunnel</text>
+<rect class="sA" x="576" y="106" width="130" height="44" rx="8"/><text class="sT" x="641" y="133" text-anchor="middle">office firewall</text>
+<line class="sLm" x1="641" y1="150" x2="641" y2="178"/>
+<rect class="sG" x="576" y="178" width="130" height="40" rx="8"/><text class="sT" x="641" y="203" text-anchor="middle">file server</text>
+<line class="sLm" x1="430" y1="106" x2="430" y2="78"/>
+<rect class="sN" x="380" y="34" width="100" height="44" rx="8"/><text class="sT" x="430" y="54" text-anchor="middle">internet</text><text class="sC" x="430" y="70" text-anchor="middle">goes direct</text>
+<text class="sS" x="360" y="244" text-anchor="middle">full: everything inspected, more load on the office link · split: lighter, but web traffic skips company security</text>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.300;1" path="M114 128 L220 128 L285 106 L285 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.300;0.302;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.600;1" path="M114 128 L220 128 L285 150 L285 178"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.600;0.602;1"/></circle>
+<circle class="sPw" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.150;1" path="M430 106 L430 78"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.150;0.152;1"/></circle>
+<circle class="sPv" r="5" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.350;0.600;1" path="M480 128 L576 128 L641 150 L641 178"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.348;0.352;0.600;0.602;1"/></circle>
+</svg><figcaption>Ticket "VPN connected but the intranet does not load": check the routes pushed for the split tunnel and the DNS servers the VPN assigned.</figcaption></figure>
 
 <div class="qhead"><h3>Interview questions — Module 6</h3><button data-qa="qa6">Show all answers</button></div>
 <div class="qa" id="qa6">
@@ -2441,6 +2497,37 @@ access-list 110 deny   ip  any any                              <span class="c">
   <li><strong>AAA</strong> — <strong>Authentication</strong> (prove who you are), <strong>Authorization</strong> (what you may do), <strong>Accounting</strong> (log what you did). Implemented by <strong>RADIUS</strong> or <strong>TACACS+</strong> servers for network gear and by AD for users.</li>
   <li><strong>Least privilege &amp; defense in depth</strong> — give the minimum access needed, and layer controls (firewall + segmentation + endpoint + patching) so one failure isn't fatal.</li>
 </ul>
+
+<figure class="dia anim"><svg viewBox="0 0 720 266" role="img" aria-label="Animation: AAA for network devices: an admin connects with SSH to a switch, which asks an AAA server such as Cisco ISE, Microsoft NPS or ClearPass to authenticate who they are, authorise what they may do and account for what they did; RADIUS uses UDP 1812 and 1813, combines login and authorisation and encrypts only the password, and is used for users on Wi-Fi, VPN and 802.1X; TACACS+ uses TCP 49, separates the three steps with per-command rules, encrypts the whole message and is used for administrators on network devices">
+<rect class="sB" x="14" y="30" width="120" height="44" rx="8"/><text class="sT" x="74" y="50" text-anchor="middle">admin</text><text class="sC" x="74" y="66" text-anchor="middle">ssh to a switch</text>
+<line class="sLm" x1="134" y1="52" x2="200" y2="52"/>
+<rect class="sN" x="200" y="30" width="120" height="44" rx="8"/><text class="sT" x="260" y="50" text-anchor="middle">switch</text><text class="sC" x="260" y="66" text-anchor="middle">AAA client</text>
+<line class="sLm" x1="320" y1="52" x2="386" y2="52"/>
+<rect class="sV" x="386" y="30" width="140" height="44" rx="8"/><text class="sT" x="456" y="50" text-anchor="middle">AAA server</text><text class="sC" x="456" y="66" text-anchor="middle">ISE, NPS, ClearPass</text>
+<rect class="sB" x="560" y="22" width="146" height="24" rx="6"/><text class="sC" x="633" y="39" text-anchor="middle">authenticate: who?</text>
+<rect class="sW" x="560" y="52" width="146" height="24" rx="6"/><text class="sC" x="633" y="69" text-anchor="middle">authorise: what?</text>
+<rect class="sG" x="560" y="82" width="146" height="24" rx="6"/><text class="sC" x="633" y="99" text-anchor="middle">account: log it</text>
+<line class="sLm" x1="526" y1="52" x2="558" y2="34"/>
+<line class="sLm" x1="526" y1="52" x2="558" y2="64"/>
+<line class="sLm" x1="526" y1="52" x2="558" y2="94"/>
+<rect class="sN" x="14" y="124" width="340" height="112" rx="8"/>
+<text class="sT" x="184" y="146" text-anchor="middle">RADIUS</text>
+<text class="sC" x="26" y="168">UDP 1812 / 1813</text>
+<text class="sC" x="26" y="186">login and authorisation in one reply</text>
+<text class="sC" x="26" y="204">encrypts only the password</text>
+<text class="sGt" x="342" y="226" text-anchor="end">users: Wi-Fi, VPN, 802.1X</text>
+<rect class="sN" x="366" y="124" width="340" height="112" rx="8"/>
+<text class="sT" x="536" y="146" text-anchor="middle">TACACS+</text>
+<text class="sC" x="378" y="168">TCP 49</text>
+<text class="sC" x="378" y="186">the three A’s separate: per-command rules</text>
+<text class="sC" x="378" y="204">encrypts the whole message</text>
+<text class="sGt" x="694" y="226" text-anchor="end">admins on network devices</text>
+<text class="sS" x="360" y="256" text-anchor="middle">keep a local break-glass account on every device for when the AAA server is unreachable</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.250;1" path="M134 52 L200 52 L320 52 L386 52"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.300;0.380;1" path="M526 52 L558 34"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.298;0.302;0.380;0.382;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.420;0.500;1" path="M526 52 L558 64"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.418;0.422;0.500;0.502;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.540;0.620;1" path="M526 52 L558 94"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.538;0.542;0.620;0.622;1"/></circle>
+</svg><figcaption>Interview line: RADIUS for users reaching the network, TACACS+ for engineers configuring it.</figcaption></figure>
 
 <figure class="dia anim"><svg viewBox="0 0 720 268" role="img" aria-label="Animation: the CIA triad drawn as a triangle: confidentiality, protected by encryption, permissions, MFA and segmentation; integrity, protected by hashes, checksums, signatures and change logs; availability, protected by RAID, backups, clustering, redundant power supplies and DDoS protection">
 <polygon class="sN" points="360,30 560,236 160,236" style="stroke-width:1.5"/>
