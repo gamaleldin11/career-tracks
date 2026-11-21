@@ -373,6 +373,27 @@ test("accountant can record a payment", async ({ page }) => {
 > [!say]
 > "Coverage tells me what isn't tested, which is useful, but not whether the tested code is correct. I'd rather have well-chosen tests on the critical logic and user journeys than chase a percentage. A threshold in CI can still be useful to stop coverage silently dropping."
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="Run with Node's test runner. finalPrice gives 10 percent off above 1000. A test that calls it with 500 and 2000 and asserts nothing gets 100 percent line, branch and function coverage, and still passes when the condition is mutated from greater-than to greater-or-equal, so the mutant survives. Two assertions at the boundary, 1000 stays 1000 and 2000 becomes 1800, also give 100 percent coverage, but one of them fails on the mutant, expected 1000 and got 900, so the mutant is killed">
+<rect class="sN" x="14" y="12" width="692" height="74" rx="6"/>
+<text class="sM" x="28" y="34">function finalPrice(total) {</text>
+<text class="sM" x="28" y="54">  if (total &gt; 1000) return total * 0.9;</text><text class="sWt" x="420" y="54" data-s="2">mutant: total &gt;= 1000</text>
+<text class="sM" x="28" y="74">  return total; }</text>
+<rect class="sN" x="14" y="98" width="340" height="150" rx="6"/>
+<text class="sT" x="28" y="120">A test with no assertions</text>
+<text class="sM" x="28" y="142">finalPrice(500); finalPrice(2000);</text>
+<text class="sC" x="28" y="170">coverage: 100% lines, branches, functions</text>
+<g data-s="2"><text class="sRt" x="28" y="204">mutant: still passes, so it survived</text><text class="sS" x="28" y="224">nothing ever checked a returned value</text></g>
+<g data-s="3"><rect class="sN" x="366" y="98" width="340" height="150" rx="6"/>
+<text class="sT" x="380" y="120">Two assertions at the boundary</text>
+<text class="sM" x="380" y="142">finalPrice(1000) → 1000</text><text class="sM" x="380" y="160">finalPrice(2000) → 1800</text>
+<text class="sC" x="380" y="184">coverage: also 100%</text>
+<text class="sGt" x="380" y="208">mutant: 1 of 2 tests fails, killed</text><text class="sS" x="380" y="228">expected 1000, got 900</text></g>
+</svg><ol class="dia-steps">
+<li>A test that only calls the function runs every line and both branches: the coverage report says 100%.</li>
+<li>Flip &gt; to &gt;= and that suite still passes. Coverage could not tell, because no test compared a result.</li>
+<li>Two assertions at the boundary give the same 100% coverage, but now the mutant fails a test. Mutation tools such as Stryker automate exactly this.</li>
+</ol><figcaption>Coverage versus checking, run with <code>node --test --experimental-test-coverage</code> (Node 24): identical coverage, opposite verdicts on the same bug.</figcaption></figure>
+
 **Mutation testing** (Stryker) is the stronger check: it changes your code slightly (flips a `>` to `>=`) and sees whether any test fails.
 
 ## F10.10 Tests in the pipeline 🟢
