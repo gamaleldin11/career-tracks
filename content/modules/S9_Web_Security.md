@@ -441,6 +441,29 @@ Your app is mostly other people's code. A typical Angular or React project has h
 - Log security events: logins (success and failure), permission denials, password and role changes, unusual volumes. **Never** log passwords, tokens or full card numbers.
 - Alert on the patterns that matter (many failed logins, a spike in 403s), or nobody will read the logs until after the breach.
 
+<figure class="dia steps" data-start="1"><svg viewBox="0 0 720 250" role="img" aria-label="The same database failure handled two ways. Leaky: the client receives a 500 with the exception type, an internal SQL column name, the table and a stack trace with namespaces. Safe: the client receives a ProblemDetails body with a generic title, status 500 and a trace ID, while the server log holds the full exception under the same trace ID, with the bearer token redacted. When the authorisation service times out, failing closed denies the request instead of skipping the check">
+<g data-s="1-1"><text class="sT" x="14" y="22">leaky: the response tells an attacker how the system is built</text>
+<rect class="sR" x="14" y="34" width="692" height="118" rx="6"/>
+<text class="sM" x="28" y="58">HTTP 500</text>
+<text class="sM" x="28" y="80">SqlException: Invalid column name 'IsDeleted'.</text>
+<text class="sM" x="28" y="100">   at FinSight.Data.InvoiceRepository.GetAsync(Guid companyId)</text>
+<text class="sM" x="28" y="120">   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader()</text>
+<text class="sS" x="28" y="142">reveals the database engine, a column name, the namespaces and the code path</text></g>
+<g data-s="2-3"><text class="sT" x="14" y="22">safe: generic to the client, detailed in the log, linked by a trace ID</text>
+<rect class="sG" x="14" y="34" width="330" height="118" rx="6"/><text class="sT" x="28" y="56">client receives</text>
+<text class="sM" x="28" y="80">{ "title": "An error occurred",</text><text class="sM" x="28" y="100">  "status": 500,</text><text class="sM" x="28" y="120">  "traceId": "00-4bf9…-01" }</text>
+<rect class="sN" x="376" y="34" width="330" height="118" rx="6"/><text class="sT" x="390" y="56">server log</text>
+<text class="sM" x="390" y="80">traceId=00-4bf9…-01</text><text class="sM" x="390" y="100">SqlException … (full stack)</text><text class="sM" x="390" y="120">Authorization: Bearer ***</text>
+<text class="sS" x="390" y="142">tokens and passwords redacted</text></g>
+<g data-s="3"><text class="sT" x="14" y="186">fail closed: the permission service times out</text>
+<rect class="sR" x="14" y="198" width="330" height="40" rx="6"/><text class="sC" x="179" y="223" text-anchor="middle">fail open: skip the check, allow → breach</text>
+<rect class="sG" x="376" y="198" width="330" height="40" rx="6"/><text class="sC" x="541" y="223" text-anchor="middle">fail closed: deny with 503, alert, retry</text></g>
+</svg><ol class="dia-steps">
+<li>An unhandled exception rendered to the client: free reconnaissance for an attacker (OWASP A10, mishandled exceptions).</li>
+<li>A global handler returns ProblemDetails with only a trace ID; support searches the log by that ID and finds everything, minus the secrets.</li>
+<li>When a security dependency fails, the safe default is to refuse, not to carry on without the check.</li>
+</ol><figcaption>The three bullets above as one failure seen from both sides. In ASP.NET Core, AddProblemDetails plus UseExceptionHandler gives the safe shape by default.</figcaption></figure>
+
 > [!story]
 > FinSight's **global exception handler** is exactly this: one place that converts unexpected exceptions into a safe response and a detailed log entry. Mention it under A10.
 
