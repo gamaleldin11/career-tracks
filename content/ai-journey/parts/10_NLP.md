@@ -439,6 +439,14 @@ The honest map, since your other work is squarely in the modern half:
 
 **The key limitation this session leaves you with:** TF-IDF has no concept of *meaning*. "car" and "automobile" are entirely unrelated features — orthogonal vectors, cosine similarity 0. Only an embedding model knows they are near-synonyms.
 
+<figure class="dia"><svg viewBox="0 0 720 240" role="img" aria-label="TF-IDF cosine similarities computed with scikit-learn. The car will not start versus the automobile will not start: 0.30, all of it from the shared word start; car and automobile add nothing. The bank raised interest rates versus we sat on the river bank: 0.25, all of it from bank, though the meanings differ. Car versus automobile alone: 0">
+<text class="sT" x="14" y="20">TF-IDF sees shared words, not shared meaning</text>
+<rect class="sN" x="14" y="30" width="692" height="52" rx="6"/><text class="sM" x="24" y="51">the car will not start</text><text class="sM" x="24" y="71">the automobile will not start</text><text class="sC" x="300" y="51">cosine</text><text class="sT" x="300" y="71">0.30</text><text class="sC" x="400" y="51">all of it from “start”</text><text class="sC" x="400" y="71">car and automobile add nothing</text>
+<rect class="sN" x="14" y="92" width="692" height="52" rx="6"/><text class="sM" x="24" y="113">the bank raised interest rates</text><text class="sM" x="24" y="133">we sat on the river bank</text><text class="sC" x="300" y="113">cosine</text><text class="sT" x="300" y="133">0.25</text><text class="sC" x="400" y="113">all of it from “bank”</text><text class="sC" x="400" y="133">a money bank and a river bank</text>
+<rect class="sN" x="14" y="154" width="692" height="52" rx="6"/><text class="sM" x="24" y="175">car</text><text class="sM" x="24" y="195">automobile</text><text class="sC" x="300" y="175">cosine</text><text class="sT" x="300" y="195">0.00</text><text class="sC" x="400" y="175">no shared column at all</text><text class="sC" x="400" y="195">same meaning, orthogonal vectors</text>
+<text class="sS" x="360" y="232" text-anchor="middle">scikit-learn TfidfVectorizer with stop_words="english", fitted on six short sentences</text>
+</svg><figcaption>Synonyms score zero and a homonym scores above zero: exactly the gap embeddings close. One more catch from the same run: scikit-learn's built-in English stop list removes “interest”, so check a stop list before trusting it.</figcaption></figure>
+
 **What carries over unchanged into your RAG and LLM work:**
 
 1. **The vector-similarity retrieval pattern** — §10.7 is exactly what a vector database does.

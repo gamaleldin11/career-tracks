@@ -1036,6 +1036,7 @@ const FOUNDATIONS = {
     q('Regression', 'How many columns does PolynomialFeatures(degree=3) produce from 20 features (bias included)?', ['60', '1,771', '8,000', '231'], 1, '(n+d)! / (d!·n!) = 23! / (3!·20!) = 1,771: scale after expanding, and regularise.', 'AI7.15'),
   ],
   AI10: [
+    q('NLP', 'With TF-IDF, “we sat on the river bank” and “the bank raised interest rates” have cosine similarity 0.25, while “car” and “automobile” have 0. Why?', ['TF-IDF gives each word its own column, so only identical words overlap, whatever they mean', 'TF-IDF down-weights rare words to zero', 'Cosine similarity ignores nouns', 'The vectoriser was fitted on too few documents'], 0, 'Shared surface words create similarity (bank and bank) and different words never do (car and automobile). Contextual embeddings fix both.', 'AI10.8'),
     q('NLP', 'The Porter stemmer maps organization to organ. This is an example of…', ['Under-stemming', 'Over-stemming: different words collide into one feature', 'Lemmatisation', 'Tokenisation'], 1, 'A lemmatizer keeps them apart, and handles irregular forms such as ran → run when told it is a verb.', 'AI10.4'),
     q('NLP', 'After removing stopwords with a default English list, "the food was not good" and "the food was good" become…', ['Different inputs', 'The same input: "food good"', 'Empty', 'Two tokens each, still different'], 1, 'Negations are in most default lists; for sentiment, remove them from the stopword set.', 'AI10.3'),
   ],
