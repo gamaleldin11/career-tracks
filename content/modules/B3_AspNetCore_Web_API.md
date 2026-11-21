@@ -364,6 +364,20 @@ builder.Services.AddOptions<SmtpOptions>()
 
 `IOptions<T>` is read once (singleton); `IOptionsSnapshot<T>` is re-read per request (scoped); `IOptionsMonitor<T>` notifies on change.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="A real ASP.NET Core 10 run with ValidateOnStart on SmtpOptions, where User is required. With only appsettings.json, Host is localhost and startup fails with OptionsValidationException. In Production, appsettings.Production.json sets Host to smtp.prod.internal and startup still fails. Environment variables Smtp__Host and Smtp__User override Host and supply User, and the app starts. A command-line argument then overrides Host again">
+<text class="sC" x="14" y="20">configuration source, lowest priority first</text><text class="sC" x="366" y="20">what the app sees</text>
+<rect class="sN" x="14" y="30" width="340" height="52" rx="6"/><text class="sT" x="24" y="51">appsettings.json</text><text class="sM" x="24" y="71">Host "localhost", Port 25, no User</text><rect class="sR" x="366" y="30" width="340" height="52" rx="6"/><text class="sT" x="376" y="51">Host localhost · User missing</text><text class="sC" x="376" y="71">startup fails: OptionsValidationException</text>
+<g data-s="2"><rect class="sN" x="14" y="90" width="340" height="52" rx="6"/><text class="sT" x="24" y="111">appsettings.Production.json</text><text class="sM" x="24" y="131">Host "smtp.prod.internal"</text><rect class="sR" x="366" y="90" width="340" height="52" rx="6"/><text class="sT" x="376" y="111">Host smtp.prod.internal · User missing</text><text class="sC" x="376" y="131">still fails at startup, not at the first email</text></g>
+<g data-s="3"><rect class="sN" x="14" y="150" width="340" height="52" rx="6"/><text class="sT" x="24" y="171">environment variables</text><text class="sM" x="24" y="191">Smtp__Host=smtp.env.internal Smtp__User=mailer</text><rect class="sG" x="366" y="150" width="340" height="52" rx="6"/><text class="sT" x="376" y="171">Host smtp.env.internal · User mailer</text><text class="sC" x="376" y="191">validation passes: the app starts</text></g>
+<g data-s="4"><rect class="sN" x="14" y="210" width="340" height="52" rx="6"/><text class="sT" x="24" y="231">command line</text><text class="sM" x="24" y="251">--Smtp:Host=smtp.cli.internal</text><rect class="sG" x="366" y="210" width="340" height="52" rx="6"/><text class="sT" x="376" y="231">Host smtp.cli.internal · User mailer</text><text class="sC" x="376" y="251">the last source loaded wins</text></g>
+<text class="sS" x="360" y="292" text-anchor="middle">ASP.NET Core 10.0.9; values and errors are the program's output, including which provider supplied Smtp:Host</text>
+</svg><ol class="dia-steps">
+<li>The base file has no SMTP user, and ValidateOnStart stops the app before it serves a request.</li>
+<li>In Production the environment file overrides Host, but User is still missing, so the app still refuses to start. That is the point: a misconfigured deploy fails at once, not when the first email is sent.</li>
+<li>Environment variables (a double underscore stands for the colon) override Host and supply User; validation passes.</li>
+<li>A command-line argument overrides Host again: the last source added wins.</li>
+</ol><figcaption>Each source only overrides the keys it sets, so the final options mix values from several places. When a value surprises you, ask the configuration root which provider supplied it, as this run did.</figcaption></figure>
+
 ## B3.8 OpenAPI documentation 🟢
 
 Since **.NET 9**, the Web API template no longer includes Swashbuckle; ASP.NET Core generates OpenAPI documents itself (`AddOpenApi()` and `MapOpenApi()`), and you choose a UI (Scalar, or Swagger UI added separately). **.NET 10 generates OpenAPI 3.1 by default**, can serve YAML, and pulls XML documentation comments into the document.
