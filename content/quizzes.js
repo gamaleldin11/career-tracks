@@ -613,6 +613,7 @@ const FOUNDATIONS = {
     q('Auth', 'ASP.NET Core Identity’s default PasswordHasher (v3 format) uses…', ['Plain SHA-256', 'PBKDF2 with HMAC-SHA512 and 100,000 iterations, plus a 16-byte salt', 'MD5 with a pepper', 'bcrypt'], 1, 'Decoded from a real hash here; about 25 guesses per second per core instead of hundreds of thousands.', 'B7.4'),
   ],
   B8: [
+    q('Caching','A multi-tenant API caches the dashboard under the key "dashboard:summary". Tenant acme loads it, then tenant nile does. What does nile receive?',['acme’s figures, served from the cache with no error, a tenant-isolation breach','Its own figures, because IMemoryCache is per user','An error, because the key already exists','An empty response'],0,'Reproduced with IMemoryCache: nile got {"tenant":"acme","revenue":1250000}. Put every dimension the data depends on (tenant, user, culture, filters) into the key.','B8.2'),
     q('Caching', 'Cache reads take 1 ms, database reads 20 ms. At a 90% hit ratio, average read latency is about…', ['1 ms', '2.9 ms', '10 ms', '18 ms'], 1, '0.9 × 1 + 0.1 × 20 = 2.9 ms, and the database sees a tenth of the reads.', 'B8.0'),
     q('Messaging', 'The relay crashes after publishing an outbox message but before marking it sent. What happens?', ['The message is lost', 'It is published again after restart, so consumers must be idempotent', 'The transaction rolls back', 'The broker deletes the duplicate'], 1, 'Outbox gives at-least-once publishing; the inbox on the consumer side handles duplicates.', 'B8.7'),
   ],
