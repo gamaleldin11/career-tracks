@@ -293,6 +293,16 @@ for (const [tid, qs] of Object.entries(QUIZ)) for (const it of qs) {
   if (!ok) console.warn(`quiz ${tid}: unknown ref ${it.ref}`);
   if (!(it.a >= 0 && it.a < it.c.length)) console.warn(`quiz ${tid}: bad answer index in "${it.q}"`);
 }
+// The question total is quoted by hand in the README and the backlog. It once drifted in 33 of 149 commits (one question
+// in a shared module counts once per track that includes it), so check every copy against the real number.
+{
+  const total = TRACKS.reduce((n, t) => n + (QUIZ[t.id] || []).length, 0).toLocaleString('en-US');
+  for (const [file, re] of [['README.md', /\(([\d,]+) questions across/], ['docs/refinement-backlog.md', /\*\*([\d,]+) self-test questions\*\*/], ['docs/refinement-backlog.md', /"([\d,]+) questions"/]]) {
+    const f = path.join(__dirname, '..', file);
+    const m = fs.existsSync(f) && fs.readFileSync(f, 'utf8').match(re);
+    if (m && m[1] !== total) console.warn(`${file} says ${m[1]} questions; the self-tests hold ${total}`);
+  }
+}
 const quizPages = TRACKS.map((tr) => {
   const qs = QUIZ[tr.id] || [];
   return `<article class="part page" id="quiz-${tr.id}" data-page="quiz-${tr.id}" hidden>
