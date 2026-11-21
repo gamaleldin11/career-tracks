@@ -86,6 +86,23 @@ The same applies between services: a message from another team's API or from a q
 - **Fail closed.** If a check errors out, deny.
 - **Secure by default.** The safe option is the default; the dangerous one needs a deliberate, reviewed choice.
 
+<figure class="dia steps"><svg viewBox="0 0 720 260" role="img" aria-label="Run in SQLite with 30 invoices, 10 of them company B's. The input B' OR '1'='1 concatenated into the SQL string returns all 30 invoices; the same input passed as a parameter returns 0. Defence in depth then adds independent layers: input validation rejects it, the parameterised query neutralises it, authorisation takes the company from the token, the database login has least privilege, and monitoring alerts on the spike of rejected requests">
+<text class="sT" x="14" y="22">input: company = </text><text class="sM" x="150" y="22">B' OR '1'='1</text>
+<rect class="sR" x="14" y="34" width="692" height="48" rx="6"/><text class="sM" x="26" y="54">"… WHERE company = '" + input + "'"</text><text class="sRt" x="26" y="73">concatenated: 30 of 30 invoices returned (company B owns 10)</text>
+<g data-s="2"><rect class="sG" x="14" y="100" width="190" height="24" rx="5"/><text class="sC" x="109" y="116" text-anchor="middle">input validation</text><text class="sS" x="216" y="116">company must match ^[A-Z]{1,3}$: request rejected (400)</text></g>
+<g data-s="3"><rect class="sG" x="14" y="130" width="190" height="24" rx="5"/><text class="sC" x="109" y="146" text-anchor="middle">parameterised query</text><text class="sS" x="216" y="146">payload treated as a value: 0 rows</text></g>
+<g data-s="4"><rect class="sG" x="14" y="160" width="190" height="24" rx="5"/><text class="sC" x="109" y="176" text-anchor="middle">authorisation</text><text class="sS" x="216" y="176">company taken from the token, not the input</text></g>
+<g data-s="5"><rect class="sG" x="14" y="190" width="190" height="24" rx="5"/><text class="sC" x="109" y="206" text-anchor="middle">least privilege</text><text class="sS" x="216" y="206">API login can read its tables, not DROP them</text></g>
+<g data-s="6"><rect class="sG" x="14" y="220" width="190" height="24" rx="5"/><text class="sC" x="109" y="236" text-anchor="middle">monitoring</text><text class="sS" x="216" y="236">spike of 400s from one IP: alert</text></g>
+</svg><ol class="dia-steps">
+<li>One layer alone, done wrong: the payload turns the WHERE clause into “always true” and every company's invoices come back.</li>
+<li>Validation rejects input that can't be a company code before it reaches the database.</li>
+<li>Even if validation had a gap, a parameter is never parsed as SQL: the same input returns 0 rows.</li>
+<li>Authorisation doesn't trust the request for which company to read at all.</li>
+<li>Least privilege limits the damage if everything above failed.</li>
+<li>Monitoring notices the attempt, so a person can act.</li>
+</ol><figcaption>Defence in depth on one attack, the injection run with Python's sqlite3. Each layer is independent; a breach needs all of them to fail at once.</figcaption></figure>
+
 > [!term] CIA triad
 > The three goals of security: **Confidentiality** (only the right people see data), **Integrity** (data isn't altered without authorisation), **Availability** (the system works when needed).
 
