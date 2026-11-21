@@ -505,6 +505,7 @@ const FOUNDATIONS = {
     q('JS', 'Which of these is true in JavaScript?', ['"0" == false is false', '"0" == false is true, yet if ("0") still runs its block', '[] is falsy', 'NaN == NaN is true'], 1, 'Loose equality converts both sides to numbers; truthiness is a separate rule. Use === and test == null only on purpose.', 'F3.2'),
   ],
   F4: [
+    q('Async','You write const p = fetch(url) and never await or use p. Does the request reach the server?',['Yes: a promise starts its work when it is created, so the request is sent and answered anyway','No: nothing runs until you await it','Only if you call p.then()','Only in browsers, not in Node'],0,'In a real Node 24 run, the server received the request 8 ms after the promise was created. Wrap the call in a function to make it lazy, as an Observable is, and use an AbortController to cancel it.','F4.8'),
     q('Async', 'At 60 frames per second, roughly how long does the browser have for each frame?', ['1 ms', '16.7 ms', '100 ms', '1 second'], 1, 'Your JavaScript, style, layout and paint share that budget; longer work delays the next frame and input.', 'F4.0'),
     q('Async', 'Who provides setTimeout and fetch in the browser?', ['The JavaScript language itself', 'The browser (Web APIs); the engine only runs your callbacks', 'The operating system directly', 'React'], 1, 'The browser waits on timers and the network on other threads, then queues your callback.', 'F4.0'),
   ],
