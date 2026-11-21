@@ -272,6 +272,27 @@ Video needs **captions** (`<track kind="captions">`); audio needs a transcript.
 
 WCAG 2.2 also removed criterion 4.1.1 *Parsing*, which modern browsers made obsolete.
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="Two WCAG 2.2 AA criteria drawn at twice CSS size. Focus Not Obscured: a focused field scrolled under a sticky header is completely hidden and fails; scroll-padding-top on the html element keeps focused elements below the header. Target Size Minimum: two 16 pixel icons 4 pixels apart fail because 24 pixel circles centred on them overlap; 10 pixels apart the circles do not intersect, so they pass">
+<text class="sT" x="30" y="22">2.4.11 Focus Not Obscured</text>
+<rect class="sN" x="30" y="34" width="300" height="200" rx="6"/>
+<rect class="sR" x="60" y="44" width="240" height="26" rx="4" data-s="1-1"/>
+<rect class="sB" x="30" y="34" width="300" height="42" rx="6"/><text class="sC" x="180" y="60" text-anchor="middle">sticky header</text>
+<text class="sRt" x="44" y="222" data-s="1-1">focused field hidden under the header: fails</text>
+<g data-s="2"><rect class="sG" x="60" y="92" width="240" height="26" rx="4"/><text class="sC" x="72" y="110">Email (focused)</text><text class="sGt" x="44" y="148">kept below the header: passes</text><text class="sM" x="44" y="176">html { scroll-padding-top: 56px }</text><text class="sS" x="44" y="198">header height plus a little room</text></g>
+<g data-s="3"><text class="sT" x="390" y="22">2.5.8 Target Size (Minimum)</text>
+<circle class="sR" cx="436" cy="76" r="24" style="fill:none"/><circle class="sR" cx="476" cy="76" r="24" style="fill:none"/>
+<rect class="sW" x="420" y="60" width="32" height="32" rx="4"/><rect class="sW" x="460" y="60" width="32" height="32" rx="4"/>
+<text class="sRt" x="540" y="72">4 px apart: fails</text><text class="sS" x="540" y="88">the 24 px circles overlap</text>
+<circle class="sG" cx="436" cy="168" r="24" style="fill:none"/><circle class="sG" cx="488" cy="168" r="24" style="fill:none"/>
+<rect class="sW" x="420" y="152" width="32" height="32" rx="4"/><rect class="sW" x="472" y="152" width="32" height="32" rx="4"/>
+<text class="sGt" x="540" y="164">10 px apart: passes</text><text class="sS" x="540" y="180">or make each target 24 × 24</text>
+<text class="sS" x="390" y="226">16 px icons, drawn at 2× scale</text></g>
+</svg><ol class="dia-steps">
+<li>Tabbing to a field that scrolls under a sticky header leaves it completely hidden: a 2.4.11 failure at AA.</li>
+<li>scroll-padding-top reserves room under the header, so the browser scrolls focused elements fully into view.</li>
+<li>Small targets pass only with spacing: a 24 CSS px circle centred on each must not intersect a neighbour or its circle.</li>
+</ol><figcaption>Two of the WCAG 2.2 additions in pictures. 2.5.8 also exempts targets inline in text, those with an equivalent control on the page, sizes set by the user agent, and cases where the size is essential.</figcaption></figure>
+
 > [!say]
 > "I target WCAG 2.2 AA: semantic HTML first, every control keyboard-operable with a visible focus, labelled forms with clear errors, 4.5 to 1 text contrast, and alt text that conveys purpose. WCAG 2.2 added things like a 24-pixel minimum target size and not hiding the focused element under sticky headers."
 
