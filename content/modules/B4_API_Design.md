@@ -47,6 +47,29 @@ REST (Roy Fielding, 2000) is an architectural style. In practice, "RESTful" HTTP
 - **Cacheable** responses, marked as such.
 - (Rarely practised) **HATEOAS:** responses include links to related actions.
 
+<figure class="dia steps"><svg viewBox="0 0 720 312" role="img" aria-label="A real exchange with a small REST server. POST /invoices returns 201 Created with Location /invoices/7. GET /invoices/7 returns 200 with 39 bytes, an ETag and Cache-Control max-age 60. A repeat GET with If-None-Match returns 304 Not Modified with no body. PATCH returns 405 Method Not Allowed with Allow GET, POST, DELETE. DELETE returns 204 No Content, and a later GET returns 404 Not Found">
+<text class="sC" x="14" y="18">request</text><text class="sC" x="400" y="18">response</text>
+<rect class="sN" x="14" y="26" width="370" height="40" rx="6"/><text class="sM" x="24" y="42">POST /invoices</text><text class="sC" x="24" y="58">body {"customer":"Acme","total":1200}</text>
+<rect class="sG" x="400" y="26" width="306" height="40" rx="6"/><text class="sT" x="410" y="42">201 Created</text><text class="sC" x="410" y="58">Location: /invoices/7</text>
+<g data-s="2"><rect class="sN" x="14" y="72" width="370" height="40" rx="6"/><text class="sM" x="24" y="88">GET /invoices/7</text><text class="sC" x="24" y="104">no session: the URL says which invoice</text>
+<rect class="sG" x="400" y="72" width="306" height="40" rx="6"/><text class="sT" x="410" y="88">200 OK · 39 bytes of JSON</text><text class="sC" x="410" y="104">ETag "66788074" · max-age=60</text></g>
+<g data-s="3"><rect class="sN" x="14" y="118" width="370" height="40" rx="6"/><text class="sM" x="24" y="134">GET /invoices/7</text><text class="sC" x="24" y="150">If-None-Match: "66788074"</text>
+<rect class="sV" x="400" y="118" width="306" height="40" rx="6"/><text class="sT" x="410" y="134">304 Not Modified · 0 bytes</text><text class="sC" x="410" y="150">the client reuses its copy</text></g>
+<g data-s="4"><rect class="sN" x="14" y="164" width="370" height="40" rx="6"/><text class="sM" x="24" y="180">PATCH /invoices/7</text><text class="sC" x="24" y="196">a method this resource doesn't support</text>
+<rect class="sW" x="400" y="164" width="306" height="40" rx="6"/><text class="sT" x="410" y="180">405 Method Not Allowed</text><text class="sC" x="410" y="196">Allow: GET, POST, DELETE</text></g>
+<g data-s="5"><rect class="sN" x="14" y="210" width="370" height="40" rx="6"/><text class="sM" x="24" y="226">DELETE /invoices/7</text><text class="sC" x="24" y="242">remove the resource</text>
+<rect class="sG" x="400" y="210" width="306" height="40" rx="6"/><text class="sT" x="410" y="226">204 No Content</text><text class="sC" x="410" y="242">success, nothing to return</text></g>
+<g data-s="6"><rect class="sN" x="14" y="256" width="370" height="40" rx="6"/><text class="sM" x="24" y="272">GET /invoices/7</text><text class="sC" x="24" y="288">the same URL as step 2</text>
+<rect class="sR" x="400" y="256" width="306" height="40" rx="6"/><text class="sT" x="410" y="272">404 Not Found</text><text class="sC" x="410" y="288">the resource no longer exists</text></g>
+</svg><ol class="dia-steps">
+<li>POST to the collection creates invoice 7; 201 and the Location header tell the client its new URL.</li>
+<li>GET returns a JSON representation with an ETag (a hash of that JSON) and Cache-Control, so the response says it may be cached.</li>
+<li>A repeat GET that sends the ETag back gets 304 and no body: the client reuses its cached copy. That is the cacheable constraint at work.</li>
+<li>A method the resource does not support gets 405 with an Allow header listing the ones it does: the uniform interface.</li>
+<li>DELETE succeeds with 204 and no body.</li>
+<li>The same GET as step 2 now returns 404. Each request carried everything it needed; the server kept no session between them.</li>
+</ol><figcaption>A real exchange: a small Node <code>http</code> server called with Node 24's <code>fetch</code>. The status codes and headers are its actual responses.</figcaption></figure>
+
 > [!term] Richardson Maturity Model
 > A scale for HTTP APIs. Level 0: one endpoint and RPC over POST. Level 1: separate resources. Level 2: proper HTTP methods and status codes. Level 3: hypermedia links (HATEOAS). Most good real-world APIs sit at **level 2**.
 
