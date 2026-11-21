@@ -560,6 +560,18 @@ Caching is the cheapest performance win there is, and interviewers like it becau
 | **Server-Sent Events (SSE)** | Server pushes text events over one HTTP response | Notifications, progress, streaming LLM tokens | One direction only |
 | **Polling / long polling** | Client asks repeatedly | Simple, works everywhere | Wasteful at scale |
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Measured with a local Node server emitting the same 7 events over 6 seconds. Polling every second made 7 requests, 2 of them empty, and delivered events after 720 milliseconds on average, 941 at worst. Long polling made 7 requests, each held open until an event, with a mean delay of 1 millisecond. Server-Sent Events used 1 request for all 7 events, also with a 1 millisecond mean delay">
+<text class="sT" x="14" y="43">events</text><line class="sLw" x1="137" y1="28" x2="137" y2="48"/><line class="sLw" x1="209" y1="28" x2="209" y2="48"/><line class="sLw" x1="223" y1="28" x2="223" y2="48"/><line class="sLw" x1="344" y1="28" x2="344" y2="48"/><line class="sLw" x1="479" y1="28" x2="479" y2="48"/><line class="sLw" x1="484" y1="28" x2="484" y2="48"/><line class="sLw" x1="623" y1="28" x2="623" y2="48"/>
+<text class="sT" x="14" y="91">polling, 1 s</text><rect class="sN" x="107" y="76" width="6" height="20" rx="2"/><rect class="sG" x="197" y="76" width="6" height="20" rx="2"/><rect class="sG" x="287" y="76" width="6" height="20" rx="2"/><rect class="sG" x="377" y="76" width="6" height="20" rx="2"/><rect class="sN" x="467" y="76" width="6" height="20" rx="2"/><rect class="sG" x="557" y="76" width="6" height="20" rx="2"/><rect class="sG" x="647" y="76" width="6" height="20" rx="2"/>
+<text class="sC" x="110" y="114">7 requests, 2 came back empty · mean delay 720 ms, worst 941 ms</text>
+<text class="sT" x="14" y="147">long polling</text><rect class="sV" x="111" y="132" width="25" height="20" rx="3"/><rect class="sV" x="138" y="132" width="70" height="20" rx="3"/><rect class="sV" x="210" y="132" width="12" height="20" rx="3"/><rect class="sV" x="224" y="132" width="119" height="20" rx="3"/><rect class="sV" x="345" y="132" width="133" height="20" rx="3"/><rect class="sV" x="480" y="132" width="3" height="20" rx="3"/><rect class="sV" x="485" y="132" width="137" height="20" rx="3"/>
+<text class="sC" x="110" y="170">7 requests, each held open until an event arrives · mean delay 1 ms</text>
+<text class="sT" x="14" y="203">SSE</text><rect class="sG" x="111" y="188" width="513" height="20" rx="3"/>
+<text class="sC" x="110" y="226">1 request, one open stream for all 7 events · mean delay 1 ms</text>
+<line class="sL" x1="110" y1="238" x2="668" y2="238"/>
+<text class="sC" x="110" y="254" text-anchor="middle">0 s</text><text class="sC" x="290" y="254" text-anchor="middle">2 s</text><text class="sC" x="470" y="254" text-anchor="middle">4 s</text><text class="sC" x="650" y="254" text-anchor="middle">6 s</text>
+</svg><figcaption>A local Node server sent the same 7 events in each mode and the client timed each one from emit to receipt. On one machine network latency is near zero, so the delays come from the method alone. Polling adds up to one interval of delay and costs requests even when nothing happens; long polling and SSE deliver at once, and SSE needs only one connection.</figcaption></figure>
+
 > [!story]
 > FinSight used **SignalR**, which picks WebSockets when available and falls back to SSE or long polling. That's the right answer to "how did you push updates to the dashboard?", and to "what happens on a network that blocks WebSockets?".
 
