@@ -494,6 +494,23 @@ A conv layer with 200 5×5 filters on a 150×100 RGB image:
 
 At **inference**, only ~2 consecutive layers' activations must live in memory at once. In **training**, *every* activation from the forward pass is kept for backprop, plus gradients and optimiser states. A 200M-parameter model can need ~5 GB per image at inference and much more in training.
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="Measured with PyTorch on ResNet-18 at batch 32 with 224 by 224 images: inference needs about 241 MB, the 45 MB of weights plus the largest layer's input and output, 196 MB. Training needs about 900 MB: weights, gradients and Adam's two moment buffers come to 178 MB, and the activations saved for backpropagation are 722 MB, 80 percent of the total">
+<text class="sT" x="14" y="75">Inference</text>
+<rect class="sB" x="100" y="55" width="29.7" height="30" rx="3"/><rect class="sV" x="129.7" y="55" width="130.7" height="30" rx="3"/>
+<text class="sC" x="268.4" y="75">241 MB: weights + the largest layer's input and output</text>
+<text class="sT" x="14" y="155">Training</text>
+<g data-s="2"><rect class="sB" x="100" y="135" width="29.7" height="30" rx="3"/><rect class="sA" x="129.7" y="135" width="29.7" height="30" rx="3"/><rect class="sW" x="159.5" y="135" width="59.5" height="30" rx="3"/></g>
+<text class="sC" x="226.9" y="155" data-s="2-2">178 MB: weights, gradients, Adam's two moments</text>
+<g data-s="3"><rect class="sR" x="218.9" y="135" width="481.0" height="30" rx="3"/><text class="sM" x="700" y="127" text-anchor="end">900 MB</text><text class="sS" x="459.4" y="183" text-anchor="middle">activations saved for backprop: 722 MB, 80% of the total</text></g>
+<g data-s="2"><rect class="sB" x="100" y="200" width="12" height="12" rx="2"/><text class="sS" x="118" y="210">weights 45</text><rect class="sA" x="200" y="200" width="12" height="12" rx="2"/><text class="sS" x="218" y="210">gradients 45</text><rect class="sW" x="310" y="200" width="12" height="12" rx="2"/><text class="sS" x="328" y="210">Adam 89</text><rect class="sR" x="410" y="200" width="12" height="12" rx="2" data-s="3"/><text class="sS" x="428" y="210" data-s="3">saved activations 722 (MB)</text></g>
+<text class="sS" x="100" y="238" data-s="4">Activations grow with the batch, weights do not: batch 16 halves the red block.</text>
+</svg><ol class="dia-steps">
+<li>Inference keeps the weights and, at any moment, roughly one layer's input and output: about 241 MB for a batch of 32.</li>
+<li>Training adds a gradient per weight and Adam's two moment buffers: four times the weights, 178 MB.</li>
+<li>Every activation from the forward pass is kept for backprop: 722 MB, by far the largest part of the 900 MB.</li>
+<li>That block scales with the batch size, which is why smaller batches, mixed precision and checkpointing are the first fixes below.</li>
+</ol><figcaption>Where training memory goes, measured on ResNet-18 (batch 32, 224×224, fp32) with PyTorch's saved-tensor hooks. Framework workspace and the CUDA context are not counted.</figcaption></figure>
+
 **Out of memory? Try, in order:**
 1. A smaller batch, with **gradient accumulation** (step the optimiser every k batches).
 2. **Mixed precision** (bf16/fp16; Part 17 §17.7).

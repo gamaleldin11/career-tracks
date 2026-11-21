@@ -987,6 +987,7 @@ const FOUNDATIONS = {
   AI18: [
     q('Deep learning', 'What does the skip connection in a residual block buy?', ['Fewer parameters', 'The block only learns a correction f(x) added to x, and gradients flow straight through, so very deep stacks stay trainable', 'Faster convolutions', 'Built-in dropout'], 1, 'At initialisation f(x) ≈ 0, so a deep stack starts as the identity.', 'AI18.5'),
     q('CNNs', 'Two stacked 3×3 convolutions (128→128 channels) versus one 5×5 with the same receptive field use…', ['The same number of weights', 'About 28% fewer weights, plus an extra non-linearity', 'Twice as many weights', 'No weights'], 1, '2 × (9·128·128 + 128) = 295,168 versus 25·128·128 + 128 = 409,728.', 'AI18.4'),
+    q('Deep learning', 'Training ResNet-18 at batch 32 needs about 900 MB versus 241 MB for inference. What takes most of the training memory?', ['The weights', 'Adam’s moment buffers', 'Activations saved from the forward pass for backprop, about 80%', 'The gradients'], 2, 'Measured with saved-tensor hooks: 722 MB of activations against 178 MB for weights, gradients and Adam together. Activations scale with the batch.', 'AI18.6'),
   ],
 };
 const { TRACKS } = require('./course');
