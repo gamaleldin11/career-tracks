@@ -237,6 +237,19 @@ subset = dataset.to_table(columns=["order_id", "amount"], filter=ds.field("order
 - Load into a **staging table**, then `MERGE` into the target in SQL ([[DE3.2]]), which gives idempotency and atomic publishing.
 - **Parameterised queries** always ([[S9.3]]); SQLAlchemy for connections and pooling.
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Rows loaded per second, on a log scale. SQLite: one INSERT and commit per row, about 440; the same inserts in one transaction, about 708,000; executemany in one transaction, about 1,010,000. DuckDB: row-by-row INSERT, about 900; COPY from a CSV file, about 1,090,000">
+<text class="sT" x="14" y="38">SQLite file database</text>
+<text class="sC" x="260" y="60" text-anchor="end">INSERT + COMMIT per row</text><rect class="sR" x="270" y="46" width="55" height="20" rx="3"/><text class="sT" x="333" y="61">~440 rows/s</text>
+<text class="sC" x="260" y="88" text-anchor="end">row by row, one transaction</text><rect class="sG" x="270" y="74" width="327" height="20" rx="3"/><text class="sT" x="605" y="89">~708k rows/s</text>
+<text class="sC" x="260" y="116" text-anchor="end">executemany, one transaction</text><rect class="sG" x="270" y="102" width="341" height="20" rx="3"/><text class="sT" x="619" y="117">~1.01M rows/s</text>
+<text class="sT" x="14" y="146">DuckDB file database</text>
+<text class="sC" x="260" y="168" text-anchor="end">row-by-row INSERT</text><rect class="sR" x="270" y="154" width="82" height="20" rx="3"/><text class="sT" x="360" y="169">~900 rows/s</text>
+<text class="sC" x="260" y="196" text-anchor="end">COPY from a CSV file</text><rect class="sG" x="270" y="182" width="343" height="20" rx="3"/><text class="sT" x="621" y="197">~1.09M rows/s</text>
+<line class="sL" x1="270" y1="216" x2="636" y2="216"/>
+<line class="sL" x1="270" y1="212" x2="270" y2="220"/><text class="sC" x="270" y="234" text-anchor="middle">100</text><line class="sL" x1="355" y1="212" x2="355" y2="220"/><text class="sC" x="355" y="234" text-anchor="middle">1k</text><line class="sL" x1="440" y1="212" x2="440" y2="220"/><text class="sC" x="440" y="234" text-anchor="middle">10k</text><line class="sL" x1="525" y1="212" x2="525" y2="220"/><text class="sC" x="525" y="234" text-anchor="middle">100k</text><line class="sL" x1="610" y1="212" x2="610" y2="220"/><text class="sC" x="610" y="234" text-anchor="middle">1M</text>
+<text class="sS" x="360" y="256" text-anchor="middle">rows per second, log scale; SQLite 3.45 and DuckDB 1.5 from Python, 200,000 orders</text>
+</svg><figcaption>Committing every row pays for a disk sync each time; the same inserts in one transaction ran about 1,600× faster. DuckDB, a columnar engine built for bulk work, was slow row by row and fastest with <code>COPY</code>. The slow methods were timed on 2,000 and 5,000 rows; a second run gave the same picture.</figcaption></figure>
+
 ```python
 from sqlalchemy import create_engine, text
 engine = create_engine(settings.warehouse_url, pool_pre_ping=True)

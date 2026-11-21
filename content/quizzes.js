@@ -738,6 +738,7 @@ const FOUNDATIONS = {
     q('Data engineering', 'WHERE MONTH(event_date) = 10 on a date-partitioned table usually…', ['Prunes partitions', 'Reads every partition because the function hides the column', 'Fails', 'Uses an index'], 1, 'Filter the partition column directly.', 'DE3.6'),
   ],
   DE4: [
+    q('Loading', 'A script inserts 200,000 rows into SQLite with autocommit, one INSERT per row, and manages about 440 rows a second. What is the cheapest big fix?', ['Wrap the inserts in one transaction (or use executemany inside one)', 'Add an index on every column first', 'Switch the column types to TEXT', 'Run the inserts from several threads'], 0, 'Each autocommit pays for a disk sync. Measured: about 440 rows/s per-row commits, about 708,000 rows/s in one transaction, about 1,000,000 with executemany.', 'DE4.5'),
     q('Data engineering', 'Which errors should an API extractor retry?', ['All of them', 'Transient ones: network errors, 429 and 5xx, with backoff', 'Only 400', 'None'], 1, 'Client errors like 400 and 401 will not fix themselves.', 'DE4.2'),
     q('Data engineering', 'CPU-bound pure-Python work runs no faster with threads because of…', ['The network', 'The GIL: only one thread runs Python bytecode at a time', 'Memory limits', 'Pandas'], 1, 'Use processes for CPU-bound Python, threads or asyncio for I/O.', 'DE4.9'),
   ],
