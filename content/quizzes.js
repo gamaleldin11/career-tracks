@@ -936,6 +936,7 @@ const FOUNDATIONS = {
   ],
   AI2: [
     q('NumPy', 'np.arange(1, 1.3, 0.1) returns how many values?', ['3', '4, the last being 1.3000000000000003', '2', 'An error'], 1, 'Float steps accumulate error, so the excluded stop sneaks in. Use linspace for float ranges.', 'AI2.2'),
+    q('NumPy', 'A Python list of 1,000,000 ints takes about 36 MB; an int64 NumPy array of the same values takes…', ['36 MB', '8 MB, one contiguous block of raw numbers', '28 MB', '1 MB'], 1, 'The list holds 8 MB of pointers to separate 28-byte int objects. Measured: adding two arrays vectorised took 1.9 ms against 43 ms for a list comprehension.', 'AI2.1'),
   ],
   AI8: [
     q('Classification', 'Hour of day is fed to a linear model. Why encode it as sin and cos of 2π·hour/24?', ['To scale it', 'So 23:00 and 00:00 are neighbours instead of 23 units apart', 'To remove outliers', 'Trees require it'], 1, 'On the circle every pair of consecutive hours is the same distance apart.', 'AI8.3'),

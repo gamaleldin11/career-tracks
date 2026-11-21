@@ -59,6 +59,21 @@ A Python list of 1,000,000 integers is an array of 1,000,000 *pointers*, each to
 
 A NumPy array of 1,000,000 `int32` is **one contiguous block of 4 MB**. No per-element boxing, no type dispatch. The loop that adds two of them runs in compiled C, processes several elements per CPU instruction (SIMD), and never touches the Python interpreter.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="Measured with NumPy 2.4 and Python 3.12. Memory for one million integers: a Python list takes 36 MB, 8 MB of pointers plus 28 MB of separate 28-byte int objects, while a NumPy int64 array is one 8 MB block and int32 is 4 MB. Time to add two of them element by element: a Python loop over the arrays takes 134 ms, a list comprehension 43 ms, and the vectorised a + a 1.9 ms, 23 times faster than the list">
+<text class="sT" x="14" y="22">Memory for 1,000,000 integers</text>
+<g data-s="1"><text class="sC" x="14" y="51">Python list</text><rect class="sN" x="150" y="34" width="96" height="24" rx="3"/><rect class="sW" x="246" y="34" width="336" height="24" rx="3"/><text class="sM" x="590" y="51">36 MB</text><text class="sS" x="150" y="74">8 MB of pointers + 1,000,000 boxed int objects, 28 bytes each</text></g>
+<g data-s="2"><text class="sC" x="14" y="101">NumPy int64</text><rect class="sG" x="150" y="84" width="96" height="24" rx="3"/><text class="sC" x="254" y="101">8 MB in one contiguous block</text><text class="sC" x="14" y="133">NumPy int32</text><rect class="sG" x="150" y="116" width="48" height="24" rx="3"/><text class="sC" x="206" y="133">4 MB</text></g>
+<g data-s="3"><text class="sT" x="14" y="172">Time to add two of them, element by element</text>
+<text class="sC" x="14" y="199">loop over ndarray</text><rect class="sR" x="150" y="182" width="429.8" height="24" rx="3"/><text class="sM" x="587.8" y="199">134 ms</text>
+<text class="sC" x="14" y="231">list comprehension</text><rect class="sW" x="150" y="214" width="138.9" height="24" rx="3"/><text class="sM" x="296.9" y="231">43 ms</text>
+<text class="sC" x="14" y="263">a + a (vectorised)</text><rect class="sG" x="150" y="246" width="6.1" height="24" rx="3"/><text class="sM" x="164.1" y="263">1.9 ms: 23× faster than the list, 71× faster than the loop</text></g>
+<text class="sS" x="14" y="292">Best of several runs on one machine; the ratios, not the milliseconds, are the point.</text>
+</svg><ol class="dia-steps">
+<li>A list stores pointers, and every integer is a separate Python object with a type tag and a reference count: 36 MB for a million of them.</li>
+<li>A NumPy array stores the raw numbers side by side: 8 MB as int64, 4 MB as int32.</li>
+<li>Adding element by element in Python pays interpreter overhead per element; the vectorised add runs one C loop over contiguous memory.</li>
+</ol><figcaption>Why NumPy exists, measured: a million integers as a list and as arrays (sys.getsizeof and nbytes), and the time to add two of them (timeit). Looping over an ndarray in Python is the slowest of all, because each a[i] creates a new NumPy scalar.</figcaption></figure>
+
 ```python
 import numpy as np
 
