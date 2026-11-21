@@ -297,6 +297,28 @@ Tools: **Evidently** (open source) for drift and quality reports, Azure ML / Sag
 
 For regulated or high-impact models (credit, insurance, HR, health): model cards; documented data sources and consent; approval workflows before promotion; audit logs of predictions and model versions; explanations per decision ([[DS4.6]]); periodic reviews of performance and fairness; and data-protection compliance (Egypt's PDPL, Central Bank of Egypt rules for banks, [[DS1.7]]).
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="A model card for the churn model whose error analysis appears in the evaluation module. Model churn-gbm version 13, owner the retention analytics team, champion since approval. Intended use: rank existing customers for retention offers; not for pricing, credit or any decision about an individual's eligibility. Data: monthly snapshots, features up to the cut-off, label in the following two months. Metrics on the test set: AUC 0.814 overall, 0.837 for 12 or more months of tenure, 0.834 for 3 to 12 months and 0.526 for the first three months. Limitations: near random for new customers, who are routed to an onboarding rule instead. Approval, monitoring and review dates are recorded">
+<rect class="sN" x="14" y="10" width="692" height="282" rx="8"/>
+<text class="sT" x="30" y="34">Model card · churn-gbm v13</text><text class="sS" x="690" y="34" text-anchor="end">owner: retention analytics · champion since approval</text>
+<line class="sL" x1="30" y1="44" x2="690" y2="44"/>
+<text class="sT" x="30" y="66">Intended use</text><text class="sC" x="200" y="66">rank existing customers for retention offers</text>
+<text class="sRt" x="200" y="84">not for pricing, credit or any individual eligibility decision</text>
+<g data-s="2"><text class="sT" x="30" y="112">Data</text><text class="sC" x="200" y="112">monthly snapshots; features up to the cut-off;</text><text class="sC" x="200" y="128">label = churn in the next 2 months</text></g>
+<g data-s="3"><text class="sT" x="30" y="140">Metrics (test)</text><text class="sM" x="200" y="140">AUC 0.814 overall</text>
+<text class="sM" x="200" y="158">12+ months 0.837 · 3–12 months 0.834 · first 3 months 0.526</text></g>
+<g data-s="4"><text class="sT" x="30" y="186">Limitations</text><text class="sRt" x="200" y="186">near random for new customers (15% of the base, 27% of churners)</text>
+<text class="sC" x="200" y="204">→ they go to an onboarding rule instead; fairness by region reviewed</text></g>
+<g data-s="5"><text class="sT" x="30" y="232">Governance</text><text class="sC" x="200" y="232">approved before promotion · predictions logged with model version</text>
+<text class="sC" x="200" y="250">monthly drift and slice report · review every 6 months or on drift alert</text>
+<text class="sS" x="200" y="274">one page, versioned next to the model in the registry</text></g>
+</svg><ol class="dia-steps">
+<li>Start with intended use and, just as important, the uses it must not be put to.</li>
+<li>Say what the data is and how the label was built, so leakage and drift can be judged later.</li>
+<li>Report metrics by slice, not only the average: these are the numbers from the error-analysis figure in DS4.8.</li>
+<li>Write the limitations down, with the decision they led to.</li>
+<li>Close with the governance trail: who approved it, what is logged, and when it is reviewed.</li>
+</ol><figcaption>A model card for the churn model analysed in DS4.8 (the metrics are that simulation's). Regulated uses such as credit add documented consent, per-decision explanations and audit logs on top.</figcaption></figure>
+
 **Certification note (2026):** Microsoft retired **DP-100 (Azure Data Scientist Associate) on 1 June 2026** and replaced it with **AI-300, Machine Learning Operations (MLOps) Engineer Associate**, which emphasises CI/CD, infrastructure as code, observability, drift detection and operating generative-AI systems: a sign of where the role is heading.
 
 > [!lab] Ship the road-accident model (from your gaps file)
