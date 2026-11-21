@@ -691,6 +691,7 @@ const FOUNDATIONS = {
     q('MLOps', 'What is training–serving skew?', ['A slow model', 'Features computed differently in training and in production', 'Imbalanced classes', 'A model too large for the server'], 1, 'One feature definition and code path for both prevents it.', 'DS8.5'),
   ],
   DE1: [
+    q('Data engineering', 'A dashboard query runs SELECT * on a 2 TiB, 20-column table, 200 times a day, billed per TiB scanned. What cuts the cost the most?', ['A bigger warehouse', 'Naming only the columns used and filtering on the partition column: from about $75,000 to about $108 a month in the model', 'Running it at night', 'Adding an ORDER BY'], 1, 'Columnar storage skips unused columns; partition pruning skips unused days. Result caching helps further.', 'DE1.7'),
     q('Data engineering', 'Why do analytical engines store data by column?', ['It is easier to update rows', 'Queries read few columns over many rows, and one-type columns compress well', 'Columns are required by SQL', 'For transactions'], 1, 'Row stores suit OLTP; column stores suit scans and aggregations.', 'DE1.0'),
     q('Data engineering', 'A daily job is retried and yesterday\'s revenue doubles. What is missing?', ['A bigger cluster', 'Idempotent writes: overwrite the partition or MERGE on keys', 'More logging', 'A faster network'], 1, 'Running the same slice twice must change nothing.', 'DE1.6'),
   ],

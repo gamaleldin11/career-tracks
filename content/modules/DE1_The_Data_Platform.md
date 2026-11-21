@@ -301,6 +301,19 @@ The names come from Databricks; the same idea is called raw/staging/marts in dbt
 - **Freshness SLAs:** "the sales mart is complete for yesterday by 07:00 Cairo time"; monitor and alert against them.
 - **Cost (FinOps):** in the cloud you pay for storage, compute and data scanned. Partition and cluster data so queries scan less; stop idle clusters; choose the right warehouse size; avoid `SELECT *`; delete or tier old data.
 
+<figure class="dia steps"><svg viewBox="0 0 720 236" role="img" aria-label="A cost model for one dashboard query that runs 200 times a day against a 2 tebibyte table with 20 columns and two years of daily partitions, priced per tebibyte scanned at 6.25 dollars. Selecting every column costs about 75,000 dollars a month; reading only the three columns used costs 11,250; reading those columns for the last seven days only costs about 108 dollars">
+<text class="sT" x="14" y="22">One dashboard query, 200 runs a day, 2 TiB table, billed per TiB scanned (log scale)</text>
+<g><text class="sC" x="14" y="59">SELECT * from the table</text><rect class="sR" x="250" y="44" width="348.8" height="20" rx="3"/><text class="sM" x="606.8" y="59">$75,000 / month</text><text class="sS" x="250" y="78">2 TiB scanned per run</text></g>
+<g data-s="2"><text class="sC" x="14" y="105">only the 3 columns used</text><rect class="sW" x="250" y="90" width="274.6" height="20" rx="3"/><text class="sM" x="532.6" y="105">$11,250</text><text class="sS" x="250" y="124">0.3 TiB per run</text></g>
+<g data-s="3"><text class="sC" x="14" y="151">3 columns, last 7 days only</text><rect class="sG" x="250" y="136" width="93.0" height="20" rx="3"/><text class="sM" x="351.0" y="151">$108</text><text class="sS" x="250" y="170">3 GiB per run: partition pruning</text></g>
+<line class="sL" x1="250" y1="186" x2="610" y2="186"/><line class="sL" x1="250" y1="186" x2="250" y2="192"/><text class="sS" x="250" y="206" text-anchor="middle">$10</text><line class="sL" x1="340" y1="186" x2="340" y2="192"/><text class="sS" x="340" y="206" text-anchor="middle">$100</text><line class="sL" x1="430" y1="186" x2="430" y2="192"/><text class="sS" x="430" y="206" text-anchor="middle">$1k</text><line class="sL" x1="520" y1="186" x2="520" y2="192"/><text class="sS" x="520" y="206" text-anchor="middle">$10k</text><line class="sL" x1="610" y1="186" x2="610" y2="192"/><text class="sS" x="610" y="206" text-anchor="middle">$100k</text>
+<text class="sS" x="14" y="228">Same answer on screen each time; the difference is only how many bytes the engine is allowed to skip.</text>
+</svg><ol class="dia-steps">
+<li>SELECT * in a columnar warehouse reads every column of every partition: the whole table, on every refresh.</li>
+<li>Naming the three columns the chart uses cuts the scan by 85%: columnar storage reads only those.</li>
+<li>Filtering on the partition column skips all but 7 of 730 days: three orders of magnitude cheaper again.</li>
+</ol><figcaption>Arithmetic, not a bill: 2 TiB, 20 equal-sized columns, 730 daily partitions, 6,000 runs a month at BigQuery's on-demand list price of $6.25 per TiB (check current pricing; result caching and BI Engine would cut all three).</figcaption></figure>
+
 > [!lab] Draw your platform
 > On one page, design a platform for "a delivery app wants daily sales, courier and customer dashboards, plus a churn model": sources (the app's PostgreSQL, payment-gateway webhooks, app events), ingestion (CDC + batch files + events), lake layers (bronze/silver/gold on Delta or Iceberg), transformation (dbt), orchestration (Airflow), quality checks, serving (Power BI, a feature table) and an Azure or AWS service for each box. Add one sentence per box on why. It's the opening question of most DE interviews.
 
