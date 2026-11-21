@@ -415,6 +415,23 @@ Test it in Desktop with **View as role**, assign users or groups to roles in the
 4. **Report:** fewer visuals per page (each is a query), avoid huge tables with thousands of rows, limit slicers with many values.
 5. **Data:** incremental refresh for large facts; aggregations; push heavy transformations upstream; check query folding.
 
+<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="Bar chart of measured column sizes for one million sales rows over two years. One date-time column to the second has 992,203 distinct values and takes 7.95 MB. Split into a date and a time to the second it takes 2.47 MB; with the time rounded to the minute, 1.40 MB. A 50,000-customer key stored as GUID text takes 3.80 MB; the same key as an integer, 2.20 MB">
+<text class="sM" x="14" y="20">date and time: 1,000,000 sales rows over two years</text>
+<text class="sT" x="250" y="44" text-anchor="end">one date-time column</text><text class="sC" x="250" y="58" text-anchor="end">992,203 distinct values</text>
+<rect class="sR" x="260" y="34" width="398" height="24" rx="3"/><text class="sT" x="664" y="51">7.95 MB</text>
+<text class="sT" x="250" y="82" text-anchor="end">date + time to the second</text><text class="sC" x="250" y="96" text-anchor="end">730 + 86,400 values</text>
+<rect class="sV" x="260" y="72" width="124" height="24" rx="3"/><text class="sT" x="392" y="89">2.47 MB</text>
+<text class="sT" x="250" y="120" text-anchor="end">date + time to the minute</text><text class="sC" x="250" y="134" text-anchor="end">730 + 1,440 values</text>
+<rect class="sG" x="260" y="110" width="70" height="24" rx="3"/><text class="sT" x="338" y="127">1.40 MB</text>
+<text class="sM" x="14" y="168">customer key: 50,000 customers</text>
+<text class="sT" x="250" y="192" text-anchor="end">GUID stored as text</text><text class="sC" x="250" y="206" text-anchor="end">36-character strings</text>
+<rect class="sW" x="260" y="182" width="190" height="24" rx="3"/><text class="sT" x="458" y="199">3.80 MB</text>
+<text class="sT" x="250" y="230" text-anchor="end">integer key</text><text class="sC" x="250" y="244" text-anchor="end">the same 50,000 values</text>
+<rect class="sG" x="260" y="220" width="110" height="24" rx="3"/><text class="sT" x="378" y="237">2.20 MB</text>
+<text class="sS" x="360" y="276" text-anchor="middle">measured per column with pyarrow Parquet (dictionary and run-length encoding, the idea VertiPaq uses)</text>
+<text class="sS" x="360" y="292" text-anchor="middle">size follows the number of distinct values, not the number of rows</text>
+</svg><figcaption>The same rows and the same information: splitting the timestamp cut it to about a third, or a sixth with minutes, and integer keys beat GUID text. VertiPaq differs in detail, so check your own model with the VertiPaq Analyzer in DAX Studio.</figcaption></figure>
+
 ## DA4.11 Report design and interactivity 🟢
 
 Design principles are in [[DA5]]. Power BI features worth knowing: **slicers** (sync across pages), **drill-down** hierarchies, **drill-through** pages (right-click a customer → customer detail page), **report-page tooltips**, **bookmarks** and buttons for guided stories, **field parameters** (let users switch the measure or dimension on a chart), **conditional formatting** by rules or measures, **small multiples**, **Q&A** and **Copilot** (generate pages or summaries from prompts; check everything it produces).
