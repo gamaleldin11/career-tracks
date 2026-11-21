@@ -571,6 +571,20 @@ With 2% fraud or 5% churn, a model predicting "no" always is 95–98% accurate a
 - **Text:** TF-IDF or embeddings of complaint text and product descriptions ([[DS7]]).
 - **Aggregations over related entities:** a merchant's fraud rate (out-of-fold!), a store's average basket.
 
+<figure class="dia steps"><svg viewBox="0 0 720 230" role="img" aria-label="Target encoding a merchant ID that carries no real signal, 20,000 simulated transactions with 4,000 merchants and 5 percent fraud. Encoding each merchant with its fraud rate computed on all training rows lets the model memorise the labels: cross-validation reports an AUC of 0.94, but the test set gives 0.49. Computing the encoding out of fold gives an honest cross-validated AUC of 0.50 and 0.47 on test">
+<text class="sT" x="14" y="22">A merchant ID with no real signal, encoded as its fraud rate</text>
+<text class="sT" x="14" y="50">computed on all training rows (in-fold)</text>
+<text class="sC" x="40" y="72">cross-validation</text><rect class="sR" x="260" y="58" width="378.0" height="18" rx="3"/><text class="sM" x="646.0" y="72">0.94</text><text class="sC" x="40" y="96">test set</text><rect class="sV" x="260" y="82" width="63.7" height="18" rx="3"/><text class="sM" x="331.7" y="96">0.49</text>
+<g data-s="2"><text class="sT" x="14" y="124">computed out of fold</text>
+<text class="sC" x="40" y="146">cross-validation</text><rect class="sG" x="260" y="132" width="67.2" height="18" rx="3"/><text class="sM" x="335.2" y="146">0.50: honest</text><text class="sC" x="40" y="170">test set</text><rect class="sV" x="260" y="156" width="52.5" height="18" rx="3"/><text class="sM" x="320.5" y="170">0.47</text></g>
+<line class="sL" x1="260" y1="178" x2="680.0" y2="178"/><line class="sL" x1="260.0" y1="178" x2="260.0" y2="184"/><text class="sS" x="260.0" y="198" text-anchor="middle">0.4</text><line class="sL" x1="330.0" y1="178" x2="330.0" y2="184"/><text class="sS" x="330.0" y="198" text-anchor="middle">0.5</text><line class="sL" x1="400.0" y1="178" x2="400.0" y2="184"/><text class="sS" x="400.0" y="198" text-anchor="middle">0.6</text><line class="sL" x1="470.0" y1="178" x2="470.0" y2="184"/><text class="sS" x="470.0" y="198" text-anchor="middle">0.7</text><line class="sL" x1="540.0" y1="178" x2="540.0" y2="184"/><text class="sS" x="540.0" y="198" text-anchor="middle">0.8</text><line class="sL" x1="610.0" y1="178" x2="610.0" y2="184"/><text class="sS" x="610.0" y="198" text-anchor="middle">0.9</text><line class="sL" x1="680.0" y1="178" x2="680.0" y2="184"/><text class="sS" x="680.0" y="198" text-anchor="middle">1.0</text><text class="sS" x="14" y="198">ROC AUC</text>
+<g data-s="3"><text class="sS" x="14" y="222">Each row's encoding included its own label, so the model learned “this rate means fraud”; out of fold, it can't see itself.</text></g>
+</svg><ol class="dia-steps">
+<li>Encode with rates computed on all training rows: validation looks superb and the test set is a coin flip.</li>
+<li>Compute each row's rate from the other folds only: validation now tells the truth, that the ID carries no signal.</li>
+<li>The leak is the row's own label inside its feature; with 4,000 merchants of about 3.5 training rows each, that is most of the feature.</li>
+</ol><figcaption>Why the bullet says out-of-fold, computed with pandas and scikit-learn's HistGradientBoostingClassifier on simulated data where fraud is independent of the merchant. scikit-learn's TargetEncoder does the cross-fitting for you.</figcaption></figure>
+
 > [!lab] Find the leak
 > Build a churn snapshot table from any subscription dataset (the Telco Customer Churn dataset on Kaggle is common, or simulate with the snapshot SQL above). Train a gradient-boosted model twice: (1) with a deliberately leaky feature (something only known after churn) and preprocessing fitted on all data with a random split; (2) properly, with a pipeline, cut-off features and a time-based split. Compare the scores and the feature importances, and write down how you'd have spotted the leak. That's a memorable interview story.
 
