@@ -1,6 +1,6 @@
 # Refinement backlog
 
-Status of the diagram and foundations refinement pass, written so the work can be picked up again later. Last updated 10 Oct 2026.
+Status of the diagram and foundations refinement pass, written so the work can be picked up again later. Last updated 21 Nov 2026.
 
 ## Where things stand
 
@@ -22,6 +22,8 @@ Status of the diagram and foundations refinement pass, written so the work can b
   - **System design:** load-balancing tail latency; serverless and managed-service cost break-evens; one-way and two-way doors; back-of-envelope chains; the FinSight-at-scale architecture.
 - **Connectivity track (Oct 2026):** new Modules 18 (servers, hardware and Dell tools), 19 (cloud and identity) and 20 (PowerShell and Bash), sections 7.5 (encryption), 9.7 (Dell storage), 10.9 (Hyper-V) and 13.5 (customer handling), an 11-topic interview checklist in Orientation, about 110 new or newly animated diagrams across Modules 1–20, and new figures in SD1, SD2, SD4 and SD5 (caching, load balancing, queues, utilisation, RPO/RTO, cells, error budgets, spine-leaf).
 - **Bootcamp:** MAC learning, STP, FHRP, LVM, VMware shares, RAID URE, stateful firewalls, ARP spoofing, ITIL, availability nines, 5 Whys, SD-WAN, the deleted-but-open file case, routing failure patterns.
+
+- **November 2026 pass:** cited study guides at `/guides` (32 pages: see the README); measured or simulated figures for AI2.1 (list vs NumPy), AI9.12 (Swiss roll, PCA vs LLE), AI9.16 (inertia vs silhouette, k-means++), AI15.1 (mean vs median under outliers), AI15.6 (Student vs Welch false positives), AI18.6 (training vs inference memory), S3.10 (SQLite index seek, leftmost prefix, write cost), B12.3 (consistent hashing), DS4.8 (sliced AUC), DS5.7 (loyalty programme estimates); drawn step-throughs for S2.6 (branching strategies), F1.5 (WCAG 2.2 focus and target size), DE8.5 (Avro schema evolution) and an animated store map in B6.8. Each has a quiz question.
 
 ## What is left
 
