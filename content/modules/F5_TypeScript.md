@@ -147,6 +147,21 @@ draw(p);                       // OK: p has x and y (extra properties are fine v
 draw({ x: 1, y: 2, label: "A" });  // Error: object literals get an "excess property check"
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="Four calls to draw, which takes a Point with x and y, checked with tsc 6. Passing a variable that also has a label compiles. Passing a Pixel object, whose class never mentions Point but has x, y and color, compiles. Passing an object literal with an extra label property fails with error TS2353, the excess property check. Passing an object with only x fails with error TS2345 because y is missing">
+<text class="sM" x="14" y="22">interface Point { x: number; y: number }   function draw(pt: Point)</text>
+<g><rect class="sN" x="14" y="40" width="330" height="38" rx="6"/><text class="sM" x="26" y="64">draw(p)   // p = { x, y, label }</text><line class="sLg" x1="344" y1="59" x2="382" y2="59" marker-end="url(#ahg)"/><text class="sGt" x="392" y="55">compiles</text><text class="sS" x="392" y="72">extra properties are fine through a variable</text></g>
+<g data-s="2"><rect class="sN" x="14" y="88" width="330" height="38" rx="6"/><text class="sM" x="26" y="112">draw(new Pixel(3, 4, &quot;red&quot;))</text><line class="sLg" x1="344" y1="107" x2="382" y2="107" marker-end="url(#ahg)"/><text class="sGt" x="392" y="103">compiles</text><text class="sS" x="392" y="120">Pixel never mentions Point; its shape fits</text></g>
+<g data-s="3"><rect class="sN" x="14" y="136" width="330" height="38" rx="6"/><text class="sM" x="26" y="160">draw({ x: 1, y: 2, label: &quot;A&quot; })</text><line class="sLr" x1="344" y1="155" x2="382" y2="155" marker-end="url(#ahr)"/><text class="sRt" x="392" y="151">error TS2353</text><text class="sS" x="392" y="168">object literals get an excess-property check</text></g>
+<g data-s="4"><rect class="sN" x="14" y="184" width="330" height="38" rx="6"/><text class="sM" x="26" y="208">draw({ x: 1 })</text><line class="sLr" x1="344" y1="203" x2="382" y2="203" marker-end="url(#ahr)"/><text class="sRt" x="392" y="199">error TS2345</text><text class="sS" x="392" y="216">property y is missing</text></g>
+<text class="sS" x="14" y="240">In C#, Pixel would be accepted only if its class declared that it implements the interface: typing there is nominal.</text>
+</svg><ol class="dia-steps">
+<li>A variable with an extra property fits: it has everything Point needs.</li>
+<li>A class instance fits too, though its class never names Point. Shape is all that counts.</li>
+<li>The same extra property in an object literal is flagged, because a typo there is far more likely than intent.</li>
+<li>A missing required property never fits.</li>
+</ol><figcaption>Structural typing, checked with <code>tsc --strict</code> (TypeScript 6.0): the error codes are the ones the compiler printed.</figcaption></figure>
+
+
 ## F5.5 Unions and narrowing 🟢 ⭐
 
 A **union** (`A | B`) is a value that could be either. Before using it, you **narrow** it to one case, and the compiler follows your checks:
