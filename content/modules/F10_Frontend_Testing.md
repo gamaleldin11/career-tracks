@@ -333,6 +333,20 @@ test("accountant can record a payment", async ({ page }) => {
 ## F10.7 Accessibility, visual and component-workshop tests 🟡
 
 - **Accessibility:** `@axe-core/playwright` or `vitest-axe`/`jest-axe` fail the build on detectable WCAG violations ([[F1.11]]).
+
+<figure class="dia"><svg viewBox="0 0 720 286" role="img" aria-label="Automated accessibility checks run on this handbook in the browser. No images without alt text, no unnamed buttons or links, no unlabelled form fields and no diagrams without a text alternative among 1,126 SVGs. Four duplicate ids from glossary terms defined in two modules, one colour token below 4.5 to 1 contrast and four skipped heading levels were found and fixed">
+<text class="sC" x="24" y="20">check</text><text class="sC" x="330" y="20">found on this site</text><text class="sC" x="520" y="20">now</text>
+<rect class="sN" x="14" y="30" width="692" height="24" rx="4"/><text class="sT" x="24" y="47">images without alt</text><text class="sGt" x="330" y="47">0</text><text class="sC" x="520" y="47">—</text>
+<rect class="sN" x="14" y="58" width="692" height="24" rx="4"/><text class="sT" x="24" y="75">buttons and links without a name</text><text class="sGt" x="330" y="75">0 of all controls</text><text class="sC" x="520" y="75">—</text>
+<rect class="sN" x="14" y="86" width="692" height="24" rx="4"/><text class="sT" x="24" y="103">form fields without a label</text><text class="sGt" x="330" y="103">0</text><text class="sC" x="520" y="103">—</text>
+<rect class="sN" x="14" y="114" width="692" height="24" rx="4"/><text class="sT" x="24" y="131">diagrams without a text alternative</text><text class="sGt" x="330" y="131">0 of 1,126 SVGs</text><text class="sC" x="520" y="131">—</text>
+<rect class="sN" x="14" y="142" width="692" height="24" rx="4"/><text class="sT" x="24" y="159">duplicate id attributes</text><text class="sRt" x="330" y="159">4 (glossary terms)</text><text class="sGt" x="520" y="159">0: build keeps first</text>
+<rect class="sN" x="14" y="170" width="692" height="24" rx="4"/><text class="sT" x="24" y="187">text contrast below 4.5:1 (§F2.9)</text><text class="sRt" x="330" y="187">1 colour token</text><text class="sGt" x="520" y="187">0: token darkened</text>
+<rect class="sN" x="14" y="198" width="692" height="24" rx="4"/><text class="sT" x="24" y="215">skipped heading levels</text><text class="sRt" x="330" y="215">4 h4s with no h3</text><text class="sGt" x="520" y="215">0: levels fixed</text>
+<text class="sS" x="360" y="242" text-anchor="middle">a small script in the browser console plus the contrast and heading audits; what axe-core automates, in miniature</text>
+<text class="sS" x="360" y="260" text-anchor="middle">not checkable this way: whether the alt text is useful, keyboard order, and how a screen reader announces it</text>
+</svg><figcaption>Automated checks found three real classes of problem in a site that looked fine, and each fix was one line in the build or the stylesheet. They can't judge meaning, so they complement a manual keyboard and screen-reader pass rather than replace it.</figcaption></figure>
+
 - **Visual regression:** compare screenshots against approved baselines (`await expect(page).toHaveScreenshot()` in Playwright, or Chromatic). Useful for design systems; noisy if fonts or data vary.
 - **Storybook:** develop components in isolation, one "story" per state (loading, error, empty, long text, RTL), which doubles as living documentation and a base for interaction and visual tests.
 

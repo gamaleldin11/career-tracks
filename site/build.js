@@ -109,7 +109,9 @@ function convertCallouts(text, terms, modId) {
     if (type === 'term') terms.push({ term: title, html: inner, mod: modId });
     const titleHtml = md.renderInline(label);
     const cls = type === 'term' ? 'co co-term' : `co co-${type}`;
-    const id = type === 'term' ? ` id="g-${slug(title)}"` : '';
+    // a term defined in two modules keeps its anchor only on the first (the one the glossary links to): ids must be unique
+    const tid = `g-${slug(title)}`;
+    const id = type === 'term' && !termIds.has(tid) ? (termIds.add(tid), ` id="${tid}"`) : '';
     // "> [!type]- title" folds the callout (closed); "+" folds it open
     if (fold) out.push('', `<details class="${cls}"${fold === '+' ? ' open' : ''}><summary class="co-title">${titleHtml}</summary>${inner}</details>`, '');
     else out.push('', `<div class="${cls}"${id}><div class="co-title">${titleHtml}</div>${inner}</div>`, '');
@@ -141,6 +143,7 @@ function convertFlash(text) {
 const mods = [];
 const sectionIndex = {}; // "F3.2" → section id
 const terms = [];
+const termIds = new Set();
 const aiFiles = fs.existsSync(SOURCES.AI_DIR) ? fs.readdirSync(SOURCES.AI_DIR).filter((f) => /\.md$/.test(f)) : [];
 const net = fs.existsSync(SOURCES.NET_FILE) ? SOURCES.loadBootcamp() : { mods: {}, terms: [] };
 for (const [id, meta] of Object.entries(MODULES)) {
