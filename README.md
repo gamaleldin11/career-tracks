@@ -7,7 +7,7 @@ Eight interview-preparation courses in one website: **Frontend, Backend, Full-St
 - **119 modules**, each with an interview-focus card, model answers, drills and key takeaways. Ten shared modules (S1–S10) appear on several tracks.
 - **System design on every track**: five shared modules (SD1–SD5) from fundamentals to scaling in production, choosing technologies, reliability patterns and role-specific design, placed in a *System design* stage on all eight paths.
 - **Over 1,000 diagrams** drawn as inline SVG (in the Markdown, the AI Journey parts and the Bootcamp page): static figures, ambient animations (pausable, and paused for readers who prefer reduced motion) and step-through figures with narration; about three-quarters of them move. Most modules open with an **X.0 Foundations** section that builds the background the rest of the module assumes.
-- **A self-test per track** (1,190 questions across the eight tracks). Every wrong answer links to the section to reread.
+- **A self-test per track** (1,192 questions across the eight tracks). Every wrong answer links to the section to reread.
 - **A network interview map** at `/interview`: the eleven topics of the network and connectivity interview in a side navbar, each with a core answer and links to its sections, diagrams and model answers, which open beside it. Built from `content/interview-map.js`; the build fails if a link points nowhere.
 - **Study guides** at `/guides`, separate from the handbook: four short versions of every track (v1 super summary, v2 entry level, v3 mid level, v4 interview prep), written in `content/guides/<track>/<version>.md`. Every paragraph, list item and table row links to a primary source (official documentation, a standard or RFC, or the original paper); the build warns, and `--strict` fails, on any line without one, and `npm run check-guide-links` (after a build) confirms that every cited URL still answers.
 - **Level filter** (Entry / Mid / Senior), full-text search, a site-wide glossary, dark and light themes, and per-module progress saved in the browser.
@@ -31,7 +31,7 @@ site/                         the code that turns content/ into a website
   serve.js                    local preview server
   check-links.mjs             external-link checker
   qa/                         diagram checks run in the browser (layout and step-figure overlaps)
-dist/                         build output (generated, not committed)
+dist/                         build output (generated, not committed), including sitemap.xml and robots.txt; set SITE_URL if the domain changes
 docs/refinement-backlog.md    status of the diagram pass and what is left to do (not part of the site)
 vercel.json                   how Vercel builds and serves the site
 .github/workflows/build.yml   checks every push and pull request builds with no warnings

@@ -7,7 +7,7 @@ const path = require('path');
 const PORT = +process.env.PORT || 8790;
 const DIST = path.join(__dirname, '..', 'dist');
 const QA = path.join(__dirname, 'qa');
-const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.css': 'text/css', '.js': 'text/javascript' };
+const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.css': 'text/css', '.js': 'text/javascript', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml', '.json': 'application/json' };
 if (!fs.existsSync(path.join(DIST, 'index.html'))) { console.error('dist/index.html not found: run "npm run build" first'); process.exit(1); }
 http.createServer((req, res) => {
   const rel = decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, '');

@@ -349,6 +349,30 @@ fs.writeFileSync(path.join(OUT, 'index.html'), html);
 // ------------------------------------------------------------ study guides (/guides), separate from the handbook
 const guides = require('./guides').build(OUT, head.slice(head.indexOf('<style>') + 7, head.indexOf('*{box-sizing')), TRACKS);
 const figs = SOURCES.copyAiFigures(path.join(OUT, 'figures'));
+// ------------------------------------------------------------ canonical links, Open Graph tags, sitemap.xml, robots.txt
+// SITE_URL overrides the production address (Vercel serves dist/ with clean URLs, so /guides/be/entry, not .html)
+{
+  const SITE = (process.env.SITE_URL || 'https://career-tracks-amber.vercel.app').replace(/\/$/, '');
+  const htmlFiles = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
+    d.isDirectory() ? htmlFiles(path.join(dir, d.name)) : d.name.endsWith('.html') ? [path.join(dir, d.name)] : []);
+  const urls = [];
+  for (const file of htmlFiles(OUT)) {
+    const rel = path.relative(OUT, file).split(path.sep).join('/').replace(/\.html$/, '').replace(/(^|\/)index$/, '');
+    const url = `${SITE}/${rel}`;
+    urls.push(url);
+    let page = fs.readFileSync(file, 'utf8');
+    if (page.slice(0, page.indexOf('</head>')).includes('rel="canonical"')) continue;   // look in <head> only: articles may quote the tag
+    const title = (page.match(/<title>([^<]*)<\/title>/) || [, 'Career Tracks'])[1];
+    const desc = (page.match(/<meta name="description" content="([^"]*)"/) || [, ''])[1];
+    const tags = `<link rel="canonical" href="${url}">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="Career Tracks">\n` +
+      `<meta property="og:title" content="${title}">\n<meta property="og:description" content="${desc}">\n<meta property="og:url" content="${url}">\n`;
+    page = page.replace('</head>', () => tags + '</head>');
+    fs.writeFileSync(file, page);
+  }
+  urls.sort();
+  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
+  fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
+}
 const sizeMb = (Buffer.byteLength(html) / 1e6).toFixed(2);
 console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, ${guides.pages} guide pages (${guides.sources} sources), dist/index.html ${sizeMb} MB`);
 if (warnings) {

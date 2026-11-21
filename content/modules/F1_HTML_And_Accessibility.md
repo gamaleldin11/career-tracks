@@ -499,6 +499,19 @@ This matters in Egypt and across the Gulf, and few candidates can talk about it.
 - `sitemap.xml`, `robots.txt`, canonical URLs (`<link rel="canonical">`), Open Graph tags for link previews, structured data (JSON-LD) for rich results.
 - Performance and mobile usability feed into search ranking (Core Web Vitals).
 
+<figure class="dia"><svg viewBox="0 0 720 292" role="img" aria-label="An SEO audit of this handbook's own build. Titles and meta descriptions, content in the static HTML and Core Web Vitals already passed. The handbook file holds 132 h1 headings, one per hidden module, which was kept. sitemap.xml, robots.txt, canonical links and Open Graph tags were missing and are now generated on every build">
+<text class="sC" x="24" y="20">check</text><text class="sC" x="276" y="20">found in this site's build</text><text class="sC" x="500" y="20">now</text>
+<rect class="sN" x="14" y="30" width="692" height="26" rx="4"/><text class="sT" x="24" y="48">&lt;title&gt; and meta description</text><text class="sGt" x="276" y="48">one per page on all 35 pages</text><text class="sC" x="500" y="48">unchanged</text>
+<rect class="sN" x="14" y="60" width="692" height="26" rx="4"/><text class="sT" x="24" y="78">content in the HTML a crawler gets</text><text class="sGt" x="276" y="78">all 119 modules in the static file</text><text class="sC" x="500" y="78">unchanged</text>
+<rect class="sN" x="14" y="90" width="692" height="26" rx="4"/><text class="sT" x="24" y="108">Core Web Vitals (§F9.10)</text><text class="sGt" x="276" y="108">LCP 1.90 s, CLS 0.063: good</text><text class="sC" x="500" y="108">unchanged</text>
+<rect class="sN" x="14" y="120" width="692" height="26" rx="4"/><text class="sT" x="24" y="138">one &lt;h1&gt; per page</text><text class="sWt" x="276" y="138">132 in the handbook file</text><text class="sWt" x="500" y="138">kept: one per hidden module</text>
+<rect class="sN" x="14" y="150" width="692" height="26" rx="4"/><text class="sT" x="24" y="168">sitemap.xml</text><text class="sRt" x="276" y="168">missing</text><text class="sGt" x="500" y="168">35 URLs, built each deploy</text>
+<rect class="sN" x="14" y="180" width="692" height="26" rx="4"/><text class="sT" x="24" y="198">robots.txt</text><text class="sRt" x="276" y="198">missing</text><text class="sGt" x="500" y="198">allows all, names the sitemap</text>
+<rect class="sN" x="14" y="210" width="692" height="26" rx="4"/><text class="sT" x="24" y="228">&lt;link rel="canonical"&gt;</text><text class="sRt" x="276" y="228">missing</text><text class="sGt" x="500" y="228">on every page</text>
+<rect class="sN" x="14" y="240" width="692" height="26" rx="4"/><text class="sT" x="24" y="258">Open Graph tags</text><text class="sRt" x="276" y="258">missing</text><text class="sGt" x="500" y="258">title, description, URL</text>
+<text class="sS" x="360" y="284" text-anchor="middle">audited on the built dist/ folder; the four missing items are now added by site/build.js</text>
+</svg><figcaption>Running the checklist on this site found four gaps, all cheap to close in the build step. The 132 <code>&lt;h1&gt;</code>s are the price of shipping every module in one file, with one heading visible at a time; static pages per module would fix that and the page weight together.</figcaption></figure>
+
 ## F1.11 Testing accessibility 🟢 🟡
 
 Automated tools catch roughly a third to a half of issues; the rest need a human.
