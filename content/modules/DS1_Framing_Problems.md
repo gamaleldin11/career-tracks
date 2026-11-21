@@ -226,6 +226,20 @@ With costs and benefits per cell, you choose the **threshold** (or the number of
 - **Explainability:** credit, insurance and HR decisions often need reasons per decision (SHAP-style explanations, reason codes).
 - **Feedback loops:** a model that decides who gets loans only sees outcomes for approved people; a fraud model shapes the fraud it later sees.
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="A simulated credit model, 20,000 applicants in two groups with the same income distribution. Past decisions approved 50.1 percent of group A and 32.5 percent of group B. A model trained on those decisions without the group column, using income and district, approves 44.0 percent against 36.2 percent, because district predicts group with an AUC of 0.80. With income only, it approves 41.1 against 40.3 percent">
+<text class="sT" x="14" y="22">approval rate by group (the group column is never a feature)</text>
+<rect class="sV" x="540" y="12" width="12" height="12" rx="2"/><text class="sS" x="558" y="22">group A</text><rect class="sW" x="620" y="12" width="12" height="12" rx="2"/><text class="sS" x="638" y="22">group B</text>
+<g><text class="sC" x="14" y="64">past decisions (the labels)</text><rect class="sV" x="260" y="40" width="300.6" height="18" rx="3"/><text class="sM" x="568.6" y="54">50.1%</text><rect class="sW" x="260" y="62" width="195.0" height="18" rx="3"/><text class="sM" x="463.0" y="76">32.5%</text></g>
+<g data-s="2"><text class="sC" x="14" y="120">model: income + district</text><rect class="sV" x="260" y="96" width="264.0" height="18" rx="3"/><text class="sM" x="532.0" y="110">44.0%</text><rect class="sW" x="260" y="118" width="217.2" height="18" rx="3"/><text class="sM" x="485.2" y="132">36.2%</text></g>
+<g data-s="3"><text class="sC" x="14" y="176">model: income only</text><rect class="sV" x="260" y="152" width="246.6" height="18" rx="3"/><text class="sM" x="514.6" y="166">41.1%</text><rect class="sW" x="260" y="174" width="241.8" height="18" rx="3"/><text class="sM" x="509.8" y="188">40.3%</text></g>
+<g data-s="2"><text class="sS" x="14" y="226">district predicts group with AUC 0.80: dropping the protected column didn't drop the information</text></g>
+<g data-s="3"><text class="sS" x="14" y="244">check outcomes by group, test features as proxies, and document what you removed and why</text></g>
+</svg><ol class="dia-steps">
+<li>The history is unfair: equal incomes, but group B was approved far less often. Those decisions become the training labels.</li>
+<li>Leave the group column out, keep district, and the model learns the same gap back: district stands in for group.</li>
+<li>Remove the proxy and the gap nearly closes. In real data, check every feature's power to predict the protected attribute before trusting “we don't use it”.</li>
+</ol><figcaption>Simulated with scikit-learn's LogisticRegression; groups, districts and the historical bias are invented to show the mechanism, not taken from real lending data.</figcaption></figure>
+
 ## DS1.8 Answering a DS case question 🟢 ⭐
 
 A structure that works for "build a model to X" in 20–30 minutes:

@@ -655,6 +655,7 @@ const FOUNDATIONS = {
     q('Product analytics', 'A promotion week had 1,500 orders vs a 1,000 baseline. What else must you subtract to get the incremental effect?', ['Nothing', 'Pull-forward and cannibalisation', 'Only refunds', 'The discount'], 1, 'Incremental = promo orders − baseline − pull-forward − cannibalised.', 'DA6.6'),
   ],
   DS1: [
+    q('Responsible DS', 'A credit model never uses the gender column, yet approval rates differ by gender. The most likely mechanism is…', ['Random noise', 'A proxy feature (such as district) that predicts gender, learned from historically biased labels', 'Overfitting', 'Class imbalance'], 1, 'Simulated: with district the model approved 44.0% vs 36.2%; without it, 41.1% vs 40.3%. Test each feature’s power to predict the protected attribute.', 'DS1.7'),
     q('Data science', 'What does "generalisation" mean for a model?', ['Fitting the training data perfectly', 'Performing well on new data it has not seen', 'Using many features', 'Training quickly'], 1, 'Training fit is easy; performance on unseen cases is the point.', 'DS1.0'),
     q('Data science', 'A churn feature uses support calls counted up to month end, after the prediction date. What is wrong?', ['Nothing', 'It leaks information from after the cut-off', 'It is too slow', 'It needs scaling'], 1, 'Features may only use data available at the prediction point.', 'DS1.3'),
   ],
