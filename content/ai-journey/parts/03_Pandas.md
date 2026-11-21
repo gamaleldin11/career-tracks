@@ -1358,6 +1358,17 @@ for c in df.select_dtypes('object'):      # category levels — catches ' Dry' v
 
 The capstone formalises this into a `profile_dataframe()` function. Writing your own version of this and reusing it is one of the highest-return habits in the field.
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="The profiling routine run on the Superstore sample orders. info shows 9,994 rows by 24 columns using 8.9 MB, 2.31 MB with category dtypes. duplicated finds 0 because Row ID is unique, but 1 once Row ID is dropped. nunique shows Country has one value and 1,862 product IDs against 1,850 names. Postal Code was read as an integer, so 449 codes lost a leading zero. describe shows profit from minus 6,600 to 8,400. The Order Month/Year column holds full dates">
+<text class="sC" x="24" y="20">line of the routine</text><text class="sC" x="200" y="20">what it showed on the Superstore orders</text><text class="sC" x="490" y="20">what to do</text>
+<rect class="sN" x="14" y="30" width="692" height="28" rx="4"/><text class="sM" x="24" y="49">df.info()</text><text class="sC" x="200" y="49">9,994 × 24, 8.9 MB; 13 text columns</text><text class="sGt" x="490" y="49">category dtypes: 2.31 MB</text>
+<rect class="sN" x="14" y="64" width="692" height="28" rx="4"/><text class="sM" x="24" y="83">df.duplicated().sum()</text><text class="sC" x="200" y="83">0, because Row ID is unique</text><text class="sRt" x="490" y="83">drop Row ID first: 1 duplicate</text>
+<rect class="sN" x="14" y="98" width="692" height="28" rx="4"/><text class="sM" x="24" y="117">nunique() per column</text><text class="sC" x="200" y="117">Country: 1 value; 1,862 IDs, 1,850 names</text><text class="sWt" x="490" y="117">drop Country; check ID ↔ name</text>
+<rect class="sN" x="14" y="132" width="692" height="28" rx="4"/><text class="sM" x="24" y="151">Postal Code dtype</text><text class="sC" x="200" y="151">int64, 449 codes with 4 digits</text><text class="sRt" x="490" y="151">read as text: 01040, not 1040</text>
+<rect class="sN" x="14" y="166" width="692" height="28" rx="4"/><text class="sM" x="24" y="185">describe().T</text><text class="sC" x="200" y="185">Profit −6,600 to 8,400; Sales to 22,638</text><text class="sWt" x="490" y="185">long tails: report medians</text>
+<rect class="sN" x="14" y="200" width="692" height="28" rx="4"/><text class="sM" x="24" y="219">head()</text><text class="sC" x="200" y="219">"Order Month/Year" holds full dates</text><text class="sWt" x="490" y="219">rename, or derive the month</text>
+<text class="sS" x="360" y="250" text-anchor="middle">pandas 2.3 on the Superstore sample workbook (Orders sheet); every number is the routine's output</text>
+</svg><figcaption>Ten minutes of profiling found a hidden duplicate, corrupted postal codes and a misnamed column before any analysis ran. The duplicate is the lesson to keep: a unique surrogate key makes every row look distinct.</figcaption></figure>
+
 ---
 
 > [!check] ✅ Key takeaways
