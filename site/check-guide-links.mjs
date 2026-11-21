@@ -14,11 +14,15 @@ async function check(u) {
   // DOIs: publishers often refuse scripts, so ask Crossref whether the DOI exists and what it is
   const doi = u.match(/^https:\/\/doi\.org\/(.+)$/);
   if (doi) {
-    try {
-      const r = await fetch(`https://api.crossref.org/works/${doi[1]}`, { signal: AbortSignal.timeout(25000) });
-      if (r.ok) { const m = (await r.json()).message; dois.push(`${doi[1]}  ${m.title?.[0]} (${m.issued?.['date-parts']?.[0]?.[0]})`); ok++; return; }
-      bad.push(`${r.status} ${u} (not in Crossref)`); return;
-    } catch (e) { bad.push(`ERR ${u} (Crossref: ${e.name})`); return; }
+    for (let tries = 0; tries < 5; tries++) {
+      try {
+        const r = await fetch(`https://api.crossref.org/works/${doi[1]}`, { signal: AbortSignal.timeout(25000) });
+        if (r.ok) { const m = (await r.json()).message; dois.push(`${doi[1]}  ${m.title?.[0]} (${m.issued?.['date-parts']?.[0]?.[0]})`); ok++; return; }
+        if (r.status === 429) { await new Promise((res) => setTimeout(res, 1500 * (tries + 1))); continue; }   // rate limited: wait and retry
+        bad.push(`${r.status} ${u} (not in Crossref)`); return;
+      } catch (e) { if (tries === 4) { bad.push(`ERR ${u} (Crossref: ${e.name})`); return; } }
+    }
+    bad.push(`429 ${u} (Crossref kept rate-limiting)`); return;
   }
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
