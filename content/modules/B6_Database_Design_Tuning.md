@@ -434,6 +434,20 @@ In roughly the order you'd reach for them:
 | **Functions** | Reusable expressions | Scalar UDFs used to be slow in SQL Server (much improved since 2019) |
 | **Triggers** | Enforce rules or audit at the database level | Hidden side effects; surprising performance; hard to debug |
 
+<figure class="dia steps"><svg viewBox="0 0 720 236" role="img" aria-label="Run in SQLite on 200,000 invoices. The statement UPDATE invoices SET status overdue on half of them changes 100,000 rows in 30 milliseconds. With an AFTER UPDATE audit trigger on the table, the identical statement also inserts 100,000 rows into an audit table and takes 83 milliseconds, 2.8 times longer, although nothing in the statement or the application code mentions the audit">
+<rect class="sN" x="14" y="14" width="692" height="40" rx="6"/><text class="sM" x="28" y="39">UPDATE invoices SET status = 'overdue' WHERE id % 2 = 0;</text>
+<text class="sC" x="14" y="86">plain table</text><rect class="sG" x="170" y="72" width="90" height="22" rx="3"/><text class="sM" x="268" y="88">30 ms, 100,000 rows changed</text>
+<g data-s="2"><text class="sC" x="14" y="122">with audit trigger</text><rect class="sR" x="170" y="108" width="249" height="22" rx="3"/><text class="sM" x="427" y="124">83 ms, 2.8× slower</text>
+<rect class="sW" x="170" y="146" width="250" height="44" rx="6"/><text class="sT" x="295" y="165" text-anchor="middle">audit table</text><text class="sC" x="295" y="182" text-anchor="middle">+100,000 rows nobody asked for</text>
+<line class="sLw" x1="294" y1="130" x2="294" y2="144" marker-end="url(#ahw)"/></g>
+<g data-s="3"><text class="sS" x="14" y="214">The statement, the ORM call and the code review all look identical; only the schema knows about the trigger.</text>
+<text class="sS" x="14" y="230">Prefer explicit audit writes in the application, or temporal tables or CDC, so the cost is visible where it happens.</text></g>
+</svg><ol class="dia-steps">
+<li>A bulk status change, timed on a table with no triggers.</li>
+<li>Add an AFTER UPDATE trigger that writes an audit row: the same statement now does twice the writing and takes 2.8 times as long.</li>
+<li>That is the “hidden side effects, surprising performance” row of the table, made concrete.</li>
+</ol><figcaption>Run with Python's sqlite3 (best of three). SQL Server triggers fire once per statement with inserted and deleted tables, but the hidden extra work is the same.</figcaption></figure>
+
 Many enterprise and government systems in Egypt and the Gulf keep significant logic in **stored procedures**, and in **Oracle PL/SQL** behind Oracle Forms, as at Farwaniya Hospital. Being comfortable reading them is a real advantage in those interviews.
 
 > [!lab] Tune one query, end to end
