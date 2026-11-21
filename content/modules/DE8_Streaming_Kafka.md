@@ -191,6 +191,18 @@ Producers and consumers evolve independently, so the record format needs a contr
 | **Forward** | Old consumers can read new data | Add fields, remove optional fields |
 | **Full** | Both | Only add or remove optional fields with defaults |
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="Avro schema resolution in three cases. A record written with schema version 1 and read with version 2, which adds currency with a default of EGP, gets currency filled with EGP: backward compatible. A record written with version 2 and read with version 1 has the unknown currency field skipped: forward compatible. A version 3 that requires a total field with no default cannot read version 1 records, so a registry in BACKWARD mode rejects it">
+<rect class="sV" x="14" y="14" width="262" height="46" rx="6"/><text class="sS" x="24" y="31">written with v1</text><text class="sM" x="24" y="50">{order_id: 17, amount: 250}</text><line class="sLg" x1="276" y1="37" x2="324" y2="37" marker-end="url(#ahg)"/><rect class="sG" x="328" y="14" width="200" height="46" rx="6"/><text class="sS" x="338" y="31">read with v2</text><text class="sS" x="338" y="50">adds currency, default "EGP"</text><text class="sGt" x="542" y="31">backward ✓</text><text class="sS" x="542" y="50">currency filled with "EGP"</text>
+<g data-s="2"><rect class="sG" x="14" y="84" width="262" height="46" rx="6"/><text class="sS" x="24" y="101">written with v2</text><text class="sM" x="24" y="120">amount: 250, currency: "USD"</text><line class="sLg" x1="276" y1="107" x2="324" y2="107" marker-end="url(#ahg)"/><rect class="sV" x="328" y="84" width="200" height="46" rx="6"/><text class="sS" x="338" y="101">read with v1</text><text class="sS" x="338" y="120">knows no currency field</text><text class="sGt" x="542" y="101">forward ✓</text><text class="sS" x="542" y="120">unknown field skipped</text></g>
+<g data-s="3"><rect class="sV" x="14" y="154" width="262" height="46" rx="6"/><text class="sS" x="24" y="171">written with v1</text><text class="sM" x="24" y="190">{order_id: 17, amount: 250}</text><line class="sLr" x1="276" y1="177" x2="324" y2="177" marker-end="url(#ahr)"/><rect class="sR" x="328" y="154" width="200" height="46" rx="6"/><text class="sS" x="338" y="171">read with v3</text><text class="sS" x="338" y="190">requires total, no default</text><text class="sRt" x="542" y="171">error</text><text class="sS" x="542" y="190">registry rejects v3</text></g>
+<text class="sS" x="14" y="230">Avro reads with two schemas, the writer's and the reader's: fields only the reader knows take its default,</text>
+<text class="sS" x="14" y="248">fields only the writer knows are skipped, and a reader field with no default and no value is an error.</text>
+</svg><ol class="dia-steps">
+<li>Adding an optional field with a default: a new consumer reads old records and fills the gap from the default.</li>
+<li>The same change seen the other way: an old consumer skips the field it does not know. Both directions work, so the change is fully compatible.</li>
+<li>A required field with no default (or a rename, which is a remove plus an add) breaks new readers on old data; the registry refuses to register it.</li>
+</ol><figcaption>Why “add optional fields with defaults” is the safe change. Check the subject's compatibility mode before relying on it: Confluent Schema Registry defaults to BACKWARD.</figcaption></figure>
+
 ## DE8.6 Getting data in and out: Kafka Connect and CDC 🟡 ⭐
 
 **Kafka Connect** runs **source** connectors (databases, files, SaaS into Kafka) and **sink** connectors (Kafka into S3/ADLS, Snowflake, Elasticsearch, databases) with configuration rather than code, handling offsets, retries and scaling.
