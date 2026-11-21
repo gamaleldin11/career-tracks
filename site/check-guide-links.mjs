@@ -9,7 +9,17 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 const bad = [], blocked = [], moved = [];
 let i = 0, ok = 0;
 
+const dois = [];
 async function check(u) {
+  // DOIs: publishers often refuse scripts, so ask Crossref whether the DOI exists and what it is
+  const doi = u.match(/^https:\/\/doi\.org\/(.+)$/);
+  if (doi) {
+    try {
+      const r = await fetch(`https://api.crossref.org/works/${doi[1]}`, { signal: AbortSignal.timeout(25000) });
+      if (r.ok) { const m = (await r.json()).message; dois.push(`${doi[1]}  ${m.title?.[0]} (${m.issued?.['date-parts']?.[0]?.[0]})`); ok++; return; }
+      bad.push(`${r.status} ${u} (not in Crossref)`); return;
+    } catch (e) { bad.push(`ERR ${u} (Crossref: ${e.name})`); return; }
+  }
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*', 'accept-language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(25000) });
@@ -30,6 +40,7 @@ async function check(u) {
 async function worker() { while (i < urls.length) await check(urls[i++]); }
 await Promise.all(Array.from({ length: 8 }, worker));
 console.log(`${ok}/${urls.length} sources answer`);
+if (dois.length && process.argv.includes('--dois')) console.log(`\nDOIs (title from Crossref):\n${dois.sort().join('\n')}`);
 if (moved.length && process.argv.includes('--moved')) console.log(`\nredirected (update to the final URL if it is the same page):\n${moved.sort().join('\n')}`);
 if (blocked.length) console.log(`\nrefused scripted access (check in a browser):\n${blocked.sort().join('\n')}`);
 if (bad.length) { console.log(`\nbroken:\n${bad.sort().join('\n')}`); process.exitCode = 1; }
