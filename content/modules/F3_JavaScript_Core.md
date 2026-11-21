@@ -531,6 +531,20 @@ function memoize(fn) {
 | Where | Browsers, modern Node, all modern bundlers | Older Node code and packages |
 | Top-level `await` | Yes | No |
 
+<figure class="dia"><svg viewBox="0 0 720 248" role="img" aria-label="A real Node 24 run. With ES modules, counter.mjs exports let count and an increment function; after importing both and calling increment twice, the importer reads count as 2, and assigning to it throws a TypeError. With CommonJS, module.exports holds count and increment; after two calls the importer still reads 0, and so does require(...).count">
+<text class="sT" x="14" y="22">ES modules</text>
+<rect class="sN" x="14" y="32" width="340" height="48" rx="6"/><text class="sM" x="24" y="51">export let count = 0;</text><text class="sM" x="24" y="70">export function increment() { count++; }</text>
+<rect class="sN" x="14" y="88" width="340" height="48" rx="6"/><text class="sM" x="24" y="107">import { count, increment } from "./c.mjs";</text><text class="sM" x="24" y="126">increment(); increment();</text>
+<rect class="sG" x="14" y="146" width="340" height="46" rx="6"/><text class="sT" x="24" y="166">count is 2</text><text class="sC" x="24" y="183">an import is a live view of the exported variable</text>
+<text class="sC" x="14" y="214">count = 10 throws TypeError: imports are read-only</text>
+<text class="sT" x="366" y="22">CommonJS</text>
+<rect class="sN" x="366" y="32" width="340" height="48" rx="6"/><text class="sM" x="376" y="51">let count = 0; function increment() { … }</text><text class="sM" x="376" y="70">module.exports = { count, increment };</text>
+<rect class="sN" x="366" y="88" width="340" height="48" rx="6"/><text class="sM" x="376" y="107">const { count, increment } = require("./c");</text><text class="sM" x="376" y="126">increment(); increment();</text>
+<rect class="sR" x="366" y="146" width="340" height="46" rx="6"/><text class="sT" x="376" y="166">count is still 0</text><text class="sC" x="376" y="183">module.exports copied the value when it ran</text>
+<text class="sC" x="366" y="214">require("./c").count is 0 too: export a getter</text>
+<text class="sS" x="360" y="240" text-anchor="middle">Node 24.12; every value above is the program's output</text>
+</svg><figcaption>ESM imports are bindings to the exporting module's variables, which is also what lets bundlers analyse them statically. CommonJS exports are ordinary object properties, so a primitive is copied once.</figcaption></figure>
+
 Use ESM for new code. Dynamic `import("./chart.js")` loads a module on demand, which is the basis of **code-splitting** and lazy-loaded routes ([[F9]]).
 
 ## F3.10 Errors 🟢
