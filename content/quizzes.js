@@ -684,6 +684,7 @@ const FOUNDATIONS = {
     q('Power BI', 'What does a matrix total row show for a measure?', ['The sum of the cells above', 'The measure re-evaluated without the row filter', 'The average of the cells', 'Nothing'], 1, 'Totals are evaluated in their own filter context.', 'DA4.5'),
   ],
   DA5: [
+    q('Chart redesign', 'A bar chart shows profit for 17 sub-categories in alphabetical order, one colour, titled "Profit by Sub-Category". Three of them lose money. Which redesign helps a manager most?', ['Sort by profit, colour only the loss-makers, and title it with the finding ("3 of 17 sub-categories lose money")', 'Switch to a pie chart', 'Add data labels to all 17 bars and a legend', 'Use a 3D bar chart for emphasis'], 0, 'Sorting makes ranking instant, one accent colour directs attention, and a finding-title states the message. Done on the Superstore data in DA5.8.', 'DA5.8'),
     q('Visualisation', 'Which encoding lets readers compare quantities most accurately?', ['Area', 'Angle', 'Position on a common scale', 'Colour hue'], 2, 'Bars and dots on one axis beat pies and bubbles.', 'DA5.0'),
     q('Visualisation', 'Why must a bar chart axis start at zero?', ['Software requires it', 'Bars encode value by length, so a cut axis distorts the ratio', 'It looks cleaner', 'To fit labels'], 1, 'Lines may zoom; bars may not.', 'DA5.3'),
   ],
