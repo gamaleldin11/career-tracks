@@ -343,6 +343,26 @@ Or push completion over SignalR, SSE or a webhook instead of polling.
 - **Rate limits:** return 429 with `Retry-After`; document the limits; consider the IETF `RateLimit` headers.
 - **Time zones:** store and send UTC; convert for display on the client; be explicit for date-only values (`DateOnly`) such as a due date.
 
+<figure class="dia"><svg viewBox="0 0 720 286" role="img" aria-label="Two real time-zone results from Node 24's Intl. A due date sent as new Date of 2026-11-30 becomes midnight UTC and displays as 30 November in Cairo and London but 29 November in Los Angeles. Cairo's clocks jumped from 23:59 at GMT plus 2 straight to 01:00 at GMT plus 3 at the start of 24 April 2026, so local times from 00:00 to 00:59 did not exist that night">
+<text class="sT" x="14" y="22">a due date sent as a timestamp</text>
+<rect class="sN" x="14" y="32" width="330" height="40" rx="6"/><text class="sM" x="24" y="50">new Date('2026-11-30')</text><text class="sC" x="24" y="66">= 2026-11-30T00:00:00Z, midnight UTC</text>
+<text class="sC" x="24" y="98">shown as a date in the viewer's zone:</text>
+<text class="sC" x="24" y="122">Africa/Cairo</text><text class="sGt" x="200" y="122">30 Nov 2026</text>
+<text class="sC" x="24" y="144">Europe/London</text><text class="sGt" x="200" y="144">30 Nov 2026</text>
+<text class="sC" x="24" y="166">America/Los_Angeles</text><text class="sRt" x="200" y="166">29 Nov 2026</text>
+<rect class="sG" x="14" y="182" width="330" height="40" rx="6"/><text class="sC" x="24" y="200">fix: send "2026-11-30" as a date-only value</text><text class="sC" x="24" y="216">(DateOnly) and never convert it to a zone</text>
+<text class="sT" x="376" y="22">Cairo's clock, night of 24 April 2026</text>
+<rect class="sN" x="376" y="32" width="330" height="134" rx="6" fill-opacity="0"/>
+<text class="sC" x="388" y="52">UTC</text><text class="sC" x="560" y="52">Cairo local time</text>
+<text class="sM" x="388" y="78">21:59Z</text><text class="sM" x="560" y="78">23:59  GMT+2</text>
+<text class="sM" x="388" y="104">22:00Z</text><text class="sM" x="560" y="104">01:00  GMT+3</text>
+<text class="sM" x="388" y="130">22:30Z</text><text class="sM" x="560" y="130">01:30  GMT+3</text>
+<line class="sLr" x1="450" y1="88" x2="700" y2="88" stroke-dasharray="4 3"/><text class="sRt" x="388" y="156">local 00:00–00:59 never happened</text>
+<rect class="sG" x="376" y="182" width="330" height="40" rx="6"/><text class="sC" x="388" y="200">fix: store instants in UTC plus the zone ID</text><text class="sC" x="388" y="216">"Africa/Cairo"; let tz data do the converting</text>
+<text class="sS" x="360" y="252" text-anchor="middle">Node 24.12 Intl.DateTimeFormat with the bundled tz database (2025b); Egypt restored daylight saving time in 2023</text>
+<text class="sS" x="360" y="270" text-anchor="middle">and on 29 October 2026 the clocks went back at midnight, so 23:00–23:59 happened twice</text>
+</svg><figcaption>Two everyday bugs from one rule. A date-only value treated as an instant shifts a day for anyone west of UTC. A local time saved without its zone can name a moment that never existed, or one that happened twice when clocks went back. Send instants in UTC, dates as dates, and zones as IANA IDs.</figcaption></figure>
+
 ## B4.10 REST, gRPC or GraphQL? 🟡 ⭐
 
 | | REST (JSON over HTTP) | gRPC | GraphQL |
