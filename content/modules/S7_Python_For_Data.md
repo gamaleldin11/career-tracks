@@ -573,6 +573,26 @@ Chart choice and storytelling are in [[DA5]]; interactive charts with Plotly app
 - **Tests** with `pytest` for transformation functions, using a tiny hand-made DataFrame and `pd.testing.assert_frame_equal`.
 - **Reproducibility:** set random seeds, pin versions, keep raw data read-only, and make each notebook run top to bottom.
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="A real pytest run. A three-row test frame has orders on 15 January 2024 for 100, 3 February 2024 for 50 and 20 January 2025 for 70. The function groups by the month number, and pytest fails: it returned 1 maps to 170 and 2 maps to 50, merging the two Januaries, instead of 2024-01 100, 2024-02 50, 2025-01 70. Grouping by year-month with to_period passes">
+<text class="sT" x="14" y="20">test data, built by hand</text><text class="sT" x="270" y="20">function under test</text>
+<g data-s="2"><rect class="sW" x="16" y="60" width="232" height="22"/><rect class="sW" x="16" y="108" width="232" height="22"/></g>
+<rect class="sN" x="14" y="30" width="236" height="104" rx="6" fill-opacity="0"/>
+<rect class="sV" x="14" y="30" width="236" height="24" rx="6"/><text class="sC" x="24" y="46">order_date</text><text class="sC" x="170" y="46">amount</text>
+<text class="sM" x="24" y="75">2024-01-15</text><text class="sM" x="170" y="75">100</text>
+<text class="sM" x="24" y="99">2024-02-03</text><text class="sM" x="170" y="99">50</text>
+<text class="sM" x="24" y="123">2025-01-20</text><text class="sM" x="170" y="123">70</text>
+<rect class="sN" x="270" y="30" width="436" height="52" rx="6"/>
+<text class="sM" x="280" y="50">df.groupby(df["order_date"].dt.month)</text><text class="sM" x="280" y="70">  ["amount"].sum()</text>
+<text class="sC" x="270" y="100">expected: 2024-01 → 100, 2024-02 → 50, 2025-01 → 70</text>
+<g data-s="2"><rect class="sR" x="270" y="112" width="436" height="64" rx="6"/><text class="sRt" x="280" y="130">FAILED test_monthly_revenue</text><text class="sC" x="280" y="148">assert {1: 170, 2: 50} == {'2024-01': 100, …}</text><text class="sC" x="280" y="166">month 1 holds both Januaries: 100 + 70</text></g>
+<g data-s="3"><rect class="sG" x="270" y="184" width="436" height="52" rx="6"/><text class="sM" x="280" y="204">df.groupby(df["order_date"].dt.to_period("M"))</text><text class="sGt" x="280" y="224">1 passed: each year-month is its own key</text></g>
+<text class="sS" x="360" y="256" text-anchor="middle">pytest 9.0.3 and pandas 2.3.3; the failure line is pytest's own output</text>
+</svg><ol class="dia-steps">
+<li>A three-row frame written by hand, chosen so that two orders fall in January of different years.</li>
+<li>pytest fails: grouping by <code>.dt.month</code> put both Januaries under key 1. On one calendar year of data the bug is invisible; with two years, January is silently doubled.</li>
+<li>Grouping by year-month with <code>to_period("M")</code> passes, and the test will catch the bug if anyone brings it back.</li>
+</ol><figcaption>A test needs a frame small enough to check by eye and one row that targets the edge case. Here that row is a second January.</figcaption></figure>
+
 > [!lab] Forty-minute workout
 > Take the Superstore dataset already on `E:\Big data` (or any orders CSV). In one notebook: load with correct dtypes; report missing values and duplicates; compute monthly revenue and its month-over-month change; find the top 3 products per category; then answer the same three questions in SQL with DuckDB and check the numbers match. That's a ready take-home answer and a GitHub repository.
 
