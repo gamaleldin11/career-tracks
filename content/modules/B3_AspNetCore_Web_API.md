@@ -464,6 +464,26 @@ public class ReforecastWorker(IServiceScopeFactory scopes, Channel<Guid> queue, 
 | **Minimal API validation**, OpenAPI 3.1, Server-Sent Events results (`TypedResults.ServerSentEvents`) | .NET 10 | Less boilerplate; streaming updates |
 | Cookie authentication returns **401/403 for API endpoints** instead of redirecting to a login page | .NET 10 | Saner behaviour for SPAs calling cookie-protected APIs |
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Ten real requests to an ASP.NET Core 10 endpoint with a fixed-window rate limiter of 5 permits per 10 seconds and no queue. Requests 1 to 5 at 0.1 seconds return 200; requests 6 to 8 at the same moment return 429 with Retry-After 10. At 10.6 seconds a new window has started and requests 9 and 10 return 200">
+<text class="sT" x="14" y="22">POST /login with AddFixedWindowLimiter: 5 permits per 10 s, QueueLimit = 0</text>
+<rect class="sN" x="60" y="40" width="500" height="160" rx="6"/><text class="sC" x="552" y="58" text-anchor="end">window 1</text>
+<rect class="sN" x="562" y="40" width="144" height="160" rx="6"/><text class="sC" x="698" y="190" text-anchor="end">window 2</text>
+<rect class="sG" x="70" y="50" width="76" height="15" rx="3"/><text class="sC" x="78" y="61">#1 200</text><rect class="sG" x="70" y="67" width="76" height="15" rx="3"/><text class="sC" x="78" y="78">#2 200</text>
+<rect class="sG" x="70" y="84" width="76" height="15" rx="3"/><text class="sC" x="78" y="95">#3 200</text><rect class="sG" x="70" y="101" width="76" height="15" rx="3"/><text class="sC" x="78" y="112">#4 200</text>
+<rect class="sG" x="70" y="118" width="76" height="15" rx="3"/><text class="sC" x="78" y="129">#5 200</text><rect class="sR" x="70" y="135" width="76" height="15" rx="3"/><text class="sC" x="78" y="146">#6 429</text>
+<rect class="sR" x="70" y="152" width="76" height="15" rx="3"/><text class="sC" x="78" y="163">#7 429</text><rect class="sR" x="70" y="169" width="76" height="15" rx="3"/><text class="sC" x="78" y="180">#8 429</text>
+<rect class="sG" x="590" y="50" width="76" height="15" rx="3"/><text class="sC" x="598" y="61">#9 200</text><rect class="sG" x="590" y="67" width="76" height="15" rx="3"/><text class="sC" x="598" y="78">#10 200</text>
+<text class="sRt" x="160" y="146">6, 7 and 8 rejected at once: 429, Retry-After: 10</text>
+<text class="sC" x="160" y="164">no queue, so nothing waits for a permit</text>
+<text class="sGt" x="580" y="104">counter reset:</text><text class="sGt" x="580" y="120">200 again</text>
+<line class="sL" x1="60" y1="214" x2="706" y2="214"/>
+<line class="sL" x1="60" y1="210" x2="60" y2="218"/><text class="sC" x="60" y="232" text-anchor="middle">0 s</text>
+<line class="sL" x1="310" y1="210" x2="310" y2="218"/><text class="sC" x="310" y="232" text-anchor="middle">5 s</text>
+<line class="sL" x1="560" y1="210" x2="560" y2="218"/><text class="sC" x="560" y="232" text-anchor="middle">10 s</text>
+<text class="sC" x="628" y="232" text-anchor="middle">10.6 s</text>
+<text class="sS" x="360" y="254" text-anchor="middle">ASP.NET Core 10.0.9, ten requests from HttpClient; Retry-After was set in OnRejected from the lease metadata</text>
+</svg><figcaption>A real run of the built-in rate limiter. A fixed window lets a client spend all its permits at the start of each window. A sliding window or token bucket smooths that out, and a partition key (user or IP) gives each client its own counter.</figcaption></figure>
+
 > [!story]
 > FinSight split health checks into **live** (is the process up?) and **full** (can it reach the database and dependencies?). That distinction, liveness vs readiness, is exactly what Kubernetes and Azure probes need, and it's a mid-level talking point.
 
