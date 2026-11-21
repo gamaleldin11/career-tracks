@@ -423,6 +423,23 @@ Compare outcomes and errors across groups where it matters (credit, hiring, insu
 
 These criteria can't all hold at once when base rates differ, so the choice is a policy decision, documented and reviewed. Tools: Fairlearn, AIF360.
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="A simulation with one calibrated risk score in two groups: 33.3 percent of group A and 19.5 percent of group B are positive, and a score between 0.3 and 0.4 means about 34 percent positive in both. With one threshold of 0.5, 18.9 percent of A and 4.3 percent of B get a positive decision, and true-positive rates are 34.8 against 13.0 percent. Lowering B's threshold to 0.355 equalises true-positive rates at 34.8 percent, but decision rates still differ, 18.9 against 14.6 percent, and precision in B falls from 61.4 to 46.5 percent">
+<rect class="sV" x="14" y="14" width="692" height="44" rx="6"/><text class="sT" x="24" y="33">one score, calibrated in both groups: 0.3–0.4 means about 34% positive in A and in B</text><text class="sC" x="24" y="50">base rates differ: 33.3% of group A and 19.5% of group B are positive (50,000 people each)</text>
+<g data-s="2"><text class="sT" x="14" y="78">one threshold for everyone: 0.5</text><text class="sC" x="14" y="96">demographic parity and equal opportunity both fail</text>
+<rect class="sN" x="14" y="104" width="340" height="112" rx="6" fill-opacity="0"/>
+<text class="sC" x="204" y="122" text-anchor="middle">group A</text><text class="sC" x="294" y="122" text-anchor="middle">group B</text>
+<text class="sC" x="24" y="148">decision rate</text><text class="sM" x="204" y="148" text-anchor="middle">18.9%</text><text class="sRt" x="294" y="148" text-anchor="middle">4.3%</text><text class="sC" x="24" y="174">true-positive rate</text><text class="sM" x="204" y="174" text-anchor="middle">34.8%</text><text class="sRt" x="294" y="174" text-anchor="middle">13.0%</text><text class="sC" x="24" y="200">precision</text><text class="sM" x="204" y="200" text-anchor="middle">61.4%</text><text class="sGt" x="294" y="200" text-anchor="middle">59.1%</text></g>
+<g data-s="3"><text class="sT" x="366" y="78">B's threshold lowered to 0.355</text><text class="sC" x="366" y="96">equal opportunity holds; other gaps move</text>
+<rect class="sN" x="366" y="104" width="340" height="112" rx="6" fill-opacity="0"/>
+<text class="sC" x="556" y="122" text-anchor="middle">group A</text><text class="sC" x="646" y="122" text-anchor="middle">group B</text>
+<text class="sC" x="376" y="148">true-positive rate</text><text class="sM" x="556" y="148" text-anchor="middle">34.8%</text><text class="sGt" x="646" y="148" text-anchor="middle">34.8%</text><text class="sC" x="376" y="174">decision rate</text><text class="sM" x="556" y="174" text-anchor="middle">18.9%</text><text class="sWt" x="646" y="174" text-anchor="middle">14.6%</text><text class="sC" x="376" y="200">precision</text><text class="sM" x="556" y="200" text-anchor="middle">61.4%</text><text class="sRt" x="646" y="200" text-anchor="middle">46.5%</text></g>
+<text class="sS" x="360" y="254" text-anchor="middle">numpy simulation; each outcome is drawn with probability equal to its score, so the score is calibrated</text>
+</svg><ol class="dia-steps">
+<li>The score is equally honest for both groups. Only the base rates differ.</li>
+<li>One shared threshold gives group B far fewer positive decisions and misses most of its true positives, although precision is almost equal.</li>
+<li>Equalising true-positive rates means a lower threshold for B. Decision rates still differ, and a positive decision for B is now right less often. No threshold makes all three equal.</li>
+</ol><figcaption>With different base rates, calibration, demographic parity and equal opportunity pull against each other, so choosing which to hold is a policy decision. Write down the choice and its reason, then monitor the metric you chose.</figcaption></figure>
+
 ## DS4.11 Offline vs online evaluation 🟢
 
 Offline metrics estimate potential; **online experiments measure impact** ([[S6.9]], [[DA6.4]]). A churn model with better PR-AUC proves its worth only when a randomised holdout shows that contacting its top-k retains more customers (or more margin) than the old rule did.
