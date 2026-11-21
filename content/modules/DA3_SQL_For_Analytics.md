@@ -678,6 +678,17 @@ SELECT created_at::date, COUNT(*) FROM orders GROUP BY 1 ORDER BY 1;          --
 - Check totals against a known number (finance's monthly revenue) before presenting.
 - Know your engine's cost model: in BigQuery you pay per bytes scanned, so select only needed columns and filter on partitioned dates.
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Bytes of Parquet a query must read from 2,000,000 orders in 24 monthly partitions, on a log scale. SELECT star across all months: 150.2 MB. SELECT star for one month: 6.2 MB. Two columns across all months: 3.0 MB. Two columns for one month: 0.12 MB, about 1,200 times less than the first">
+<text class="sM" x="14" y="22">bytes read from 2,000,000 orders stored as Parquet in 24 monthly partitions</text>
+<text class="sT" x="240" y="56" text-anchor="end">SELECT *</text><text class="sC" x="240" y="71" text-anchor="end">every column, all 24 months</text><rect class="sR" x="250" y="44" width="397" height="22" rx="3"/><text class="sT" x="655" y="60">150.2 MB</text>
+<text class="sT" x="240" y="100" text-anchor="end">SELECT *, one month</text><text class="sC" x="240" y="115" text-anchor="end">WHERE month = &#39;2025-06&#39;</text><rect class="sW" x="250" y="88" width="224" height="22" rx="3"/><text class="sT" x="482" y="104">6.2 MB</text>
+<text class="sT" x="240" y="144" text-anchor="end">two columns</text><text class="sC" x="240" y="159" text-anchor="end">order_date, amount; all months</text><rect class="sW" x="250" y="132" width="185" height="22" rx="3"/><text class="sT" x="443" y="148">3.0 MB</text>
+<text class="sT" x="240" y="188" text-anchor="end">two columns, one month</text><text class="sC" x="240" y="203" text-anchor="end">both levers</text><rect class="sG" x="250" y="176" width="11" height="22" rx="3"/><text class="sT" x="269" y="192">0.12 MB</text>
+<line class="sL" x1="250" y1="222" x2="650" y2="222"/>
+<line class="sL" x1="250" y1="218" x2="250" y2="226"/><text class="sC" x="250" y="240" text-anchor="middle">0.1 MB</text><line class="sL" x1="375" y1="218" x2="375" y2="226"/><text class="sC" x="375" y="240" text-anchor="middle">1 MB</text><line class="sL" x1="500" y1="218" x2="500" y2="226"/><text class="sC" x="500" y="240" text-anchor="middle">10 MB</text><line class="sL" x1="625" y1="218" x2="625" y2="226"/><text class="sC" x="625" y="240" text-anchor="middle">100 MB</text>
+<text class="sS" x="360" y="258" text-anchor="middle">log scale; column-chunk sizes from the Parquet metadata, and DuckDB's profiler scanned 1 of 24 files</text>
+</svg><figcaption>Selecting two columns cut the bytes 50×, filtering on the partition column 24×, and both together about 1,200×. BigQuery counts uncompressed bytes, so its numbers differ, but the same two levers set the bill.</figcaption></figure>
+
 > [!lab] Build the analyst's core query set
 > Load an e-commerce dataset into PostgreSQL or DuckDB (the Olist Brazilian e-commerce dataset on Kaggle is realistic and free, or reshape Superstore). Write and save: monthly revenue with MoM and YoY growth; a cohort retention table; a four-step funnel; median and p90 order value by region; top 3 products per category; the top-20% revenue share; and the data-quality checks. Put them in a repository with a README of findings. That's your SQL portfolio for analyst interviews.
 
