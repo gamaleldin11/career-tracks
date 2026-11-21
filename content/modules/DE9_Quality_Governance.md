@@ -173,6 +173,19 @@ Tests catch what you anticipated; **observability** catches what you didn't, by 
 | **Quarantine and continue** | A small share of bad records that can be isolated (malformed rows go to an error table with the reason, the rest proceeds) |
 | **Warn** | Soft anomalies worth a look (volume 15% lower than usual on a holiday) |
 
+<figure class="dia steps"><svg viewBox="0 0 720 236" role="img" aria-label="Three responses to a failed data check. A critical rule such as duplicate keys or a schema break stops the pipeline and nothing is published. A small share of malformed rows goes to a quarantine table with the reason while the valid rows are published. A soft anomaly such as volume 15 percent lower on a holiday publishes the data and warns the dataset owner">
+<rect class="sV" x="14" y="96" width="110" height="46" rx="8"/><text class="sT" x="69" y="117" text-anchor="middle">batch</text><text class="sC" x="69" y="133" text-anchor="middle">today's load</text>
+<line class="sLm" x1="124" y1="119" x2="166" y2="119" marker-end="url(#ahm)"/>
+<rect class="sA" x="170" y="96" width="110" height="46" rx="8"/><text class="sT" x="225" y="117" text-anchor="middle">checks</text><text class="sC" x="225" y="133" text-anchor="middle">contract, tests</text>
+<g data-s="1"><line class="sLr" x1="280" y1="108" x2="356" y2="44" marker-end="url(#ahr)"/><rect class="sR" x="360" y="20" width="190" height="46" rx="8"/><text class="sT" x="455" y="41" text-anchor="middle">fail: stop</text><text class="sC" x="455" y="57" text-anchor="middle">publish nothing</text><text class="sS" x="562" y="38">duplicate keys,</text><text class="sS" x="562" y="54">schema break</text></g>
+<g data-s="2"><line class="sLg" x1="280" y1="119" x2="356" y2="119" marker-end="url(#ahg)"/><rect class="sG" x="360" y="96" width="190" height="46" rx="8"/><text class="sT" x="455" y="117" text-anchor="middle">quarantine, continue</text><text class="sC" x="455" y="133" text-anchor="middle">valid rows published</text><line class="sLw" x1="550" y1="119" x2="582" y2="119" marker-end="url(#ahw)"/><rect class="sW" x="586" y="96" width="120" height="46" rx="8"/><text class="sC" x="646" y="117" text-anchor="middle">error table</text><text class="sS" x="646" y="133" text-anchor="middle">row + reason</text></g>
+<g data-s="3"><line class="sLv" x1="280" y1="130" x2="356" y2="194" marker-end="url(#ahv)"/><rect class="sV" x="360" y="172" width="190" height="46" rx="8"/><text class="sT" x="455" y="193" text-anchor="middle">warn</text><text class="sC" x="455" y="209" text-anchor="middle">publish, alert the owner</text><text class="sS" x="562" y="190">volume 15% low</text><text class="sS" x="562" y="206">on a holiday</text></g>
+</svg><ol class="dia-steps">
+<li>Critical rules stop the run: publishing duplicate keys or a broken schema would make every downstream number wrong.</li>
+<li>A few malformed rows can be isolated: they go to an error table with the reason, and the rest is published.</li>
+<li>Soft anomalies publish with a warning to the dataset's owner, who decides whether it is real.</li>
+</ol><figcaption>The table above as a decision: the severity of the rule, not the check tool, decides what happens to the batch.</figcaption></figure>
+
 **Then:** alert the **owner** (every dataset needs one), with context (the check, the sample of failing rows, the run, the lineage); follow a runbook; **communicate** to consumers if published data was wrong ("Yesterday's revenue dashboard is being corrected; expected by 11:00"); fix the root cause; backfill ([[DE7.3]]); add a test so it can't recur. Track **data incidents** like service incidents, with blameless post-mortems.
 
 > [!story]
