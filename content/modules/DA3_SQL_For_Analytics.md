@@ -669,6 +669,19 @@ SELECT COUNT(*) FROM orders o LEFT JOIN users u USING (user_id) WHERE u.user_id 
 SELECT created_at::date, COUNT(*) FROM orders GROUP BY 1 ORDER BY 1;          -- missing or partial days
 ```
 
+<figure class="dia"><svg viewBox="0 0 720 292" role="img" aria-label="These checks run in DuckDB on the Superstore sample orders. 9,994 rows hold only 5,009 order IDs, so the table is at order-line grain. 8 order and product pairs appear twice, and rows 3406 and 3407 are identical apart from their row ID. No NULLs, negative sales, zero quantities, ship dates before order dates, future dates or orphan returns. 221 days have no orders, 106 of them Wednesdays. 1,871 lines have negative profit, with discounts up to 80 percent">
+<text class="sC" x="24" y="20">check</text><text class="sC" x="290" y="20">result on the Superstore orders</text><text class="sC" x="556" y="20">verdict</text>
+<rect class="sN" x="14" y="30" width="692" height="26" rx="4"/><text class="sT" x="24" y="48">rows vs distinct Order IDs</text><text class="sC" x="290" y="47">9,994 rows, 5,009 orders</text><text class="sWt" x="556" y="48">line grain, not orders</text>
+<rect class="sN" x="14" y="60" width="692" height="26" rx="4"/><text class="sT" x="24" y="78">same order + product twice</text><text class="sC" x="290" y="77">8 pairs; rows 3406 and 3407 identical</text><text class="sRt" x="556" y="78">one true duplicate</text>
+<rect class="sN" x="14" y="90" width="692" height="26" rx="4"/><text class="sT" x="24" y="108">NULLs, negative sales, qty ≤ 0</text><text class="sC" x="290" y="107">0 in every column</text><text class="sGt" x="556" y="108">pass</text>
+<rect class="sN" x="14" y="120" width="692" height="26" rx="4"/><text class="sT" x="24" y="138">shipped before ordered</text><text class="sC" x="290" y="137">0 rows</text><text class="sGt" x="556" y="138">pass</text>
+<rect class="sN" x="14" y="150" width="692" height="26" rx="4"/><text class="sT" x="24" y="168">order-date range</text><text class="sC" x="290" y="167">2014-01-03 to 2017-12-30</text><text class="sGt" x="556" y="168">pass: no future dates</text>
+<rect class="sN" x="14" y="180" width="692" height="26" rx="4"/><text class="sT" x="24" y="198">returns with no matching order</text><text class="sC" x="290" y="197">0 of 296</text><text class="sGt" x="556" y="198">pass</text>
+<rect class="sN" x="14" y="210" width="692" height="26" rx="4"/><text class="sT" x="24" y="228">days with no orders</text><text class="sC" x="290" y="227">221, and 106 are Wednesdays</text><text class="sWt" x="556" y="228">explain it first</text>
+<rect class="sN" x="14" y="240" width="692" height="26" rx="4"/><text class="sT" x="24" y="258">lines with negative profit</text><text class="sC" x="290" y="257">1,871 of 9,994; discounts to 80%</text><text class="sT" x="556" y="258">finding, not error</text>
+<text class="sS" x="360" y="284" text-anchor="middle">the checks above, run in DuckDB on the 9,994-row Superstore sample; nothing was planted</text>
+</svg><figcaption>Most checks pass, and the few that don't are what matter. The table counts order lines, so COUNT(*) is not an order count. One row is a genuine duplicate. And the Wednesday gap needs explaining before anyone reports daily trends.</figcaption></figure>
+
 ## DA3.11 Writing analytical SQL others can trust 🟢
 
 - **CTEs as named steps**, one idea each; a final `SELECT` that reads like the answer.
