@@ -1691,6 +1691,27 @@ In current sklearn, `LogisticRegression` uses the multinomial (softmax) formulat
 
 **Lift and gains, the language of marketing and telecom analytics.** Sort customers by predicted churn probability and take the top decile. If 20% of them churn against a 4% base rate, the **lift is 5×**. A **cumulative gains chart** shows the percentage of all churners captured by contacting the top x% of customers. Retention managers think in these terms.
 
+<figure class="dia"><svg viewBox="0 0 720 282" role="img" aria-label="A cumulative gains chart computed with scikit-learn on the digits data, predicting whether a digit is a 9, with 90 nines among 899 test images. Taking the top-scored 10 percent finds 74.4 percent of all nines, a lift of 7.4; the top 20 percent finds 86.7 percent and the top 50 percent all of them. A random order finds nines in proportion. ROC-AUC 0.954, PR-AUC 0.817, KS 0.763, MCC 0.73 at a 0.5 threshold">
+<line class="sD" x1="60" y1="230" x2="380" y2="230" opacity=".45"/><text class="sC" x="52" y="234" text-anchor="end">0%</text><line class="sD" x1="60" y1="180" x2="380" y2="180" opacity=".45"/><text class="sC" x="52" y="184" text-anchor="end">25%</text><line class="sD" x1="60" y1="130" x2="380" y2="130" opacity=".45"/><text class="sC" x="52" y="134" text-anchor="end">50%</text><line class="sD" x1="60" y1="80" x2="380" y2="80" opacity=".45"/><text class="sC" x="52" y="84" text-anchor="end">75%</text><line class="sD" x1="60" y1="30" x2="380" y2="30" opacity=".45"/><text class="sC" x="52" y="34" text-anchor="end">100%</text>
+<text class="sC" x="60" y="248" text-anchor="middle">0%</text><text class="sC" x="124" y="248" text-anchor="middle">20%</text><text class="sC" x="188" y="248" text-anchor="middle">40%</text><text class="sC" x="252" y="248" text-anchor="middle">60%</text><text class="sC" x="316" y="248" text-anchor="middle">80%</text><text class="sC" x="380" y="248" text-anchor="middle">100%</text>
+<text class="sC" x="220" y="266" text-anchor="middle">share of images checked, highest score first</text>
+<text class="sC" x="14" y="20">share of all nines found</text>
+<polyline class="sLm" fill="none" stroke-dasharray="5 4" points="60,230 380,30"/><text class="sC" x="284" y="114">random order</text>
+<polyline class="sLg" fill="none" points="60,230 92,30 380,30" stroke-dasharray="2 3"/><text class="sGt" x="99" y="46">perfect: all 90 nines first</text>
+<polyline class="sLv" fill="none" points="60,230 92,81 124,57 156,43 188,34 220,30 252,30 284,30 316,30 348,30 380,30"/>
+<circle class="sFm" cx="92" cy="81" r="3.5"/><circle class="sFm" cx="124" cy="57" r="3.5"/><circle class="sFm" cx="156" cy="43" r="3.5"/><circle class="sFm" cx="188" cy="34" r="3.5"/>
+<line class="sLw" x1="92" y1="230" x2="92" y2="81" stroke-dasharray="3 3"/>
+<text class="sWt" x="100" y="109">top 10%: 74.4% of nines</text><text class="sWt" x="100" y="125">lift 7.4× over the 10% base rate</text>
+<text class="sT" x="420" y="40">the same scores, other metrics</text>
+<rect class="sN" x="420" y="50" width="286" height="150" rx="6" fill-opacity="0"/>
+<text class="sC" x="432" y="74">base rate</text><text class="sM" x="696" y="74" text-anchor="end">90 of 899 = 10%</text>
+<text class="sC" x="432" y="100">ROC-AUC</text><text class="sM" x="696" y="100" text-anchor="end">0.954</text>
+<text class="sC" x="432" y="126">PR-AUC (average precision)</text><text class="sM" x="696" y="126" text-anchor="end">0.817</text>
+<text class="sC" x="432" y="152">KS statistic</text><text class="sM" x="696" y="152" text-anchor="end">0.763</text>
+<text class="sC" x="432" y="178">MCC at threshold 0.5</text><text class="sM" x="696" y="178" text-anchor="end">0.73</text>
+<text class="sC" x="420" y="222">logistic regression on 8 of the 64 pixels,</text><text class="sC" x="420" y="238">so the model is good but not perfect</text>
+</svg><figcaption>One set of scores, read five ways. ROC-AUC looks excellent while PR-AUC, which is sensitive to the 10% base rate, is more modest. The gains curve answers the business question directly: check the top 10% and you find three-quarters of the cases.</figcaption></figure>
+
 **KS statistic** (credit-risk teams, fintech arms such as e& money): the maximum distance between the cumulative score distributions of positives and negatives. Values of 0.4–0.6 are typically considered good for scorecards.
 
 **Matthews correlation coefficient (MCC):** a single balanced number that uses all four confusion-matrix cells. It stays informative under imbalance and ranges −1…1.

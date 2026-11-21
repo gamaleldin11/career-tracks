@@ -1021,6 +1021,7 @@ const FOUNDATIONS = {
     q('NumPy', 'A Python list of 1,000,000 ints takes about 36 MB; an int64 NumPy array of the same values takes…', ['36 MB', '8 MB, one contiguous block of raw numbers', '28 MB', '1 MB'], 1, 'The list holds 8 MB of pointers to separate 28-byte int objects. Measured: adding two arrays vectorised took 1.9 ms against 43 ms for a list comprehension.', 'AI2.1'),
   ],
   AI8: [
+    q('Metrics', 'Positives are 10% of a test set. The top-scored 10% of rows contains 74.4% of all positives. What is the lift in the top decile?', ['About 7.4×: 74.4% of the positives in 10% of the rows means a 74.4% hit rate against a 10% base rate', '74.4×', '0.744', 'It cannot be computed without ROC-AUC'], 0, 'Lift = precision in the selected group ÷ base rate. Computed on the digits data (is it a 9?) with a logistic regression.', 'AI8.14'),
     q('Classification', 'Hour of day is fed to a linear model. Why encode it as sin and cos of 2π·hour/24?', ['To scale it', 'So 23:00 and 00:00 are neighbours instead of 23 units apart', 'To remove outliers', 'Trees require it'], 1, 'On the circle every pair of consecutive hours is the same distance apart.', 'AI8.3'),
   ],
   AI8B: [
