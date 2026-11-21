@@ -666,6 +666,7 @@ const FOUNDATIONS = {
     q('Data science', 'Cairo rose 12, Alexandria rose 6 over the same period. The DiD estimate of Cairo\'s policy is…', ['+12', '+6', '+18', '0'], 1, 'Treated change minus control change, assuming parallel trends.', 'DS5.4'),
   ],
   DS6: [
+    q('Forecasting', 'In simple exponential smoothing, raising α from 0.2 to 0.8 makes the forecast…', ['Smoother and slower to react', 'Track the latest observations closely: the last 3 points carry 99% of the weight instead of 49%', 'Ignore recent data', 'Add a trend'], 1, 'Weight α(1 − α)^k goes to the observation k steps back; fitting chooses α by one-step-ahead error.', 'DS6.4'),
     q('Forecasting', 'Why must forecasts be validated forward in time?', ['It is faster', 'Shuffled splits let the model learn from the future', 'Random splits need more data', 'It is a convention only'], 1, 'Train on the past, test on what came after.', 'DS6.0'),
     q('Forecasting', 'Why does "same week last year" fail for Ramadan demand?', ['Ramadan is fixed in the Gregorian calendar', 'Ramadan moves about 11 days earlier each Gregorian year', 'Demand does not change in Ramadan', 'Weeks differ in length'], 1, 'Use Hijri-calendar features instead.', 'DS6.2'),
   ],
