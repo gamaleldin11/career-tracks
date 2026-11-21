@@ -2189,6 +2189,20 @@ srp = SparseRandomProjection(eps=0.1, random_state=42)
 X_reduced = srp.fit_transform(X)                    # fit only needs X's shape
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="1,000 random points in 10,000 dimensions projected with SparseRandomProjection. The ratio of squared distances after to before, from the 1st to the 99th percentile, spans 0.71 to 1.36 at 100 dimensions, with 53 percent of pairs within 10 percent; 0.86 to 1.15 at 500 dimensions, 88 percent within; and 0.93 to 1.07 at 2,000 dimensions, 99.8 percent within. The Johnson-Lindenstrauss bound for 10 percent and 1,000 points is 5,920 dimensions, and it grows only with the logarithm of the number of points">
+<text class="sT" x="14" y="20">Squared distance after projection ÷ before, 1st–99th percentile</text>
+<rect class="sG" x="380.0" y="32" width="120.0" height="112" rx="2" style="opacity:0.35"/><text class="sGt" x="440.0" y="44" text-anchor="middle">±10%</text>
+<text class="sC" x="14" y="66">100 dims: 53% within</text><rect class="sR" x="264.2" y="52" width="390.6" height="18" rx="3"/>
+<g data-s="2"><text class="sC" x="14" y="98">500 dims: 88% within</text><rect class="sW" x="353.0" y="84" width="178.2" height="18" rx="3"/><text class="sC" x="14" y="130">2,000 dims: 99.8% within</text><rect class="sG" x="395.6" y="116" width="88.2" height="18" rx="3"/></g>
+<line class="sL" x1="200" y1="150" x2="680" y2="150"/><line class="sL" x1="200.0" y1="150" x2="200.0" y2="156"/><text class="sS" x="200.0" y="170" text-anchor="middle">0.6</text><line class="sL" x1="320.0" y1="150" x2="320.0" y2="156"/><text class="sS" x="320.0" y="170" text-anchor="middle">0.8</text><line class="sL" x1="440.0" y1="150" x2="440.0" y2="156"/><text class="sS" x="440.0" y="170" text-anchor="middle">1.0</text><line class="sL" x1="560.0" y1="150" x2="560.0" y2="156"/><text class="sS" x="560.0" y="170" text-anchor="middle">1.2</text><line class="sL" x1="680.0" y1="150" x2="680.0" y2="156"/><text class="sS" x="680.0" y="170" text-anchor="middle">1.4</text>
+<g data-s="3"><text class="sC" x="14" y="204">The Johnson–Lindenstrauss bound for ±10% and 1,000 points: d ≥ 5,920, safe but conservative.</text>
+<text class="sC" x="14" y="226">It grows only with log m: 3,947 dims for 100 points, 9,868 for 100,000, whatever the original n.</text></g>
+</svg><ol class="dia-steps">
+<li>Squash 10,000 dimensions into 100 at random and distances survive roughly, but only half the pairs stay within 10%.</li>
+<li>At 500 and 2,000 dimensions almost every distance is preserved, with no fitting at all: the projection matrix is random.</li>
+<li>The lemma's bound is a guarantee, not a target: here 2,000 dimensions already did what it promises at 5,920.</li>
+</ol><figcaption>Random projection measured with scikit-learn on 1,000 Gaussian points (499,500 pairs); bounds from johnson_lindenstrauss_min_dim with eps = 0.1.</figcaption></figure>
+
 - `SparseRandomProjection` is **usually preferred**: about 25 MB instead of 1.2 GB for the random matrix in Géron's example, ~50% faster, keeps sparse input sparse, and loses almost no quality. Its default density is 1/√n.
 - It loses a bit more signal than PCA. The trade-off is training speed versus quality.
 - The same idea underlies **locality-sensitive hashing (LSH)**, used for near-duplicate detection and similarity search. Géron notes that fruit flies do something similar in their olfactory system.
