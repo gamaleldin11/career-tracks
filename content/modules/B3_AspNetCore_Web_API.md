@@ -384,6 +384,23 @@ Since **.NET 9**, the Web API template no longer includes Swashbuckle; ASP.NET C
 
 Why it matters beyond documentation: **client generation** for the frontend (TypeScript types and clients via NSwag, Kiota or `openapi-typescript`, [[FS1]]), contract tests, and API gateways.
 
+<figure class="dia steps"><svg viewBox="0 0 720 318" role="img" aria-label="A real ASP.NET Core 10 run of AddOpenApi. From records, validation attributes and a typed result, it generated an OpenAPI 3.1.1 document with the 200 and 404 responses, the required fields, maxLength 100 and the minimum and maximum. Two surprises: numeric fields were typed integer or string, and the enum was a bare integer. With NumberHandling set to Strict and JsonStringEnumConverter added, id became integer and the enum listed Open, Paid and Void">
+<text class="sT" x="14" y="26">C# you write</text><text class="sT" x="366" y="26">generated /openapi/v1.json (excerpt)</text>
+<rect class="sN" x="14" y="36" width="340" height="170" rx="6"/>
+<g data-s="2-2"><rect class="sW" x="368" y="137" width="336" height="44" rx="3"/></g>
+<rect class="sN" x="366" y="36" width="340" height="170" rx="6" fill-opacity="0"/>
+<text class="sM" x="24" y="54" xml:space="preserve">record Invoice(int Id, string Customer,</text><text class="sM" x="24" y="74" xml:space="preserve">  decimal Amount, InvoiceStatus Status);</text><text class="sM" x="24" y="94" xml:space="preserve">enum InvoiceStatus { Open, Paid, Void }</text><text class="sM" x="24" y="114" xml:space="preserve">record CreateInvoice(</text><text class="sM" x="24" y="134" xml:space="preserve"> [Required, StringLength(100)] string Customer,</text><text class="sM" x="24" y="154" xml:space="preserve">  [Range(0.01, 1000000)] decimal Amount);</text><text class="sM" x="24" y="174" xml:space="preserve">MapGet("/invoices/{id:int}", …)</text><text class="sM" x="24" y="194" xml:space="preserve">  returns Results&lt;Ok&lt;Invoice&gt;, NotFound&gt;</text><text class="sM" x="376" y="54">"openapi": "3.1.1"</text><text class="sM" x="376" y="74">GET /invoices/{id}: 200 → Invoice, 404</text><text class="sM" x="376" y="94">CreateInvoice required: customer, amount</text><text class="sM" x="376" y="114">customer: maxLength 100</text><text class="sM" x="376" y="134">amount: minimum 0.01, maximum 1000000</text><text class="sM" x="376" y="154">Invoice.id: type ["integer", "string"]</text><text class="sM" x="376" y="174">InvoiceStatus: { "type": "integer" }</text>
+<g data-s="3"><rect class="sG" x="14" y="218" width="692" height="70" rx="6"/>
+<text class="sM" x="24" y="238">ConfigureHttpJsonOptions(o =&gt; { o.SerializerOptions.NumberHandling = Strict;</text>
+<text class="sM" x="24" y="256">  o.SerializerOptions.Converters.Add(new JsonStringEnumConverter()); })</text>
+<text class="sGt" x="24" y="278">regenerated: id { "type": "integer" } · InvoiceStatus { "enum": ["Open", "Paid", "Void"] }</text></g>
+<text class="sS" x="360" y="310" text-anchor="middle">ASP.NET Core 10.0.9 with Microsoft.AspNetCore.OpenApi; both documents were fetched from the running app</text>
+</svg><ol class="dia-steps">
+<li>From plain records, validation attributes and a typed result, the built-in generator produced OpenAPI 3.1.1 with both response codes, the required fields and the length and range limits.</li>
+<li>Two surprises. The web JSON defaults accept numbers sent as strings, so every number is typed integer-or-string and a generated TypeScript client sees <code>number | string</code>. And the enum is a bare integer, so clients never learn the names.</li>
+<li>Strict number handling and the string enum converter fix both. Read the generated document before generating clients from it.</li>
+</ol><figcaption>The document describes how your JSON settings actually behave, not what you meant. That makes it a useful review of those settings.</figcaption></figure>
+
 > [!warning]
 > Don't expose the interactive UI publicly in production without authentication ([[S9.9]]).
 
