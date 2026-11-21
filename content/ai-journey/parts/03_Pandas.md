@@ -1073,6 +1073,21 @@ df.fillna(0)
 df.fillna(df.Monthly_Usage_MB.median())
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="Six rows run through pandas. Rows 0 and 2 are identical, as are rows 1 and 4. duplicated() with the default keep marks only rows 2 and 4, the later copies. duplicated(keep=False) marks rows 0, 1, 2 and 4, every member of each duplicate group. Row 3 has a missing usage value, which is not a duplicate">
+<text class="sT" x="14" y="28"></text><text class="sT" x="56" y="28">Customer</text><text class="sT" x="150" y="28">Bundle</text><text class="sT" x="250" y="28">Usage_MB</text><text class="sT" x="400" y="28">duplicated()</text><text class="sT" x="560" y="28">keep=False</text><line class="sL" x1="14" y1="36" x2="706" y2="36"/>
+<text class="sS" x="14" y="58">0</text><text class="sM" x="56" y="58">C01</text><text class="sM" x="150" y="58">Social</text><text class="sM" x="250" y="58">820</text><g data-s="2"><text class="sS" x="400" y="58">False</text></g><g data-s="3"><rect class="sW" x="556" y="43" width="50" height="20" rx="4"/><text class="sM" x="560" y="58">True</text></g>
+<text class="sS" x="14" y="86">1</text><text class="sM" x="56" y="86">C02</text><text class="sM" x="150" y="86">Data</text><text class="sM" x="250" y="86">4100</text><g data-s="2"><text class="sS" x="400" y="86">False</text></g><g data-s="3"><rect class="sW" x="556" y="71" width="50" height="20" rx="4"/><text class="sM" x="560" y="86">True</text></g>
+<text class="sS" x="14" y="114">2</text><text class="sM" x="56" y="114">C01</text><text class="sM" x="150" y="114">Social</text><text class="sM" x="250" y="114">820</text><g data-s="2"><rect class="sR" x="396" y="99" width="50" height="20" rx="4"/><text class="sM" x="400" y="114">True</text></g><g data-s="3"><rect class="sW" x="556" y="99" width="50" height="20" rx="4"/><text class="sM" x="560" y="114">True</text></g>
+<text class="sS" x="14" y="142">3</text><text class="sM" x="56" y="142">C03</text><text class="sM" x="150" y="142">Social</text><text class="sWt" x="250" y="142">NaN</text><g data-s="2"><text class="sS" x="400" y="142">False</text></g><g data-s="3"><text class="sS" x="560" y="142">False</text></g>
+<text class="sS" x="14" y="170">4</text><text class="sM" x="56" y="170">C02</text><text class="sM" x="150" y="170">Data</text><text class="sM" x="250" y="170">4100</text><g data-s="2"><rect class="sR" x="396" y="155" width="50" height="20" rx="4"/><text class="sM" x="400" y="170">True</text></g><g data-s="3"><rect class="sW" x="556" y="155" width="50" height="20" rx="4"/><text class="sM" x="560" y="170">True</text></g>
+<text class="sS" x="14" y="198">5</text><text class="sM" x="56" y="198">C04</text><text class="sM" x="150" y="198">Data</text><text class="sM" x="250" y="198">2300</text><g data-s="2"><text class="sS" x="400" y="198">False</text></g><g data-s="3"><text class="sS" x="560" y="198">False</text></g>
+<text class="sS" x="14" y="238">drop_duplicates() keeps 4 of the 6 rows; the NaN in row 3 is a missing value, a separate problem (isna).</text>
+</svg><ol class="dia-steps">
+<li>Two customers appear twice with identical values. Row 3 has a missing usage value.</li>
+<li>duplicated() marks only the later copies, rows 2 and 4, so on their own they hide what they duplicate.</li>
+<li>keep=False marks every copy, rows 0, 1, 2 and 4: that is the view to inspect before you drop anything.</li>
+</ol><figcaption>The difference between the two calls, run with pandas.</figcaption></figure>
+
 `keep=False` in `duplicated` is the useful variant: the default marks only the second and later occurrences, so you never see what they duplicate. `keep=False` marks every member of each duplicate group.
 
 The notebook also demonstrates **conditional imputation**, which is a better instinct than a global median:
