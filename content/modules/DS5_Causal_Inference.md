@@ -286,6 +286,20 @@ When the treatment wasn't assigned by a clean design, you can adjust for **obser
 - **Propensity score** (the probability of treatment given confounders): **match** treated and control units with similar scores, **stratify** by score, or **weight** by the inverse of the probability of the treatment received (IPW) to create a pseudo-population where treatment is unrelated to the confounders.
 - **Doubly robust** estimators combine an outcome model and a propensity model; they're consistent if either one is right.
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="A simulated discount offered mostly to engaged customers, 20,000 customers, true effect plus 40 EGP. With engagement and tenure in the data, the naive comparison estimates plus 103, regression adjustment plus 41.6 and inverse propensity weighting plus 42.8. When a third confounder that drives both the offer and spending is missing from the data, regression gives plus 82.7 and IPW plus 82.9, roughly double the truth, with no warning sign">
+<line class="sD" x1="350" y1="30" x2="350" y2="228"/><text class="sS" x="350" y="244" text-anchor="middle">true +40</text>
+<text class="sT" x="14" y="22">confounders engagement and tenure are in the data</text>
+<text class="sC" x="40" y="46">naive difference</text><rect class="sR" x="230" y="32" width="308.7" height="18" rx="3"/><text class="sM" x="546.7" y="46">+102.9</text>
+<g data-s="2"><text class="sC" x="40" y="70">regression adjustment</text><rect class="sG" x="230" y="56" width="124.8" height="18" rx="3"/><text class="sM" x="362.8" y="70">+41.6</text><text class="sC" x="40" y="94">inverse propensity weights</text><rect class="sG" x="230" y="80" width="128.4" height="18" rx="3"/><text class="sM" x="366.4" y="94">+42.8</text></g>
+<g data-s="3"><text class="sT" x="14" y="130">a third confounder is missing from the data</text>
+<text class="sC" x="40" y="154">naive difference</text><rect class="sR" x="230" y="140" width="389.4" height="18" rx="3"/><text class="sM" x="627.4" y="154">+129.8</text><text class="sC" x="40" y="178">regression adjustment</text><rect class="sW" x="230" y="164" width="248.1" height="18" rx="3"/><text class="sM" x="486.1" y="178">+82.7</text><text class="sC" x="40" y="202">inverse propensity weights</text><rect class="sW" x="230" y="188" width="248.7" height="18" rx="3"/><text class="sM" x="486.7" y="202">+82.9</text>
+<text class="sS" x="14" y="226">Same code, same diagnostics, double the true effect.</text></g>
+</svg><ol class="dia-steps">
+<li>Engaged customers were more likely to get the discount and spend more anyway, so the raw gap (+103) is mostly selection.</li>
+<li>Adjust for the confounders, by regression or by weighting each customer by 1 / P(treatment received): both land near +40.</li>
+<li>Leave one confounder out of the data and both methods are confidently wrong. That is why “no unmeasured confounding” must be stated and argued, then probed with a sensitivity analysis.</li>
+</ol><figcaption>Computed with NumPy and scikit-learn (LinearRegression; LogisticRegression for the propensity score). Estimated propensities ranged from 0.003 to 0.99, so check overlap and trim extreme weights in real data.</figcaption></figure>
+
 **Assumptions you must state:** **no unmeasured confounding** (everything that drives both treatment and outcome is in the data, which is untestable and often doubtful), and **overlap** (every kind of customer had some chance of each treatment; check the propensity distributions). Report sensitivity analyses: how strong would a hidden confounder have to be to erase the effect?
 
 ## DS5.6 Uplift modelling: targeting by effect 🟡 ⭐
