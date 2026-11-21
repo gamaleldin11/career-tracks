@@ -440,6 +440,22 @@ Remember that **global filters don't apply** here: the tenant and soft-delete co
 | **Testcontainers** with the real engine (SQL Server, PostgreSQL in Docker) | **Best fidelity**; seconds to start; the modern default for integration tests ([[B10]]) |
 | Mocking `DbContext` | Brittle; mock your own repository or service interface instead, if anything |
 
+<figure class="dia steps"><svg viewBox="0 0 720 226" role="img" aria-label="Two buggy writes run with EF Core 10 against the InMemory provider and against SQLite in memory. Saving two customers with the same email under a unique index: InMemory saves both, SQLite throws a DbUpdateException, UNIQUE constraint failed. Saving an order for customer 999, who does not exist: InMemory saves it, SQLite throws FOREIGN KEY constraint failed">
+<text class="sT" x="230" y="24">two customers, same email</text><text class="sT" x="480" y="24">order for customer 999</text>
+<text class="sS" x="230" y="40">(unique index on Email)</text><text class="sS" x="480" y="40">(no such customer)</text>
+<text class="sC" x="14" y="76">EF InMemory provider</text>
+<rect class="sR" x="230" y="56" width="220" height="32" rx="6"/><text class="sM" x="340" y="77" text-anchor="middle">saved</text>
+<rect class="sR" x="480" y="56" width="226" height="32" rx="6"/><text class="sM" x="593" y="77" text-anchor="middle">saved</text>
+<text class="sS" x="14" y="110">the tests pass; the bugs ship</text>
+<g data-s="2"><text class="sC" x="14" y="150">SQLite in memory</text>
+<rect class="sG" x="230" y="130" width="220" height="44" rx="6"/><text class="sM" x="340" y="148" text-anchor="middle">DbUpdateException</text><text class="sS" x="340" y="165" text-anchor="middle">UNIQUE constraint failed</text>
+<rect class="sG" x="480" y="130" width="226" height="44" rx="6"/><text class="sM" x="593" y="148" text-anchor="middle">DbUpdateException</text><text class="sS" x="593" y="165" text-anchor="middle">FOREIGN KEY constraint failed</text>
+<text class="sS" x="14" y="200">a real relational engine enforces the schema, so the same tests fail as production would</text></g>
+</svg><ol class="dia-steps">
+<li>The InMemory provider is a collection, not a database: unique indexes and foreign keys are not enforced, so both broken writes succeed.</li>
+<li>Run the same code on SQLite in memory and both are rejected. Testcontainers with the production engine goes one step further: same dialect, same collation, same behaviour.</li>
+</ol><figcaption>Run as a .NET 10 file-based app with EF Core 10.0.9; the messages are the ones SQLite returned (error 19).</figcaption></figure>
+
 > [!lab] See the SQL, then fix it
 > Turn on `LogTo` in one FinSight-like project. (1) Write an N+1 loop and count the queries; fix it with a projection. (2) Include two collections and look at the row count; add `AsSplitQuery` and compare. (3) Convert a "load, change, save" bulk status update to `ExecuteUpdateAsync`. (4) Add a named tenant filter and write a Testcontainers test that proves tenant B's invoices are invisible to tenant A.
 

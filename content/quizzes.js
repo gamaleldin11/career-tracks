@@ -549,6 +549,7 @@ const FOUNDATIONS = {
     q('API', 'How should a monetary amount be sent in JSON?', ['As a float like 900.5', 'As a decimal string ("900.50") or integer minor units, plus a currency code', 'As text like "900 pounds"', 'Any number type'], 1, 'JSON has no decimal type; floats lose precision.', 'B4.0'),
   ],
   B5: [
+    q('EF Core', 'A test saves two customers with the same email despite a unique index, using the EF InMemory provider. What happens?', ['DbUpdateException', 'Both are saved: InMemory enforces no unique or foreign-key constraints', 'A compile error', 'The second is silently dropped'], 1, 'Run with EF Core 10: SQLite in memory rejected both bad writes (UNIQUE and FOREIGN KEY constraint failed). Use SQLite or, better, Testcontainers.', 'B5.9'),
     q('EF Core', 'Two queries for invoice 7 in the same DbContext return…', ['Two separate objects', 'The same object instance, because of the identity map', 'An error', 'A copy and a proxy'], 1, 'Within one context, one row maps to one tracked object.', 'B5.0'),
     q('EF Core', 'You change invoice.Status and call SaveChanges. How does EF know what to update?', ['It updates every column', 'It compares the tracked entity with the snapshot taken when it was loaded', 'You must call Update() first', 'It reloads the row'], 1, 'DetectChanges diffs against the snapshot and updates only changed columns.', 'B5.2'),
   ],
