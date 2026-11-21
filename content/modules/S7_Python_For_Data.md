@@ -527,6 +527,22 @@ pandas holds everything in memory and runs mostly on one CPU core. Rough rule: y
    - **Polars**: a DataFrame library written in Rust, multi-threaded, with a **lazy** API that optimises the whole query before running it.
    - **PySpark**: when data spans many machines ([[DE6]]).
 
+<figure class="dia steps"><svg viewBox="0 0 720 230" role="img" aria-label="Paid revenue by city from 5,000,000 orders, a 225 megabyte CSV, measured five ways. pandas reading every column takes 2.4 seconds and 1,131 megabytes of memory. Reading three columns with category dtypes takes 1.4 seconds and 29 megabytes. pandas from a 60 megabyte Parquet file takes 0.78 seconds. DuckDB querying the CSV directly takes 0.27 seconds, and querying the Parquet file 0.024 seconds">
+<text class="sT" x="14" y="22">“Paid revenue by city” from 5,000,000 orders (225 MB CSV), end to end, log scale</text>
+<g><text class="sC" x="14" y="51">pandas, all columns</text><rect class="sR" x="250" y="36" width="262.2" height="20" rx="3"/><text class="sM" x="520.2" y="51">2.4 s, 1,131 MB in RAM</text></g>
+<g data-s="2"><text class="sC" x="14" y="81">usecols + category</text><rect class="sW" x="250" y="66" width="237.1" height="20" rx="3"/><text class="sM" x="495.1" y="81">1.4 s, 29 MB in RAM</text></g>
+<g data-s="3"><text class="sC" x="14" y="111">pandas from Parquet</text><rect class="sA" x="250" y="96" width="208.1" height="20" rx="3"/><text class="sM" x="466.1" y="111">0.78 s</text></g>
+<g data-s="4"><text class="sC" x="14" y="141">DuckDB on the CSV</text><rect class="sV" x="250" y="126" width="157.5" height="20" rx="3"/><text class="sM" x="415.5" y="141">0.27 s</text></g>
+<g data-s="5"><text class="sC" x="14" y="171">DuckDB on Parquet</text><rect class="sG" x="250" y="156" width="41.8" height="20" rx="3"/><text class="sM" x="299.8" y="171">0.024 s</text></g>
+<line class="sL" x1="250" y1="190" x2="580" y2="190"/><line class="sL" x1="250" y1="190" x2="250" y2="196"/><text class="sS" x="250" y="210" text-anchor="middle">0.01 s</text><line class="sL" x1="360" y1="190" x2="360" y2="196"/><text class="sS" x="360" y="210" text-anchor="middle">0.1 s</text><line class="sL" x1="470" y1="190" x2="470" y2="196"/><text class="sS" x="470" y="210" text-anchor="middle">1 s</text><line class="sL" x1="580" y1="190" x2="580" y2="196"/><text class="sS" x="580" y="210" text-anchor="middle">10 s</text>
+</svg><ol class="dia-steps">
+<li>The default: read the whole CSV into pandas. 1,131 MB of memory for a 225 MB file, the 5× rule in action.</li>
+<li>Read only the three columns needed, with category dtypes: memory falls to 29 MB.</li>
+<li>Convert once to Parquet (60 MB): typed, compressed, and only the needed columns are read.</li>
+<li>DuckDB runs the SQL on the CSV itself, multi-threaded, without building a DataFrame first.</li>
+<li>DuckDB on Parquet: a hundred times faster than the starting point.</li>
+</ol><figcaption>The section's list in order of effort, measured with pandas 2.3 and DuckDB 1.5 on one laptop. The pattern scales: at 20 GB the first line no longer fits in memory at all.</figcaption></figure>
+
 ```python
 import polars as pl
 result = (pl.scan_parquet("orders/*.parquet")          # lazy: nothing read yet
