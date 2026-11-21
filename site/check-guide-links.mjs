@@ -6,15 +6,17 @@ import fs from 'node:fs';
 
 const urls = JSON.parse(fs.readFileSync(new URL('../dist/guides/sources.json', import.meta.url), 'utf8'));
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36';
-const bad = [], blocked = [];
+const bad = [], blocked = [], moved = [];
 let i = 0, ok = 0;
 
 async function check(u) {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*' }, signal: AbortSignal.timeout(25000) });
+      const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*', 'accept-language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(25000) });
       if (r.ok) {
         // a page that exists but lost its anchor still counts as ok; anchors are checked by eye
+        const norm = (x) => x.split('#')[0].split('?')[0].replace(/\/$/, '').toLowerCase();
+        if (norm(r.url) !== norm(u)) moved.push(`${u}\n    -> ${r.url}`);
         ok++; return;
       }
       if (r.status === 403 || r.status === 429 || r.status === 999) { blocked.push(`${r.status} ${u}`); return; }
@@ -28,5 +30,6 @@ async function check(u) {
 async function worker() { while (i < urls.length) await check(urls[i++]); }
 await Promise.all(Array.from({ length: 8 }, worker));
 console.log(`${ok}/${urls.length} sources answer`);
+if (moved.length && process.argv.includes('--moved')) console.log(`\nredirected (update to the final URL if it is the same page):\n${moved.sort().join('\n')}`);
 if (blocked.length) console.log(`\nrefused scripted access (check in a browser):\n${blocked.sort().join('\n')}`);
 if (bad.length) { console.log(`\nbroken:\n${bad.sort().join('\n')}`); process.exitCode = 1; }

@@ -2,23 +2,23 @@
 
 ## How the web works
 
-- A browser and a server talk HTTP: a request has a method, a target, headers and an optional body; the response has a status code, headers and a body ([RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)).
-- GET and HEAD are *safe* (read-only by definition) and PUT and DELETE are *idempotent* (repeating them has the same effect as doing them once); POST is neither ([RFC 9110 §9.2](https://www.rfc-editor.org/rfc/rfc9110#section-9.2)).
-- Caching is controlled with `Cache-Control`, `ETag` and conditional requests such as `If-None-Match`, which let a server answer `304 Not Modified` ([RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111)).
-- Browsers enforce the same-origin policy; an origin is the scheme, host and port together ([MDN: Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)).
+- A browser and a server talk HTTP: a request has a method, a target, headers and an optional body; the response has a status code, headers and a body ([RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110.html)).
+- GET and HEAD are *safe* (read-only by definition) and PUT and DELETE are *idempotent* (repeating them has the same effect as doing them once); POST is neither ([RFC 9110 §9.2](https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2)).
+- Caching is controlled with `Cache-Control`, `ETag` and conditional requests such as `If-None-Match`, which let a server answer `304 Not Modified` ([RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111.html)).
+- Browsers enforce the same-origin policy; an origin is the scheme, host and port together ([MDN: Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy)).
 
 ## HTML, accessibility and CSS
 
 - Use the element that matches the meaning (`button`, `nav`, `main`, headings in order); native elements bring keyboard support and an accessible role for free ([MDN: Semantics](https://developer.mozilla.org/en-US/docs/Glossary/Semantics)).
 - The first rule of ARIA: if a native HTML element or attribute gives the semantics and behaviour you need, use it instead of adding ARIA ([W3C: Using ARIA](https://www.w3.org/TR/using-aria/)).
 - WCAG 2.2 is the current W3C accessibility standard; body text needs a contrast ratio of at least 4.5:1 at level AA ([W3C: WCAG 2.2](https://www.w3.org/TR/WCAG22/)).
-- Every element is a box of content, padding, border and margin; `box-sizing: border-box` makes `width` include padding and border ([MDN: The box model](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_box_model/Introduction_to_the_CSS_box_model)).
-- Flexbox lays items out in one dimension, Grid in two ([MDN: CSS grid layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout)).
-- When rules conflict, the cascade decides by origin and importance, then layer, then specificity, then order of appearance ([MDN: Introduction to the CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Cascade)).
+- Every element is a box of content, padding, border and margin; `box-sizing: border-box` makes `width` include padding and border ([MDN: The box model](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Box_model/Introduction)).
+- Flexbox lays items out in one dimension, Grid in two ([MDN: CSS grid layout](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout)).
+- When rules conflict, the cascade decides by origin and importance, then layer, then specificity, then order of appearance ([MDN: Introduction to the CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction)).
 
 ## JavaScript and TypeScript
 
-- A closure is a function bundled with references to the variables of the scope where it was created ([MDN: Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)).
+- A closure is a function bundled with references to the variables of the scope where it was created ([MDN: Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures)).
 - `let` and `const` are block-scoped and sit in a temporal dead zone until their declaration runs; `var` is function-scoped ([MDN: let](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)).
 - The value of `this` depends on how a function is called, except in arrow functions, which take `this` from the enclosing scope ([MDN: this](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)).
 - JavaScript runs your code on one thread; callbacks from timers and I/O wait in a queue, and promise callbacks run as microtasks before the next task ([MDN: Using microtasks](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide)).
@@ -39,7 +39,7 @@
 - Core Web Vitals measure loading (LCP, good at 2.5 s or less), responsiveness (INP, good at 200 ms or less) and visual stability (CLS, good at 0.1 or less), at the 75th percentile of page loads ([web.dev: Web Vitals](https://web.dev/articles/vitals)).
 - Test the way a user uses the page: the more your tests resemble how the software is used, the more confidence they give ([Testing Library: Guiding principles](https://testing-library.com/docs/guiding-principles)).
 - Cross-site scripting is prevented mainly by output encoding for the right context, plus a Content Security Policy as defence in depth ([OWASP: XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)).
-- The OWASP Top 10 is the reference list of the most critical web application security risks ([OWASP Top 10](https://owasp.org/Top10/)).
+- The OWASP Top 10 is the reference list of the most critical web application security risks ([OWASP Top 10](https://top10.owasp.org/)).
 
 ## System design for the front end
 

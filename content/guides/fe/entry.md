@@ -5,8 +5,8 @@
 ## HTTP and the browser
 
 - A URL's origin is its scheme, host and port; two URLs share an origin only if all three match ([MDN: Origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin)).
-- Status code classes: 2xx success, 3xx redirection, 4xx client error, 5xx server error ([RFC 9110 §15](https://www.rfc-editor.org/rfc/rfc9110#section-15)).
-- 401 means the request lacks valid authentication; 403 means the server understood it and refuses to authorise it ([RFC 9110 §15.5](https://www.rfc-editor.org/rfc/rfc9110#section-15.5)).
+- Status code classes: 2xx success, 3xx redirection, 4xx client error, 5xx server error ([RFC 9110 §15](https://www.rfc-editor.org/rfc/rfc9110.html#section-15)).
+- 401 means the request lacks valid authentication; 403 means the server understood it and refuses to authorise it ([RFC 9110 §15.5](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.5)).
 - A cookie is set with the `Set-Cookie` header; `HttpOnly` hides it from JavaScript and `Secure` sends it only over HTTPS ([MDN: Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie)).
 - Cross-origin `fetch` requests are allowed only when the server answers with the right CORS headers such as `Access-Control-Allow-Origin` ([MDN: CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS)).
 - `localStorage` keeps strings per origin with no expiry; `sessionStorage` is cleared when the tab's session ends ([MDN: Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)).
@@ -28,12 +28,12 @@
 
 ## CSS
 
-- Specificity is compared as three columns: IDs, then classes, attributes and pseudo-classes, then elements and pseudo-elements ([MDN: Specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Specificity)).
-- `box-sizing: border-box` makes `width` and `height` include padding and border ([MDN: box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)).
-- Flexbox: `justify-content` aligns items on the main axis and `align-items` on the cross axis ([MDN: Basic concepts of flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox)).
-- Grid: `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` builds a responsive grid without media queries ([MDN: repeat()](https://developer.mozilla.org/en-US/docs/Web/CSS/repeat)).
-- Media queries apply styles by viewport features such as width; mobile-first means base styles for small screens, then `min-width` queries ([MDN: Using media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries)).
-- `position: sticky` keeps an element in normal flow until it reaches a threshold, then sticks ([MDN: position](https://developer.mozilla.org/en-US/docs/Web/CSS/position)).
+- Specificity is compared as three columns: IDs, then classes, attributes and pseudo-classes, then elements and pseudo-elements ([MDN: Specificity](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Specificity)).
+- `box-sizing: border-box` makes `width` and `height` include padding and border ([MDN: box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/box-sizing)).
+- Flexbox: `justify-content` aligns items on the main axis and `align-items` on the cross axis ([MDN: Basic concepts of flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts)).
+- Grid: `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` builds a responsive grid without media queries ([MDN: repeat()](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/repeat)).
+- Media queries apply styles by viewport features such as width; mobile-first means base styles for small screens, then `min-width` queries ([MDN: Using media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Media_queries/Using)).
+- `position: sticky` keeps an element in normal flow until it reaches a threshold, then sticks ([MDN: position](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/position)).
 
 ## JavaScript
 

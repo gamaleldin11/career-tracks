@@ -14,17 +14,17 @@ Only when no native element gives the semantics you need; the first rule of ARIA
 
 ### How does the browser decide which CSS rule wins?
 
-The cascade compares origin and importance, then cascade layers, then specificity (IDs, then classes, then elements), then source order ([MDN: Introduction to the CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Cascade)).
+The cascade compares origin and importance, then cascade layers, then specificity (IDs, then classes, then elements), then source order ([MDN: Introduction to the CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascade/Introduction)).
 
 ### Flexbox or Grid?
 
-Flexbox for one dimension, a row or a column of items; Grid for two-dimensional layouts where rows and columns line up ([MDN: Relationship of grid layout to other layout methods](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Relationship_of_grid_layout_with_other_layout_methods)).
+Flexbox for one dimension, a row or a column of items; Grid for two-dimensional layouts where rows and columns line up ([MDN: Relationship of grid layout to other layout methods](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Relationship_with_other_layout_methods)).
 
 ## JavaScript
 
 ### What is a closure?
 
-A function together with references to the variables in the scope where it was created, so it can still read them after that scope has returned; used for private state and callbacks ([MDN: Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)).
+A function together with references to the variables in the scope where it was created, so it can still read them after that scope has returned; used for private state and callbacks ([MDN: Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures)).
 
 ### What is the difference between `var`, `let` and `const`?
 

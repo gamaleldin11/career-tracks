@@ -57,7 +57,7 @@
 - A Content Security Policy restricts where scripts and other resources may load from, limiting the damage of injected markup ([MDN: CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP)).
 - `SameSite=Lax` cookies are not sent on cross-site subrequests such as form POSTs, which blocks most CSRF ([MDN: Set-Cookie — SameSite](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie#samesitesamesite-value)).
 - Store tokens where script cannot read them where you can: an `HttpOnly` cookie is out of reach of injected JavaScript ([OWASP: Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)).
-- Subresource Integrity lets the browser verify that a file from a CDN was not altered ([MDN: Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)).
+- Subresource Integrity lets the browser verify that a file from a CDN was not altered ([MDN: Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity)).
 
 ## Accessibility beyond the basics
 
