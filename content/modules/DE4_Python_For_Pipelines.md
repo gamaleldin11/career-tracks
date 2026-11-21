@@ -262,6 +262,17 @@ with engine.begin() as conn:                                   # one transaction
 
 `azure-storage-blob` / `adlfs` (Azure), `boto3` / `s3fs` (AWS), `google-cloud-storage` / `gcsfs` (GCP). **fsspec** gives one interface over all of them, so pandas, PyArrow and Polars can read `abfss://…`, `s3://…` or `gs://…` paths directly. Authenticate with managed identities or workload identity, not keys in code ([[S10.6]]).
 
+<figure class="dia"><svg viewBox="0 0 720 324" role="img" aria-label="The same pandas call, read_parquet of a URL, run against five storage paths. memory and file both returned 3 rows summing to 750. An s3 URL was handled by PyArrow's built-in S3 client, which contacted AWS and reported that the bucket finsight-lake was not found. An abfss URL failed because this PyArrow build has no Azure support. An abfs URL with storage_options went to fsspec, which asked for the adlfs package">
+<rect class="sV" x="14" y="14" width="692" height="34" rx="6"/><text class="sM" x="24" y="36">df.to_parquet(url); pd.read_parquet(url)   # the only thing that changes is url</text>
+<rect class="sN" x="14" y="60" width="692" height="38" rx="5"/><text class="sM" x="24" y="76">memory://lake/orders.parquet</text><text class="sC" x="24" y="92">fsspec MemoryFileSystem</text><text class="sGt" x="696" y="84" text-anchor="end">3 rows, sum 750</text>
+<rect class="sN" x="14" y="104" width="692" height="38" rx="5"/><text class="sM" x="24" y="120">file:///…/lake_demo.parquet</text><text class="sC" x="24" y="136">local disk</text><text class="sGt" x="696" y="128" text-anchor="end">3 rows, sum 750</text>
+<rect class="sN" x="14" y="148" width="692" height="38" rx="5"/><text class="sM" x="24" y="164">s3://finsight-lake/orders.parquet</text><text class="sC" x="24" y="180">PyArrow's own S3 client</text><text class="sWt" x="696" y="172" text-anchor="end">reached AWS: Bucket 'finsight-lake' not found</text>
+<rect class="sN" x="14" y="192" width="692" height="38" rx="5"/><text class="sM" x="24" y="208">abfss://lake@finsight.dfs.core…</text><text class="sC" x="24" y="224">PyArrow, no Azure support in this build</text><text class="sRt" x="696" y="216" text-anchor="end">ArrowNotImplementedError</text>
+<rect class="sN" x="14" y="236" width="692" height="38" rx="5"/><text class="sM" x="24" y="252">abfs://lake/orders.parquet + storage_options</text><text class="sC" x="24" y="268">pandas hands it to fsspec</text><text class="sWt" x="696" y="260" text-anchor="end">ImportError: Install adlfs to access Azure…</text>
+<text class="sS" x="360" y="296" text-anchor="middle">pandas 2.3, fsspec 2024.2, PyArrow; real outputs, including the S3 lookup of a bucket that does not exist</text>
+<text class="sS" x="360" y="314" text-anchor="middle">with a real account, anon=False lets adlfs use a managed identity instead of keys in code</text>
+</svg><figcaption>One call, several backends. The code barely changes, but the installed drivers decide what works: PyArrow carries its own S3 client, while Azure goes through fsspec. For Azure, install <code>adlfs</code> and call <code>pd.read_parquet("abfs://container/path", storage_options={"account_name": …, "anon": False})</code>. Passing <code>storage_options</code> is what makes pandas use fsspec here instead of PyArrow.</figcaption></figure>
+
 ## DE4.7 Validating data in code 🟡 ⭐
 
 Turn expectations into code that fails loudly, at the boundary:
