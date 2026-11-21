@@ -29,6 +29,8 @@ async function check(u) {
       const r = await fetch(u, { redirect: 'follow', headers: { 'user-agent': UA, accept: 'text/html,*/*', 'accept-language': 'en-US,en;q=0.9' }, signal: AbortSignal.timeout(25000) });
       if (r.ok) {
         // a page that exists but lost its anchor still counts as ok; anchors are checked by eye
+        // arXiv: record the paper's title so a mistyped ID (which still answers 200) shows up
+        if (/arxiv\.org\/abs\//.test(u)) { const t = (await r.text()).match(/<title>([^<]*)/); dois.push(`${u.split('/abs/')[1]}  ${t ? t[1].replace(/\s+/g, ' ').trim() : '?'}`); }
         const norm = (x) => x.split('#')[0].split('?')[0].replace(/\/$/, '').toLowerCase();
         if (norm(r.url) !== norm(u)) moved.push(`${u}\n    -> ${r.url}`);
         ok++; return;
@@ -44,7 +46,7 @@ async function check(u) {
 async function worker() { while (i < urls.length) await check(urls[i++]); }
 await Promise.all(Array.from({ length: 8 }, worker));
 console.log(`${ok}/${urls.length} sources answer`);
-if (dois.length && process.argv.includes('--dois')) console.log(`\nDOIs (title from Crossref):\n${dois.sort().join('\n')}`);
+if (dois.length && process.argv.includes('--dois')) console.log(`\nPapers (DOI titles from Crossref, arXiv titles from the abstract page):\n${dois.sort().join('\n')}`);
 if (moved.length && process.argv.includes('--moved')) console.log(`\nredirected (update to the final URL if it is the same page):\n${moved.sort().join('\n')}`);
 if (blocked.length) console.log(`\nrefused scripted access (check in a browser):\n${blocked.sort().join('\n')}`);
 if (bad.length) { console.log(`\nbroken:\n${bad.sort().join('\n')}`); process.exitCode = 1; }
