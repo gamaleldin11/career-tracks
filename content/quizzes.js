@@ -654,6 +654,7 @@ const FOUNDATIONS = {
     q('Evaluation', 'The offer sent to predicted churners doubles in cost. The profit-maximising threshold…', ['Stays at 0.5', 'Moves up: each false positive now costs more', 'Moves down', 'Becomes irrelevant'], 1, 'Re-derive the threshold from costs whenever costs or base rates change; here it moved from 0.28 to 0.50.', 'DS4.4'),
   ],
   DS5: [
+    q('Causal inference', 'Opt-in loyalty members spend 290 EGP a month more than non-members after launch. In a simulation with a true effect of +30, which estimate recovered it?', ['The naive member vs non-member gap', 'Plain difference-in-differences (+40)', 'Matching on pre-launch spend, then difference-in-differences', 'None of them'], 2, 'Members were already the big spenders, and big spenders grow more in EGP, so both simpler comparisons overstate the effect.', 'DS5.7'),
     q('Data science', 'Why does comparing loyalty members with non-members overstate the programme effect?', ['Members are fewer', 'Engaged customers both join more and spend more: a confounder', 'Spending is noisy', 'It does not'], 1, 'Selection mixes who joined with what the programme did.', 'DS5.0'),
     q('Data science', 'Cairo rose 12, Alexandria rose 6 over the same period. The DiD estimate of Cairo\'s policy is…', ['+12', '+6', '+18', '0'], 1, 'Treated change minus control change, assuming parallel trends.', 'DS5.4'),
   ],

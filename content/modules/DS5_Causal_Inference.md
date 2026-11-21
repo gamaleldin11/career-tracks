@@ -332,6 +332,22 @@ Common approaches: the **T-learner** (separate outcome models for treated and co
 4. **Checks:** parallel pre-trends; balance after matching; robustness to alternative specifications; spill-over (members' families?).
 5. **Answer:** an effect with a confidence interval and the assumptions in plain words, plus a recommendation: run a randomised holdout for the next programme change so the question gets a clean answer.
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="A simulation of an opt-in loyalty programme with 20,000 customers and a true effect of plus 30 EGP a month. Comparing members with non-members after launch estimates plus 290 EGP, because members already spent 640 EGP a month before launch against 390 for others. Difference-in-differences estimates plus 40, because bigger spenders grow more in EGP. Matching each member to five non-members with the same pre-launch spend, then taking differences in differences, estimates plus 30">
+<text class="sT" x="14" y="22">Estimated effect on monthly spend (true effect: +30 EGP)</text>
+<line class="sD" x1="245.0" y1="34" x2="245.0" y2="196"/><text class="sS" x="245.0" y="212" text-anchor="middle">true +30</text>
+<text class="sC" x="14" y="58">Naive comparison</text><rect class="sR" x="200" y="40" width="435.0" height="26" rx="3"/><text class="sM" x="643.0" y="58">+290</text>
+<text class="sS" x="261.0" y="82">members already spent 640 EGP a month before launch, others 390</text>
+<g data-s="2"><text class="sC" x="14" y="114">Difference-in-differences</text><rect class="sW" x="200" y="96" width="60.0" height="26" rx="3"/><text class="sM" x="268.0" y="114">+40</text>
+<text class="sS" x="261.0" y="138">change vs change, but big spenders grow more in EGP (4% of a bigger base)</text></g>
+<g data-s="3"><text class="sC" x="14" y="170">Matched + DiD</text><rect class="sG" x="200" y="152" width="45.0" height="26" rx="3"/><text class="sM" x="253.0" y="170">+30</text>
+<text class="sS" x="261.0" y="194">each member vs 5 non-members with the same pre-launch spend</text>
+<text class="sS" x="14" y="246">Over 20 simulated datasets the matched estimate ranged from 28.5 to 31.3 EGP.</text></g>
+</svg><ol class="dia-steps">
+<li>Members against non-members after launch: +290 EGP, almost ten times the truth, because the people who opted in were already the big spenders.</li>
+<li>Comparing each group's change removes the level difference, but not the different trend: +40.</li>
+<li>Matching on pre-launch spend first gives each member comparable controls, and the change-vs-change estimate lands on +30.</li>
+</ol><figcaption>The worked case in numbers, simulated with NumPy and scikit-learn's NearestNeighbors: opt-in depends on pre-launch spend, spend grows 4% for everyone, and membership adds 30 EGP.</figcaption></figure>
+
 > [!lab] Run a difference-in-differences
 > Simulate (or find on Kaggle) panel data for two regions over 20 weeks, with a policy in one region from week 11 and a true effect you choose. Plot pre-trends, estimate DiD with statsmodels and clustered errors, then break the parallel-trends assumption on purpose (give the treated region a steeper pre-trend) and watch the estimate go wrong. Write two paragraphs on what you'd check in real data. This makes the method concrete for interviews.
 
