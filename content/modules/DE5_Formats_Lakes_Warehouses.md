@@ -39,6 +39,15 @@ File **formats** (CSV, Avro, Parquet) decide how bytes are laid out inside each 
 | **Parquet** | **Columnar**, binary | Embedded | Compression, column pruning, statistics for skipping, the analytics standard | Slower to write, not appendable in place | Lakes, lakehouses, warehouse loading |
 | **ORC** | Columnar, binary | Embedded | Similar to Parquet | Smaller ecosystem today | Hive-era platforms |
 
+<figure class="dia"><svg viewBox="0 0 720 196" role="img" aria-label="The same 1,000,000 orders with eight columns saved four ways and the amount column summed. CSV: 56 megabytes, 248 milliseconds. JSON Lines: 142 megabytes, 2.8 seconds. Parquet with snappy compression: 17.5 megabytes, 9 milliseconds. Parquet with zstd: 13.3 megabytes, 9 milliseconds">
+<text class="sT" x="150" y="24">file size</text><text class="sT" x="480" y="24">sum one column (log scale)</text>
+<text class="sC" x="14" y="57">CSV</text><rect class="sW" x="150" y="42" width="83.7" height="20" rx="3"/><text class="sM" x="241.7" y="57">56 MB</text><rect class="sW" x="480" y="42" width="131.7" height="20" rx="3"/><text class="sM" x="619.7" y="57">248 ms</text>
+<text class="sC" x="14" y="89">JSON Lines</text><rect class="sR" x="150" y="74" width="212.4" height="20" rx="3"/><text class="sM" x="370.4" y="89">142 MB</text><rect class="sR" x="480" y="74" width="189.5" height="20" rx="3"/><text class="sM" x="677.5" y="89">2.8 s</text>
+<text class="sC" x="14" y="121">Parquet, snappy</text><rect class="sG" x="150" y="106" width="26.2" height="20" rx="3"/><text class="sM" x="184.2" y="121">17.5 MB</text><rect class="sG" x="480" y="106" width="52.5" height="20" rx="3"/><text class="sM" x="540.5" y="121">9 ms</text>
+<text class="sC" x="14" y="153">Parquet, zstd</text><rect class="sG" x="150" y="138" width="20.0" height="20" rx="3"/><text class="sM" x="178.0" y="153">13.3 MB</text><rect class="sG" x="480" y="138" width="52.5" height="20" rx="3"/><text class="sM" x="540.5" y="153">9 ms</text>
+<text class="sS" x="14" y="186">Parquet reads only the amount column; CSV and JSON must parse every row, and JSON repeats every key on every line.</text>
+</svg><figcaption>Measured with pandas 2.3 and PyArrow 23 on one machine, best of three reads (JSON once). zstd buys a smaller file at almost no read cost; DE1 shows the same effect on an aggregation query.</figcaption></figure>
+
 > [!say]
 > "Avro is row-oriented with an embedded schema and good evolution rules, so it suits streaming and write-heavy ingestion, like Kafka messages. Parquet is columnar and compressed with per-column statistics, so analytical queries read only the columns and row groups they need. I land events in Avro or JSON and store analytical tables in Parquet, usually under a table format."
 
