@@ -1025,6 +1025,18 @@ print(round(n))                                     # ≈ 14,700 per group
 
 Statistical significance answers "is it real?"; **practical significance** answers "does it matter?". Weigh the effect and its CI against the cost: engineering maintenance, the risk to guardrails, and whether the CI's *lower* bound still beats the cost. A 0.1% lift on a checkout for millions of users can be worth a lot; the same lift on an internal tool is noise.
 
+<figure class="dia"><svg viewBox="0 0 720 250" role="img" aria-label="A simulated A/B test with 2 million users per arm: control converted at 3.99 percent and the variant at 4.07 percent, a lift of 0.080 percentage points with a 95 percent interval from 0.041 to 0.118, p equal to 0.0001. If the change pays for itself at a lift of 0.03 points, the whole interval clears it: ship. If it needs 0.10 points, for example because it adds a service to maintain, the estimate sits below it: do not ship on this evidence">
+<text class="sT" x="14" y="24">lift in conversion, percentage points (95% CI)</text>
+<line class="sL" x1="120" y1="150" x2="640" y2="150"/>
+<line class="sL" x1="120" y1="146" x2="120" y2="154"/><text class="sC" x="120" y="170" text-anchor="middle">0.00</text><line class="sL" x1="293" y1="146" x2="293" y2="154"/><text class="sC" x="293" y="170" text-anchor="middle">0.05</text><line class="sL" x1="467" y1="146" x2="467" y2="154"/><text class="sC" x="467" y="170" text-anchor="middle">0.10</text><line class="sL" x1="640" y1="146" x2="640" y2="154"/><text class="sC" x="640" y="170" text-anchor="middle">0.15</text>
+<line class="sLv" x1="263" y1="96" x2="530" y2="96" stroke-width="4"/><circle class="sFm" cx="396" cy="96" r="6"/>
+<text class="sT" x="396" y="80" text-anchor="middle">+0.080 [0.041, 0.118], p = 0.0001</text>
+<line class="sLg" x1="224" y1="50" x2="224" y2="140" stroke-dasharray="5 4"/><text class="sGt" x="218" y="124" text-anchor="end">cheap change pays</text><text class="sGt" x="218" y="140" text-anchor="end">off at 0.03: ship</text>
+<line class="sLr" x1="467" y1="50" x2="467" y2="140" stroke-dasharray="5 4"/><text class="sRt" x="473" y="124">costly change needs 0.10:</text><text class="sRt" x="473" y="140">estimate below it, don't ship</text>
+<text class="sC" x="14" y="200">control 79,757 / 2,000,000 = 3.99% · variant 81,351 / 2,000,000 = 4.07% · relative lift 2.0%</text>
+<text class="sS" x="360" y="232" text-anchor="middle">numpy simulation with a true lift of 0.06 points; two-proportion z-test, normal-approximation interval</text>
+</svg><figcaption>With 2 million users per arm, a 2% relative lift is unmistakably real, and the decision still depends on cost. Compare the interval's lower bound with what the change must earn: clear above it, ship; straddling it, the significance alone settles nothing.</figcaption></figure>
+
 ## S6.11 Interview drill 🟢 ⭐
 
 | Question | Strong short answer |
