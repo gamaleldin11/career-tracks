@@ -281,6 +281,24 @@ public async Task Only_owner_can_approve_payment(string role, HttpStatusCode exp
 > [!term] Differential test
 > Run the same input through **two implementations** (yours and a trusted reference) and compare the outputs. It finds bugs without having to write expected values by hand.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="A differential test of money rounding. The same amounts go through Math.round of x times 100 divided by 100 and through exact decimal rounding half up. On 10,000 random amounts 37 disagree, for example 1.005 rounds to 1.00 instead of 1.01. Over every half-cent amount from 0.005 to 999.995, 4,588 of 100,000 are wrong, because 1.005 times 100 is 100.49999999999999 in floating point">
+<rect class="sN" x="14" y="28" width="150" height="40" rx="6"/><text class="sT" x="89" y="52" text-anchor="middle">same amounts</text>
+<rect class="sW" x="210" y="14" width="330" height="30" rx="6"/><text class="sM" x="220" y="34">yours: Math.round(x * 100) / 100</text>
+<rect class="sG" x="210" y="52" width="330" height="30" rx="6"/><text class="sM" x="220" y="72">reference: exact decimal, half up</text>
+<rect class="sV" x="586" y="28" width="120" height="40" rx="6"/><text class="sT" x="646" y="52" text-anchor="middle">compare</text>
+<line class="sLm" x1="164" y1="44" x2="208" y2="30" marker-end="url(#ahm)"/><line class="sLm" x1="164" y1="52" x2="208" y2="66" marker-end="url(#ahm)"/>
+<line class="sLm" x1="540" y1="30" x2="584" y2="44" marker-end="url(#ahm)"/><line class="sLm" x1="540" y1="66" x2="584" y2="52" marker-end="url(#ahm)"/>
+<g data-s="2"><rect class="sN" x="14" y="100" width="350" height="104" rx="6"/><rect class="sV" x="14" y="100" width="350" height="22" rx="6"/><text class="sC" x="24" y="115">amount</text><text class="sC" x="130" y="115">yours</text><text class="sC" x="230" y="115">reference</text><text class="sM" x="24" y="140">1.005</text><text class="sRt" x="130" y="140">1.00</text><text class="sGt" x="230" y="140">1.01</text><text class="sM" x="24" y="160">149.015</text><text class="sRt" x="130" y="160">149.01</text><text class="sGt" x="230" y="160">149.02</text><text class="sM" x="24" y="180">614.935</text><text class="sRt" x="130" y="180">614.93</text><text class="sGt" x="230" y="180">614.94</text><text class="sRt" x="24" y="222">37 of 10,000 random amounts disagree</text></g>
+<g data-s="3"><rect class="sR" x="380" y="100" width="326" height="104" rx="6"/><text class="sT" x="390" y="122">every half-cent amount, 0.005 to 999.995</text><text class="sRt" x="390" y="146">4,588 of 100,000 rounded down (4.6%)</text><text class="sC" x="390" y="170">why: in binary floating point</text><text class="sM" x="390" y="190">1.005 * 100 = 100.49999999999999</text></g>
+<g data-s="4"><rect class="sG" x="14" y="236" width="692" height="34" rx="6"/><text class="sGt" x="24" y="258">fix: keep money in integer cents or a decimal type, as the reference does: 0 disagreements</text></g>
+<text class="sS" x="360" y="292" text-anchor="middle">run in Node 24 and Python 3 with the same inputs; both gave 4,588 wrong half-cent amounts</text>
+</svg><ol class="dia-steps">
+<li>A differential test runs the same inputs through your code and a trusted reference, and compares the outputs. No expected values are written by hand.</li>
+<li>10,000 random amounts: 37 disagree, every one a half-cent case rounded the wrong way.</li>
+<li>Checking every half-cent amount exhaustively shows how big the bug really is: 4,588 of 100,000. The cause is binary floating point, where 1.005 × 100 is slightly below 100.5.</li>
+<li>Computing in integer cents or a decimal type, as the reference does, removes the disagreement entirely.</li>
+</ol><figcaption>A hand-written unit test would probably have checked 2.50 or 10.00 and passed. The reference found the cases that nobody would have thought to write.</figcaption></figure>
+
 > [!story]
 > CS Visualizer's interpreter was checked with **differential tests** (your interpreter's output against real .NET execution of the same C#) and **golden tests**, gated in CI, and they caught **thirteen semantic bugs**. This is your best testing story: say how many bugs, of what kind (for example, integer overflow or short-circuit evaluation), and why ordinary unit tests would have missed them.
 
