@@ -2220,6 +2220,18 @@ X_reduced = srp.fit_transform(X)                    # fit only needs X's shape
 | **UMAP** (`umap-learn`) | Local *and* more global structure | Scales better than t-SNE. Good for visualising millions of points |
 | **LDA** (Linear Discriminant Analysis) | Class separation (it is **supervised**) | Projects onto the most discriminative axes. A good reduction before a classifier |
 
+<figure class="dia"><svg viewBox="0 0 720 260" role="img" aria-label="The 1,797 handwritten digits reduced from 64 to 2 dimensions by six methods, scored by 5-fold cross-validated 5-nearest-neighbour accuracy in the 2-D map. PCA 0.514, LDA 0.624, MDS 0.657 taking 16 seconds, LLE 0.777, Isomap 0.779 and t-SNE 0.954 in 3 seconds. The same classifier on all 64 features scores 0.944">
+<text class="sT" x="14" y="20">How well 2-D maps keep the ten digits apart (kNN accuracy in the map)</text><text class="sS" x="704" y="20" text-anchor="end">time</text>
+<text class="sC" x="14" y="47">PCA</text><rect class="sV" x="150" y="32" width="257.0" height="20" rx="3"/><text class="sM" x="415.0" y="47">0.514</text><text class="sS" x="704" y="47" text-anchor="end">0.01 s</text>
+<text class="sC" x="14" y="77">LDA (supervised)</text><rect class="sV" x="150" y="62" width="312.0" height="20" rx="3"/><text class="sM" x="470.0" y="77">0.624</text><text class="sS" x="704" y="77" text-anchor="end">0.03 s</text>
+<text class="sC" x="14" y="107">MDS</text><rect class="sW" x="150" y="92" width="328.5" height="20" rx="3"/><text class="sM" x="486.5" y="107">0.657</text><text class="sS" x="704" y="107" text-anchor="end">16 s</text>
+<text class="sC" x="14" y="137">LLE</text><rect class="sA" x="150" y="122" width="388.5" height="20" rx="3"/><text class="sM" x="546.5" y="137">0.777</text><text class="sS" x="704" y="137" text-anchor="end">0.3 s</text>
+<text class="sC" x="14" y="167">Isomap</text><rect class="sA" x="150" y="152" width="389.5" height="20" rx="3"/><text class="sM" x="547.5" y="167">0.779</text><text class="sS" x="704" y="167" text-anchor="end">0.5 s</text>
+<text class="sC" x="14" y="197">t-SNE</text><rect class="sG" x="150" y="182" width="477.0" height="20" rx="3"/><text class="sM" x="635.0" y="197">0.954</text><text class="sS" x="704" y="197" text-anchor="end">3 s</text>
+<line class="sD" x1="622.0" y1="28" x2="622.0" y2="212"/><text class="sS" x="622.0" y="226" text-anchor="middle">all 64 features: 0.944</text>
+<text class="sS" x="14" y="250">t-SNE only maps the points it was fitted on, so its score describes a picture, not a model you can deploy.</text>
+</svg><figcaption>Computed with scikit-learn on load_digits (standardised): each method's 2-D output scored by KNeighborsClassifier(5) with 5-fold cross-validation; LDA is fitted inside the folds because it uses the labels. Linear methods keep variance or class axes; neighbourhood methods keep the clusters.</figcaption></figure>
+
 **PCA vs LDA**, a classic question: PCA is unsupervised and maximises total variance. LDA is supervised and maximises between-class separation relative to within-class spread. It gives at most K − 1 components for K classes.
 
 ## 9.16 K-Means — Géron's additional details 🟡
