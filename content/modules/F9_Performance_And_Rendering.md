@@ -368,6 +368,24 @@ const send = (m) => navigator.sendBeacon("/api/vitals", JSON.stringify({ name: m
 onLCP(send); onINP(send); onCLS(send);
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="This handbook measured in production with the browser's Performance APIs, one desktop load. The first byte arrives after 250 milliseconds; DOMContentLoaded at 1.82 seconds; Largest Contentful Paint at 1.90 seconds, a paragraph of text, within the 2.5 second good threshold; cumulative layout shift 0.063, within 0.1. The single HTML page is 12.2 megabytes, sent as 3.0 megabytes compressed over HTTP/2, and builds about 180,000 DOM elements, far above the roughly 1,400 at which Lighthouse warns">
+<text class="sT" x="14" y="22">career-tracks-amber.vercel.app, one desktop load (Performance API)</text>
+<line class="sL" x1="40" y1="80" x2="640.0" y2="80"/>
+<line class="sL" x1="40.0" y1="80" x2="40.0" y2="86"/><text class="sS" x="40.0" y="100" text-anchor="middle">0 s</text><line class="sL" x1="190.0" y1="80" x2="190.0" y2="86"/><text class="sS" x="190.0" y="100" text-anchor="middle">0.5 s</text><line class="sL" x1="340.0" y1="80" x2="340.0" y2="86"/><text class="sS" x="340.0" y="100" text-anchor="middle">1 s</text><line class="sL" x1="490.0" y1="80" x2="490.0" y2="86"/><text class="sS" x="490.0" y="100" text-anchor="middle">1.5 s</text><line class="sL" x1="640.0" y1="80" x2="640.0" y2="86"/><text class="sS" x="640.0" y="100" text-anchor="middle">2 s</text>
+<circle class="sV" cx="115.0" cy="80" r="6"/><text class="sC" x="115.0" y="60" text-anchor="middle">TTFB 250 ms</text>
+<g data-s="2"><circle class="sA" cx="586.9" cy="80" r="6"/><text class="sC" x="578.9" y="60" text-anchor="end">DOMContentLoaded 1.82 s</text>
+<circle class="sG" cx="608.8" cy="80" r="6"/><text class="sGt" x="608.8" y="44" text-anchor="middle">LCP 1.90 s ✓ (≤ 2.5)</text>
+<text class="sGt" x="14" y="128">CLS 0.063 ✓ (≤ 0.1)</text></g>
+<g data-s="3"><text class="sC" x="14" y="160">HTML: 12.2 MB decoded, 3.0 MB over the wire (compressed, HTTP/2)</text>
+<text class="sRt" x="14" y="184">DOM: about 180,000 elements; Lighthouse warns above about 1,400</text>
+<text class="sS" x="14" y="208">the next fix: render each module's content only when it is opened, instead of all 119 at load</text>
+<text class="sS" x="14" y="232">then measure again, and add INP from real users with web-vitals</text></g>
+</svg><ol class="dia-steps">
+<li>The server answers fast: the first byte arrives in a quarter of a second from Vercel's edge.</li>
+<li>LCP and CLS are inside the “good” thresholds on this desktop connection; a throttled mobile run would be slower.</li>
+<li>The numbers point at the real problem: one huge DOM. That is the measured “before” for this lab.</li>
+</ol><figcaption>A real measurement of this site, November 2026, with PerformanceNavigationTiming and PerformanceObserver: one desktop load on one connection, not field data. PageSpeed Insights or web-vitals in production would give the distribution.</figcaption></figure>
+
 > [!lab] A measured before-and-after
 > Pick CS Visualizer or your studio site. Record Lighthouse (mobile, throttled) and the bundle analysis. Fix three things: for example preload and prioritise the LCP image, lazy-load a heavy component or route, and add dimensions to images. Record again. A sentence like "I cut LCP on mobile from 4.1 s to 2.2 s by…" is gold on a frontend CV. (Remember the recruiter rule about numbers: keep it for the interview, or one well-earned figure.)
 
