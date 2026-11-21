@@ -294,6 +294,23 @@ Before any model, establish baselines ([[DS6]] goes deeper):
 
 State the assumptions and show a range, not a single number.
 
+<figure class="dia"><svg viewBox="0 0 720 286" role="img" aria-label="Forecast baselines for 2017 monthly sales in the Superstore sample, trained on 2014 to 2016 and checked against what happened. Repeating last month, the December 2016 peak of 97,000, had a mean absolute percentage error of 97 percent; a three-month average 66 percent; seasonal naive, the same month last year, 24.5 percent; last year times 1.295 growth 27.6 percent, with an annual total within 8 percent of the actual 733,000">
+<line class="sD" x1="60" y1="230" x2="460" y2="230" opacity=".5"/><text class="sC" x="52" y="234" text-anchor="end">0k</text><line class="sD" x1="60" y1="163" x2="460" y2="163" opacity=".5"/><text class="sC" x="52" y="167" text-anchor="end">40k</text><line class="sD" x1="60" y1="97" x2="460" y2="97" opacity=".5"/><text class="sC" x="52" y="101" text-anchor="end">80k</text><line class="sD" x1="60" y1="30" x2="460" y2="30" opacity=".5"/><text class="sC" x="52" y="34" text-anchor="end">120k</text>
+<text class="sC" x="60" y="248" text-anchor="middle">J</text><text class="sC" x="96" y="248" text-anchor="middle">F</text><text class="sC" x="133" y="248" text-anchor="middle">M</text><text class="sC" x="169" y="248" text-anchor="middle">A</text><text class="sC" x="205" y="248" text-anchor="middle">M</text><text class="sC" x="242" y="248" text-anchor="middle">J</text><text class="sC" x="278" y="248" text-anchor="middle">J</text><text class="sC" x="315" y="248" text-anchor="middle">A</text><text class="sC" x="351" y="248" text-anchor="middle">S</text><text class="sC" x="387" y="248" text-anchor="middle">O</text><text class="sC" x="424" y="248" text-anchor="middle">N</text><text class="sC" x="460" y="248" text-anchor="middle">D</text>
+<text class="sC" x="260" y="266" text-anchor="middle">2017, held out</text>
+<polyline class="sLr" fill="none" stroke-dasharray="6 4" points="60,68 96,68 133,68 169,68 205,68 242,68 278,68 315,68 351,68 387,68 424,68 460,68"/>
+<polyline class="sLg" fill="none"  points="60,199 96,192 133,144 169,165 205,135 242,163 278,165 315,178 351,108 387,131 424,98 460,68"/>
+<polyline class="sLw" fill="none"  points="60,190 96,180 133,118 169,146 205,107 242,143 278,145 315,163 351,72 387,101 424,59 460,21"/>
+<polyline class="sLv" fill="none" stroke-width="3" points="60,157 96,196 133,132 169,169 205,156 242,142 278,155 315,125 351,84 387,100 424,33 460,90"/>
+<text class="sT" x="484" y="40">error on the 12 held-out months</text>
+<line class="sLv" x1="484" y1="62" x2="508" y2="62" stroke-width="3"/><text class="sC" x="516" y="66">actual sales, total 733k</text>
+<line class="sLr" x1="484" y1="92" x2="508" y2="92" stroke-dasharray="6 4"/><text class="sC" x="516" y="88">naive: last month repeated</text><text class="sRt" x="516" y="104">MAPE 97%</text>
+<text class="sC" x="516" y="128">3-month average (not drawn)</text><text class="sRt" x="516" y="144">MAPE 66%</text>
+<line class="sLg" x1="484" y1="172" x2="508" y2="172"/><text class="sC" x="516" y="168">seasonal naive: same month 2016</text><text class="sGt" x="516" y="184">MAPE 24.5% · total 609k</text>
+<line class="sLw" x1="484" y1="212" x2="508" y2="212"/><text class="sC" x="516" y="208">2016 × 1.295 growth</text><text class="sGt" x="516" y="224">MAPE 27.6% · total 789k</text>
+<text class="sS" x="360" y="280" text-anchor="middle">Superstore sample orders, monthly sales; methods fitted on 2014–2016 only</text>
+</svg><figcaption>Repeating last month carried the December peak into every month and missed by 97% on average. The two seasonal baselines landed within about a quarter, and growth applied to last year got the annual total within 8%. Any model now has a number to beat.</figcaption></figure>
+
 ## DA6.8 A worked product case: "Should we launch free delivery?" 🟡 ⭐
 
 A typical 30-minute case. Structure your answer:
