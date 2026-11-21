@@ -584,6 +584,20 @@ Throw `Error` objects (they carry a stack trace), never strings. Custom error cl
 | ES2025 | **Set methods** (`union`, `intersection`, …), **iterator helpers** (`map`, `filter`, `take` on any iterator), `Promise.try`, `RegExp.escape`, JSON import attributes, `Float16Array` |
 | ES2026 | **Temporal**, the long-awaited replacement for `Date`, reached Stage 4 in March 2026. Check browser support before relying on it; until then, use `Intl` and a small date library such as date-fns |
 
+<figure class="dia"><svg viewBox="0 0 720 316" role="img" aria-label="ES2023 to ES2026 features run for real. toSorted returns a sorted copy and leaves the array unchanged; findLast returns 7; Object.groupBy groups orders by status; Set intersection gives 2 and 3; iterator helpers take the first three odd squares, 1, 9 and 25, from an endless generator; RegExp.escape escapes even the leading digit; Float16Array stores 1.1 as 1.099609375. Temporal is undefined in Node 24.12 but available in Chrome 156, where adding a month to 21 November 2026 gives 2026-12-21">
+<text class="sC" x="24" y="20">ES</text><text class="sC" x="64" y="20">expression</text><text class="sC" x="440" y="20">Node 24.12 printed</text>
+<rect class="sN" x="14" y="30" width="692" height="24" rx="4"/><text class="sC" x="24" y="46">2023</text><text class="sM" x="64" y="46">a.toSorted()  // a = [3, 1, 2]</text><text class="sGt" x="440" y="46">[1, 2, 3], and a is still [3, 1, 2]</text>
+<rect class="sN" x="14" y="58" width="692" height="24" rx="4"/><text class="sC" x="24" y="74">2023</text><text class="sM" x="64" y="74">[1, 5, 3, 7].findLast(x =&gt; x &gt; 4)</text><text class="sGt" x="440" y="74">7</text>
+<rect class="sN" x="14" y="86" width="692" height="24" rx="4"/><text class="sC" x="24" y="102">2024</text><text class="sM" x="64" y="102">Object.groupBy(orders, o =&gt; o.status)</text><text class="sGt" x="440" y="102">{ paid: [#1, #3], open: [#2] }</text>
+<rect class="sN" x="14" y="114" width="692" height="24" rx="4"/><text class="sC" x="24" y="130">2025</text><text class="sM" x="64" y="130">new Set([1, 2, 3]).intersection(new Set([2, 3, 4]))</text><text class="sGt" x="440" y="130">Set {2, 3}</text>
+<rect class="sN" x="14" y="142" width="692" height="24" rx="4"/><text class="sC" x="24" y="158">2025</text><text class="sM" x="64" y="158">naturals().filter(odd).map(square).take(3)</text><text class="sGt" x="440" y="158">[1, 9, 25] from an endless generator</text>
+<rect class="sN" x="14" y="170" width="692" height="24" rx="4"/><text class="sC" x="24" y="186">2025</text><text class="sM" x="64" y="186">RegExp.escape("1.5+2")</text><text class="sGt" x="440" y="186">"\x31\.5\+2": even the leading digit</text>
+<rect class="sN" x="14" y="198" width="692" height="24" rx="4"/><text class="sC" x="24" y="214">2025</text><text class="sM" x="64" y="214">new Float16Array([1.1])[0]</text><text class="sGt" x="440" y="214">1.099609375: half precision</text>
+<rect class="sW" x="14" y="230" width="692" height="44" rx="4"/><text class="sC" x="24" y="248">2026</text><text class="sM" x="64" y="248">Temporal.Now.plainDateISO().add({ months: 1 })</text>
+<text class="sWt" x="64" y="266">Node 24.12: Temporal is undefined · Chrome 156: "2026-12-21"</text>
+<text class="sS" x="360" y="300" text-anchor="middle">each line run on 21 November 2026; the outputs are copied from the console</text>
+</svg><figcaption>Everything from ES2023–ES2025 ran in Node 24, while Temporal, standardised in 2026, ran in Chrome 156 but not in Node 24.12. "Is it in the standard?" and "does my runtime have it?" are separate questions, which is why the table says to check support.</figcaption></figure>
+
 ## F3.12 Predict the output 🟢 ⭐
 
 Cover the answers and work them out first.
