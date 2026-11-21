@@ -95,6 +95,31 @@ CREATE TABLE orders (                                    -- PostgreSQL
 - **Normalisation** stores each fact once: a customer's city lives in `customers`, not repeated in every order. More in [[B6]].
 - SQL is **declarative**: you describe the result and the **query optimiser** decides how to get it.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="Run in SQLite: a customers table with primary key customer_id holds Mona (1, Cairo) and Omar (2, Giza); an orders table holds orders 101 and 102 for customer 1 and 103 for customer 2, with customer_id as a foreign key. Inserting an order for customer 99 fails with FOREIGN KEY constraint failed; deleting customer 2, who still has order 103, fails the same way; inserting a second customer 1 fails with UNIQUE constraint failed: customers.customer_id">
+<text class="sT" x="14" y="22">customers</text>
+<rect class="sN" x="14" y="30" width="290" height="96" rx="6"/>
+<rect class="sV" x="14" y="30" width="290" height="26" rx="6"/>
+<text class="sC" x="24" y="47">customer_id (PK)</text><text class="sC" x="150" y="47">name</text><text class="sC" x="230" y="47">city</text>
+<text class="sM" x="24" y="78">1</text><text class="sM" x="150" y="78">Mona</text><text class="sM" x="230" y="78">Cairo</text>
+<text class="sM" x="24" y="106">2</text><text class="sM" x="150" y="106">Omar</text><text class="sM" x="230" y="106">Giza</text>
+<text class="sT" x="416" y="22">orders</text>
+<rect class="sN" x="416" y="30" width="290" height="120" rx="6"/>
+<rect class="sV" x="416" y="30" width="290" height="26" rx="6"/>
+<text class="sC" x="426" y="47">order_id (PK)</text><text class="sC" x="530" y="47">customer_id (FK)</text><text class="sC" x="650" y="47">total</text>
+<text class="sM" x="426" y="78">101</text><text class="sM" x="530" y="78">1</text><text class="sM" x="650" y="78">250</text>
+<text class="sM" x="426" y="106">102</text><text class="sM" x="530" y="106">1</text><text class="sM" x="650" y="106">90</text>
+<text class="sM" x="426" y="134">103</text><text class="sM" x="530" y="134">2</text><text class="sM" x="650" y="134">410</text>
+<line class="sLv" x1="414" y1="43" x2="308" y2="43" marker-end="url(#ahv)"/><text class="sC" x="360" y="70" text-anchor="middle">must match</text>
+<g data-s="2"><rect class="sR" x="14" y="166" width="692" height="38" rx="6"/><text class="sM" x="24" y="182">INSERT INTO orders VALUES (104, 99, 75.0)</text><text class="sRt" x="24" y="198">FOREIGN KEY constraint failed: there is no customer 99</text></g>
+<g data-s="3"><rect class="sR" x="14" y="210" width="692" height="38" rx="6"/><text class="sM" x="24" y="226">DELETE FROM customers WHERE customer_id = 2</text><text class="sRt" x="24" y="242">FOREIGN KEY constraint failed: order 103 still points at Omar</text></g>
+<g data-s="4"><rect class="sR" x="14" y="254" width="692" height="38" rx="6"/><text class="sM" x="24" y="270">INSERT INTO customers VALUES (1, 'Sara', 'Alex')</text><text class="sRt" x="24" y="286">UNIQUE constraint failed: customers.customer_id</text></g>
+</svg><ol class="dia-steps">
+<li>customers.customer_id is the primary key; orders.customer_id is a foreign key, so each value must match an existing customer.</li>
+<li>An order for customer 99, who does not exist, is rejected, so no orphan orders get in.</li>
+<li>Deleting Omar would leave order 103 pointing at nobody, so that is rejected too, unless the key was declared ON DELETE CASCADE.</li>
+<li>A second customer 1 breaks the primary key's uniqueness.</li>
+</ol><figcaption>Run in SQLite 3.45 with Python's sqlite3; the error texts are SQLite's own. SQLite checks foreign keys only after <code>PRAGMA foreign_keys = ON</code>; without it, steps 2 and 3 succeeded silently. PostgreSQL, SQL Server and MySQL's InnoDB enforce them by default.</figcaption></figure>
+
 > [!term] Primary key / foreign key
 > A primary key is a column (or set of columns) whose value is unique and not null for every row. A foreign key is a column whose values must match a primary key in another table, which is what links tables together.
 
