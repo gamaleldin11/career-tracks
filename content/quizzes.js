@@ -820,6 +820,8 @@ const FOUNDATIONS = {
     q('EDA', 'To show how a numeric variable is distributed across a few categories, a good first chart is…', ['A pie chart', 'A box plot or violin plot per category', 'A 3-D bar chart', 'A table of means'], 1, 'Box plots show median, spread and outliers side by side; add the raw points when the groups are small.', 'AI5.2'),
   ],
   AI12: [
+    q('SQL', 'Three salaries tie at 8,000 for second place. Which function gives 1, 2, 2, 2, 5?', ['ROW_NUMBER()', 'RANK()', 'DENSE_RANK()', 'NTILE(5)'], 1, 'RANK leaves gaps after ties, DENSE_RANK gives 1, 2, 2, 2, 3, and ROW_NUMBER never ties.', 'AI12.2'),
+    q('SQL', 'Which SQL produces a “days since previous purchase” feature per customer?', ['GROUP BY customer_id', 'order_date − LAG(order_date) OVER (PARTITION BY customer_id ORDER BY order_date)', 'MAX(order_date)', 'A self-join on order_id'], 1, 'Window functions build most strong tabular features: LAG, rolling SUM … OVER, RANK.', 'AI12.2'),
     q('SQL', 'Joining a customer to three orders and two tickets in one query, then summing order amounts, gives…', ['The right total', 'A total inflated by duplicated rows (3 × 2 = 6 rows): aggregate each table first, then join', 'An error', 'NULL'], 1, 'Fan-out from joining two one-to-many tables is the classic silent analytics bug.', 'AI12.2'),
     q('SQL', 'What is the SQL equivalent of pandas groupby(…).sum()?', ['ORDER BY', 'GROUP BY with SUM()', 'DISTINCT', 'HAVING alone'], 1, 'Both split rows by key, apply the aggregate and combine; HAVING filters after grouping, WHERE before.', 'AI12.2'),
   ],
@@ -1020,6 +1022,8 @@ const FOUNDATIONS = {
     q('System design', 'Choosing the primary database or a public API contract is best treated as…', ['A two-way door: decide fast', 'A one-way door: take time, and write an ADR', 'A detail for later', 'A vendor decision only'], 1, 'Spend decision time on what is expensive to reverse; decide reversible choices quickly.', 'SD3.1'),
   ],
   AI1: [
+    q('Python', 'Why is def f(items=[]) dangerous?', ['Lists cannot be defaults', 'The default list is created once, when the function is defined, and shared across calls', 'It raises a TypeError', 'It copies the list on every call'], 1, 'Use items=None and create the list inside the function.', 'AI1.3'),
+    q('Python', 'A shallow copy of a list of lists…', ['Duplicates everything', 'Duplicates the outer list but shares the inner lists, so changing a nested item shows in both', 'Is the same object', 'Cannot be made'], 1, 'copy.deepcopy duplicates nested objects too; a classic bug with nested lists and DataFrames.', 'AI1.5'),
     q('Python', 'pipe = filter(f, map(g, nums)); first = next(pipe); rest = list(pipe). What does a second list(pipe) return?', ['The full result again', 'An empty list: the iterator is exhausted', 'An error', 'Only the first value'], 1, 'map and filter are lazy, single-pass iterators; materialise with list() if you need the values twice.', 'AI1.4'),
   ],
   AI18: [
