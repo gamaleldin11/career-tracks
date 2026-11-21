@@ -51,6 +51,12 @@ Some operations (filtering rows, computing a column) work on each partition alon
 
 Spark processes data **in parallel across a cluster**, in memory where possible. It's the right tool for data too big for one machine (hundreds of GB to PB), heavy joins and aggregations over a lakehouse, and pipelines mixing batch and streaming. It's overkill for a few GB, where pandas, Polars or DuckDB on one machine are simpler and often faster ([[DE4.4]]).
 
+<figure class="dia"><svg viewBox="0 0 720 226" role="img" aria-label="Measured with DuckDB 1.5 on a 12-thread laptop: grouping orders by region and month with a sum and a distinct count took 64 milliseconds on 1 million rows, 0.41 seconds on 10 million rows and 2.0 seconds on 50 million rows, 515 megabytes of Parquet">
+<text class="sT" x="14" y="24">GROUP BY region, month: COUNT(*), SUM(amount), COUNT(DISTINCT customer_id)</text>
+<text class="sT" x="150" y="59" text-anchor="end">1 million rows</text><text class="sC" x="150" y="74" text-anchor="end">10 MB Parquet</text><rect class="sG" x="160" y="46" width="11" height="20" rx="3"/><text class="sT" x="179" y="61">64 ms</text><text class="sT" x="150" y="99" text-anchor="end">10 million rows</text><text class="sC" x="150" y="114" text-anchor="end">103 MB Parquet</text><rect class="sG" x="160" y="86" width="73" height="20" rx="3"/><text class="sT" x="241" y="101">413 ms</text><text class="sT" x="150" y="139" text-anchor="end">50 million rows</text><text class="sC" x="150" y="154" text-anchor="end">515 MB Parquet</text><rect class="sG" x="160" y="126" width="360" height="20" rx="3"/><text class="sT" x="528" y="141">2.0 s</text><text class="sC" x="14" y="184">time grows roughly linearly with the rows; 50 million still takes about two seconds on one machine</text>
+<text class="sS" x="360" y="212" text-anchor="middle">DuckDB 1.5.3 reading generated Parquet files, 12 logical CPUs, best of three runs; 96 result groups each time</text>
+</svg><figcaption>Half a gigabyte of Parquet, aggregated in about two seconds with no cluster to start or pay for. That is the "overkill for a few GB" line in practice. Spark earns its overhead when the data or the joins no longer fit one machine, or when the same job must also run as a stream.</figcaption></figure>
+
 ## DE6.2 The execution model 🟢 ⭐
 
 <figure class="dia anim"><svg viewBox="0 0 720 230" role="img" aria-label="Animation: Spark architecture: driver with DAG scheduler, cluster manager, executors running tasks on partitions">
