@@ -321,6 +321,12 @@ Ways to do less hydration:
 | **Turbopack** | Next.js's Rust bundler, the default since Next.js 16 |
 | **SWC / Babel** | Transpilers (TypeScript and JSX to JavaScript) |
 
+<figure class="dia"><svg viewBox="0 0 720 236" role="img" aria-label="Measured on a generated 301-file TypeScript project with one planted type error. tsc with noEmit took 852 milliseconds and reported error TS2322 in m150.ts. Transpiling each file separately, as esbuild, SWC and Babel do, took 181 milliseconds with TypeScript's own transpileModule and reported nothing. Node 24 ran the files directly by stripping types in 612 milliseconds and printed 20">
+<text class="sC" x="220" y="24">time for 301 files</text><text class="sC" x="530" y="24">caught the type error?</text>
+<text class="sM" x="14" y="54">tsc -p .  (noEmit)</text><text class="sC" x="14" y="72">type-checks the whole program</text><rect class="sV" x="220" y="40" width="246" height="20" rx="3"/><text class="sT" x="474" y="55">852 ms</text><text class="sGt" x="530" y="55">yes: TS2322 in m150.ts, exit 2</text><text class="sM" x="14" y="110">per-file transpile</text><text class="sC" x="14" y="128">what esbuild, SWC and Babel do</text><rect class="sV" x="220" y="96" width="52" height="20" rx="3"/><text class="sT" x="280" y="111">181 ms</text><text class="sRt" x="530" y="111">no: 0 diagnostics</text><text class="sM" x="14" y="166">node src/main.ts</text><text class="sC" x="14" y="184">Node 24 strips the types and runs</text><rect class="sV" x="220" y="152" width="177" height="20" rx="3"/><text class="sT" x="405" y="167">612 ms</text><text class="sRt" x="530" y="167">no: it printed 20</text><text class="sS" x="360" y="210" text-anchor="middle">TypeScript 6.0.3 and Node 24.12; median of several runs, including process start-up for tsc and node</text>
+<text class="sS" x="360" y="228" text-anchor="middle">planted error: id: '150' where the interface says id: number</text>
+</svg><figcaption>Transpilers look at one file at a time and drop the types, which is why they are fast and why they cannot see type errors. Build tools make that trade on purpose, so CI must still run <code>tsc --noEmit</code> (or the Go-based TypeScript 7 compiler) as its own step.</figcaption></figure>
+
 ## F9.9 Delivery: the network side 🟢
 
 - **Compression:** Brotli (or gzip) for text assets, usually 70–80% smaller.
