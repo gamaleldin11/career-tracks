@@ -413,6 +413,20 @@ Before EF 10 there could be **one** filter per entity, and `IgnoreQueryFilters()
 - `SaveChanges` is already transactional. For several `SaveChanges` calls, or EF plus Dapper, use an explicit transaction: `await using var tx = await db.Database.BeginTransactionAsync(ct); … await tx.CommitAsync(ct);`.
 - With connection resiliency (`EnableRetryOnFailure`), wrap manual transactions in `db.Database.CreateExecutionStrategy().ExecuteAsync(...)`, so a retry replays the whole transaction.
 - **Optimistic concurrency:** a `rowversion` (SQL Server) or a version column or `xmin` (PostgreSQL) marked as a concurrency token; catch `DbUpdateConcurrencyException` and return 409 or 412 ([[B4.5]]).
+
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="A real EF Core 10 run on SQLite. An account has balance 1000. Requests A and B both load it. A withdraws 800 and saves: balance 200. Without a concurrency token B also saves 200, so two withdrawals of 800 leave 200 and one is lost. With Version marked as a concurrency token the UPDATE adds AND Version equals the loaded value, B's update affects 0 rows and EF throws DbUpdateConcurrencyException">
+<rect class="sV" x="14" y="14" width="692" height="40" rx="6"/><text class="sT" x="24" y="39">Accounts row: Id 1, Balance 1000, Version 0. Requests A and B both load it.</text>
+<g data-s="2"><rect class="sG" x="14" y="64" width="692" height="48" rx="6"/><text class="sT" x="24" y="84">A withdraws 800 and saves: Balance 200, Version 1</text><text class="sM" x="24" y="102">UPDATE "Accounts" SET "Balance" = @p0, "Version" = @p1 WHERE "Id" = @p2</text></g>
+<g data-s="3"><rect class="sR" x="14" y="122" width="692" height="48" rx="6"/><text class="sT" x="24" y="142">no concurrency token: B, still holding 1000, saves 200 as well</text><text class="sRt" x="24" y="160">final balance 200 after two withdrawals of 800: one update is lost</text></g>
+<g data-s="4"><rect class="sG" x="14" y="180" width="692" height="90" rx="6"/><text class="sT" x="24" y="200">Version marked IsConcurrencyToken(): B's UPDATE checks what it loaded</text><text class="sM" x="24" y="220">... WHERE "Id" = @p2 AND "Version" = @p3</text><text class="sC" x="24" y="240">0 rows affected (the row is at Version 1 now), so EF throws</text><text class="sGt" x="24" y="258">DbUpdateConcurrencyException: return 409, reload and let the user retry</text></g>
+<text class="sS" x="360" y="292" text-anchor="middle">EF Core 10.0.9 with SQLite; the SQL lines are from EF's own log, the outcomes from the program's output</text>
+</svg><ol class="dia-steps">
+<li>Two requests load the same row, each into its own DbContext, and see a balance of 1000.</li>
+<li>A saves first. By default EF's UPDATE matches the row by its key only.</li>
+<li>Without a token, B's save also succeeds and overwrites A's result: 1,600 was withdrawn from 1,000 and the balance says 200.</li>
+<li>With a concurrency token, the UPDATE also requires the version B loaded. The row has moved on, nothing matches, and EF raises DbUpdateConcurrencyException instead of losing A's write.</li>
+</ol><figcaption>Optimistic concurrency costs one extra column and one WHERE condition. On SQL Server, a <code>rowversion</code> column updates itself; here the version was incremented in code because SQLite has no rowversion type.</figcaption></figure>
+
 - **Interceptors:** `SaveChangesInterceptor` to set `CreatedAt`, `UpdatedBy` and `CompanyId` automatically and write audit records; `DbCommandInterceptor` to log slow queries.
 
 ## B5.8 Dapper on the hot path 🟢
