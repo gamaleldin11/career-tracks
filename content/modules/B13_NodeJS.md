@@ -330,6 +330,16 @@ The same principles as EF Core apply: select only needed fields, avoid N+1 (use 
 
 - **Configuration** from environment variables. Node 20.6+ can load a file with `node --env-file=.env`; validate it at start-up with a schema (zod) so a missing variable fails fast.
 - **Logging:** **pino** (fast, structured JSON) or winston, with a request ID on every line; OpenTelemetry has Node auto-instrumentation ([[B11.5]]).
+
+<figure class="dia"><svg viewBox="0 0 720 260" role="img" aria-label="A real Node 24 run of two overlapping requests: A waits 30 milliseconds on its database call, B waits 10. Logging the request ID from one module-level variable labels A's last two lines as req-B, because B overwrote the variable while A was waiting. With AsyncLocalStorage every line carries its own request's ID">
+<text class="sT" x="14" y="24">one module-level currentId</text><text class="sT" x="366" y="24">AsyncLocalStorage</text>
+<rect class="sN" x="14" y="34" width="340" height="156" rx="6" fill-opacity="0"/><rect class="sN" x="366" y="34" width="340" height="156" rx="6" fill-opacity="0"/>
+<text class="sM" x="24" y="58">[req-A] start</text><text class="sM" x="24" y="82">[req-B] start</text><text class="sM" x="24" y="106">[req-B] query done</text><text class="sM" x="24" y="130">[req-B] respond 200</text><rect class="sR" x="16" y="139" width="336" height="20" rx="3"/><text class="sM" x="24" y="154">[req-B] query done</text><text class="sRt" x="342" y="154" text-anchor="end">really req-A</text><rect class="sR" x="16" y="163" width="336" height="20" rx="3"/><text class="sM" x="24" y="178">[req-B] respond 200</text><text class="sRt" x="342" y="178" text-anchor="end">really req-A</text><text class="sM" x="376" y="58">[req-A] start</text><text class="sM" x="376" y="82">[req-B] start</text><text class="sM" x="376" y="106">[req-B] query done</text><text class="sM" x="376" y="130">[req-B] respond 200</text><text class="sM" x="376" y="154">[req-A] query done</text><text class="sM" x="376" y="178">[req-A] respond 200</text>
+<text class="sRt" x="14" y="212">B set the variable while A was awaiting its query</text>
+<text class="sGt" x="366" y="212">each async chain keeps its own store</text>
+<text class="sS" x="360" y="246" text-anchor="middle">Node 24, two concurrent requests to a local server; the log lines are the program's output in order</text>
+</svg><figcaption>Node serves many requests on one thread, so anything stored in a shared variable is overwritten by whichever request ran last. <code>AsyncLocalStorage</code> follows each request through its awaits, which is how logging libraries attach the right request ID.</figcaption></figure>
+
 - **Testing:** **Vitest** or Jest (Node also ships a built-in `node:test` runner), and **supertest** to call the Express app in memory, the equivalent of `WebApplicationFactory` ([[B10.4]]):
 
 ```js
