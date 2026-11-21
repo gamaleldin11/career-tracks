@@ -1570,6 +1570,26 @@ This is the causal-inference gap from Part 14 (Tier 3, #13). At interview level,
 - **Entropy, cross-entropy, KL divergence:** Part 8 §8.13, Part 8B §8B.1.
 - **Distribution drift tests:** KS test, χ² on categorical frequencies, **Population Stability Index (PSI)**. PSI = Σ (actualᵢ − expectedᵢ)·ln(actualᵢ/expectedᵢ) over bins. **< 0.1 stable, 0.1–0.25 moderate shift, > 0.25 significant shift.** PSI is standard in credit and telecom model monitoring.
 - **Comparing two models statistically:** paired tests on the same CV folds (e.g. the **5×2cv paired t-test**), **McNemar's test** on paired classification errors on the same test set, or bootstrap CIs of the metric difference.
+
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Two models on the same 171-case breast-cancer test set. Logistic regression: 98.8 percent accuracy, bootstrap 95 percent interval 97.1 to 100. Random forest: 94.2 percent, interval 90.6 to 97.7. The difference, 4.7 points, has an interval of 1.2 to 8.2 points, which excludes zero. Of the 10 cases where they disagree, logistic regression is right on 9; McNemar's exact test gives p equals 0.021">
+<text class="sT" x="14" y="20">accuracy with bootstrap 95% intervals (10,000 resamples)</text>
+<text class="sT" x="160" y="57" text-anchor="end">logistic regression</text><line class="sLg" x1="397" y1="52" x2="470" y2="52" stroke-width="3"/><line class="sLg" x1="397" y1="46" x2="397" y2="58"/><line class="sLg" x1="470" y1="46" x2="470" y2="58"/><circle class="sFm" cx="440" cy="52" r="5"/><text class="sC" x="440" y="40" text-anchor="middle">98.8%</text>
+<text class="sT" x="160" y="99" text-anchor="end">random forest</text><line class="sLw" x1="235" y1="94" x2="413" y2="94" stroke-width="3"/><line class="sLw" x1="235" y1="88" x2="235" y2="100"/><line class="sLw" x1="413" y1="88" x2="413" y2="100"/><circle class="sFm" cx="325" cy="94" r="5"/><text class="sC" x="325" y="82" text-anchor="middle">94.2%</text>
+<line class="sL" x1="170" y1="118" x2="470" y2="118"/>
+<text class="sC" x="170" y="134" text-anchor="middle">88</text><text class="sC" x="220" y="134" text-anchor="middle">90</text><text class="sC" x="270" y="134" text-anchor="middle">92</text><text class="sC" x="320" y="134" text-anchor="middle">94</text><text class="sC" x="370" y="134" text-anchor="middle">96</text><text class="sC" x="420" y="134" text-anchor="middle">98</text><text class="sC" x="470" y="134" text-anchor="middle">100</text>
+<text class="sT" x="160" y="176" text-anchor="end">difference (points)</text>
+<line class="sD" x1="220" y1="156" x2="220" y2="196"/><text class="sC" x="220" y="210" text-anchor="middle">0</text>
+<line class="sLv" x1="250" y1="176" x2="425" y2="176" stroke-width="3"/><circle class="sFm" cx="338" cy="176" r="5"/><text class="sC" x="338" y="164" text-anchor="middle">+4.7 [1.2, 8.2]</text>
+<text class="sGt" x="435" y="180">excludes 0</text>
+<text class="sT" x="500" y="40">McNemar: count disagreements</text>
+<rect class="sN" x="496" y="50" width="210" height="96" rx="6" fill-opacity="0"/>
+<text class="sC" x="600" y="66" text-anchor="middle">RF right</text><text class="sC" x="666" y="66" text-anchor="middle">RF wrong</text>
+<text class="sC" x="560" y="92" text-anchor="end">LR right</text><text class="sM" x="600" y="92" text-anchor="middle">160</text><text class="sGt" x="666" y="92" text-anchor="middle">9</text>
+<text class="sC" x="560" y="122" text-anchor="end">LR wrong</text><text class="sRt" x="600" y="122" text-anchor="middle">1</text><text class="sM" x="666" y="122" text-anchor="middle">1</text>
+<text class="sT" x="510" y="172">9 vs 1 of 10 disagreements</text><text class="sGt" x="510" y="190">exact p = 0.021</text>
+<text class="sS" x="360" y="250" text-anchor="middle">scikit-learn breast-cancer data, 30% stratified test split (171 cases); computed with numpy and scipy</text>
+</svg><figcaption>On 171 cases even a good model's interval spans several points, so a one-point gap would prove nothing. Here the gap's interval stays above zero and the paired test agrees: the difference is real for this split. Repeat across folds before claiming it in general.</figcaption></figure>
+
 - **Heteroscedasticity, multicollinearity (VIF), residual normality:** Part 7 §7.8 and §7.19.
 
 ---
