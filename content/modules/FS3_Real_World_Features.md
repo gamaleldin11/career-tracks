@@ -249,6 +249,17 @@ app.MapPost("/api/payments/webhook", async (HttpRequest req, PaymentsService svc
 - Send through a provider (SendGrid, Amazon SES, Mailgun, Azure Communication Services, or a company SMTP relay) from a **background job**, never inline in the request ([[B8.8]]).
 - Templates per language; plain-text alternative; one clear call to action; links that work on mobile.
 - **Deliverability:** set up **SPF**, **DKIM** and **DMARC** DNS records for your domain; Gmail and Yahoo have required them for bulk senders since 2024. Otherwise your password-reset emails land in spam.
+
+<figure class="dia"><svg viewBox="0 0 720 300" role="img" aria-label="Real SPF and DMARC records read from public DNS on 21 November 2026. gmail.com: SPF redirects to Google's list; DMARC policy none with subdomain policy quarantine. yahoo.com: SPF redirects to Yahoo's list; DMARC policy reject for 100 percent of mail. outlook.com: SPF includes Outlook's servers and ends in minus all, a hard fail for anyone else; DMARC policy none with subdomain policy quarantine">
+<text class="sC" x="24" y="20">domain</text><text class="sC" x="130" y="20">TXT records: the domain's SPF, then _dmarc.domain</text>
+<rect class="sN" x="14" y="30" width="692" height="58" rx="6"/><text class="sT" x="24" y="50">gmail.com</text><text class="sM" x="130" y="50">v=spf1 redirect=_spf.google.com</text><text class="sM" x="130" y="68">v=DMARC1; p=none; sp=quarantine; rua=mailto:…</text><text class="sWt" x="130" y="84">monitor the main domain; quarantine subdomains</text>
+<rect class="sN" x="14" y="96" width="692" height="58" rx="6"/><text class="sT" x="24" y="116">yahoo.com</text><text class="sM" x="130" y="116">v=spf1 redirect=_spf.mail.yahoo.com</text><text class="sM" x="130" y="134">v=DMARC1; p=reject; pct=100; rua=…; ruf=…</text><text class="sGt" x="130" y="150">reject every message that fails</text>
+<rect class="sN" x="14" y="162" width="692" height="58" rx="6"/><text class="sT" x="24" y="182">outlook.com</text><text class="sM" x="130" y="182">v=spf1 include:spf2.outlook.com -all</text><text class="sM" x="130" y="200">v=DMARC1; p=none; sp=quarantine; pct=100; …</text><text class="sWt" x="130" y="216">-all: hard fail for other senders</text>
+<text class="sT" x="14" y="242">your own domain: p=none with rua reports → fix every legitimate sender → p=quarantine → p=reject</text>
+<text class="sS" x="360" y="268" text-anchor="middle">read with Node's dns.resolveTxt on 21 November 2026; report addresses shortened to …</text>
+<text class="sS" x="360" y="286" text-anchor="middle">p = policy for the domain, sp = for its subdomains, pct = share of mail it applies to, rua/ruf = where reports go</text>
+</svg><figcaption>Even the largest providers choose different policies. Yahoo rejects failing mail outright, while Gmail's main domain still only monitors. Start your own domain at <code>p=none</code>, read the aggregate reports until every system that sends as you passes, then tighten the policy.</figcaption></figure>
+
 - Track bounces and complaints via the provider's webhooks; stop sending to hard-bounced addresses.
 
 ## FS3.5 Search 🟡
