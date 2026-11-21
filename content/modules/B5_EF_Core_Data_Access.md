@@ -445,6 +445,18 @@ var rows = await conn.QueryAsync<OverdueRow>(
 
 Remember that **global filters don't apply** here: the tenant and soft-delete conditions must be written by hand, and tested.
 
+<figure class="dia"><svg viewBox="0 0 720 292" role="img" aria-label="A real run on 20,000 invoices across 4 companies, a tenth of them soft-deleted. Company 1's overdue invoices: EF Core with a global query filter returns 2,449 rows; Dapper with only the date condition returns 12,101 rows from all 4 companies, including 1,229 deleted; Dapper with the company and IsDeleted conditions written by hand returns 2,449. Reading those rows took 14.6 milliseconds with EF change tracking, 5.7 with AsNoTracking and 6.1 with Dapper">
+<text class="sT" x="14" y="22">company 1's overdue invoices</text>
+<rect class="sN" x="14" y="32" width="692" height="30" rx="5"/><text class="sM" x="24" y="52">EF Core, HasQueryFilter(CompanyId, !IsDeleted)</text><text class="sGt" x="696" y="52" text-anchor="end">2,449 rows</text>
+<rect class="sR" x="14" y="68" width="692" height="30" rx="5"/><text class="sM" x="24" y="88">Dapper: WHERE DueDate &lt; @today</text><text class="sRt" x="696" y="88" text-anchor="end">12,101 rows: 4 companies, 1,229 deleted</text>
+<rect class="sN" x="14" y="104" width="692" height="30" rx="5"/><text class="sM" x="24" y="124">Dapper: + CompanyId = @c AND IsDeleted = 0</text><text class="sGt" x="696" y="124" text-anchor="end">2,449 rows</text>
+<text class="sT" x="14" y="166">time to read those 2,449 rows, median of 15 runs</text>
+<text class="sC" x="210" y="190" text-anchor="end">EF, change tracking</text><rect class="sW" x="220" y="176" width="299" height="20" rx="3"/><text class="sT" x="527" y="191">14.6 ms</text>
+<text class="sC" x="210" y="216" text-anchor="end">EF, AsNoTracking</text><rect class="sG" x="220" y="202" width="117" height="20" rx="3"/><text class="sT" x="345" y="217">5.7 ms</text>
+<text class="sC" x="210" y="242" text-anchor="end">Dapper</text><rect class="sG" x="220" y="228" width="125" height="20" rx="3"/><text class="sT" x="353" y="243">6.1 ms</text>
+<text class="sS" x="360" y="282" text-anchor="middle">EF Core 10.0.9 and Dapper 2.1.72 on SQLite; counts and times are the program's output</text>
+</svg><figcaption>Forgetting the hand-written filters leaked every other tenant's invoices and the deleted ones. On speed, read-only EF with <code>AsNoTracking</code> was as fast as Dapper here; most of the gap people quote is change tracking. Reach for Dapper for SQL that EF can't express well, and test its filters.</figcaption></figure>
+
 ## B5.9 Testing data access 🟡 ⭐
 
 | Option | Verdict |
