@@ -313,6 +313,28 @@ app.MapPost("/api/payments/webhook", async (HttpRequest req, PaymentsService svc
 
 - **Audit log:** who did what, when, from where, and what changed (before and after), written in the **same transaction** as the change (an EF Core `SaveChangesInterceptor`, [[B5.7]]); append-only; retained per policy. Finance apps like FinSight need this.
 - **Soft delete:** an `IsDeleted` flag with a global query filter ([[B5.6]]), plus a policy for **hard deletion** of personal data on request (data-protection laws, [[S9.8]]).
+
+<figure class="dia steps" ><svg viewBox="0 0 720 392" role="img" aria-label="A real SQLite run. A customers table has a unique index on email. Mona registers, then deletes her account, which sets is_deleted to 1 and keeps the row. When she signs up again the insert fails with UNIQUE constraint failed: customers.email. With a partial unique index on email where is_deleted equals 0, the new sign-up succeeds as row 2, and a second live row with the same email is still rejected">
+<text class="sT" x="14" y="22">customers</text>
+<rect class="sN" x="14" y="30" width="330" height="78" rx="6"/><rect class="sV" x="14" y="30" width="330" height="24" rx="6"/>
+<text class="sC" x="24" y="46">id</text><text class="sC" x="70" y="46">email</text><text class="sC" x="250" y="46">is_deleted</text>
+<text class="sM" x="24" y="74">1</text><text class="sM" x="70" y="74">mona@example.com</text><text class="sM" x="250" y="74">1</text>
+<g data-s="3"><text class="sM" x="24" y="98">2</text><text class="sM" x="70" y="98">mona@example.com</text><text class="sM" x="250" y="98">0</text></g>
+<text class="sC" x="360" y="46">Mona registered, then deleted her account:</text>
+<text class="sC" x="360" y="64">a soft delete keeps the row and sets the flag</text>
+<rect class="sN" x="14" y="122" width="692" height="34" rx="6"/><text class="sM" x="24" y="144">CREATE UNIQUE INDEX ux_email ON customers(email);</text>
+<g data-s="2"><rect class="sR" x="14" y="164" width="692" height="48" rx="6"/><text class="sM" x="24" y="184">INSERT INTO customers(email) VALUES ('mona@example.com')</text><text class="sRt" x="24" y="202">UNIQUE constraint failed: customers.email · the deleted row still holds it</text></g>
+<g data-s="3"><text class="sT" x="14" y="238">fix: replace it with an index over live rows only</text>
+<rect class="sG" x="14" y="246" width="692" height="34" rx="6"/><text class="sM" x="24" y="268">CREATE UNIQUE INDEX ux_email ON customers(email) WHERE is_deleted = 0;</text>
+<rect class="sG" x="14" y="288" width="692" height="48" rx="6"/><text class="sM" x="24" y="308">INSERT INTO customers(email) VALUES ('mona@example.com')</text><text class="sGt" x="24" y="326">inserted as row 2: only live rows are checked</text>
+<rect class="sR" x="14" y="344" width="692" height="26" rx="6"/><text class="sC" x="24" y="361">a second live row with the same email: UNIQUE constraint failed, as it should</text></g>
+<text class="sS" x="360" y="386" text-anchor="middle">SQLite 3.45 via Python; the error texts are SQLite's own</text>
+</svg><ol class="dia-steps">
+<li>Soft delete keeps Mona's row and sets <code>is_deleted = 1</code>, so the history and audit trail survive.</li>
+<li>With a plain unique index, the deleted row still owns the email, and Mona can never sign up again.</li>
+<li>A partial (filtered) unique index covers live rows only: the new sign-up succeeds, and a duplicate live account is still rejected.</li>
+</ol><figcaption>Every unique rule on a soft-deleted table needs this treatment. The same index is <code>WHERE "IsDeleted" = 0</code> in PostgreSQL, a filtered index in SQL Server, and <code>HasFilter(…)</code> on the index in EF Core.</figcaption></figure>
+
 - **Activity feed** ("Sara marked invoice 1043 paid"): derive it from domain events rather than querying the audit log directly.
 
 ## FS3.8 AI features in a full-stack app 🟡 ⭐
