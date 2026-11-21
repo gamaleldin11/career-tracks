@@ -478,6 +478,7 @@ const FOUNDATIONS = {
     q('Accessibility', 'Grey #777777 text on white has a contrast ratio of about…', ['2.8 : 1, clearly failing', '4.48 : 1, just failing AA for normal text', '7 : 1, passing AAA', '21 : 1'], 1, 'One step darker, #767676, reaches 4.54 : 1 and passes. Compute the ratio; do not eyeball it.', 'F1.8'),
   ],
   F2: [
+    q('CSS', 'Nudging 50 of 1,000 wrapped cards each frame cost about 1.2 ms of layout with margin-left. With transform: translateX it cost…', ['The same', 'About 0.12 ms: transform skips layout, the compositor moves the painted layer', 'More, because of the GPU', 'Nothing measurable to the browser'], 1, 'Measured in Chrome. Animate transform and opacity; layout properties re-run layout every frame.', 'F2.10'),
     q('CSS', 'A <span> ignores width: 200px. Why?', ['Spans can\'t be styled', 'It is an inline box in normal flow, and inline boxes ignore width and height', 'width needs !important', 'The span is empty'], 1, 'Use display: inline-block or block, or make the parent a flex or grid container.', 'F2.0'),
     q('CSS', 'width: 300px; padding: 20px; border: 5px with the default box-sizing. How wide is the box?', ['300px', '340px', '350px', '310px'], 2, 'content-box adds padding and border: 300 + 2×20 + 2×5. With border-box it is exactly 300.', 'F2.2'),
     q('CSS', 'Three nested lists each set font-size: 1.2em on a 16px root. The innermost text is about…', ['19.2px', '23px', '27.6px', '16px'], 2, 'em compounds: 16 × 1.2³ ≈ 27.6px. With 1.2rem every level is 19.2px.', 'F2.7'),
