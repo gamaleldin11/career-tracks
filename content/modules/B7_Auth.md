@@ -306,6 +306,27 @@ public class InvoiceEditHandler : AuthorizationHandler<OperationAuthorizationReq
 - **Client credentials** flow: the calling service authenticates with its own ID and secret (or a certificate) and gets an access token with app permissions.
 - **Managed identities** in Azure: no secret at all; Azure issues tokens to the app ([[S10.6]]).
 - **API keys** for simple partner integrations: random, hashed at rest like passwords, scoped, rotatable, sent in a header (never the URL), and rate-limited.
+
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="An API key handled in a real Node 24 run. The key is a fsk_live_ prefix plus 24 random bytes, 192 bits, 41 characters; the server stores only a short prefix for lookup and the SHA-256 hash. Verification hashes the presented key and compares it in constant time: the right key gets 200 and a key with one character changed gets 401. Sent as an api_key query parameter, the whole key appears in the server's access log; sent in an X-Api-Key header, the log shows only GET /v1/invoices">
+<rect class="sN" x="14" y="14" width="692" height="70" rx="6"/>
+<text class="sT" x="24" y="34">create: "fsk_live_" + 24 random bytes = 192 bits, 41 characters, shown to the client once</text>
+<text class="sM" x="24" y="54">store { prefix: "fsk_live__4vw", sha256: "21ba527903d8710a…" }</text>
+<text class="sC" x="24" y="73">a fast hash is enough here: guessing 2^191 keys at 10^12 a second takes about 10^38 years</text>
+<g data-s="2"><rect class="sN" x="14" y="94" width="692" height="70" rx="6"/>
+<text class="sT" x="24" y="114">verify: hash what the client sent, compare with crypto.timingSafeEqual</text>
+<rect class="sG" x="24" y="124" width="320" height="30" rx="5"/><text class="sC" x="34" y="143">the issued key → 200</text>
+<rect class="sR" x="376" y="124" width="320" height="30" rx="5"/><text class="sC" x="386" y="143">one character changed → 401</text></g>
+<g data-s="3"><rect class="sN" x="14" y="174" width="692" height="92" rx="6"/>
+<text class="sT" x="24" y="194">send it: the server's access log, line by line</text>
+<rect class="sR" x="24" y="202" width="672" height="26" rx="5"/><text class="sM" x="34" y="220">"GET /v1/invoices?api_key=fsk_live__4vw…(the whole key)"</text>
+<rect class="sG" x="24" y="234" width="672" height="26" rx="5"/><text class="sM" x="34" y="252">"GET /v1/invoices"   (key sent as X-Api-Key: header)</text></g>
+<text class="sS" x="360" y="292" text-anchor="middle">Node 24 with node:crypto and a local http server; the log lines are what the server recorded</text>
+</svg><ol class="dia-steps">
+<li>A random 192-bit key with a readable prefix: the prefix identifies the key in a dashboard and lets secret scanners spot leaks. The database keeps only the prefix and a hash.</li>
+<li>Verification hashes the presented key and compares in constant time, so a stolen database is useless and response timing leaks nothing.</li>
+<li>In a URL the key lands in access logs (and in proxies, browser history and Referer headers); in a header it does not.</li>
+</ol><figcaption>Passwords need slow hashes because people choose guessable ones. A long random key cannot be guessed, so SHA-256 is enough for it.</figcaption></figure>
+
 - **mTLS** (mutual TLS): both sides present certificates, common inside service meshes and for banking integrations.
 
 ## B7.8 Common auth mistakes reviewers look for 🟢 ⭐
