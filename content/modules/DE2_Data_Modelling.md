@@ -57,6 +57,23 @@ The rest of this module is the vocabulary and the decisions of that second shape
 
 **Bill Inmon** advocated a normalised enterprise warehouse feeding departmental marts; **Ralph Kimball** advocated building the warehouse directly as conformed dimensional models. Most modern platforms are Kimball-style in the gold layer, whatever happens upstream.
 
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Measured in DuckDB. The question revenue by region, category and month needs seven tables and six joins in the normalised model and three tables and two joins in the star schema; both return the same 300 rows and the same total of 12,998,400. Renaming one category updates 1 row in the normalised categories table and 80 rows in the star's dim_product">
+<text class="sT" x="14" y="22">normalised (3NF): 7 tables, 6 joins</text>
+<rect class="sN" x="14" y="40" width="90" height="26" rx="5"/><text class="sC" x="59" y="57" text-anchor="middle">order_items</text><rect class="sN" x="118" y="40" width="80" height="26" rx="5"/><text class="sC" x="158" y="57" text-anchor="middle">orders</text><rect class="sN" x="212" y="40" width="84" height="26" rx="5"/><text class="sC" x="254" y="57" text-anchor="middle">customers</text><rect class="sN" x="310" y="40" width="70" height="26" rx="5"/><text class="sC" x="345" y="57" text-anchor="middle">cities</text>
+<rect class="sN" x="14" y="96" width="90" height="26" rx="5"/><text class="sC" x="59" y="113" text-anchor="middle">products</text><rect class="sN" x="118" y="96" width="90" height="26" rx="5"/><text class="sC" x="163" y="113" text-anchor="middle">categories</text><rect class="sN" x="310" y="96" width="70" height="26" rx="5"/><text class="sC" x="345" y="113" text-anchor="middle">regions</text>
+<line class="sL" x1="104" y1="53" x2="118" y2="53"/><line class="sL" x1="198" y1="53" x2="212" y2="53"/><line class="sL" x1="296" y1="53" x2="310" y2="53"/>
+<line class="sL" x1="59" y1="66" x2="59" y2="96"/><line class="sL" x1="104" y1="109" x2="118" y2="109"/><line class="sL" x1="345" y1="66" x2="345" y2="96"/>
+<text class="sT" x="420" y="22">star schema: 3 tables, 2 joins</text>
+<rect class="sV" x="516" y="40" width="96" height="26" rx="5"/><text class="sC" x="564" y="57" text-anchor="middle">fact_sales</text><rect class="sN" x="424" y="96" width="100" height="26" rx="5"/><text class="sC" x="474" y="113" text-anchor="middle">dim_product</text><rect class="sN" x="604" y="96" width="102" height="26" rx="5"/><text class="sC" x="655" y="113" text-anchor="middle">dim_customer</text>
+<line class="sL" x1="548" y1="66" x2="490" y2="96"/><line class="sL" x1="580" y1="66" x2="640" y2="96"/>
+<text class="sC" x="474" y="138" text-anchor="middle">price, category</text><text class="sC" x="655" y="138" text-anchor="middle">city, region</text>
+<text class="sT" x="14" y="172">revenue by region, category and month</text>
+<text class="sC" x="14" y="190">300 rows, total 12,998,400</text><text class="sC" x="420" y="190">the same 300 rows and total</text>
+<text class="sT" x="14" y="218">rename one category</text>
+<text class="sGt" x="14" y="236">UPDATE categories: 1 row</text><text class="sWt" x="420" y="236">UPDATE dim_product: 80 rows</text>
+<text class="sS" x="360" y="264" text-anchor="middle">DuckDB, generated data: 5,000 customers, 2,000 products in 25 categories, 120,000 order lines</text>
+</svg><figcaption>Each shape is good at its own job. The normalised model stores a category name once, so a rename touches one row and products can never disagree. The star copies it onto every product, so a report needs two joins instead of six. The warehouse load rebuilds the dimension from the source, so those copies are kept in step by the pipeline, not by hand.</figcaption></figure>
+
 ## DE2.2 Facts and dimensions 🟢 ⭐
 
 > [!term] Fact table
