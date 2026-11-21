@@ -158,6 +158,8 @@ function uniqueId(base) { let id = base; while (usedIds.has(id)) id += 'x'; used
 // Bootcamp markup → this site's components.
 function restyle(html, modId, terms) {
   return html
+    // the Bootcamp's h3 sections become h2 here, so its h4 sub-headings move up one level too
+    .replace(/<(\/?)h4>/g, '<$1h3>')
     .replace(/<div class="tw">/g, '<div class="tablewrap">')
     .replace(/<figure>/g, '<figure class="dia">')
     .replace(/<pre>/g, '<pre class="code" data-lang="">')

@@ -508,6 +508,23 @@ Automated tools catch roughly a third to a half of issues; the rest need a human
 3. **Screen reader pass:** NVDA (free, Windows) with Firefox or Chrome, VoiceOver on macOS and iOS, TalkBack on Android. Listen to one form and one dialog.
 4. **Zoom to 200%** and check a 320-pixel-wide viewport (WCAG's *Reflow* criterion).
 
+<figure class="dia steps"><svg viewBox="0 0 720 270" role="img" aria-label="An accessibility pass on this handbook, run in the browser. Automated checks: the page language is set; all 1,071 diagrams have a text alternative; all 52 images have alt text; all 2,834 buttons and 2,915 links have accessible names. Headings skipped a level 4 times out of 2,269, three Bootcamp sub-headings and the table of contents heading, which were fixed. At a 320 pixel wide viewport, the handbook and the study guides reflow with no horizontal scrolling. Keyboard and screen-reader passes still need a person">
+<text class="sT" x="14" y="18">automated checks, run in the browser on this handbook</text>
+<text class="sC" x="14" y="40">page language set</text><text class="sM" x="300" y="40">lang="en"</text><text class="sGt" x="450" y="40">pass</text>
+<text class="sC" x="14" y="66">diagrams with a text alternative</text><text class="sM" x="300" y="66">1,071 of 1,071</text><text class="sGt" x="450" y="66">pass</text>
+<text class="sC" x="14" y="92">images with alt</text><text class="sM" x="300" y="92">52 of 52</text><text class="sGt" x="450" y="92">pass</text>
+<text class="sC" x="14" y="118">buttons with an accessible name</text><text class="sM" x="300" y="118">2,834 of 2,834</text><text class="sGt" x="450" y="118">pass</text>
+<text class="sC" x="14" y="144">links with an accessible name</text><text class="sM" x="300" y="144">2,915 of 2,915</text><text class="sGt" x="450" y="144">pass (52 via the image alt)</text>
+<text class="sC" x="14" y="170">heading levels never skip</text><text class="sM" x="300" y="170">4 skips in 2,269</text><text class="sRt" x="450" y="170">fixed: Bootcamp h4s, TOC heading</text>
+<g data-s="2"><text class="sT" x="14" y="210">reflow (WCAG 1.4.10) at 320 CSS px</text><text class="sGt" x="300" y="210">handbook and study guides: no horizontal scroll</text></g>
+<g data-s="3"><text class="sT" x="14" y="240">still needs a human</text><text class="sC" x="300" y="240">a keyboard pass and a screen-reader pass (NVDA, VoiceOver)</text>
+<text class="sS" x="300" y="258">checks can't judge whether alt text or focus order makes sense</text></g>
+</svg><ol class="dia-steps">
+<li>Counting is easy to automate, and it found real bugs: three Bootcamp sub-headings and the “On this page” heading skipped a level for screen-reader users. They are fixed in this build.</li>
+<li>The reflow criterion is a two-line check: set the viewport to 320 px and compare scrollWidth with clientWidth.</li>
+<li>The rest is judgement: tab through every control, and listen to one form and one dialog with a screen reader.</li>
+</ol><figcaption>A real audit of these pages, November 2026, with querySelectorAll counts and a 320-pixel viewport. Tools such as axe run hundreds of rules like these; none of them replaces the human pass.</figcaption></figure>
+
 > [!lab] Audit one of your own sites in 30 minutes
 > Run Lighthouse's accessibility audit and axe on your studio site or the CS Visualizer front end. Fix everything automated tools find, then do a keyboard-only pass and fix what you trip over. Record the before and after scores. It's a concrete line for your Frontend CV, and a story.
 
