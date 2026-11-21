@@ -1397,6 +1397,16 @@ The convention is power = 0.8, α = 0.05.
 | Did a feature's distribution drift? | 2 samples | **Kolmogorov-Smirnov**; PSI | `stats.ks_2samp` |
 | Linear association? | 2 numeric | Pearson r (test r = 0); Spearman ρ for monotonic | `stats.pearsonr`, `stats.spearmanr` |
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="False-positive rates at alpha 0.05 over 20,000 simulated A/A tests where both groups share the same mean. With equal group sizes both Student's and Welch's t-tests reject about 5 percent of the time. With 20 versus 80 observations and the small group three times as spread out, Student's test rejects 25.7 percent of the time while Welch's rejects 5.1 percent; with the big group more spread out, Student's rejects only 0.2 percent, losing power, while Welch's stays at 5.1 percent">
+<text class="sT" x="14" y="20">False-positive rate when the means are truly equal (α = 0.05)</text>
+<line class="sD" x1="335.0" y1="32" x2="335.0" y2="234"/>
+<text class="sC" x="14" y="56">equal n (50, 50), equal SD</text><rect class="sW" x="260" y="40" width="73.9" height="12" rx="2"/><text class="sS" x="339.9" y="50">4.9%</text><rect class="sG" x="260" y="56" width="73.6" height="12" rx="2"/><text class="sS" x="339.6" y="66">4.9%</text>
+<text class="sC" x="14" y="106">equal n (50, 50), SD 3 vs 1</text><rect class="sW" x="260" y="90" width="77.9" height="12" rx="2"/><text class="sS" x="343.9" y="100">5.2%</text><rect class="sG" x="260" y="106" width="75.8" height="12" rx="2"/><text class="sS" x="341.8" y="116">5.1%</text>
+<text class="sC" x="14" y="156">n 20 vs 80, small group SD 3</text><rect class="sW" x="260" y="140" width="384.8" height="12" rx="2"/><text class="sS" x="650.8" y="150">25.7%</text><rect class="sG" x="260" y="156" width="77.2" height="12" rx="2"/><text class="sS" x="343.2" y="166">5.1%</text>
+<text class="sC" x="14" y="206">n 80 vs 20, big group SD 3</text><rect class="sW" x="260" y="190" width="2.5" height="12" rx="2"/><text class="sS" x="268.5" y="200">0.2%</text><rect class="sG" x="260" y="206" width="76.2" height="12" rx="2"/><text class="sS" x="342.2" y="216">5.1%</text>
+<rect class="sW" x="14" y="242" width="12" height="12" rx="2"/><text class="sS" x="32" y="252">Student's t (equal_var=True)</text><rect class="sG" x="230" y="242" width="12" height="12" rx="2"/><text class="sS" x="248" y="252">Welch (equal_var=False)</text><text class="sS" x="440" y="252">dashed line: the promised 5%</text>
+</svg><figcaption>Why the table says Welch: 20,000 simulated A/A tests per row with SciPy's ttest_ind. Student's t assumes equal variances; when the smaller group is the noisier one it finds “significant” differences five times too often. Welch costs almost nothing when variances are equal.</figcaption></figure>
+
 The capstone (Part 13 §13.6) used χ² and ANOVA. This table puts them in context.
 
 ```python

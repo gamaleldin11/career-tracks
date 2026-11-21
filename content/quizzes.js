@@ -977,6 +977,7 @@ const FOUNDATIONS = {
   ],
   AI15: [
     q('Statistics', 'In Monty Hall, why does switching win 2/3 of the time?', ['The host chooses randomly', 'The host always opens a goat door, so the 2/3 on the unpicked doors moves to the one left closed', 'Two doors remain, so it is 1/2', 'It does not; staying is better'], 1, 'Your first pick stays at 1/3; switching wins exactly when that pick was wrong.', 'AI15.10'),
+    q('Statistics', 'Group A has 20 users with SD 3, group B 80 users with SD 1, and the means are truly equal. At α = 0.05, Student’s t-test (equal_var=True) gives a false positive about…', ['5% of the time', '26% of the time; Welch’s test stays near 5%', '0% of the time', '50% of the time'], 1, 'Simulated over 20,000 A/A tests. When the bigger group is the noisier one, Student’s test drops to 0.2% and loses power instead.', 'AI15.6'),
     q('Statistics', 'Five enterprise accounts at 20,000 EGP join 1,000 subscribers whose median ARPU is 87 EGP and mean 99 EGP. What happens?', ['Mean and median both double', 'The mean doubles to about 198 while the median stays 87', 'Only the median moves', 'Nothing changes much'], 1, 'Computed: the SD also jumps from 55 to 1,402, while the MAD-based σ stays 43. Report the median next to the mean for skewed data.', 'AI15.1'),
   ],
   SD1: [
