@@ -97,6 +97,7 @@
   function renderNav() {
     sel.value = track.id;
     $("#imapItem").hidden = track.id !== "net";
+    $("#guidesLink").href = "/guides/" + track.id + "/summary";
     let step = 0;
     $("#nav").innerHTML = track.stages.map((st, si) => {
       const items = st[1].map(id => {
