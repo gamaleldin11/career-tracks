@@ -532,6 +532,7 @@ const FOUNDATIONS = {
     q('Testing', 'Why does Playwright rarely need sleep() before click()?', ['It clicks instantly', 'It waits until the element is attached, visible, stable, enabled and receiving events', 'It retries the whole test', 'It disables animations'], 1, 'Auto-waiting checks actionability before acting; web-first assertions retry until they pass.', 'F10.6'),
   ],
   B1: [
+    q('C#', 'WalletPayment declares public new decimal Fee() => 1m over a virtual base Fee() returning 0. Payment p = new WalletPayment(…); what does p.Fee() return?', ['1', '0: new hides the base member instead of overriding it, so the base method runs through a Payment reference', 'A compile error', 'It depends on the JIT'], 1, 'Run in .NET 10: through its own type it returns 1. Use override when you want polymorphism.', 'B1.4'),
     q('.NET', 'An API is slow under load while CPU sits at 15%, and many handlers call .Result on database tasks. The likely problem?', ['The GC', 'Thread-pool starvation: blocked pool threads can\'t serve new requests', 'Too much memory', 'JIT compilation'], 1, 'Go async all the way so awaiting releases threads back to the pool.', 'B1.0'),
     q('.NET', 'What does the JIT compiler do?', ['Turns C# into IL', 'Turns IL into machine code at run time, recompiling hot methods with more optimisation', 'Collects garbage', 'Links NuGet packages'], 1, 'Roslyn produces IL; the JIT produces machine code on the target machine. Native AOT does it ahead of time.', 'B1.1'),
   ],

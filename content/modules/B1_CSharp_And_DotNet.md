@@ -166,6 +166,23 @@ Console.WriteLine(a == b);              // false: records compare by VALUE
 | Implementation | Signatures, plus default interface methods (C# 8+) | Abstract and concrete members |
 | Typical use | Seams for DI and testing: `IInvoiceRepository`, `IClock` | Template method: shared algorithm with overridable steps |
 
+<figure class="dia steps"><svg viewBox="0 0 720 290" role="img" aria-label="Run in .NET 10. An abstract Payment class holds the amount and a template method Process that calls Validate, then the abstract Charge. CardPayment overrides Charge and Fee and also implements the IRefundable and IAuditable interfaces; WalletPayment overrides Validate to add an OTP and Charge, and hides Fee with new. Output: the card payment prints validated, card charged 250, receipt; the wallet prints validated plus OTP, wallet debited 250, receipt. Through a Payment reference the card fee is 5.00 but the wallet fee is 0, the base method, because new hides instead of overriding; through a WalletPayment reference it is 1">
+<rect class="sA" x="230" y="12" width="260" height="62" rx="8"/><text class="sT" x="360" y="32" text-anchor="middle">abstract class Payment</text><text class="sS" x="360" y="50" text-anchor="middle">Process() = Validate() → Charge() → receipt</text><text class="sS" x="360" y="65" text-anchor="middle">abstract Charge(); virtual Validate(), Fee()</text>
+<rect class="sB" x="60" y="112" width="250" height="52" rx="8"/><text class="sT" x="185" y="132" text-anchor="middle">CardPayment</text><text class="sS" x="185" y="150" text-anchor="middle">override Charge, override Fee</text>
+<rect class="sB" x="410" y="112" width="250" height="52" rx="8"/><text class="sT" x="535" y="132" text-anchor="middle">WalletPayment</text><text class="sS" x="535" y="150" text-anchor="middle">override Validate, Charge · new Fee</text>
+<line class="sLm" x1="185" y1="112" x2="300" y2="76" marker-end="url(#ahm)"/><line class="sLm" x1="535" y1="112" x2="420" y2="76" marker-end="url(#ahm)"/>
+<g data-s="2"><rect class="sV" x="14" y="186" width="128" height="30" rx="6"/><text class="sC" x="78" y="206" text-anchor="middle">IRefundable</text><rect class="sV" x="158" y="186" width="128" height="30" rx="6"/><text class="sC" x="222" y="206" text-anchor="middle">IAuditable</text>
+<line class="sLv" x1="78" y1="186" x2="150" y2="166" marker-end="url(#ahv)"/><line class="sLv" x1="222" y1="186" x2="200" y2="166" marker-end="url(#ahv)"/>
+<text class="sS" x="14" y="234">one base class, many interfaces</text></g>
+<g data-s="3"><text class="sM" x="330" y="200">p1.Process() → validated → card charged 250 → receipt</text><text class="sM" x="330" y="218">p2.Process() → validated + OTP → wallet debited 250</text></g>
+<g data-s="4"><text class="sM" x="330" y="244">Payment p2 … p2.Fee() → 0   (base: new hides)</text><text class="sM" x="330" y="262">((WalletPayment)p2).Fee() → 1</text><text class="sRt" x="330" y="282">override is polymorphic; new is not</text></g>
+</svg><ol class="dia-steps">
+<li>The abstract class owns shared state (the amount) and the algorithm: Process calls Validate, then the abstract Charge. Subclasses fill in the steps, the template method pattern.</li>
+<li>Capabilities come from interfaces, and a class can take many: CardPayment is refundable and auditable (IAuditable even supplies a default method).</li>
+<li>Each subclass changes only its steps; the base algorithm runs the same way for both.</li>
+<li>The trap: WalletPayment declares Fee with new, so through a Payment reference the base Fee runs (0), not the wallet's (1). Override when you mean polymorphism.</li>
+</ol><figcaption>Run as a .NET 10 file-based app; the outputs are the ones it printed.</figcaption></figure>
+
 **Access modifiers:** `public`, `private` (default for members), `protected` (derived classes), `internal` (same assembly, default for top-level types), `protected internal`, `private protected`, and `file` (C# 11: visible only in this file).
 
 Other keywords to know: `static` (belongs to the type, not an instance), `sealed` (can't be inherited, which also allows some JIT optimisations), `virtual`/`override` (polymorphism), `new` (hides a base member, usually a smell), `partial` (a type split across files, used by source generators).
