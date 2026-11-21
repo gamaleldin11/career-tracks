@@ -571,6 +571,22 @@ Caching is the cheapest performance win there is, and interviewers like it becau
 4. **Render tree → layout** (sizes and positions) **→ paint → composite** (layers combined by the GPU).
 5. JavaScript that changes layout properties (`width`, `top`) forces layout again; changing `transform` or `opacity` can often be done by the compositor alone, which is why animations should use them.
 
+<figure class="dia"><svg viewBox="0 0 720 272" role="img" aria-label="Measured in Chrome with two scripts, a.js arriving after 400 milliseconds and b.js after 200. Plain scripts: the parser does not reach the paragraph after them until 408 milliseconds; both run then, followed by DOMContentLoaded. Defer: the paragraph is parsed at 0 milliseconds; a.js then b.js run in order at 403, then DOMContentLoaded. Async: the paragraph is parsed and DOMContentLoaded fires at 0; b.js runs first at 207 and a.js at 408">
+<text class="sT" x="14" y="60">&lt;script&gt;</text><text class="sC" x="14" y="76">blocks parsing</text>
+<rect class="sR" x="150" y="55" width="490" height="18" rx="4"/><text class="sC" x="160" y="68">parser paused: the &lt;p&gt; after the scripts waits</text>
+<rect class="sV" x="640" y="52" width="8" height="24" rx="2"/><text class="sC" x="644" y="46" text-anchor="middle">408: a, b, &lt;p&gt;, DCL</text>
+<text class="sT" x="14" y="124">defer</text><text class="sC" x="14" y="140">runs late, in order</text>
+<rect class="sG" x="150" y="115" width="8" height="24" rx="2"/><text class="sC" x="164" y="132">&lt;p&gt; parsed at 0 ms</text>
+<rect class="sV" x="634" y="115" width="8" height="24" rx="2"/><text class="sC" x="628" y="132" text-anchor="end">a.js, then b.js, then DOMContentLoaded</text>
+<text class="sT" x="14" y="188">async</text><text class="sC" x="14" y="204">runs on arrival</text>
+<rect class="sG" x="150" y="179" width="8" height="24" rx="2"/><text class="sC" x="164" y="196">&lt;p&gt; and DCL at 0 ms</text>
+<rect class="sW" x="398" y="179" width="8" height="24" rx="2"/><text class="sC" x="412" y="196">b.js first</text>
+<rect class="sW" x="640" y="179" width="8" height="24" rx="2"/><text class="sC" x="634" y="196" text-anchor="end">a.js</text>
+<line class="sL" x1="150" y1="222" x2="690" y2="222"/>
+<line class="sL" x1="150" y1="218" x2="150" y2="226"/><text class="sC" x="150" y="240" text-anchor="middle">0 ms</text><line class="sL" x1="270" y1="218" x2="270" y2="226"/><text class="sC" x="270" y="240" text-anchor="middle">100 ms</text><line class="sL" x1="390" y1="218" x2="390" y2="226"/><text class="sC" x="390" y="240" text-anchor="middle">200 ms</text><line class="sL" x1="510" y1="218" x2="510" y2="226"/><text class="sC" x="510" y="240" text-anchor="middle">300 ms</text><line class="sL" x1="630" y1="218" x2="630" y2="226"/><text class="sC" x="630" y="240" text-anchor="middle">400 ms</text>
+<text class="sS" x="360" y="262" text-anchor="middle">a.js arrives after 400 ms, b.js after 200 ms; Chrome downloaded both in parallel in every case</text>
+</svg><figcaption>Measured in Chrome 156: one page per mode served by a local Node server, three loads each, all within 10 ms. Even plain scripts download in parallel (the preload scanner finds the second one), but nothing after them is parsed until both have run. Async ran b.js before a.js, so use it only for scripts that depend on nothing.</figcaption></figure>
+
 The performance side of this is [[F9]].
 
 ## S1.11 Interview drill 🟢 ⭐

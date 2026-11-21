@@ -417,6 +417,7 @@ for (const [tid, sets] of Object.entries(SD_TRACKS)) {
 // includes the module gets them, so a new foundations section needs no track bookkeeping.
 const FOUNDATIONS = {
   S1: [
+    q('Browser', 'A page loads a.js (400 ms to arrive) then b.js (200 ms), both with async. In what order do they run?', ['b.js first, at about 200 ms, then a.js', 'a.js then b.js, in document order', 'Both after DOMContentLoaded, in document order', 'b.js waits for a.js because a.js comes first'], 0, 'async scripts run as soon as each arrives, in any order; measured in Chrome, b.js ran at about 207 ms and a.js at about 408 ms. defer keeps document order and runs after parsing.', 'S1.10'),
     q('Web', 'Which layer uses port numbers to hand data to the right program?', ['Link', 'Internet (IP)', 'Transport (TCP/UDP)', 'Application'], 2, 'IP addresses find the machine; ports find the program on it.', 'S1.0'),
     q('Web', 'Counting DNS, about how many round trips pass before the first byte of a brand-new HTTPS request over TCP and TLS 1.3?', ['1', '2', '4', '8'], 2, 'DNS, the TCP handshake, the TLS handshake, then the HTTP request: four. HTTP/3 merges the transport and TLS handshakes.', 'S1.5'),
     q('Web', 'Why can one lost packet stall every request on an HTTP/2 connection?', ['HTTP/2 cannot multiplex', 'TCP hands bytes over strictly in order, so later packets wait for the resend', 'TLS has to renegotiate', 'Browsers allow only six connections'], 1, 'This is TCP head-of-line blocking; QUIC orders each stream separately.', 'S1.3'),
