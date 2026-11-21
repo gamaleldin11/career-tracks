@@ -321,6 +321,17 @@ public class InvoiceEditHandler : AuthorizationHandler<OperationAuthorizationReq
 9. `[AllowAnonymous]` left on an endpoint after testing.
 10. Not validating the `aud` claim, so a token issued for another API is accepted.
 
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="Measured with ASP.NET Core 10's PasswordHasher, median of 25 calls. Skipping the hash for unknown users: an unknown email answers in 0.00 milliseconds and a real email with a wrong password in 40.49, although both return the same message. Hashing a dummy for unknown users: 40.62 and 41.07 milliseconds, indistinguishable">
+<text class="sM" x="14" y="20">both return “Invalid email or password”; the time gives the answer away</text>
+<text class="sT" x="14" y="50">return early for unknown emails</text>
+<text class="sC" x="270" y="72" text-anchor="end">unknown email</text><rect class="sR" x="280" y="58" width="2" height="20" rx="3"/><text class="sT" x="290" y="73">0.00 ms</text>
+<text class="sC" x="270" y="98" text-anchor="end">real email, wrong password</text><rect class="sR" x="280" y="84" width="335" height="20" rx="3"/><text class="sT" x="623" y="99">40.49 ms</text>
+<text class="sT" x="14" y="134">verify against a dummy hash for unknown emails</text>
+<text class="sC" x="270" y="156" text-anchor="end">unknown email</text><rect class="sG" x="280" y="142" width="336" height="20" rx="3"/><text class="sT" x="624" y="157">40.62 ms</text>
+<text class="sC" x="270" y="182" text-anchor="end">real email, wrong password</text><rect class="sG" x="280" y="168" width="340" height="20" rx="3"/><text class="sT" x="628" y="183">41.07 ms</text>
+<text class="sS" x="360" y="220" text-anchor="middle">ASP.NET Core Identity PasswordHasher (PBKDF2, format V3) on .NET 10.0.9; median of 25 calls each</text>
+</svg><figcaption>A slow password hash is a feature, but only real accounts pay for it unless you make unknown ones pay too. Forty milliseconds is easy to measure from outside, so an attacker can sort a list of emails into customers and non-customers. Rate limiting (<a href="#s-B3.11">§B3.11</a>) slows that down further.</figcaption></figure>
+
 > [!lab] Build the auth slice of a real app
 > In a small ASP.NET Core API: Identity with lockout; short-lived JWT access tokens plus rotating refresh tokens in an HttpOnly cookie (with reuse detection); a fallback policy that denies by default; one role-based, one claims-based and one resource-based policy; a rate-limited login. Then attack it: replay an old refresh token, call another tenant's invoice, and send a token with the wrong audience. Each should fail with the right status code.
 
