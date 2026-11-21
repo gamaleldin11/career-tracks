@@ -57,6 +57,23 @@ TypeScript is JavaScript plus a **static type system**. The compiler checks type
 - Types catch mistakes **at build time** and power editor features (autocomplete, safe renames, go-to-definition).
 - Types **don't exist at runtime**. Data from an API, `localStorage` or a form is whatever it actually is, whatever your interface claims. You need runtime validation at those boundaries ([[F5.9]]).
 
+<figure class="dia steps"><svg viewBox="0 0 720 296" role="img" aria-label="A real run of tsc 6.0.3 and Node 24. withFee takes an Invoice whose total is a number and returns total plus 100. Calling it with a literal total of the string 1200 fails to compile with error TS2322. Parsing the same value from JSON with as Invoice compiles with no errors, and at runtime the function prints 1200100, a string. The fix is to validate the response at the boundary">
+<rect class="sN" x="14" y="14" width="692" height="48" rx="6"/>
+<text class="sM" x="24" y="33">interface Invoice { id: number; total: number }</text>
+<text class="sM" x="24" y="52">function withFee(inv: Invoice): number { return inv.total + 100; }</text>
+<g data-s="2"><rect class="sN" x="14" y="74" width="330" height="64" rx="6"/><text class="sM" x="24" y="96">withFee({ id: 7, total: "1200" })</text><text class="sC" x="24" y="116">the mistake is in the source code</text>
+<rect class="sG" x="356" y="74" width="350" height="64" rx="6"/><text class="sT" x="366" y="94">caught by tsc, exit code 2</text><text class="sC" x="366" y="112">error TS2322: Type 'string' is not</text><text class="sC" x="366" y="128">assignable to type 'number'.</text></g>
+<g data-s="3"><rect class="sN" x="14" y="148" width="330" height="64" rx="6"/><text class="sM" x="24" y="170">JSON.parse(body) as Invoice</text><text class="sC" x="24" y="188">body = {"id":7,"total":"1200"}</text><text class="sC" x="24" y="204">the same mistake, arriving at runtime</text>
+<rect class="sR" x="356" y="148" width="350" height="64" rx="6"/><text class="sT" x="366" y="168">tsc: no errors. node prints 1200100</text><text class="sC" x="366" y="186">a string, from a function typed number:</text><text class="sC" x="366" y="202">"1200" + 100 concatenates</text></g>
+<g data-s="4"><rect class="sV" x="14" y="222" width="692" height="46" rx="6"/><text class="sT" x="24" y="241">fix: validate at the boundary, with a schema such as zod</text><text class="sC" x="24" y="259">reject the response when total is not a number, before any code trusts it</text></g>
+<text class="sS" x="360" y="288" text-anchor="middle">tsc 6.0.3 and Node 24.12; Node also ran the .ts file directly by stripping the types and printed the same 1200100</text>
+</svg><ol class="dia-steps">
+<li>One interface and one function: the compiler knows total is a number, so total + 100 should be arithmetic.</li>
+<li>A wrong type written in the source is caught at build time, which is what TypeScript is for.</li>
+<li>The same wrong type arriving as JSON passes the compiler, because <code>as Invoice</code> is a promise the compiler believes. The emitted JavaScript has no types left, and the function returns the string "1200100".</li>
+<li>Only a runtime check at the boundary stops it (<a href="#s-F5.9">§F5.9</a>).</li>
+</ol><figcaption>Types are checked at build time and then erased. <code>as</code> tells the compiler to trust you; it checks nothing at runtime.</figcaption></figure>
+
 > [!say]
 > "TypeScript adds static types to JavaScript; they're checked at compile time and erased, so the output is plain JavaScript. That gives me safer refactoring and better tooling, but it doesn't validate data at runtime, so at boundaries like API responses I validate with a schema library."
 

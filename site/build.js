@@ -268,10 +268,9 @@ const linkXrefs = (html, M) => html.replace(/\[\[([A-Z]{0,2}\d+B?)(?:\.(\d+))?\]
     console.warn(`unresolved link ${all} in ${M.id}`);
     return all;
   });
-for (const M of mods) {
-  // never turn [[…]] inside code (Python's df[['a', 'b']]) into links
-  M.html = M.html.split(/(<pre[\s\S]*?<\/pre>|<code>[\s\S]*?<\/code>)/).map((part, i) => (i % 2 ? part : linkXrefs(part, M))).join('');
-}
+// never turn [[…]] inside code (Python's df[['a', 'b']]) into links
+const linkOutsideCode = (html, M) => html.split(/(<pre[\s\S]*?<\/pre>|<code>[\s\S]*?<\/code>)/).map((part, i) => (i % 2 ? part : linkXrefs(part, M))).join('');
+for (const M of mods) M.html = linkOutsideCode(M.html, M);
 // links like #m-AI6 or #s-AI6.3 written by the importers must point somewhere
 const allIds = new Set([...mods.map((m) => `m-${m.id}`), ...Object.values(sectionIndex)]);
 for (const M of mods) {
@@ -283,7 +282,7 @@ terms.sort((a, b) => a.term.localeCompare(b.term, 'en', { sensitivity: 'base' })
 const seenTerms = new Set();
 const glossary = terms.filter((t) => {
   const k = t.term.toLowerCase(); if (seenTerms.has(k)) return false; seenTerms.add(k); return true;
-}).map((t) => `<div class="gl-item" data-letter="${esc(t.term[0].toUpperCase())}"><dt><a href="#${t.href || `g-${slug(t.term)}`}">${t.href ? esc(t.term) : md.renderInline(t.term)}</a> <small>${t.mod}</small></dt><dd>${t.html}</dd></div>`).join('');
+}).map((t) => `<div class="gl-item" data-letter="${esc(t.term[0].toUpperCase())}"><dt><a href="#${t.href || `g-${slug(t.term)}`}">${t.href ? esc(t.term) : md.renderInline(t.term)}</a> <small>${t.mod}</small></dt><dd>${linkOutsideCode(t.html, { id: t.mod })}</dd></div>`).join('');
 
 // ------------------------------------------------------------ quiz pages
 for (const [tid, qs] of Object.entries(QUIZ)) for (const it of qs) {
