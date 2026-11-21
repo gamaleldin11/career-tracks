@@ -85,6 +85,19 @@ At entry level, "system design" usually means "explain how your project is put t
 > [!term] Consistent hashing
 > A way to spread keys over N servers so that adding or removing a server moves only about 1/N of the keys, instead of nearly all of them as with `hash(key) % N`. Used by distributed caches, Cassandra and DynamoDB, and some load balancers.
 
+<figure class="dia steps"><svg viewBox="0 0 720 262" role="img" aria-label="Measured with MD5 hashes of 100,000 keys. Going from four servers to five, hash modulo N moves 80 percent of the keys, while consistent hashing with 100 virtual nodes per server moves 17 percent, all of them to the new server. With one point per server on the ring, the five servers' shares range from 2.8 to 29.6 percent; with 100 virtual nodes each they range from 17.2 to 22.0 percent">
+<text class="sT" x="14" y="22">Adding a fifth server to four: share of 100,000 keys that move</text>
+<text class="sC" x="14" y="55">hash(key) % N</text><rect class="sR" x="180" y="40" width="384.5" height="22" rx="3"/><text class="sM" x="572.5" y="55">80%</text>
+<g data-s="2"><text class="sC" x="14" y="95">consistent hashing</text><rect class="sG" x="180" y="80" width="82.6" height="22" rx="3"/><text class="sM" x="270.6" y="95">17%, all to the new server (ideal 20%)</text></g>
+<g data-s="3"><text class="sT" x="14" y="140">Each server's share after the change (ideal 20% each)</text>
+<text class="sC" x="14" y="170">1 point per server</text><rect class="sB" x="180" y="155" width="13.4" height="22"/><rect class="sV" x="193.4" y="155" width="69.1" height="22"/><rect class="sW" x="262.5" y="155" width="126.7" height="22"/><rect class="sA" x="389.2" y="155" width="128.2" height="22"/><rect class="sG" x="517.4" y="155" width="142.1" height="22"/><text class="sS" x="180" y="194">shares from 2.8% to 29.6%: one server is nearly idle</text>
+<text class="sC" x="14" y="225">100 virtual nodes</text><rect class="sB" x="180" y="210" width="82.6" height="22"/><rect class="sV" x="262.6" y="210" width="91.2" height="22"/><rect class="sW" x="353.8" y="210" width="99.8" height="22"/><rect class="sA" x="453.6" y="210" width="100.8" height="22"/><rect class="sG" x="554.4" y="210" width="105.6" height="22"/><text class="sS" x="180" y="249">shares from 17.2% to 22.0%</text></g>
+</svg><ol class="dia-steps">
+<li>With hash(key) % N, changing N from 4 to 5 changes the answer for 80% of keys: a cache would miss on almost everything.</li>
+<li>On a hash ring, only keys in the new server's arcs move, about 1/N of them, and they all move to the new server.</li>
+<li>One point per server leaves arcs of very different lengths; many virtual nodes per server even the load out.</li>
+</ol><figcaption>Consistent hashing, measured in Python on 100,000 keys with MD5. SD4 draws the ring itself; this is why caches and Cassandra use it with virtual nodes.</figcaption></figure>
+
 > [!term] Replication
 > Keeping copies of data on several nodes for availability and read scaling. **Leader–follower** (one node takes writes, followers replicate, usually asynchronously, which means **lag**) is the common model; multi-leader and leaderless designs trade simplicity for write availability.
 
