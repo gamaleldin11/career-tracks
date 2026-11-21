@@ -141,6 +141,21 @@ So data quality can't rely on things failing loudly. It needs **explicit checks*
 | **Table constraints** | Delta `CHECK` constraints and `NOT NULL`; Lakeflow pipeline **expectations** (warn, drop or fail on violation) |
 | **Data observability platforms** | Monte Carlo, Elementary, Soda Cloud, Bigeye, and cloud-native options (Purview data quality, Dataplex, Glue Data Quality): learned baselines and anomaly alerts |
 
+<figure class="dia steps"><svg viewBox="0 0 720 290" role="img" aria-label="Four dbt generic tests declared in a schema file and run as SQL in DuckDB on 10,000 orders with planted defects. not_null on customer_id returns 3 rows. unique on order_id returns 2 rows, ids 500 and 900. accepted_values on status returns 1 row, the misspelt value shiped, which is on 5 orders. relationships to customers returns 4 orphan orders">
+<text class="sT" x="14" y="20">schema.yml</text><text class="sC" x="320" y="20">each test compiles to a SELECT of bad rows: 0 rows = pass</text>
+<rect class="sN" x="14" y="30" width="290" height="226" rx="6"/><text class="sM" x="24" y="50" xml:space="preserve">models:</text><text class="sM" x="24" y="67" xml:space="preserve">  - name: orders</text><text class="sM" x="24" y="84" xml:space="preserve">    columns:</text><text class="sM" x="24" y="101" xml:space="preserve">      - name: order_id</text><text class="sM" x="24" y="118" xml:space="preserve">        tests: [unique]</text><text class="sM" x="24" y="135" xml:space="preserve">      - name: customer_id</text><text class="sM" x="24" y="152" xml:space="preserve">        tests:</text><text class="sM" x="24" y="169" xml:space="preserve">          - not_null</text><text class="sM" x="24" y="186" xml:space="preserve">          - relationships:</text><text class="sM" x="24" y="203" xml:space="preserve">              to: ref(&#39;customers&#39;)</text><text class="sM" x="24" y="220" xml:space="preserve">      - name: status</text><text class="sM" x="24" y="237" xml:space="preserve">        tests: [accepted_values]</text>
+<rect class="sR" x="320" y="30" width="386" height="52" rx="6"/><text class="sT" x="330" y="50">not_null(customer_id)</text><text class="sRt" x="696" y="50" text-anchor="end">3 rows: orders 11, 22, 33</text><text class="sC" x="330" y="70">select * where customer_id is null</text>
+<g data-s="2"><rect class="sR" x="320" y="88" width="386" height="52" rx="6"/><text class="sT" x="330" y="108">unique(order_id)</text><text class="sRt" x="696" y="108" text-anchor="end">2 rows: ids 500 and 900</text><text class="sC" x="330" y="128">group by order_id having count(*) &gt; 1</text></g>
+<g data-s="3"><rect class="sR" x="320" y="146" width="386" height="52" rx="6"/><text class="sT" x="330" y="166">accepted_values(status)</text><text class="sRt" x="696" y="166" text-anchor="end">1 row: &#39;shiped&#39;, on 5 orders</text><text class="sC" x="330" y="186">group by status, keep values not in the list</text></g>
+<g data-s="4"><rect class="sR" x="320" y="204" width="386" height="52" rx="6"/><text class="sT" x="330" y="224">relationships(customer_id)</text><text class="sRt" x="696" y="224" text-anchor="end">4 rows: customers 5491, 5498 …</text><text class="sC" x="330" y="244">left join customers, keep rows with no match</text></g>
+<text class="sS" x="360" y="280" text-anchor="middle">10,000 orders with planted defects, queried in DuckDB in the shape of dbt's built-in test macros</text>
+</svg><ol class="dia-steps">
+<li>not_null returns the three orders with no customer. Any row a test query returns counts as a failure.</li>
+<li>unique groups by the key and keeps groups with more than one row: two ids appear twice.</li>
+<li>accepted_values returns one row per bad value, so five misspelt orders show as 1 failure. Read the rows, not just the count.</li>
+<li>relationships joins to the parent table and keeps the orphans: four orders point at customers that do not exist.</li>
+</ol><figcaption>A test is just a query for the rows that break a rule. dbt fails the test when any rows come back; <code>severity: warn</code> and the <code>warn_if</code> and <code>error_if</code> thresholds change that.</figcaption></figure>
+
 ## DE9.4 Data observability 🟡 ⭐
 
 Tests catch what you anticipated; **observability** catches what you didn't, by watching signals over time. The commonly cited **five pillars**:
