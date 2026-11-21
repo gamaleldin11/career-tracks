@@ -533,6 +533,7 @@ const FOUNDATIONS = {
     q('.NET', 'What does the JIT compiler do?', ['Turns C# into IL', 'Turns IL into machine code at run time, recompiling hot methods with more optimisation', 'Collects garbage', 'Links NuGet packages'], 1, 'Roslyn produces IL; the JIT produces machine code on the target machine. Native AOT does it ahead of time.', 'B1.1'),
   ],
   B2: [
+    q('OOP', 'decimal invoiceEgp = 1500m; decimal refundUsd = 20m; invoiceEgp + refundUsd prints 1520. Which refactoring makes this bug impossible to write?', ['Add a comment', 'A Money value object (record with Amount and Currency) whose + operator rejects mixed currencies', 'Use double instead of decimal', 'A static helper class'], 1, 'That is the cure for primitive obsession; the record also gives value equality and immutability.', 'B2.7'),
     q('Design', 'Low coupling and high cohesion mean…', ['Many small classes that all reference each other', 'Modules know little about each other, and each module\'s contents belong together', 'One big class per feature', 'No interfaces'], 1, 'Then a change stays inside one module instead of rippling everywhere.', 'B2.0'),
     q('Design', 'In a UML class diagram, a dashed line with a hollow arrowhead means…', ['Inherits', 'Implements an interface', 'Owns (composition)', 'Calls'], 1, 'Solid with a hollow arrowhead is inheritance; a filled diamond is composition.', 'B2.0'),
   ],

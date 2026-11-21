@@ -390,6 +390,26 @@ public class CachedRatesProvider(IRatesProvider inner, IMemoryCache cache) : IRa
 | **Anaemic domain model** | Entities are only getters and setters, with all rules in services | Move invariants into entities where they belong (debated: fine for simple CRUD) |
 | **Service locator** | Classes call `serviceProvider.GetService<X>()` themselves | Constructor injection, so dependencies are visible |
 
+<figure class="dia steps"><svg viewBox="0 0 720 250" role="img" aria-label="Primitive obsession run in .NET 10. With bare decimals, 1,500 Egyptian pounds plus a 20 dollar refund compiles and prints a total of 1520, a meaningless number. With a Money record that carries its currency and checks it in the plus operator, the same addition throws cannot add USD to EGP, adding 250 pounds gives 1,750.00 EGP, and two Money values with the same amount and currency compare equal">
+<text class="sT" x="14" y="22">before: primitive obsession</text>
+<rect class="sN" x="14" y="32" width="334" height="70" rx="6"/>
+<text class="sM" x="26" y="54">decimal invoiceEgp = 1500m;</text><text class="sM" x="26" y="72">decimal refundUsd  = 20m;</text><text class="sM" x="26" y="90">invoiceEgp + refundUsd</text>
+<text class="sRt" x="14" y="126">→ 1520: compiles, runs, and is wrong</text>
+<text class="sS" x="14" y="144">nothing in the type says which currency a decimal holds</text>
+<g data-s="2"><text class="sT" x="372" y="22">after: a Money value object</text>
+<rect class="sN" x="372" y="32" width="334" height="70" rx="6"/>
+<text class="sM" x="384" y="54">record Money(decimal Amount,</text><text class="sM" x="384" y="72">             string Currency)</text><text class="sM" x="384" y="90">operator + checks Currency</text>
+<text class="sGt" x="372" y="126">EGP + USD → “cannot add USD to EGP”</text>
+<text class="sC" x="372" y="144">1,500 EGP + 250 EGP → 1,750.00 EGP</text></g>
+<g data-s="3"><text class="sC" x="372" y="170">Money(1500, "EGP") == Money(1500, "EGP") → True</text>
+<text class="sS" x="14" y="214">A record gives value equality and immutability for free; the rule about currencies now lives in one place,</text>
+<text class="sS" x="14" y="232">so the bug can't be written, instead of being caught (or not) in review.</text></g>
+</svg><ol class="dia-steps">
+<li>Two decimals that mean different currencies add up without complaint: the bug ships.</li>
+<li>Wrap amount and currency in a record and put the rule in its + operator: the mistake throws, the valid sum works.</li>
+<li>Records compare by value, so two equal amounts of money are equal, which is what a value object means.</li>
+</ol><figcaption>The “primitive obsession → value object” row of the table, run as a .NET 10 file-based app; the outputs are the ones it printed.</figcaption></figure>
+
 **Refactor safely:** tests first, small steps, one change at a time, with the IDE's automated refactorings.
 
 > [!lab] Refactor a switch into a Strategy
