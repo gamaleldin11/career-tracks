@@ -805,6 +805,7 @@ const FOUNDATIONS = {
     q('Behavioural', 'Asked about a weakness, the strongest answer…', ['Claims you have none', 'Names a real, job-relevant gap and what you are already doing about it', 'Is a disguised strength like perfectionism', 'Changes the subject'], 1, 'Interviewers score self-awareness and a plan, not perfection.', 'S8.4'),
   ],
   AI5: [
+    q('Visualisation', 'Cars account for 720 serious accidents and motorcycles for 252. To show which vehicle is most dangerous, you should…', ['Plot the raw counts', 'Normalise each vehicle’s row to rates: 8% of car accidents are serious against 42% for motorcycles', 'Use a pie chart', 'Drop motorcycles as a minority'], 1, 'Raw counts mostly show which vehicle is common; pd.crosstab(..., normalize="index") makes groups of different sizes comparable.', 'AI5.6'),
     q('EDA', 'Anscombe’s quartet shows that…', ['Means are enough', 'Datasets with identical summary statistics can look completely different, so always plot the data', 'Correlation implies causation', 'Outliers never matter'], 1, 'Four datasets share mean, variance, correlation and regression line but have different shapes.', 'AI5.1'),
     q('EDA', 'To show how a numeric variable is distributed across a few categories, a good first chart is…', ['A pie chart', 'A box plot or violin plot per category', 'A 3-D bar chart', 'A table of means'], 1, 'Box plots show median, spread and outliers side by side; add the raw points when the groups are small.', 'AI5.2'),
   ],

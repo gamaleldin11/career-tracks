@@ -602,6 +602,22 @@ ctab = pd.crosstab(tmp[col], tmp[target_col], normalize="index")
 ctab.plot(kind="bar", stacked=True)
 ```
 
+<figure class="dia steps"><svg viewBox="0 0 720 214" role="img" aria-label="Illustrative accident counts by vehicle type. In raw counts cars dominate: 720 serious accidents out of 9,000, against 252 out of 600 for motorcycles. Normalised to rates per vehicle type, motorcycles stand out: 42 percent of their accidents are serious against 8 percent for cars, 10 percent for vans and 12 percent for buses">
+<text class="sT" x="120" y="26">raw counts</text><g data-s="2"><text class="sT" x="440" y="26">each row normalised to 100%</text></g>
+<text class="sC" x="14" y="60">Car</text><rect class="sV" x="120" y="44" width="240.0" height="22"/><rect class="sR" x="120" y="44" width="19.2" height="22"/><text class="sS" x="366.0" y="60">720 serious</text>
+<g data-s="2"><rect class="sV" x="440" y="44" width="240" height="22"/><rect class="sR" x="440" y="44" width="19.2" height="22"/><text class="sM" x="688" y="60">8%</text></g>
+<text class="sC" x="14" y="94">Van</text><rect class="sV" x="120" y="78" width="40.0" height="22"/><rect class="sR" x="120" y="78" width="4.0" height="22"/><text class="sS" x="166.0" y="94">150 serious</text>
+<g data-s="2"><rect class="sV" x="440" y="78" width="240" height="22"/><rect class="sR" x="440" y="78" width="24.0" height="22"/><text class="sM" x="688" y="94">10%</text></g>
+<text class="sC" x="14" y="128">Bus</text><rect class="sV" x="120" y="112" width="10.7" height="22"/><rect class="sR" x="120" y="112" width="1.3" height="22"/><text class="sS" x="136.7" y="128">48 serious</text>
+<g data-s="2"><rect class="sV" x="440" y="112" width="240" height="22"/><rect class="sR" x="440" y="112" width="28.8" height="22"/><text class="sM" x="688" y="128">12%</text></g>
+<text class="sC" x="14" y="162">Motorcycle</text><rect class="sV" x="120" y="146" width="16.0" height="22"/><rect class="sR" x="120" y="146" width="6.7" height="22"/><text class="sS" x="142.0" y="162">252 serious</text>
+<g data-s="2"><rect class="sV" x="440" y="146" width="240" height="22"/><rect class="sR" x="440" y="146" width="100.8" height="22"/><text class="sM" x="688" y="162">42%</text></g>
+<rect class="sR" x="14" y="190" width="12" height="12" rx="2"/><text class="sS" x="32" y="200">serious</text><rect class="sV" x="100" y="190" width="12" height="12" rx="2"/><text class="sS" x="118" y="200">slight</text>
+</svg><ol class="dia-steps">
+<li>In counts, the car bar holds the most serious accidents (720), simply because cars are most of the traffic.</li>
+<li>Normalise each row and the question “which vehicle is most dangerous?” has its answer: 42% of motorcycle accidents are serious, against 8% for cars.</li>
+</ol><figcaption>Point 2 with illustrative numbers matching the capstone's finding: pd.crosstab(..., normalize="index") turns counts into comparable rates.</figcaption></figure>
+
 Raw counts of serious accidents by vehicle type mostly tell you which vehicle is common. Normalising each row to sum to 1 turns counts into **rates**, and rates are comparable. The "42% vs 8%" motorcycle finding is only visible after normalising — in raw counts, cars dominate everything.
 
 **3. Limit categories.** The capstone caps at the top 12:
