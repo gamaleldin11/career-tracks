@@ -499,6 +499,18 @@ submit() {
 | `ngAfterViewInit` | After the component's view and children render | Work with `viewChild` elements, third-party widgets |
 | `ngOnDestroy` | Before removal | Clean up subscriptions, timers, listeners (or use `DestroyRef`) |
 
+<figure class="dia anim" data-rest="5"><svg viewBox="0 0 720 176" role="img" aria-label="Animation: a component's lifetime on a timeline. Creation: the constructor runs with injection only and no inputs yet, ngOnChanges receives the first inputs, ngOnInit runs once to start loading data, and ngAfterViewInit runs when the view and its children have rendered. Later, each new input reference from the parent triggers ngOnChanges again. Before removal, ngOnDestroy cleans up subscriptions">
+<text class="sT" x="230" y="34" text-anchor="middle">creation</text><text class="sT" x="530" y="34" text-anchor="middle">updates</text><text class="sT" x="650" y="34" text-anchor="middle">removal</text>
+<line class="sL" x1="30" y1="100" x2="690" y2="100"/><line class="sD" x1="465" y1="44" x2="465" y2="160"/><line class="sD" x1="592" y1="44" x2="592" y2="160"/>
+<circle class="sA" cx="60" cy="100" r="7"/><text class="sM" x="60" y="82" text-anchor="middle">constructor</text><text class="sS" x="60" y="126" text-anchor="middle">inject only;</text><text class="sS" x="60" y="142" text-anchor="middle">inputs not set</text>
+<circle class="sA" cx="170" cy="100" r="7"/><text class="sM" x="170" y="82" text-anchor="middle">ngOnChanges</text><text class="sS" x="170" y="126" text-anchor="middle">first inputs</text><text class="sS" x="170" y="142" text-anchor="middle">arrive</text>
+<circle class="sA" cx="280" cy="100" r="7"/><text class="sM" x="280" y="82" text-anchor="middle">ngOnInit</text><text class="sS" x="280" y="126" text-anchor="middle">once: start</text><text class="sS" x="280" y="142" text-anchor="middle">loading data</text>
+<circle class="sA" cx="400" cy="100" r="7"/><text class="sM" x="400" y="82" text-anchor="middle">ngAfterViewInit</text><text class="sS" x="400" y="126" text-anchor="middle">view and children</text><text class="sS" x="400" y="142" text-anchor="middle">rendered</text>
+<circle class="sW" cx="530" cy="100" r="7"/><text class="sM" x="530" y="82" text-anchor="middle">ngOnChanges</text><text class="sS" x="530" y="126" text-anchor="middle">a parent passes</text><text class="sS" x="530" y="142" text-anchor="middle">a new input</text>
+<circle class="sG" cx="650" cy="100" r="7"/><text class="sM" x="650" y="82" text-anchor="middle">ngOnDestroy</text><text class="sS" x="650" y="126" text-anchor="middle">clean up</text><text class="sS" x="650" y="142" text-anchor="middle">subscriptions</text>
+<circle class="sP" r="5" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" path="M30 100 L690 100"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.02;0.97;1"/></circle>
+</svg><figcaption>The hooks in the table, in the order Angular calls them. The ...Checked and ngDoCheck hooks also run after every change-detection pass; with signals, computed, afterNextRender and DestroyRef cover most of these uses.</figcaption></figure>
+
 With signals, many hooks become unnecessary: `computed` replaces `ngOnChanges` logic; `afterNextRender()` replaces many `ngAfterViewInit` uses; `DestroyRef.onDestroy()` and `takeUntilDestroyed()` replace `ngOnDestroy` boilerplate.
 
 ## F7.11 Performance and rendering 🟡 ⭐

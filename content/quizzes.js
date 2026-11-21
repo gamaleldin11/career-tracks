@@ -501,6 +501,7 @@ const FOUNDATIONS = {
     q('React', 'Which error does a React error boundary NOT catch?', ['An exception thrown while a child renders', 'An exception thrown in an onClick handler', 'An error in a child’s render during an update', 'A rendering error in a lazy-loaded component'], 1, 'Boundaries cover rendering; handle event-handler and async errors with try/catch and state.', 'F6.7'),
   ],
   F7: [
+    q('Angular', 'A component reads an @Input to decide what to load. Why start loading in ngOnInit rather than the constructor?', ['The constructor runs too late', 'Inputs are not set yet when the constructor runs; ngOnInit runs once after the first inputs arrive', 'ngOnInit runs on every change', 'Constructors cannot call services'], 1, 'Order: constructor → ngOnChanges → ngOnInit → ngAfterViewInit, then ngOnChanges on each new input, and ngOnDestroy before removal.', 'F7.10'),
     q('Angular', 'Why does a template typo like {{ invoice.amout }} fail at ng build rather than in the browser?', ['Angular runs unit tests during build', 'Templates are compiled ahead of time into JavaScript and type-checked', 'The browser rejects unknown properties', 'It doesn\'t; it fails at runtime'], 1, 'AOT compilation checks templates against the component types.', 'F7.0'),
     q('Angular', 'A user taps Pay three times quickly. Which operator stops duplicate payment requests?', ['switchMap', 'mergeMap', 'concatMap', 'exhaustMap'], 3, 'exhaustMap ignores new triggers while the current request is still running.', 'F7.6'),
   ],
