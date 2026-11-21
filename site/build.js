@@ -376,6 +376,24 @@ const figs = SOURCES.copyAiFigures(path.join(OUT, 'figures'));
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}\n</urlset>\n`);
   fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 }
+// ------------------------------------------------------------ 404.html: Vercel serves it, with status 404, for any path that doesn't exist
+// written after the sitemap so it gets no canonical link and no sitemap entry
+fs.writeFileSync(path.join(OUT, '404.html'), `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Page not found · Career Tracks Handbook</title>
+<style>${head.slice(head.indexOf('<style>') + 7, head.indexOf('*{box-sizing'))}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);padding:24px 16px}
+main{max-width:520px}h1{font-size:28px;line-height:1.2;margin:0 0 12px}p{color:var(--ink-2);margin:0 0 20px}
+.code{font:500 13px var(--mono);color:var(--accent);letter-spacing:.08em;margin-bottom:8px}
+ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
+a{display:inline-block;padding:9px 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600}
+a:hover,a:focus-visible{border-color:var(--accent);color:var(--accent)}
+</style></head>
+<body><main><div class="code">404</div><h1>That page isn’t here</h1>
+<p>The address may be mistyped, or the page may have moved. Sections of the handbook live on the start page, under links such as <code>/#s-B7.1</code>.</p>
+<ul><li><a href="/">Handbook</a></li><li><a href="/guides">Study guides</a></li><li><a href="/interview">Network interview map</a></li></ul>
+</main></body></html>
+`);
 const sizeMb = (Buffer.byteLength(html) / 1e6).toFixed(2);
 console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, ${guides.pages} guide pages (${guides.sources} sources), dist/index.html ${sizeMb} MB`);
 if (warnings) {

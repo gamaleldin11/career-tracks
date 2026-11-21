@@ -4,8 +4,22 @@
     {
       "name": "handbook",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["site/serve.js"],
+      "runtimeArgs": [
+        "site/serve.js"
+      ],
       "port": 8790
+    },
+    {
+      "name": "handbook-prod-headers",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "site/serve.js"
+      ],
+      "port": 8791,
+      "env": {
+        "PORT": "8791",
+        "VERCEL_HEADERS": "1"
+      }
     }
   ]
 }

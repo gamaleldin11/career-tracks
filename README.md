@@ -31,7 +31,7 @@ site/                         the code that turns content/ into a website
   serve.js                    local preview server
   check-links.mjs             external-link checker
   qa/                         diagram checks run in the browser (layout and step-figure overlaps)
-dist/                         build output (generated, not committed), including sitemap.xml and robots.txt; set SITE_URL if the domain changes
+dist/                         build output (generated, not committed), including sitemap.xml, robots.txt and 404.html; set SITE_URL if the domain changes
 docs/refinement-backlog.md    status of the diagram pass and what is left to do (not part of the site)
 vercel.json                   how Vercel builds and serves the site
 .github/workflows/build.yml   checks every push and pull request builds with no warnings
@@ -47,7 +47,7 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:8790. `npm run build` only builds; `npm run serve` only serves; `npm run check-links` checks every external link in `content/`.
+Then open http://localhost:8790. `npm run build` only builds; `npm run serve` only serves; `npm run check-links` checks every external link in `content/`. To preview with the production headers from `vercel.json` (security headers and the Content-Security-Policy), run `VERCEL_HEADERS=1 PORT=8791 npm run serve`; unknown paths get `dist/404.html` with status 404, as on Vercel.
 
 ## Add a topic
 
