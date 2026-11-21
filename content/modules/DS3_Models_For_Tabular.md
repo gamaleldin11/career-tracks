@@ -417,6 +417,25 @@ Learning curves (score vs training-set size) tell you whether more data would he
 | **Neural networks** | Text, images, audio, sequences, very large tabular data with rich categorical embeddings, multi-task learning. On ordinary tabular data, usually not better than boosting and harder to tune |
 | **Survival models** (Cox, survival forests) | "**When** will this customer churn / default?" with censored data (customers who haven't churned yet) |
 
+<figure class="dia"><svg viewBox="0 0 720 290" role="img" aria-label="Bar chart of 5-fold cross-validated accuracy on the UCI Wine data with raw and standardised features. k-nearest neighbours: 66 percent raw, 96 percent scaled. SVM with an RBF kernel: 66 percent raw, 98 percent scaled. Naive Bayes: 97 percent both ways. Random forest: 97 percent both ways">
+<text class="sM" x="14" y="20">5-fold accuracy on the UCI Wine data: 178 wines, 13 lab measurements, 3 grape cultivars</text>
+<rect class="sR" x="200" y="32" width="14" height="10" rx="2"/><text class="sC" x="220" y="41">raw features</text>
+<rect class="sG" x="320" y="32" width="14" height="10" rx="2"/><text class="sC" x="340" y="41">standardised (StandardScaler in the pipeline)</text>
+<text class="sT" x="190" y="70" text-anchor="end">k-nearest neighbours</text><text class="sC" x="190" y="84" text-anchor="end">uses distances</text>
+<rect class="sR" x="200" y="58" width="292" height="16" rx="2"/><text class="sC" x="498" y="71">66%</text>
+<rect class="sG" x="200" y="76" width="423" height="16" rx="2"/><text class="sC" x="629" y="89">96%</text>
+<text class="sT" x="190" y="122" text-anchor="end">SVM, RBF kernel</text><text class="sC" x="190" y="136" text-anchor="end">uses distances</text>
+<rect class="sR" x="200" y="110" width="289" height="16" rx="2"/><text class="sC" x="495" y="123">66%</text>
+<rect class="sG" x="200" y="128" width="433" height="16" rx="2"/><text class="sC" x="639" y="141">98%</text>
+<text class="sT" x="190" y="174" text-anchor="end">Naive Bayes</text><text class="sC" x="190" y="188" text-anchor="end">one feature at a time</text>
+<rect class="sR" x="200" y="162" width="428" height="16" rx="2"/><text class="sC" x="634" y="175">97%</text>
+<rect class="sG" x="200" y="180" width="428" height="16" rx="2"/><text class="sC" x="634" y="193">97%</text>
+<text class="sT" x="190" y="226" text-anchor="end">random forest</text><text class="sC" x="190" y="240" text-anchor="end">splits on thresholds</text>
+<rect class="sR" x="200" y="214" width="428" height="16" rx="2"/><text class="sC" x="634" y="227">97%</text>
+<rect class="sG" x="200" y="232" width="428" height="16" rx="2"/><text class="sC" x="634" y="245">97%</text>
+<text class="sS" x="360" y="276" text-anchor="middle">proline runs from 278 to 1,680 and hue from 0.48 to 1.71, so raw distances are mostly proline</text>
+</svg><figcaption>Scaling left the per-feature models unchanged and lifted the two distance-based models from about two-thirds to over 95%. Fit the scaler inside the pipeline, so each fold learns its mean and spread from its own training rows ([[DS2.5]]).</figcaption></figure>
+
 ## DS3.9 Ensembles and stacking 🟡
 
 - **Averaging** a boosting model with a linear model often helps a little, because their errors differ.
