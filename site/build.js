@@ -347,9 +347,11 @@ fs.writeFileSync(path.join(OUT, 'index.html'), html);
     .replace('{{DATA}}', () => JSON.stringify({ topics: TOPICS, final: FINAL }).replace(/</g, String.fromCharCode(92) + 'u003c'));
   fs.writeFileSync(path.join(OUT, 'interview.html'), page);
 }
+// ------------------------------------------------------------ study guides (/guides), separate from the handbook
+const guides = require('./guides').build(OUT, head.slice(head.indexOf('<style>') + 7, head.indexOf('*{box-sizing')), TRACKS);
 const figs = SOURCES.copyAiFigures(path.join(OUT, 'figures'));
 const sizeMb = (Buffer.byteLength(html) / 1e6).toFixed(2);
-console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, dist/index.html ${sizeMb} MB`);
+console.log(`built ${mods.length} modules, ${search.length} sections, ${terms.length} terms, ${figs} figures, ${guides.pages} guide pages (${guides.sources} sources), dist/index.html ${sizeMb} MB`);
 if (warnings) {
   console.log(`${warnings} warning${warnings > 1 ? 's' : ''}`);
   if (STRICT) process.exit(1);

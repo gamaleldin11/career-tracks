@@ -13,7 +13,8 @@
     "build": "node site/build.js",
     "serve": "node site/serve.js",
     "dev": "node site/build.js && node site/serve.js",
-    "check-links": "node site/check-links.mjs"
+    "check-links": "node site/check-links.mjs",
+    "check-guide-links": "node site/check-guide-links.mjs"
   },
   "dependencies": {
     "highlight.js": "^11.12.0",

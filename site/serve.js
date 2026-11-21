@@ -20,7 +20,13 @@ http.createServer((req, res) => {
     return fs.createReadStream(file).pipe(res);
   }
   // /interview is its own page (Vercel's cleanUrls maps it to interview.html the same way)
-  const page = rel.replace(/\/$/, '') === 'interview' ? 'interview.html' : 'index.html';
+  // /guides/… pages likewise map to dist/guides/….html (a folder maps to its index.html)
+  const clean = rel.replace(/\/$/, '');
+  let page = clean === 'interview' ? 'interview.html' : 'index.html';
+  if (clean === 'guides' || clean.startsWith('guides/')) {
+    const g = [clean + '.html', path.join(clean, 'index.html')].find((f) => fs.existsSync(path.join(DIST, f)) && path.join(DIST, f).startsWith(DIST + path.sep));
+    if (g) page = g;
+  }
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
   fs.createReadStream(path.join(DIST, page)).pipe(res);
 }).listen(PORT, () => console.log('http://localhost:' + PORT));
