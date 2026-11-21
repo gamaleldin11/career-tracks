@@ -46,6 +46,19 @@ The classic structure separates **presentation** (controllers, endpoints), **bus
 
 **Why layers:** each part changes for different reasons ([[B2.2]]); business rules can be tested without HTTP or a database; the UI or database can change with less disruption.
 
+<figure class="dia"><svg viewBox="0 0 720 232" role="img" aria-label="Measured on .NET 10: the same late-fee rule checked for 1,000 cases. Called directly on a plain class it took 0.22 milliseconds. Reached only through an endpoint, using an in-memory test server, it took about 142 milliseconds plus about 70 milliseconds to start the host, with identical results">
+<text class="sT" x="14" y="24">1,000 checks of one business rule (late fee: 2% a month, capped at 10%)</text>
+<text class="sT" x="230" y="60" text-anchor="end">rule in a plain class</text><text class="sC" x="230" y="76" text-anchor="end">new LateFees().Fee(…)</text>
+<rect class="sG" x="240" y="50" width="38" height="24" rx="3"/><text class="sT" x="286" y="67">0.22 ms</text>
+<text class="sT" x="230" y="116" text-anchor="end">rule inside an endpoint</text><text class="sC" x="230" y="132" text-anchor="end">in-memory TestServer + HttpClient</text>
+<rect class="sW" x="240" y="106" width="347" height="24" rx="3"/><text class="sT" x="595" y="123">~142 ms</text>
+<text class="sC" x="706" y="148" text-anchor="end">+ ~70 ms to start the host</text>
+<line class="sL" x1="240" y1="166" x2="636" y2="166"/>
+<line class="sL" x1="240" y1="162" x2="240" y2="170"/><text class="sC" x="240" y="184" text-anchor="middle">0.1 ms</text><line class="sL" x1="350" y1="162" x2="350" y2="170"/><text class="sC" x="350" y="184" text-anchor="middle">1 ms</text><line class="sL" x1="460" y1="162" x2="460" y2="170"/><text class="sC" x="460" y="184" text-anchor="middle">10 ms</text><line class="sL" x1="570" y1="162" x2="570" y2="170"/><text class="sC" x="570" y="184" text-anchor="middle">100 ms</text>
+<text class="sS" x="360" y="210" text-anchor="middle">.NET 10.0.9 file-based app, Microsoft.AspNetCore.TestHost 10.0.9; two runs agreed within a few ms; log scale</text>
+<text class="sS" x="360" y="226" text-anchor="middle">both paths returned identical fees; a real database behind the endpoint would add far more</text>
+</svg><figcaption>The rule is the same, but testing it through HTTP cost about 650 times more, before any database. Keeping business rules out of controllers is what lets hundreds of edge cases run in milliseconds, with a few endpoint tests on top.</figcaption></figure>
+
 > [!mistake] Fat controllers
 > Business rules inside controllers or minimal-API lambdas (validation beyond shape, calculations, multi-step workflows, direct `DbContext` juggling) can't be reused by a background job or tested without HTTP. Keep endpoints thin: bind, call one application service or handler, return a result.
 
