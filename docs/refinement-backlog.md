@@ -4,7 +4,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 ## Where things stand
 
-- **1,059 diagrams** on the site (inline SVG: static, animated and step-through; 892 of them animated or stepped), up from about 600 at the start of the pass. **1,137 self-test questions** across the eight tracks.
+- **1,092 diagrams** on the site (inline SVG: static, animated and step-through; 919 of them animated or stepped), up from about 600 at the start of the pass. **1,159 self-test questions** across the eight tracks.
 - Every diagram passes both checks in `site/qa/` (see the README, "Checking diagrams"). The one remaining report is a known false positive: `DA1 fig8 SPILL "needs attention"`.
 - Most new figures are **computed, not drawn by hand**: scikit-learn, PyTorch, pandas, NumPy, SciPy, Gymnasium, NLTK, SQLite, Node, `tsc` and small .NET 10 programs produced the numbers, and alt texts and captions quote those numbers.
 - `E:\Career Tracks - Written Course` (the older local mirror) is synced: `modules/`, `site/quiz.js`, `site/course.js` and the templates match this repo, and its README counts are updated. Its AI Journey and Bootcamp tracks read from `E:\AI Journey - Written Course` and `E:\interview prep`, which did **not** receive this pass's AI Journey and Bootcamp changes.
@@ -23,7 +23,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 - **Connectivity track (Oct 2026):** new Modules 18 (servers, hardware and Dell tools), 19 (cloud and identity) and 20 (PowerShell and Bash), sections 7.5 (encryption), 9.7 (Dell storage), 10.9 (Hyper-V) and 13.5 (customer handling), an 11-topic interview checklist in Orientation, about 110 new or newly animated diagrams across Modules 1–20, and new figures in SD1, SD2, SD4 and SD5 (caching, load balancing, queues, utilisation, RPO/RTO, cells, error budgets, spine-leaf).
 - **Bootcamp:** MAC learning, STP, FHRP, LVM, VMware shares, RAID URE, stateful firewalls, ARP spoofing, ITIL, availability nines, 5 Whys, SD-WAN, the deleted-but-open file case, routing failure patterns.
 
-- **November 2026 pass:** cited study guides at `/guides` (32 pages: see the README); measured or simulated figures for AI2.1 (list vs NumPy), AI9.12 (Swiss roll, PCA vs LLE), AI9.16 (inertia vs silhouette, k-means++), AI15.1 (mean vs median under outliers), AI15.6 (Student vs Welch false positives), AI18.6 (training vs inference memory), S3.10 (SQLite index seek, leftmost prefix, write cost), B12.3 (consistent hashing), DS4.8 (sliced AUC), DS5.7 (loyalty programme estimates); drawn step-throughs for S2.6 (branching strategies), F1.5 (WCAG 2.2 focus and target size), DE8.5 (Avro schema evolution) and an animated store map in B6.8; later in the pass AI3.9, AI5.6, AI5.7, AI8B.2, AI9.5, AI9.14, AI9.15, AI11.7, F5.4, F7.10, F10.9, DS6.4, DE2.2, DE3.7, DE5.1 and DE9.5. Most have a quiz question, and AI19, AI20 and AI22 gained interview-drill questions.
+- **November 2026 pass:** cited study guides at `/guides` (32 pages: see the README); measured or simulated figures for AI2.1 (list vs NumPy), AI9.12 (Swiss roll, PCA vs LLE), AI9.16 (inertia vs silhouette, k-means++), AI15.1 (mean vs median under outliers), AI15.6 (Student vs Welch false positives), AI18.6 (training vs inference memory), S3.10 (SQLite index seek, leftmost prefix, write cost), B12.3 (consistent hashing), DS4.8 (sliced AUC), DS5.7 (loyalty programme estimates); drawn step-throughs for S2.6 (branching strategies), F1.5 (WCAG 2.2 focus and target size), DE8.5 (Avro schema evolution) and an animated store map in B6.8; later in the pass AI3.9, AI5.6, AI5.7, AI8B.2, AI9.5, AI9.14, AI9.15, AI11.7, F5.4, F7.10, F10.9, DS6.4, DE2.2, DE3.7, DE5.1 and DE9.5. Most have a quiz question, and AI19, AI20 and AI22 gained interview-drill questions. Then a run of real or computed examples: S7.9, B6.9, B2.7, DS2.10, F8.5, AI13.7 (VIF), DS5.5, DE1.7, B5.9, S9.12, B9.9, S2.9, F1.11, DS6.1, DS6.9, F10.10, B1.4, S9.1 (SQLite injection), DS1.7, DS8.8, F2.10, F9.10 (this site measured in production: about 180,000 DOM elements, a candidate for lazy module rendering), DA4.10 (column size by cardinality), DS3.8 (scaling on UCI Wine), S3.1 (SQLite key constraints), B4.1 (a real REST exchange), F7.11 (track by identity vs id), DE9.3 (dbt tests in DuckDB), B3.11 (ASP.NET Core rate limiter), S7.11 (pytest catching a grouping bug), FS3.5 (Arabic normalisation), FS2.7 (multi-tab refresh with Web Locks) and S1.10 (measured defer and async).
 
 ## What is left
 
@@ -43,7 +43,7 @@ Status of the diagram and foundations refinement pass, written so the work can b
 
 - Copy this pass's AI Journey and Bootcamp changes into `E:\AI Journey - Written Course` and `E:\interview prep` if the mirror should show them too.
 - Add quiz questions for the newest figures that still have none: AI16, AI21, AI24 §24.3, SD1.5, DE2.4 and others as figures land. Questions go in `content/quizzes.js`, FOUNDATIONS object, keyed by module id. Inside single-quoted strings, use the typographic apostrophe `’`, not `\'`.
-- Keep the README counts in step: "Over 1,000 diagrams", "1,137 questions".
+- Keep the README counts in step: "Over 1,000 diagrams", "1,159 questions".
 
 ## How the work was done (to continue in the same style)
 
