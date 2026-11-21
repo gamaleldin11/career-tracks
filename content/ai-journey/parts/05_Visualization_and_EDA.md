@@ -660,6 +660,17 @@ The capstone models the final step properly — it converts charts into written 
 >
 > **3) Weather / Road conditions add useful signal** — binary features such as `road_not_dry` […]
 
+<figure class="dia steps"><svg viewBox="0 0 720 222" role="img" aria-label="The capstone's three EDA findings written as observation, therefore, consequence. Slight is the majority class and Fatal is rare, therefore score with F1-macro and use SMOTE inside the cross-validation pipeline. Accidents cluster at rush hour and late night, therefore add hour, weekend and day-period features. Wet or icy roads shift severity, therefore add binary road and weather flags">
+<text class="sT" x="14" y="24">observation</text><text class="sT" x="384" y="24">modelling consequence</text>
+<g><rect class="sV" x="14" y="40" width="300" height="42" rx="6"/><text class="sC" x="26" y="66">Slight dominates; Fatal is rare</text><line class="sLm" x1="314" y1="61" x2="380" y2="61" marker-end="url(#ahm)"/><text class="sS" x="347" y="54" text-anchor="middle">therefore</text><rect class="sG" x="384" y="40" width="322" height="42" rx="6"/><text class="sC" x="396" y="66">F1-macro, and SMOTE inside CV folds</text></g>
+<g data-s="2"><rect class="sV" x="14" y="98" width="300" height="42" rx="6"/><text class="sC" x="26" y="124">peaks at rush hour and late night</text><line class="sLm" x1="314" y1="119" x2="380" y2="119" marker-end="url(#ahm)"/><text class="sS" x="347" y="112" text-anchor="middle">therefore</text><rect class="sG" x="384" y="98" width="322" height="42" rx="6"/><text class="sC" x="396" y="124">add hour, is_weekend and day_period features</text></g>
+<g data-s="3"><rect class="sV" x="14" y="156" width="300" height="42" rx="6"/><text class="sC" x="26" y="182">wet or icy roads shift severity</text><line class="sLm" x1="314" y1="177" x2="380" y2="177" marker-end="url(#ahm)"/><text class="sS" x="347" y="170" text-anchor="middle">therefore</text><rect class="sG" x="384" y="156" width="322" height="42" rx="6"/><text class="sC" x="396" y="182">add binary road_not_dry and weather flags</text></g>
+</svg><ol class="dia-steps">
+<li>The target distribution becomes a metric and a resampling decision.</li>
+<li>A time pattern becomes three engineered features.</li>
+<li>A condition effect becomes binary flags. Every chart in the EDA should end in a line like these, or be cut.</li>
+</ol><figcaption>The capstone's conclusions as a chain: each finding names the decision it drives.</figcaption></figure>
+
 Notice the structure of each: **observation → modelling consequence.** Not "here is a chart of the target distribution" but "the target is imbalanced, *therefore* we use F1-macro and SMOTE".
 
 That is what separates an EDA that informs the work from an EDA that decorates it. Write your conclusions this way and the modelling section justifies itself.
