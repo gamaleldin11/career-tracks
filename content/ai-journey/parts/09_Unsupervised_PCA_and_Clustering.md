@@ -2213,6 +2213,26 @@ X_reduced = srp.fit_transform(X)                    # fit only needs X's shape
 - **`n_init`** runs several initialisations and keeps the lowest **inertia**. Note that `kmeans.score(X)` returns **−inertia** ("greater is better").
 - **k-means++** (Arthur & Vassilvitskii, 2006): pick the first centroid at random, then each next one with probability ∝ **D(x)²**, the squared distance to the nearest centroid already chosen. That spreads the centroids out, *"just like spreading out fishing boats"*. sklearn's default is **greedy k-means++** with `n_init=1` by default.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="Computed with scikit-learn on Géron's five-blob data, 2,000 points. Inertia keeps falling as k grows, from 1,150 at k equals 2 to 103 at k equals 9, so it cannot pick k on its own. The silhouette score peaks at k equals 4 with 0.689, against 0.635 at k equals 5. Over 200 single runs at k equals 5, random initialisation's worst inertia was 616, 2.9 times the best of 212, while k-means++'s worst was 239">
+<text class="sT" x="40" y="22">Inertia (always falls)</text>
+<line class="sL" x1="40" y1="170" x2="340" y2="170"/><text class="sS" x="60" y="188" text-anchor="middle">2</text><text class="sS" x="98" y="188" text-anchor="middle">3</text><text class="sS" x="136" y="188" text-anchor="middle">4</text><text class="sS" x="174" y="188" text-anchor="middle">5</text><text class="sS" x="212" y="188" text-anchor="middle">6</text><text class="sS" x="250" y="188" text-anchor="middle">7</text><text class="sS" x="288" y="188" text-anchor="middle">8</text><text class="sS" x="326" y="188" text-anchor="middle">9</text><text class="sS" x="190" y="204" text-anchor="middle">k</text>
+<polyline class="sLm" points="60,45.5 98,99.2 136,141.6 174,146.2 212,151.7 250,154.6 288,157.1 326,158.9" style="fill:none"/><circle class="sB" cx="60" cy="45.5" r="4"/><circle class="sB" cx="98" cy="99.2" r="4"/><circle class="sB" cx="136" cy="141.6" r="4"/><circle class="sA" cx="174" cy="146.2" r="4"/><circle class="sB" cx="212" cy="151.7" r="4"/><circle class="sB" cx="250" cy="154.6" r="4"/><circle class="sB" cx="288" cy="157.1" r="4"/><circle class="sB" cx="326" cy="158.9" r="4"/>
+<text class="sC" x="184" y="136.2">k = 9 still beats k = 5</text>
+<g data-s="2"><text class="sT" x="390" y="22">Silhouette score (higher is better)</text>
+<line class="sL" x1="390" y1="170" x2="690" y2="170"/><text class="sS" x="410" y="188" text-anchor="middle">2</text><text class="sS" x="448" y="188" text-anchor="middle">3</text><text class="sS" x="486" y="188" text-anchor="middle">4</text><text class="sS" x="524" y="188" text-anchor="middle">5</text><text class="sS" x="562" y="188" text-anchor="middle">6</text><text class="sS" x="600" y="188" text-anchor="middle">7</text><text class="sS" x="638" y="188" text-anchor="middle">8</text><text class="sS" x="676" y="188" text-anchor="middle">9</text><text class="sS" x="540" y="204" text-anchor="middle">k</text>
+<polyline class="sLm" points="410,107.0 448,123.2 486,47.2 524,82.2 562,103.7 600,100.5 638,132.3 676,126.5" style="fill:none"/><circle class="sB" cx="410" cy="107.0" r="4"/><circle class="sB" cx="448" cy="123.2" r="4"/><circle class="sG" cx="486" cy="47.2" r="4"/><circle class="sA" cx="524" cy="82.2" r="4"/><circle class="sB" cx="562" cy="103.7" r="4"/><circle class="sB" cx="600" cy="100.5" r="4"/><circle class="sB" cx="638" cy="132.3" r="4"/><circle class="sB" cx="676" cy="126.5" r="4"/>
+<text class="sGt" x="496" y="45.2">peak at k = 4: 0.689</text><text class="sS" x="516" y="100" text-anchor="end">k = 5: 0.635</text></g>
+<g data-s="3"><text class="sC" x="14" y="234">random init: median 216, worst 616 (2.9× the best)</text>
+<rect class="sR" x="165.0" y="241" width="505.0" height="10" rx="2"/><line class="sL" x1="170.0" y1="237" x2="170.0" y2="255"/>
+<text class="sC" x="14" y="276">k-means++: median 219, worst 239</text>
+<rect class="sG" x="165.0" y="283" width="33.8" height="10" rx="2"/><line class="sL" x1="173.8" y1="279" x2="173.8" y2="297"/>
+<text class="sS" x="159.0" y="249" text-anchor="end">best 212</text><text class="sS" x="159.0" y="291" text-anchor="end">best 212</text></g>
+</svg><ol class="dia-steps">
+<li>Inertia falls every time k grows, so the lowest inertia always picks the largest k; only a bend (around 4 here) hints at structure.</li>
+<li>The silhouette score peaks at k = 4, because two of the five blobs sit close together; Géron uses silhouette diagrams to argue for 5.</li>
+<li>Two hundred single runs at k = 5: random starts sometimes land in a very bad local optimum, k-means++ avoids those, and n_init picks the best of several runs.</li>
+</ol><figcaption>Choosing k and initialising, computed with scikit-learn on the five blobs from Géron's notebook (2,000 points). Bars show the range of inertia over 200 runs with n_init = 1, with a tick at the median.</figcaption></figure>
+
 **Faster variants:**
 - `algorithm="elkan"` uses the triangle inequality to skip distance computations. Sometimes faster, sometimes slower.
 - **`MiniBatchKMeans`** moves centroids a little per mini-batch. Much faster; handles data that doesn't fit in memory (memmap or `partial_fit`); inertia slightly worse.
