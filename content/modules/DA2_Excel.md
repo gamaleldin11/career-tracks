@@ -451,6 +451,21 @@ A typical 30–60-minute test with a sales file:
 
 That last step is what separates analysts from spreadsheet operators.
 
+<figure class="dia"><svg viewBox="0 0 720 310" role="img" aria-label="The practical test worked on the Superstore sample. Removing duplicates leaves 9,993 of 9,994 rows. An XMATCH against the Returns sheet flags 296 of 5,009 orders as returned. Sales by region: West 31.6 percent, East 29.5, Central 21.8, South 17.1. 2017 sales were 733,215, up 20.4 percent on 2016. The top product is the Canon imageCLASS 2200 Advanced Copier at 61,600. Return rate by region: West 11.7 percent, the others 2.9 to 3.3 percent">
+<text class="sC" x="44" y="20">step and formula</text><text class="sC" x="400" y="20">answer on the Superstore orders</text>
+<rect class="sN" x="14" y="30" width="692" height="26" rx="4"/><text class="sT" x="26" y="48">1</text><text class="sM" x="44" y="48" style="font-size:10.5px">Remove Duplicates (all columns but Row ID)</text><text class="sC" x="400" y="48">9,994 → 9,993 rows</text>
+<rect class="sN" x="14" y="60" width="692" height="26" rx="4"/><text class="sT" x="26" y="78">2</text><text class="sM" x="44" y="78" style="font-size:10.5px">=ISNUMBER(XMATCH([@[Order ID]], Returns[Order ID]))</text><text class="sC" x="400" y="78">296 of 5,009 orders returned</text>
+<rect class="sN" x="14" y="90" width="692" height="26" rx="4"/><text class="sT" x="26" y="108">3</text><text class="sM" x="44" y="108" style="font-size:10.5px">PivotTable: Sales by Region, % of Grand Total</text><text class="sC" x="400" y="108">W 31.6% · E 29.5% · C 21.8% · S 17.1%</text>
+<rect class="sN" x="14" y="120" width="692" height="26" rx="4"/><text class="sT" x="26" y="138">4</text><text class="sM" x="44" y="138" style="font-size:10.5px">PivotTable: Sales by year, % difference from</text><text class="sGt" x="400" y="138">2017: 733,215, up 20.4% on 2016</text>
+<rect class="sN" x="14" y="150" width="692" height="26" rx="4"/><text class="sT" x="26" y="168">5</text><text class="sM" x="44" y="168" style="font-size:10.5px">=TAKE(SORTBY(products, revenue, -1), 1)</text><text class="sC" x="400" y="168">Canon imageCLASS 2200 Advanced Copier, 61,600</text>
+<rect class="sN" x="14" y="180" width="692" height="26" rx="4"/><text class="sT" x="26" y="198">6</text><text class="sM" x="44" y="198" style="font-size:10.5px">return rate by region (one row per order)</text><text class="sRt" x="400" y="198">West 11.7% · others 2.9–3.3%</text>
+<rect class="sV" x="14" y="214" width="692" height="66" rx="6"/>
+<text class="sT" x="24" y="234">findings, written at the top of the sheet</text>
+<text class="sC" x="24" y="252">Sales grew 20% in 2017 to 733k. West is the largest region (32% of sales) but 11.7% of its orders</text>
+<text class="sC" x="24" y="270">come back, about four times the rate elsewhere: fix West's returns before pushing more West sales.</text>
+<text class="sS" x="360" y="302" text-anchor="middle">answers computed from the Superstore workbook (Orders and Returns sheets) with pandas, mirroring each Excel step</text>
+</svg><figcaption>The six steps are mechanical. The return-rate split is the one that produces a finding worth a manager's time, and the two-sentence box at the top is what the reviewer reads first.</figcaption></figure>
+
 > [!lab] Produce real Excel evidence this week (from your gaps file)
 > Use the Superstore data on `E:\Big data`. Do the full practical test above, plus: Power Query to load and clean the data (and an unpivot of a wide table), a data-model PivotTable with a DAX measure, a one-page dashboard with slicers, and a three-bullet findings box. Save the workbook and screenshots in a public repository with a README. That turns "pivot tables, VLOOKUP" from a claim into a link.
 
