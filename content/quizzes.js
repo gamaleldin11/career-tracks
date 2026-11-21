@@ -138,6 +138,7 @@ const QUIZ = {
   ],
 
   da: [
+    q('Excel','In Superstore, Binders shows a −20.0% margin in one PivotTable and +14.9% in another, built on the same rows. Which one is the business’s margin, and why do they differ?',['+14.9%, from SUM(Profit)/SUM(Sales); the −20.0% averages a per-row Margin column, so many small, heavily discounted lines outvote the large profitable ones','−20.0%, because averaging per-row margins removes the effect of large orders','Both are valid margins; the difference is rounding','Neither: margin must be computed per order, not per line'],0,'A ratio has to be a measure of sums. Averaging a per-row ratio gives every line one vote: 613 Binders lines sold at 70–80% off (about $59 each) are 40% of the rows but only 18% of the sales.','DA2.7'),
     ...SQL,
     q('Thinking', 'Before writing SQL for a vague request, you should first…', ['Pick a chart', 'Ask what decision it will inform and agree a metric definition', 'Download all data', 'Build a model'], 1, 'Question and metric first.', 'DA1.2'),
     q('Thinking', 'A metric definition must include…', ['Only a name', 'Numerator, denominator, time window and zone, filters and source', 'A colour', 'A dashboard'], 1, 'Otherwise teams report different numbers.', 'DA1.4'),
