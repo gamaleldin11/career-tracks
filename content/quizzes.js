@@ -1019,6 +1019,7 @@ const FOUNDATIONS = {
     q('Linux', 'In SSH public-key login, what crosses the network?', ['The private key', 'A signature over a random challenge', 'The password hash', 'The authorized_keys file'], 1, 'The server verifies the signature with the stored public key; the private key never leaves your laptop.', 'S5.6'),
   ],
   AI2: [
+    q('Vectorisation', 'Timed on a 100,000 × 8 array, X @ w + b ran 109× faster than a Python loop, but filtering rows with a boolean mask only 2× faster. Why the small gain for filtering?', ['The list version only keeps references to existing rows, while NumPy copies the selected rows into a new array', 'Boolean masks are not vectorised', 'NumPy filters row by row in Python', 'The loop version was cached'], 0, 'Vectorisation wins most where the work is arithmetic per element; selection mostly moves memory.', 'AI2.10'),
     q('NumPy', 'np.arange(1, 1.3, 0.1) returns how many values?', ['3', '4, the last being 1.3000000000000003', '2', 'An error'], 1, 'Float steps accumulate error, so the excluded stop sneaks in. Use linspace for float ranges.', 'AI2.2'),
     q('NumPy', 'A Python list of 1,000,000 ints takes about 36 MB; an int64 NumPy array of the same values takes…', ['36 MB', '8 MB, one contiguous block of raw numbers', '28 MB', '1 MB'], 1, 'The list holds 8 MB of pointers to separate 28-byte int objects. Measured: adding two arrays vectorised took 1.9 ms against 43 ms for a list comprehension.', 'AI2.1'),
   ],
