@@ -618,6 +618,22 @@ An **index** is a separate sorted structure (usually a **B-tree**) that lets the
 - Indexes speed up reads and **slow down writes**, because each insert or update maintains them.
 - A **clustered index** (SQL Server) *is* the table's storage order, and there can be only one; nonclustered indexes are separate structures pointing back to rows.
 
+<figure class="dia steps"><svg viewBox="0 0 720 270" role="img" aria-label="Measured in SQLite on 1,000,000 orders. Finding one customer's orders without an index scans the table in 23 milliseconds; with a composite index on customer_id and order_date it is an index search taking 0.02 milliseconds. Filtering on order_date alone still scans, 36 milliseconds, because the index starts with customer_id. Inserting the million rows took 0.62 seconds without the index and 1.47 seconds with it">
+<text class="sT" x="14" y="20">1,000,000 orders in SQLite: time per query (log scale)</text>
+<text class="sC" x="14" y="47">customer_id = 1234, no index</text><rect class="sR" x="240" y="33" width="370.4" height="20" rx="3"/><text class="sM" x="618.4" y="47">23 ms, SCAN</text>
+<text class="sC" x="14" y="77">same, with the index</text><rect class="sG" x="240" y="63" width="35.4" height="20" rx="3"/><text class="sM" x="283.4" y="77">0.02 ms, SEARCH USING INDEX</text>
+<line class="sL" x1="240" y1="124" x2="680" y2="124"/><line class="sL" x1="240" y1="124" x2="240" y2="130"/><text class="sS" x="240" y="144" text-anchor="middle">0.01 ms</text><line class="sL" x1="350" y1="124" x2="350" y2="130"/><text class="sS" x="350" y="144" text-anchor="middle">0.1</text><line class="sL" x1="460" y1="124" x2="460" y2="130"/><text class="sS" x="460" y="144" text-anchor="middle">1</text><line class="sL" x1="570" y1="124" x2="570" y2="130"/><text class="sS" x="570" y="144" text-anchor="middle">10</text><line class="sL" x1="680" y1="124" x2="680" y2="130"/><text class="sS" x="680" y="144" text-anchor="middle">100 ms</text>
+<g data-s="2"><text class="sC" x="14" y="107">order_date = '2025-06-01'</text><rect class="sW" x="240" y="93" width="391.3" height="20" rx="3"/><text class="sM" x="639.3" y="107">36 ms, SCAN</text>
+<text class="sS" x="14" y="166">The index is sorted by customer_id first, so a filter on order_date alone cannot use it: the leftmost-prefix rule.</text></g>
+<g data-s="3"><text class="sT" x="14" y="198">The price on writes: inserting the 1,000,000 rows</text>
+<text class="sC" x="14" y="225">no index</text><rect class="sV" x="240" y="211" width="124.0" height="20" rx="3"/><text class="sM" x="372.0" y="225">0.62 s</text>
+<text class="sC" x="14" y="255">with the composite index</text><rect class="sW" x="240" y="241" width="294.0" height="20" rx="3"/><text class="sM" x="542.0" y="255">1.47 s, 2.4× slower</text></g>
+</svg><ol class="dia-steps">
+<li>The same lookup as a full scan and as an index search: about a thousand times faster, because the B-tree goes straight to the 25 matching rows.</li>
+<li>The composite index does not help a filter on its second column; that query scans just like a table with no index.</li>
+<li>Every insert also has to update the index, so bulk loads slow down: index what frequent queries need, not every column.</li>
+</ol><figcaption>Measured with Python's sqlite3 (SQLite 3.45) on an in-memory table; the plan text is SQLite's EXPLAIN QUERY PLAN output. Other engines differ in milliseconds, not in shape.</figcaption></figure>
+
 Execution plans, covering indexes and tuning are in [[B6]].
 
 > [!story]
