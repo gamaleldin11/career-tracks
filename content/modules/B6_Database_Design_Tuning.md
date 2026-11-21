@@ -400,6 +400,25 @@ In roughly the order you'd reach for them:
 | **Search** | Elasticsearch, OpenSearch, Azure AI Search | Inverted indexes | Full-text search, faceting |
 | **Vector** | pgvector, Qdrant, Azure AI Search, SQL Server 2025 `vector` | Embeddings | Semantic search and RAG |
 
+<figure class="dia anim" data-rest="9"><svg viewBox="0 0 720 250" role="img" aria-label="Animation: a relational core with specialised stores around it. The API writes orders to PostgreSQL, the source of truth; a change feed copies them into a search index and, after embedding, into a vector index; the API reads sessions and cached results from Redis and sends text and semantic searches to the search and vector indexes. Every extra store can be rebuilt from PostgreSQL">
+<rect class="sB" x="14" y="100" width="120" height="50" rx="8"/><text class="sT" x="74" y="122" text-anchor="middle">API</text><text class="sC" x="74" y="138" text-anchor="middle">your service</text>
+<rect class="sV" x="270" y="14" width="170" height="50" rx="8"/><text class="sT" x="355" y="36" text-anchor="middle">Redis</text><text class="sC" x="355" y="52" text-anchor="middle">sessions, cache</text>
+<rect class="sA" x="270" y="98" width="170" height="54" rx="8"/><text class="sT" x="355" y="121" text-anchor="middle">PostgreSQL</text><text class="sC" x="355" y="138" text-anchor="middle">source of truth</text>
+<rect class="sG" x="540" y="56" width="166" height="50" rx="8"/><text class="sT" x="623" y="78" text-anchor="middle">Search index</text><text class="sC" x="623" y="94" text-anchor="middle">full text, facets</text>
+<rect class="sW" x="540" y="146" width="166" height="50" rx="8"/><text class="sT" x="623" y="168" text-anchor="middle">Vector index</text><text class="sC" x="623" y="184" text-anchor="middle">semantic search, RAG</text>
+<line class="sLm" x1="134" y1="125" x2="268" y2="125" marker-end="url(#ahm)"/><text class="sS" x="201" y="117" text-anchor="middle">writes</text>
+<line class="sLv" x1="134" y1="108" x2="268" y2="46" marker-end="url(#ahv)"/><text class="sS" x="186" y="66" text-anchor="middle">get session</text>
+<line class="sLg" x1="440" y1="115" x2="538" y2="87" marker-end="url(#ahg)"/><text class="sS" x="489" y="91" text-anchor="end">change feed</text>
+<line class="sLw" x1="440" y1="137" x2="538" y2="165" marker-end="url(#ahw)"/><text class="sS" x="489" y="168" text-anchor="end">embed</text>
+<path class="sD" d="M74 150 L74 220 L623 220 L623 198" style="fill:none"/><text class="sS" x="350" y="214" text-anchor="middle">search queries go straight to the indexes</text>
+<text class="sS" x="14" y="244">Each extra store answers one access pattern and can be rebuilt from PostgreSQL if it is lost.</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.050;0.250;1" path="M134 125 L268 125"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.048;0.052;0.250;0.252;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.430;1" path="M440 115 L538 87"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.430;0.432;1"/></circle>
+<circle class="sPw" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.280;0.480;1" path="M440 137 L538 165"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.278;0.282;0.480;0.482;1"/></circle>
+<circle class="sPv" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.550;0.700;1" path="M134 108 L268 46"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.548;0.552;0.700;0.702;1"/></circle>
+<circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.720;0.960;1" path="M74 150 L74 220 L623 220 L623 198"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.718;0.722;0.960;0.962;1"/></circle>
+</svg><figcaption>“Default to relational, add stores per access pattern”, drawn: writes land in one transactional database, and derived copies serve caching, full-text and semantic search.</figcaption></figure>
+
 > [!term] CAP theorem
 > In a distributed data store, when a **network partition** happens, you must choose between **Consistency** (every read sees the latest write, or errors) and **Availability** (every request gets a response, possibly stale). Without a partition you can have both. It's a statement about distributed systems under failure, not a menu to pick two from at design time.
 
