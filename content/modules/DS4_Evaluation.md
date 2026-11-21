@@ -350,6 +350,18 @@ Aggregate metrics hide uneven performance. After choosing a model:
 4. **Check stability over time:** performance by month in the out-of-time period.
 5. **Turn findings into actions:** a new feature, better labels, a separate model or rule for a segment, or a documented limitation.
 
+<figure class="dia steps"><svg viewBox="0 0 720 256" role="img" aria-label="A simulated churn model scored on 16,000 test customers. Overall AUC is 0.814. Sliced by tenure, customers with 12 or more months score 0.837 and those with 3 to 12 months 0.834, but customers in their first three months score 0.526, barely better than a coin flip. They are 15 percent of customers but 27 percent of the churners">
+<text class="sT" x="14" y="20">Test-set AUC, overall and by tenure band</text>
+<text class="sC" x="14" y="51">all customers</text><rect class="sV" x="230" y="34" width="282.6" height="24" rx="3"/><text class="sM" x="520.6" y="51">0.814</text>
+<g data-s="2"><text class="sC" x="14" y="87">12+ months</text><rect class="sG" x="230" y="70" width="303.3" height="24" rx="3"/><text class="sM" x="541.3" y="87">0.837</text><text class="sC" x="14" y="123">3–12 months</text><rect class="sG" x="230" y="106" width="300.6" height="24" rx="3"/><text class="sM" x="538.6" y="123">0.834</text><text class="sC" x="14" y="159">first 3 months</text><rect class="sR" x="230" y="142" width="23.4" height="24" rx="3"/><text class="sM" x="261.4" y="159">0.526: a coin flip is 0.5</text></g>
+<line class="sL" x1="230" y1="176" x2="680" y2="176"/><line class="sL" x1="230" y1="176" x2="230" y2="182"/><text class="sS" x="230" y="196" text-anchor="middle">0.5</text><line class="sL" x1="320" y1="176" x2="320" y2="182"/><text class="sS" x="320" y="196" text-anchor="middle">0.6</text><line class="sL" x1="410" y1="176" x2="410" y2="182"/><text class="sS" x="410" y="196" text-anchor="middle">0.7</text><line class="sL" x1="500" y1="176" x2="500" y2="182"/><text class="sS" x="500" y="196" text-anchor="middle">0.8</text><line class="sL" x1="590" y1="176" x2="590" y2="182"/><text class="sS" x="590" y="196" text-anchor="middle">0.9</text><line class="sL" x1="680" y1="176" x2="680" y2="182"/><text class="sS" x="680" y="196" text-anchor="middle">1.0</text>
+<g data-s="3"><text class="sC" x="14" y="226">New customers are 15% of the base but 27% of the churners,</text><text class="sC" x="14" y="246">and their usage history is too short for the features to mean anything yet.</text></g>
+</svg><ol class="dia-steps">
+<li>The headline number looks healthy: 0.814 on the test set.</li>
+<li>Sliced by tenure, two bands are fine and one is near random: the model knows almost nothing about customers in their first three months.</li>
+<li>That slice holds a large share of the churn, so the fix is a feature or a separate onboarding model for it, or at least a documented limitation.</li>
+</ol><figcaption>Error analysis on simulated data, computed with scikit-learn's HistGradientBoostingClassifier: new customers' churn depends on an onboarding problem the features don't capture, and their usage drop is measured over too few weeks.</figcaption></figure>
+
 > [!say]
 > "After the headline metric, I slice performance by segment and time, because a good average can hide a segment where the model fails, often new customers. Then I read the worst errors one by one; that's usually where label problems or a missing feature show up."
 
