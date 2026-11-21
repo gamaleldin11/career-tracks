@@ -1167,6 +1167,13 @@ For any new tabular dataset, in order:
 
 Steps 7 and 8 are the ones people get wrong. Everything before step 7 that computes a statistic from data is a potential leak.
 
+<figure class="dia"><svg viewBox="0 0 720 262" role="img" aria-label="Predicting whether a Superstore order line was returned from target-encoded customer and product IDs, ROC AUC over 10 seeds. Encoding on all rows before a random split scores 0.955. Encoding on training rows only, still with a random row split, scores 0.747. Encoding on training rows and splitting by order scores 0.501, which is chance">
+<text class="sT" x="14" y="24">ROC AUC for "was this order line returned?" (mean of 10 splits, line = range)</text>
+<text class="sT" x="240" y="60" text-anchor="end">target-encode on all rows</text><text class="sC" x="240" y="76" text-anchor="end">random row split</text><rect class="sR" x="250" y="52" width="370" height="20" rx="3"/><line class="sL" x1="617" y1="62" x2="626" y2="62"/><text class="sT" x="634" y="67">0.955</text><text class="sT" x="240" y="110" text-anchor="end">encode on training rows only</text><text class="sC" x="240" y="126" text-anchor="end">random row split</text><rect class="sW" x="250" y="102" width="231" height="20" rx="3"/><line class="sL" x1="467" y1="112" x2="494" y2="112"/><text class="sT" x="502" y="117">0.747</text><text class="sT" x="240" y="160" text-anchor="end">encode on training rows only</text><text class="sC" x="240" y="176" text-anchor="end">split by order (groups)</text><rect class="sG" x="250" y="152" width="67" height="20" rx="3"/><line class="sL" x1="278" y1="162" x2="355" y2="162"/><text class="sT" x="363" y="167">0.501</text><line class="sD" x1="317" y1="40" x2="317" y2="202"/><text class="sC" x="317" y="218" text-anchor="middle">0.5 = chance</text>
+<text class="sC" x="250" y="236" text-anchor="middle">0.4</text><text class="sC" x="383" y="236" text-anchor="middle">0.6</text><text class="sC" x="517" y="236" text-anchor="middle">0.8</text><text class="sC" x="650" y="236" text-anchor="middle">1.0</text>
+<text class="sS" x="360" y="256" text-anchor="middle">Superstore sample: 9,994 order lines, 8% returned; logistic regression on the mean return rate per customer and per product</text>
+</svg><figcaption>Two leaks, removed one at a time. Encoding with every row's label leaks the test labels outright. A random row split still leaks, because a returned order's other lines sit in training and tell the encoder which customer returned. Splitting by order shows the truth: customer and product carry no signal here at all.</figcaption></figure>
+
 ---
 
 ## 4.10 Going deeper, with Géron (*Hands-On ML*, Ch. 2) 🟡
