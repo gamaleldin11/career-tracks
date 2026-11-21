@@ -448,6 +448,16 @@ Your app is mostly other people's code. A typical Angular or React project has h
 - **File uploads:** check type by content, not extension; cap size; store outside the web root or in blob storage; generate the file name yourself; scan if needed.
 - **Unsafe deserialisation:** never deserialise untrusted data into arbitrary types (`BinaryFormatter` is removed in modern .NET for this reason).
 - **Open redirect:** `?returnUrl=https://evil.com` after login. Only redirect to local or allow-listed URLs (`Url.IsLocalUrl` in ASP.NET Core).
+
+<figure class="dia"><svg viewBox="0 0 720 230" role="img" aria-label="A real ASP.NET Core 10 run of four returnUrl values. /dashboard redirects to the app under both checks. //evil.example/login and /backslash evil.example/login pass a starts-with-slash check and send the browser to evil.example; Results.LocalRedirect rejects both. https://evil.example/login is rejected by both">
+<text class="sC" x="24" y="22">returnUrl</text><text class="sC" x="262" y="22">StartsWith("/") check</text><text class="sC" x="420" y="22">browser lands on</text><text class="sC" x="580" y="22">LocalRedirect</text>
+<rect class="sN" x="14" y="34" width="692" height="32" rx="5"/><text class="sM" x="24" y="55">/dashboard</text><text class="sGt" x="262" y="55">302 → /dashboard</text><text class="sC" x="420" y="55">app.finsight.example</text><text class="sGt" x="580" y="55">302 → /dashboard</text>
+<rect class="sN" x="14" y="74" width="692" height="32" rx="5"/><text class="sM" x="24" y="95">//evil.example/login</text><text class="sRt" x="262" y="95">302: allowed</text><text class="sRt" x="420" y="95">evil.example</text><text class="sGt" x="580" y="95">rejected</text>
+<rect class="sN" x="14" y="114" width="692" height="32" rx="5"/><text class="sM" x="24" y="135">/\evil.example/login</text><text class="sRt" x="262" y="135">302: allowed</text><text class="sRt" x="420" y="135">evil.example</text><text class="sGt" x="580" y="135">rejected</text>
+<rect class="sN" x="14" y="154" width="692" height="32" rx="5"/><text class="sM" x="24" y="175">https://evil.example/login</text><text class="sGt" x="262" y="175">400: rejected</text><text class="sC" x="420" y="175">stays on the app</text><text class="sGt" x="580" y="175">rejected</text>
+<text class="sS" x="360" y="210" text-anchor="middle">ASP.NET Core 10.0.9; destinations from the WHATWG URL parser, which reads \ as / in http URLs</text>
+</svg><figcaption>Two of the three attacks pass a “starts with /” check: a protocol-relative URL, and a backslash that browsers treat as a slash. <code>Results.LocalRedirect</code> (or <code>Url.IsLocalUrl</code>) rejects both. It throws <code>InvalidOperationException</code> when the result runs, so check <code>IsLocalUrl</code> first and fall back to a safe page instead of returning a 500.</figcaption></figure>
+
 - **Mass assignment / over-posting:** binding a request straight onto an entity lets the client set `IsAdmin = true`. Bind to a DTO with only the allowed fields.
 - **Denial of service:** rate limiting, request size limits, timeouts and pagination caps.
 
