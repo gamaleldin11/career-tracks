@@ -348,6 +348,29 @@ Key concerns in any model: resolving the tenant (from a JWT claim, subdomain or 
 > [!term] Architecture Decision Record (ADR)
 > A short document (often Markdown in the repository) recording one significant decision: the **context**, the **decision**, the **alternatives** considered and the **consequences**. Future developers learn *why* things are the way they are, and the team can revisit decisions deliberately.
 
+<figure class="dia steps"><svg viewBox="0 0 720 300" role="img" aria-label="An example architecture decision record, docs/adr/0007-forecasts-as-background-jobs.md. Status accepted. Context: forecasts take 20 to 40 seconds and requests time out at 30. Decision: run forecasts as background jobs on a queue and push the result to the browser. Alternatives: raise the timeout, rejected because it ties up server threads; a separate forecasting service, deferred until the team grows. Consequences: an extra worker and a jobs table, results are eventually consistent, and the UI needs a pending state. Its lifecycle runs from proposed to accepted, and later it may be superseded by a newer ADR that links back">
+<rect class="sN" x="14" y="12" width="470" height="278" rx="6"/>
+<text class="sM" x="28" y="34">docs/adr/0007-forecasts-as-background-jobs.md</text>
+<text class="sGt" x="28" y="56">Status: Accepted · 2026-03-14</text>
+<text class="sT" x="28" y="84">Context</text><text class="sS" x="28" y="100">Forecasts take 20–40 s; requests time out at 30 s.</text>
+<g data-s="2"><text class="sT" x="28" y="128">Decision</text><text class="sS" x="28" y="144">Run forecasts as background jobs on a queue;</text><text class="sS" x="28" y="158">push the result to the browser when ready.</text></g>
+<g data-s="3"><text class="sT" x="28" y="186">Alternatives considered</text><text class="sS" x="28" y="202">Raise the timeout: rejected, it ties up server threads.</text><text class="sS" x="28" y="216">A separate forecasting service: deferred until the team grows.</text></g>
+<g data-s="4"><text class="sT" x="28" y="244">Consequences</text><text class="sS" x="28" y="260">+ no timeouts; − an extra worker and a jobs table,</text><text class="sS" x="28" y="274">results arrive later, the UI needs a “pending” state.</text></g>
+<g data-s="5"><text class="sT" x="510" y="34">lifecycle</text>
+<rect class="sV" x="510" y="48" width="196" height="34" rx="6"/><text class="sC" x="608" y="70" text-anchor="middle">Proposed (pull request)</text>
+<line class="sLm" x1="608" y1="82" x2="608" y2="104" marker-end="url(#ahm)"/>
+<rect class="sG" x="510" y="108" width="196" height="34" rx="6"/><text class="sC" x="608" y="130" text-anchor="middle">Accepted (merged)</text>
+<line class="sLm" x1="608" y1="142" x2="608" y2="164" marker-end="url(#ahm)"/>
+<rect class="sW" x="510" y="168" width="196" height="34" rx="6"/><text class="sC" x="608" y="190" text-anchor="middle">Superseded by 0012</text>
+<text class="sS" x="510" y="226">never edited after acceptance:</text><text class="sS" x="510" y="242">a new ADR replaces it and links</text><text class="sS" x="510" y="258">back, so the history stays readable</text></g>
+</svg><ol class="dia-steps">
+<li>Context: the forces at play, in a sentence or two, with numbers if you have them.</li>
+<li>Decision: what we will do, stated plainly.</li>
+<li>Alternatives: what else was considered and why it lost; this is what future readers want most.</li>
+<li>Consequences: the good and the bad that follow, including the new work it creates.</li>
+<li>ADRs live in the repository, go through review like code, and are superseded rather than rewritten.</li>
+</ol><figcaption>An illustrative ADR in the common Nygard format: one page, one decision.</figcaption></figure>
+
 Your ~120 KB of FinSight architecture documentation, plus system, code-review and security-review reports, show this habit. Mention it: interviewers for mid-level roles value engineers who write things down.
 
 > [!lab] Re-draw FinSight three ways

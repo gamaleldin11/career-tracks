@@ -572,6 +572,7 @@ const FOUNDATIONS = {
     q('Messaging', 'The relay crashes after publishing an outbox message but before marking it sent. What happens?', ['The message is lost', 'It is published again after restart, so consumers must be idempotent', 'The transaction rolls back', 'The broker deletes the duplicate'], 1, 'Outbox gives at-least-once publishing; the inbox on the consumer side handles duplicates.', 'B8.7'),
   ],
   B9: [
+    q('Architecture', 'Six months after an ADR was accepted, the team changes the decision. What happens to the ADR?', ['Edit it in place', 'Leave it unchanged, mark it superseded, and write a new ADR that links back', 'Delete it', 'Move it to a wiki'], 1, 'Context, decision, alternatives and consequences stay as written so the history of why remains readable.', 'B9.9'),
     q('Architecture', 'In Clean Architecture, which way does the compile-time reference go between Application and Infrastructure?', ['Application references Infrastructure', 'Infrastructure references Application (it implements Application\'s interfaces)', 'Neither', 'Both'], 1, 'Calls go down at run time; references point inward to the core.', 'B9.0'),
     q('Architecture', 'Why reference other aggregates by ID rather than by object?', ['IDs are faster to serialise', 'It keeps each aggregate a separate consistency boundary changed in its own transaction', 'EF Core requires it', 'To avoid nulls'], 1, 'Cross-aggregate changes coordinate through domain events.', 'B9.4'),
   ],
