@@ -412,6 +412,20 @@ catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.ServiceUna
 
 - Override `Equals` **and** `GetHashCode` together (or use a record). Objects that are equal must have the same hash code, or `Dictionary` and `HashSet` break.
 - Don't use mutable fields in a hash code: if the object changes while in a `HashSet`, it becomes unfindable.
+
+<figure class="dia steps"><svg viewBox="0 0 720 268" role="img" aria-label="A real run on .NET 10. Two instances of a plain class with the same values are neither == nor Equals. Two records with the same values are == and share a hash code. A class that overrides Equals but not GetHashCode is Equals to a copy, but a HashSet holding it does not contain the copy. A HashSet key whose hash comes from a mutable field cannot be found or removed after the field changes, although it is still in the set">
+<rect class="sN" x="14" y="14" width="380" height="50" rx="6"/><text class="sM" x="24" y="35">class MoneyClass, two new ("EGP", 100)</text><text class="sC" x="24" y="53">reference type, no overrides</text><rect class="sN" x="406" y="14" width="300" height="50" rx="6"/><text class="sT" x="416" y="35">== False · Equals False</text><text class="sC" x="416" y="53">compares references</text>
+<g data-s="2"><rect class="sN" x="14" y="72" width="380" height="50" rx="6"/><text class="sM" x="24" y="93">record Money(string Currency, decimal Amount)</text><text class="sC" x="24" y="111">the compiler writes Equals and GetHashCode</text><rect class="sG" x="406" y="72" width="300" height="50" rx="6"/><text class="sT" x="416" y="93">== True · same hash True</text><text class="sC" x="416" y="111">value equality</text></g>
+<g data-s="3"><rect class="sN" x="14" y="130" width="380" height="50" rx="6"/><text class="sM" x="24" y="151">Equals overridden, GetHashCode not</text><text class="sC" x="24" y="169">HashSet holds one ("EGP", 100)</text><rect class="sR" x="406" y="130" width="300" height="50" rx="6"/><text class="sT" x="416" y="151">Contains(a copy) False</text><text class="sC" x="416" y="169">the set looks in another bucket</text></g>
+<g data-s="4"><rect class="sN" x="14" y="188" width="380" height="50" rx="6"/><text class="sM" x="24" y="209">HashSet key Code "INV-7", then set to "INV-8"</text><text class="sC" x="24" y="227">hash code built from a mutable field</text><rect class="sR" x="406" y="188" width="300" height="50" rx="6"/><text class="sT" x="416" y="209">Contains False · Remove False</text><text class="sC" x="416" y="227">still there: Count 1, foreach finds it</text></g>
+<text class="sS" x="360" y="258" text-anchor="middle">.NET 10.0.9, run as a file-based app; every result above is the program's output</text>
+</svg><ol class="dia-steps">
+<li>A class compares by reference: two objects with the same values are different objects.</li>
+<li>A record gets value equality and a matching GetHashCode from the compiler.</li>
+<li>Equals without GetHashCode: the objects are equal, but their hash codes differ, so HashSet and Dictionary look in the wrong bucket and miss.</li>
+<li>Changing a field used in the hash code after insertion strands the object: Contains and Remove both fail, yet it is still in the set and enumeration finds it.</li>
+</ol><figcaption>Equality and hashing are one contract. Use records or immutable keys, and never change a field that feeds GetHashCode while the object is in a set or used as a dictionary key.</figcaption></figure>
+
 - Pick collections by access pattern ([[S4.3]]); `IReadOnlyList<T>` and `IReadOnlyCollection<T>` express intent in APIs; `FrozenDictionary` and `FrozenSet` (.NET 8) are optimised for data built once and read many times, such as lookup tables.
 
 ## B1.11 Dependency injection in .NET 🟢 ⭐
