@@ -387,6 +387,19 @@ That's the **Conventional Commits** style (`type(scope): summary`, with types li
 
 Every push or pull request can trigger a pipeline: restore, build, test, lint, scan, and package. A pull request can then require **status checks** to pass and **reviews** before merge (branch protection rules). [[S10]] covers pipelines in depth.
 
+<figure class="dia anim" data-rest="9"><svg viewBox="0 0 720 210" role="img" aria-label="Animation: this handbook's own pipeline. A git push to main triggers two things at once. GitHub Actions runs the Build check workflow: checkout, set up Node 24, npm ci and npm run build with strict mode, which fails on any broken cross-reference or quiz link; recent runs took 14 to 15 seconds and report a green check on the commit. Vercel builds the same commit and deploys it to the live site. On a pull request, the check must pass before merging">
+<rect class="sV" x="14" y="80" width="120" height="48" rx="8"/><text class="sT" x="74" y="101" text-anchor="middle">git push</text><text class="sC" x="74" y="118" text-anchor="middle">to main or a PR</text>
+<text class="sT" x="250" y="26">GitHub Actions: “Build check” (14–15 s)</text><rect class="sA" x="250" y="40" width="92" height="34" rx="6"/><text class="sC" x="296" y="62" text-anchor="middle">checkout</text><rect class="sA" x="350" y="40" width="92" height="34" rx="6"/><text class="sC" x="396" y="62" text-anchor="middle">setup-node 24</text><rect class="sA" x="450" y="40" width="92" height="34" rx="6"/><text class="sC" x="496" y="62" text-anchor="middle">npm ci</text><rect class="sA" x="550" y="40" width="92" height="34" rx="6"/><text class="sC" x="596" y="62" text-anchor="middle">build --strict</text><line class="sLm" x1="342" y1="57" x2="348" y2="57"/><line class="sLm" x1="442" y1="57" x2="448" y2="57"/><line class="sLm" x1="542" y1="57" x2="548" y2="57"/>
+<rect class="sG" x="650" y="40" width="56" height="34" rx="6"/><text class="sGt" x="678" y="62" text-anchor="middle">✓</text>
+<line class="sLm" x1="134" y1="96" x2="246" y2="60" marker-end="url(#ahm)"/>
+<text class="sT" x="250" y="132">Vercel: build and deploy the same commit</text>
+<rect class="sB" x="250" y="146" width="292" height="34" rx="6"/><text class="sC" x="396" y="168" text-anchor="middle">npm ci → build --strict → dist/</text>
+<rect class="sG" x="574" y="146" width="132" height="34" rx="6"/><text class="sC" x="640" y="168" text-anchor="middle">live site</text>
+<line class="sLm" x1="134" y1="112" x2="246" y2="160" marker-end="url(#ahm)"/><line class="sLm" x1="542" y1="163" x2="570" y2="163" marker-end="url(#ahm)"/>
+<text class="sS" x="14" y="202">On a pull request, branch protection can require the ✓ before the merge button works.</text>
+<circle class="sP" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.500;1" path="M134 96 L246 60 L650 57"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.500;0.502;1"/></circle><circle class="sPg" r="4" opacity="0"><animateMotion dur="10s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.030;0.800;1" path="M134 112 L246 160 L574 163"/><animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.028;0.032;0.800;0.802;1"/></circle>
+</svg><figcaption>The pipeline that published this page: <code>.github/workflows/build.yml</code> (24 lines) plus Vercel's Git integration. <code>--strict</code> turns a broken link or quiz reference into a red X instead of a broken page.</figcaption></figure>
+
 > [!story]
 > CS Visualizer's GitHub Actions workflow builds with warnings as errors, runs the differential and golden tests, type-checks and builds the front end, and publishes a non-root container image to GitHub Container Registry. That's a complete answer to "have you set up CI?".
 
