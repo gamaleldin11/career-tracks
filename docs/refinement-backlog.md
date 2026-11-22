@@ -1,6 +1,6 @@
 # Refinement backlog
 
-Status of the diagram and foundations refinement pass, written so the work can be picked up again later. Last updated 21 Nov 2026.
+Status of the diagram and foundations refinement pass, written so the work can be picked up again later. Last updated 22 Nov 2026. This was the final iteration of the open-ended refinement loop; resume only on request.
 
 ## Where things stand
 
@@ -42,7 +42,8 @@ Status of the diagram and foundations refinement pass, written so the work can b
 ### Other follow-ups
 
 - Copy this pass's AI Journey and Bootcamp changes into `E:\AI Journey - Written Course` and `E:\interview prep` if the mirror should show them too.
-- Add quiz questions for the newest figures that still have none: AI16, AI21, AI24 §24.3, SD1.5, DE2.4 and others as figures land. Questions go in `content/quizzes.js`, FOUNDATIONS object, keyed by module id. Inside single-quoted strings, use the typographic apostrophe `’`, not `\'`.
+- **Quiz coverage of figures.** The 22 Nov 2026 pass added 98 questions tied to figures that had none: AI5.5 plus batches across AI2–AI17, S3–S10, SD1, SD2, SD4, F1–F9, B1–B13, DA1–DA6, DS2–DS8, DE2–DE9 and FS2. **265 sections still have a figure but no question.** To list them, split each module on `## ` headings and keep those that contain `<figure class="dia` but whose id never appears as a `'ID')` ref in `content/quizzes.js`. Write each question from the figure's aria-label, so it quotes the figure's own numbers.
+- Quiz mechanics: questions go in `content/quizzes.js`, keyed by module id (SD2 and SD4 have no key, so their questions go in the SD1 list). Inside single-quoted strings, use the typographic apostrophe `’`, not `\'`. Quiz text is HTML-escaped when rendered, so write `<` and `>` literally, never `&lt;`. The total counts each question once per track that includes its module (an SD1 question adds 8); `node site/build.js --strict` prints the right number when the README or this file disagree.
 - Keep the README counts in step: "Over 1,000 diagrams", "1,524 questions".
 
 ## How the work was done (to continue in the same style)
